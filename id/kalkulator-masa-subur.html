@@ -43,7 +43,7 @@
 
       <div class="field">
         <label>Hari Pertama Haid Terakhir (HPHT)</label>
-        <input type="date" id="hpht"/>
+        <div id="hpht-picker"></div>
       </div>
       <div class="field">
         <label>Panjang siklus haid (hari)</label>
@@ -161,30 +161,50 @@
 </footer>
 
 <script defer>
+const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function dpHTML(id) {
+  const yr = new Date().getFullYear();
+  const opts = MONTHS_ID.map((m,i) => `<option value="${i+1}">${m}</option>`).join('');
+  return `<div class="date-picker">
+    <input type="number" class="dp-day"  id="${id}-d" placeholder="Tgl" min="1" max="31"/>
+    <select class="dp-month" id="${id}-m"><option value="">Bulan</option>${opts}</select>
+    <input type="number" class="dp-year" id="${id}-y" placeholder="Tahun" min="1900" max="${yr}"/>
+  </div>`;
+}
+function dpGet(id) {
+  const d = parseInt(document.getElementById(id+'-d').value);
+  const m = parseInt(document.getElementById(id+'-m').value);
+  const y = parseInt(document.getElementById(id+'-y').value);
+  if (!d || !m || !y) return null;
+  const dt = new Date(y, m-1, d);
+  return dt.getDate() === d ? dt : null;
+}
+function fmtDate(d) {
+  return d.getDate() + ' ' + MONTHS_ID[d.getMonth()] + ' ' + d.getFullYear();
+}
+function fmtShort(d) {
+  return d.getDate() + ' ' + MONTHS_ID[d.getMonth()];
+}
+
 window.addEventListener('DOMContentLoaded', () => {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('hpht').max = today;
+  document.getElementById('hpht-picker').innerHTML = dpHTML('hpht');
 });
 
 function calculate() {
-  const hphtVal = document.getElementById('hpht').value;
-  if (!hphtVal) return alert('Masukkan tanggal HPHT Anda.');
+  const hpht = dpGet('hpht');
+  if (!hpht) return alert('Masukkan tanggal HPHT yang valid.');
   const cycle = parseInt(document.getElementById('cycle').value) || 28;
   const numCycles = parseInt(document.getElementById('num-cycles').value) || 2;
 
-  const hpht = new Date(hphtVal);
   const ovulationDay = cycle - 14;
   const ovulation = new Date(hpht); ovulation.setDate(ovulation.getDate() + ovulationDay);
   const fertileStart = new Date(ovulation); fertileStart.setDate(fertileStart.getDate() - 5);
   const fertileEnd = new Date(ovulation); fertileEnd.setDate(fertileEnd.getDate() + 1);
   const nextPeriod = new Date(hpht); nextPeriod.setDate(nextPeriod.getDate() + cycle);
 
-  const fmt = d => d.toLocaleDateString('id-ID', {day:'numeric', month:'long'});
-  const fmtFull = d => d.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
-
-  document.getElementById('res-ovulation').textContent = fmtFull(ovulation);
-  document.getElementById('res-fertile').textContent = fmt(fertileStart) + ' – ' + fmt(fertileEnd);
-  document.getElementById('res-next-period').textContent = fmtFull(nextPeriod);
+  document.getElementById('res-ovulation').textContent = fmtDate(ovulation);
+  document.getElementById('res-fertile').textContent = fmtShort(fertileStart) + ' – ' + fmtShort(fertileEnd);
+  document.getElementById('res-next-period').textContent = fmtDate(nextPeriod);
   document.getElementById('res-cycle-info').textContent = cycle + ' hari';
 
   // Build calendar
@@ -207,7 +227,7 @@ function calculate() {
       if (d.getTime() === ov.getTime()) el.classList.add('ovulation');
       else if (d >= fs && d <= fe) el.classList.add('fertile');
       else if (i < menstrualDays) el.classList.add('menstrual');
-      el.title = d.toLocaleDateString('id-ID', {day:'numeric', month:'short'});
+      el.title = fmtShort(d);
       cal.appendChild(el);
     }
     // Separator

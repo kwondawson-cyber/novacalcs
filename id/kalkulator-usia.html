@@ -34,11 +34,11 @@
 
       <div class="field">
         <label>Tanggal Lahir</label>
-        <input type="date" id="dob" max=""/>
+        <div id="dob-picker"></div>
       </div>
       <div class="field">
         <label>Hitung sampai tanggal</label>
-        <input type="date" id="target"/>
+        <div id="target-picker"></div>
       </div>
 
       <button class="calc-btn" onclick="calculate()">Hitung Usia Saya</button>
@@ -132,34 +132,59 @@
 </footer>
 
 <script defer>
-// Set default dates
+const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+function dpHTML(id, maxYear) {
+  const yr = maxYear || new Date().getFullYear();
+  const opts = MONTHS_ID.map((m,i) => `<option value="${i+1}">${m}</option>`).join('');
+  return `<div class="date-picker">
+    <input type="number" class="dp-day"  id="${id}-d" placeholder="Tgl" min="1" max="31"/>
+    <select class="dp-month" id="${id}-m"><option value="">Bulan</option>${opts}</select>
+    <input type="number" class="dp-year" id="${id}-y" placeholder="Tahun" min="1900" max="${yr}"/>
+  </div>`;
+}
+
+function dpGet(id) {
+  const d = parseInt(document.getElementById(id+'-d').value);
+  const m = parseInt(document.getElementById(id+'-m').value);
+  const y = parseInt(document.getElementById(id+'-y').value);
+  if (!d || !m || !y) return null;
+  const dt = new Date(y, m-1, d);
+  return dt.getDate() === d ? dt : null;
+}
+
+function dpSetToday(id) {
+  const t = new Date();
+  document.getElementById(id+'-d').value = t.getDate();
+  document.getElementById(id+'-m').value = t.getMonth() + 1;
+  document.getElementById(id+'-y').value = t.getFullYear();
+}
+
 window.addEventListener('DOMContentLoaded', () => {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('target').value = today;
-  document.getElementById('dob').max = today;
+  document.getElementById('dob-picker').innerHTML = dpHTML('dob');
+  document.getElementById('target-picker').innerHTML = dpHTML('target');
+  dpSetToday('target');
 });
 
 function calculate() {
-  const dob = new Date(document.getElementById('dob').value);
-  const target = new Date(document.getElementById('target').value);
-  if (!document.getElementById('dob').value) return alert('Masukkan tanggal lahir Anda.');
+  const dob = dpGet('dob');
+  const target = dpGet('target');
+  if (!dob) return alert('Masukkan tanggal lahir yang valid.');
+  if (!target) return alert('Masukkan tanggal target yang valid.');
   if (dob > target) return alert('Tanggal lahir tidak boleh lebih dari tanggal target.');
 
-  // Exact age
   let years = target.getFullYear() - dob.getFullYear();
   let months = target.getMonth() - dob.getMonth();
   let days = target.getDate() - dob.getDate();
   if (days < 0) { months--; const prev = new Date(target.getFullYear(), target.getMonth(), 0); days += prev.getDate(); }
   if (months < 0) { years--; months += 12; }
 
-  // Totals
   const diffMs = target - dob;
   const totalDays = Math.floor(diffMs / 86400000);
   const totalWeeks = Math.floor(totalDays / 7);
   const totalMonths = years * 12 + months;
   const totalHours = totalDays * 24;
 
-  // Next birthday
   const nextBday = new Date(target.getFullYear(), dob.getMonth(), dob.getDate());
   if (nextBday <= target) nextBday.setFullYear(nextBday.getFullYear() + 1);
   const daysToNext = Math.ceil((nextBday - target) / 86400000);
