@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Nilai Rata-rata 2026 — Hitung Rata-rata Nilai Ujian & Rapor | NovaCalcs</title>
+<meta name="description" content="Hitung rata-rata nilai ujian, rapor, atau UTS/UAS dengan bobot berbeda. Mendukung rata-rata biasa dan rata-rata tertimbang (weighted average)."/>
+<meta name="keywords" content="kalkulator nilai, rata-rata nilai, hitung nilai rapor, nilai akhir semester, weighted average, rata-rata tertimbang"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-nilai.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-nilai.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.score-row { display:grid; grid-template-columns:1fr 80px 80px 36px; gap:8px; align-items:center; margin-bottom:8px; }
+.score-row input { width:100%; }
+.del-btn { background:#ff4d4d22; border:1px solid #ff4d4d44; color:#ff7777; border-radius:6px; cursor:pointer; font-size:1.1rem; padding:6px; }
+.add-score-btn { background:transparent; border:1px dashed var(--accent,#00C9B1); color:var(--accent,#00C9B1); border-radius:8px; padding:8px; width:100%; cursor:pointer; font-size:0.9rem; margin-bottom:12px; }
+.score-header { display:grid; grid-template-columns:1fr 80px 80px 36px; gap:8px; font-size:0.75rem; color:#888; margin-bottom:4px; }
+.mode-info { font-size:0.8rem; color:#aaa; margin-bottom:8px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Nilai</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">📝 Kalkulator Nilai Rata-rata</div>
+      <div class="calc-subtitle">Hitung rata-rata biasa dan rata-rata berbobot</div>
+
+      <div class="field">
+        <label>Mode Perhitungan</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-simple" onclick="setMode('simple')">Rata-rata Biasa</div>
+          <div class="radio-btn" id="btn-weighted" onclick="setMode('weighted')">Rata-rata Berbobot</div>
+        </div>
+      </div>
+      <p class="mode-info" id="mode-desc">Rata-rata semua nilai dengan bobot yang sama</p>
+
+      <div id="scores">
+        <div class="score-header"><span>Komponen / Ujian</span><span>Nilai</span><span id="weight-header" style="display:none">Bobot (%)</span><span></span></div>
+      </div>
+      <button class="add-score-btn" onclick="addScore()">+ Tambah Komponen</button>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Nilai Akhir</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-avg">—</div>
+          <div class="result-label">Nilai Rata-rata Akhir</div>
+          <div class="result-badge" id="res-badge"></div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Nilai tertinggi</span><span class="rval" id="res-max">—</span></div>
+          <div class="result-row"><span class="rkey">Nilai terendah</span><span class="rval" id="res-min">—</span></div>
+          <div class="result-row"><span class="rkey">Jumlah komponen</span><span class="rval" id="res-count">—</span></div>
+          <div class="result-row" id="weight-row" style="display:none"><span class="rkey">Total bobot</span><span class="rval" id="res-weight">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Nilai Rata-rata — Hitung Nilai Rapor, UTS/UAS, dan Nilai Akhir Semester</h1>
+    <p class="page-desc">Kalkulator nilai ini membantu siswa dan mahasiswa menghitung nilai akhir dengan mudah, baik menggunakan rata-rata biasa maupun rata-rata berbobot (weighted average) sesuai persentase komponen penilaian.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Rata-rata Biasa vs Rata-rata Berbobot — Apa Bedanya?</h2>
+    <p>Rata-rata biasa (simple average) menganggap semua nilai memiliki bobot yang sama. Cocok untuk situasi sederhana seperti rata-rata nilai kuis atau latihan soal.</p>
+    <p>Rata-rata berbobot (weighted average) memberikan bobot berbeda untuk setiap komponen nilai. Ini lebih mencerminkan sistem penilaian nyata di sekolah dan kampus, di mana UAS biasanya memiliki bobot lebih besar dari tugas harian.</p>
+    <p>Contoh umum sistem penilaian kampus: Tugas 20%, UTS 30%, UAS 50%. Jika nilai Anda: Tugas 90, UTS 75, UAS 80, maka nilai akhir = (90×20 + 75×30 + 80×50) / 100 = 80,5.</p>
+
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
+    <ol>
+      <li>Pilih mode: <strong>Rata-rata Biasa</strong> (semua nilai setara) atau <strong>Rata-rata Berbobot</strong> (nilai dengan persentase)</li>
+      <li>Klik <strong>"+ Tambah Komponen"</strong> untuk setiap nilai</li>
+      <li>Isi nama komponen (Tugas, UTS, UAS, dll.) dan nilai yang diperoleh</li>
+      <li>Jika mode berbobot, isi juga persentase bobot setiap komponen</li>
+      <li>Total bobot harus mencapai 100%</li>
+      <li>Klik <strong>"Hitung Nilai Akhir"</strong></li>
+    </ol>
+
+    <h2>Rumus Perhitungan Nilai</h2>
+    <table>
+      <tr><th>Jenis</th><th>Rumus</th></tr>
+      <tr><td>Rata-rata Biasa</td><td>Nilai Akhir = Jumlah Semua Nilai ÷ Jumlah Komponen</td></tr>
+      <tr><td>Rata-rata Berbobot</td><td>Nilai Akhir = Σ (Nilai × Bobot%) ÷ 100</td></tr>
+    </table>
+
+    <h2>Tabel Konversi Nilai Angka ke Huruf (Sistem Umum)</h2>
+    <table>
+      <tr><th>Rentang Nilai</th><th>Huruf</th><th>Keterangan</th></tr>
+      <tr><td>90 – 100</td><td>A</td><td>Sangat Baik / Istimewa</td></tr>
+      <tr><td>80 – 89</td><td>B</td><td>Baik</td></tr>
+      <tr><td>70 – 79</td><td>C</td><td>Cukup</td></tr>
+      <tr><td>60 – 69</td><td>D</td><td>Kurang</td></tr>
+      <tr><td>&lt; 60</td><td>E / F</td><td>Tidak Lulus</td></tr>
+    </table>
+    <p style="margin-top:0.5rem"><em>Rentang nilai dan huruf bisa berbeda di setiap institusi. Ini adalah konversi yang paling umum digunakan.</em></p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Nilai berapa yang perlu untuk mendapat A?</div>
+      <div class="faq-a">Secara umum nilai 90–100 mendapat predikat A di sistem penilaian Indonesia. Namun setiap institusi bisa berbeda. Beberapa kampus menggunakan nilai 85+ untuk A, sementara SMA menggunakan nilai KKM (Kriteria Ketuntasan Minimal) yang berbeda per mata pelajaran. Cek buku panduan akademik atau tanyakan langsung ke guru/dosen Anda.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa nilai minimum untuk lulus mata kuliah?</div>
+      <div class="faq-a">Sebagian besar perguruan tinggi menetapkan nilai minimum kelulusan mata kuliah adalah C (nilai angka 60–70, atau nilai huruf 2,00). Beberapa mata kuliah wajib program studi mungkin mensyaratkan nilai minimum B. Mahasiswa yang tidak memenuhi syarat biasanya harus mengulang mata kuliah tersebut.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa yang dimaksud dengan remedial?</div>
+      <div class="faq-a">Remedial adalah kesempatan perbaikan nilai bagi siswa yang belum mencapai KKM (Kriteria Ketuntasan Minimal). Di tingkat sekolah, siswa bisa mengikuti ujian ulang atau mengerjakan tugas tambahan. Di perguruan tinggi, sistem ini berbeda — biasanya mahasiswa harus mengulang seluruh mata kuliah di semester berikutnya (tidak ada ujian ulang parsial).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung nilai akhir jika ada nilai yang kosong?</div>
+      <div class="faq-a">Jika ada komponen nilai yang belum ada (misalnya UAS belum dilaksanakan), Anda bisa menggunakan kalkulator ini untuk menghitung nilai minimum yang perlu diraih di komponen tersebut agar mencapai target nilai akhir. Cukup masukkan nilai komponen yang sudah ada, dan coba berbagai skenario nilai untuk komponen yang belum ada.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah nilai absensi mempengaruhi nilai akhir?</div>
+      <div class="faq-a">Di banyak institusi, kehadiran (absensi) bisa mempengaruhi nilai secara tidak langsung. Beberapa kampus memiliki aturan bahwa mahasiswa dengan kehadiran kurang dari 75% tidak diizinkan mengikuti UAS, yang otomatis mempengaruhi nilai akhir. Beberapa SMA juga memiliki komponen nilai kehadiran/sikap dalam sistem penilaian mereka.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana sistem penilaian Kurikulum Merdeka?</div>
+      <div class="faq-a">Kurikulum Merdeka menggunakan pendekatan penilaian berbasis kompetensi dengan nilai akhir dinyatakan dalam angka 0–100 sekaligus deskripsi kualitatif. Penilaian mencakup aspek pengetahuan, keterampilan, dan sikap/profil pelajar Pancasila. Laporan hasil belajar tidak hanya menampilkan angka, tetapi juga deskripsi pencapaian kompetensi siswa.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-ipk.html" class="related-item"><span class="ri">🎓</span>Kalkulator IPK</a>
+      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata & Statistik</a>
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+      <a href="/id/kalkulator-proporsi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator Proporsi</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let mode = 'simple';
+let scoreCount = 0;
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-simple').classList.toggle('active', m === 'simple');
+  document.getElementById('btn-weighted').classList.toggle('active', m === 'weighted');
+  document.getElementById('mode-desc').textContent = m === 'simple'
+    ? 'Rata-rata semua nilai dengan bobot yang sama'
+    : 'Setiap komponen memiliki persentase bobot berbeda (total harus 100%)';
+  document.getElementById('weight-header').style.display = m === 'weighted' ? '' : 'none';
+  document.getElementById('weight-row').style.display = m === 'weighted' ? '' : 'none';
+  document.querySelectorAll('.weight-input').forEach(el => {
+    el.style.display = m === 'weighted' ? '' : 'none';
+  });
+}
+
+function addScore() {
+  scoreCount++;
+  const div = document.createElement('div');
+  div.className = 'score-row';
+  div.id = 'score-' + scoreCount;
+  div.innerHTML = `
+    <input type="text" placeholder="Komponen ${scoreCount}" style="font-size:0.85rem"/>
+    <input type="number" placeholder="Nilai" min="0" max="100" class="score-input"/>
+    <input type="number" placeholder="%" min="0" max="100" class="weight-input" style="display:${mode==='weighted'?'':'none'}"/>
+    <button class="del-btn" onclick="removeScore(${scoreCount})">×</button>
+  `;
+  document.getElementById('scores').appendChild(div);
+}
+
+function removeScore(id) {
+  const el = document.getElementById('score-' + id);
+  if (el) el.remove();
+}
+
+function calculate() {
+  const scoreInputs = document.querySelectorAll('.score-input');
+  const weightInputs = document.querySelectorAll('.weight-input');
+  let scores = [], weights = [];
+
+  scoreInputs.forEach((el, i) => {
+    const v = parseFloat(el.value);
+    if (!isNaN(v)) {
+      scores.push(v);
+      if (mode === 'weighted') {
+        const w = parseFloat(weightInputs[i].value) || 0;
+        weights.push(w);
+      }
+    }
+  });
+
+  if (scores.length === 0) return alert('Tambahkan minimal satu nilai.');
+
+  let avg;
+  if (mode === 'simple') {
+    avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+  } else {
+    const totalWeight = weights.reduce((a, b) => a + b, 0);
+    if (Math.abs(totalWeight - 100) > 1) {
+      return alert('Total bobot harus 100%. Saat ini: ' + totalWeight.toFixed(0) + '%');
+    }
+    avg = scores.reduce((sum, s, i) => sum + s * weights[i], 0) / 100;
+  }
+
+  const avgRound = Math.round(avg * 100) / 100;
+  let grade, badgeClass;
+  if (avg >= 90) { grade = 'A — Sangat Baik 🏆'; badgeClass = 'badge-normal'; }
+  else if (avg >= 80) { grade = 'B — Baik ⭐'; badgeClass = 'badge-normal'; }
+  else if (avg >= 70) { grade = 'C — Cukup'; badgeClass = 'badge-overweight'; }
+  else if (avg >= 60) { grade = 'D — Kurang'; badgeClass = 'badge-overweight'; }
+  else { grade = 'E — Tidak Lulus'; badgeClass = 'badge-obese'; }
+
+  document.getElementById('res-avg').textContent = avgRound.toString().replace('.', ',');
+  const badge = document.getElementById('res-badge');
+  badge.textContent = grade;
+  badge.className = 'result-badge ' + badgeClass;
+  document.getElementById('res-max').textContent = Math.max(...scores);
+  document.getElementById('res-min').textContent = Math.min(...scores);
+  document.getElementById('res-count').textContent = scores.length + ' komponen';
+  if (mode === 'weighted') {
+    document.getElementById('res-weight').textContent = weights.reduce((a,b)=>a+b,0).toFixed(0) + '%';
+  }
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+
+for (let i = 0; i < 4; i++) addScore();
+</script>
+</body>
+</html>

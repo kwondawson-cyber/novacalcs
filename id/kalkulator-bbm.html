@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator BBM & Konsumsi Bahan Bakar 2026 — Hitung Biaya Bensin | NovaCalcs</title>
+<meta name="description" content="Hitung biaya BBM perjalanan, konsumsi bahan bakar kendaraan, dan perkiraan pengeluaran bensin bulanan. Cocok untuk motor dan mobil di Indonesia."/>
+<meta name="keywords" content="kalkulator BBM, hitung biaya bensin, konsumsi bahan bakar, bensin perjalanan, biaya bensin bulanan, efisiensi BBM"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bbm.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-bbm.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator BBM</span>
+    </nav>
+  </div>
+</header>
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">⛽ Kalkulator BBM & Biaya Bensin</div>
+      <div class="calc-subtitle">Hitung biaya bahan bakar perjalanan dan bulanan</div>
+
+      <div class="field">
+        <label>Jenis Bahan Bakar & Harga</label>
+        <select id="fuel-type" onchange="updatePrice()">
+          <option value="10000">Pertalite — Rp 10.000/liter</option>
+          <option value="12100" selected>Pertamax — Rp 12.100/liter</option>
+          <option value="13900">Pertamax Turbo — Rp 13.900/liter</option>
+          <option value="6800">Solar (Biosolar) — Rp 6.800/liter</option>
+          <option value="custom">Harga lain (isi manual)</option>
+        </select>
+      </div>
+      <div class="field" id="custom-price-field" style="display:none">
+        <label>Harga BBM (Rp/liter)</label>
+        <input type="number" id="custom-price" placeholder="Contoh: 11000" min="0"/>
+      </div>
+      <div class="field">
+        <label>Konsumsi BBM Kendaraan (km/liter)</label>
+        <select id="efficiency">
+          <optgroup label="🏍️ Motor">
+            <option value="50">Motor bebek / matic 110–125cc (50 km/L)</option>
+            <option value="40">Motor matic 150cc (40 km/L)</option>
+            <option value="35">Motor sport 150–250cc (35 km/L)</option>
+            <option value="25">Motor besar 400cc+ (25 km/L)</option>
+          </optgroup>
+          <optgroup label="🚗 Mobil">
+            <option value="18">LCGC / city car 1.0–1.2L (18 km/L)</option>
+            <option value="15" selected>Sedan / hatchback 1.5L (15 km/L)</option>
+            <option value="12">SUV / MPV 1.5–2.0L (12 km/L)</option>
+            <option value="10">SUV besar / van 2.0–2.5L (10 km/L)</option>
+            <option value="8">Pickup / truk ringan (8 km/L)</option>
+          </optgroup>
+          <optgroup label="Manual">
+            <option value="custom">Masukkan nilai sendiri</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field" id="custom-eff-field" style="display:none">
+        <label>Konsumsi BBM (km/liter)</label>
+        <input type="number" id="custom-eff" placeholder="Contoh: 13" min="0" step="0.1"/>
+      </div>
+      <div class="field"><label>Jarak Perjalanan (km)</label><input type="number" id="distance" placeholder="Contoh: 200" min="0" step="0.1"/></div>
+      <div class="field"><label>Jarak Tempuh per Hari (km) <small>— untuk biaya bulanan</small></label><input type="number" id="daily-km" placeholder="Contoh: 25" min="0"/></div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Biaya BBM</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-trip">—</div>
+          <div class="result-label">Biaya BBM Perjalanan</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">BBM yang dibutuhkan</span><span class="rval" id="res-liters">—</span></div>
+          <div class="result-row"><span class="rkey">Biaya BBM per km</span><span class="rval" id="res-per-km">—</span></div>
+          <div class="result-row"><span class="rkey">Estimasi biaya BBM/hari</span><span class="rval" id="res-daily">—</span></div>
+          <div class="result-row"><span class="rkey">Estimasi biaya BBM/bulan</span><span class="rval" id="res-monthly">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator BBM — Hitung Biaya Bensin Perjalanan dan Pengeluaran Bulanan</h1>
+    <p class="page-desc">Rencanakan anggaran BBM Anda dengan akurat. Kalkulator ini menghitung biaya bahan bakar berdasarkan jenis kendaraan, efisiensi, dan jarak tempuh — termasuk estimasi pengeluaran harian dan bulanan.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Harga BBM Pertamina Terkini (2026)</h2>
+    <p>Harga BBM di Indonesia diatur oleh pemerintah dan dapat berubah. Sebagai referensi, harga Pertamax sekitar Rp 12.100/liter, Pertalite Rp 10.000/liter, dan Solar subsidi Rp 6.800/liter. Selalu cek mypertamina.id atau website Pertamina untuk harga terkini sebelum perjalanan jauh.</p>
+
+    <h2>Cara Menggunakan Kalkulator BBM</h2>
+    <ol>
+      <li>Pilih <strong>jenis BBM</strong> yang digunakan (atau masukkan harga manual)</li>
+      <li>Pilih <strong>tipe kendaraan</strong> untuk estimasi efisiensi, atau masukkan nilai manual jika sudah tahu</li>
+      <li>Masukkan <strong>jarak perjalanan</strong> yang akan ditempuh</li>
+      <li>Masukkan <strong>jarak harian</strong> untuk menghitung biaya bulanan</li>
+      <li>Klik <strong>"Hitung Biaya BBM"</strong></li>
+    </ol>
+
+    <h2>Efisiensi BBM Kendaraan Populer di Indonesia</h2>
+    <table>
+      <tr><th>Kendaraan</th><th>Konsumsi BBM</th></tr>
+      <tr><td>Honda Beat / Vario 125</td><td>50–55 km/L</td></tr>
+      <tr><td>Yamaha NMAX 155</td><td>40–45 km/L</td></tr>
+      <tr><td>Honda Brio (bensin kota)</td><td>14–18 km/L</td></tr>
+      <tr><td>Toyota Avanza / Veloz</td><td>12–15 km/L</td></tr>
+      <tr><td>Honda HR-V</td><td>11–14 km/L</td></tr>
+      <tr><td>Toyota Fortuner / Kijang Innova</td><td>9–12 km/L</td></tr>
+    </table>
+    <p style="margin-top:0.5rem"><em>Efisiensi aktual bisa berbeda 10–20% tergantung kondisi lalu lintas, gaya berkendara, kondisi AC, dan perawatan kendaraan.</em></p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mengukur konsumsi BBM kendaraan saya?</div><div class="faq-a">Metode full-to-full: isi penuh tanki, catat odometer, berkendara sampai hampir habis, isi penuh lagi dan catat berapa liter yang masuk. Jarak (km) ÷ jumlah liter = km/L. Lakukan di kondisi normal (jalan biasa, bukan jalan tol semua atau macet semua) untuk hasil yang representatif. Ulangi 2–3 kali untuk akurasi lebih baik.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Pertamax atau Pertalite — mana yang lebih hemat?</div><div class="faq-a">Secara biaya per km, ini bergantung pada kendaraan Anda. Pertamax (RON 92) menghasilkan pembakaran lebih bersih dan efisien, terutama untuk mesin modern berkompresi tinggi. Beberapa uji menunjukkan peningkatan efisiensi 5–10% dengan Pertamax. Jika selisih harga Pertamax vs Pertalite kecil dan efisiensinya naik, Pertamax bisa sama ekonomisnya atau bahkan lebih hemat.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Tips menghemat BBM saat berkendara?</div><div class="faq-a">Berkendara dengan kecepatan konstan (60–80 km/jam di jalan biasa, 90–100 km/jam di tol), hindari akselerasi dan pengereman mendadak, jaga tekanan ban sesuai rekomendasi (ban kempes meningkatkan konsumsi BBM), matikan AC saat tidak diperlukan atau di jalan tol bisa buka jendela, gunakan transmisi yang tepat, dan service kendaraan rutin (filter udara kotor bisa menurunkan efisiensi 10%).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa biaya BBM mudik Jakarta–Semarang?</div><div class="faq-a">Jarak Jakarta–Semarang via tol sekitar 460 km. Untuk mobil 1.500cc dengan efisiensi 13 km/L dan Pertamax Rp 12.100/liter: 460 ÷ 13 × 12.100 ≈ Rp 428.000 untuk sekali jalan, atau sekitar Rp 856.000 pulang pergi. Untuk motor 125cc dengan efisiensi 45 km/L: 460 ÷ 45 × 10.000 ≈ Rp 102.000 sekali jalan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah kendaraan listrik lebih hemat dari BBM?</div><div class="faq-a">Secara biaya energi per km, kendaraan listrik jauh lebih hemat. Motor listrik mengkonsumsi sekitar 2–3 kWh per 100 km, setara biaya ~Rp 3.000–4.500/100 km vs motor bensin ~Rp 20.000/100 km. Namun harga beli kendaraan listrik masih lebih tinggi. Titik balik modal (payback) tergantung intensitas penggunaan — semakin sering digunakan, semakin cepat balik modal.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana inflasi harga BBM mempengaruhi anggaran?</div><div class="faq-a">Harga BBM di Indonesia telah naik signifikan dalam beberapa tahun terakhir. Untuk mengantisipasi kenaikan BBM, tambahkan buffer 10–15% dalam anggaran transportasi, pertimbangkan kendaraan dengan efisiensi lebih baik saat ganti kendaraan, dan evaluasi opsi transportasi publik untuk komuter harian yang bisa jauh lebih hemat.</div></div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-listrik.html" class="related-item"><span class="ri">⚡</span>Kalkulator Listrik</a>
+      <a href="/id/konversi-kecepatan.html" class="related-item"><span class="ri">💨</span>Konversi Kecepatan</a>
+      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
+      <a href="/id/selisih-tanggal.html" class="related-item"><span class="ri">📅</span>Selisih Tanggal</a>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+<script defer>
+function updatePrice() {
+  const v = document.getElementById('fuel-type').value;
+  document.getElementById('custom-price-field').style.display = v === 'custom' ? '' : 'none';
+}
+document.getElementById('efficiency').addEventListener('change', function() {
+  document.getElementById('custom-eff-field').style.display = this.value === 'custom' ? '' : 'none';
+});
+
+function calculate() {
+  let pricePerL;
+  const fuelSel = document.getElementById('fuel-type').value;
+  if (fuelSel === 'custom') {
+    pricePerL = parseFloat(document.getElementById('custom-price').value);
+  } else {
+    pricePerL = parseFloat(fuelSel);
+  }
+  let effKmL;
+  const effSel = document.getElementById('efficiency').value;
+  if (effSel === 'custom') {
+    effKmL = parseFloat(document.getElementById('custom-eff').value);
+  } else {
+    effKmL = parseFloat(effSel);
+  }
+  const distance = parseFloat(document.getElementById('distance').value) || 0;
+  const dailyKm = parseFloat(document.getElementById('daily-km').value) || 0;
+
+  if (!pricePerL || !effKmL || pricePerL <= 0 || effKmL <= 0) return alert('Pastikan harga BBM dan efisiensi terisi dengan benar.');
+  if (!distance && !dailyKm) return alert('Masukkan jarak perjalanan atau jarak harian.');
+
+  const pricePerKm = pricePerL / effKmL;
+  const tripCost = distance * pricePerKm;
+  const litersTrip = distance / effKmL;
+  const dailyCost = dailyKm * pricePerKm;
+  const monthlyCost = dailyCost * 25; // 25 hari kerja
+
+  document.getElementById('res-trip').textContent = distance > 0 ? 'Rp ' + Math.round(tripCost).toLocaleString('id-ID') : '—';
+  document.getElementById('res-liters').textContent = distance > 0 ? litersTrip.toFixed(2).replace('.', ',') + ' liter' : '—';
+  document.getElementById('res-per-km').textContent = 'Rp ' + Math.round(pricePerKm).toLocaleString('id-ID') + '/km';
+  document.getElementById('res-daily').textContent = dailyKm > 0 ? 'Rp ' + Math.round(dailyCost).toLocaleString('id-ID') : '—';
+  document.getElementById('res-monthly').textContent = dailyKm > 0 ? 'Rp ' + Math.round(monthlyCost).toLocaleString('id-ID') + ' (~25 hari)' : '—';
+  document.getElementById('result').classList.add('show');
+}
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>

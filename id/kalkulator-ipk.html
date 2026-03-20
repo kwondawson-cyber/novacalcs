@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator IPK 2026 — Hitung Indeks Prestasi Kumulatif Online | NovaCalcs</title>
+<meta name="description" content="Hitung IPK (Indeks Prestasi Kumulatif) dan IP Semester secara otomatis. Masukkan nilai dan SKS setiap mata kuliah untuk hasil akurat sesuai sistem penilaian Indonesia."/>
+<meta name="keywords" content="kalkulator IPK, hitung IPK, indeks prestasi kumulatif, IP semester, nilai SKS, kalkulator mahasiswa"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ipk.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-ipk.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.course-row { display:grid; grid-template-columns:1fr 80px 100px 36px; gap:8px; align-items:center; margin-bottom:8px; }
+.course-row input, .course-row select { width:100%; }
+.del-btn { background:#ff4d4d22; border:1px solid #ff4d4d44; color:#ff7777; border-radius:6px; cursor:pointer; font-size:1.1rem; padding:6px; }
+.del-btn:hover { background:#ff4d4d44; }
+.add-course-btn { background:transparent; border:1px dashed var(--accent,#00C9B1); color:var(--accent,#00C9B1); border-radius:8px; padding:8px; width:100%; cursor:pointer; font-size:0.9rem; margin-bottom:12px; }
+.course-header { display:grid; grid-template-columns:1fr 80px 100px 36px; gap:8px; font-size:0.75rem; color:#888; margin-bottom:4px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator IPK</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🎓 Kalkulator IPK</div>
+      <div class="calc-subtitle">Hitung Indeks Prestasi Semester & Kumulatif</div>
+
+      <div id="courses">
+        <div class="course-header"><span>Mata Kuliah</span><span>SKS</span><span>Nilai</span><span></span></div>
+      </div>
+      <button class="add-course-btn" onclick="addCourse()">+ Tambah Mata Kuliah</button>
+
+      <button class="calc-btn" onclick="calculate()">Hitung IPK</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-ipk">—</div>
+          <div class="result-label">IPK / IP Semester</div>
+          <div class="result-badge" id="res-badge"></div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Total SKS</span><span class="rval" id="res-sks">—</span></div>
+          <div class="result-row"><span class="rkey">Total Poin Mutu</span><span class="rval" id="res-mutu">—</span></div>
+          <div class="result-row"><span class="rkey">Predikat</span><span class="rval" id="res-predikat">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator IPK Online — Hitung Indeks Prestasi Semester & Kumulatif 2026</h1>
+    <p class="page-desc">Hitung IPK (Indeks Prestasi Kumulatif) dan IPS (Indeks Prestasi Semester) Anda dengan mudah. Masukkan nama mata kuliah, SKS, dan nilai untuk mendapatkan IPK secara otomatis.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu IPK dan Bagaimana Cara Menghitungnya?</h2>
+    <p>IPK (Indeks Prestasi Kumulatif) adalah nilai rata-rata tertimbang dari seluruh mata kuliah yang telah ditempuh selama kuliah, dengan bobot SKS (Satuan Kredit Semester) sebagai penimbang. Skala IPK di Indonesia umumnya 0–4,00.</p>
+    <p>IPK berbeda dengan rata-rata nilai biasa karena memperhitungkan bobot SKS setiap mata kuliah. Mata kuliah dengan SKS lebih besar memiliki pengaruh lebih besar terhadap IPK dibandingkan mata kuliah ber-SKS kecil.</p>
+    <p>IPS (Indeks Prestasi Semester) adalah IPK untuk satu semester saja, sementara IPK adalah akumulasi dari semua semester yang sudah dijalani.</p>
+
+    <h2>Cara Menggunakan Kalkulator IPK Ini</h2>
+    <ol>
+      <li>Klik <strong>"+ Tambah Mata Kuliah"</strong> untuk setiap mata kuliah</li>
+      <li>Isi <strong>nama mata kuliah</strong> (opsional, untuk referensi)</li>
+      <li>Isi <strong>jumlah SKS</strong> mata kuliah tersebut</li>
+      <li>Pilih <strong>nilai</strong> yang Anda terima (A, A-, B+, B, dst.)</li>
+      <li>Ulangi untuk semua mata kuliah</li>
+      <li>Klik <strong>"Hitung IPK"</strong></li>
+    </ol>
+
+    <h2>Tabel Konversi Nilai ke Bobot Mutu</h2>
+    <table>
+      <tr><th>Nilai Huruf</th><th>Bobot Mutu</th><th>Keterangan</th></tr>
+      <tr><td>A</td><td>4,00</td><td>Sangat Baik (Istimewa)</td></tr>
+      <tr><td>A-</td><td>3,75</td><td>Sangat Baik</td></tr>
+      <tr><td>B+</td><td>3,50</td><td>Baik Sekali</td></tr>
+      <tr><td>B</td><td>3,00</td><td>Baik</td></tr>
+      <tr><td>B-</td><td>2,75</td><td>Cukup Baik</td></tr>
+      <tr><td>C+</td><td>2,50</td><td>Cukup</td></tr>
+      <tr><td>C</td><td>2,00</td><td>Cukup</td></tr>
+      <tr><td>D</td><td>1,00</td><td>Kurang</td></tr>
+      <tr><td>E</td><td>0,00</td><td>Tidak Lulus</td></tr>
+    </table>
+    <p style="margin-top:0.75rem"><em>Catatan: Sistem penilaian bisa berbeda antar universitas. Beberapa kampus tidak menggunakan nilai A- atau B+. Sesuaikan dengan sistem kampus Anda.</em></p>
+
+    <h2>Predikat Kelulusan Berdasarkan IPK</h2>
+    <table>
+      <tr><th>IPK</th><th>Predikat</th><th>Keterangan</th></tr>
+      <tr><td>3,51 – 4,00</td><td>Dengan Pujian (Cum Laude)</td><td>Lulus dengan masa studi tepat waktu</td></tr>
+      <tr><td>3,01 – 3,50</td><td>Sangat Memuaskan</td><td>Prestasi akademik sangat baik</td></tr>
+      <tr><td>2,76 – 3,00</td><td>Memuaskan</td><td>Prestasi akademik baik</td></tr>
+      <tr><td>2,00 – 2,75</td><td>Lulus</td><td>Memenuhi syarat kelulusan</td></tr>
+      <tr><td>&lt; 2,00</td><td>Tidak Memenuhi Syarat</td><td>Perlu pengulangan atau DO</td></tr>
+    </table>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah IPK 3,5 sudah bagus?</div>
+      <div class="faq-a">Ya, IPK 3,5 sudah sangat baik dan masuk predikat "Sangat Memuaskan". Untuk Cum Laude diperlukan IPK minimal 3,51 dengan masa studi tepat waktu. IPK 3,5 ke atas membuka banyak peluang beasiswa, kerja di perusahaan top, dan melanjutkan studi ke jenjang lebih tinggi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah IPK penting untuk cari kerja?</div>
+      <div class="faq-a">IPK masih menjadi salah satu syarat di banyak perusahaan besar dan BUMN di Indonesia, yang umumnya mensyaratkan IPK minimal 3,00. Namun, di industri startup dan kreatif, portofolio dan pengalaman sering lebih dinilai dari IPK. IPK tinggi tetap menjadi nilai plus yang menunjukkan kedisiplinan akademik, terutama untuk fresh graduate.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menaikkan IPK yang sudah rendah?</div>
+      <div class="faq-a">Karena IPK adalah rata-rata tertimbang, nilainya sulit diubah drastis di semester akhir. Strategi terbaik: ambil mata kuliah dengan SKS besar dan targetkan nilai A, manfaatkan pengulangan mata kuliah (nilai diganti nilai baru), ambil extra mata kuliah pilihan yang Anda kuasai, dan konsultasikan dengan dosen pembimbing akademik untuk strategi pengambilan matakuliah.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa IPK minimum untuk lulus?</div>
+      <div class="faq-a">Sebagian besar perguruan tinggi di Indonesia mensyaratkan IPK minimal 2,00 untuk lulus. Namun beberapa program studi tertentu (terutama kedokteran dan profesi) mungkin memiliki syarat lebih tinggi. Banyak juga yang memiliki syarat IPK minimum per semester (biasanya 1,75 atau 2,00) untuk melanjutkan studi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah sistem penilaian sama di semua kampus?</div>
+      <div class="faq-a">Tidak, ada variasi antar kampus. Beberapa kampus tidak menggunakan nilai A- atau B+, beberapa menggunakan skala angka (75–100 = A, dst.), dan bobot mutu untuk setiap nilai huruf pun bisa berbeda. Selalu rujuk buku panduan akademik kampus Anda untuk sistem penilaian yang berlaku.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan IPK dan IPS?</div>
+      <div class="faq-a">IPS (Indeks Prestasi Semester) adalah nilai rata-rata tertimbang untuk satu semester saja, sedangkan IPK (Indeks Prestasi Kumulatif) adalah akumulasi dari seluruh semester yang telah ditempuh. IPK yang tercantum di ijazah adalah IPK kumulatif dari semester 1 hingga semester terakhir. IPS berguna untuk memantau perkembangan prestasi per semester.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-nilai.html" class="related-item"><span class="ri">📝</span>Kalkulator Nilai</a>
+      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata & Statistik</a>
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+const gradeMap = { 'A':4.0, 'A-':3.75, 'B+':3.5, 'B':3.0, 'B-':2.75, 'C+':2.5, 'C':2.0, 'D':1.0, 'E':0.0 };
+let courseCount = 0;
+
+function addCourse() {
+  courseCount++;
+  const div = document.createElement('div');
+  div.className = 'course-row';
+  div.id = 'course-' + courseCount;
+  div.innerHTML = `
+    <input type="text" placeholder="Mata Kuliah ${courseCount}" style="font-size:0.85rem"/>
+    <input type="number" placeholder="SKS" min="1" max="6" class="sks-input"/>
+    <select class="grade-input">
+      <option value="">Nilai</option>
+      <option value="A">A (4,00)</option>
+      <option value="A-">A- (3,75)</option>
+      <option value="B+">B+ (3,50)</option>
+      <option value="B">B (3,00)</option>
+      <option value="B-">B- (2,75)</option>
+      <option value="C+">C+ (2,50)</option>
+      <option value="C">C (2,00)</option>
+      <option value="D">D (1,00)</option>
+      <option value="E">E (0,00)</option>
+    </select>
+    <button class="del-btn" onclick="removeCourse(${courseCount})">×</button>
+  `;
+  document.getElementById('courses').appendChild(div);
+}
+
+function removeCourse(id) {
+  const el = document.getElementById('course-' + id);
+  if (el) el.remove();
+}
+
+function calculate() {
+  const rows = document.querySelectorAll('.course-row');
+  let totalSKS = 0, totalMutu = 0, valid = 0;
+
+  rows.forEach(row => {
+    const sks = parseFloat(row.querySelector('.sks-input').value);
+    const grade = row.querySelector('.grade-input').value;
+    if (sks && grade !== '') {
+      const mutu = gradeMap[grade];
+      totalSKS += sks;
+      totalMutu += sks * mutu;
+      valid++;
+    }
+  });
+
+  if (valid === 0) return alert('Tambahkan minimal satu mata kuliah dengan SKS dan nilai.');
+
+  const ipk = totalMutu / totalSKS;
+  const ipkRound = Math.round(ipk * 100) / 100;
+
+  let predikat, badgeClass;
+  if (ipk >= 3.51) { predikat = 'Dengan Pujian (Cum Laude) 🏆'; badgeClass = 'badge-normal'; }
+  else if (ipk >= 3.01) { predikat = 'Sangat Memuaskan ⭐'; badgeClass = 'badge-normal'; }
+  else if (ipk >= 2.76) { predikat = 'Memuaskan'; badgeClass = 'badge-overweight'; }
+  else if (ipk >= 2.00) { predikat = 'Lulus'; badgeClass = 'badge-overweight'; }
+  else { predikat = 'Tidak Memenuhi Syarat ⚠️'; badgeClass = 'badge-obese'; }
+
+  document.getElementById('res-ipk').textContent = ipkRound.toFixed(2).replace('.', ',');
+  const badge = document.getElementById('res-badge');
+  badge.textContent = predikat;
+  badge.className = 'result-badge ' + badgeClass;
+  document.getElementById('res-sks').textContent = totalSKS + ' SKS';
+  document.getElementById('res-mutu').textContent = totalMutu.toFixed(2).replace('.', ',');
+  document.getElementById('res-predikat').textContent = predikat;
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+
+// Add 5 default courses
+for (let i = 0; i < 5; i++) addCourse();
+</script>
+</body>
+</html>

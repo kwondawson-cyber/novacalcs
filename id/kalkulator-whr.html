@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator WHR 2026 — Rasio Pinggang-Pinggul & Risiko Kesehatan | NovaCalcs</title>
+<meta name="description" content="Hitung WHR (Waist-Hip Ratio) atau rasio pinggang-pinggul Anda dan ketahui risiko penyakit jantung, diabetes, dan obesitas sentral secara gratis."/>
+<meta name="keywords" content="kalkulator WHR, rasio pinggang pinggul, waist hip ratio, lingkar pinggang, obesitas sentral, risiko kesehatan"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-whr.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-whr.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator WHR</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">📏 Kalkulator WHR (Rasio Pinggang-Pinggul)</div>
+      <div class="calc-subtitle">Ukur risiko kesehatan berdasarkan distribusi lemak tubuh</div>
+
+      <div class="field">
+        <label>Jenis Kelamin</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-male" onclick="selectGender('male')">👨 Laki-laki</div>
+          <div class="radio-btn" id="btn-female" onclick="selectGender('female')">👩 Perempuan</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Lingkar Pinggang (cm) <small>— ukur di bagian tersempit perut</small></label>
+        <input type="number" id="waist" placeholder="Contoh: 82" min="40" max="200" step="0.1"/>
+      </div>
+      <div class="field">
+        <label>Lingkar Pinggul (cm) <small>— ukur di bagian terlebar pinggul</small></label>
+        <input type="number" id="hip" placeholder="Contoh: 96" min="50" max="250" step="0.1"/>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung WHR Saya</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-whr">—</div>
+          <div class="result-label">Rasio Pinggang-Pinggul (WHR)</div>
+          <div class="result-badge" id="res-badge"></div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Kategori risiko</span><span class="rval" id="res-cat">—</span></div>
+          <div class="result-row"><span class="rkey">Tipe bentuk tubuh</span><span class="rval" id="res-shape">—</span></div>
+          <div class="result-row"><span class="rkey">WHR ideal (WHO)</span><span class="rval" id="res-ideal">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator WHR — Rasio Pinggang-Pinggul & Analisis Risiko Kesehatan</h1>
+    <p class="page-desc">WHR (Waist-Hip Ratio) adalah ukuran yang lebih baik dari BMI untuk menilai risiko penyakit metabolik karena memperhitungkan distribusi lemak tubuh, terutama lemak perut yang paling berbahaya bagi kesehatan.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu WHR dan Mengapa Lebih Penting dari BMI?</h2>
+    <p>WHR atau Rasio Pinggang-Pinggul adalah perbandingan antara lingkar pinggang dan lingkar pinggul Anda. Ukuran ini mengukur seberapa banyak lemak yang tersimpan di area perut (visceral fat) dibandingkan lemak di pinggul dan paha.</p>
+    <p>Penelitian ilmiah selama beberapa dekade terakhir menunjukkan bahwa lemak perut (visceral fat) jauh lebih berbahaya daripada lemak di bagian tubuh lain. Lemak perut melepaskan zat-zat inflamasi dan mempengaruhi kadar hormon serta resistensi insulin, sehingga meningkatkan risiko penyakit jantung, diabetes tipe 2, stroke, dan bahkan beberapa jenis kanker.</p>
+    <p>WHO menggunakan WHR sebagai salah satu indikator utama kesehatan metabolik karena bisa mendeteksi risiko kesehatan yang tidak terlihat dari berat badan atau BMI saja. Seseorang bisa memiliki berat badan normal tetapi tetap berisiko tinggi jika punya banyak lemak perut.</p>
+
+    <h2>Cara Mengukur Pinggang dan Pinggul dengan Benar</h2>
+    <ol>
+      <li>Gunakan pita ukur yang fleksibel (seperti pita jahit)</li>
+      <li>Ukur <strong>lingkar pinggang</strong>: letakkan pita di titik tersempit perut Anda, biasanya di antara tulang rusuk bawah dan pusar. Ukur setelah menghembuskan napas secara alami (jangan menyedot perut)</li>
+      <li>Ukur <strong>lingkar pinggul</strong>: letakkan pita di titik terlebar pinggul Anda, biasanya di sekitar tonjolan tulang pinggul paling besar</li>
+      <li>Pastikan pita sejajar horizontal dan tidak terlalu ketat atau longgar</li>
+      <li>Catat keduanya dalam cm dan masukkan ke kalkulator</li>
+    </ol>
+
+    <h2>Tabel Kategori WHR menurut WHO</h2>
+    <table>
+      <tr><th>Kategori</th><th>WHR Laki-laki</th><th>WHR Perempuan</th><th>Risiko</th></tr>
+      <tr><td>Rendah</td><td>≤ 0,85</td><td>≤ 0,75</td><td>Risiko rendah</td></tr>
+      <tr><td>Sedang</td><td>0,86 – 0,95</td><td>0,76 – 0,85</td><td>Risiko sedang</td></tr>
+      <tr><td>Tinggi</td><td>≥ 0,96</td><td>≥ 0,86</td><td>Risiko tinggi</td></tr>
+    </table>
+    <p style="margin-top:0.75rem">Batas risiko untuk laki-laki: WHR di atas 0,90 dianggap berisiko tinggi. Untuk perempuan: di atas 0,85.</p>
+
+    <h2>Bentuk Tubuh Apel vs Pir</h2>
+    <p><strong>Bentuk Apel (Apple Shape)</strong> — WHR tinggi, pinggang lebih besar dari pinggul. Lemak terkumpul di perut. Lebih banyak ditemukan pada pria. Risiko penyakit kardiovaskular lebih tinggi.</p>
+    <p><strong>Bentuk Pir (Pear Shape)</strong> — WHR rendah, pinggul lebih besar dari pinggang. Lemak terkumpul di pinggul dan paha. Lebih banyak ditemukan pada wanita. Secara metabolik lebih aman, meski tetap perlu dijaga.</p>
+
+    <h2>Cara Menurunkan WHR</h2>
+    <p>Menurunkan WHR berarti mengurangi lemak perut, yang memerlukan pendekatan komprehensif. Olahraga kardio seperti lari, bersepeda, dan renang sangat efektif membakar lemak visceral. Latihan beban juga membantu karena meningkatkan massa otot dan metabolisme basal. Dari sisi pola makan, kurangi gula, makanan ultra-proses, dan alkohol yang berkontribusi besar pada penumpukan lemak perut. Tidur cukup dan manajemen stres juga berperan penting karena hormon kortisol dari stres kronis mendorong penyimpanan lemak di perut.</p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah WHR lebih baik dari BMI?</div>
+      <div class="faq-a">WHR dan BMI mengukur hal yang berbeda dan keduanya memiliki nilai diagnostik. WHR lebih baik dalam mendeteksi risiko metabolik dan kardiovaskular karena memperhitungkan distribusi lemak. BMI lebih mudah diukur dan tetap berguna untuk populasi umum. Para ahli kesehatan sering merekomendasikan penggunaan keduanya bersama-sama untuk gambaran kesehatan yang lebih lengkap.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa lingkar pinggang yang berbahaya?</div>
+      <div class="faq-a">WHO menetapkan batas risiko lingkar pinggang: laki-laki di atas 94 cm berisiko sedang, di atas 102 cm berisiko tinggi. Perempuan di atas 80 cm berisiko sedang, di atas 88 cm berisiko tinggi. Namun untuk orang Asia (termasuk Indonesia), beberapa penelitian merekomendasikan batas yang lebih rendah: pria di atas 90 cm dan wanita di atas 80 cm sudah dianggap berisiko.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah bentuk tubuh bisa diubah?</div>
+      <div class="faq-a">Sebagian besar bentuk tubuh ditentukan oleh genetik dan hormon. Anda tidak bisa sepenuhnya mengubah distribusi lemak tubuh Anda, tetapi Anda bisa mengurangi total lemak perut melalui pola makan sehat dan olahraga rutin. Menurunkan persentase lemak tubuh secara keseluruhan akan ikut mengurangi lemak visceral, meski proporsi distribusinya cenderung tetap.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Olahraga apa yang paling efektif kurangi lemak perut?</div>
+      <div class="faq-a">Penelitian menunjukkan kombinasi olahraga kardio intensitas sedang-tinggi (seperti jogging, HIIT, bersepeda) dan latihan beban adalah pendekatan paling efektif untuk mengurangi lemak visceral. Khusus HIIT (High Intensity Interval Training) terbukti sangat efektif mengurangi lemak perut dalam waktu lebih singkat dibandingkan kardio steady-state.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Seberapa sering harus mengukur WHR?</div>
+      <div class="faq-a">Mengukur WHR setiap 1–3 bulan sudah cukup untuk memantau perkembangan. Perubahan signifikan biasanya baru terlihat setelah 4–8 minggu program diet dan olahraga yang konsisten. Hindari mengukur terlalu sering karena fluktuasi harian bisa membuat Anda frustrasi tanpa alasan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah WHR berlaku untuk semua usia?</div>
+      <div class="faq-a">WHR berlaku untuk orang dewasa, namun interpretasinya bisa sedikit berbeda untuk lansia. Seiring bertambahnya usia, distribusi lemak tubuh cenderung bergeser ke area perut meski berat badan tidak berubah banyak, sehingga WHR lansia secara alami cenderung lebih tinggi. Konsultasikan dengan dokter untuk interpretasi yang tepat sesuai usia Anda.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
+      <a href="/id/kalkulator-bmr.html" class="related-item"><span class="ri">🔥</span>Kalkulator BMR</a>
+      <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🍽️</span>Kalkulator Kalori</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let gender = 'male';
+
+function selectGender(g) {
+  gender = g;
+  document.getElementById('btn-male').classList.toggle('active', g === 'male');
+  document.getElementById('btn-female').classList.toggle('active', g === 'female');
+}
+
+function calculate() {
+  const waist = parseFloat(document.getElementById('waist').value);
+  const hip = parseFloat(document.getElementById('hip').value);
+
+  if (!waist || !hip || waist < 40 || hip < 50) {
+    return alert('Masukkan ukuran pinggang dan pinggul yang valid.');
+  }
+  if (waist >= hip * 1.5) {
+    return alert('Pastikan ukuran pinggang dan pinggul sudah benar.');
+  }
+
+  const whr = waist / hip;
+  const whrRound = Math.round(whr * 100) / 100;
+
+  let cat, badgeClass, shape;
+  if (gender === 'male') {
+    if (whr <= 0.85) { cat = 'Risiko Rendah ✓'; badgeClass = 'badge-normal'; }
+    else if (whr <= 0.95) { cat = 'Risiko Sedang'; badgeClass = 'badge-overweight'; }
+    else { cat = 'Risiko Tinggi ⚠️'; badgeClass = 'badge-obese'; }
+  } else {
+    if (whr <= 0.75) { cat = 'Risiko Rendah ✓'; badgeClass = 'badge-normal'; }
+    else if (whr <= 0.85) { cat = 'Risiko Sedang'; badgeClass = 'badge-overweight'; }
+    else { cat = 'Risiko Tinggi ⚠️'; badgeClass = 'badge-obese'; }
+  }
+
+  shape = whr > 0.85 ? '🍎 Bentuk Apel (lemak perut dominan)' : '🍐 Bentuk Pir (lemak pinggul dominan)';
+  const idealStr = gender === 'male' ? '≤ 0,85 (aman) / ≤ 0,90 (WHO)' : '≤ 0,75 (aman) / ≤ 0,85 (WHO)';
+
+  document.getElementById('res-whr').textContent = whrRound.toFixed(2).replace('.', ',');
+  const badge = document.getElementById('res-badge');
+  badge.textContent = cat;
+  badge.className = 'result-badge ' + badgeClass;
+  document.getElementById('res-cat').textContent = cat;
+  document.getElementById('res-shape').textContent = shape;
+  document.getElementById('res-ideal').textContent = idealStr;
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>

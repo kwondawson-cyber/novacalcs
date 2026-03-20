@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator DP Rumah 2026 — Hitung Uang Muka KPR dan Biaya Beli Rumah | NovaCalcs</title>
+<meta name="description" content="Hitung uang muka (DP) KPR, total biaya pembelian rumah, dan kemampuan beli properti berdasarkan penghasilan Anda. Gratis dan akurat."/>
+<meta name="keywords" content="kalkulator DP rumah, uang muka KPR, down payment rumah, biaya beli rumah, kemampuan beli properti, KPR subsidi"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-dp-rumah.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-dp-rumah.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator DP Rumah</span>
+    </nav>
+  </div>
+</header>
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🏠 Kalkulator DP Rumah & Biaya KPR</div>
+      <div class="calc-subtitle">Hitung uang muka dan total biaya pembelian properti</div>
+
+      <div class="field"><label>Harga Rumah (Rp)</label><input type="number" id="price" placeholder="Contoh: 500000000" min="0"/></div>
+      <div class="field">
+        <label>Persentase DP (%)</label>
+        <select id="dp-pct">
+          <option value="5">5% (KPR Subsidi FLPP)</option>
+          <option value="10" selected>10% (minimum umum)</option>
+          <option value="15">15%</option>
+          <option value="20">20%</option>
+          <option value="30">30%</option>
+          <option value="50">50%</option>
+        </select>
+      </div>
+      <div class="field"><label>Penghasilan Bulanan (Rp) <small>— untuk cek kemampuan bayar</small></label><input type="number" id="income" placeholder="Contoh: 8000000" min="0"/></div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung DP & Biaya</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-dp">—</div>
+          <div class="result-label">Uang Muka (DP) yang Dibutuhkan</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Pokok KPR (pinjaman bank)</span><span class="rval" id="res-loan">—</span></div>
+          <div class="result-row"><span class="rkey">Estimasi biaya tambahan (~5%)</span><span class="rval" id="res-extra">—</span></div>
+          <div class="result-row"><span class="rkey">Total uang siap diperlukan</span><span class="rval" id="res-total">—</span></div>
+          <div class="result-row"><span class="rkey">Cicilan maks (30% gaji)</span><span class="rval" id="res-max-cicil">—</span></div>
+          <div class="result-row"><span class="rkey">Status kemampuan bayar</span><span class="rval" id="res-status">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator DP Rumah — Uang Muka KPR, Biaya Tambahan, dan Kemampuan Beli</h1>
+    <p class="page-desc">Membeli rumah adalah keputusan keuangan terbesar dalam hidup kebanyakan orang. Kalkulator ini membantu Anda memahami berapa DP yang dibutuhkan, total biaya yang harus disiapkan, dan apakah penghasilan Anda cukup.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Berapa DP Minimum untuk KPR di Indonesia?</h2>
+    <p>Bank Indonesia dan OJK mengatur ketentuan LTV (Loan to Value) yang menentukan DP minimum KPR. Untuk rumah pertama (tipe ≤70 m²), DP minimum adalah 5% untuk KPR Subsidi FLPP. Untuk properti non-subsidi, DP minimum umumnya 10–20% tergantung kebijakan bank dan kondisi pasar. Semakin besar DP yang Anda berikan, semakin kecil pinjaman dan cicilan bulanan Anda.</p>
+
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
+    <ol>
+      <li>Masukkan <strong>harga rumah</strong> yang ingin dibeli</li>
+      <li>Pilih <strong>persentase DP</strong> yang direncanakan</li>
+      <li>Masukkan <strong>penghasilan bulanan</strong> untuk menilai kemampuan cicilan</li>
+      <li>Klik <strong>"Hitung DP &amp; Biaya"</strong></li>
+    </ol>
+
+    <h2>Biaya Tambahan Saat Membeli Rumah</h2>
+    <table>
+      <tr><th>Komponen Biaya</th><th>Estimasi</th></tr>
+      <tr><td>BPHTB (Bea Perolehan Hak atas Tanah dan Bangunan)</td><td>2,5% dari harga transaksi</td></tr>
+      <tr><td>Biaya Notaris / PPAT</td><td>0,5–1% dari harga</td></tr>
+      <tr><td>Biaya KPR (provisi, admin, asuransi)</td><td>1–2% dari nilai kredit</td></tr>
+      <tr><td>Biaya balik nama sertifikat</td><td>Rp 500.000 – Rp 2.000.000</td></tr>
+      <tr><td>Biaya appraisal bank</td><td>Rp 500.000 – Rp 1.500.000</td></tr>
+      <tr><td><strong>Total estimasi biaya tambahan</strong></td><td><strong>~4–6% dari harga rumah</strong></td></tr>
+    </table>
+
+    <h2>Aturan 30% untuk Cicilan Rumah</h2>
+    <p>Para ahli keuangan merekomendasikan agar total cicilan KPR tidak melebihi 30% dari penghasilan bulanan kotor. Ini adalah patokan "aman" yang memastikan Anda masih memiliki ruang untuk kebutuhan hidup, tabungan, dan biaya tak terduga. Bank pun umumnya menggunakan rasio 30–35% sebagai batas maksimum persetujuan KPR.</p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah lebih baik DP besar atau kecil?</div><div class="faq-a">DP besar mengurangi pokok pinjaman, cicilan bulanan, dan total bunga yang dibayar selama tenor KPR — penghematan yang bisa mencapai puluhan juta rupiah. Namun DP besar berarti modal terikat dan tidak bisa diinvestasikan. Jika return investasi Anda lebih tinggi dari bunga KPR, DP kecil dengan investasi sisa modal bisa lebih menguntungkan. Pertimbangkan kondisi keuangan dan goals Anda secara keseluruhan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu KPR Subsidi FLPP?</div><div class="faq-a">KPR Subsidi FLPP (Fasilitas Likuiditas Pembiayaan Perumahan) adalah program pemerintah untuk membantu MBR (Masyarakat Berpenghasilan Rendah) memiliki rumah. Keunggulannya: bunga tetap 5% per tahun, DP minimal 1% (bahkan 0% pada program tertentu), tenor hingga 20 tahun, dan bebas PPN. Syarat: penghasilan ≤Rp 8 juta/bulan (rumah tapak) atau ≤Rp 7 juta (rusun), belum pernah memiliki rumah, dan memenuhi syarat lainnya.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa lama menabung untuk DP rumah?</div><div class="faq-a">Bergantung harga rumah dan kemampuan menabung. Untuk rumah Rp 500 juta dengan DP 20% (Rp 100 juta), jika Anda bisa menabung Rp 2 juta/bulan, dibutuhkan 50 bulan (~4 tahun). Tips: pisahkan rekening tabungan khusus DP, pertimbangkan instrumen dengan return lebih baik dari deposito (reksa dana pasar uang, ORI), dan kurangi pengeluaran tidak penting.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah BPHTB bisa dicicil atau ditangguhkan?</div><div class="faq-a">BPHTB umumnya harus dibayar lunas saat proses balik nama. Namun beberapa pemerintah daerah memiliki program keringanan atau pembebasan BPHTB untuk rumah pertama atau kelompok MBR tertentu. Cek kebijakan di daerah Anda sebelum membeli. BPHTB dihitung dari NJOP atau harga transaksi (mana yang lebih tinggi), dikurangi NPOPTKP yang biasanya Rp 60–80 juta.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bolehkah DP dibayar dengan pinjaman?</div><div class="faq-a">Secara regulasi OJK, DP KPR tidak boleh berasal dari pinjaman lembaga keuangan (kredit tanpa agunan, kartu kredit, dll.). Tujuannya untuk memastikan kemampuan finansial pembeli. Namun meminjam dari keluarga atau menggunakan dana yang sudah ada (seperti tabungan atau pesangon) diperbolehkan. Bank akan mengevaluasi catatan keuangan Anda secara keseluruhan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah harga rumah akan terus naik?</div><div class="faq-a">Secara historis, harga properti di Indonesia cenderung naik jangka panjang, rata-rata 5–10% per tahun di lokasi strategis. Namun ada fluktuasi di tengah (krisis 1998, pandemi 2020). Membeli properti di lokasi yang sedang berkembang (terutama di sekitar infrastruktur baru) cenderung memberikan apresiasi lebih tinggi. Namun properti adalah investasi jangka panjang — jangan berharap profit cepat.</div></div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏡</span>Kalkulator KPR</a>
+      <a href="/id/kalkulator-cicilan.html" class="related-item"><span class="ri">💳</span>Kalkulator Cicilan</a>
+      <a href="/id/kalkulator-roi.html" class="related-item"><span class="ri">💹</span>Kalkulator ROI</a>
+      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+<script defer>
+function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+function calculate() {
+  const price = parseFloat(document.getElementById('price').value);
+  const dpPct = parseFloat(document.getElementById('dp-pct').value) / 100;
+  const income = parseFloat(document.getElementById('income').value) || null;
+  if (!price || price <= 0) return alert('Masukkan harga rumah yang valid.');
+
+  const dp = price * dpPct;
+  const loan = price - dp;
+  const extraCost = price * 0.05; // ~5% biaya tambahan
+  const totalNeeded = dp + extraCost;
+  const maxCicil = income ? income * 0.30 : null;
+
+  document.getElementById('res-dp').textContent = fmt(dp);
+  document.getElementById('res-loan').textContent = fmt(loan);
+  document.getElementById('res-extra').textContent = fmt(extraCost);
+  document.getElementById('res-total').textContent = fmt(totalNeeded);
+
+  if (maxCicil) {
+    document.getElementById('res-max-cicil').textContent = fmt(maxCicil) + '/bulan';
+    // Rough estimate: loan / (months * rough factor for ~10% interest 20yr tenor)
+    const estimatedMonthly = loan / (20 * 12) * 1.55; // very rough
+    if (estimatedMonthly <= maxCicil) {
+      document.getElementById('res-status').textContent = '✅ Kemungkinan mampu (estimasi)';
+    } else {
+      document.getElementById('res-status').textContent = '⚠️ Cicilan estimasi melebihi 30% gaji';
+    }
+  } else {
+    document.getElementById('res-max-cicil').textContent = 'Isi gaji untuk menghitung';
+    document.getElementById('res-status').textContent = 'Isi gaji untuk menilai';
+  }
+
+  document.getElementById('result').classList.add('show');
+}
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Proporsi & Perbandingan 2026 — Hitung Rasio dan Skala Online | NovaCalcs</title>
+<meta name="description" content="Hitung proporsi, perbandingan, skala peta, dan nilai ke-4 dari tiga bilangan yang diketahui. Cocok untuk matematika, resep masak, dan konversi skala."/>
+<meta name="keywords" content="kalkulator proporsi, kalkulator perbandingan, hitung rasio, skala peta, aturan tiga, nilai ke empat"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-proporsi.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-proporsi.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.proportion-grid { display:grid; grid-template-columns:1fr 20px 1fr; gap:8px; align-items:center; margin-bottom:8px; }
+.proportion-sep { text-align:center; font-size:1.2rem; color:var(--accent,#00C9B1); font-weight:700; }
+.proportion-row { display:grid; grid-template-columns:1fr 20px 1fr; gap:8px; align-items:center; }
+.equals-sign { text-align:center; font-size:1.5rem; font-weight:700; color:var(--accent,#00C9B1); margin:8px 0; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Proporsi</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">⚖️ Kalkulator Proporsi & Perbandingan</div>
+      <div class="calc-subtitle">Cari nilai yang tidak diketahui dalam proporsi a/b = c/d</div>
+
+      <div class="field">
+        <label>Mode</label>
+        <select id="mode" onchange="updateMode()">
+          <option value="missing">Cari Nilai yang Tidak Diketahui (a/b = c/d)</option>
+          <option value="simplify">Sederhanakan Perbandingan (a : b)</option>
+          <option value="scale">Skala / Konversi (dari skala peta dll.)</option>
+        </select>
+      </div>
+
+      <div id="mode-missing">
+        <p style="font-size:0.85rem;color:#aaa;margin-bottom:12px">Masukkan 3 nilai, biarkan 1 kosong untuk dicari (tandai dengan "?")</p>
+        <div class="proportion-row">
+          <div class="field" style="margin:0"><label>A</label><input type="number" id="pa" placeholder="A" step="any"/></div>
+          <div class="proportion-sep">/</div>
+          <div class="field" style="margin:0"><label>B</label><input type="number" id="pb" placeholder="B" step="any"/></div>
+        </div>
+        <div class="equals-sign">=</div>
+        <div class="proportion-row">
+          <div class="field" style="margin:0"><label>C</label><input type="number" id="pc" placeholder="C" step="any"/></div>
+          <div class="proportion-sep">/</div>
+          <div class="field" style="margin:0"><label>D</label><input type="number" id="pd" placeholder="D — kosongkan untuk dicari" step="any"/></div>
+        </div>
+      </div>
+
+      <div id="mode-simplify" style="display:none">
+        <div class="proportion-row">
+          <div class="field" style="margin:0"><label>Nilai A</label><input type="number" id="sa" placeholder="Contoh: 12" step="any"/></div>
+          <div class="proportion-sep">:</div>
+          <div class="field" style="margin:0"><label>Nilai B</label><input type="number" id="sb" placeholder="Contoh: 8" step="any"/></div>
+        </div>
+      </div>
+
+      <div id="mode-scale" style="display:none">
+        <div class="field"><label>Nilai di skala / peta</label><input type="number" id="scale-map" placeholder="Contoh: 5 (cm di peta)" step="any"/></div>
+        <div class="field"><label>Skala (1 : ?)</label><input type="number" id="scale-ratio" placeholder="Contoh: 500000" step="any"/></div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-val">—</div>
+          <div class="result-label" id="res-label">Hasil</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Persamaan</span><span class="rval" id="res-eq">—</span></div>
+          <div class="result-row"><span class="rkey">Keterangan</span><span class="rval" id="res-note">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Proporsi & Perbandingan — Hitung Rasio, Skala, dan Nilai Tidak Diketahui</h1>
+    <p class="page-desc">Kalkulator proporsi ini membantu Anda menyelesaikan masalah perbandingan senilai, menyederhanakan rasio, dan menghitung konversi skala peta. Berguna untuk matematika, memasak, konstruksi, dan banyak lagi.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu Proporsi?</h2>
+    <p>Proporsi adalah pernyataan bahwa dua perbandingan (rasio) adalah sama. Dinyatakan sebagai a/b = c/d, yang dibaca "a berbanding b sama dengan c berbanding d". Dalam kehidupan sehari-hari, proporsi muncul dalam berbagai situasi: mengkonversi resep masak untuk porsi berbeda, menghitung jarak dari peta, mencari nilai tidak diketahui dalam soal matematika, dan banyak lagi.</p>
+    <p>Untuk mencari nilai yang tidak diketahui, gunakan aturan perkalian silang: jika a/b = c/d, maka a × d = b × c. Dari sini, nilai yang tidak diketahui dapat dihitung.</p>
+
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
+    <ol>
+      <li>Pilih <strong>mode</strong> yang sesuai dengan kebutuhan Anda</li>
+      <li><strong>Mode Proporsi</strong>: Masukkan 3 nilai (A, B, C), biarkan D kosong untuk dicari. Atau kosongkan nilai mana saja.</li>
+      <li><strong>Mode Sederhanakan</strong>: Masukkan dua angka A dan B untuk mendapatkan perbandingan paling sederhana</li>
+      <li><strong>Mode Skala</strong>: Masukkan nilai di peta/gambar dan skala untuk mendapat nilai nyata</li>
+      <li>Klik <strong>"Hitung"</strong></li>
+    </ol>
+
+    <h2>Rumus Proporsi</h2>
+    <table>
+      <tr><th>Mencari</th><th>Rumus</th></tr>
+      <tr><td>Nilai D</td><td>D = (B × C) ÷ A</td></tr>
+      <tr><td>Nilai A</td><td>A = (B × C) ÷ D</td></tr>
+      <tr><td>Nilai B</td><td>B = (A × D) ÷ C</td></tr>
+      <tr><td>Nilai C</td><td>C = (A × D) ÷ B</td></tr>
+    </table>
+    <p style="margin-top:0.75rem">Prinsip dasar: dalam proporsi a/b = c/d, berlaku <strong>a × d = b × c</strong> (perkalian silang).</p>
+
+    <h2>Contoh Penerapan Proporsi dalam Kehidupan Nyata</h2>
+    <p><strong>Resep masak:</strong> Resep untuk 4 orang membutuhkan 300 gram tepung. Untuk 7 orang butuh berapa? 300/4 = x/7 → x = (300 × 7) ÷ 4 = 525 gram.</p>
+    <p><strong>Skala peta:</strong> Peta berskala 1:500.000. Jarak di peta 3 cm. Jarak nyata = 3 × 500.000 = 1.500.000 cm = 15 km.</p>
+    <p><strong>Konversi mata uang:</strong> Jika 1 USD = Rp 15.900, berapa Rp untuk 25 USD? 1/15.900 = 25/x → x = 25 × 15.900 = Rp 397.500.</p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa bedanya perbandingan senilai dan berbalik nilai?</div>
+      <div class="faq-a">Perbandingan senilai: semakin besar satu nilai, semakin besar nilai lain (contoh: lebih banyak barang = lebih mahal). Perbandingan berbalik nilai: semakin besar satu nilai, semakin kecil nilai lain (contoh: lebih banyak pekerja = pekerjaan selesai lebih cepat). Kalkulator ini menghitung perbandingan senilai. Untuk berbalik nilai, gunakan rumus x = (a × b) ÷ c.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menyederhanakan perbandingan 24 : 36?</div>
+      <div class="faq-a">Cari FPB (Faktor Persekutuan Terbesar) dari 24 dan 36. FPB(24,36) = 12. Bagi kedua angka dengan 12: 24÷12 = 2 dan 36÷12 = 3. Jadi 24:36 = 2:3 dalam bentuk paling sederhana.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu skala peta 1:50.000?</div>
+      <div class="faq-a">Skala 1:50.000 berarti 1 cm di peta mewakili 50.000 cm (= 500 m = 0,5 km) di lapangan. Jadi jika dua titik di peta berjarak 4 cm, jarak sebenarnya adalah 4 × 500 m = 2 km.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana proporsi digunakan dalam memasak?</div>
+      <div class="faq-a">Proporsi sangat berguna saat menyesuaikan ukuran resep. Jika resep untuk 4 orang menggunakan 200 ml santan, untuk 10 orang tinggal hitung: 200/4 = x/10 → x = 500 ml. Semua bahan dapat dihitung dengan cara yang sama menggunakan proporsi yang sama.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu perbandingan emas (golden ratio)?</div>
+      <div class="faq-a">Perbandingan emas (φ ≈ 1,618) adalah rasio di mana a/b = (a+b)/a. Rasio ini muncul secara alami di alam (spiral kerang, susunan biji bunga), seni, dan arsitektur. Banyak desainer dan seniman menggunakannya untuk menciptakan komposisi yang secara estetik menarik karena dianggap paling "harmonis" secara visual.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung perbandingan campuran?</div>
+      <div class="faq-a">Untuk membagi sesuatu dalam perbandingan a:b:c, total bagian = a+b+c. Masing-masing mendapat: bagian pertama = total × a/(a+b+c), dst. Contoh: bagi Rp 1.200.000 dalam perbandingan 2:3:4. Total = 9. Bagian: Rp 1.200.000 × 2/9 = Rp 266.667; × 3/9 = Rp 400.000; × 4/9 = Rp 533.333.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
+      <a href="/id/kalkulator-pangkat.html" class="related-item"><span class="ri">🔢</span>Pangkat & Akar</a>
+      <a href="/id/konversi-mata-uang.html" class="related-item"><span class="ri">💱</span>Konversi Mata Uang</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+function updateMode() {
+  const m = document.getElementById('mode').value;
+  document.getElementById('mode-missing').style.display = m === 'missing' ? '' : 'none';
+  document.getElementById('mode-simplify').style.display = m === 'simplify' ? '' : 'none';
+  document.getElementById('mode-scale').style.display = m === 'scale' ? '' : 'none';
+}
+
+function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+
+function calculate() {
+  const m = document.getElementById('mode').value;
+  if (m === 'missing') {
+    const vals = [
+      parseFloat(document.getElementById('pa').value),
+      parseFloat(document.getElementById('pb').value),
+      parseFloat(document.getElementById('pc').value),
+      parseFloat(document.getElementById('pd').value)
+    ];
+    const missing = vals.findIndex(isNaN);
+    const known = vals.filter(v => !isNaN(v));
+    if (known.length !== 3) return alert('Masukkan tepat 3 nilai (biarkan 1 kosong untuk dicari).');
+
+    let result, eq;
+    const [a,b,c,d] = vals;
+    if (missing === 0) { result = (b*c)/d; eq = `x/${b} = ${c}/${d} → x = ${result.toFixed(6).replace(/\.?0+$/, '').replace('.',',')}`; }
+    else if (missing === 1) { result = (a*d)/c; eq = `${a}/x = ${c}/${d} → x = ${result.toFixed(6).replace(/\.?0+$/, '').replace('.',',')}`; }
+    else if (missing === 2) { result = (a*d)/b; eq = `${a}/${b} = x/${d} → x = ${result.toFixed(6).replace(/\.?0+$/, '').replace('.',',')}`; }
+    else { result = (b*c)/a; eq = `${a}/${b} = ${c}/x → x = ${result.toFixed(6).replace(/\.?0+$/, '').replace('.',',')}`; }
+
+    const display = Number.isInteger(result) ? result.toLocaleString('id-ID') : result.toFixed(6).replace(/\.?0+$/, '').replace('.', ',');
+    document.getElementById('res-val').textContent = display;
+    document.getElementById('res-label').textContent = 'Nilai yang Dicari';
+    document.getElementById('res-eq').textContent = eq;
+    document.getElementById('res-note').textContent = 'Dihitung dengan perkalian silang';
+  } else if (m === 'simplify') {
+    const a = parseFloat(document.getElementById('sa').value);
+    const b = parseFloat(document.getElementById('sb').value);
+    if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) return alert('Masukkan dua bilangan positif.');
+    const g = gcd(Math.round(a), Math.round(b));
+    const ra = Math.round(a)/g, rb = Math.round(b)/g;
+    document.getElementById('res-val').textContent = ra + ' : ' + rb;
+    document.getElementById('res-label').textContent = 'Perbandingan Paling Sederhana';
+    document.getElementById('res-eq').textContent = `${a} : ${b} = ${ra} : ${rb}`;
+    document.getElementById('res-note').textContent = `FPB = ${g}`;
+  } else {
+    const mapVal = parseFloat(document.getElementById('scale-map').value);
+    const scaleRatio = parseFloat(document.getElementById('scale-ratio').value);
+    if (isNaN(mapVal) || isNaN(scaleRatio)) return alert('Masukkan nilai peta dan skala.');
+    const real = mapVal * scaleRatio;
+    const realKm = real / 100000;
+    document.getElementById('res-val').textContent = real.toLocaleString('id-ID') + ' cm';
+    document.getElementById('res-label').textContent = 'Jarak / Ukuran Nyata';
+    document.getElementById('res-eq').textContent = `${mapVal} cm × ${scaleRatio.toLocaleString('id-ID')} = ${real.toLocaleString('id-ID')} cm`;
+    document.getElementById('res-note').textContent = `= ${realKm.toFixed(3).replace('.',',')} km`;
+  }
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>

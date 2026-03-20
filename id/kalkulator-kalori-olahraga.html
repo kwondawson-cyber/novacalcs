@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Kalori Olahraga 2026 — Hitung Kalori Terbakar Saat Olahraga | NovaCalcs</title>
+<meta name="description" content="Hitung kalori yang terbakar saat olahraga berdasarkan jenis aktivitas, durasi, dan berat badan Anda. Tersedia 30+ jenis olahraga populer."/>
+<meta name="keywords" content="kalkulator kalori olahraga, kalori terbakar, hitung kalori lari, kalori bersepeda, kalori renang, olahraga kalori"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kalori-olahraga.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-kalori-olahraga.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalori Olahraga</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🏃 Kalkulator Kalori Olahraga</div>
+      <div class="calc-subtitle">Hitung kalori yang terbakar saat berolahraga</div>
+
+      <div class="field">
+        <label>Berat Badan (kg)</label>
+        <input type="number" id="weight" placeholder="Contoh: 65" min="20" max="300"/>
+      </div>
+      <div class="field">
+        <label>Jenis Olahraga</label>
+        <select id="exercise">
+          <optgroup label="🏃 Kardio">
+            <option value="8.0">Lari (8 km/jam — jogging)</option>
+            <option value="11.0">Lari (12 km/jam — cepat)</option>
+            <option value="14.5">Lari (16 km/jam — sprint)</option>
+            <option value="3.5">Jalan santai (5 km/jam)</option>
+            <option value="5.0">Jalan cepat (7 km/jam)</option>
+            <option value="7.0">Bersepeda (16–19 km/jam)</option>
+            <option value="10.0">Bersepeda (22–25 km/jam)</option>
+            <option value="6.0">Renang (gaya bebas, sedang)</option>
+            <option value="9.8">Renang (gaya bebas, cepat)</option>
+            <option value="8.0">Lompat tali (sedang)</option>
+          </optgroup>
+          <optgroup label="💪 Latihan Kekuatan">
+            <option value="3.5">Angkat beban (ringan)</option>
+            <option value="5.0">Angkat beban (sedang)</option>
+            <option value="6.0">Angkat beban (berat/intensif)</option>
+            <option value="5.0">Push-up / sit-up (sedang)</option>
+            <option value="8.0">CrossFit / HIIT</option>
+          </optgroup>
+          <optgroup label="🧘 Olahraga Santai">
+            <option value="2.5">Yoga / Pilates</option>
+            <option value="3.0">Peregangan / Stretching</option>
+            <option value="4.0">Senam aerobik</option>
+            <option value="5.0">Zumba</option>
+            <option value="4.0">Bulu tangkis (kasual)</option>
+            <option value="7.0">Bulu tangkis (kompetitif)</option>
+            <option value="7.0">Futsal / Sepak bola</option>
+            <option value="6.0">Basket</option>
+            <option value="4.5">Voli</option>
+            <option value="6.0">Tennis</option>
+          </optgroup>
+          <optgroup label="🏠 Aktivitas Sehari-hari">
+            <option value="3.5">Berkebun</option>
+            <option value="2.5">Menyapu / Mengepel</option>
+            <option value="4.0">Naik turun tangga</option>
+            <option value="2.0">Berdiri aktif</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label>Durasi (menit)</label>
+        <input type="number" id="duration" placeholder="Contoh: 45" min="1" max="600"/>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Kalori Terbakar</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-cal">—</div>
+          <div class="result-label">Kalori terbakar (kkal)</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Per menit</span><span class="rval" id="res-per-min">—</span></div>
+          <div class="result-row"><span class="rkey">Setara makanan</span><span class="rval" id="res-food">—</span></div>
+          <div class="result-row"><span class="rkey">Untuk bakar 1 kg lemak</span><span class="rval" id="res-fat">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Kalori Olahraga — Hitung Kalori Terbakar dari 30+ Jenis Aktivitas</h1>
+    <p class="page-desc">Ingin tahu berapa kalori yang terbakar saat jogging, bersepeda, atau renang? Kalkulator ini menghitung pengeluaran kalori secara akurat berdasarkan berat badan, jenis olahraga, dan durasi Anda.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Cara Menghitung Kalori yang Terbakar Saat Olahraga</h2>
+    <p>Pengeluaran kalori saat olahraga dihitung menggunakan nilai MET (Metabolic Equivalent of Task). MET adalah rasio antara laju metabolisme saat beraktivitas dibandingkan saat istirahat. Semakin tinggi nilai MET, semakin banyak kalori yang dibakar.</p>
+    <p>Rumus yang digunakan secara ilmiah adalah:</p>
+    <table>
+      <tr><th>Rumus</th><th>Keterangan</th></tr>
+      <tr><td><strong>Kalori = MET × Berat (kg) × Durasi (jam)</strong></td><td>Rumus standar MET</td></tr>
+    </table>
+    <p style="margin-top:0.75rem">Contoh: Jogging (MET 8,0) selama 45 menit oleh orang 65 kg: 8,0 × 65 × 0,75 = <strong>390 kkal</strong></p>
+
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
+    <ol>
+      <li>Masukkan <strong>berat badan</strong> Anda saat ini dalam kg</li>
+      <li>Pilih <strong>jenis olahraga</strong> dari daftar yang tersedia</li>
+      <li>Masukkan <strong>durasi olahraga</strong> dalam menit</li>
+      <li>Klik <strong>"Hitung Kalori Terbakar"</strong></li>
+      <li>Lihat hasil lengkap termasuk perbandingan dengan makanan umum</li>
+    </ol>
+
+    <h2>Tabel MET Berbagai Jenis Olahraga</h2>
+    <table>
+      <tr><th>Olahraga</th><th>Nilai MET</th><th>Intensitas</th></tr>
+      <tr><td>Jalan santai</td><td>3,5</td><td>Rendah</td></tr>
+      <tr><td>Jalan cepat</td><td>5,0</td><td>Sedang</td></tr>
+      <tr><td>Jogging (8 km/jam)</td><td>8,0</td><td>Sedang-Tinggi</td></tr>
+      <tr><td>Lari cepat (12 km/jam)</td><td>11,0</td><td>Tinggi</td></tr>
+      <tr><td>Bersepeda (sedang)</td><td>7,0</td><td>Sedang</td></tr>
+      <tr><td>Renang gaya bebas</td><td>6,0–9,8</td><td>Sedang-Tinggi</td></tr>
+      <tr><td>HIIT / CrossFit</td><td>8,0</td><td>Sangat Tinggi</td></tr>
+      <tr><td>Yoga</td><td>2,5</td><td>Rendah</td></tr>
+      <tr><td>Bulu tangkis kompetitif</td><td>7,0</td><td>Tinggi</td></tr>
+    </table>
+
+    <h2>Olahraga Terbaik untuk Membakar Kalori</h2>
+    <p>Bagi yang ingin menurunkan berat badan, olahraga dengan intensitas tinggi tentu membakar lebih banyak kalori. Namun yang paling penting adalah konsistensi dan kenyamanan. Olahraga yang Anda nikmati jauh lebih efektif daripada olahraga intens yang hanya dilakukan seminggu sekali. Lari dan renang adalah pilihan terbaik dari sisi efisiensi kalori, sementara bulu tangkis dan futsal sangat populer di Indonesia karena menyenangkan sekaligus efektif membakar kalori.</p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa lama olahraga yang dibutuhkan untuk bakar 500 kalori?</div>
+      <div class="faq-a">Untuk seseorang dengan berat 65 kg, dibutuhkan sekitar 45–60 menit jogging, 60–75 menit bersepeda sedang, atau 50–65 menit renang untuk membakar 500 kkal. Semakin berat badan Anda, semakin banyak kalori yang terbakar dalam waktu yang sama.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah kalori yang terbakar saat olahraga bisa dimakan kembali?</div>
+      <div class="faq-a">Ini adalah pertanyaan yang sering diperdebatkan. Secara umum, jika tujuan Anda mempertahankan berat badan, Anda bisa mengganti sebagian kalori yang terbakar. Namun jika tujuannya menurunkan berat badan, sebaiknya pertahankan defisit kalori harian Anda dan jangan makan lebih banyak hanya karena sudah olahraga. Penelitian menunjukkan banyak orang cenderung melebih-lebihkan kalori yang terbakar saat olahraga.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Mengapa orang lebih gemuk membakar lebih banyak kalori?</div>
+      <div class="faq-a">Karena tubuh yang lebih berat memerlukan lebih banyak energi untuk bergerak. Rumus MET memperhitungkan berat badan secara langsung — setiap kg ekstra berkontribusi pada peningkatan pengeluaran energi. Ini adalah salah satu "keuntungan" olahraga bagi orang yang kelebihan berat badan: setiap sesi olahraga membakar lebih banyak kalori.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah angka kalori ini akurat?</div>
+      <div class="faq-a">Nilai MET yang digunakan bersumber dari Compendium of Physical Activities yang merupakan referensi standar internasional. Namun perlu diingat bahwa hasil aktual bisa berbeda ±15–20% tergantung intensitas individu, kondisi cuaca, kebugaran, dan faktor genetik. Angka ini adalah perkiraan yang baik untuk perencanaan, bukan pengukuran yang tepat.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Olahraga apa yang terbaik untuk turun berat badan?</div>
+      <div class="faq-a">Dari sisi pembakaran kalori tertinggi per jam, lari cepat, renang intensif, dan HIIT adalah yang paling efisien. Namun penelitian menunjukkan kombinasi kardio dan latihan beban memberikan hasil terbaik jangka panjang karena latihan beban meningkatkan massa otot yang pada gilirannya meningkatkan BMR (metabolisme basal). Yang terpenting: pilih olahraga yang Anda nikmati dan bisa dilakukan secara konsisten.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa banyak kalori yang harus dibakar per minggu?</div>
+      <div class="faq-a">WHO merekomendasikan setidaknya 150–300 menit aktivitas aerobik intensitas sedang per minggu, yang setara dengan membakar sekitar 1.000–2.000 kkal dari olahraga. Untuk penurunan berat badan yang signifikan, targetkan 2.000–3.000 kkal per minggu dari olahraga, dikombinasikan dengan pengaturan pola makan.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-bmr.html" class="related-item"><span class="ri">🔥</span>Kalkulator BMR</a>
+      <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🍽️</span>Kalori Harian TDEE</a>
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/kebutuhan-air.html" class="related-item"><span class="ri">💧</span>Kebutuhan Air</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+function calculate() {
+  const weight = parseFloat(document.getElementById('weight').value);
+  const duration = parseFloat(document.getElementById('duration').value);
+  const met = parseFloat(document.getElementById('exercise').value);
+
+  if (!weight || !duration || weight < 20 || duration < 1) {
+    return alert('Masukkan berat badan dan durasi yang valid.');
+  }
+
+  const calories = met * weight * (duration / 60);
+  const perMin = calories / duration;
+
+  let food = '';
+  if (calories < 150) food = 'segelas es teh manis';
+  else if (calories < 300) food = 'sepiring nasi putih (200g)';
+  else if (calories < 500) food = '2 piring nasi putih';
+  else if (calories < 700) food = '1 porsi ayam goreng + nasi';
+  else food = '2 porsi makan siang lengkap';
+
+  const sessionNeeded = Math.round(7700 / calories * 10) / 10;
+
+  document.getElementById('res-cal').textContent = Math.round(calories).toLocaleString('id-ID') + ' kkal';
+  document.getElementById('res-per-min').textContent = perMin.toFixed(1) + ' kkal/menit';
+  document.getElementById('res-food').textContent = 'Setara ' + food;
+  document.getElementById('res-fat').textContent = sessionNeeded + 'x sesi latihan ini';
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>

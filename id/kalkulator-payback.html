@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Payback Period 2026 — Hitung Waktu Balik Modal Investasi | NovaCalcs</title>
+<meta name="description" content="Hitung payback period (waktu balik modal) investasi bisnis Anda secara gratis. Mendukung arus kas tetap maupun arus kas bervariasi per tahun."/>
+<meta name="keywords" content="kalkulator payback period, waktu balik modal, payback bisnis, break even point investasi, analisis investasi"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-payback.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-payback.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.cashflow-row { display:grid; grid-template-columns:80px 1fr 36px; gap:8px; align-items:center; margin-bottom:8px; }
+.cashflow-row input { width:100%; }
+.del-btn { background:#ff4d4d22; border:1px solid #ff4d4d44; color:#ff7777; border-radius:6px; cursor:pointer; font-size:1.1rem; padding:6px; }
+.add-btn { background:transparent; border:1px dashed var(--accent,#00C9B1); color:var(--accent,#00C9B1); border-radius:8px; padding:8px; width:100%; cursor:pointer; font-size:0.9rem; margin-bottom:12px; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <span>Payback Period</span>
+    </nav>
+  </div>
+</header>
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">⏳ Kalkulator Payback Period</div>
+      <div class="calc-subtitle">Hitung waktu balik modal investasi bisnis Anda</div>
+
+      <div class="field"><label>Modal Awal Investasi (Rp)</label><input type="number" id="initial" placeholder="Contoh: 100000000" min="0"/></div>
+      <div class="field">
+        <label>Mode Arus Kas</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-fixed" onclick="setMode('fixed')">Arus Kas Tetap</div>
+          <div class="radio-btn" id="btn-variable" onclick="setMode('variable')">Arus Kas Berbeda</div>
+        </div>
+      </div>
+
+      <div id="mode-fixed">
+        <div class="field"><label>Arus Kas Bersih per Tahun (Rp)</label><input type="number" id="fixed-cf" placeholder="Contoh: 25000000" min="0"/></div>
+      </div>
+
+      <div id="mode-variable" style="display:none">
+        <p style="font-size:0.82rem;color:#aaa;margin-bottom:8px">Masukkan arus kas bersih (laba bersih + depresiasi) per tahun</p>
+        <div id="cf-rows"></div>
+        <button class="add-btn" onclick="addCfRow()">+ Tambah Tahun</button>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Payback Period</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-payback">—</div>
+          <div class="result-label">Payback Period</div>
+          <div class="result-badge" id="res-badge"></div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Modal awal</span><span class="rval" id="res-initial">—</span></div>
+          <div class="result-row"><span class="rkey">Total arus kas terhitung</span><span class="rval" id="res-total-cf">—</span></div>
+          <div class="result-row"><span class="rkey">ROI total</span><span class="rval" id="res-roi">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Payback Period — Hitung Waktu Balik Modal Investasi Bisnis</h1>
+    <p class="page-desc">Payback Period adalah salah satu metrik paling penting dalam analisis kelayakan investasi. Kalkulator ini membantu Anda menghitung berapa lama modal investasi akan kembali dari arus kas bisnis.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu Payback Period?</h2>
+    <p>Payback Period adalah jangka waktu yang diperlukan untuk mendapatkan kembali modal investasi awal dari arus kas (cash flow) yang dihasilkan oleh investasi tersebut. Semakin pendek payback period, semakin cepat modal kembali dan semakin menarik investasi tersebut.</p>
+    <p>Misalnya, Anda membuka warung makan dengan modal Rp 50 juta dan menghasilkan laba bersih Rp 10 juta per tahun. Payback period = Rp 50 juta ÷ Rp 10 juta = 5 tahun. Artinya, dalam 5 tahun modal Anda sudah kembali, dan keuntungan setelahnya adalah murni profit.</p>
+
+    <h2>Cara Menggunakan Kalkulator Payback Period</h2>
+    <ol>
+      <li>Masukkan <strong>modal awal investasi</strong> (semua biaya yang dikeluarkan)</li>
+      <li>Pilih mode: <strong>Arus Kas Tetap</strong> (pendapatan bersih sama setiap tahun) atau <strong>Arus Kas Berbeda</strong> (bervariasi per tahun)</li>
+      <li>Masukkan <strong>arus kas bersih</strong> per tahun (laba bersih + depresiasi/amortisasi)</li>
+      <li>Klik <strong>"Hitung Payback Period"</strong></li>
+    </ol>
+
+    <h2>Rumus Payback Period</h2>
+    <table>
+      <tr><th>Mode</th><th>Rumus</th></tr>
+      <tr><td>Arus kas tetap</td><td>Payback = Modal Awal ÷ Arus Kas Per Tahun</td></tr>
+      <tr><td>Arus kas berbeda</td><td>Jumlahkan arus kas hingga mencapai modal awal, hitung tahun + fraksi</td></tr>
+    </table>
+
+    <h2>Patokan Payback Period yang Baik</h2>
+    <table>
+      <tr><th>Jenis Investasi</th><th>Payback Period Ideal</th></tr>
+      <tr><td>UMKM / warung / gerai</td><td>1–3 tahun</td></tr>
+      <tr><td>Waralaba (franchise)</td><td>2–4 tahun</td></tr>
+      <tr><td>Properti sewa</td><td>8–15 tahun</td></tr>
+      <tr><td>Mesin / peralatan industri</td><td>3–7 tahun</td></tr>
+      <tr><td>Panel surya</td><td>5–8 tahun</td></tr>
+      <tr><td>Software / SaaS</td><td>&lt;1 tahun ideal</td></tr>
+    </table>
+    <p style="margin-top:0.5rem">Secara umum, payback period di bawah 5 tahun dianggap menarik untuk bisnis skala kecil-menengah di Indonesia.</p>
+
+    <h2>Kelebihan dan Keterbatasan Payback Period</h2>
+    <p>Kelebihan metode ini: sederhana, mudah dipahami, dan berguna untuk menilai risiko likuiditas — semakin cepat balik modal, semakin rendah eksposur risiko. Namun kelemahannya: tidak memperhitungkan nilai waktu uang (time value of money), mengabaikan arus kas setelah payback tercapai, dan tidak memperhitungkan profitabilitas jangka panjang. Untuk analisis lebih lengkap, gunakan payback period bersama NPV (Net Present Value) dan IRR (Internal Rate of Return).</p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya payback period dan BEP (Break Even Point)?</div><div class="faq-a">Payback period mengukur waktu untuk mendapatkan kembali total investasi modal, sedangkan BEP mengukur jumlah unit penjualan atau pendapatan yang dibutuhkan untuk menutupi semua biaya (tetap + variabel). BEP lebih fokus pada operasional, payback period lebih fokus pada investasi. Keduanya penting: BEP dihitung per bulan/tahun, payback period dihitung dalam tahun.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah arus kas bersih sama dengan laba bersih?</div><div class="faq-a">Tidak persis sama. Arus kas bersih (net cash flow) = Laba Bersih + Depresiasi/Amortisasi. Depresiasi adalah biaya non-kas yang dikurangi dari laba, namun uangnya tidak benar-benar keluar. Untuk aset yang didepresiasi, arus kas aktual lebih besar dari laba bersih. Untuk bisnis tanpa aset tetap signifikan, keduanya bisa diasumsikan hampir sama.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Payback period 3 tahun itu bagus atau tidak?</div><div class="faq-a">Bergantung jenis bisnisnya. Untuk UMKM food & beverage atau ritel, 1–2 tahun sangat bagus, 3 tahun cukup baik. Untuk properti sewa, 3 tahun justru sangat cepat (biasanya 8–15 tahun). Selalu bandingkan dengan benchmark industri yang relevan dan pertimbangkan faktor risiko bisnis tersebut.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika arus kas negatif di tahun pertama?</div><div class="faq-a">Arus kas negatif di awal (misalnya karena startup cost atau masa ramping-up) adalah hal yang wajar untuk banyak bisnis. Dalam kalkulator mode "Arus Kas Berbeda", masukkan nilai negatif untuk tahun-tahun tersebut. Payback period dihitung dari kapan akumulasi arus kas pertama kali mencapai nol (menutupi total investasi termasuk kerugian di awal).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa perlu Discounted Payback Period?</div><div class="faq-a">Payback period biasa mengabaikan fakta bahwa Rp 1 juta hari ini lebih berharga dari Rp 1 juta 5 tahun lagi (time value of money). Discounted Payback Period memperhitungkan ini dengan mendiskon arus kas masa depan ke nilai sekarang menggunakan tingkat diskonto (biasanya cost of capital). Hasilnya lebih akurat namun lebih kompleks. Untuk analisis investasi yang serius, pertimbangkan menggunakan diskounted payback period.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah payback period cocok untuk semua jenis investasi?</div><div class="faq-a">Payback period paling cocok untuk investasi jangka pendek dengan arus kas yang dapat diprediksi. Kurang cocok untuk investasi jangka sangat panjang (seperti infrastruktur) atau investasi dengan manfaat yang sulit dikuantifikasi (R&D, brand building). Juga kurang tepat untuk investasi dengan arus kas sangat tidak menentu. Selalu gunakan multiple metrics (payback, ROI, NPV) untuk keputusan investasi yang besar.</div></div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-roi.html" class="related-item"><span class="ri">💹</span>Kalkulator ROI</a>
+      <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Investasi</a>
+      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
+      <a href="/id/kalkulator-umur-pensiun.html" class="related-item"><span class="ri">👴</span>Rencana Pensiun</a>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+<script defer>
+let mode = 'fixed';
+let cfCount = 0;
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-fixed').classList.toggle('active', m === 'fixed');
+  document.getElementById('btn-variable').classList.toggle('active', m === 'variable');
+  document.getElementById('mode-fixed').style.display = m === 'fixed' ? '' : 'none';
+  document.getElementById('mode-variable').style.display = m === 'variable' ? '' : 'none';
+}
+
+function addCfRow() {
+  cfCount++;
+  const div = document.createElement('div');
+  div.className = 'cashflow-row';
+  div.id = 'cf-' + cfCount;
+  div.innerHTML = `
+    <label style="font-size:0.85rem">Tahun ${cfCount}</label>
+    <input type="number" placeholder="Arus kas bersih (Rp)" class="cf-input" step="any"/>
+    <button class="del-btn" onclick="document.getElementById('cf-${cfCount}').remove()">×</button>
+  `;
+  document.getElementById('cf-rows').appendChild(div);
+}
+
+function fmt(n) { return 'Rp ' + Math.round(Math.abs(n)).toLocaleString('id-ID'); }
+
+function calculate() {
+  const initial = parseFloat(document.getElementById('initial').value);
+  if (!initial || initial <= 0) return alert('Masukkan modal awal yang valid.');
+
+  let payback, totalCf, roiPct;
+
+  if (mode === 'fixed') {
+    const fixedCf = parseFloat(document.getElementById('fixed-cf').value);
+    if (!fixedCf || fixedCf <= 0) return alert('Masukkan arus kas per tahun yang valid.');
+    payback = initial / fixedCf;
+    totalCf = fixedCf * Math.ceil(payback);
+    roiPct = ((totalCf - initial) / initial * 100).toFixed(1);
+  } else {
+    const inputs = document.querySelectorAll('.cf-input');
+    if (inputs.length === 0) return alert('Tambahkan minimal 1 tahun arus kas.');
+    let cumulative = 0;
+    totalCf = 0;
+    payback = null;
+    for (let i = 0; i < inputs.length; i++) {
+      const cf = parseFloat(inputs[i].value) || 0;
+      totalCf += cf;
+      const prevCum = cumulative;
+      cumulative += cf;
+      if (payback === null && cumulative >= initial) {
+        const fraction = (initial - prevCum) / cf;
+        payback = i + fraction;
+      }
+    }
+    if (payback === null) {
+      document.getElementById('res-payback').textContent = '> ' + inputs.length + ' tahun';
+      document.getElementById('res-badge').textContent = '⚠️ Belum balik modal';
+      document.getElementById('res-badge').className = 'result-badge badge-obese';
+      document.getElementById('res-initial').textContent = fmt(initial);
+      document.getElementById('res-total-cf').textContent = fmt(totalCf) + ' (' + inputs.length + ' tahun)';
+      document.getElementById('res-roi').textContent = ((totalCf - initial) / initial * 100).toFixed(1) + '%';
+      return document.getElementById('result').classList.add('show');
+    }
+    roiPct = ((totalCf - initial) / initial * 100).toFixed(1);
+  }
+
+  const years = Math.floor(payback);
+  const months = Math.round((payback - years) * 12);
+  let paybackStr = years > 0 ? years + ' tahun' : '';
+  if (months > 0) paybackStr += (paybackStr ? ' ' : '') + months + ' bulan';
+  if (!paybackStr) paybackStr = '< 1 bulan';
+
+  let badgeText, badgeClass;
+  if (payback <= 2) { badgeText = '🏆 Sangat Cepat'; badgeClass = 'badge-normal'; }
+  else if (payback <= 5) { badgeText = '✅ Baik'; badgeClass = 'badge-normal'; }
+  else if (payback <= 10) { badgeText = '⚠️ Sedang'; badgeClass = 'badge-overweight'; }
+  else { badgeText = '🔴 Lambat'; badgeClass = 'badge-obese'; }
+
+  document.getElementById('res-payback').textContent = paybackStr;
+  const badge = document.getElementById('res-badge');
+  badge.textContent = badgeText;
+  badge.className = 'result-badge ' + badgeClass;
+  document.getElementById('res-initial').textContent = fmt(initial);
+  document.getElementById('res-total-cf').textContent = fmt(totalCf);
+  document.getElementById('res-roi').textContent = roiPct + '%';
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+// Add default 5 years
+for (let i = 0; i < 5; i++) addCfRow();
+</script>
+</body>
+</html>
