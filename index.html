@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaCalcs — Free Online Calculators for Everyone</title>
+  <meta name="description" content="Free multilingual online calculators. BMI, age, finance, unit conversion and more — available in Indonesian, Portuguese, and Japanese." />
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="id"    href="https://novacalcs.com/id/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://novacalcs.com/br/" />
+  <link rel="alternate" hreflang="ja"    href="https://novacalcs.com/jp/" />
+  <link rel="alternate" hreflang="x-default" href="https://novacalcs.com/" />
+
+  <!-- Performance: async font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap"
+        media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&display=swap" />
+  </noscript>
+
+  <style>
+    :root {
+      --bg-base:    #080c14;
+      --bg-surface: #0f1623;
+      --bg-card:    #131c2e;
+      --border:     rgba(255,255,255,0.06);
+      --mint:       #00C9B1;
+      --mint-dim:   rgba(0,201,177,0.12);
+      --text-primary:   #e8edf5;
+      --text-secondary: #8a97aa;
+      --font: 'DM Sans', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Animated background dots */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(0,201,177,0.07) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0,201,177,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .landing-wrap {
+      width: 100%;
+      max-width: 680px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .brand-logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+
+    .brand-logo span { color: var(--mint); }
+
+    .brand-tagline {
+      font-size: 0.938rem;
+      color: var(--text-secondary);
+    }
+
+    .lang-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    @media (min-width: 480px) {
+      .lang-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .lang-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 28px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lang-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--mint-dim) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .lang-card:hover {
+      border-color: rgba(0,201,177,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 24px rgba(0,201,177,0.18);
+    }
+
+    .lang-card:hover::before { opacity: 1; }
+
+    .lang-card.priority-1 { border-color: rgba(0,201,177,0.2); }
+
+    .lang-flag {
+      font-size: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .lang-name {
+      font-size: 1rem;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+
+    .lang-sub {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .lang-badge {
+      display: inline-flex;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.688rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-live   { background: rgba(0,201,177,0.15); color: var(--mint); }
+    .badge-soon   { background: rgba(255,255,255,0.06); color: var(--text-secondary); }
+
+    .calc-count {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    .calc-count strong { color: var(--mint); }
+
+    .footer-note {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+    }
+
+    .footer-note a { color: var(--mint); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="landing-wrap">
+    <div class="brand">
+      <div class="brand-logo">Nova<span>Calcs</span></div>
+      <div class="brand-tagline">Free online calculators — available in your language</div>
+    </div>
+
+    <div class="lang-grid">
+
+      <a href="/id/" class="lang-card priority-1">
+        <div class="lang-flag">🇮🇩</div>
+        <div class="lang-name">Bahasa Indonesia</div>
+        <div class="lang-sub">Kalkulator online gratis</div>
+        <div class="lang-badge badge-live">Live</div>
+        <div class="calc-count"><strong>30+</strong> kalkulator</div>
+      </a>
+
+      <a href="/br/" class="lang-card">
+        <div class="lang-flag">🇧🇷</div>
+        <div class="lang-name">Português (BR)</div>
+        <div class="lang-sub">Calculadoras online grátis</div>
+        <div class="lang-badge badge-soon">Em breve</div>
+        <div class="calc-count"><strong>30+</strong> calculadoras</div>
+      </a>
+
+      <a href="/jp/" class="lang-card">
+        <div class="lang-flag">🇯🇵</div>
+        <div class="lang-name">日本語</div>
+        <div class="lang-sub">無料オンライン計算機</div>
+        <div class="lang-badge badge-soon">近日公開</div>
+        <div class="calc-count"><strong>30+</strong> 計算機</div>
+      </a>
+
+    </div>
+
+  </div>
+</body>
+</html>

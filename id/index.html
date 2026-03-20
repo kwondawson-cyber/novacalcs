@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaCalcs — Kalkulator Online Gratis | BMI, Usia, Keuangan & Lainnya</title>
+  <meta name="description" content="Kalkulator online gratis untuk semua kebutuhan Anda. BMI, usia, keuangan, konversi satuan, dan 30+ kalkulator lainnya. Cepat, akurat, mudah digunakan." />
+  <meta name="keywords" content="kalkulator online, kalkulator BMI, kalkulator usia, kalkulator keuangan, konversi satuan, kalkulator gratis" />
+
+  <!-- OG -->
+  <meta property="og:title" content="NovaCalcs — Kalkulator Online Gratis" />
+  <meta property="og:description" content="30+ kalkulator online gratis. BMI, usia, keuangan, konversi satuan dan banyak lagi." />
+  <meta property="og:url" content="https://novacalcs.com/id/" />
+  <meta property="og:type" content="website" />
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="id"    href="https://novacalcs.com/id/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://novacalcs.com/br/" />
+  <link rel="alternate" hreflang="ja"    href="https://novacalcs.com/jp/" />
+  <link rel="alternate" hreflang="x-default" href="https://novacalcs.com/" />
+  <link rel="canonical" href="https://novacalcs.com/id/" />
+
+  <!-- Fonts: async -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&family=Noto+Sans:wght@400;500;700&display=swap"
+        media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans:wght@400;700&display=swap" />
+  </noscript>
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="/style.css" />
+
+  <!-- Calculator data (defined before common.js) -->
+  <script>
+  window.NC_CALCS = [
+    // ── KESEHATAN ──────────────────────────────
+    { id:'bmi',         slug:'kalkulator-bmi',          cat:'kesehatan', icon:'⚖️',  name:'Kalkulator BMI',         desc:'Hitung Indeks Massa Tubuh dan kategori berat badan Anda', keywords:['berat badan','tinggi','obesitas'], badge:'popular' },
+    { id:'kalori',      slug:'kalkulator-kalori',       cat:'kesehatan', icon:'🔥',  name:'Kalkulator Kalori',      desc:'Hitung kebutuhan kalori harian berdasarkan aktivitas Anda', keywords:['diet','kalori','makanan'] },
+    { id:'usia',        slug:'kalkulator-usia',         cat:'kesehatan', icon:'🎂',  name:'Kalkulator Usia',        desc:'Hitung usia tepat Anda dalam tahun, bulan, dan hari', keywords:['umur','lahir','ulang tahun'], badge:'popular' },
+    { id:'air',         slug:'kebutuhan-air',           cat:'kesehatan', icon:'💧',  name:'Kebutuhan Air Harian',   desc:'Berapa liter air yang sebaiknya Anda minum setiap hari?', keywords:['air minum','hidrasi'] },
+    { id:'kehamilan',   slug:'kalkulator-kehamilan',    cat:'kesehatan', icon:'🤰',  name:'Kalkulator Kehamilan',   desc:'Hitung usia kehamilan dan perkiraan tanggal lahir', keywords:['hamil','HPL','trimester'], badge:'new' },
+    { id:'bmi-ideal',   slug:'berat-badan-ideal',       cat:'kesehatan', icon:'🏋️',  name:'Berat Badan Ideal',      desc:'Hitung berat badan ideal sesuai tinggi dan jenis kelamin Anda', keywords:['ideal','berat','tinggi'] },
+    { id:'ovulasi',     slug:'kalkulator-ovulasi',      cat:'kesehatan', icon:'📅',  name:'Kalkulator Ovulasi',     desc:'Prediksi masa subur dan siklus menstruasi Anda', keywords:['menstruasi','subur','siklus'] },
+
+    // ── KEUANGAN ──────────────────────────────
+    { id:'pph',         slug:'kalkulator-pph',          cat:'keuangan',  icon:'💼',  name:'Kalkulator PPh',         desc:'Hitung Pajak Penghasilan (PPh 21) sesuai tarif 2024', keywords:['pajak','pph21','gaji'], badge:'new' },
+    { id:'kpr',         slug:'kalkulator-kpr',          cat:'keuangan',  icon:'🏠',  name:'Kalkulator KPR',         desc:'Simulasi cicilan rumah (KPR) berdasarkan harga dan tenor', keywords:['rumah','cicilan','kpr','kredit'] },
+    { id:'bunga',       slug:'kalkulator-bunga',        cat:'keuangan',  icon:'📈',  name:'Kalkulator Bunga',       desc:'Hitung bunga tabungan dan investasi — bunga majemuk & sederhana', keywords:['bunga','investasi','compound'] },
+    { id:'tabungan',    slug:'kalkulator-tabungan',     cat:'keuangan',  icon:'🏦',  name:'Kalkulator Tabungan',    desc:'Proyeksi hasil tabungan Anda dalam jangka panjang', keywords:['tabungan','bank','deposito'] },
+    { id:'ppn',         slug:'kalkulator-ppn',          cat:'keuangan',  icon:'🧾',  name:'Kalkulator PPN',         desc:'Hitung Pajak Pertambahan Nilai (PPN) 11% secara instan', keywords:['ppn','pajak','belanja'] },
+
+    // ── MATEMATIKA ────────────────────────────
+    { id:'persen',      slug:'kalkulator-persen',       cat:'matematika',icon:'%',   name:'Kalkulator Persen',      desc:'Hitung persentase, kenaikan, penurunan, dan diskon dengan cepat', keywords:['persen','diskon','naik','turun'], badge:'popular' },
+    { id:'rata2',       slug:'kalkulator-rata-rata',    cat:'matematika',icon:'📊',  name:'Kalkulator Rata-rata',   desc:'Hitung mean, median, dan modus dari sekumpulan angka', keywords:['rata-rata','mean','median'] },
+    { id:'pangkat',     slug:'kalkulator-pangkat',      cat:'matematika',icon:'🔢',  name:'Pangkat & Akar',         desc:'Hitung perpangkatan dan akar pangkat dengan mudah', keywords:['pangkat','akar','kuadrat'] },
+    { id:'pecahan',     slug:'kalkulator-pecahan',      cat:'matematika',icon:'➗',  name:'Kalkulator Pecahan',     desc:'Penjumlahan, pengurangan, perkalian dan pembagian pecahan', keywords:['pecahan','fraksi','pembagian'] },
+    { id:'diskon',      slug:'kalkulator-diskon',       cat:'matematika',icon:'🏷️',  name:'Kalkulator Diskon',      desc:'Hitung harga setelah diskon dan persentase penghematan', keywords:['diskon','sale','hemat'] },
+
+    // ── KONVERSI ──────────────────────────────
+    { id:'suhu',        slug:'konversi-suhu',           cat:'konversi',  icon:'🌡️',  name:'Konversi Suhu',          desc:'Konversi Celsius, Fahrenheit, dan Kelvin secara instan', keywords:['suhu','celsius','fahrenheit','kelvin'] },
+    { id:'berat',       slug:'konversi-berat',          cat:'konversi',  icon:'⚖️',  name:'Konversi Berat',         desc:'Konversi kg, gram, ons, pound, dan satuan berat lainnya', keywords:['berat','kg','gram','pound'] },
+    { id:'panjang',     slug:'konversi-panjang',        cat:'konversi',  icon:'📏',  name:'Konversi Panjang',       desc:'Konversi meter, km, mil, inci, kaki, dan satuan panjang lainnya', keywords:['panjang','meter','km','mil'] },
+    { id:'luas',        slug:'konversi-luas',           cat:'konversi',  icon:'🗺️',  name:'Konversi Luas',          desc:'Konversi m², hektare, are, km², dan satuan luas lainnya', keywords:['luas','hektare','meter persegi'] },
+    { id:'kecepatan',   slug:'konversi-kecepatan',      cat:'konversi',  icon:'🚀',  name:'Konversi Kecepatan',     desc:'Konversi km/jam, m/s, mil/jam, dan knot', keywords:['kecepatan','kmh','mph','knot'] },
+    { id:'matauang',    slug:'konversi-mata-uang',      cat:'konversi',  icon:'💱',  name:'Konversi Mata Uang',     desc:'Kurs Rupiah ke USD, EUR, JPY, SGD dan mata uang lainnya', keywords:['kurs','rupiah','dollar','euro'], badge:'popular' },
+
+    // ── TANGGAL & WAKTU ───────────────────────
+    { id:'selisih',     slug:'selisih-tanggal',         cat:'tanggal',   icon:'📆',  name:'Selisih Tanggal',        desc:'Hitung jarak antara dua tanggal dalam hari, minggu, dan bulan', keywords:['tanggal','hari','selisih','jarak'] },
+    { id:'hari-kerja',  slug:'hari-kerja',              cat:'tanggal',   icon:'📋',  name:'Kalkulator Hari Kerja',  desc:'Hitung jumlah hari kerja antara dua tanggal (tanpa weekend)', keywords:['hari kerja','bisnis','weekend'] },
+    { id:'umur',        slug:'kalkulator-umur',         cat:'tanggal',   icon:'🕯️',  name:'Umur Tepat',             desc:'Hitung umur lengkap dalam tahun, bulan, hari, jam, dan menit', keywords:['umur','usia','lahir','detail'] },
+
+    // ── UTILITAS ──────────────────────────────
+    { id:'tip',         slug:'kalkulator-tip',          cat:'utilitas',  icon:'🍽️',  name:'Kalkulator Tip',         desc:'Hitung tip dan bagi tagihan restoran dengan mudah', keywords:['tip','restoran','bagi tagihan'] },
+    { id:'tagihan',     slug:'pembagi-tagihan',         cat:'utilitas',  icon:'👥',  name:'Pembagi Tagihan',        desc:'Bagi tagihan patungan secara merata di antara beberapa orang', keywords:['tagihan','patungan','bayar bareng'] },
+    { id:'random',      slug:'generator-angka-random',  cat:'utilitas',  icon:'🎲',  name:'Generator Angka',        desc:'Hasilkan angka acak dalam rentang tertentu untuk undian atau game', keywords:['random','acak','undian','lotre'] },
+  ];
+
+  window.NC_CATEGORIES = [
+    { id:'all',       label:'Semua',       icon:'🔢', count: window.NC_CALCS.length },
+    { id:'kesehatan', label:'Kesehatan',   icon:'❤️', count: 7  },
+    { id:'keuangan',  label:'Keuangan',    icon:'💰', count: 5  },
+    { id:'matematika',label:'Matematika',  icon:'📐', count: 5  },
+    { id:'konversi',  label:'Konversi',    icon:'🔄', count: 6  },
+    { id:'tanggal',   label:'Tanggal',     icon:'📅', count: 3  },
+    { id:'utilitas',  label:'Utilitas',    icon:'🛠️', count: 3  },
+  ];
+  </script>
+</head>
+
+<body>
+
+  <!-- ============================
+       HEADER
+       ============================ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/id/" class="site-logo">
+        Nova<span>Calcs</span>
+      </a>
+
+      <div class="header-search">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Cari kalkulator…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="header-lang">
+        <a href="/id/" class="lang-btn active">🇮🇩 ID</a>
+        <a href="/br/" class="lang-btn">🇧🇷 BR</a>
+        <a href="/jp/" class="lang-btn">🇯🇵 JP</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================
+       CATEGORY BAR
+       ============================ -->
+  <nav class="category-bar" aria-label="Kategori kalkulator">
+    <div class="category-tabs" id="category-tabs">
+      <!-- Rendered by JS below -->
+    </div>
+  </nav>
+
+  <!-- ============================
+       MAIN
+       ============================ -->
+  <main class="page-main">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" aria-label="Filter kategori">
+      <div class="sidebar-inner">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Kategori</div>
+          <div id="sidebar-cats"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER CONTENT -->
+    <div class="content-area">
+
+      <!-- Hero strip -->
+      <div class="hero-strip">
+        <div class="hero-title">Kalkulator Online <span class="accent">Gratis</span></div>
+        <div class="hero-sub">30+ kalkulator untuk kesehatan, keuangan, matematika & konversi</div>
+      </div>
+
+      <!-- Favorites section (hidden until user stars something) -->
+      <section id="favorites-section" class="favorites-section hidden">
+        <div class="section-header">
+          <span class="section-title-icon">★</span>
+          <span class="section-title">Favorit Saya</span>
+        </div>
+        <div class="calc-grid" id="favorites-grid"></div>
+      </section>
+
+      <!-- Ad slot -->
+      <div class="ad-slot" aria-label="Iklan">
+        <!-- AdSense slot will go here -->
+        Advertisement
+      </div>
+
+      <!-- Main calculator grid -->
+      <section>
+        <div class="section-header">
+          <span class="section-title-icon">🔢</span>
+          <span class="section-title" id="grid-label">Semua Kalkulator</span>
+        </div>
+        <div class="calc-grid" id="main-grid">
+          <!-- Rendered by common.js -->
+        </div>
+        <div id="no-results" class="no-results hidden">
+          <div class="nr-icon">🔍</div>
+          <div class="nr-text">Kalkulator tidak ditemukan. Coba kata kunci lain.</div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel" aria-label="Kalkulator terkait">
+      <div class="right-panel-inner">
+
+        <div class="related-card">
+          <div class="related-title">Kalkulator Populer</div>
+          <a href="/id/kalkulator-bmi.html"   class="related-link"><span class="ricon">⚖️</span> Kalkulator BMI</a>
+          <a href="/id/kalkulator-usia.html"  class="related-link"><span class="ricon">🎂</span> Kalkulator Usia</a>
+          <a href="/id/kalkulator-persen.html"class="related-link"><span class="ricon">%</span>  Kalkulator Persen</a>
+          <a href="/id/konversi-mata-uang.html"class="related-link"><span class="ricon">💱</span> Kurs Rupiah</a>
+          <a href="/id/kalkulator-pph.html"   class="related-link"><span class="ricon">💼</span> Kalkulator PPh</a>
+        </div>
+
+        <div class="related-card">
+          <div class="related-title">Kalkulator Baru</div>
+          <a href="/id/kalkulator-pph.html"       class="related-link"><span class="ricon">🆕</span> PPh 2024</a>
+          <a href="/id/kalkulator-kehamilan.html"  class="related-link"><span class="ricon">🆕</span> Kehamilan</a>
+        </div>
+
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- ============================
+       FOOTER
+       ============================ -->
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="/id/">Beranda</a>
+      <a href="/id/tentang.html">Tentang</a>
+      <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+      <a href="https://everycalc.kr">everycalc.kr</a>
+    </div>
+    <div>© 2025 NovaCalcs · Kalkulator online gratis untuk semua</div>
+  </footer>
+
+  <!-- JS: defer -->
+  <script defer src="/common.js"></script>
+
+  <script>
+  // Render category tabs & sidebar from data
+  (function(){
+    function buildTabs(){
+      const container = document.getElementById('category-tabs');
+      if(!container) return;
+      container.innerHTML = window.NC_CATEGORIES.map(c =>
+        `<button class="cat-tab${c.id==='all'?' active':''}" data-cat="${c.id}">
+          ${c.icon} ${c.label}
+          <span class="count">${c.count}</span>
+        </button>`
+      ).join('');
+    }
+
+    function buildSidebar(){
+      const container = document.getElementById('sidebar-cats');
+      if(!container) return;
+      container.innerHTML = window.NC_CATEGORIES.map(c =>
+        `<button class="sidebar-cat${c.id==='all'?' active':''}" data-cat="${c.id}">
+          <span class="cat-icon">${c.icon}</span>
+          ${c.label}
+          <span class="cat-num">${c.count}</span>
+        </button>`
+      ).join('');
+    }
+
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', function(){ buildTabs(); buildSidebar(); });
+    } else {
+      buildTabs(); buildSidebar();
+    }
+  })();
+  </script>
+
+  <!-- Structured data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NovaCalcs",
+    "url": "https://novacalcs.com/id/",
+    "description": "Kalkulator online gratis — BMI, usia, keuangan, konversi satuan dan banyak lagi",
+    "inLanguage": "id",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://novacalcs.com/id/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+</body>
+</html>
