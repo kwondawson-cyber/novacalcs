@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Gaji Bersih — Hitung Take-Home Pay Setelah Potongan | NovaCalcs</title>
+<meta name="description" content="Hitung gaji bersih (take-home pay) setelah dipotong PPh 21, BPJS Kesehatan, dan BPJS Ketenagakerjaan. Ketahui berapa yang benar-benar Anda terima setiap bulan."/>
+<meta name="keywords" content="kalkulator gaji bersih, take home pay, gaji setelah pajak, potongan gaji, slip gaji, BPJS gaji"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-gaji-bersih.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-gaji-bersih.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.breakdown-bar { margin: 12px 0; }
+.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11px; }
+.bar-label { min-width: 120px; color: var(--text-secondary); }
+.bar-track { flex: 1; height: 6px; background: var(--bg-input); border-radius: 3px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+.bar-val { min-width: 90px; text-align: right; font-weight: 600; color: var(--text-primary); }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Gaji Bersih</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">💵 Kalkulator Gaji Bersih</div>
+      <div class="calc-subtitle">Hitung take-home pay setelah semua potongan</div>
+
+      <div class="field"><label>Gaji Pokok (Rp/bulan)</label><input type="number" id="gaji" placeholder="Contoh: 8000000" oninput="liveCalc()"/></div>
+      <div class="field"><label>Tunjangan Tetap (Rp/bulan)</label><input type="number" id="tunjangan" value="0" oninput="liveCalc()"/></div>
+      <div class="field"><label>Status PTKP</label>
+        <select id="ptkp" onchange="liveCalc()">
+          <option value="54000000">TK/0 — Lajang</option>
+          <option value="58500000">TK/1 — Lajang + 1 tanggungan</option>
+          <option value="63000000">TK/2 — Lajang + 2 tanggungan</option>
+          <option value="67500000">TK/3 — Lajang + 3 tanggungan</option>
+          <option value="58500000">K/0 — Menikah</option>
+          <option value="63000000">K/1 — Menikah + 1 tanggungan</option>
+          <option value="67500000">K/2 — Menikah + 2 tanggungan</option>
+          <option value="72000000">K/3 — Menikah + 3 tanggungan</option>
+        </select>
+      </div>
+      <div class="field"><label>Potongan tambahan (BPJS, dll.)</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-bpjs-ya" onclick="setBpjs(true,this)">Sertakan BPJS</div>
+          <div class="radio-btn" id="btn-bpjs-tidak" onclick="setBpjs(false,this)">Tanpa BPJS</div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="liveCalc()">Hitung Gaji Bersih</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-takehome">—</div>
+          <div class="result-label">Gaji bersih (take-home pay)</div>
+        </div>
+        <div class="breakdown-bar" id="breakdown" style="display:none">
+          <div class="bar-row"><span class="bar-label">Gaji bruto</span><div class="bar-track"><div class="bar-fill" id="bar-bruto" style="background:var(--mint);width:100%"></div></div><span class="bar-val" id="bv-bruto">—</span></div>
+          <div class="bar-row"><span class="bar-label">PPh 21</span><div class="bar-track"><div class="bar-fill" id="bar-pph" style="background:#f87171"></div></div><span class="bar-val" id="bv-pph">—</span></div>
+          <div class="bar-row" id="bpjs-row"><span class="bar-label">BPJS Kes. (1%)</span><div class="bar-track"><div class="bar-fill" id="bar-bpjs-kes" style="background:#fbbf24"></div></div><span class="bar-val" id="bv-bpjs-kes">—</span></div>
+          <div class="bar-row" id="bpjs-tk-row"><span class="bar-label">BPJS TK JHT (2%)</span><div class="bar-track"><div class="bar-fill" id="bar-bpjs-jht" style="background:#fbbf24"></div></div><span class="bar-val" id="bv-bpjs-jht">—</span></div>
+          <div class="bar-row" id="bpjs-pen-row"><span class="bar-label">BPJS TK JP (1%)</span><div class="bar-track"><div class="bar-fill" id="bar-bpjs-pen" style="background:#fbbf24"></div></div><span class="bar-val" id="bv-bpjs-pen">—</span></div>
+          <div class="bar-row"><span class="bar-label">Take-home pay</span><div class="bar-track"><div class="bar-fill" id="bar-th" style="background:var(--mint)"></div></div><span class="bar-val" id="bv-th">—</span></div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Efektif potongan</span><span class="rval" id="res-pct">—</span></div>
+          <div class="result-row"><span class="rkey">Total potongan</span><span class="rval" id="res-total-pot" style="color:#f87171">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Gaji Bersih — Take-Home Pay Setelah Potongan</h1>
+    <p class="page-desc">Kalkulator gaji bersih ini menghitung berapa yang benar-benar masuk ke rekening Anda setiap bulan setelah dipotong PPh 21, iuran BPJS Kesehatan, dan BPJS Ketenagakerjaan (JHT & JP).</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Komponen Potongan Gaji Karyawan</h2>
+    <table>
+      <tr><th>Jenis Potongan</th><th>Tarif Karyawan</th><th>Tarif Perusahaan</th></tr>
+      <tr><td>PPh 21</td><td>5–35% (progresif)</td><td>—</td></tr>
+      <tr><td>BPJS Kesehatan</td><td>1% dari gaji</td><td>4% dari gaji</td></tr>
+      <tr><td>BPJS TK — JHT</td><td>2% dari gaji</td><td>3,7% dari gaji</td></tr>
+      <tr><td>BPJS TK — JP</td><td>1% dari gaji</td><td>2% dari gaji</td></tr>
+      <tr><td>BPJS TK — JKK</td><td>—</td><td>0,24–1,74% dari gaji</td></tr>
+      <tr><td>BPJS TK — JKM</td><td>—</td><td>0,3% dari gaji</td></tr>
+    </table>
+
+    <h2>Batas Upah untuk BPJS</h2>
+    <ul>
+      <li><strong>BPJS Kesehatan</strong>: Batas upah Rp 12.000.000/bulan (iuran maks Rp 120.000)</li>
+      <li><strong>BPJS TK — JP</strong>: Batas upah Rp 9.559.600/bulan (per 2024)</li>
+      <li><strong>BPJS TK — JHT</strong>: Tidak ada batas upah</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah semua perusahaan wajib mendaftarkan karyawan ke BPJS?</div>
+      <div class="faq-a">Ya. Setiap perusahaan yang mempekerjakan minimal 10 orang karyawan atau membayar upah minimal Rp 1 juta per bulan wajib mendaftarkan karyawannya ke BPJS Ketenagakerjaan dan BPJS Kesehatan. Pelanggaran dapat dikenakan sanksi administratif.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah tunjangan transport dan makan dikenakan pajak?</div>
+      <div class="faq-a">Tunjangan yang dibayarkan dalam bentuk uang (natura uang) dikenakan pajak. Tunjangan dalam bentuk barang (natura barang) seperti makan siang di kantin perusahaan tidak dikenakan pajak. Sejak 2023, fasilitas natura dari pemberi kerja mulai dikenakan pajak.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mengecek potongan BPJS di slip gaji?</div>
+      <div class="faq-a">Slip gaji standar menampilkan iuran BPJS Kesehatan (1%) dan BPJS TK yang terdiri dari JHT (2%) dan JP (1%). Total potongan BPJS dari karyawan sekitar 4% dari gaji. Perusahaan berkontribusi lebih besar namun tidak dipotong dari gaji Anda.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa yang dimaksud dengan kompensasi total (total compensation)?</div>
+      <div class="faq-a">Kompensasi total adalah nilai keseluruhan yang perusahaan keluarkan untuk Anda, termasuk gaji bruto + kontribusi BPJS perusahaan + tunjangan non-uang + fasilitas. Untuk menghitung nilai sebenarnya paket remunerasi Anda, tambahkan kontribusi BPJS perusahaan (~10,74%) ke gaji bruto Anda.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menegosiasikan gaji dengan mempertimbangkan pajak?</div>
+      <div class="faq-a">Saat negosiasi, selalu tanyakan apakah angka yang ditawarkan adalah gaji gross (sebelum pajak) atau net (setelah pajak). Jika gross, gunakan kalkulator ini untuk menghitung take-home pay sebenarnya. Idealnya minta perusahaan memberikan ilustrasi slip gaji lengkap sebelum menerima tawaran.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah gaji di bawah PTKP tetap dipotong PPh 21?</div>
+      <div class="faq-a">Tidak. Jika penghasilan tahunan Anda di bawah PTKP (misalnya Rp 54 juta untuk status TK/0, atau sekitar Rp 4,5 juta/bulan), maka tidak ada PPh 21 yang dipotong. Anda hanya wajib bayar BPJS saja.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
+      <a href="/id/kalkulator-bpjs.html" class="related-item"><span class="ri">🏥</span>BPJS Kesehatan</a>
+      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
+      <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let includeBpjs = true;
+function setBpjs(v, btn) {
+  includeBpjs = v;
+  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['bpjs-row','bpjs-tk-row','bpjs-pen-row'].forEach(id => {
+    document.getElementById(id).style.display = v ? '' : 'none';
+  });
+  liveCalc();
+}
+
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function hitungPph(bruto, ptkp) {
+  const biayaJabatan = Math.min(bruto * 0.05, 500000);
+  const netoTahun = (bruto - biayaJabatan) * 12;
+  const pkp = Math.max(0, Math.floor((netoTahun - ptkp) / 1000) * 1000);
+  if (pkp <= 0) return 0;
+  let pajak = 0;
+  const brackets = [[60e6,0.05],[250e6,0.15],[500e6,0.25],[5000e6,0.30],[Infinity,0.35]];
+  let prev = 0;
+  for (const [batas, tarif] of brackets) {
+    if (pkp <= prev) break;
+    pajak += (Math.min(pkp, batas) - prev) * tarif;
+    prev = batas;
+  }
+  return pajak / 12;
+}
+
+function liveCalc() {
+  const gaji = parseFloat(document.getElementById('gaji').value) || 0;
+  const tunjangan = parseFloat(document.getElementById('tunjangan').value) || 0;
+  const ptkp = parseFloat(document.getElementById('ptkp').value);
+  if (!gaji) return;
+
+  const bruto = gaji + tunjangan;
+  const pph = hitungPph(bruto, ptkp);
+
+  // BPJS karyawan
+  const bpjsKes = includeBpjs ? Math.min(bruto, 12000000) * 0.01 : 0;
+  const bpjsJHT = includeBpjs ? bruto * 0.02 : 0;
+  const bpjsJP  = includeBpjs ? Math.min(bruto, 9559600) * 0.01 : 0;
+  const totalPot = pph + bpjsKes + bpjsJHT + bpjsJP;
+  const takehome = bruto - totalPot;
+  const pct = bruto > 0 ? (totalPot / bruto * 100).toFixed(1) : 0;
+
+  document.getElementById('res-takehome').textContent = fmt(takehome);
+  document.getElementById('res-pct').textContent = pct + '%';
+  document.getElementById('res-total-pot').textContent = '− ' + fmt(totalPot);
+
+  // Bars
+  const setBar = (barId, valId, val) => {
+    const pctW = bruto > 0 ? Math.min(100, val / bruto * 100) : 0;
+    document.getElementById(barId).style.width = pctW + '%';
+    document.getElementById(valId).textContent = fmt(val);
+  };
+  setBar('bar-bruto','bv-bruto', bruto);
+  setBar('bar-pph','bv-pph', pph);
+  setBar('bar-bpjs-kes','bv-bpjs-kes', bpjsKes);
+  setBar('bar-bpjs-jht','bv-bpjs-jht', bpjsJHT);
+  setBar('bar-bpjs-pen','bv-bpjs-pen', bpjsJP);
+  setBar('bar-th','bv-th', takehome);
+
+  document.getElementById('breakdown').style.display = '';
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') liveCalc(); });
+</script>
+</body>
+</html>

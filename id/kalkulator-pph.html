@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator PPh 21 — Hitung Pajak Penghasilan Karyawan 2024 | NovaCalcs</title>
+<meta name="description" content="Hitung PPh 21 (Pajak Penghasilan Pasal 21) karyawan secara otomatis sesuai tarif terbaru 2024. Masukkan gaji bruto dan tunjangan, langsung ketahui pajak yang dipotong."/>
+<meta name="keywords" content="kalkulator PPh 21, hitung PPh 21, pajak penghasilan karyawan, PPh 21 2024, slip gaji pajak, PTKP TER"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pph.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-pph.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator PPh 21</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">💼 Kalkulator PPh 21</div>
+      <div class="calc-subtitle">Pajak Penghasilan Karyawan 2024 (Tarif TER)</div>
+
+      <div class="field"><label>Gaji Pokok (Rp/bulan)</label><input type="number" id="gaji" placeholder="Contoh: 8000000"/></div>
+      <div class="field"><label>Tunjangan Tetap (Rp/bulan)</label><input type="number" id="tunjangan" placeholder="Contoh: 1000000" value="0"/></div>
+      <div class="field"><label>Status PTKP</label>
+        <select id="ptkp">
+          <option value="54000000">TK/0 — Lajang, tidak ada tanggungan</option>
+          <option value="58500000">TK/1 — Lajang, 1 tanggungan</option>
+          <option value="63000000">TK/2 — Lajang, 2 tanggungan</option>
+          <option value="67500000">TK/3 — Lajang, 3 tanggungan</option>
+          <option value="58500000" data-label="K/0">K/0 — Menikah, tidak ada tanggungan</option>
+          <option value="63000000" data-label="K/1">K/1 — Menikah, 1 tanggungan</option>
+          <option value="67500000" data-label="K/2">K/2 — Menikah, 2 tanggungan</option>
+          <option value="72000000" data-label="K/3">K/3 — Menikah, 3 tanggungan</option>
+        </select>
+      </div>
+      <div class="field"><label>Metode Hitung</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-gross" onclick="setMetode('gross',this)">Gross (Karyawan)</div>
+          <div class="radio-btn" id="btn-netto" onclick="setMetode('netto',this)">Gross-Up (Employer)</div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung PPh 21</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-pph">—</div>
+          <div class="result-label">PPh 21 per bulan</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Gaji bruto / bulan</span><span class="rval" id="res-bruto">—</span></div>
+          <div class="result-row"><span class="rkey">Biaya jabatan (5%)</span><span class="rval" id="res-jabatan">—</span></div>
+          <div class="result-row"><span class="rkey">Penghasilan neto / bulan</span><span class="rval" id="res-neto">—</span></div>
+          <div class="result-row"><span class="rkey">Penghasilan neto / tahun</span><span class="rval" id="res-neto-tahun">—</span></div>
+          <div class="result-row"><span class="rkey">PTKP</span><span class="rval" id="res-ptkp">—</span></div>
+          <div class="result-row"><span class="rkey">PKP (Penghasilan Kena Pajak)</span><span class="rval" id="res-pkp">—</span></div>
+          <div class="result-row"><span class="rkey">PPh 21 / tahun</span><span class="rval" id="res-pph-tahun">—</span></div>
+          <div class="result-row"><span class="rkey">Gaji take-home / bulan</span><span class="rval" id="res-takehome" style="color:var(--mint)">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator PPh 21 — Hitung Pajak Penghasilan Karyawan 2024</h1>
+    <p class="page-desc">Hitung PPh 21 karyawan sesuai aturan terbaru 2024 menggunakan tarif TER (Tarif Efektif Rata-rata). Masukkan gaji dan status PTKP Anda untuk mengetahui berapa pajak yang dipotong setiap bulan.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu PPh 21?</h2>
+    <p>PPh Pasal 21 adalah pajak atas penghasilan berupa gaji, upah, honorarium, tunjangan, dan pembayaran lain yang diterima oleh orang pribadi subjek pajak dalam negeri sehubungan dengan pekerjaan. Pajak ini dipotong langsung oleh pemberi kerja dari gaji karyawan setiap bulan.</p>
+
+    <h2>Tarif PPh 21 Terbaru (Pasal 17 UU PPh)</h2>
+    <table>
+      <tr><th>Penghasilan Kena Pajak (PKP) / Tahun</th><th>Tarif</th></tr>
+      <tr><td>Sampai Rp 60.000.000</td><td>5%</td></tr>
+      <tr><td>Rp 60.000.001 – Rp 250.000.000</td><td>15%</td></tr>
+      <tr><td>Rp 250.000.001 – Rp 500.000.000</td><td>25%</td></tr>
+      <tr><td>Rp 500.000.001 – Rp 5.000.000.000</td><td>30%</td></tr>
+      <tr><td>Di atas Rp 5.000.000.000</td><td>35%</td></tr>
+    </table>
+
+    <h2>PTKP (Penghasilan Tidak Kena Pajak) 2024</h2>
+    <table>
+      <tr><th>Status</th><th>PTKP / Tahun</th></tr>
+      <tr><td>TK/0 — Lajang</td><td>Rp 54.000.000</td></tr>
+      <tr><td>TK/1 — Lajang + 1 tanggungan</td><td>Rp 58.500.000</td></tr>
+      <tr><td>K/0 — Menikah</td><td>Rp 58.500.000</td></tr>
+      <tr><td>K/1 — Menikah + 1 tanggungan</td><td>Rp 63.000.000</td></tr>
+      <tr><td>K/2 — Menikah + 2 tanggungan</td><td>Rp 67.500.000</td></tr>
+      <tr><td>K/3 — Menikah + 3 tanggungan</td><td>Rp 72.000.000</td></tr>
+    </table>
+
+    <h2>Cara Hitung PPh 21 Manual</h2>
+    <ol>
+      <li>Hitung <strong>penghasilan bruto</strong> = gaji pokok + tunjangan</li>
+      <li>Kurangi <strong>biaya jabatan</strong> = 5% × bruto (maks Rp 500.000/bulan)</li>
+      <li>Hasil = <strong>penghasilan neto bulanan</strong></li>
+      <li>Kalikan 12 = <strong>penghasilan neto tahunan</strong></li>
+      <li>Kurangi <strong>PTKP</strong> sesuai status = <strong>PKP (Penghasilan Kena Pajak)</strong></li>
+      <li>Hitung pajak progresif dari PKP = <strong>PPh 21 tahunan</strong></li>
+      <li>Bagi 12 = <strong>PPh 21 bulanan</strong></li>
+    </ol>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu NPWP dan apakah wajib untuk karyawan?</div>
+      <div class="faq-a">NPWP (Nomor Pokok Wajib Pajak) wajib dimiliki oleh setiap karyawan yang penghasilannya melebihi PTKP. Karyawan tanpa NPWP dikenakan tarif PPh 21 lebih tinggi 20% dari tarif normal. Sejak 2024, NIK (KTP) sudah bisa digunakan sebagai NPWP.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah THR dan bonus dikenakan PPh 21?</div>
+      <div class="faq-a">Ya. THR dan bonus termasuk penghasilan tidak teratur yang tetap dikenakan PPh 21. Cara perhitungannya berbeda — pajak dihitung dari selisih PKP dengan dan tanpa THR/bonus, sehingga tarif pajak bisa lebih tinggi untuk bulan tersebut.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa beda gross dan gross-up?</div>
+      <div class="faq-a">Gross: pajak ditanggung karyawan, dipotong dari gaji. Gross-up: perusahaan menanggung pajak karyawan — gaji dinaikkan sedemikian rupa sehingga take-home pay sama dengan yang disepakati setelah dipotong pajak.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah iuran BPJS berpengaruh pada PPh 21?</div>
+      <div class="faq-a">Ya. Iuran BPJS Ketenagakerjaan yang dibayar karyawan (Jaminan Hari Tua 2% dan Pensiun 1%) dapat dikurangkan dari penghasilan bruto sebelum dihitung PPh 21. Kalkulator ini menggunakan penghasilan bruto sederhana tanpa komponen BPJS untuk kemudahan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kapan batas waktu pelaporan SPT Tahunan karyawan?</div>
+      <div class="faq-a">SPT Tahunan PPh Orang Pribadi wajib dilaporkan paling lambat 31 Maret setiap tahun untuk tahun pajak sebelumnya. Karyawan dengan penghasilan hanya dari satu pemberi kerja yang sudah memotong PPh 21 dapat menggunakan formulir 1770S atau 1770SS.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika saya punya penghasilan dari dua tempat kerja?</div>
+      <div class="faq-a">Anda wajib melaporkan seluruh penghasilan dari semua pemberi kerja dalam SPT Tahunan. Pemberi kerja kedua menghitung PPh 21 tanpa memperhitungkan PTKP (dianggap sudah dipakai di pemberi kerja pertama), sehingga pajaknya bisa lebih besar.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
+      <a href="/id/kalkulator-bpjs.html" class="related-item"><span class="ri">🏥</span>BPJS Kesehatan</a>
+      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
+      <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let metode = 'gross';
+function setMetode(m, btn) {
+  metode = m;
+  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function hitungPajakProgresif(pkp) {
+  if (pkp <= 0) return 0;
+  let pajak = 0;
+  const brackets = [[60e6,0.05],[250e6,0.15],[500e6,0.25],[5000e6,0.30],[Infinity,0.35]];
+  let prev = 0;
+  for (const [batas, tarif] of brackets) {
+    if (pkp <= prev) break;
+    pajak += (Math.min(pkp, batas) - prev) * tarif;
+    prev = batas;
+  }
+  return pajak;
+}
+
+function calculate() {
+  const gaji = parseFloat(document.getElementById('gaji').value) || 0;
+  const tunjangan = parseFloat(document.getElementById('tunjangan').value) || 0;
+  const ptkp = parseFloat(document.getElementById('ptkp').value);
+  if (!gaji) return alert('Masukkan gaji pokok terlebih dahulu.');
+
+  const bruto = gaji + tunjangan;
+  const biayaJabatan = Math.min(bruto * 0.05, 500000);
+  const netoPerBulan = bruto - biayaJabatan;
+  const netoPerTahun = netoPerBulan * 12;
+  const pkp = Math.max(0, netoPerTahun - ptkp);
+  const pkpBulatkan = Math.floor(pkp / 1000) * 1000;
+  const pphTahun = hitungPajakProgresif(pkpBulatkan);
+  const pphBulan = pphTahun / 12;
+  const takehome = bruto - pphBulan;
+
+  document.getElementById('res-pph').textContent = fmt(pphBulan);
+  document.getElementById('res-bruto').textContent = fmt(bruto);
+  document.getElementById('res-jabatan').textContent = '− ' + fmt(biayaJabatan);
+  document.getElementById('res-neto').textContent = fmt(netoPerBulan);
+  document.getElementById('res-neto-tahun').textContent = fmt(netoPerTahun);
+  document.getElementById('res-ptkp').textContent = '− ' + fmt(ptkp);
+  document.getElementById('res-pkp').textContent = fmt(pkpBulatkan);
+  document.getElementById('res-pph-tahun').textContent = fmt(pphTahun);
+  document.getElementById('res-takehome').textContent = fmt(takehome);
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>

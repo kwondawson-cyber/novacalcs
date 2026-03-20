@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Investasi — Simulasi Bunga Majemuk & Reksa Dana | NovaCalcs</title>
+<meta name="description" content="Simulasikan pertumbuhan investasi Anda dengan kalkulator bunga majemuk. Hitung hasil investasi reksa dana, deposito, atau saham berdasarkan modal awal, setoran rutin, dan return tahunan."/>
+<meta name="keywords" content="kalkulator investasi, bunga majemuk, simulasi reksa dana, return investasi, kalkulator tabungan investasi"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-investasi.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-investasi.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.inv-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.inv-preset { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer; transition: all 0.15s; }
+.inv-preset:hover, .inv-preset.on { background: var(--mint-dim); color: var(--mint); border-color: rgba(0,201,177,0.35); }
+.growth-bars { margin-top: 12px; }
+.g-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 11px; }
+.g-year { min-width: 40px; color: var(--text-muted); }
+.g-track { flex: 1; height: 8px; background: var(--bg-input); border-radius: 4px; overflow: hidden; }
+.g-fill { height: 100%; border-radius: 4px; background: var(--mint); transition: width 0.5s ease; }
+.g-val { min-width: 80px; text-align: right; font-weight: 600; color: var(--mint); }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Investasi</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">📈 Kalkulator Investasi</div>
+      <div class="calc-subtitle">Simulasi pertumbuhan investasi jangka panjang</div>
+
+      <div class="field"><label>Modal Awal (Rp)</label><input type="number" id="modal" placeholder="Contoh: 10000000" oninput="calculate()"/></div>
+      <div class="field"><label>Setoran Rutin per Bulan (Rp)</label><input type="number" id="setoran" value="0" placeholder="0 = tidak ada setoran rutin" oninput="calculate()"/></div>
+      <div class="field">
+        <label>Return per tahun (%)</label>
+        <div class="inv-presets">
+          <div class="inv-preset" onclick="setReturn(5,this)">Deposito 5%</div>
+          <div class="inv-preset" onclick="setReturn(7,this)">Obligasi 7%</div>
+          <div class="inv-preset on" onclick="setReturn(12,this)">Reksa Dana 12%</div>
+          <div class="inv-preset" onclick="setReturn(15,this)">Saham 15%</div>
+        </div>
+        <input type="number" id="return-rate" value="12" step="0.1" oninput="calculate()"/>
+      </div>
+      <div class="field"><label>Jangka Waktu (tahun)</label>
+        <div class="radio-group" id="tahun-opts">
+          <div class="radio-btn" onclick="setTahun(5,this)">5 th</div>
+          <div class="radio-btn" onclick="setTahun(10,this)">10 th</div>
+          <div class="radio-btn active" onclick="setTahun(20,this)">20 th</div>
+          <div class="radio-btn" onclick="setTahun(30,this)">30 th</div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Simulasikan Investasi</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-akhir">—</div>
+          <div class="result-label">Nilai akhir investasi</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Total modal disetor</span><span class="rval" id="res-setor">—</span></div>
+          <div class="result-row"><span class="rkey">Keuntungan (return)</span><span class="rval" id="res-untung" style="color:var(--mint)">—</span></div>
+          <div class="result-row"><span class="rkey">Pertumbuhan total</span><span class="rval" id="res-growth">—</span></div>
+        </div>
+        <div class="growth-bars" id="growth-bars" style="display:none">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:8px">Proyeksi per Tahun</div>
+          <div id="bar-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Investasi — Simulasi Bunga Majemuk & Reksa Dana</h1>
+    <p class="page-desc">Lihat bagaimana investasi Anda bisa tumbuh seiring waktu. Kalkulator ini menunjukkan kekuatan bunga majemuk (compound interest) untuk modal awal, setoran rutin, dan berbagai tingkat return investasi.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Kekuatan Bunga Majemuk</h2>
+    <p>Bunga majemuk adalah proses di mana return investasi diinvestasikan kembali sehingga menghasilkan return di atas return sebelumnya. Ini sering disebut "bunga berbunga" — dan inilah yang membuat investasi jangka panjang sangat powerful.</p>
+    <p><strong>Contoh kekuatan bunga majemuk:</strong> Investasi Rp 10 juta dengan return 12%/tahun selama 30 tahun tanpa tambahan = Rp 299 juta. Hanya dari Rp 10 juta!</p>
+
+    <h2>Perbandingan Return Berbagai Instrumen Investasi (Indonesia)</h2>
+    <table>
+      <tr><th>Instrumen</th><th>Return Rata-rata/Tahun</th><th>Risiko</th></tr>
+      <tr><td>Deposito bank</td><td>4–6%</td><td>Sangat rendah</td></tr>
+      <tr><td>Obligasi negara (ORI/SBR)</td><td>6–8%</td><td>Rendah</td></tr>
+      <tr><td>Reksa dana pasar uang</td><td>4–6%</td><td>Sangat rendah</td></tr>
+      <tr><td>Reksa dana pendapatan tetap</td><td>6–9%</td><td>Rendah-sedang</td></tr>
+      <tr><td>Reksa dana campuran</td><td>8–12%</td><td>Sedang</td></tr>
+      <tr><td>Reksa dana saham</td><td>10–15%</td><td>Tinggi</td></tr>
+      <tr><td>Saham langsung</td><td>Bervariasi</td><td>Tinggi</td></tr>
+    </table>
+
+    <h2>Tips Investasi untuk Pemula di Indonesia</h2>
+    <ul>
+      <li>Mulai lebih awal — waktu adalah aset terbesar dalam investasi jangka panjang</li>
+      <li>Investasi rutin tiap bulan (dollar cost averaging) mengurangi risiko timing</li>
+      <li>Sesuaikan risiko dengan jangka waktu: investasi ≥ 5 tahun boleh lebih agresif</li>
+      <li>Diversifikasi — jangan taruh semua telur dalam satu keranjang</li>
+      <li>Mulai dari produk yang dikenal: reksa dana pasar uang di Bibit, Bareksa, atau bank</li>
+      <li>Return di masa lalu tidak menjamin return di masa depan</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa modal minimum untuk mulai investasi reksa dana?</div>
+      <div class="faq-a">Reksa dana di Indonesia bisa dimulai dari Rp 10.000 di beberapa platform digital seperti Bibit dan Bareksa. Bank konvensional umumnya mulai dari Rp 100.000–Rp 500.000. Tidak ada alasan untuk menunggu — semakin cepat mulai, semakin besar manfaat compounding-nya.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah return 12% per tahun realistis untuk reksa dana?</div>
+      <div class="faq-a">Return 12%/tahun adalah angka rata-rata historis untuk reksa dana saham Indonesia dalam jangka panjang (10+ tahun). Namun ini tidak dijamin — dalam jangka pendek bisa negatif. Reksa dana pasar uang lebih rendah (4–6%) tapi lebih stabil. Pilih sesuai toleransi risiko dan jangka waktu Anda.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah keuntungan reksa dana dikenakan pajak?</div>
+      <div class="faq-a">Untuk reksa dana, keuntungan dari penjualan (capital gain) saat ini tidak dikenakan pajak di Indonesia — ini adalah keuntungan tersendiri dibanding deposito yang bunganya dipotong pajak 20%. Namun regulasi bisa berubah, selalu cek ketentuan terkini.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Mana yang lebih baik: investasi sekaligus atau cicilan (DCA)?</div>
+      <div class="faq-a">Secara teoritis, investasi sekaligus (lump sum) lebih optimal jika timing-nya tepat. Namun bagi kebanyakan investor pemula, Dollar Cost Averaging (DCA) — investasi rutin setiap bulan dengan jumlah tetap — lebih realistis dan mengurangi risiko timing. Kalkulator ini mendukung simulasi keduanya.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik untuk mulai investasi?</div>
+      <div class="faq-a">Jawabannya sederhana: sekarang. Atau 10 tahun yang lalu. Kekuatan bunga majemuk bekerja paling baik dengan waktu yang panjang. Menunggu "kondisi pasar yang tepat" justru sering merugikan karena kehilangan waktu yang berharga. Pastikan Anda sudah punya dana darurat 3–6 bulan sebelum mulai investasi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu IHSG dan bagaimana pengaruhnya pada investasi saham?</div>
+      <div class="faq-a">IHSG (Indeks Harga Saham Gabungan) adalah indikator kinerja seluruh saham di BEI (Bursa Efek Indonesia). Return reksa dana saham umumnya mengikuti pergerakan IHSG dalam jangka panjang. IHSG secara historis tumbuh rata-rata 12–15% per tahun selama 10+ tahun meski dengan fluktuasi besar jangka pendek.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
+      <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
+      <a href="/id/kalkulator-cicilan.html" class="related-item"><span class="ri">💳</span>Kalkulator Cicilan</a>
+      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let tahun = 20;
+const fmt = n => {
+  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(1) + ' M';
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+};
+const fmtFull = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function setReturn(r, btn) {
+  document.getElementById('return-rate').value = r;
+  document.querySelectorAll('.inv-preset').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  calculate();
+}
+
+function setTahun(t, btn) {
+  tahun = t;
+  document.querySelectorAll('#tahun-opts .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calculate();
+}
+
+function calculate() {
+  const modal = parseFloat(document.getElementById('modal').value) || 0;
+  const setoran = parseFloat(document.getElementById('setoran').value) || 0;
+  const rate = parseFloat(document.getElementById('return-rate').value) || 0;
+  if (!modal && !setoran) return;
+
+  const r = rate / 100 / 12;
+  const n = tahun * 12;
+  let nilai = modal;
+  const milestones = [];
+
+  for (let m = 1; m <= n; m++) {
+    nilai = nilai * (1 + r) + setoran;
+    if (m % 12 === 0) milestones.push(nilai);
+  }
+
+  const totalSetor = modal + setoran * n;
+  const hasil = milestones[milestones.length - 1] || nilai;
+  const untung = hasil - totalSetor;
+  const growth = totalSetor > 0 ? ((hasil / totalSetor - 1) * 100).toFixed(1) : 0;
+
+  document.getElementById('res-akhir').textContent = fmtFull(hasil);
+  document.getElementById('res-setor').textContent = fmtFull(totalSetor);
+  document.getElementById('res-untung').textContent = '+' + fmtFull(untung);
+  document.getElementById('res-growth').textContent = '+' + growth + '%';
+
+  // Growth bars
+  const maxVal = Math.max(...milestones);
+  const container = document.getElementById('bar-container');
+  container.innerHTML = milestones.map((v, i) => `
+    <div class="g-row">
+      <span class="g-year">Thn ${i+1}</span>
+      <div class="g-track"><div class="g-fill" style="width:${(v/maxVal*100).toFixed(1)}%"></div></div>
+      <span class="g-val">${fmt(v)}</span>
+    </div>`).join('');
+  document.getElementById('growth-bars').style.display = '';
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator BPJS Kesehatan — Hitung Iuran Bulanan 2024 | NovaCalcs</title>
+<meta name="description" content="Hitung iuran BPJS Kesehatan bulanan Anda berdasarkan kelas dan status kepesertaan. Kelas 1, 2, dan 3 untuk peserta mandiri, serta karyawan dan PBI."/>
+<meta name="keywords" content="kalkulator BPJS Kesehatan, iuran BPJS 2024, biaya BPJS kelas 1 2 3, BPJS mandiri, BPJS pekerja"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bpjs.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-bpjs.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator BPJS Kesehatan</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🏥 Kalkulator BPJS Kesehatan</div>
+      <div class="calc-subtitle">Hitung iuran BPJS Kesehatan bulanan Anda</div>
+
+      <div class="field"><label>Jenis Kepesertaan</label>
+        <select id="jenis" onchange="updateForm()">
+          <option value="mandiri">Peserta Mandiri (PBPU)</option>
+          <option value="pekerja">Pekerja Penerima Upah (PPU/Karyawan)</option>
+          <option value="pbi">PBI (Penerima Bantuan Iuran / Gratis)</option>
+        </select>
+      </div>
+
+      <div id="form-mandiri">
+        <div class="field"><label>Kelas Perawatan</label>
+          <div class="radio-group">
+            <div class="radio-btn" id="btn-k1" onclick="setKelas(1,this)">Kelas 1</div>
+            <div class="radio-btn active" id="btn-k2" onclick="setKelas(2,this)">Kelas 2</div>
+            <div class="radio-btn" id="btn-k3" onclick="setKelas(3,this)">Kelas 3</div>
+          </div>
+        </div>
+        <div class="field"><label>Jumlah anggota keluarga (termasuk Anda)</label>
+          <input type="number" id="anggota" value="1" min="1" max="20" oninput="calculate()"/>
+        </div>
+      </div>
+
+      <div id="form-pekerja" style="display:none">
+        <div class="field"><label>Gaji / Upah per bulan (Rp)</label>
+          <input type="number" id="gaji-bpjs" placeholder="Contoh: 8000000" oninput="calculate()"/>
+        </div>
+      </div>
+
+      <div id="form-pbi" style="display:none">
+        <div style="background:var(--mint-dim);border:1px solid rgba(0,201,177,0.3);border-radius:var(--radius-md);padding:14px;font-size:0.813rem;color:var(--text-secondary)">
+          ✅ Sebagai peserta PBI, iuran BPJS Kesehatan Anda <strong style="color:var(--mint)">ditanggung sepenuhnya oleh pemerintah</strong>. Anda mendapat layanan kelas 3.
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Iuran BPJS</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-iuran">—</div>
+          <div class="result-label" id="res-label">Iuran per bulan</div>
+        </div>
+        <div class="result-rows" id="res-rows"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator BPJS Kesehatan — Iuran Bulanan 2024</h1>
+    <p class="page-desc">Hitung berapa iuran BPJS Kesehatan yang harus Anda bayar setiap bulan berdasarkan jenis kepesertaan, kelas perawatan, dan jumlah anggota keluarga.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Besaran Iuran BPJS Kesehatan 2024</h2>
+    <table>
+      <tr><th>Jenis Peserta</th><th>Iuran / Orang / Bulan</th></tr>
+      <tr><td>Mandiri Kelas 1</td><td>Rp 150.000</td></tr>
+      <tr><td>Mandiri Kelas 2</td><td>Rp 100.000</td></tr>
+      <tr><td>Mandiri Kelas 3</td><td>Rp 35.000 (subsidi pemerintah Rp 7.000)</td></tr>
+      <tr><td>Pekerja Penerima Upah (Karyawan)</td><td>5% dari gaji (karyawan 1%, perusahaan 4%)</td></tr>
+      <tr><td>PBI (fakir miskin & tidak mampu)</td><td>Ditanggung pemerintah penuh</td></tr>
+    </table>
+
+    <h2>Perbedaan Kelas Perawatan BPJS</h2>
+    <table>
+      <tr><th>Kelas</th><th>Kapasitas Kamar</th><th>Fasilitas</th></tr>
+      <tr><td>Kelas 1</td><td>1–2 tempat tidur</td><td>Kamar lebih privat, fasilitas lebih baik</td></tr>
+      <tr><td>Kelas 2</td><td>3–4 tempat tidur</td><td>Standar, cukup nyaman</td></tr>
+      <tr><td>Kelas 3</td><td>4–6 tempat tidur</td><td>Bangsal umum</td></tr>
+    </table>
+    <p>Catatan: Semua kelas mendapatkan layanan medis yang sama. Perbedaan hanya pada fasilitas kamar rawat inap.</p>
+
+    <h2>Batas Upah untuk Iuran Karyawan</h2>
+    <p>Iuran BPJS Kesehatan untuk pekerja penerima upah dihitung 5% dari gaji, dengan batas atas gaji <strong>Rp 12.000.000/bulan</strong>. Artinya, iuran maksimum adalah Rp 600.000/bulan (karyawan Rp 120.000, perusahaan Rp 480.000).</p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mendaftarkan anggota keluarga ke BPJS?</div>
+      <div class="faq-a">Anggota keluarga yang dapat didaftarkan adalah suami/istri dan anak kandung/angkat maksimal 3 anak. Daftarkan melalui aplikasi Mobile JKN, website BPJS Kesehatan, atau kantor BPJS terdekat dengan membawa KK, KTP, dan buku nikah.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa yang terjadi jika telat bayar iuran BPJS?</div>
+      <div class="faq-a">Kepesertaan akan dinonaktifkan jika menunggak lebih dari 1 bulan. Setelah dilunasi, kepesertaan aktif kembali dalam 1×24 jam. Jika dalam 45 hari setelah aktif kembali ada pelayanan rawat inap, akan dikenakan denda 5% dari biaya pelayanan × jumlah bulan menunggak (maks 12 bulan).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah bisa naik kelas perawatan saat dirawat?</div>
+      <div class="faq-a">Bisa, dengan membayar selisih biaya kamar secara mandiri (biaya tambahan). Misalnya peserta kelas 2 ingin dirawat di kelas 1, membayar selisih harga kamar. Namun kenaikan kelas ke VIP atau kelas di atas hak tidak diperkenankan kecuali kondisi darurat.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana alur berobat menggunakan BPJS?</div>
+      <div class="faq-a">Alur standar: (1) Berobat ke Faskes Tingkat 1 (puskesmas/klinik/dokter pratama) sesuai pilihan saat daftar. (2) Jika perlu penanganan lanjutan, faskes 1 memberikan surat rujukan ke RS. (3) Berobat di RS sesuai rujukan. Kondisi darurat dapat langsung ke IGD RS manapun.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah BPJS Kesehatan menanggung semua penyakit?</div>
+      <div class="faq-a">BPJS Kesehatan menanggung hampir semua jenis penyakit sesuai indikasi medis. Beberapa yang tidak ditanggung: perawatan kosmetik/estetika, pengobatan tidak sesuai prosedur, pelayanan di luar negeri, dan beberapa kondisi yang ditentukan dalam regulasi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bisakah peserta mandiri berubah ke kelas yang berbeda?</div>
+      <div class="faq-a">Bisa. Perubahan kelas dapat dilakukan setelah minimal 12 bulan kepesertaan aktif di kelas yang ada. Pengajuan perubahan ke kantor BPJS atau melalui aplikasi Mobile JKN. Perubahan berlaku di bulan berikutnya.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
+      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
+      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
+      <a href="/id/kalkulator-pesangon.html" class="related-item"><span class="ri">📋</span>Pesangon</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let kelas = 2;
+const IURAN = {1: 150000, 2: 100000, 3: 35000};
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function setKelas(k, btn) {
+  kelas = k;
+  document.querySelectorAll('#form-mandiri .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calculate();
+}
+
+function updateForm() {
+  const jenis = document.getElementById('jenis').value;
+  document.getElementById('form-mandiri').style.display = jenis === 'mandiri' ? '' : 'none';
+  document.getElementById('form-pekerja').style.display = jenis === 'pekerja' ? '' : 'none';
+  document.getElementById('form-pbi').style.display    = jenis === 'pbi' ? '' : 'none';
+  document.getElementById('result').classList.remove('show');
+}
+
+function calculate() {
+  const jenis = document.getElementById('jenis').value;
+  const rows = document.getElementById('res-rows');
+
+  if (jenis === 'pbi') {
+    document.getElementById('res-iuran').textContent = 'Rp 0';
+    document.getElementById('res-label').textContent = 'Iuran ditanggung pemerintah';
+    rows.innerHTML = '';
+    document.getElementById('result').classList.add('show');
+    return;
+  }
+
+  if (jenis === 'mandiri') {
+    const anggota = parseInt(document.getElementById('anggota').value) || 1;
+    const iuranPerOrang = IURAN[kelas];
+    const total = iuranPerOrang * anggota;
+    document.getElementById('res-iuran').textContent = fmt(total);
+    document.getElementById('res-label').textContent = 'Iuran per bulan (Kelas ' + kelas + ')';
+    rows.innerHTML = `
+      <div class="result-row"><span class="rkey">Kelas perawatan</span><span class="rval">Kelas ${kelas}</span></div>
+      <div class="result-row"><span class="rkey">Iuran per orang</span><span class="rval">${fmt(iuranPerOrang)}</span></div>
+      <div class="result-row"><span class="rkey">Jumlah anggota</span><span class="rval">${anggota} orang</span></div>
+      <div class="result-row"><span class="rkey">Total per tahun</span><span class="rval">${fmt(total * 12)}</span></div>`;
+  } else {
+    const gaji = parseFloat(document.getElementById('gaji-bpjs').value) || 0;
+    if (!gaji) return;
+    const gajiCapped = Math.min(gaji, 12000000);
+    const iuranKaryawan = gajiCapped * 0.01;
+    const iuranPerusahaan = gajiCapped * 0.04;
+    const total = gajiCapped * 0.05;
+    document.getElementById('res-iuran').textContent = fmt(iuranKaryawan);
+    document.getElementById('res-label').textContent = 'Potongan dari gaji Anda (1%)';
+    rows.innerHTML = `
+      <div class="result-row"><span class="rkey">Gaji dasar perhitungan</span><span class="rval">${fmt(gajiCapped)}</span></div>
+      <div class="result-row"><span class="rkey">Iuran karyawan (1%)</span><span class="rval">${fmt(iuranKaryawan)}</span></div>
+      <div class="result-row"><span class="rkey">Kontribusi perusahaan (4%)</span><span class="rval">${fmt(iuranPerusahaan)}</span></div>
+      <div class="result-row"><span class="rkey">Total iuran (5%)</span><span class="rval">${fmt(total)}</span></div>`;
+  }
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Pesangon — Hitung Uang Pesangon PHK 2024 | NovaCalcs</title>
+<meta name="description" content="Hitung uang pesangon, penghargaan masa kerja, dan penggantian hak sesuai UU Cipta Kerja 2021. Masukkan gaji dan masa kerja untuk simulasi pesangon PHK Anda."/>
+<meta name="keywords" content="kalkulator pesangon, hitung pesangon, uang pesangon PHK, UU Cipta Kerja pesangon, uang penghargaan masa kerja"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pesangon.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-pesangon.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Pesangon</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">📋 Kalkulator Pesangon</div>
+      <div class="calc-subtitle">Simulasi uang pesangon PHK sesuai UU Cipta Kerja</div>
+
+      <div class="field"><label>Upah Sebulan (gaji pokok + tunjangan tetap)</label><input type="number" id="upah" placeholder="Contoh: 8000000"/></div>
+      <div class="field"><label>Masa Kerja (tahun)</label><input type="number" id="masa" placeholder="Contoh: 5" min="0" step="0.5"/></div>
+      <div class="field"><label>Alasan PHK</label>
+        <select id="alasan">
+          <option value="umum">PHK umum / efisiensi perusahaan</option>
+          <option value="pailit">Perusahaan pailit / tutup</option>
+          <option value="pensiun">Pensiun</option>
+          <option value="meninggal">Karyawan meninggal dunia</option>
+          <option value="resign">Mengundurkan diri (resign)</option>
+        </select>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Pesangon</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-total">—</div>
+          <div class="result-label">Total hak yang diterima</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Uang pesangon (UP)</span><span class="rval" id="res-up">—</span></div>
+          <div class="result-row"><span class="rkey">Penghargaan masa kerja (UPMK)</span><span class="rval" id="res-upmk">—</span></div>
+          <div class="result-row"><span class="rkey">Penggantian hak (UPH)</span><span class="rval" id="res-uph">—</span></div>
+          <div class="result-row"><span class="rkey">Multiplier yang diterapkan</span><span class="rval" id="res-mult">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Pesangon PHK — Sesuai UU Cipta Kerja 2021</h1>
+    <p class="page-desc">Hitung hak pesangon Anda jika terkena PHK berdasarkan UU No. 11 Tahun 2020 (Cipta Kerja) dan PP No. 35 Tahun 2021. Kalkulator ini menghitung uang pesangon (UP), penghargaan masa kerja (UPMK), dan penggantian hak (UPH).</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Tabel Uang Pesangon (UP) Berdasarkan Masa Kerja</h2>
+    <table>
+      <tr><th>Masa Kerja</th><th>Uang Pesangon</th></tr>
+      <tr><td>Kurang dari 1 tahun</td><td>1 bulan upah</td></tr>
+      <tr><td>1 tahun – &lt; 2 tahun</td><td>2 bulan upah</td></tr>
+      <tr><td>2 tahun – &lt; 3 tahun</td><td>3 bulan upah</td></tr>
+      <tr><td>3 tahun – &lt; 4 tahun</td><td>4 bulan upah</td></tr>
+      <tr><td>4 tahun – &lt; 5 tahun</td><td>5 bulan upah</td></tr>
+      <tr><td>5 tahun – &lt; 6 tahun</td><td>6 bulan upah</td></tr>
+      <tr><td>6 tahun – &lt; 7 tahun</td><td>7 bulan upah</td></tr>
+      <tr><td>7 tahun – &lt; 8 tahun</td><td>8 bulan upah</td></tr>
+      <tr><td>8 tahun atau lebih</td><td>9 bulan upah (maksimum)</td></tr>
+    </table>
+
+    <h2>Tabel Uang Penghargaan Masa Kerja (UPMK)</h2>
+    <table>
+      <tr><th>Masa Kerja</th><th>UPMK</th></tr>
+      <tr><td>3 tahun – &lt; 6 tahun</td><td>2 bulan upah</td></tr>
+      <tr><td>6 tahun – &lt; 9 tahun</td><td>3 bulan upah</td></tr>
+      <tr><td>9 tahun – &lt; 12 tahun</td><td>4 bulan upah</td></tr>
+      <tr><td>12 tahun – &lt; 15 tahun</td><td>5 bulan upah</td></tr>
+      <tr><td>15 tahun – &lt; 18 tahun</td><td>6 bulan upah</td></tr>
+      <tr><td>18 tahun – &lt; 21 tahun</td><td>7 bulan upah</td></tr>
+      <tr><td>21 tahun – &lt; 24 tahun</td><td>8 bulan upah</td></tr>
+      <tr><td>24 tahun atau lebih</td><td>10 bulan upah</td></tr>
+    </table>
+
+    <h2>Penggantian Hak (UPH)</h2>
+    <p>Selain UP dan UPMK, karyawan yang di-PHK berhak atas penggantian hak berupa:</p>
+    <ul>
+      <li>Cuti tahunan yang belum diambil atau belum gugur</li>
+      <li>Biaya transportasi pulang ke tempat asal (jika ada)</li>
+      <li>Hal-hal lain yang ditetapkan dalam perjanjian kerja atau PKB</li>
+    </ul>
+    <p>Kalkulator ini mengestimasi UPH sebesar 15% dari UP + UPMK sebagai perkiraan umum.</p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah karyawan yang resign berhak dapat pesangon?</div>
+      <div class="faq-a">Secara umum tidak. Karyawan yang mengundurkan diri secara sukarela hanya berhak atas uang pisah (jika diatur dalam PKB/PP perusahaan) dan penggantian hak seperti sisa cuti. Uang pesangon hanya wajib diberikan jika PHK berasal dari inisiatif perusahaan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa multiplier pesangon untuk PHK efisiensi?</div>
+      <div class="faq-a">Berdasarkan PP 35/2021, PHK karena efisiensi mendapat multiplier 0,5 kali dari UP + UPMK + UPH. Ini berbeda dari UU 13/2003 yang memberikan 2 kali UP. Perubahan ini diatur dalam UU Cipta Kerja dan telah dikonfirmasi oleh Mahkamah Konstitusi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah pesangon dikenakan pajak?</div>
+      <div class="faq-a">Ya, pesangon dikenakan PPh final dengan tarif khusus yang lebih rendah dari tarif umum. Tarif: 0% untuk pesangon sampai Rp 50 juta; 5% untuk Rp 50–100 juta; 15% untuk Rp 100–500 juta; 25% untuk di atas Rp 500 juta. Pajak ini bersifat final dan tidak perlu dilaporkan di SPT.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan UU Cipta Kerja dengan UU 13/2003 untuk pesangon?</div>
+      <div class="faq-a">UU 13/2003 memberikan pesangon 2× UP untuk PHK tertentu. UU Cipta Kerja (PP 35/2021) umumnya menurunkan multiplier menjadi 0,5–1,75× tergantung alasan PHK. Namun PP juga mengharuskan perusahaan mendaftarkan ke program JKP (Jaminan Kehilangan Pekerjaan) BPJS TK sebagai kompensasi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika perusahaan tidak membayar pesangon?</div>
+      <div class="faq-a">Karyawan dapat mengajukan gugatan melalui: (1) Bipartit — mediasi langsung dengan perusahaan (30 hari). (2) Tripartit — melalui Disnaker setempat (30 hari). (3) Pengadilan Hubungan Industrial (PHI) sebagai langkah terakhir. Siapkan dokumen kontrak kerja, slip gaji, dan surat PHK.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah masa kerja dihitung dari awal meski pernah kontrak?</div>
+      <div class="faq-a">Masa kerja dihitung sejak pertama kali Anda bekerja di perusahaan tersebut, termasuk periode kontrak (PKWT) sebelum diangkat tetap, asalkan tidak ada jeda hubungan kerja yang signifikan. Ini penting untuk memastikan masa kerja yang diakui sudah tepat.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
+      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
+      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
+      <a href="/id/kalkulator-bpjs.html" class="related-item"><span class="ri">🏥</span>BPJS Kesehatan</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function hitungUP(masa) {
+  if (masa < 1) return 1;
+  if (masa < 2) return 2;
+  if (masa < 3) return 3;
+  if (masa < 4) return 4;
+  if (masa < 5) return 5;
+  if (masa < 6) return 6;
+  if (masa < 7) return 7;
+  if (masa < 8) return 8;
+  return 9;
+}
+
+function hitungUPMK(masa) {
+  if (masa < 3) return 0;
+  if (masa < 6) return 2;
+  if (masa < 9) return 3;
+  if (masa < 12) return 4;
+  if (masa < 15) return 5;
+  if (masa < 18) return 6;
+  if (masa < 21) return 7;
+  if (masa < 24) return 8;
+  return 10;
+}
+
+function calculate() {
+  const upah = parseFloat(document.getElementById('upah').value) || 0;
+  const masa = parseFloat(document.getElementById('masa').value) || 0;
+  const alasan = document.getElementById('alasan').value;
+  if (!upah || !masa) return alert('Masukkan upah dan masa kerja.');
+
+  const upBulan = hitungUP(masa);
+  const upmkBulan = hitungUPMK(masa);
+
+  let mult = 1;
+  let multLabel = '1× (standar)';
+  if (alasan === 'umum')    { mult = 0.5; multLabel = '0,5× (UU Cipta Kerja — efisiensi)'; }
+  if (alasan === 'pailit')  { mult = 0.5; multLabel = '0,5× (perusahaan pailit)'; }
+  if (alasan === 'pensiun') { mult = 1.0; multLabel = '1× (pensiun)'; }
+  if (alasan === 'meninggal') { mult = 2.0; multLabel = '2× (meninggal dunia)'; }
+  if (alasan === 'resign')  { mult = 0;   multLabel = '0× (resign — tidak ada pesangon)'; }
+
+  const up = upBulan * upah * mult;
+  const upmk = upmkBulan * upah * mult;
+  const uph = (up + upmk) * 0.15;
+  const total = up + upmk + uph;
+
+  document.getElementById('res-total').textContent = fmt(total);
+  document.getElementById('res-up').textContent   = fmt(up)   + ' (' + upBulan + ' bulan)';
+  document.getElementById('res-upmk').textContent = fmt(upmk) + ' (' + upmkBulan + ' bulan)';
+  document.getElementById('res-uph').textContent  = fmt(uph)  + ' (est. 15%)';
+  document.getElementById('res-mult').textContent = multLabel;
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator PPN — Hitung Pajak Pertambahan Nilai 11% Online | NovaCalcs</title>
+<meta name="description" content="Hitung PPN (Pajak Pertambahan Nilai) 11% secara instan. Masukkan harga sebelum atau sesudah PPN dan langsung ketahui nilai pajak serta harga totalnya."/>
+<meta name="keywords" content="kalkulator PPN, hitung PPN, pajak pertambahan nilai 11%, harga sebelum PPN, harga setelah PPN"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ppn.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-ppn.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator PPN</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🧾 Kalkulator PPN</div>
+      <div class="calc-subtitle">Hitung Pajak Pertambahan Nilai dengan cepat</div>
+
+      <div class="field"><label>Tarif PPN</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-11" onclick="setTarif(11,this)">11% (Standar)</div>
+          <div class="radio-btn" id="btn-12" onclick="setTarif(12,this)">12% (2025)</div>
+          <div class="radio-btn" id="btn-0" onclick="setTarif(0,this)">0% (Ekspor)</div>
+        </div>
+      </div>
+
+      <div class="field"><label>Mode Perhitungan</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-tambah" onclick="setMode('tambah',this)">Tambahkan PPN</div>
+          <div class="radio-btn" id="btn-ekstrak" onclick="setMode('ekstrak',this)">Ekstrak PPN</div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px" id="mode-desc">Masukkan harga belum PPN → hitung total + PPN</div>
+      </div>
+
+      <div class="field">
+        <label id="input-label">Harga sebelum PPN (Rp)</label>
+        <input type="number" id="harga" placeholder="Contoh: 1000000" oninput="calculate()"/>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung PPN</button>
+
+      <div class="result-panel show" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-ppn">—</div>
+          <div class="result-label">Nilai PPN</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Harga sebelum PPN</span><span class="rval" id="res-sebelum">—</span></div>
+          <div class="result-row"><span class="rkey">PPN <span id="tarif-label">11%</span></span><span class="rval" id="res-ppn2">—</span></div>
+          <div class="result-row"><span class="rkey">Harga setelah PPN</span><span class="rval" id="res-sesudah">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator PPN — Pajak Pertambahan Nilai 11%</h1>
+    <p class="page-desc">Hitung PPN secara instan. Kalkulator ini mendukung dua mode: menambahkan PPN ke harga dasar (untuk penjual) atau mengekstrak PPN dari harga yang sudah termasuk pajak (untuk pembeli).</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Tarif PPN di Indonesia</h2>
+    <table>
+      <tr><th>Jenis</th><th>Tarif</th><th>Berlaku</th></tr>
+      <tr><td>PPN Standar</td><td>11%</td><td>April 2022 – sekarang</td></tr>
+      <tr><td>PPN Naik</td><td>12%</td><td>Januari 2025 (untuk barang mewah)</td></tr>
+      <tr><td>PPN Ekspor</td><td>0%</td><td>Barang/jasa yang diekspor</td></tr>
+      <tr><td>PPN Sebelumnya</td><td>10%</td><td>Sebelum April 2022</td></tr>
+    </table>
+
+    <h2>Cara Hitung PPN</h2>
+    <ul>
+      <li><strong>Tambahkan PPN:</strong> Harga termasuk PPN = Harga DPP × (1 + tarif PPN)</li>
+      <li><strong>Ekstrak PPN:</strong> Harga DPP = Harga termasuk PPN ÷ (1 + tarif PPN)</li>
+      <li><strong>Nilai PPN:</strong> = Harga DPP × tarif PPN</li>
+    </ul>
+    <p><strong>Contoh:</strong> Harga barang Rp 1.000.000 (belum PPN 11%) → PPN = Rp 110.000 → Total = Rp 1.110.000</p>
+
+    <h2>Barang dan Jasa yang Tidak Dikenakan PPN</h2>
+    <ul>
+      <li>Kebutuhan pokok (beras, jagung, sagu, garam, daging, telur, susu, buah, sayur)</li>
+      <li>Jasa kesehatan medis</li>
+      <li>Jasa pendidikan</li>
+      <li>Jasa keuangan dan asuransi</li>
+      <li>Jasa angkutan umum</li>
+      <li>Buku pelajaran umum dan keagamaan</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah semua toko wajib memungut PPN?</div>
+      <div class="faq-a">Tidak. Hanya Pengusaha Kena Pajak (PKP) yang wajib memungut PPN. PKP adalah pengusaha yang omzet brutonya melebihi Rp 4,8 miliar per tahun. UMKM dengan omzet di bawah ini tidak wajib memungut PPN dan tidak perlu menerbitkan faktur pajak.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu Faktur Pajak?</div>
+      <div class="faq-a">Faktur pajak adalah bukti pungutan PPN yang dibuat oleh PKP saat melakukan penyerahan BKP (Barang Kena Pajak) atau JKP (Jasa Kena Pajak). Faktur pajak elektronik (e-Faktur) sekarang wajib digunakan oleh PKP dan diunggah ke sistem DJP.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kapan PPN naik menjadi 12%?</div>
+      <div class="faq-a">Berdasarkan UU HPP (Harmonisasi Peraturan Perpajakan), tarif PPN 12% mulai berlaku per 1 Januari 2025, namun hanya untuk barang mewah tertentu. Kebutuhan pokok dan sebagian besar barang konsumsi masih dikenakan tarif 11% atau mendapat pembebasan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa beda PPN dan PPnBM?</div>
+      <div class="faq-a">PPN (Pajak Pertambahan Nilai) dikenakan atas semua penyerahan BKP dan JKP. PPnBM (Pajak Penjualan atas Barang Mewah) hanya dikenakan atas barang mewah tertentu seperti kendaraan bermotor mewah, kapal pesiar, dan barang-barang tertentu lainnya. PPnBM berlaku di atas PPN.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah belanja online dikenakan PPN?</div>
+      <div class="faq-a">Ya. Barang yang dibeli melalui marketplace dikenakan PPN jika penjual adalah PKP. Sejak 2020, marketplace juga wajib memungut PPN 10% (sekarang 11%) atas penjualan produk digital impor. Barang impor senilai di atas ambang tertentu juga dikenakan bea masuk + PPN impor.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah restoran mengenakan PPN?</div>
+      <div class="faq-a">Restoran yang merupakan PKP (omzet > Rp 4,8 miliar/tahun) wajib memungut PPN 11%. Restoran yang bukan PKP tidak memungut PPN. Service charge (biasanya 5–10%) bukan pajak melainkan biaya layanan yang menjadi hak karyawan, dan service charge itu sendiri juga dikenakan PPN.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
+      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
+      <a href="/id/konversi-mata-uang.html" class="related-item"><span class="ri">💱</span>Kurs Rupiah</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let tarif = 11, mode = 'tambah';
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function setTarif(t, btn) {
+  tarif = t;
+  document.querySelectorAll('.radio-btn').forEach(b => { if(['btn-11','btn-12','btn-0'].includes(b.id)) b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('tarif-label').textContent = t + '%';
+  calculate();
+}
+
+function setMode(m, btn) {
+  mode = m;
+  document.getElementById('btn-tambah').classList.toggle('active', m === 'tambah');
+  document.getElementById('btn-ekstrak').classList.toggle('active', m === 'ekstrak');
+  document.getElementById('input-label').textContent = m === 'tambah' ? 'Harga sebelum PPN (Rp)' : 'Harga sudah termasuk PPN (Rp)';
+  document.getElementById('mode-desc').textContent = m === 'tambah' ? 'Masukkan harga belum PPN → hitung total + PPN' : 'Masukkan harga yang sudah include PPN → ekstrak nilai pajak';
+  calculate();
+}
+
+function calculate() {
+  const harga = parseFloat(document.getElementById('harga').value) || 0;
+  if (!harga) return;
+  const rate = tarif / 100;
+  let sebelum, ppn, sesudah;
+  if (mode === 'tambah') {
+    sebelum = harga;
+    ppn = harga * rate;
+    sesudah = harga + ppn;
+  } else {
+    sesudah = harga;
+    sebelum = harga / (1 + rate);
+    ppn = sesudah - sebelum;
+  }
+  document.getElementById('res-ppn').textContent = fmt(ppn);
+  document.getElementById('res-sebelum').textContent = fmt(sebelum);
+  document.getElementById('res-ppn2').textContent = fmt(ppn);
+  document.getElementById('res-sesudah').textContent = fmt(sesudah);
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

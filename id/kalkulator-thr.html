@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator THR — Hitung Tunjangan Hari Raya 2024 | NovaCalcs</title>
+<meta name="description" content="Hitung THR (Tunjangan Hari Raya) Anda secara otomatis sesuai aturan Kemenaker 2024. Masukkan gaji dan masa kerja untuk mengetahui berapa THR yang berhak Anda terima."/>
+<meta name="keywords" content="kalkulator THR, hitung THR, tunjangan hari raya, THR lebaran, THR karyawan 2024, rumus THR"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-thr.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-thr.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator THR</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🎁 Kalkulator THR</div>
+      <div class="calc-subtitle">Hitung Tunjangan Hari Raya sesuai aturan Kemenaker</div>
+
+      <div class="field"><label>Gaji Pokok (Rp/bulan)</label><input type="number" id="gaji" placeholder="Contoh: 8000000"/></div>
+      <div class="field"><label>Tunjangan Tetap (Rp/bulan)</label><input type="number" id="tunjangan" value="0" placeholder="0"/></div>
+      <div class="field"><label>Masa Kerja</label>
+        <div style="display:flex;gap:8px">
+          <div style="flex:1">
+            <input type="number" id="masa-tahun" placeholder="Tahun" min="0" max="50" oninput="calculate()"/>
+          </div>
+          <div style="flex:1">
+            <input type="number" id="masa-bulan" placeholder="Bulan (0–11)" min="0" max="11" oninput="calculate()"/>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Contoh: 2 tahun 3 bulan</div>
+      </div>
+      <div class="field"><label>Status Karyawan</label>
+        <select id="status">
+          <option value="tetap">Karyawan Tetap (PKWTT)</option>
+          <option value="kontrak">Karyawan Kontrak (PKWT)</option>
+        </select>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung THR Saya</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-thr">—</div>
+          <div class="result-label">THR yang berhak diterima</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Upah sebulan (gaji + tunjangan)</span><span class="rval" id="res-upah">—</span></div>
+          <div class="result-row"><span class="rkey">Masa kerja</span><span class="rval" id="res-masa">—</span></div>
+          <div class="result-row"><span class="rkey">Proporsi THR</span><span class="rval" id="res-proporsi">—</span></div>
+          <div class="result-row"><span class="rkey">THR kotor</span><span class="rval" id="res-gross">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator THR — Hitung Tunjangan Hari Raya Karyawan 2024</h1>
+    <p class="page-desc">Hitung THR (Tunjangan Hari Raya) Anda berdasarkan aturan Permenaker No. 6 Tahun 2016. Masukkan gaji, tunjangan tetap, dan masa kerja untuk mengetahui berapa THR yang menjadi hak Anda.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Aturan THR Berdasarkan Permenaker No. 6/2016</h2>
+    <table>
+      <tr><th>Masa Kerja</th><th>Besaran THR</th></tr>
+      <tr><td>≥ 12 bulan (1 tahun)</td><td>1 × upah sebulan (penuh)</td></tr>
+      <tr><td>1 bulan – 12 bulan</td><td>(Masa kerja / 12) × upah sebulan (proporsional)</td></tr>
+      <tr><td>Kurang dari 1 bulan</td><td>Tidak berhak menerima THR</td></tr>
+    </table>
+
+    <h2>Komponen Upah untuk Perhitungan THR</h2>
+    <p>THR dihitung berdasarkan <strong>upah sebulan</strong> yang terdiri dari:</p>
+    <ul>
+      <li><strong>Gaji pokok</strong></li>
+      <li><strong>Tunjangan tetap</strong> (tunjangan yang diberikan rutin dan tidak bergantung pada kehadiran, seperti tunjangan jabatan, tunjangan keluarga)</li>
+    </ul>
+    <p>Tunjangan tidak tetap seperti uang makan, uang transport (yang tergantung kehadiran), dan overtime <strong>tidak termasuk</strong> dalam komponen THR.</p>
+
+    <h2>Batas Waktu Pembayaran THR</h2>
+    <ul>
+      <li>THR wajib dibayarkan paling lambat <strong>7 hari sebelum</strong> hari raya keagamaan</li>
+      <li>Perusahaan yang terlambat membayar THR dikenakan denda 5% per hari dari nilai THR</li>
+      <li>THR tidak dapat dicicil — harus dibayar sekaligus</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah karyawan kontrak berhak mendapat THR?</div>
+      <div class="faq-a">Ya. Karyawan kontrak (PKWT) yang telah bekerja minimal 1 bulan berhak mendapat THR secara proporsional. Jika masa kontrak habis sebelum hari raya namun sudah bekerja lebih dari 1 bulan, tetap berhak atas THR proporsional.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika perusahaan tidak mampu membayar THR penuh?</div>
+      <div class="faq-a">Perusahaan yang tidak mampu membayar THR dapat mengajukan permohonan penundaan ke Disnaker setempat. Namun ini harus dibuktikan dengan laporan keuangan dan keputusan ditetapkan melalui perjanjian bersama dengan karyawan. Bahkan dalam kondisi ini, THR tetap harus dibayarkan — tidak bisa dihapus sama sekali.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah THR dikenakan pajak?</div>
+      <div class="faq-a">Ya, THR dikenakan PPh 21 sebagai penghasilan tidak teratur. Cara penghitungannya berbeda dari gaji rutin — pajak THR dihitung dari selisih PKP dengan dan tanpa THR, sehingga bulan penerimaan THR bisa ada potongan pajak tambahan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah THR bisa lebih dari 1 kali gaji?</div>
+      <div class="faq-a">Secara hukum, 1 kali gaji adalah <em>minimum</em> yang wajib diberikan. Perusahaan boleh memberikan lebih — banyak perusahaan besar yang memberikan THR 2–3 kali gaji, atau menambahkan bonus terpisah. Aturan Permenaker hanya mengatur batas minimum.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika saya baru masuk kerja dan hari raya sudah dekat?</div>
+      <div class="faq-a">Jika sudah bekerja minimal 1 bulan penuh, Anda berhak THR proporsional. Contoh: masuk kerja 1 Februari, hari raya 1 April (2 bulan masa kerja) → THR = 2/12 × upah sebulan. Jika baru masuk 1 Maret (1 bulan penuh), THR = 1/12 × upah.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kemana melapor jika perusahaan tidak membayar THR?</div>
+      <div class="faq-a">Laporan dapat disampaikan ke Dinas Ketenagakerjaan (Disnaker) setempat, atau melalui posko pengaduan THR yang dibuka Kementerian Ketenagakerjaan setiap menjelang hari raya. Siapkan bukti seperti slip gaji, kontrak kerja, dan kronologi komunikasi dengan perusahaan.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-pesangon.html" class="related-item"><span class="ri">📋</span>Pesangon</a>
+      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
+      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
+      <a href="/id/kalkulator-bpjs.html" class="related-item"><span class="ri">🏥</span>BPJS Kesehatan</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function calculate() {
+  const gaji = parseFloat(document.getElementById('gaji').value) || 0;
+  const tunjangan = parseFloat(document.getElementById('tunjangan').value) || 0;
+  const tahun = parseInt(document.getElementById('masa-tahun').value) || 0;
+  const bulan = parseInt(document.getElementById('masa-bulan').value) || 0;
+  if (!gaji) return alert('Masukkan gaji pokok terlebih dahulu.');
+
+  const totalBulan = tahun * 12 + bulan;
+  if (totalBulan < 1) return alert('Masa kerja minimal 1 bulan untuk mendapat THR.');
+
+  const upah = gaji + tunjangan;
+  let proporsi, proporsiLabel;
+  if (totalBulan >= 12) {
+    proporsi = 1;
+    proporsiLabel = '1 bulan penuh (masa kerja ≥ 12 bulan)';
+  } else {
+    proporsi = totalBulan / 12;
+    proporsiLabel = totalBulan + '/12 (proporsional)';
+  }
+
+  const thr = upah * proporsi;
+  const masaLabel = tahun > 0 ? tahun + ' tahun ' : '';
+  const masaFull = masaLabel + (bulan > 0 ? bulan + ' bulan' : '');
+
+  document.getElementById('res-thr').textContent = fmt(thr);
+  document.getElementById('res-upah').textContent = fmt(upah);
+  document.getElementById('res-masa').textContent = masaFull || '-';
+  document.getElementById('res-proporsi').textContent = proporsiLabel;
+  document.getElementById('res-gross').textContent = fmt(thr) + ' (belum dipotong pajak)';
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>
