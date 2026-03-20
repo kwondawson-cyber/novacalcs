@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Waktu Sholat — Jadwal Sholat Hari Ini | NovaCalcs</title>
+<meta name="description" content="Cek jadwal waktu sholat hari ini berdasarkan kota Anda. Jadwal Subuh, Dzuhur, Ashar, Maghrib, dan Isya untuk seluruh kota besar di Indonesia."/>
+<meta name="keywords" content="waktu sholat, jadwal sholat hari ini, jadwal sholat Jakarta, waktu sholat Surabaya, kalkulator sholat, jadwal adzan, waktu subuh, waktu maghrib"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-waktu-sholat.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-waktu-sholat.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Waktu Sholat","url":"https://novacalcs.com/id/kalkulator-waktu-sholat.html","description":"Jadwal waktu sholat berdasarkan kota di Indonesia","applicationCategory":"UtilitiesApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/id/#utilitas">Utilitas</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Waktu Sholat</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+
+  <!-- CALCULATOR WIDGET -->
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🕌 Jadwal Waktu Sholat</div>
+      <div class="calc-subtitle">Pilih kota dan tanggal untuk melihat jadwal</div>
+
+      <div class="field">
+        <label>Kota</label>
+        <select id="city-select" onchange="calculate()">
+          <option value="jakarta">Jakarta</option>
+          <option value="surabaya">Surabaya</option>
+          <option value="bandung">Bandung</option>
+          <option value="medan">Medan</option>
+          <option value="semarang">Semarang</option>
+          <option value="makassar">Makassar</option>
+          <option value="palembang">Palembang</option>
+          <option value="tangerang">Tangerang</option>
+          <option value="depok">Depok</option>
+          <option value="bekasi">Bekasi</option>
+          <option value="bogor">Bogor</option>
+          <option value="yogyakarta">Yogyakarta</option>
+          <option value="denpasar">Denpasar</option>
+          <option value="balikpapan">Balikpapan</option>
+          <option value="pontianak">Pontianak</option>
+          <option value="banjarmasin">Banjarmasin</option>
+          <option value="manado">Manado</option>
+          <option value="pekanbaru">Pekanbaru</option>
+          <option value="aceh">Banda Aceh</option>
+          <option value="jayapura">Jayapura</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="date" id="date-input" onchange="calculate()"/>
+      </div>
+
+      <div class="field">
+        <label>Metode Perhitungan</label>
+        <select id="method-select" onchange="calculate()">
+          <option value="kemenag">Kemenag RI (Standar Indonesia)</option>
+          <option value="mwl">Muslim World League</option>
+          <option value="isna">ISNA (Amerika Utara)</option>
+        </select>
+      </div>
+
+      <!-- RESULT -->
+      <div id="result" style="display:none;">
+        <div class="result-label" style="color:var(--text-secondary);font-size:0.8rem;margin-bottom:12px;" id="result-header"></div>
+        <div class="prayer-grid" id="prayer-times"></div>
+        <div id="next-prayer" style="margin-top:14px;padding:12px 14px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.85rem;"></div>
+      </div>
+    </div>
+
+    <!-- Kalender mingguan -->
+    <div class="calc-widget" style="margin-top:16px;" id="weekly-widget">
+      <div class="calc-subtitle" style="font-weight:700;color:var(--text-primary);font-size:0.9rem;margin-bottom:12px;">📅 Jadwal 7 Hari ke Depan</div>
+      <div id="weekly-table"></div>
+    </div>
+  </div>
+
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Waktu Sholat Indonesia</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Cek jadwal waktu sholat hari ini untuk kota Anda — Subuh, Dzuhur, Ashar, Maghrib, dan Isya — dihitung berdasarkan posisi matahari secara astronomis sesuai standar Kemenag RI.</p>
+
+    <h2>Cara Kerja Perhitungan Waktu Sholat</h2>
+    <p>Waktu sholat ditentukan berdasarkan posisi matahari relatif terhadap lokasi di bumi. Perhitungan ini menggunakan algoritma astronomi yang memperhitungkan:</p>
+    <ul>
+      <li><strong>Koordinat geografis</strong> — Lintang (latitude) dan bujur (longitude) kota yang dipilih. Setiap kota memiliki koordinat unik yang mempengaruhi waktu sholat.</li>
+      <li><strong>Deklinasi matahari</strong> — Sudut antara ekuator langit dan posisi matahari yang berubah setiap hari sepanjang tahun, menyebabkan jadwal sholat berbeda setiap harinya.</li>
+      <li><strong>Equation of time</strong> — Koreksi akibat orbit bumi yang tidak melingkar sempurna (elips) dan kemiringan sumbu bumi.</li>
+      <li><strong>Sudut elevasi matahari</strong> — Setiap waktu sholat didefinisikan pada sudut matahari tertentu: Subuh saat matahari 20° di bawah cakrawala, Ashar saat bayangan sejajar tinggi benda, dan seterusnya.</li>
+    </ul>
+
+    <h2>Definisi Setiap Waktu Sholat</h2>
+    <p>Berikut penjelasan astronomis untuk masing-masing waktu sholat sesuai standar Kemenag RI:</p>
+    <ul>
+      <li><strong>Subuh (Fajr)</strong> — Dimulai saat cahaya fajar menyebar di ufuk timur. Secara astronomis, ketika matahari berada 20° di bawah cakrawala. Berakhir saat matahari terbit.</li>
+      <li><strong>Syuruk (Terbit)</strong> — Saat matahari terbit di ufuk timur. Ini bukan waktu sholat, namun batas akhir sholat Subuh dan awal waktu sholat Dhuha.</li>
+      <li><strong>Dzuhur</strong> — Tepat setelah matahari berada di titik tertingginya (zenith), yaitu ketika bayangan benda minimum. Biasanya pukul 11:45–12:15 WIB.</li>
+      <li><strong>Ashar</strong> — Dimulai ketika panjang bayangan suatu benda sama dengan tinggi benda itu sendiri ditambah panjang bayangan saat dzuhur. Berakhir saat matahari terbenam.</li>
+      <li><strong>Maghrib</strong> — Tepat saat matahari terbenam di ufuk barat. Ini adalah waktu sholat yang paling singkat (sekitar 1,5 jam).</li>
+      <li><strong>Isya</strong> — Dimulai ketika cahaya merah di langit barat sudah hilang sempurna, yaitu saat matahari 18° di bawah cakrawala. Berlangsung hingga tengah malam atau terbit fajar.</li>
+    </ul>
+
+    <h2>Perbedaan Waktu Sholat Antar Kota di Indonesia</h2>
+    <p>Indonesia memiliki 3 zona waktu (WIB, WITA, WIT) dan wilayah yang sangat luas dari Sabang hingga Merauke. Hal ini menyebabkan perbedaan jadwal sholat yang signifikan:</p>
+    <ul>
+      <li><strong>WIB (UTC+7)</strong> — Sumatera, Jawa, dan Kalimantan Barat/Tengah. Contoh: Jakarta, Surabaya, Bandung, Medan.</li>
+      <li><strong>WITA (UTC+8)</strong> — Kalimantan Timur/Selatan/Utara, Bali, NTB, NTT, dan Sulawesi. Contoh: Makassar, Balikpapan, Denpasar.</li>
+      <li><strong>WIT (UTC+9)</strong> — Maluku dan Papua. Contoh: Jayapura, Ambon.</li>
+    </ul>
+    <p>Bahkan dalam satu zona waktu, jadwal sholat antar kota bisa berbeda 5–30 menit karena perbedaan bujur dan lintang geografis. Misalnya, Maghrib di Surabaya lebih cepat sekitar 15 menit dibanding Jakarta.</p>
+
+    <h2>Metode Perhitungan yang Digunakan</h2>
+    <p>Kalkulator ini mendukung tiga metode standar yang paling umum digunakan:</p>
+    <ul>
+      <li><strong>Kemenag RI</strong> — Standar resmi Kementerian Agama Republik Indonesia. Menggunakan sudut Fajr 20° dan Isya 18°. Ini adalah metode yang digunakan dalam jadwal imsakiyah resmi di Indonesia.</li>
+      <li><strong>Muslim World League (MWL)</strong> — Standar internasional yang digunakan di banyak negara Muslim. Fajr 18°, Isya 17°.</li>
+      <li><strong>ISNA</strong> — Standar yang digunakan di Amerika Utara. Fajr 15°, Isya 15°.</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah jadwal sholat berubah setiap hari?</div>
+      <div class="faq-a">Ya, jadwal sholat berubah setiap hari karena posisi matahari relatif terhadap bumi berubah setiap harinya akibat rotasi dan revolusi bumi. Perubahan paling terasa pada Subuh dan Maghrib — bisa bergeser 1–3 menit setiap harinya. Perubahan paling besar terjadi saat pergantian musim (equinox dan solstice).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kenapa jadwal sholat kalkulator ini bisa sedikit berbeda dari aplikasi lain?</div>
+      <div class="faq-a">Perbedaan kecil (1–3 menit) antar sumber jadwal sholat adalah hal yang normal. Ini disebabkan oleh: (1) perbedaan koordinat geografis yang digunakan, (2) perbedaan metode perhitungan atau parameter, dan (3) keputusan pembulatan waktu. Untuk kepastian, selalu gunakan jadwal yang dikeluarkan oleh Kemenag RI atau lembaga resmi setempat.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mengetahui waktu sholat untuk daerah yang tidak ada di daftar?</div>
+      <div class="faq-a">Jika kota Anda tidak tersedia, pilih kota terdekat dalam satu kabupaten atau provinsi. Untuk kota-kota dalam jarak 50 km dengan bujur yang sama, selisih waktu umumnya kurang dari 5 menit. Anda juga bisa menyesuaikan secara manual sesuai koreksi daerah yang biasanya tercantum dalam jadwal imsakiyah lokal.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu imsak dan apakah termasuk waktu sholat?</div>
+      <div class="faq-a">Imsak bukan waktu sholat, melainkan tanda peringatan sekitar 10 menit sebelum Subuh sebagai batas akhir sahur saat Ramadan. Secara hukum fiqih, batas sahur adalah masuknya waktu Subuh (Fajr), bukan imsak. Imsak hanyalah tradisi ihtiyath (kehati-hatian) yang umum dipraktikkan di Indonesia.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa lama waktu sholat berlangsung?</div>
+      <div class="faq-a">Durasi berlakunya waktu sholat: Subuh berlangsung dari fajar hingga matahari terbit (sekitar 1,5 jam). Dzuhur dari tengah hari hingga masuk Ashar (sekitar 2–3 jam). Ashar dari masuk waktu hingga matahari terbenam (sekitar 3–4 jam). Maghrib adalah yang paling singkat, hanya sekitar 1,5 jam. Isya berlangsung dari masuk waktu hingga tengah malam (sekitar 5–6 jam) atau bahkan hingga Subuh menurut sebagian ulama.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah jadwal sholat saat Ramadan berbeda?</div>
+      <div class="faq-a">Tidak, waktu sholat dihitung berdasarkan posisi matahari dan tidak berubah karena Ramadan. Yang berbeda saat Ramadan adalah penambahan jadwal imsak (10 menit sebelum Subuh) dalam kalender imsakiyah. Waktu Subuh, Dzuhur, Ashar, Maghrib, dan Isya tetap menggunakan perhitungan astronomi yang sama.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/selisih-tanggal.html" class="related-item"><span class="ri">📆</span>Selisih Tanggal</a>
+      <a href="/id/hari-kerja.html" class="related-item"><span class="ri">📋</span>Hari Kerja</a>
+      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
+      <a href="/id/kalkulator-tip-ojol.html" class="related-item"><span class="ri">🛵</span>Tip Ojol</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<style>
+.prayer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.prayer-card {
+  background: var(--bg-input);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+}
+.prayer-card.active-prayer {
+  border-color: rgba(0,201,177,0.4);
+  background: var(--mint-dim);
+}
+.prayer-name {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.prayer-time {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.prayer-card.active-prayer .prayer-time {
+  color: var(--mint);
+}
+.weekly-row {
+  display: grid;
+  grid-template-columns: 90px repeat(5, 1fr);
+  gap: 4px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+  align-items: center;
+}
+.weekly-row:last-child { border-bottom: none; }
+.weekly-row.today { background: var(--mint-dim); border-radius: var(--radius-sm); padding: 6px 8px; }
+.weekly-row .day-label { color: var(--text-secondary); font-weight: 600; }
+.weekly-row .t-val { color: var(--text-primary); text-align:center; }
+.weekly-header { color: var(--text-muted); font-weight: 700; font-size: 0.7rem; text-transform: uppercase; }
+</style>
+
+<script defer>
+/* ===== CITY DATA ===== */
+const CITIES = {
+  jakarta:    { name:'Jakarta',       lat:-6.2088,  lng:106.8456, tz:7, tzName:'WIB' },
+  surabaya:   { name:'Surabaya',      lat:-7.2575,  lng:112.7521, tz:7, tzName:'WIB' },
+  bandung:    { name:'Bandung',       lat:-6.9175,  lng:107.6191, tz:7, tzName:'WIB' },
+  medan:      { name:'Medan',         lat:3.5952,   lng:98.6722,  tz:7, tzName:'WIB' },
+  semarang:   { name:'Semarang',      lat:-6.9932,  lng:110.4203, tz:7, tzName:'WIB' },
+  makassar:   { name:'Makassar',      lat:-5.1477,  lng:119.4327, tz:8, tzName:'WITA' },
+  palembang:  { name:'Palembang',     lat:-2.9761,  lng:104.7754, tz:7, tzName:'WIB' },
+  tangerang:  { name:'Tangerang',     lat:-6.1783,  lng:106.6319, tz:7, tzName:'WIB' },
+  depok:      { name:'Depok',         lat:-6.4025,  lng:106.7942, tz:7, tzName:'WIB' },
+  bekasi:     { name:'Bekasi',        lat:-6.2349,  lng:106.9896, tz:7, tzName:'WIB' },
+  bogor:      { name:'Bogor',         lat:-6.5971,  lng:106.8060, tz:7, tzName:'WIB' },
+  yogyakarta: { name:'Yogyakarta',    lat:-7.7956,  lng:110.3695, tz:7, tzName:'WIB' },
+  denpasar:   { name:'Denpasar',      lat:-8.6705,  lng:115.2126, tz:8, tzName:'WITA' },
+  balikpapan: { name:'Balikpapan',    lat:-1.2654,  lng:116.8312, tz:8, tzName:'WITA' },
+  pontianak:  { name:'Pontianak',     lat:-0.0263,  lng:109.3425, tz:7, tzName:'WIB' },
+  banjarmasin:{ name:'Banjarmasin',   lat:-3.3194,  lng:114.5908, tz:8, tzName:'WITA' },
+  manado:     { name:'Manado',        lat:1.4748,   lng:124.8421, tz:8, tzName:'WITA' },
+  pekanbaru:  { name:'Pekanbaru',     lat:0.5071,   lng:101.4478, tz:7, tzName:'WIB' },
+  aceh:       { name:'Banda Aceh',    lat:5.5483,   lng:95.3238,  tz:7, tzName:'WIB' },
+  jayapura:   { name:'Jayapura',      lat:-2.5916,  lng:140.6690, tz:9, tzName:'WIT' },
+};
+
+/* ===== PRAYER TIME CALCULATION (astronomical algorithm) ===== */
+const METHODS = {
+  kemenag: { fajr: 20, isha: 18 },
+  mwl:     { fajr: 18, isha: 17 },
+  isna:    { fajr: 15, isha: 15 },
+};
+
+const PRAYER_NAMES = ['Subuh','Syuruk','Dzuhur','Ashar','Maghrib','Isya'];
+const PRAYER_KEYS  = ['fajr','sunrise','dhuhr','asr','maghrib','isha'];
+
+function toRad(d) { return d * Math.PI / 180; }
+function toDeg(r) { return r * 180 / Math.PI; }
+
+function calcJulianDay(date) {
+  const y = date.getFullYear(), m = date.getMonth()+1, d = date.getDate();
+  const A = Math.floor(y/100), B = 2 - A + Math.floor(A/4);
+  return Math.floor(365.25*(y+4716)) + Math.floor(30.6001*(m+1)) + d + B - 1524.5;
+}
+
+function sunPosition(jd) {
+  const n = jd - 2451545.0;
+  const L = (280.460 + 0.9856474 * n) % 360;
+  const g = toRad((357.528 + 0.9856003 * n) % 360);
+  const lambda = toRad(L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2*g));
+  const epsilon = toRad(23.439 - 0.0000004 * n);
+  const sinDec = Math.sin(epsilon) * Math.sin(lambda);
+  const dec = Math.asin(sinDec);
+  const RA = Math.atan2(Math.cos(epsilon)*Math.sin(lambda), Math.cos(lambda));
+  const EqT = (L - toDeg(RA)) / 15;
+  return { dec, eqt: EqT };
+}
+
+function hourAngle(lat, dec, elev) {
+  const num = Math.cos(toRad(elev)) - Math.sin(toRad(lat))*Math.sin(dec);
+  const denom = Math.cos(toRad(lat)) * Math.cos(dec);
+  const val = num/denom;
+  if (val < -1 || val > 1) return null;
+  return toDeg(Math.acos(val));
+}
+
+function asrAngle(lat, dec) {
+  // Shadow factor 1 (standard/Shafi'i)
+  const shadow = 1;
+  const angle = toDeg(Math.atan(1 / (shadow + Math.tan(Math.abs(toRad(lat) - dec)))));
+  return 90 - angle;
+}
+
+function calcPrayerTimes(date, lat, lng, tz, method) {
+  const jd = calcJulianDay(date);
+  const { dec, eqt } = sunPosition(jd);
+  const m = METHODS[method];
+
+  // Solar noon (local)
+  const noon = 12 - eqt - (lng - tz*15)/15;
+
+  const ha = {};
+  ha.fajr    = hourAngle(lat, dec, -m.fajr);
+  ha.sunrise = hourAngle(lat, dec, -0.833);
+  ha.asr     = hourAngle(lat, dec, asrAngle(lat, dec));
+  ha.maghrib = hourAngle(lat, dec, -0.833);
+  ha.isha    = hourAngle(lat, dec, -m.isha);
+
+  const times = {};
+  times.fajr    = ha.fajr    !== null ? noon - ha.fajr/15    : null;
+  times.sunrise = ha.sunrise !== null ? noon - ha.sunrise/15  : null;
+  times.dhuhr   = noon + 0.08; // small offset to ensure post-noon
+  times.asr     = ha.asr     !== null ? noon + ha.asr/15     : null;
+  times.maghrib = ha.maghrib !== null ? noon + ha.maghrib/15  : null;
+  times.isha    = ha.isha    !== null ? noon + ha.isha/15    : null;
+
+  return times;
+}
+
+function fmtTime(decimal) {
+  if (decimal === null) return '--:--';
+  let h = Math.floor(decimal);
+  let m = Math.round((decimal - h) * 60);
+  if (m === 60) { h++; m = 0; }
+  h = ((h % 24) + 24) % 24;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+
+function dayName(date) {
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  return days[date.getDay()];
+}
+
+function dateStr(date) {
+  return `${date.getDate()} ${['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'][date.getMonth()]}`;
+}
+
+/* ===== UI ===== */
+function calculate() {
+  const cityKey = document.getElementById('city-select').value;
+  const dateVal = document.getElementById('date-input').value;
+  const method  = document.getElementById('method-select').value;
+
+  if (!dateVal) return;
+
+  const city = CITIES[cityKey];
+  const parts = dateVal.split('-');
+  const date = new Date(+parts[0], +parts[1]-1, +parts[2]);
+
+  const times = calcPrayerTimes(date, city.lat, city.lng, city.tz, method);
+
+  // Current time comparison
+  const now = new Date();
+  const nowDecimal = now.getHours() + now.getMinutes()/60;
+  const isToday = date.toDateString() === now.toDateString();
+
+  // Find next prayer
+  let nextIdx = -1;
+  if (isToday) {
+    const vals = [times.fajr, times.sunrise, times.dhuhr, times.asr, times.maghrib, times.isha];
+    for (let i = 0; i < vals.length; i++) {
+      if (vals[i] !== null && nowDecimal < vals[i]) { nextIdx = i; break; }
+    }
+  }
+
+  // Render prayer cards
+  const tArr = [times.fajr, times.sunrise, times.dhuhr, times.asr, times.maghrib, times.isha];
+  document.getElementById('prayer-times').innerHTML = PRAYER_KEYS.map((k, i) => {
+    const isNext = i === nextIdx;
+    const timeStr = fmtTime(tArr[i]);
+    return `<div class="prayer-card${isNext?' active-prayer':''}">
+      <div class="prayer-name">${PRAYER_NAMES[i]}</div>
+      <div class="prayer-time">${timeStr}</div>
+    </div>`;
+  }).join('');
+
+  // Next prayer info
+  const nextEl = document.getElementById('next-prayer');
+  if (nextIdx >= 0) {
+    const diff = tArr[nextIdx] - nowDecimal;
+    const dh = Math.floor(diff), dm = Math.floor((diff - dh)*60);
+    nextEl.innerHTML = `⏰ Waktu sholat berikutnya: <strong>${PRAYER_NAMES[nextIdx]}</strong> pukul <strong>${fmtTime(tArr[nextIdx])}</strong> — ${dh > 0 ? dh+'j ':''}${dm}m lagi`;
+    nextEl.style.display = 'block';
+  } else {
+    nextEl.style.display = 'none';
+  }
+
+  document.getElementById('result-header').textContent =
+    `${city.name} · ${dayName(date)}, ${dateStr(date)} ${date.getFullYear()} · ${city.tzName}`;
+  document.getElementById('result').style.display = 'block';
+
+  // Weekly table
+  buildWeekly(city, date, method);
+}
+
+function buildWeekly(city, startDate, method) {
+  const today = new Date();
+  let html = `<div class="weekly-row">
+    <div class="weekly-header day-label">Hari</div>
+    <div class="weekly-header t-val">Subuh</div>
+    <div class="weekly-header t-val">Dzuhur</div>
+    <div class="weekly-header t-val">Ashar</div>
+    <div class="weekly-header t-val">Maghrib</div>
+    <div class="weekly-header t-val">Isya</div>
+  </div>`;
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + i);
+    const t = calcPrayerTimes(d, city.lat, city.lng, city.tz, method);
+    const isT = d.toDateString() === today.toDateString();
+    html += `<div class="weekly-row${isT?' today':''}">
+      <div class="day-label">${dayName(d)} ${d.getDate()}/${d.getMonth()+1}</div>
+      <div class="t-val">${fmtTime(t.fajr)}</div>
+      <div class="t-val">${fmtTime(t.dhuhr)}</div>
+      <div class="t-val">${fmtTime(t.asr)}</div>
+      <div class="t-val">${fmtTime(t.maghrib)}</div>
+      <div class="t-val">${fmtTime(t.isha)}</div>
+    </div>`;
+  }
+
+  document.getElementById('weekly-table').innerHTML = html;
+  document.getElementById('weekly-widget').style.display = 'block';
+}
+
+// Init: set today's date and calculate
+(function init() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth()+1).padStart(2,'0');
+  const dd = String(today.getDate()).padStart(2,'0');
+  document.getElementById('date-input').value = `${yyyy}-${mm}-${dd}`;
+  calculate();
+})();
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

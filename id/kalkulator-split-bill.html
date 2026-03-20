@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Split Bill — Bagi Tagihan Makan Bareng dengan Adil | NovaCalcs</title>
+<meta name="description" content="Hitung pembagian tagihan makan bareng, arisan, atau liburan kelompok secara adil. Bisa bagi rata atau bagi sesuai pesanan masing-masing. Termasuk perhitungan PPN, service charge, dan tip."/>
+<meta name="keywords" content="kalkulator split bill, bagi tagihan makan, dutch treat, patungan makan, hitung tagihan restoran, split bill arisan, bagi biaya perjalanan bersama"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-split-bill.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-split-bill.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Split Bill","url":"https://novacalcs.com/id/kalkulator-split-bill.html","description":"Hitung pembagian tagihan makan atau patungan secara adil","applicationCategory":"UtilitiesApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/id/#utilitas">Utilitas</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Split Bill</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+
+  <!-- CALCULATOR WIDGET -->
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🧾 Kalkulator Split Bill</div>
+      <div class="calc-subtitle">Bagi tagihan dengan adil dan tanpa drama</div>
+
+      <!-- Mode selector -->
+      <div class="field">
+        <label>Mode Pembagian</label>
+        <div class="unit-toggle">
+          <button class="unit-btn active" id="mode-equal" onclick="setMode('equal',this)">🟰 Bagi Rata</button>
+          <button class="unit-btn" id="mode-custom" onclick="setMode('custom',this)">📋 Per Pesanan</button>
+        </div>
+      </div>
+
+      <!-- EQUAL MODE -->
+      <div id="equal-section">
+        <div class="field">
+          <label>Total Tagihan (Rp)</label>
+          <input type="number" id="eq-total" placeholder="Contoh: 350000" min="0" step="500" oninput="calcEqual()"/>
+        </div>
+        <div class="field">
+          <label>Jumlah Orang</label>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button onclick="adjustPeople(-1)" style="width:40px;height:40px;border-radius:50%;background:var(--bg-input);border:1px solid var(--border);font-size:1.2rem;color:var(--text-primary);cursor:pointer;">−</button>
+            <span id="people-count" style="font-size:1.5rem;font-weight:700;min-width:30px;text-align:center;">4</span>
+            <button onclick="adjustPeople(1)" style="width:40px;height:40px;border-radius:50%;background:var(--bg-input);border:1px solid var(--border);font-size:1.2rem;color:var(--text-primary);cursor:pointer;">+</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Tambahan</label>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label style="display:flex;align-items:center;justify-content:space-between;font-size:0.875rem;font-weight:400;color:var(--text-primary);">
+              <span>🧾 PPN (11%)</span>
+              <input type="checkbox" id="eq-ppn" onchange="calcEqual()" style="width:auto;accent-color:var(--mint)"/>
+            </label>
+            <label style="display:flex;align-items:center;justify-content:space-between;font-size:0.875rem;font-weight:400;color:var(--text-primary);">
+              <span>🍽️ Service charge</span>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <input type="number" id="eq-sc" value="5" min="0" max="20" style="width:50px;text-align:center;padding:4px 6px;" oninput="calcEqual()"/>
+                <span style="color:var(--text-muted)">%</span>
+              </div>
+            </label>
+            <label style="display:flex;align-items:center;justify-content:space-between;font-size:0.875rem;font-weight:400;color:var(--text-primary);">
+              <span>🛵 Biaya antar/parkir (Rp)</span>
+              <input type="number" id="eq-extra" placeholder="0" min="0" step="500" style="width:100px;text-align:right;padding:4px 8px;" oninput="calcEqual()"/>
+            </label>
+          </div>
+        </div>
+
+        <div class="result-box" id="eq-result">
+          <div class="result-main">
+            <span class="result-label">Per Orang</span>
+            <span class="result-value" id="eq-per-person">Rp 0</span>
+          </div>
+          <div class="result-details">
+            <div class="result-row"><span>Subtotal</span><span id="eq-sub">—</span></div>
+            <div class="result-row" id="eq-ppn-row" style="display:none"><span>PPN 11%</span><span id="eq-ppn-val">—</span></div>
+            <div class="result-row" id="eq-sc-row" style="display:none"><span>Service Charge</span><span id="eq-sc-val">—</span></div>
+            <div class="result-row" id="eq-extra-row" style="display:none"><span>Biaya Tambahan</span><span id="eq-extra-val">—</span></div>
+            <div class="result-row"><span>Total Akhir</span><span id="eq-grand" style="font-weight:700;">—</span></div>
+            <div class="result-row"><span>÷ <span id="eq-people-txt">4</span> orang</span><span id="eq-each" style="color:var(--mint);font-weight:700;">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUSTOM MODE -->
+      <div id="custom-section" style="display:none;">
+        <div id="person-list"></div>
+        <button onclick="addPerson()" style="width:100%;padding:10px;margin-top:8px;border:1px dashed var(--border);border-radius:var(--radius-sm);color:var(--text-secondary);font-size:0.875rem;cursor:pointer;background:transparent;">+ Tambah Orang</button>
+
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.85rem;color:var(--text-secondary);">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;color:var(--text-primary);">
+              <input type="checkbox" id="cu-ppn" onchange="calcCustom()" style="width:auto;accent-color:var(--mint)"/> PPN 11%
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;color:var(--text-primary);">
+              <input type="checkbox" id="cu-sc" onchange="calcCustom()" style="width:auto;accent-color:var(--mint)"/>
+              SC <input type="number" id="cu-sc-pct" value="5" min="0" max="20" style="width:40px;text-align:center;padding:2px 4px;" oninput="calcCustom()"/>%
+            </label>
+          </div>
+          <button class="calc-btn" onclick="calcCustom()">🧾 Hitung Tagihan</button>
+        </div>
+
+        <div class="result-box" id="cu-result" style="margin-top:12px;">
+          <div id="cu-result-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Split Bill</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Tidak ada lagi drama "siapa bayar berapa" saat makan bareng. Hitung pembagian tagihan restoran, patungan liburan, atau arisan kelompok secara adil — dengan atau tanpa PPN, service charge, dan tip.</p>
+
+    <h2>Dua Cara Membagi Tagihan</h2>
+    <p>Kalkulator ini mendukung dua metode split bill yang paling umum digunakan:</p>
+    <ul>
+      <li><strong>Bagi Rata (Dutch Treat)</strong> — Total tagihan dibagi sama rata ke semua orang, terlepas dari siapa pesan apa. Cocok untuk grup teman yang sudah saling kenal dan orderan tidak terlalu berbeda nilainya.</li>
+      <li><strong>Per Pesanan</strong> — Setiap orang hanya bayar yang ia pesan. Lebih adil jika ada yang pesan banyak dan ada yang sedikit, atau jika ada yang tidak minum alkohol, dll.</li>
+    </ul>
+
+    <h2>Cara Menggunakan Kalkulator Split Bill</h2>
+    <p><strong>Mode Bagi Rata:</strong></p>
+    <ol>
+      <li>Masukkan <strong>total tagihan</strong> dari struk atau bon</li>
+      <li>Atur <strong>jumlah orang</strong> yang ikut</li>
+      <li>Centang <strong>PPN</strong> jika belum termasuk di struk (untuk restoran formal/mall)</li>
+      <li>Tambahkan <strong>service charge</strong> jika ada (biasanya 5–10%)</li>
+      <li>Tambahkan <strong>biaya antar atau parkir</strong> jika perlu dibagi</li>
+      <li>Hasil akan otomatis ter-update</li>
+    </ol>
+
+    <h2>Mengenal PPN dan Service Charge di Restoran</h2>
+    <p>Saat makan di restoran mall atau restoran bintang, Anda sering menemukan biaya tambahan di struk:</p>
+    <ul>
+      <li><strong>PPN (Pajak Pertambahan Nilai)</strong> — 11% dari nilai makanan/minuman. Diwajibkan pemerintah. Restoran yang sudah Pengusaha Kena Pajak (PKP) wajib mencantumkan ini.</li>
+      <li><strong>Service Charge</strong> — Biasanya 5–10%. Ini untuk upah tambahan pelayan/staf restoran. Secara hukum ini berbeda dari tip — service charge wajib dibayar jika tertera di menu, sedangkan tip sifatnya sukarela.</li>
+      <li><strong>PB1 (Pajak Bangunan/Daerah)</strong> — Beberapa kota masih menerapkan ini meski sudah banyak yang beralih ke PPN. Biasanya 10%.</li>
+    </ul>
+
+    <h2>Tips Agar Split Bill Tidak Awkward</h2>
+    <ul>
+      <li><strong>Tentukan metode di awal</strong> — Sebelum memesan, sepakati dulu mau bagi rata atau per pesanan agar tidak ada ekspektasi yang berbeda di akhir</li>
+      <li><strong>Screenshot struk dan share ke grup</strong> — Transparansi menghindari kecurigaan dan salah hitung</li>
+      <li><strong>Gunakan transfer bank/e-wallet</strong> — Lebih mudah dan tersimpan sebagai bukti</li>
+      <li><strong>Satu orang bayar dulu, lainnya transfer</strong> — Praktis untuk restoran yang tidak bisa split payment</li>
+      <li><strong>Catat siapa yang sudah dan belum bayar</strong> — Khususnya untuk grup besar atau acara arisan</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah service charge sama dengan tip?</div>
+      <div class="faq-a">Tidak. Service charge adalah biaya yang ditetapkan restoran dan bersifat wajib jika tertera di menu — ini sudah masuk ke penerimaan restoran dan (idealnya) dibagikan ke staf. Tip adalah pemberian sukarela langsung dari pelanggan ke pelayan atau staf tertentu. Di banyak restoran besar, service charge yang Anda bayar tidak seluruhnya sampai ke staf karena bisa dipotong manajemen. Jika Anda ingin memastikan apresiasi sampai ke pelayan, tip tunai langsung lebih terjamin.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Restoran mana yang biasanya mengenakan PPN dan service charge?</div>
+      <div class="faq-a">Umumnya restoran di pusat perbelanjaan (mall), hotel, dan restoran fine dining yang sudah terdaftar sebagai PKP (Pengusaha Kena Pajak) wajib mengenakan PPN. Service charge biasanya diterapkan oleh restoran berkelas menengah ke atas. Warung makan, warteg, dan restoran kecil biasanya tidak mengenakan keduanya. Selalu cek menu atau struk sebelum makan untuk menghindari kejutan tagihan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika ada yang tidak mau membayar saat split bill?</div>
+      <div class="faq-a">Ini situasi yang awkward namun tidak jarang terjadi. Beberapa pendekatan: (1) Bayar dulu untuk menghindari malu di restoran, lalu tagih via chat dengan bukti struk; (2) Gunakan aplikasi hutang digital seperti Splitwise untuk mencatat; (3) Untuk masa depan, usulkan sistim kas kelompok jika sering makan bersama. Jika jumlahnya kecil, kadang tidak ditagih lebih bijak untuk menjaga hubungan — tergantung situasinya.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah bisa minta kasir restoran untuk split payment?</div>
+      <div class="faq-a">Bisa, namun tidak semua restoran mengizinkan. Restoran dengan sistem kasir modern umumnya bisa memisahkan tagihan per item atau membagi rata ke beberapa kartu. Untuk restoran yang tidak bisa, solusinya adalah satu orang bayar dulu dan sisanya transfer. Biasakan bertanya ke staf restoran di awal apakah mereka menerima split payment sebelum makan, bukan setelah selesai.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara adil membagi biaya liburan bersama?</div>
+      <div class="faq-a">Untuk liburan kelompok, beberapa strategi yang efektif: (1) Buat kas bersama di awal — kumpulkan dana patungan untuk pengeluaran bersama (hotel, transportasi, makan bersama); (2) Gunakan aplikasi Splitwise untuk mencatat siapa bayar apa dan menghitung saldo akhir; (3) Bedakan pengeluaran bersama (wajib dibagi) dengan pengeluaran pribadi (belanja oleh-oleh, upgrade kamar pribadi); (4) Hitung dan settle di akhir perjalanan sebelum pulang.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana pembagian tagihan yang adil jika ada yang memesan lebih banyak?</div>
+      <div class="faq-a">Untuk situasi ini, mode "Per Pesanan" di kalkulator ini adalah solusinya. Setiap orang hanya membayar yang mereka pesan, lalu biaya bersama seperti PPN, service charge, dan minuman yang dipesan bersama dibagi rata. Ini paling adil untuk situasi di mana perbedaan nilai pesanan cukup signifikan — misalnya ada yang makan lauk mahal sementara yang lain memesan menu ekonomis.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-tip-ojol.html" class="related-item"><span class="ri">🛵</span>Tip Ojol</a>
+      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
+      <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<style>
+.person-row { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; margin-bottom:8px; }
+.person-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.person-name { font-size:0.875rem; font-weight:600; }
+.item-row { display:flex; gap:6px; margin-bottom:6px; align-items:center; }
+.item-row input[type=text] { flex:2; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:6px 10px; color:var(--text-primary); font-size:0.82rem; }
+.item-row input[type=number] { flex:1; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:6px 10px; color:var(--text-primary); font-size:0.82rem; text-align:right; }
+.del-btn { color:var(--text-muted); cursor:pointer; font-size:0.85rem; padding:0 4px; }
+.del-btn:hover { color:#f87171; }
+.cu-person-result { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.875rem; }
+.cu-person-result:last-child { border-bottom:none; }
+</style>
+
+<script defer>
+let mode = 'equal';
+let people = 4;
+let persons = [{name:'Orang 1', items:[{desc:'',amount:''}]},{name:'Orang 2', items:[{desc:'',amount:''}]}];
+
+function setMode(m, btn) {
+  mode = m;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('equal-section').style.display = m === 'equal' ? '' : 'none';
+  document.getElementById('custom-section').style.display = m === 'custom' ? '' : 'none';
+  if (m === 'custom') renderPersons();
+}
+
+// === EQUAL MODE ===
+function adjustPeople(d) {
+  people = Math.max(2, Math.min(50, people + d));
+  document.getElementById('people-count').textContent = people;
+  calcEqual();
+}
+
+function calcEqual() {
+  const sub = parseFloat(document.getElementById('eq-total').value) || 0;
+  if (!sub) { document.getElementById('eq-result').classList.remove('show'); return; }
+
+  const ppn = document.getElementById('eq-ppn').checked ? sub * 0.11 : 0;
+  const scPct = parseFloat(document.getElementById('eq-sc').value) || 0;
+  const sc = sub * scPct / 100;
+  const extra = parseFloat(document.getElementById('eq-extra').value) || 0;
+  const grand = sub + ppn + sc + extra;
+  const each = grand / people;
+
+  document.getElementById('eq-sub').textContent = fmt(sub);
+  document.getElementById('eq-ppn-row').style.display = ppn > 0 ? '' : 'none';
+  document.getElementById('eq-ppn-val').textContent = fmt(ppn);
+  document.getElementById('eq-sc-row').style.display = sc > 0 ? '' : 'none';
+  document.getElementById('eq-sc-val').textContent = fmt(sc) + ' (' + scPct + '%)';
+  document.getElementById('eq-extra-row').style.display = extra > 0 ? '' : 'none';
+  document.getElementById('eq-extra-val').textContent = fmt(extra);
+  document.getElementById('eq-grand').textContent = fmt(grand);
+  document.getElementById('eq-people-txt').textContent = people;
+  document.getElementById('eq-each').textContent = fmt(each);
+  document.getElementById('eq-per-person').textContent = fmt(Math.ceil(each / 500) * 500);
+  document.getElementById('eq-result').classList.add('show');
+}
+
+// === CUSTOM MODE ===
+function addPerson() {
+  persons.push({name:'Orang ' + (persons.length + 1), items:[{desc:'', amount:''}]});
+  renderPersons();
+}
+
+function addItem(pi) {
+  persons[pi].items.push({desc:'', amount:''});
+  renderPersons();
+}
+
+function removeItem(pi, ii) {
+  persons[pi].items.splice(ii, 1);
+  if (persons[pi].items.length === 0) persons[pi].items.push({desc:'', amount:''});
+  renderPersons();
+}
+
+function removePerson(pi) {
+  if (persons.length <= 2) return alert('Minimal 2 orang.');
+  persons.splice(pi, 1);
+  renderPersons();
+}
+
+function syncPersons() {
+  persons.forEach((p, pi) => {
+    const nameEl = document.getElementById('pname-' + pi);
+    if (nameEl) p.name = nameEl.value || ('Orang ' + (pi+1));
+    p.items.forEach((item, ii) => {
+      const desc = document.getElementById('pdesc-' + pi + '-' + ii);
+      const amt  = document.getElementById('pamt-' + pi + '-' + ii);
+      if (desc) item.desc = desc.value;
+      if (amt) item.amount = amt.value;
+    });
+  });
+}
+
+function renderPersons() {
+  syncPersons();
+  const container = document.getElementById('person-list');
+  container.innerHTML = persons.map((p, pi) => `
+    <div class="person-row">
+      <div class="person-header">
+        <input id="pname-${pi}" type="text" value="${p.name}" placeholder="Nama" style="background:transparent;border:none;color:var(--text-primary);font-weight:600;font-size:0.875rem;width:120px;outline:none;"/>
+        <span class="del-btn" onclick="removePerson(${pi})">✕ Hapus</span>
+      </div>
+      ${p.items.map((item, ii) => `
+        <div class="item-row">
+          <input id="pdesc-${pi}-${ii}" type="text" placeholder="Pesanan..." value="${item.desc}" oninput="syncPersons()"/>
+          <input id="pamt-${pi}-${ii}" type="number" placeholder="Rp" value="${item.amount}" min="0" step="500" oninput="syncPersons()"/>
+          <span class="del-btn" onclick="removeItem(${pi},${ii})">✕</span>
+        </div>`).join('')}
+      <button onclick="addItem(${pi})" style="font-size:0.78rem;color:var(--mint);cursor:pointer;background:none;border:none;padding:2px 0;">+ Tambah item</button>
+    </div>`).join('');
+}
+
+function calcCustom() {
+  syncPersons();
+  const ppn = document.getElementById('cu-ppn').checked;
+  const useSC = document.getElementById('cu-sc').checked;
+  const scPct = parseFloat(document.getElementById('cu-sc-pct').value) || 0;
+
+  const subtotals = persons.map(p => p.items.reduce((s,i) => s + (parseFloat(i.amount) || 0), 0));
+  const grandSub = subtotals.reduce((s,v) => s + v, 0);
+  if (grandSub === 0) return alert('Masukkan harga pesanan masing-masing orang.');
+
+  const ppnAmt = ppn ? grandSub * 0.11 : 0;
+  const scAmt  = useSC ? grandSub * scPct / 100 : 0;
+  const grand  = grandSub + ppnAmt + scAmt;
+  const taxRatio = grand / grandSub;
+
+  let html = `<div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px;">Tagihan Per Orang</div>`;
+  persons.forEach((p, pi) => {
+    const myShare = Math.round(subtotals[pi] * taxRatio / 500) * 500;
+    html += `<div class="cu-person-result">
+      <div><div style="font-weight:600">${p.name}</div><div style="font-size:0.75rem;color:var(--text-muted)">Pesanan: ${fmt(subtotals[pi])}</div></div>
+      <div style="font-weight:700;color:var(--mint)">${fmt(myShare)}</div>
+    </div>`;
+  });
+  html += `<div style="display:flex;justify-content:space-between;padding-top:10px;margin-top:4px;border-top:1px solid var(--border);font-weight:700;">
+    <span>Total</span><span>${fmt(Math.round(grand/500)*500)}</span>
+  </div>`;
+  if (ppn || useSC) {
+    html += `<div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px;">Termasuk: ${ppn ? 'PPN 11% ('+fmt(ppnAmt)+')' : ''}${ppn && useSC ? ' + ' : ''}${useSC ? 'SC '+scPct+'% ('+fmt(scAmt)+')' : ''}</div>`;
+  }
+
+  document.getElementById('cu-result-content').innerHTML = html;
+  document.getElementById('cu-result').classList.add('show');
+}
+
+function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+
+renderPersons();
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+// Auto calc on equal input
+document.addEventListener('input', e => { if (['eq-total','eq-sc','eq-extra'].includes(e.target.id)) calcEqual(); });
+</script>
+</body>
+</html>

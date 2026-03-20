@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Gula Darah — Cek Kadar Gula Normal & Diabetes | NovaCalcs</title>
+<meta name="description" content="Cek kadar gula darah Anda apakah normal, prediabetes, atau diabetes. Masukkan hasil pemeriksaan gula darah puasa, 2 jam PP, atau HbA1c dan dapatkan interpretasi lengkap."/>
+<meta name="keywords" content="kalkulator gula darah, kadar gula darah normal, cek diabetes, gula darah puasa, HbA1c, prediabetes, gula darah setelah makan"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-gula-darah.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-gula-darah.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Gula Darah","url":"https://novacalcs.com/id/kalkulator-gula-darah.html","description":"Cek kadar gula darah normal, prediabetes, atau diabetes","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Gula Darah</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+
+  <!-- CALCULATOR WIDGET -->
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🩸 Kalkulator Gula Darah</div>
+      <div class="calc-subtitle">Cek kadar gula darah Anda dan interpretasinya</div>
+
+      <div class="field">
+        <label>Jenis Pemeriksaan</label>
+        <select id="test-type" onchange="updateTestType()">
+          <option value="puasa">Gula Darah Puasa (GDP)</option>
+          <option value="2jpp">Gula Darah 2 Jam PP</option>
+          <option value="sewaktu">Gula Darah Sewaktu (GDS)</option>
+          <option value="hba1c">HbA1c (%)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label id="value-label">Kadar Gula Darah (mg/dL)</label>
+        <input type="number" id="blood-sugar" placeholder="Contoh: 95" min="20" max="600"/>
+      </div>
+
+      <div class="field">
+        <label>Usia</label>
+        <select id="age-group">
+          <option value="adult">Dewasa (18 tahun ke atas)</option>
+          <option value="child">Anak-anak (di bawah 18 tahun)</option>
+          <option value="pregnant">Ibu hamil</option>
+          <option value="elderly">Lansia (65 tahun ke atas)</option>
+        </select>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">🩸 Cek Gula Darah Saya</button>
+
+      <div class="result-box" id="result">
+        <div class="result-main">
+          <span class="result-label">Kadar Anda</span>
+          <span class="result-value" id="res-value">—</span>
+          <span class="result-unit" id="res-unit">mg/dL</span>
+        </div>
+        <div class="result-badge" id="res-badge"></div>
+        <div class="result-details">
+          <div class="result-row">
+            <span>Status</span>
+            <span id="res-status">—</span>
+          </div>
+          <div class="result-row">
+            <span>Rentang Normal</span>
+            <span id="res-normal">—</span>
+          </div>
+          <div class="result-row">
+            <span>Selisih dari Normal</span>
+            <span id="res-diff">—</span>
+          </div>
+        </div>
+        <div class="result-note" id="res-note"></div>
+      </div>
+    </div>
+
+    <!-- Tabel referensi -->
+    <div class="calc-widget" style="margin-top:16px;">
+      <div class="calc-subtitle" style="font-weight:700;color:var(--text-primary);font-size:0.9rem;margin-bottom:12px;">📊 Tabel Referensi Gula Darah</div>
+      <table class="ref-table">
+        <thead><tr><th>Kategori</th><th>GDP (mg/dL)</th><th>2 Jam PP (mg/dL)</th><th>HbA1c (%)</th></tr></thead>
+        <tbody>
+          <tr class="row-normal"><td>Normal</td><td>&lt; 100</td><td>&lt; 140</td><td>&lt; 5,7</td></tr>
+          <tr class="row-prediabetes"><td>Prediabetes</td><td>100 – 125</td><td>140 – 199</td><td>5,7 – 6,4</td></tr>
+          <tr class="row-diabetes"><td>Diabetes</td><td>≥ 126</td><td>≥ 200</td><td>≥ 6,5</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Gula Darah</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Ketahui apakah kadar gula darah Anda berada di rentang normal, prediabetes, atau diabetes berdasarkan standar Perkeni (Perkumpulan Endokrinologi Indonesia) dan WHO.</p>
+
+    <h2>Apa Itu Gula Darah?</h2>
+    <p>Gula darah (glukosa darah) adalah kadar glukosa yang beredar dalam aliran darah. Glukosa berasal dari makanan yang kita konsumsi dan merupakan sumber energi utama bagi sel-sel tubuh. Kadar gula darah diatur oleh hormon insulin yang diproduksi pankreas.</p>
+    <p>Pemeriksaan gula darah adalah cara utama untuk mendeteksi dan memantau diabetes mellitus. Di Indonesia, diabetes merupakan salah satu penyakit tidak menular terbanyak — berdasarkan data Riskesdas 2018, prevalensi diabetes di Indonesia mencapai 8,5% pada penduduk usia 15 tahun ke atas.</p>
+
+    <h2>Jenis Pemeriksaan Gula Darah</h2>
+    <p>Ada beberapa jenis pemeriksaan gula darah yang umum dilakukan:</p>
+    <ul>
+      <li><strong>Gula Darah Puasa (GDP)</strong> — Diukur setelah puasa minimal 8 jam. Ini adalah pemeriksaan standar untuk diagnosis diabetes. Normal: &lt; 100 mg/dL.</li>
+      <li><strong>Gula Darah 2 Jam PP</strong> — Diukur 2 jam setelah makan (post-prandial). Normal: &lt; 140 mg/dL.</li>
+      <li><strong>Gula Darah Sewaktu (GDS)</strong> — Diukur kapan saja tanpa memperhatikan waktu makan terakhir. Jika ≥ 200 mg/dL disertai gejala, bisa mengarah pada diabetes.</li>
+      <li><strong>HbA1c</strong> — Mencerminkan rata-rata kadar gula darah selama 2–3 bulan terakhir. Merupakan pemeriksaan terbaik untuk memantau kontrol diabetes jangka panjang. Normal: &lt; 5,7%.</li>
+    </ul>
+
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
+    <ol>
+      <li>Pilih <strong>jenis pemeriksaan</strong> yang Anda lakukan (puasa, 2 jam PP, sewaktu, atau HbA1c)</li>
+      <li>Masukkan <strong>hasil pemeriksaan</strong> dari laboratorium atau alat cek gula darah Anda</li>
+      <li>Pilih <strong>kelompok usia</strong> yang sesuai</li>
+      <li>Klik <strong>"Cek Gula Darah Saya"</strong></li>
+      <li>Lihat interpretasi hasil beserta saran tindak lanjut</li>
+    </ol>
+
+    <h2>Gejala Gula Darah Tinggi (Hiperglikemia)</h2>
+    <p>Kenali tanda-tanda gula darah tinggi yang perlu diwaspadai:</p>
+    <ul>
+      <li>Sering buang air kecil, terutama malam hari (poliuria)</li>
+      <li>Mudah haus dan banyak minum (polidipsia)</li>
+      <li>Mudah lapar meski sudah makan (polifagia)</li>
+      <li>Berat badan turun tanpa sebab yang jelas</li>
+      <li>Penglihatan kabur</li>
+      <li>Luka yang lama sembuh</li>
+      <li>Sering mengalami infeksi (kulit, gusi, saluran kemih)</li>
+    </ul>
+
+    <h2>Tips Menjaga Gula Darah Tetap Normal</h2>
+    <p>Beberapa langkah yang terbukti efektif untuk menjaga kadar gula darah:</p>
+    <ul>
+      <li><strong>Pola makan seimbang</strong> — Batasi karbohidrat sederhana, perbanyak serat, sayur, dan protein</li>
+      <li><strong>Olahraga teratur</strong> — Minimal 150 menit aktivitas sedang per minggu (jalan cepat, bersepeda, berenang)</li>
+      <li><strong>Jaga berat badan ideal</strong> — Penurunan berat badan 5–10% terbukti mengurangi risiko diabetes hingga 58%</li>
+      <li><strong>Hindari rokok</strong> — Merokok meningkatkan resistensi insulin dan risiko komplikasi diabetes</li>
+      <li><strong>Cukup tidur</strong> — Kurang tidur mempengaruhi metabolisme glukosa secara negatif</li>
+      <li><strong>Rutin cek gula darah</strong> — Terutama jika ada faktor risiko seperti obesitas, riwayat keluarga, atau usia &gt; 45 tahun</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa kadar gula darah puasa yang normal?</div>
+      <div class="faq-a">Menurut standar Perkeni dan ADA (American Diabetes Association), kadar gula darah puasa normal adalah di bawah 100 mg/dL. Jika 100–125 mg/dL disebut prediabetes (glukosa puasa terganggu), dan jika ≥ 126 mg/dL (pada dua kali pemeriksaan terpisah) didiagnosis sebagai diabetes mellitus.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa kadar gula darah normal setelah makan?</div>
+      <div class="faq-a">Kadar gula darah 2 jam setelah makan (2 jam PP) yang normal adalah di bawah 140 mg/dL. Pada prediabetes angkanya 140–199 mg/dL, dan diabetes jika ≥ 200 mg/dL. Setelah makan, wajar kadar gula darah naik lalu kembali normal dalam 2 jam pada orang tanpa diabetes.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu HbA1c dan mengapa penting?</div>
+      <div class="faq-a">HbA1c (hemoglobin terglikosilasi) adalah protein dalam sel darah merah yang mengikat glukosa. Pemeriksaan ini mencerminkan rata-rata kadar gula darah selama 2–3 bulan terakhir, sehingga tidak bisa "dimanipulasi" dengan diet sesaat. Ini adalah pemeriksaan terbaik untuk memantau keberhasilan pengobatan diabetes jangka panjang. Target HbA1c untuk penderita diabetes umumnya adalah &lt; 7%.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah prediabetes bisa disembuhkan?</div>
+      <div class="faq-a">Ya, prediabetes bisa dikembalikan ke kondisi normal melalui perubahan gaya hidup. Penelitian besar (Diabetes Prevention Program) membuktikan bahwa penurunan berat badan 5–7% dan olahraga 150 menit per minggu dapat mencegah prediabetes berkembang menjadi diabetes tipe 2 hingga 58%. Semakin cepat bertindak, semakin besar peluang pemulihan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah alat cek gula darah mandiri akurat?</div>
+      <div class="faq-a">Alat glucometer (cek gula darah mandiri) yang beredar di pasaran memiliki akurasi ±15–20% dibandingkan pemeriksaan laboratorium. Cukup akurat untuk pemantauan rutin, namun untuk diagnosis diabetes, pemeriksaan laboratorium resmi tetap diperlukan. Pastikan menggunakan strip yang belum kedaluwarsa dan mengikuti prosedur penggunaan alat yang benar.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kapan sebaiknya melakukan pemeriksaan gula darah?</div>
+      <div class="faq-a">Untuk skrining diabetes, Kemenkes menyarankan pemeriksaan mulai usia 40 tahun, atau lebih muda jika ada faktor risiko (obesitas, riwayat diabetes keluarga, hipertensi, pernah hamil dengan gula darah tinggi). Jika hasil normal, cek ulang setiap 1–3 tahun. Jika sudah terdiagnosis diabetes, frekuensi pemantauan ditentukan oleh dokter Anda.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-kolesterol.html" class="related-item"><span class="ri">🫀</span>Kalkulator Kolesterol</a>
+      <a href="/id/kalkulator-tensi.html" class="related-item"><span class="ri">🩺</span>Kalkulator Tensi</a>
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🔥</span>Kalkulator Kalori</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<style>
+.ref-table { width:100%; border-collapse:collapse; font-size:0.8rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.row-normal td { color:#4ade80; }
+.row-prediabetes td { color:#fbbf24; }
+.row-diabetes td { color:#f87171; }
+.result-note { margin-top:12px; padding:10px 12px; background:var(--bg-input); border-radius:var(--radius-sm); font-size:0.8rem; color:var(--text-secondary); line-height:1.5; }
+</style>
+
+<script defer>
+const RANGES = {
+  puasa: {
+    normal:      { max: 99,  label: 'Normal', cls: 'badge-normal',      note: 'Kadar gula darah puasa Anda normal. Pertahankan pola makan sehat dan olahraga rutin.', unit:'mg/dL', normalStr:'< 100 mg/dL' },
+    prediabetes: { min: 100, max: 125, label: 'Prediabetes', cls: 'badge-overweight', note: 'Kadar Anda masuk rentang prediabetes. Perubahan gaya hidup sekarang dapat mencegah diabetes. Konsultasikan dengan dokter.', normalStr:'< 100 mg/dL' },
+    diabetes:    { min: 126, label: 'Diabetes (Perlu Konfirmasi)', cls: 'badge-obese', note: 'Kadar ini mengindikasikan kemungkinan diabetes. Diperlukan pemeriksaan ulang dan konsultasi dokter untuk diagnosis resmi.', normalStr:'< 100 mg/dL' }
+  },
+  '2jpp': {
+    normal:      { max: 139, label: 'Normal', cls: 'badge-normal',      note: 'Gula darah 2 jam setelah makan dalam batas normal. Sistem metabolisme glukosa Anda berfungsi baik.', unit:'mg/dL', normalStr:'< 140 mg/dL' },
+    prediabetes: { min: 140, max: 199, label: 'Prediabetes', cls: 'badge-overweight', note: 'Kadar Anda masuk rentang toleransi glukosa terganggu (TGT). Segera konsultasikan dengan dokter.', normalStr:'< 140 mg/dL' },
+    diabetes:    { min: 200, label: 'Diabetes (Perlu Konfirmasi)', cls: 'badge-obese', note: 'Kadar gula darah 2 jam PP sangat tinggi. Segera konsultasikan dengan dokter untuk pemeriksaan lanjutan.', normalStr:'< 140 mg/dL' }
+  },
+  sewaktu: {
+    normal:      { max: 139, label: 'Normal', cls: 'badge-normal',      note: 'Gula darah sewaktu dalam batas normal.', unit:'mg/dL', normalStr:'< 140 mg/dL' },
+    prediabetes: { min: 140, max: 199, label: 'Perlu Perhatian', cls: 'badge-overweight', note: 'Kadar gula darah sewaktu agak tinggi. Disarankan melakukan pemeriksaan gula darah puasa untuk evaluasi lebih lanjut.', normalStr:'< 140 mg/dL' },
+    diabetes:    { min: 200, label: 'Kemungkinan Diabetes', cls: 'badge-obese', note: 'Jika disertai gejala (banyak minum, banyak kencing, berat badan turun), kadar ini cukup untuk mendiagnosis diabetes. Segera temui dokter.', normalStr:'< 140 mg/dL' }
+  },
+  hba1c: {
+    normal:      { max: 5.6, label: 'Normal', cls: 'badge-normal',      note: 'HbA1c Anda normal, artinya rata-rata gula darah 3 bulan terakhir terkontrol dengan baik.', unit:'%', normalStr:'< 5,7%' },
+    prediabetes: { min: 5.7, max: 6.4, label: 'Prediabetes', cls: 'badge-overweight', note: 'HbA1c Anda masuk zona prediabetes. Perubahan gaya hidup aktif sangat dianjurkan sekarang.', normalStr:'< 5,7%' },
+    diabetes:    { min: 6.5, label: 'Diabetes', cls: 'badge-obese', note: 'HbA1c ≥ 6,5% adalah salah satu kriteria diagnosis diabetes. Konsultasikan dengan dokter endokrin untuk rencana pengobatan.', normalStr:'< 5,7%' }
+  }
+};
+
+function updateTestType() {
+  const t = document.getElementById('test-type').value;
+  const lbl = document.getElementById('value-label');
+  const inp = document.getElementById('blood-sugar');
+  if (t === 'hba1c') {
+    lbl.textContent = 'Nilai HbA1c (%)';
+    inp.placeholder = 'Contoh: 5,8';
+    inp.step = '0.1'; inp.min = '3'; inp.max = '20';
+  } else {
+    lbl.textContent = 'Kadar Gula Darah (mg/dL)';
+    inp.placeholder = t === 'puasa' ? 'Contoh: 95' : t === '2jpp' ? 'Contoh: 130' : 'Contoh: 110';
+    inp.step = '1'; inp.min = '20'; inp.max = '600';
+  }
+  document.getElementById('result').classList.remove('show');
+}
+
+function calculate() {
+  const type = document.getElementById('test-type').value;
+  const val = parseFloat(document.getElementById('blood-sugar').value);
+  if (isNaN(val) || val <= 0) return alert('Masukkan nilai gula darah yang valid.');
+
+  const r = RANGES[type];
+  let status, cls, note, normalStr;
+
+  if (val <= (type === 'hba1c' ? 5.6 : r.normal.max)) {
+    status = r.normal.label; cls = r.normal.cls; note = r.normal.note; normalStr = r.normal.normalStr;
+  } else if (val <= (type === 'hba1c' ? 6.4 : r.prediabetes.max)) {
+    status = r.prediabetes.label; cls = r.prediabetes.cls; note = r.prediabetes.note; normalStr = r.prediabetes.normalStr;
+  } else {
+    status = r.diabetes.label; cls = r.diabetes.cls; note = r.diabetes.note; normalStr = r.diabetes.normalStr;
+  }
+
+  const unit = type === 'hba1c' ? '%' : 'mg/dL';
+  const normalMax = type === 'hba1c' ? 5.6 : (type === 'puasa' ? 99 : 139);
+  const diff = Math.round((val - normalMax) * 10) / 10;
+
+  document.getElementById('res-value').textContent = val;
+  document.getElementById('res-unit').textContent = unit;
+  const badge = document.getElementById('res-badge');
+  badge.textContent = status;
+  badge.className = 'result-badge ' + cls;
+  document.getElementById('res-status').textContent = status;
+  document.getElementById('res-normal').textContent = normalStr;
+  document.getElementById('res-diff').textContent = diff > 0 ? '+' + diff + ' (di atas normal)' : 'Dalam batas normal ✓';
+  document.getElementById('res-note').textContent = note;
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>
