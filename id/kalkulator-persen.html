@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Persen Online — Hitung Persentase Cepat & Akurat | NovaCalcs</title>
+<meta name="description" content="Hitung persentase secara instan. Berapa persen dari angka, kenaikan/penurunan persen, diskon, dan berbagai perhitungan persentase lainnya. Gratis dan mudah."/>
+<meta name="keywords" content="kalkulator persen, hitung persentase, berapa persen, kalkulator diskon, kenaikan persen, rumus persen"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-persen.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-persen.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.calc-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; }
+.calc-tabs::-webkit-scrollbar { display: none; }
+.ctab { padding: 8px 14px; font-size: 12px; font-weight: 600; color: var(--text-secondary); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+.ctab.active { color: var(--mint); border-bottom-color: var(--mint); }
+.calc-mode { display: none; }
+.calc-mode.active { display: block; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Persen</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">% Kalkulator Persen</div>
+      <div class="calc-subtitle">Berbagai perhitungan persentase dalam satu tempat</div>
+
+      <div class="calc-tabs">
+        <div class="ctab active" onclick="switchTab(0,this)">X% dari Y</div>
+        <div class="ctab" onclick="switchTab(1,this)">X dari Y (%)</div>
+        <div class="ctab" onclick="switchTab(2,this)">Naik/Turun</div>
+        <div class="ctab" onclick="switchTab(3,this)">Diskon</div>
+      </div>
+
+      <!-- Mode 0: X% of Y -->
+      <div class="calc-mode active" id="mode0">
+        <div class="field"><label>Persentase (%)</label><input type="number" id="m0-pct" placeholder="Contoh: 20"/></div>
+        <div class="field"><label>Dari angka</label><input type="number" id="m0-num" placeholder="Contoh: 150.000"/></div>
+        <button class="calc-btn" onclick="calc0()">Hitung</button>
+        <div class="result-panel" id="res0"><div class="result-main"><div class="result-value" id="r0-val">—</div><div class="result-label" id="r0-label"></div></div></div>
+      </div>
+
+      <!-- Mode 1: X is what % of Y -->
+      <div class="calc-mode" id="mode1">
+        <div class="field"><label>Angka pertama</label><input type="number" id="m1-x" placeholder="Contoh: 30"/></div>
+        <div class="field"><label>Dari angka</label><input type="number" id="m1-y" placeholder="Contoh: 150"/></div>
+        <button class="calc-btn" onclick="calc1()">Hitung</button>
+        <div class="result-panel" id="res1"><div class="result-main"><div class="result-value" id="r1-val">—</div><div class="result-unit">%</div><div class="result-label" id="r1-label"></div></div></div>
+      </div>
+
+      <!-- Mode 2: Increase/Decrease -->
+      <div class="calc-mode" id="mode2">
+        <div class="field"><label>Angka awal</label><input type="number" id="m2-from" placeholder="Contoh: 100.000"/></div>
+        <div class="field"><label>Angka akhir</label><input type="number" id="m2-to" placeholder="Contoh: 125.000"/></div>
+        <button class="calc-btn" onclick="calc2()">Hitung Perubahan</button>
+        <div class="result-panel" id="res2">
+          <div class="result-main"><div class="result-value" id="r2-val">—</div><div class="result-unit">%</div><div class="result-label" id="r2-label"></div></div>
+          <div class="result-rows"><div class="result-row"><span class="rkey">Selisih</span><span class="rval" id="r2-diff">—</span></div></div>
+        </div>
+      </div>
+
+      <!-- Mode 3: Discount -->
+      <div class="calc-mode" id="mode3">
+        <div class="field"><label>Harga asli (Rp)</label><input type="number" id="m3-price" placeholder="Contoh: 250.000"/></div>
+        <div class="field"><label>Diskon (%)</label><input type="number" id="m3-disc" placeholder="Contoh: 30"/></div>
+        <button class="calc-btn" onclick="calc3()">Hitung Diskon</button>
+        <div class="result-panel" id="res3">
+          <div class="result-main"><div class="result-value" id="r3-val">—</div><div class="result-label">Harga setelah diskon</div></div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Jumlah diskon</span><span class="rval" id="r3-saved">—</span></div>
+            <div class="result-row"><span class="rkey">Harga asli</span><span class="rval" id="r3-orig">—</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Persen — Hitung Persentase Online dengan Mudah</h1>
+    <p class="page-desc">Kalkulator persen serbaguna kami menyediakan 4 jenis perhitungan persentase yang paling sering dibutuhkan: mencari nilai dari persen, mencari persen suatu angka, menghitung kenaikan/penurunan, dan kalkulasi diskon.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Jenis Perhitungan Persentase yang Tersedia</h2>
+    <p>Kalkulator ini memiliki 4 mode perhitungan:</p>
+    <ul>
+      <li><strong>X% dari Y</strong> — "Berapa 20% dari Rp 150.000?" → Rp 30.000</li>
+      <li><strong>X dari Y berapa persen</strong> — "30 adalah berapa persen dari 150?" → 20%</li>
+      <li><strong>Kenaikan/Penurunan</strong> — "Dari 100 ribu ke 125 ribu, naik berapa persen?" → 25%</li>
+      <li><strong>Kalkulator Diskon</strong> — "Harga Rp 250.000 diskon 30%, jadi berapa?" → Rp 175.000</li>
+    </ul>
+
+    <h2>Rumus Persentase Dasar</h2>
+    <table>
+      <tr><th>Jenis Perhitungan</th><th>Rumus</th></tr>
+      <tr><td>X% dari Y</td><td>Hasil = (X ÷ 100) × Y</td></tr>
+      <tr><td>X dari Y berapa persen</td><td>Persen = (X ÷ Y) × 100</td></tr>
+      <tr><td>Kenaikan persen</td><td>% = ((Baru − Lama) ÷ Lama) × 100</td></tr>
+      <tr><td>Harga setelah diskon</td><td>Harga = Asli × (1 − Diskon/100)</td></tr>
+    </table>
+
+    <h2>Contoh Penggunaan Sehari-hari</h2>
+    <ul>
+      <li><strong>Belanja:</strong> "Jaket Rp 400.000 diskon 25%, bayar berapa?" → Rp 300.000</li>
+      <li><strong>Keuangan:</strong> "Gaji naik dari Rp 5 juta ke Rp 5,5 juta, naik berapa persen?" → 10%</li>
+      <li><strong>Pajak:</strong> "Berapa PPN 11% dari tagihan Rp 1.000.000?" → Rp 110.000</li>
+      <li><strong>Nilai:</strong> "Dapat 75 dari 100 soal, dapat berapa persen?" → 75%</li>
+      <li><strong>Nutrisi:</strong> "Makanan ini mengandung 25g lemak dari total 2.000 kkal, berapa persen?" → kalkulasi mudah</li>
+    </ul>
+
+    <h2>Tip Hitung Persen Cepat di Kepala</h2>
+    <ul>
+      <li><strong>10%</strong> = Geser koma satu digit ke kiri (1.000 → 100)</li>
+      <li><strong>5%</strong> = Setengah dari 10% (1.000 → 50)</li>
+      <li><strong>20%</strong> = Dua kali 10% (1.000 → 200)</li>
+      <li><strong>25%</strong> = Bagi 4 (1.000 → 250)</li>
+      <li><strong>50%</strong> = Bagi 2 (1.000 → 500)</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung persen kenaikan gaji?</div>
+      <div class="faq-a">Gunakan tab "Naik/Turun". Masukkan gaji lama sebagai angka awal dan gaji baru sebagai angka akhir. Kalkulator akan menampilkan persentase kenaikan beserta selisihnya.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa beda diskon 30% dan harga dipotong 30%?</div>
+      <div class="faq-a">Keduanya sama. Diskon 30% berarti Anda menghemat 30% dari harga asli dan membayar 70% sisanya. Misalnya harga Rp 100.000 diskon 30%: hemat Rp 30.000, bayar Rp 70.000.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung nilai ujian dalam persen?</div>
+      <div class="faq-a">Gunakan tab "X dari Y (%)". Masukkan skor yang didapat sebagai angka pertama dan skor maksimum sebagai angka kedua. Contoh: dapat 80 dari 100 soal → 80%.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa persen PPN di Indonesia?</div>
+      <div class="faq-a">Tarif PPN di Indonesia adalah 11% (berlaku sejak April 2022, naik dari 10%). Gunakan tab "X% dari Y" untuk menghitung nilai PPN dari suatu harga, lalu tambahkan ke harga asal untuk mendapatkan harga total.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Mengapa 10% dari 200 ditambah 10% hasilnya bukan 200 lagi?</div>
+      <div class="faq-a">Karena basis perhitungan berbeda. 10% dari 200 = 20, sehingga hasilnya 220. Lalu 10% dari 220 = 22, bukan 20. Jadi 220 − 22 = 198, bukan 200. Inilah mengapa "naik 10% lalu turun 10%" tidak kembali ke angka semula.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung tip di restoran?</div>
+      <div class="faq-a">Di Indonesia, banyak restoran sudah menambahkan service charge 10% secara otomatis. Jika ingin menghitung manual: gunakan tab "X% dari Y", masukkan 10 (atau berapa persen tip yang ingin diberikan) dan total tagihan. Atau gunakan Kalkulator Tip kami untuk bagi tagihan otomatis.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
+      <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
+      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata</a>
+      <a href="/id/kalkulator-tip.html" class="related-item"><span class="ri">🍽️</span>Kalkulator Tip</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+function switchTab(idx, btn) {
+  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.calc-mode').forEach(m => m.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('mode' + idx).classList.add('active');
+}
+
+const fmt = n => n.toLocaleString('id-ID', {maximumFractionDigits: 2});
+
+function calc0() {
+  const p = parseFloat(document.getElementById('m0-pct').value);
+  const n = parseFloat(document.getElementById('m0-num').value);
+  if (isNaN(p) || isNaN(n)) return alert('Masukkan kedua angka.');
+  const result = (p / 100) * n;
+  document.getElementById('r0-val').textContent = fmt(result);
+  document.getElementById('r0-label').textContent = p + '% dari ' + fmt(n) + ' = ' + fmt(result);
+  document.getElementById('res0').classList.add('show');
+}
+
+function calc1() {
+  const x = parseFloat(document.getElementById('m1-x').value);
+  const y = parseFloat(document.getElementById('m1-y').value);
+  if (isNaN(x) || isNaN(y) || y === 0) return alert('Masukkan kedua angka (angka kedua tidak boleh 0).');
+  const result = (x / y) * 100;
+  document.getElementById('r1-val').textContent = fmt(result);
+  document.getElementById('r1-label').textContent = fmt(x) + ' adalah ' + fmt(result) + '% dari ' + fmt(y);
+  document.getElementById('res1').classList.add('show');
+}
+
+function calc2() {
+  const from = parseFloat(document.getElementById('m2-from').value);
+  const to = parseFloat(document.getElementById('m2-to').value);
+  if (isNaN(from) || isNaN(to) || from === 0) return alert('Masukkan kedua angka.');
+  const pct = ((to - from) / Math.abs(from)) * 100;
+  const diff = to - from;
+  document.getElementById('r2-val').textContent = (pct >= 0 ? '+' : '') + fmt(pct);
+  document.getElementById('r2-label').textContent = pct >= 0 ? '📈 Kenaikan' : '📉 Penurunan';
+  document.getElementById('r2-diff').textContent = (diff >= 0 ? '+' : '') + fmt(diff);
+  document.getElementById('res2').classList.add('show');
+}
+
+function calc3() {
+  const price = parseFloat(document.getElementById('m3-price').value);
+  const disc = parseFloat(document.getElementById('m3-disc').value);
+  if (isNaN(price) || isNaN(disc)) return alert('Masukkan harga dan diskon.');
+  if (disc < 0 || disc > 100) return alert('Diskon harus antara 0–100%.');
+  const saved = (disc / 100) * price;
+  const final = price - saved;
+  document.getElementById('r3-val').textContent = 'Rp ' + fmt(final);
+  document.getElementById('r3-saved').textContent = 'Rp ' + fmt(saved);
+  document.getElementById('r3-orig').textContent = 'Rp ' + fmt(price);
+  document.getElementById('res3').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

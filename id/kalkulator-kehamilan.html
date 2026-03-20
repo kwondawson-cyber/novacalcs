@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Kehamilan — Hitung Usia Kandungan & HPL Online | NovaCalcs</title>
+<meta name="description" content="Hitung usia kehamilan dan perkiraan tanggal lahir (HPL) secara akurat. Masukkan hari pertama haid terakhir (HPHT) atau tanggal konsepsi untuk hasil lengkap."/>
+<meta name="keywords" content="kalkulator kehamilan, hitung usia kandungan, HPL, HPHT, perkiraan tanggal lahir, trimester kehamilan"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kehamilan.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-kehamilan.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Kehamilan</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🤰 Kalkulator Kehamilan</div>
+      <div class="calc-subtitle">Hitung usia kandungan dan perkiraan tanggal lahir</div>
+
+      <div class="field">
+        <label>Metode perhitungan</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-hpht" onclick="setMethod('hpht',this)">Dari HPHT</div>
+          <div class="radio-btn" id="btn-konsepsi" onclick="setMethod('konsepsi',this)">Dari Konsepsi</div>
+          <div class="radio-btn" id="btn-usg" onclick="setMethod('usg',this)">Dari USG</div>
+        </div>
+      </div>
+
+      <div id="field-hpht">
+        <div class="field">
+          <label>Hari Pertama Haid Terakhir (HPHT)</label>
+          <input type="date" id="hpht-date"/>
+        </div>
+        <div class="field">
+          <label>Siklus haid rata-rata (hari)</label>
+          <input type="number" id="cycle" value="28" min="20" max="45"/>
+        </div>
+      </div>
+      <div id="field-konsepsi" style="display:none">
+        <div class="field">
+          <label>Tanggal Perkiraan Konsepsi</label>
+          <input type="date" id="konsepsi-date"/>
+        </div>
+      </div>
+      <div id="field-usg" style="display:none">
+        <div class="field">
+          <label>Tanggal USG dilakukan</label>
+          <input type="date" id="usg-date"/>
+        </div>
+        <div class="field">
+          <label>Usia kandungan saat USG (minggu)</label>
+          <input type="number" id="usg-weeks" placeholder="Contoh: 12" min="4" max="40"/>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Kehamilan</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-weeks">—</div>
+          <div class="result-unit">minggu</div>
+          <div class="result-label" id="res-days-label"></div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Trimester</span><span class="rval" id="res-trimester">—</span></div>
+          <div class="result-row"><span class="rkey">Perkiraan Tanggal Lahir (HPL)</span><span class="rval" id="res-hpl">—</span></div>
+          <div class="result-row"><span class="rkey">Sisa waktu menuju HPL</span><span class="rval" id="res-remaining">—</span></div>
+          <div class="result-row"><span class="rkey">Trimester 1 selesai</span><span class="rval" id="res-t1">—</span></div>
+          <div class="result-row"><span class="rkey">Trimester 2 selesai</span><span class="rval" id="res-t2">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Kehamilan — Usia Kandungan & Perkiraan Tanggal Lahir (HPL)</h1>
+    <p class="page-desc">Kalkulator kehamilan kami membantu Anda mengetahui usia kandungan saat ini, perkiraan tanggal lahir (HPL), dan info trimester secara akurat berdasarkan HPHT, tanggal konsepsi, atau hasil USG.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu HPHT dan Mengapa Penting?</h2>
+    <p>HPHT (Hari Pertama Haid Terakhir) adalah tanggal mulainya menstruasi terakhir sebelum kehamilan. Ini adalah titik referensi utama yang digunakan dokter dan bidan untuk menghitung usia kehamilan dan memperkirakan tanggal lahir.</p>
+    <p>Meski kehamilan sebenarnya dimulai sekitar 2 minggu setelah HPHT (saat ovulasi dan pembuahan), perhitungan standar medis tetap menggunakan HPHT sebagai titik awal karena lebih mudah diingat dan diverifikasi.</p>
+
+    <h2>Cara Menghitung HPL (Hari Perkiraan Lahir)</h2>
+    <p>Metode paling umum adalah <strong>Rumus Naegele</strong>:</p>
+    <ul>
+      <li>Tambahkan 7 hari ke tanggal HPHT</li>
+      <li>Kurangi 3 bulan dari bulan HPHT</li>
+      <li>Tambahkan 1 tahun</li>
+    </ul>
+    <p><strong>Contoh:</strong> HPHT = 1 Januari 2025 → HPL = (1+7) = 8, (Januari-3) = Oktober, +1 tahun → <strong>8 Oktober 2025</strong></p>
+    <p>Atau lebih mudah: HPL ≈ HPHT + 280 hari (40 minggu)</p>
+
+    <h2>Tabel Perkembangan Trimester Kehamilan</h2>
+    <table>
+      <tr><th>Trimester</th><th>Minggu</th><th>Perkembangan Utama</th></tr>
+      <tr><td>Trimester 1</td><td>1 – 12</td><td>Organ vital terbentuk, janin mulai bergerak</td></tr>
+      <tr><td>Trimester 2</td><td>13 – 27</td><td>Janin berkembang pesat, ibu mulai merasakan gerakan</td></tr>
+      <tr><td>Trimester 3</td><td>28 – 40</td><td>Persiapan kelahiran, berat badan janin meningkat</td></tr>
+    </table>
+
+    <h2>Metode Perhitungan yang Tersedia</h2>
+    <ul>
+      <li><strong>Dari HPHT</strong> — Metode standar, paling umum digunakan</li>
+      <li><strong>Dari Konsepsi</strong> — Jika Anda mengetahui tanggal perkiraan pembuahan</li>
+      <li><strong>Dari USG</strong> — Berdasarkan hasil pemeriksaan USG yang lebih akurat di awal kehamilan</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Seberapa akurat perhitungan HPL dari kalkulator ini?</div>
+      <div class="faq-a">Kalkulator ini menggunakan metode Naegele yang sama dengan yang digunakan dokter. Namun perlu diingat bahwa hanya sekitar 5% bayi lahir tepat pada HPL. Sebagian besar bayi lahir dalam rentang ±2 minggu dari HPL. Untuk akurasi tertinggi, pemeriksaan USG di trimester pertama adalah metode terbaik.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Saya tidak ingat HPHT saya, apa yang harus dilakukan?</div>
+      <div class="faq-a">Jika Anda tidak ingat HPHT, gunakan metode "Dari USG" dengan memasukkan tanggal USG dan usia kandungan saat itu. USG di trimester pertama (6–12 minggu) adalah cara paling akurat untuk menentukan usia kehamilan jika HPHT tidak diketahui.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah siklus haid mempengaruhi hasil perhitungan?</div>
+      <div class="faq-a">Ya. Rumus standar mengasumsikan siklus 28 hari. Jika siklus Anda lebih panjang (misal 35 hari), HPL bisa lebih lambat beberapa hari. Kalkulator kami memperhitungkan panjang siklus Anda untuk hasil yang lebih akurat.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik untuk pemeriksaan USG pertama?</div>
+      <div class="faq-a">USG pertama idealnya dilakukan antara minggu ke-8 sampai ke-12 kehamilan. Pada usia ini, janin sudah cukup berkembang untuk mengukur panjang mahkota-bokong (CRL) yang merupakan cara paling akurat menentukan usia kehamilan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa tanda-tanda kehamilan yang normal di trimester pertama?</div>
+      <div class="faq-a">Tanda umum trimester pertama meliputi mual pagi hari (morning sickness), payudara terasa nyeri, sering buang air kecil, kelelahan, dan terlambat menstruasi. Jika mengalami pendarahan atau nyeri parah, segera hubungi dokter.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa berat badan yang normal naik selama kehamilan?</div>
+      <div class="faq-a">Menurut panduan WHO, kenaikan berat badan yang direkomendasikan bergantung pada BMI sebelum hamil: BMI normal (18,5–24,9): naik 11,5–16 kg. BMI rendah (&lt;18,5): naik 12,5–18 kg. BMI tinggi (25–29,9): naik 7–11,5 kg. Obesitas (≥30): naik 5–9 kg.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-hpl.html" class="related-item"><span class="ri">📅</span>Kalkulator HPL</a>
+      <a href="/id/kalkulator-masa-subur.html" class="related-item"><span class="ri">🌸</span>Masa Subur</a>
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let method = 'hpht';
+
+window.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('hpht-date').max = today;
+  document.getElementById('konsepsi-date').max = today;
+  document.getElementById('usg-date').max = today;
+});
+
+function setMethod(m, btn) {
+  method = m;
+  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('field-hpht').style.display = m === 'hpht' ? '' : 'none';
+  document.getElementById('field-konsepsi').style.display = m === 'konsepsi' ? '' : 'none';
+  document.getElementById('field-usg').style.display = m === 'usg' ? '' : 'none';
+}
+
+function calculate() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  let lmp; // Last menstrual period equivalent
+
+  if (method === 'hpht') {
+    const d = document.getElementById('hpht-date').value;
+    if (!d) return alert('Masukkan tanggal HPHT Anda.');
+    const cycle = parseInt(document.getElementById('cycle').value) || 28;
+    lmp = new Date(d);
+    lmp.setDate(lmp.getDate() - (28 - cycle)); // adjust for cycle length
+  } else if (method === 'konsepsi') {
+    const d = document.getElementById('konsepsi-date').value;
+    if (!d) return alert('Masukkan tanggal konsepsi.');
+    lmp = new Date(d);
+    lmp.setDate(lmp.getDate() - 14);
+  } else {
+    const d = document.getElementById('usg-date').value;
+    const w = parseFloat(document.getElementById('usg-weeks').value);
+    if (!d || !w) return alert('Masukkan tanggal USG dan usia kandungan.');
+    lmp = new Date(d);
+    lmp.setDate(lmp.getDate() - (w * 7));
+  }
+
+  const diffDays = Math.floor((today - lmp) / 86400000);
+  const weeks = Math.floor(diffDays / 7);
+  const days = diffDays % 7;
+
+  const hpl = new Date(lmp);
+  hpl.setDate(hpl.getDate() + 280);
+
+  const remaining = Math.ceil((hpl - today) / 86400000);
+
+  let trimester;
+  if (weeks < 13) trimester = 'Trimester 1 (Minggu 1–12)';
+  else if (weeks < 28) trimester = 'Trimester 2 (Minggu 13–27)';
+  else trimester = 'Trimester 3 (Minggu 28–40)';
+
+  const t1End = new Date(lmp); t1End.setDate(t1End.getDate() + 84);
+  const t2End = new Date(lmp); t2End.setDate(t2End.getDate() + 189);
+
+  const fmt = d => d.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+
+  document.getElementById('res-weeks').textContent = weeks;
+  document.getElementById('res-days-label').textContent = days + ' hari ' + (remaining > 0 ? '(masih dalam kehamilan)' : '(sudah melewati HPL)');
+  document.getElementById('res-trimester').textContent = trimester;
+  document.getElementById('res-hpl').textContent = fmt(hpl);
+  document.getElementById('res-remaining').textContent = remaining > 0 ? remaining + ' hari lagi' : 'Sudah melewati HPL';
+  document.getElementById('res-t1').textContent = fmt(t1End);
+  document.getElementById('res-t2').textContent = fmt(t2End);
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

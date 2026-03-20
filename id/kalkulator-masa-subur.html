@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Masa Subur — Prediksi Ovulasi & Waktu Terbaik Hamil | NovaCalcs</title>
+<meta name="description" content="Hitung masa subur dan waktu ovulasi Anda secara akurat. Masukkan tanggal HPHT dan panjang siklus untuk mengetahui hari-hari paling subur Anda."/>
+<meta name="keywords" content="kalkulator masa subur, hitung masa subur, ovulasi, waktu subur, program hamil, HPHT"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-masa-subur.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-masa-subur.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.calendar-strip { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 12px; }
+.cal-day { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; background: var(--bg-input); color: var(--text-muted); border: 1px solid var(--border); }
+.cal-day.fertile { background: rgba(0,201,177,0.2); color: var(--mint); border-color: rgba(0,201,177,0.4); }
+.cal-day.ovulation { background: var(--mint); color: #001a17; border-color: var(--mint); }
+.cal-day.menstrual { background: rgba(248,113,113,0.15); color: #f87171; border-color: rgba(248,113,113,0.3); }
+.legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; font-size: 11px; }
+.legend-item { display: flex; align-items: center; gap: 5px; color: var(--text-secondary); }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Masa Subur</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🌸 Kalkulator Masa Subur</div>
+      <div class="calc-subtitle">Prediksi ovulasi dan hari-hari paling subur Anda</div>
+
+      <div class="field">
+        <label>Hari Pertama Haid Terakhir (HPHT)</label>
+        <input type="date" id="hpht"/>
+      </div>
+      <div class="field">
+        <label>Panjang siklus haid (hari)</label>
+        <input type="number" id="cycle" value="28" min="21" max="45" placeholder="28"/>
+      </div>
+      <div class="field">
+        <label>Jumlah siklus untuk ditampilkan</label>
+        <select id="num-cycles">
+          <option value="1">1 siklus</option>
+          <option value="2" selected>2 siklus</option>
+          <option value="3">3 siklus</option>
+        </select>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Masa Subur</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" style="font-size:1.5rem" id="res-ovulation">—</div>
+          <div class="result-label">Perkiraan Tanggal Ovulasi</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Masa subur (fertile window)</span><span class="rval" id="res-fertile">—</span></div>
+          <div class="result-row"><span class="rkey">Haid berikutnya</span><span class="rval" id="res-next-period">—</span></div>
+          <div class="result-row"><span class="rkey">Panjang siklus</span><span class="rval" id="res-cycle-info">—</span></div>
+        </div>
+        <div id="calendar-area" style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px;display:none">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:8px">Kalender Siklus</div>
+          <div class="calendar-strip" id="calendar"></div>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:rgba(248,113,113,0.5)"></div>Haid</div>
+            <div class="legend-item"><div class="legend-dot" style="background:rgba(0,201,177,0.4)"></div>Masa subur</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--mint)"></div>Ovulasi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Masa Subur — Prediksi Waktu Ovulasi yang Tepat</h1>
+    <p class="page-desc">Kalkulator masa subur kami membantu Anda mengidentifikasi hari-hari paling subur dalam siklus Anda berdasarkan tanggal HPHT dan panjang siklus. Berguna untuk program hamil maupun pemantauan siklus.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu Masa Subur?</h2>
+    <p>Masa subur adalah periode dalam siklus menstruasi ketika kemungkinan terjadinya pembuahan paling tinggi. Sel telur yang dilepaskan saat ovulasi hanya bertahan sekitar 12–24 jam, namun sperma dapat bertahan di dalam tubuh hingga 5 hari. Oleh karena itu, masa subur mencakup sekitar 5–6 hari dalam satu siklus.</p>
+    <p>Mengetahui masa subur sangat berguna bagi pasangan yang sedang menjalani program hamil (promil) maupun bagi yang ingin memahami siklus tubuh mereka lebih baik.</p>
+
+    <h2>Cara Kerja Perhitungan Masa Subur</h2>
+    <p>Kalkulator ini menggunakan <strong>Metode Kalender (Rhythm Method)</strong> yang dikembangkan oleh Ogino-Knaus:</p>
+    <ul>
+      <li>Ovulasi biasanya terjadi <strong>14 hari sebelum</strong> hari pertama haid berikutnya</li>
+      <li>Masa subur dimulai <strong>5 hari sebelum ovulasi</strong> dan berakhir <strong>1 hari setelah ovulasi</strong></li>
+      <li>Untuk siklus 28 hari: ovulasi sekitar hari ke-14, masa subur hari ke-9 sampai ke-15</li>
+    </ul>
+
+    <h2>Faktor yang Mempengaruhi Masa Subur</h2>
+    <ul>
+      <li><strong>Stres</strong> — Dapat menggeser waktu ovulasi</li>
+      <li><strong>Penyakit atau demam</strong> — Dapat mengganggu siklus</li>
+      <li><strong>Perubahan berat badan drastis</strong> — Dapat mempengaruhi hormon</li>
+      <li><strong>Olahraga berlebihan</strong> — Terutama pada atlet wanita</li>
+      <li><strong>PCOS (Sindrom Ovarium Polikistik)</strong> — Dapat membuat siklus tidak teratur</li>
+    </ul>
+
+    <h2>Tips Program Hamil (Promil)</h2>
+    <ul>
+      <li>Lakukan hubungan intim setiap 1–2 hari selama masa subur</li>
+      <li>Jangan hanya mengandalkan kalkulator — gunakan juga tes ovulasi (OPK) untuk akurasi lebih tinggi</li>
+      <li>Pantau suhu basal tubuh (BBT) setiap pagi untuk konfirmasi ovulasi</li>
+      <li>Perhatikan perubahan lendir serviks — saat ovulasi, lendir lebih bening dan elastis seperti putih telur</li>
+      <li>Konsultasikan dengan dokter kandungan jika belum hamil setelah 12 bulan mencoba</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah metode kalender 100% akurat?</div>
+      <div class="faq-a">Tidak. Metode kalender hanya memberikan perkiraan berdasarkan siklus masa lalu. Siklus bisa berubah karena berbagai faktor. Untuk akurasi lebih tinggi, kombinasikan dengan tes ovulasi (OPK strip) yang tersedia di apotek, atau monitor suhu basal tubuh (BBT).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Siklus saya tidak teratur, bagaimana menghitung masa subur?</div>
+      <div class="faq-a">Untuk siklus tidak teratur, catat panjang siklus selama 6–12 bulan terakhir. Masa subur bisa diperkirakan dari siklus terpendek dikurangi 18 hari (awal masa subur) dan siklus terpanjang dikurangi 11 hari (akhir masa subur). Konsultasikan dengan dokter untuk panduan lebih lanjut.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bisakah hamil di luar masa subur?</div>
+      <div class="faq-a">Kemungkinannya sangat kecil tapi tidak nol, terutama karena ovulasi bisa bergeser. Sperma juga bisa bertahan hingga 5 hari, sehingga hubungan intim beberapa hari sebelum masa subur secara teknis bisa menyebabkan kehamilan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa tanda-tanda fisik ovulasi?</div>
+      <div class="faq-a">Beberapa tanda ovulasi yang bisa diperhatikan: nyeri ringan di satu sisi perut bawah (mittelschmerz), peningkatan libido, lendir serviks lebih bening dan elastis, payudara lebih sensitif, dan sedikit peningkatan suhu basal tubuh (0,2–0,5°C).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa lama mencoba program hamil sebelum ke dokter?</div>
+      <div class="faq-a">Panduan umum: di bawah usia 35 tahun, konsultasi ke dokter setelah 12 bulan mencoba tanpa keberhasilan. Di atas 35 tahun, setelah 6 bulan. Jika ada kondisi seperti PCOS, endometriosis, atau siklus sangat tidak teratur, segera konsultasi tanpa menunggu.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada aplikasi yang lebih akurat dari kalkulator?</div>
+      <div class="faq-a">Aplikasi pelacak siklus seperti Flo atau Clue menggunakan data historis yang lebih banyak untuk prediksi yang lebih personal. Namun, tidak ada aplikasi yang bisa menggantikan pemeriksaan medis untuk memastikan kesuburan.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kalkulator Kehamilan</a>
+      <a href="/id/kalkulator-hpl.html" class="related-item"><span class="ri">📅</span>Kalkulator HPL</a>
+      <a href="/id/kalkulator-ovulasi.html" class="related-item"><span class="ri">🔬</span>Kalkulator Ovulasi</a>
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+window.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('hpht').max = today;
+});
+
+function calculate() {
+  const hphtVal = document.getElementById('hpht').value;
+  if (!hphtVal) return alert('Masukkan tanggal HPHT Anda.');
+  const cycle = parseInt(document.getElementById('cycle').value) || 28;
+  const numCycles = parseInt(document.getElementById('num-cycles').value) || 2;
+
+  const hpht = new Date(hphtVal);
+  const ovulationDay = cycle - 14;
+  const ovulation = new Date(hpht); ovulation.setDate(ovulation.getDate() + ovulationDay);
+  const fertileStart = new Date(ovulation); fertileStart.setDate(fertileStart.getDate() - 5);
+  const fertileEnd = new Date(ovulation); fertileEnd.setDate(fertileEnd.getDate() + 1);
+  const nextPeriod = new Date(hpht); nextPeriod.setDate(nextPeriod.getDate() + cycle);
+
+  const fmt = d => d.toLocaleDateString('id-ID', {day:'numeric', month:'long'});
+  const fmtFull = d => d.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+
+  document.getElementById('res-ovulation').textContent = fmtFull(ovulation);
+  document.getElementById('res-fertile').textContent = fmt(fertileStart) + ' – ' + fmt(fertileEnd);
+  document.getElementById('res-next-period').textContent = fmtFull(nextPeriod);
+  document.getElementById('res-cycle-info').textContent = cycle + ' hari';
+
+  // Build calendar
+  const calArea = document.getElementById('calendar-area');
+  const cal = document.getElementById('calendar');
+  cal.innerHTML = '';
+  const menstrualDays = 5;
+
+  for (let s = 0; s < numCycles; s++) {
+    const cycleStart = new Date(hpht); cycleStart.setDate(cycleStart.getDate() + s * cycle);
+    const ov = new Date(cycleStart); ov.setDate(ov.getDate() + ovulationDay);
+    const fs = new Date(ov); fs.setDate(fs.getDate() - 5);
+    const fe = new Date(ov); fe.setDate(fe.getDate() + 1);
+
+    for (let i = 0; i < cycle; i++) {
+      const d = new Date(cycleStart); d.setDate(d.getDate() + i);
+      const el = document.createElement('div');
+      el.className = 'cal-day';
+      el.textContent = d.getDate();
+      if (d.getTime() === ov.getTime()) el.classList.add('ovulation');
+      else if (d >= fs && d <= fe) el.classList.add('fertile');
+      else if (i < menstrualDays) el.classList.add('menstrual');
+      el.title = d.toLocaleDateString('id-ID', {day:'numeric', month:'short'});
+      cal.appendChild(el);
+    }
+    // Separator
+    if (s < numCycles - 1) {
+      const sep = document.createElement('div');
+      sep.style.cssText = 'width:100%;height:1px;background:var(--border);margin:4px 0';
+      cal.appendChild(sep);
+    }
+  }
+
+  calArea.style.display = '';
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

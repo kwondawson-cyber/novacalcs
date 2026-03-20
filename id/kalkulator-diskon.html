@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Diskon Online — Hitung Harga Setelah Diskon | NovaCalcs</title>
+<meta name="description" content="Hitung harga setelah diskon secara instan. Masukkan harga asli dan persentase diskon, langsung tahu harga akhir dan berapa yang Anda hemat."/>
+<meta name="keywords" content="kalkulator diskon, hitung diskon, harga setelah diskon, berapa diskon, hemat berapa, sale calculator"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-diskon.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-diskon.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.disc-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.disc-preset { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer; transition: all 0.15s; }
+.disc-preset:hover, .disc-preset.active { background: var(--mint-dim); color: var(--mint); border-color: rgba(0,201,177,0.35); }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Diskon</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🏷️ Kalkulator Diskon</div>
+      <div class="calc-subtitle">Hitung harga akhir setelah diskon dengan cepat</div>
+
+      <div class="field">
+        <label>Harga Asli (Rp)</label>
+        <input type="number" id="price" placeholder="Contoh: 250000" oninput="liveCalc()"/>
+      </div>
+
+      <div class="field">
+        <label>Persentase Diskon</label>
+        <div class="disc-presets">
+          <div class="disc-preset" onclick="setDisc(10,this)">10%</div>
+          <div class="disc-preset" onclick="setDisc(20,this)">20%</div>
+          <div class="disc-preset" onclick="setDisc(25,this)">25%</div>
+          <div class="disc-preset" onclick="setDisc(30,this)">30%</div>
+          <div class="disc-preset" onclick="setDisc(50,this)">50%</div>
+          <div class="disc-preset" onclick="setDisc(70,this)">70%</div>
+        </div>
+        <input type="number" id="disc" placeholder="Masukkan % diskon" min="0" max="100" oninput="liveCalc()"/>
+      </div>
+
+      <div class="field">
+        <label>Jumlah barang</label>
+        <input type="number" id="qty" value="1" min="1" max="9999" oninput="liveCalc()"/>
+      </div>
+
+      <button class="calc-btn" onclick="liveCalc()">Hitung Diskon</button>
+
+      <div class="result-panel show" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-final">—</div>
+          <div class="result-label">Harga per item setelah diskon</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Harga asli</span><span class="rval" id="res-orig">—</span></div>
+          <div class="result-row"><span class="rkey">Potongan harga</span><span class="rval" id="res-saved" style="color:#60a5fa">—</span></div>
+          <div class="result-row"><span class="rkey">Total (× jumlah barang)</span><span class="rval" id="res-total">—</span></div>
+          <div class="result-row"><span class="rkey">Total hemat</span><span class="rval" id="res-total-saved" style="color:#60a5fa">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Diskon — Hitung Harga Setelah Diskon Instan</h1>
+    <p class="page-desc">Tidak perlu bingung lagi saat belanja. Kalkulator diskon kami langsung menampilkan harga akhir, jumlah penghematan, dan total belanja. Cocok digunakan saat Harbolnas, flash sale, atau belanja sehari-hari.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Cara Menghitung Diskon</h2>
+    <p>Menghitung diskon sangat mudah dengan rumus berikut:</p>
+    <ul>
+      <li><strong>Jumlah diskon</strong> = Harga asli × (Diskon% ÷ 100)</li>
+      <li><strong>Harga akhir</strong> = Harga asli − Jumlah diskon</li>
+      <li>Atau lebih singkat: <strong>Harga akhir</strong> = Harga asli × (1 − Diskon%/100)</li>
+    </ul>
+    <p><strong>Contoh:</strong> Sepatu seharga Rp 450.000 diskon 30%:<br/>
+    Diskon = 450.000 × 0,30 = 135.000<br/>
+    Harga akhir = 450.000 − 135.000 = <strong>Rp 315.000</strong></p>
+
+    <h2>Diskon Bertingkat (Double Discount)</h2>
+    <p>Banyak toko menawarkan diskon ganda seperti "50% + 20% off". Cara menghitungnya:</p>
+    <ul>
+      <li>Diskon pertama: Rp 100.000 × 50% = Rp 50.000</li>
+      <li>Diskon kedua dari harga setelah diskon pertama: Rp 50.000 × 20% = Rp 10.000</li>
+      <li>Harga akhir: Rp 50.000 − Rp 10.000 = <strong>Rp 40.000</strong> (bukan Rp 30.000)</li>
+    </ul>
+    <p>Diskon 50% + 20% ≠ diskon 70%. Total diskon sebenarnya = 60%, bukan 70%!</p>
+
+    <h2>Tips Belanja Saat Harbolnas dan Flash Sale</h2>
+    <ul>
+      <li>Cek harga asli sebelum flash sale — beberapa toko menaikkan harga dulu lalu memberi "diskon"</li>
+      <li>Bandingkan harga dengan toko lain sebelum membeli</li>
+      <li>Perhatikan biaya pengiriman — diskon besar bisa tergerus ongkir yang mahal</li>
+      <li>Hitung total dengan kalkulator ini sebelum checkout untuk menghindari kejutan</li>
+      <li>Prioritaskan barang yang memang sudah direncanakan, bukan karena tergiur diskon semata</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Diskon 50%+20% sama dengan diskon 70%?</div>
+      <div class="faq-a">Tidak. Diskon 50%+20% artinya diskon 50% dulu, lalu dari harga hasil diskon itu, dikurangi lagi 20%. Total efektifnya adalah 60%, bukan 70%. Ini trik marketing yang perlu diwaspadai.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung harga asli dari harga diskon?</div>
+      <div class="faq-a">Jika Anda tahu harga setelah diskon dan persentase diskonnya: Harga asli = Harga setelah diskon ÷ (1 − Diskon/100). Contoh: harga setelah diskon 30% adalah Rp 350.000, maka harga asli = 350.000 ÷ 0,70 = Rp 500.000.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada aplikasi untuk scan barcode dan cek diskon?</div>
+      <div class="faq-a">Di Indonesia, beberapa aplikasi seperti Tokopedia, Shopee, dan aplikasi supermarket tertentu memiliki fitur scan untuk cek harga. Namun untuk perhitungan cepat tanpa aplikasi tambahan, kalkulator diskon kami lebih praktis.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung cashback berbeda dengan diskon?</div>
+      <div class="faq-a">Diskon langsung mengurangi harga di kasir. Cashback adalah pengembalian uang setelah transaksi, biasanya masuk ke dompet digital atau rekening. Secara finansial efeknya sama, tapi dengan cashback Anda membayar penuh dulu baru mendapat kembalian.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah diskon dikenakan PPN?</div>
+      <div class="faq-a">PPN 11% biasanya dikenakan pada harga setelah diskon, bukan harga asli. Jadi harga asli Rp 100.000, diskon 20%, harga setelah diskon Rp 80.000, PPN = 11% × 80.000 = Rp 8.800. Total yang dibayar = Rp 88.800.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa diskon minimum yang benar-benar menguntungkan?</div>
+      <div class="faq-a">Ini tergantung konteks. Untuk belanja online, diskon perlu minimal menutupi ongkos kirim agar menguntungkan. Untuk barang kebutuhan rutin, diskon 5–10% sudah berarti jika membelinya dalam jumlah besar. Intinya, bandingkan selalu dengan harga di tempat lain.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+      <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
+      <a href="/id/pembagi-tagihan.html" class="related-item"><span class="ri">👥</span>Bagi Tagihan</a>
+      <a href="/id/kalkulator-tip.html" class="related-item"><span class="ri">🍽️</span>Kalkulator Tip</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+function setDisc(val, btn) {
+  document.getElementById('disc').value = val;
+  document.querySelectorAll('.disc-preset').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  liveCalc();
+}
+
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function liveCalc() {
+  const price = parseFloat(document.getElementById('price').value);
+  const disc = parseFloat(document.getElementById('disc').value);
+  const qty = parseInt(document.getElementById('qty').value) || 1;
+  if (isNaN(price) || isNaN(disc)) return;
+
+  const saved = price * (disc / 100);
+  const final = price - saved;
+  document.getElementById('res-final').textContent = fmt(final);
+  document.getElementById('res-orig').textContent = fmt(price);
+  document.getElementById('res-saved').textContent = '− ' + fmt(saved);
+  document.getElementById('res-total').textContent = fmt(final * qty);
+  document.getElementById('res-total-saved').textContent = '− ' + fmt(saved * qty);
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

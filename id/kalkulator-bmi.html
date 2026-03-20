@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator BMI Online — Hitung Indeks Massa Tubuh Anda | NovaCalcs</title>
+<meta name="description" content="Hitung BMI (Indeks Massa Tubuh) Anda secara gratis dan instan. Masukkan tinggi dan berat badan, langsung ketahui apakah berat Anda ideal, kurang, atau berlebih."/>
+<meta name="keywords" content="kalkulator BMI, hitung BMI, indeks massa tubuh, berat badan ideal, BMI normal, cara hitung BMI"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bmi.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-bmi.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator BMI","url":"https://novacalcs.com/id/kalkulator-bmi.html","description":"Kalkulator BMI gratis untuk menghitung Indeks Massa Tubuh","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Kalkulator BMI</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+
+  <!-- CALCULATOR WIDGET -->
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">⚖️ Kalkulator BMI</div>
+      <div class="calc-subtitle">Hitung Indeks Massa Tubuh Anda secara instan</div>
+
+      <div class="unit-toggle">
+        <button class="unit-btn active" onclick="setUnit('metric',this)">Metrik (kg/cm)</button>
+        <button class="unit-btn" onclick="setUnit('imperial',this)">Imperial (lbs/in)</button>
+      </div>
+
+      <div id="metric-fields">
+        <div class="field">
+          <label>Tinggi Badan (cm)</label>
+          <input type="number" id="height-cm" placeholder="Contoh: 170" min="100" max="250"/>
+        </div>
+        <div class="field">
+          <label>Berat Badan (kg)</label>
+          <input type="number" id="weight-kg" placeholder="Contoh: 65" min="20" max="300"/>
+        </div>
+      </div>
+
+      <div id="imperial-fields" style="display:none">
+        <div class="field">
+          <label>Tinggi Badan (inci)</label>
+          <input type="number" id="height-in" placeholder="Contoh: 67" min="40" max="100"/>
+        </div>
+        <div class="field">
+          <label>Berat Badan (lbs)</label>
+          <input type="number" id="weight-lbs" placeholder="Contoh: 143" min="44" max="660"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Jenis Kelamin</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-male" onclick="selectGender('male')">👨 Laki-laki</div>
+          <div class="radio-btn" id="btn-female" onclick="selectGender('female')">👩 Perempuan</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Usia (tahun)</label>
+        <input type="number" id="age" placeholder="Contoh: 25" min="2" max="120"/>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung BMI Saya</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-value">—</div>
+          <div class="result-label">Indeks Massa Tubuh (BMI)</div>
+          <div class="result-badge" id="res-badge"></div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Kategori WHO</span><span class="rval" id="res-cat">—</span></div>
+          <div class="result-row"><span class="rkey">Berat ideal Anda</span><span class="rval" id="res-ideal">—</span></div>
+          <div class="result-row"><span class="rkey">Selisih dari ideal</span><span class="rval" id="res-diff">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEO CONTENT -->
+  <div class="seo-content">
+    <h1>Kalkulator BMI — Hitung Indeks Massa Tubuh Online Gratis</h1>
+    <p class="page-desc">Kalkulator BMI kami membantu Anda mengetahui apakah berat badan Anda berada dalam rentang sehat berdasarkan tinggi dan berat badan Anda. Hasil langsung, akurat, dan gratis.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu BMI?</h2>
+    <p>BMI (Body Mass Index) atau Indeks Massa Tubuh adalah ukuran yang digunakan untuk menilai apakah berat badan seseorang proporsional dengan tinggi badannya. BMI dihitung dengan membagi berat badan (dalam kg) dengan kuadrat tinggi badan (dalam meter).</p>
+    <p>BMI pertama kali dikembangkan oleh ahli statistik Belgia Adolphe Quetelet pada abad ke-19 dan hingga kini digunakan oleh WHO sebagai standar global untuk mengklasifikasikan status berat badan.</p>
+
+    <h2>Rumus Hitung BMI</h2>
+    <p>Rumus BMI sangat sederhana:</p>
+    <table>
+      <tr><th>Satuan</th><th>Rumus</th></tr>
+      <tr><td>Metrik (kg, cm)</td><td>BMI = Berat (kg) ÷ (Tinggi (m) × Tinggi (m))</td></tr>
+      <tr><td>Imperial (lbs, inci)</td><td>BMI = (Berat (lbs) × 703) ÷ (Tinggi (in) × Tinggi (in))</td></tr>
+    </table>
+    <p><strong>Contoh:</strong> Seseorang dengan tinggi 170 cm dan berat 65 kg: BMI = 65 ÷ (1,70 × 1,70) = 65 ÷ 2,89 = <strong>22,5</strong> (Normal)</p>
+
+    <h2>Tabel Kategori BMI WHO</h2>
+    <table>
+      <tr><th>Kategori</th><th>Nilai BMI</th><th>Keterangan</th></tr>
+      <tr><td>Kekurangan berat badan</td><td>&lt; 18,5</td><td>Perlu menambah berat badan</td></tr>
+      <tr><td>Normal / Ideal</td><td>18,5 – 24,9</td><td>Berat badan sehat</td></tr>
+      <tr><td>Kelebihan berat badan</td><td>25,0 – 29,9</td><td>Perlu perhatian</td></tr>
+      <tr><td>Obesitas Kelas I</td><td>30,0 – 34,9</td><td>Berisiko tinggi</td></tr>
+      <tr><td>Obesitas Kelas II</td><td>35,0 – 39,9</td><td>Sangat berisiko</td></tr>
+      <tr><td>Obesitas Kelas III</td><td>≥ 40,0</td><td>Sangat berbahaya</td></tr>
+    </table>
+
+    <h2>Cara Menggunakan Kalkulator BMI Ini</h2>
+    <ol>
+      <li>Pilih satuan: <strong>Metrik</strong> (kg/cm) atau <strong>Imperial</strong> (lbs/inci)</li>
+      <li>Masukkan <strong>tinggi badan</strong> Anda</li>
+      <li>Masukkan <strong>berat badan</strong> Anda saat ini</li>
+      <li>Pilih <strong>jenis kelamin</strong> dan masukkan <strong>usia</strong></li>
+      <li>Klik tombol <strong>"Hitung BMI Saya"</strong></li>
+      <li>Lihat hasil BMI beserta kategori dan berat badan ideal Anda</li>
+    </ol>
+
+    <h2>Keterbatasan BMI yang Perlu Diketahui</h2>
+    <p>Meski BMI berguna sebagai indikator awal, ada beberapa hal yang perlu diperhatikan:</p>
+    <ul>
+      <li><strong>Tidak membedakan lemak dan otot</strong> — Atlet berotot bisa memiliki BMI tinggi meski tidak gemuk</li>
+      <li><strong>Tidak memperhitungkan distribusi lemak</strong> — Lemak perut lebih berbahaya daripada lemak di tempat lain</li>
+      <li><strong>Berbeda untuk usia lanjut</strong> — Lansia cenderung memiliki lebih banyak lemak dengan BMI yang sama</li>
+      <li><strong>Perbedaan etnis</strong> — Beberapa penelitian menunjukkan orang Asia memiliki risiko lebih tinggi pada BMI yang lebih rendah</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa BMI ideal untuk orang Indonesia?</div>
+      <div class="faq-a">Berdasarkan standar WHO, BMI ideal berada di rentang 18,5–24,9. Namun, beberapa ahli kesehatan Asia merekomendasikan target yang lebih rendah, yaitu 18,5–22,9, karena orang Asia cenderung memiliki risiko penyakit metabolik pada BMI yang lebih rendah dibandingkan orang Barat.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah BMI 25 itu gemuk?</div>
+      <div class="faq-a">BMI 25 termasuk kategori "kelebihan berat badan" menurut WHO, tapi belum dikategorikan obesitas. Ini adalah sinyal untuk mulai lebih memperhatikan pola makan dan aktivitas fisik. Konsultasikan dengan dokter jika Anda khawatir.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah BMI berlaku untuk anak-anak?</div>
+      <div class="faq-a">BMI untuk anak-anak (usia 2–19 tahun) dihitung dengan rumus yang sama, tetapi interpretasinya berbeda. Untuk anak, BMI dibandingkan dengan persentil anak seusia dan jenis kelamin yang sama, bukan dengan angka tetap.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Seberapa sering saya harus mengecek BMI?</div>
+      <div class="faq-a">Mengecek BMI setiap 1–3 bulan sudah cukup untuk memantau perubahan berat badan. Yang lebih penting adalah memantau tren jangka panjang, bukan perubahan harian yang bisa dipengaruhi oleh air dalam tubuh.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa yang harus dilakukan jika BMI saya tidak normal?</div>
+      <div class="faq-a">Jika BMI Anda di luar rentang normal, langkah pertama adalah berkonsultasi dengan dokter atau ahli gizi untuk mendapatkan panduan yang tepat sesuai kondisi kesehatan Anda. Jangan melakukan diet ekstrem tanpa pengawasan medis.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah BMI sama untuk pria dan wanita?</div>
+      <div class="faq-a">Rumus dan kategori BMI standar WHO sama untuk pria dan wanita. Namun secara alami, wanita memiliki persentase lemak tubuh yang lebih tinggi daripada pria dengan BMI yang sama, karena perbedaan komposisi tubuh secara biologis.</div>
+    </div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
+      <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🔥</span>Kalkulator Kalori</a>
+      <a href="/id/kebutuhan-air.html" class="related-item"><span class="ri">💧</span>Kebutuhan Air</a>
+      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="/id/">Beranda</a>
+    <a href="/id/tentang.html">Tentang</a>
+    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
+  </div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let currentUnit = 'metric';
+let currentGender = 'male';
+
+function setUnit(u, btn) {
+  currentUnit = u;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('metric-fields').style.display = u === 'metric' ? '' : 'none';
+  document.getElementById('imperial-fields').style.display = u === 'imperial' ? '' : 'none';
+}
+
+function selectGender(g) {
+  currentGender = g;
+  document.getElementById('btn-male').classList.toggle('active', g === 'male');
+  document.getElementById('btn-female').classList.toggle('active', g === 'female');
+}
+
+function calculate() {
+  let heightM, weightKg;
+  if (currentUnit === 'metric') {
+    const h = parseFloat(document.getElementById('height-cm').value);
+    const w = parseFloat(document.getElementById('weight-kg').value);
+    if (!h || !w || h < 100 || h > 250 || w < 20 || w > 300) return alert('Masukkan tinggi dan berat badan yang valid.');
+    heightM = h / 100;
+    weightKg = w;
+  } else {
+    const h = parseFloat(document.getElementById('height-in').value);
+    const w = parseFloat(document.getElementById('weight-lbs').value);
+    if (!h || !w) return alert('Masukkan tinggi dan berat badan yang valid.');
+    heightM = h * 0.0254;
+    weightKg = w * 0.453592;
+  }
+
+  const bmi = weightKg / (heightM * heightM);
+  const bmiRound = Math.round(bmi * 10) / 10;
+
+  let cat, badgeClass, ideal;
+  if (bmi < 18.5) { cat = 'Kekurangan berat badan'; badgeClass = 'badge-underweight'; }
+  else if (bmi < 25) { cat = 'Berat badan normal ✓'; badgeClass = 'badge-normal'; }
+  else if (bmi < 30) { cat = 'Kelebihan berat badan'; badgeClass = 'badge-overweight'; }
+  else { cat = 'Obesitas'; badgeClass = 'badge-obese'; }
+
+  const idealMin = Math.round(18.5 * heightM * heightM * 10) / 10;
+  const idealMax = Math.round(24.9 * heightM * heightM * 10) / 10;
+  const diff = Math.round((weightKg - (bmi < 18.5 ? idealMin : idealMax)) * 10) / 10;
+
+  document.getElementById('res-value').textContent = bmiRound;
+  const badge = document.getElementById('res-badge');
+  badge.textContent = cat;
+  badge.className = 'result-badge ' + badgeClass;
+  document.getElementById('res-cat').textContent = cat;
+  document.getElementById('res-ideal').textContent = idealMin + ' – ' + idealMax + ' kg';
+  if (bmi >= 18.5 && bmi < 25) {
+    document.getElementById('res-diff').textContent = 'Berat badan Anda ideal 👍';
+  } else if (diff > 0) {
+    document.getElementById('res-diff').textContent = '+' + Math.abs(diff) + ' kg (kelebihan)';
+  } else {
+    document.getElementById('res-diff').textContent = Math.abs(diff) + ' kg (kekurangan)';
+  }
+
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) {
+  el.closest('.faq-item').classList.toggle('open');
+}
+
+// Enter key
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>
