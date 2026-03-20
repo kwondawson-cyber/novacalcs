@@ -288,7 +288,7 @@ function sunPosition(jd) {
 }
 
 function hourAngle(lat, dec, elev) {
-  const num = Math.cos(toRad(elev)) - Math.sin(toRad(lat))*Math.sin(dec);
+  const num = Math.sin(toRad(elev)) - Math.sin(toRad(lat))*Math.sin(dec);
   const denom = Math.cos(toRad(lat)) * Math.cos(dec);
   const val = num/denom;
   if (val < -1 || val > 1) return null;
@@ -297,9 +297,9 @@ function hourAngle(lat, dec, elev) {
 
 function asrAngle(lat, dec) {
   // Shadow factor 1 (standard/Shafi'i)
+  // Returns elevation angle in degrees when shadow length = object height
   const shadow = 1;
-  const angle = toDeg(Math.atan(1 / (shadow + Math.tan(Math.abs(toRad(lat) - dec)))));
-  return 90 - angle;
+  return toDeg(Math.atan(1 / (shadow + Math.tan(Math.abs(toRad(lat) - dec)))));
 }
 
 function calcPrayerTimes(date, lat, lng, tz, method) {

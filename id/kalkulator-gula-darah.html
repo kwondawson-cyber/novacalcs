@@ -119,7 +119,7 @@
     <ul>
       <li><strong>Gula Darah Puasa (GDP)</strong> — Diukur setelah puasa minimal 8 jam. Ini adalah pemeriksaan standar untuk diagnosis diabetes. Normal: &lt; 100 mg/dL.</li>
       <li><strong>Gula Darah 2 Jam PP</strong> — Diukur 2 jam setelah makan (post-prandial). Normal: &lt; 140 mg/dL.</li>
-      <li><strong>Gula Darah Sewaktu (GDS)</strong> — Diukur kapan saja tanpa memperhatikan waktu makan terakhir. Jika ≥ 200 mg/dL disertai gejala, bisa mengarah pada diabetes.</li>
+      <li><strong>Gula Darah Sewaktu (GDS)</strong> — Diukur kapan saja tanpa memperhatikan waktu makan terakhir. GDS <strong>tidak digunakan sebagai alat skrining tunggal</strong>. Hanya jika ≥ 200 mg/dL <em>disertai gejala klasik</em> (sering kencing, sering haus, berat badan turun tanpa sebab) yang dapat digunakan sebagai kriteria diagnosis diabetes. Tanpa gejala, tetap diperlukan konfirmasi lewat GDP atau HbA1c.</li>
       <li><strong>HbA1c</strong> — Mencerminkan rata-rata kadar gula darah selama 2–3 bulan terakhir. Merupakan pemeriksaan terbaik untuk memantau kontrol diabetes jangka panjang. Normal: &lt; 5,7%.</li>
     </ul>
 
@@ -224,9 +224,9 @@ const RANGES = {
     diabetes:    { min: 200, label: 'Diabetes (Perlu Konfirmasi)', cls: 'badge-obese', note: 'Kadar gula darah 2 jam PP sangat tinggi. Segera konsultasikan dengan dokter untuk pemeriksaan lanjutan.', normalStr:'< 140 mg/dL' }
   },
   sewaktu: {
-    normal:      { max: 139, label: 'Normal', cls: 'badge-normal',      note: 'Gula darah sewaktu dalam batas normal.', unit:'mg/dL', normalStr:'< 140 mg/dL' },
-    prediabetes: { min: 140, max: 199, label: 'Perlu Perhatian', cls: 'badge-overweight', note: 'Kadar gula darah sewaktu agak tinggi. Disarankan melakukan pemeriksaan gula darah puasa untuk evaluasi lebih lanjut.', normalStr:'< 140 mg/dL' },
-    diabetes:    { min: 200, label: 'Kemungkinan Diabetes', cls: 'badge-obese', note: 'Jika disertai gejala (banyak minum, banyak kencing, berat badan turun), kadar ini cukup untuk mendiagnosis diabetes. Segera temui dokter.', normalStr:'< 140 mg/dL' }
+    normal:      { max: 199, label: 'Dalam Batas Aman', cls: 'badge-normal', note: 'GDS < 200 mg/dL belum cukup untuk diagnosis diabetes. GDS bukan alat skrining tunggal — lakukan pemeriksaan Gula Darah Puasa (GDP) untuk evaluasi lebih akurat.', unit:'mg/dL', normalStr:'< 200 mg/dL' },
+    prediabetes: { min: 999, max: 998, label: '-', cls: 'badge-overweight', note: '-', normalStr:'-' },
+    diabetes:    { min: 200, label: 'Kemungkinan Diabetes', cls: 'badge-obese', note: 'GDS ≥ 200 mg/dL disertai gejala klasik (sering kencing, sering haus, berat badan turun) merupakan kriteria diagnosis diabetes menurut Perkeni dan WHO. Jika tidak ada gejala, perlu pemeriksaan konfirmasi GDP atau HbA1c. Segera konsultasikan dengan dokter.', normalStr:'< 200 mg/dL' }
   },
   hba1c: {
     normal:      { max: 5.6, label: 'Normal', cls: 'badge-normal',      note: 'HbA1c Anda normal, artinya rata-rata gula darah 3 bulan terakhir terkontrol dengan baik.', unit:'%', normalStr:'< 5,7%' },
