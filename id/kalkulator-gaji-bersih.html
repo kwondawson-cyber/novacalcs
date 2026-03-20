@@ -162,30 +162,55 @@ function setBpjs(v, btn) {
 
 const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
 
-function hitungPph(bruto, ptkp) {
-  const biayaJabatan = Math.min(bruto * 0.05, 500000);
-  const netoTahun = (bruto - biayaJabatan) * 12;
-  const pkp = Math.max(0, Math.floor((netoTahun - ptkp) / 1000) * 1000);
-  if (pkp <= 0) return 0;
-  let pajak = 0;
-  const brackets = [[60e6,0.05],[250e6,0.15],[500e6,0.25],[5000e6,0.30],[Infinity,0.35]];
-  let prev = 0;
-  for (const [batas, tarif] of brackets) {
-    if (pkp <= prev) break;
-    pajak += (Math.min(pkp, batas) - prev) * tarif;
-    prev = batas;
-  }
-  return pajak / 12;
+// TER bulanan PP 58/2023 — Kategori A
+const TER_A = [
+  [5400000,0],[5650000,0.0025],[5950000,0.005],[6300000,0.0075],
+  [6750000,0.01],[7500000,0.0125],[8550000,0.015],[9650000,0.0175],
+  [10050000,0.02],[10350000,0.0225],[10700000,0.025],[11050000,0.03],
+  [11600000,0.035],[12500000,0.04],[13750000,0.05],[15100000,0.06],
+  [16950000,0.07],[19750000,0.08],[24150000,0.09],[26450000,0.10],
+  [28000000,0.11],[30050000,0.12],[32400000,0.13],[35400000,0.14],
+  [39100000,0.15],[43850000,0.16],[47800000,0.17],[51400000,0.18],
+  [56300000,0.19],[62200000,0.20],[66700000,0.21],[74500000,0.22],
+  [86000000,0.23],[Infinity,0.24]
+];
+const TER_B = [
+  [6200000,0],[6500000,0.0025],[6850000,0.005],[7300000,0.0075],
+  [9200000,0.01],[10750000,0.015],[11600000,0.02],[12600000,0.025],
+  [13600000,0.03],[14950000,0.04],[16400000,0.05],[18450000,0.06],
+  [21850000,0.07],[26000000,0.08],[29350000,0.10],[33950000,0.12],
+  [41100000,0.14],[49500000,0.16],[64000000,0.19],[Infinity,0.22]
+];
+const TER_C = [
+  [6600000,0],[6950000,0.0025],[7350000,0.005],[7800000,0.0075],
+  [8850000,0.01],[10350000,0.0175],[11600000,0.025],[14500000,0.04],
+  [22500000,0.07],[35200000,0.11],[Infinity,0.20]
+];
+
+// PTKP index map (same select order as gaji-bersih)
+const ptkpMap = [54e6, 58.5e6, 63e6, 67.5e6, 58.5e6, 63e6, 67.5e6, 72e6];
+const katMap  = ['A','A','B','B','A','B','B','C'];
+
+function getTER(bruto, kat) {
+  const tbl = kat === 'A' ? TER_A : kat === 'B' ? TER_B : TER_C;
+  for (const [batas, tarif] of tbl) { if (bruto <= batas) return tarif; }
+  return tbl[tbl.length-1][1];
+}
+
+function hitungPph(bruto, ptkpIdx) {
+  const kat = katMap[ptkpIdx];
+  return Math.round(bruto * getTER(bruto, kat));
 }
 
 function liveCalc() {
   const gaji = parseFloat(document.getElementById('gaji').value) || 0;
   const tunjangan = parseFloat(document.getElementById('tunjangan').value) || 0;
-  const ptkp = parseFloat(document.getElementById('ptkp').value);
+  const ptkpEl = document.getElementById('ptkp');
+  const ptkpIdx = ptkpEl.selectedIndex;
   if (!gaji) return;
 
   const bruto = gaji + tunjangan;
-  const pph = hitungPph(bruto, ptkp);
+  const pph = hitungPph(bruto, ptkpIdx);
 
   // BPJS karyawan
   const bpjsKes = includeBpjs ? Math.min(bruto, 12000000) * 0.01 : 0;
