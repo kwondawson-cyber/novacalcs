@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Hari Kerja — Hitung Hari Kerja Antara Dua Tanggal | NovaCalcs</title>
+<meta name="description" content="Hitung jumlah hari kerja (Senin–Jumat) antara dua tanggal, tanpa menghitung hari Sabtu dan Minggu. Cocok untuk menghitung deadline, masa kontrak, dan SLA bisnis."/>
+<meta name="keywords" content="kalkulator hari kerja, hitung hari kerja, hari bisnis, working days, hari senin jumat"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/hari-kerja.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/hari-kerja.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#tanggal">Tanggal</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Hari Kerja</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">📋 Kalkulator Hari Kerja</div>
+      <div class="calc-subtitle">Hitung hari Senin–Jumat antara dua tanggal</div>
+
+      <div class="field"><label>Tanggal Mulai</label><div id="start-picker"></div></div>
+      <div class="field"><label>Tanggal Akhir</label><div id="end-picker"></div></div>
+      <div class="field"><label>Libur Nasional (opsional)</label>
+        <input type="number" id="holidays" value="0" min="0" max="30" placeholder="Jumlah hari libur nasional"/>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Masukkan jumlah hari libur nasional yang jatuh di hari kerja dalam rentang ini</div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Hari Kerja</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-workdays">—</div>
+          <div class="result-unit">hari kerja</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Total hari kalender</span><span class="rval" id="res-total">—</span></div>
+          <div class="result-row"><span class="rkey">Akhir pekan (Sab+Min)</span><span class="rval" id="res-weekend">—</span></div>
+          <div class="result-row"><span class="rkey">Libur nasional dikurangi</span><span class="rval" id="res-holidays">—</span></div>
+          <div class="result-row"><span class="rkey">Hari kerja efektif</span><span class="rval" id="res-effective" style="color:var(--mint)">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Hari Kerja — Hitung Hari Senin–Jumat</h1>
+    <p class="page-desc">Hitung jumlah hari kerja (Senin sampai Jumat) antara dua tanggal, dengan opsi mengurangi hari libur nasional. Berguna untuk perhitungan SLA, deadline proyek, dan masa kontrak bisnis.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Apa itu Hari Kerja?</h2>
+    <p>Hari kerja (working days atau business days) adalah hari-hari yang dihitung sebagai hari resmi bekerja, umumnya Senin hingga Jumat. Hari Sabtu, Minggu, dan hari libur nasional tidak termasuk hari kerja. Di Indonesia, hari kerja resmi pemerintah adalah Senin–Jumat.</p>
+
+    <h2>Hari Libur Nasional Indonesia 2025</h2>
+    <table>
+      <tr><th>Tanggal</th><th>Nama Hari Libur</th></tr>
+      <tr><td>1 Januari</td><td>Tahun Baru Masehi</td></tr>
+      <tr><td>27–28 Maret</td><td>Idul Fitri 1446 H</td></tr>
+      <tr><td>18 April</td><td>Jumat Agung</td></tr>
+      <tr><td>1 Mei</td><td>Hari Buruh Internasional</td></tr>
+      <tr><td>29 Mei</td><td>Kenaikan Yesus Kristus</td></tr>
+      <tr><td>1 Juni</td><td>Hari Lahir Pancasila</td></tr>
+      <tr><td>6 Juni</td><td>Idul Adha 1446 H</td></tr>
+      <tr><td>17 Agustus</td><td>HUT Kemerdekaan RI</td></tr>
+      <tr><td>25 Desember</td><td>Hari Natal</td></tr>
+    </table>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa hari kerja dalam 1 bulan rata-rata?</div>
+    <div class="faq-a">Rata-rata sekitar 21–23 hari kerja per bulan (tergantung jumlah hari di bulan tersebut dan berapa akhir pekan). Dalam 1 tahun penuh ada sekitar 260 hari kerja sebelum dikurangi libur nasional. Setelah dikurangi rata-rata 16 hari libur nasional Indonesia, tersisa sekitar 244 hari kerja per tahun.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa yang dimaksud SLA 3 hari kerja?</div>
+    <div class="faq-a">SLA (Service Level Agreement) 3 hari kerja berarti layanan akan diselesaikan dalam 3 hari Senin–Jumat, tidak termasuk akhir pekan. Jika pengajuan masuk hari Kamis, 3 hari kerja = Jumat + Senin + Selasa (bukan Kamis+Jumat+Sabtu).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah hari Sabtu termasuk hari kerja di Indonesia?</div>
+    <div class="faq-a">Secara resmi tidak, untuk instansi pemerintah dan sebagian besar perusahaan formal. Namun beberapa perusahaan swasta, terutama yang beroperasi 6 hari (Senin–Sabtu), menghitung Sabtu sebagai hari kerja. Kalkulator ini menggunakan standar 5 hari kerja (Senin–Jumat).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana menghitung cuti tahunan yang tersisa?</div>
+    <div class="faq-a">Gunakan kalkulator ini untuk menghitung total hari kerja yang telah diambil cuti dalam satu tahun. Masukkan tanggal mulai dan akhir setiap periode cuti, jumlahkan hasilnya, lalu kurangi dari jatah cuti tahunan Anda (umumnya 12 hari/tahun di Indonesia).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa hari kerja dalam 90 hari kalender?</div>
+    <div class="faq-a">Dalam 90 hari kalender, rata-rata terdapat sekitar 64 hari kerja (90 hari − 26 akhir pekan − rata-rata libur nasional). Angka pastinya bervariasi tergantung hari apa tanggal mulainya dan berapa libur nasional yang jatuh di rentang tersebut.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah cuti bersama termasuk hari libur?</div>
+    <div class="faq-a">Cuti bersama bukan hari libur resmi secara hukum, tetapi ditetapkan pemerintah sebagai hari yang dianjurkan untuk cuti. Instansi pemerintah dan banyak perusahaan swasta mengikutinya. Jika perusahaan Anda menerapkan cuti bersama, tambahkan jumlah hari cuti bersama ke kolom "Libur Nasional" di kalkulator ini.</div></div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/selisih-tanggal.html" class="related-item"><span class="ri">📆</span>Selisih Tanggal</a>
+      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
+      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
+      <a href="/id/kalkulator-pesangon.html" class="related-item"><span class="ri">📋</span>Pesangon</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+function dpHTML(id) {
+  const yr = new Date().getFullYear();
+  const opts = MONTHS.map((m,i) => `<option value="${i+1}">${m}</option>`).join('');
+  return `<div class="date-picker">
+    <input type="number" class="dp-day"  id="${id}-d" placeholder="Tgl" min="1" max="31"/>
+    <select class="dp-month" id="${id}-m"><option value="">Bulan</option>${opts}</select>
+    <input type="number" class="dp-year" id="${id}-y" placeholder="Tahun" min="1900" max="${yr+10}"/>
+  </div>`;
+}
+function dpSet(id, date) {
+  document.getElementById(id+'-d').value = date.getDate();
+  document.getElementById(id+'-m').value = date.getMonth()+1;
+  document.getElementById(id+'-y').value = date.getFullYear();
+}
+function dpGet(id) {
+  const d = parseInt(document.getElementById(id+'-d').value);
+  const m = parseInt(document.getElementById(id+'-m').value);
+  const y = parseInt(document.getElementById(id+'-y').value);
+  if (!d||!m||!y) return null;
+  const dt = new Date(y,m-1,d);
+  return dt.getDate()===d ? dt : null;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('start-picker').innerHTML = dpHTML('start');
+  document.getElementById('end-picker').innerHTML = dpHTML('end');
+  const today = new Date();
+  dpSet('end', today);
+  const monthAgo = new Date(today); monthAgo.setMonth(monthAgo.getMonth()-1);
+  dpSet('start', monthAgo);
+});
+
+function calculate() {
+  const s = dpGet('start'), e = dpGet('end');
+  if (!s||!e) return alert('Masukkan tanggal yang valid.');
+  const holidays = parseInt(document.getElementById('holidays').value) || 0;
+
+  const start = s <= e ? s : e;
+  const end   = s <= e ? e : s;
+  const totalDays = Math.round((end - start) / 86400000);
+
+  let workdays = 0, weekends = 0;
+  const cur = new Date(start);
+  while (cur < end) {
+    const day = cur.getDay();
+    if (day === 0 || day === 6) weekends++;
+    else workdays++;
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  const effective = Math.max(0, workdays - holidays);
+
+  document.getElementById('res-workdays').textContent = workdays.toLocaleString('id-ID');
+  document.getElementById('res-total').textContent = totalDays.toLocaleString('id-ID') + ' hari';
+  document.getElementById('res-weekend').textContent = weekends.toLocaleString('id-ID') + ' hari';
+  document.getElementById('res-holidays').textContent = holidays + ' hari';
+  document.getElementById('res-effective').textContent = effective.toLocaleString('id-ID') + ' hari';
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

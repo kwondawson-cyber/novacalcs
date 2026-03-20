@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Tip & Bagi Tagihan Restoran | NovaCalcs</title>
+<meta name="description" content="Hitung tip dan bagi tagihan restoran dengan mudah. Masukkan total tagihan, persen tip, dan jumlah orang untuk mengetahui berapa yang harus dibayar per orang."/>
+<meta name="keywords" content="kalkulator tip, bagi tagihan restoran, hitung tip, dutch pay, patungan makan, service charge"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tip.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kalkulator-tip.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#utilitas">Utilitas</a><span class="breadcrumb-sep">›</span>
+      <span>Kalkulator Tip</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🍽️ Kalkulator Tip & Bagi Tagihan</div>
+      <div class="calc-subtitle">Hitung tip dan bagi tagihan restoran dengan mudah</div>
+
+      <div class="field"><label>Total Tagihan (Rp)</label>
+        <input type="number" id="bill" placeholder="Contoh: 350000" oninput="calculate()"/>
+      </div>
+      <div class="field"><label>Tip / Tambahan (%)</label>
+        <div class="disc-presets" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+          <div class="inv-preset" onclick="setTip(0,this)">0%</div>
+          <div class="inv-preset on" onclick="setTip(10,this)">10%</div>
+          <div class="inv-preset" onclick="setTip(15,this)">15%</div>
+          <div class="inv-preset" onclick="setTip(20,this)">20%</div>
+        </div>
+        <input type="number" id="tip" value="10" min="0" max="100" oninput="calculate()"/>
+      </div>
+      <div class="field"><label>Jumlah Orang</label>
+        <div class="slider-row">
+          <label style="min-width:0">Orang</label>
+          <input type="range" id="people-range" min="1" max="20" value="2" oninput="syncPeople(this.value)"/>
+          <span class="slider-val" id="people-val">2 orang</span>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Tagihan</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-per-orang">—</div>
+          <div class="result-label">Per orang (termasuk tip)</div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Tagihan asli</span><span class="rval" id="res-bill">—</span></div>
+          <div class="result-row"><span class="rkey">Tip (<span id="tip-pct">10</span>%)</span><span class="rval" id="res-tip">—</span></div>
+          <div class="result-row"><span class="rkey">Total dengan tip</span><span class="rval" id="res-total">—</span></div>
+          <div class="result-row"><span class="rkey">Per orang (hanya tagihan)</span><span class="rval" id="res-per-no-tip">—</span></div>
+          <div class="result-row"><span class="rkey">Per orang (termasuk tip)</span><span class="rval" id="res-per-with-tip" style="color:var(--mint)">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Tip & Bagi Tagihan Restoran</h1>
+    <p class="page-desc">Hitung tip dan bagi tagihan restoran secara adil. Masukkan total tagihan, pilih persentase tip, dan tentukan berapa orang untuk langsung mengetahui porsi masing-masing.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Budaya Tip di Indonesia vs Luar Negeri</h2>
+    <p>Di Indonesia, tip tidak wajib seperti di Amerika Serikat. Sebagian besar restoran menengah ke atas sudah menambahkan service charge 5–10% secara otomatis. Beberapa poin penting:</p>
+    <ul>
+      <li><strong>Service charge 10%</strong> — Banyak restoran fine dining menambahkan ini otomatis di tagihan</li>
+      <li><strong>PPN 11%</strong> — Pajak yang wajib di restoran PKP</li>
+      <li><strong>Tip tambahan</strong> — Opsional, biasanya 5–10% untuk pelayanan yang sangat memuaskan</li>
+      <li>Tip di Indonesia biasanya diberikan langsung ke pelayan, bukan di struk</li>
+    </ul>
+
+    <h2>Panduan Tip yang Umum Digunakan</h2>
+    <table>
+      <tr><th>Kualitas Layanan</th><th>Tip yang Wajar</th></tr>
+      <tr><td>Buruk / mengecewakan</td><td>0% (tidak perlu)</td></tr>
+      <tr><td>Standar / cukup</td><td>5–10%</td></tr>
+      <tr><td>Baik</td><td>10–15%</td></tr>
+      <tr><td>Luar biasa</td><td>15–20%+</td></tr>
+    </table>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah service charge sama dengan tip?</div>
+    <div class="faq-a">Tidak. Service charge adalah biaya layanan yang wajib dibayar dan tercantum di struk, dan masuk ke kas restoran (tidak langsung ke pelayan). Tip adalah pemberian sukarela langsung ke pelayan sebagai apresiasi layanan. Di banyak restoran Indonesia, service charge 10% sudah termasuk — Anda tidak perlu tambah tip lagi.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara bagi tagihan yang adil jika setiap orang memesan berbeda?</div>
+    <div class="faq-a">Cara yang umum: (1) Split merata — bagi total dengan jumlah orang, berlaku jika porsi pesanan tidak terlalu berbeda. (2) Pay what you ordered — setiap orang bayar sesuai yang dipesan ditambah porsi tax dan service charge. Kalkulator ini menggunakan metode split merata. Untuk bagi berdasarkan pesanan, gunakan Kalkulator Bagi Tagihan Detail.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Di Indonesia, berapa tip yang wajar untuk ojol atau kurir?</div>
+    <div class="faq-a">Tidak ada standar baku, tapi biasanya Rp 2.000–5.000 untuk jarak dekat, atau Rp 5.000–10.000 untuk jarak jauh atau pesanan berat. Terutama saat cuaca buruk (hujan) sangat diapresiasi. Tip lewat aplikasi (jika tersedia) lebih mudah dan tidak perlu uang tunai.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah tip dihitung sebelum atau sesudah pajak dan service charge?</div>
+    <div class="faq-a">Konvensi yang umum: tip opsional dihitung dari harga makanan sebelum pajak dan service charge. Namun karena di Indonesia tip umumnya diberikan sukarela langsung ke pelayan, tidak ada aturan baku. Banyak orang membulatkan total tagihan ke atas sebagai bentuk apresiasi.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana etika saat makan bersama dan ada yang tidak bawa uang cukup?</div>
+    <div class="faq-a">Komunikasi di awal makan adalah kunci. Tanyakan apakah akan split merata atau bayar masing-masing. Untuk kelompok besar, biasanya lebih praktis split merata atau satu orang bayar dulu lalu minta transfer. Hindari perdebatan di meja makan — gunakan aplikasi transfer seperti GoPay atau OVO untuk mempermudah.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Di luar negeri, berapa tip yang harus diberikan?</div>
+    <div class="faq-a">Ini sangat bervariasi per negara. Amerika Serikat: 15–20% wajib (pelayan bergantung pada tip). Eropa: 5–10% opsional. Jepang: tidak perlu tip (bahkan bisa dianggap tidak sopan). Australia: opsional 10%. Selalu cek etika tipping negara tujuan sebelum bepergian.</div></div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/pembagi-tagihan.html" class="related-item"><span class="ri">👥</span>Bagi Tagihan</a>
+      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
+      <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+function setTip(v, btn) {
+  document.getElementById('tip').value = v;
+  document.getElementById('tip-pct').textContent = v;
+  document.querySelectorAll('.inv-preset').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  calculate();
+}
+
+function syncPeople(v) {
+  document.getElementById('people-val').textContent = v + ' orang';
+  calculate();
+}
+
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+function calculate() {
+  const bill = parseFloat(document.getElementById('bill').value) || 0;
+  const tipPct = parseFloat(document.getElementById('tip').value) || 0;
+  const people = parseInt(document.getElementById('people-range').value) || 1;
+  if (!bill) return;
+
+  const tipAmt = bill * (tipPct / 100);
+  const total = bill + tipAmt;
+  const perNoTip = bill / people;
+  const perWithTip = total / people;
+
+  document.getElementById('tip-pct').textContent = tipPct;
+  document.getElementById('res-per-orang').textContent = fmt(perWithTip);
+  document.getElementById('res-bill').textContent = fmt(bill);
+  document.getElementById('res-tip').textContent = fmt(tipAmt);
+  document.getElementById('res-total').textContent = fmt(total);
+  document.getElementById('res-per-no-tip').textContent = fmt(perNoTip);
+  document.getElementById('res-per-with-tip').textContent = fmt(perWithTip);
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

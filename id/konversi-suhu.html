@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Konversi Suhu — Celsius ke Fahrenheit, Kelvin & Reamur | NovaCalcs</title>
+<meta name="description" content="Konversi suhu Celsius ke Fahrenheit, Kelvin, dan Reamur secara instan. Masukkan nilai suhu dan langsung lihat semua konversi sekaligus."/>
+<meta name="keywords" content="konversi suhu, celsius ke fahrenheit, fahrenheit ke celsius, kelvin, rumus konversi suhu"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-suhu.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/konversi-suhu.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.temp-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 14px; }
+.temp-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.temp-card.active-card { border-color: rgba(0,201,177,0.4); background: var(--mint-dim); }
+.tc-unit { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 4px; }
+.tc-val { font-size: 1.4rem; font-weight: 700; color: var(--mint); }
+.tc-full { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.scale-bar { margin: 16px 0 8px; height: 12px; border-radius: 6px; background: linear-gradient(to right, #60a5fa, #34d399, #fbbf24, #f87171); position: relative; }
+.scale-marker { position: absolute; top: -20px; width: 2px; background: var(--text-primary); height: 52px; border-radius: 1px; transform: translateX(-50%); }
+.scale-label { position: absolute; top: -22px; font-size: 10px; color: var(--text-primary); transform: translateX(-50%); white-space: nowrap; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#konversi">Konversi</a><span class="breadcrumb-sep">›</span>
+      <span>Konversi Suhu</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">🌡️ Konversi Suhu</div>
+      <div class="calc-subtitle">Celsius, Fahrenheit, Kelvin, dan Reamur</div>
+
+      <div class="field"><label>Satuan Asal</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-c" onclick="setUnit('C',this)">°C</div>
+          <div class="radio-btn" id="btn-f" onclick="setUnit('F',this)">°F</div>
+          <div class="radio-btn" id="btn-k" onclick="setUnit('K',this)">K</div>
+          <div class="radio-btn" id="btn-r" onclick="setUnit('R',this)">°R</div>
+        </div>
+      </div>
+      <div class="field"><label id="input-label">Suhu dalam °C</label>
+        <input type="number" id="suhu" placeholder="Masukkan nilai suhu" step="0.1" oninput="convert()"/>
+      </div>
+
+      <button class="calc-btn" onclick="convert()">Konversi Sekarang</button>
+
+      <div class="result-panel show" id="result">
+        <div class="temp-grid">
+          <div class="temp-card" id="card-C">
+            <div class="tc-unit">Celsius</div>
+            <div class="tc-val" id="val-C">—</div>
+            <div class="tc-full">°C (Celcius)</div>
+          </div>
+          <div class="temp-card" id="card-F">
+            <div class="tc-unit">Fahrenheit</div>
+            <div class="tc-val" id="val-F">—</div>
+            <div class="tc-full">°F (Fahrenheit)</div>
+          </div>
+          <div class="temp-card" id="card-K">
+            <div class="tc-unit">Kelvin</div>
+            <div class="tc-val" id="val-K">—</div>
+            <div class="tc-full">K (Kelvin)</div>
+          </div>
+          <div class="temp-card" id="card-R">
+            <div class="tc-unit">Reamur</div>
+            <div class="tc-val" id="val-R">—</div>
+            <div class="tc-full">°R (Reamur)</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;font-size:11px;color:var(--text-secondary)" id="context-note"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Konversi Suhu — Celsius, Fahrenheit, Kelvin & Reamur</h1>
+    <p class="page-desc">Konversi suhu antar satuan secara instan. Masukkan nilai dalam °C, °F, K, atau °R dan langsung dapatkan semua konversi sekaligus.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Rumus Konversi Suhu Lengkap</h2>
+    <table>
+      <tr><th>Dari</th><th>Ke Fahrenheit (°F)</th><th>Ke Kelvin (K)</th><th>Ke Reamur (°R)</th></tr>
+      <tr><td>Celsius (°C)</td><td>°F = (°C × 9/5) + 32</td><td>K = °C + 273,15</td><td>°R = °C × 4/5</td></tr>
+      <tr><td>Fahrenheit (°F)</td><td>—</td><td>K = (°F + 459,67) × 5/9</td><td>°R = (°F − 32) × 4/9</td></tr>
+      <tr><td>Kelvin (K)</td><td>°F = (K × 9/5) − 459,67</td><td>—</td><td>°R = (K − 273,15) × 4/5</td></tr>
+    </table>
+
+    <h2>Titik Referensi Suhu Penting</h2>
+    <table>
+      <tr><th>Kondisi</th><th>°C</th><th>°F</th><th>K</th></tr>
+      <tr><td>Titik beku air</td><td>0</td><td>32</td><td>273,15</td></tr>
+      <tr><td>Suhu tubuh normal</td><td>37</td><td>98,6</td><td>310,15</td></tr>
+      <tr><td>Suhu ruangan nyaman</td><td>25</td><td>77</td><td>298,15</td></tr>
+      <tr><td>Titik didih air</td><td>100</td><td>212</td><td>373,15</td></tr>
+      <tr><td>Nol absolut</td><td>−273,15</td><td>−459,67</td><td>0</td></tr>
+    </table>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa Indonesia menggunakan Celsius, bukan Fahrenheit?</div>
+    <div class="faq-a">Indonesia menggunakan sistem metrik termasuk Celsius sebagai standar internasional SI. Amerika Serikat adalah negara besar yang masih menggunakan Fahrenheit secara umum. Celsius lebih intuitif karena 0 = titik beku air dan 100 = titik didih air.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa suhu tubuh normal dalam Celsius dan Fahrenheit?</div>
+    <div class="faq-a">Suhu tubuh normal manusia adalah 36,5–37,5°C atau 97,7–99,5°F. Demam umumnya dianggap jika suhu melebihi 38°C (100,4°F). Hipotermia terjadi bila suhu tubuh di bawah 35°C (95°F).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu Kelvin dan kapan digunakan?</div>
+    <div class="faq-a">Kelvin adalah satuan suhu dalam sistem SI yang digunakan terutama dalam sains dan fisika. Nol Kelvin (0 K) adalah "nol absolut" — suhu terendah yang mungkin secara teoritis, di mana semua gerak molekul berhenti. Kelvin digunakan dalam termodinamika, astrofisika, dan kimia.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Di suhu berapa Celsius sama dengan Fahrenheit?</div>
+    <div class="faq-a">Celsius dan Fahrenheit bernilai sama pada −40°. Artinya, −40°C = −40°F. Ini satu-satunya titik di mana kedua skala bertemu.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Cara cepat estimasi Celsius ke Fahrenheit tanpa kalkulator?</div>
+    <div class="faq-a">Gunakan rumus cepat: lipat gandakan °C, lalu tambah 30. Contoh: 25°C → (25×2)+30 = 80°F (hasil tepat 77°F). Tidak presisi, tapi cukup untuk estimasi cepat. Untuk sebaliknya: kurangi 30 dari °F, lalu bagi 2.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu Reamur dan masih digunakan?</div>
+    <div class="faq-a">Skala Reamur dikembangkan oleh René Antoine Ferchault de Réaumur pada 1730. Titik beku air = 0°R, titik didih = 80°R. Skala ini sudah jarang digunakan dalam kehidupan modern, namun masih muncul dalam pelajaran fisika sebagai salah satu skala suhu historis.</div></div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/konversi-berat.html" class="related-item"><span class="ri">⚖️</span>Konversi Berat</a>
+      <a href="/id/konversi-panjang.html" class="related-item"><span class="ri">📏</span>Konversi Panjang</a>
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🔥</span>Kalkulator Kalori</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let unit = 'C';
+function setUnit(u, btn) {
+  unit = u;
+  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('input-label').textContent = 'Suhu dalam ' + (u==='K'?'Kelvin':'°'+u);
+  convert();
+}
+
+const r = n => Math.round(n * 100) / 100;
+
+function toCelsius(v, u) {
+  if (u==='C') return v;
+  if (u==='F') return (v - 32) * 5/9;
+  if (u==='K') return v - 273.15;
+  if (u==='R') return v * 5/4;
+}
+
+function convert() {
+  const raw = parseFloat(document.getElementById('suhu').value);
+  if (isNaN(raw)) return;
+  const c = toCelsius(raw, unit);
+  const f = c * 9/5 + 32;
+  const k = c + 273.15;
+  const re = c * 4/5;
+
+  ['C','F','K','R'].forEach(u => {
+    const val = u==='C'?c : u==='F'?f : u==='K'?k : re;
+    document.getElementById('val-'+u).textContent = r(val) + (u==='K'?'':' °'+u.replace('K',''));
+    const card = document.getElementById('card-'+u);
+    card.classList.toggle('active-card', u === unit);
+  });
+  document.getElementById('val-K').textContent = r(k) + ' K';
+
+  // Context note
+  let note = '';
+  if (c < 0) note = '❄️ Di bawah titik beku air';
+  else if (c < 15) note = '🧥 Dingin';
+  else if (c < 25) note = '😊 Sejuk dan nyaman';
+  else if (c < 35) note = '☀️ Hangat — cuaca khas Indonesia';
+  else if (c < 38) note = '🥵 Sangat panas';
+  else note = '🌡️ Suhu demam (di atas 38°C)';
+  document.getElementById('context-note').textContent = note;
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

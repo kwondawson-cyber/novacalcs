@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Kebutuhan Air Harian — Berapa Liter Air yang Harus Diminum? | NovaCalcs</title>
+<meta name="description" content="Hitung kebutuhan air minum harian Anda berdasarkan berat badan, usia, dan tingkat aktivitas. Ketahui berapa gelas atau liter air yang sebaiknya diminum setiap hari."/>
+<meta name="keywords" content="kebutuhan air harian, berapa liter air per hari, kalkulator minum air, hidrasi harian, 8 gelas air"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kebutuhan-air.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/kebutuhan-air.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+<style>
+.water-visual { display: flex; gap: 4px; flex-wrap: wrap; margin: 12px 0; }
+.glass { font-size: 1.5rem; filter: grayscale(1) opacity(0.3); transition: all 0.2s; }
+.glass.filled { filter: none; opacity: 1; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
+      <span>Kebutuhan Air Harian</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">💧 Kebutuhan Air Harian</div>
+      <div class="calc-subtitle">Berapa liter air yang sebaiknya Anda minum setiap hari?</div>
+
+      <div class="field"><label>Berat Badan (kg)</label>
+        <input type="number" id="weight" placeholder="Contoh: 65" min="20" max="200" oninput="calculate()"/>
+      </div>
+      <div class="field"><label>Usia (tahun)</label>
+        <input type="number" id="age" placeholder="Contoh: 30" min="1" max="100" oninput="calculate()"/>
+      </div>
+      <div class="field"><label>Tingkat Aktivitas</label>
+        <select id="activity" onchange="calculate()">
+          <option value="1.0">Sangat santai (kerja di meja, minim gerak)</option>
+          <option value="1.2" selected>Ringan (jalan kaki biasa, aktivitas kantor)</option>
+          <option value="1.4">Sedang (olahraga 3x seminggu)</option>
+          <option value="1.6">Aktif (olahraga hampir setiap hari)</option>
+          <option value="1.8">Sangat aktif (olahraga intensif setiap hari)</option>
+        </select>
+      </div>
+      <div class="field"><label>Kondisi Khusus</label>
+        <div class="radio-group">
+          <div class="radio-btn active" id="btn-normal" onclick="setCondition('normal',this)">Normal</div>
+          <div class="radio-btn" id="btn-hamil" onclick="setCondition('hamil',this)">Hamil</div>
+          <div class="radio-btn" id="btn-menyusui" onclick="setCondition('menyusui',this)">Menyusui</div>
+          <div class="radio-btn" id="btn-sakit" onclick="setCondition('sakit',this)">Demam/Sakit</div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Kebutuhan Air</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-liter">—</div>
+          <div class="result-unit">liter / hari</div>
+        </div>
+        <div class="water-visual" id="water-glasses"></div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Dalam gelas (250 ml)</span><span class="rval" id="res-glasses">—</span></div>
+          <div class="result-row"><span class="rkey">Dalam botol (600 ml)</span><span class="rval" id="res-bottles">—</span></div>
+          <div class="result-row"><span class="rkey">Kebutuhan dasar (tanpa aktivitas)</span><span class="rval" id="res-base">—</span></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:10px" id="res-note"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Kebutuhan Air Harian — Berapa Liter per Hari?</h1>
+    <p class="page-desc">Cari tahu berapa liter air yang harus Anda minum setiap hari berdasarkan berat badan, usia, dan tingkat aktivitas. Kebutuhan air setiap orang berbeda-beda — bukan selalu "8 gelas sehari".</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Mengapa "8 Gelas Sehari" Tidak Selalu Tepat?</h2>
+    <p>Anjuran 8 gelas (±2 liter) sehari adalah pedoman umum, tetapi kebutuhan air sebenarnya bervariasi berdasarkan berat badan, aktivitas, iklim, dan kondisi kesehatan. Orang yang lebih berat, lebih aktif, atau tinggal di daerah panas membutuhkan lebih banyak air.</p>
+    <p>Formula umum yang digunakan: <strong>35 ml × berat badan (kg)</strong> sebagai kebutuhan dasar, lalu disesuaikan dengan aktivitas dan kondisi.</p>
+
+    <h2>Tanda-tanda Kekurangan Air (Dehidrasi)</h2>
+    <ul>
+      <li>Urine berwarna kuning pekat atau gelap</li>
+      <li>Mulut dan bibir kering</li>
+      <li>Jarang buang air kecil (kurang dari 4x/hari)</li>
+      <li>Sakit kepala dan sulit berkonsentrasi</li>
+      <li>Rasa haus yang terus-menerus</li>
+      <li>Kulit terasa kering dan tidak elastis</li>
+    </ul>
+
+    <h2>Tips Agar Cukup Minum Air Setiap Hari</h2>
+    <ul>
+      <li>Mulai hari dengan 1–2 gelas air setelah bangun tidur</li>
+      <li>Bawa botol minum ke mana saja</li>
+      <li>Minum 1 gelas air sebelum setiap makan</li>
+      <li>Pasang reminder minum air di ponsel setiap 2 jam</li>
+      <li>Makan buah dan sayur yang kaya air (semangka, timun, selada)</li>
+      <li>Cek warna urine — target urine berwarna kuning muda</li>
+    </ul>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah kopi dan teh dihitung sebagai asupan air?</div>
+    <div class="faq-a">Secara teknis ya, kopi dan teh mengandung air. Namun kafein memiliki efek diuretik ringan. Untuk hidrasi optimal, air putih tetap yang terbaik. Minuman berkafein bisa menggantikan sebagian asupan air, tetapi tidak sepenuhnya.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah minum terlalu banyak air berbahaya?</div>
+    <div class="faq-a">Ya, minum air berlebihan dapat menyebabkan hiponatremia (kadar natrium darah terlalu rendah). Kondisi ini jarang terjadi pada orang sehat, umumnya hanya pada atlet yang minum air sangat banyak saat olahraga intensif tanpa elektrolit. Untuk orang normal, minum 3–4 liter sehari masih aman.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa kebutuhan air saat hamil dan menyusui?</div>
+    <div class="faq-a">Ibu hamil membutuhkan sekitar 300 ml lebih banyak dari biasanya (sekitar 2,3–2,5 liter/hari). Ibu menyusui membutuhkan sekitar 700 ml lebih banyak (sekitar 3–3,5 liter/hari) karena air digunakan untuk produksi ASI.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah cuaca panas di Indonesia mempengaruhi kebutuhan air?</div>
+    <div class="faq-a">Ya. Di iklim tropis seperti Indonesia, Anda kehilangan lebih banyak cairan melalui keringat. Tambahkan sekitar 500–1.000 ml ekstra di hari-hari yang panas atau saat banyak beraktivitas di luar ruangan. Tanda utama: cek warna urine — jika gelap, minum lebih banyak.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Waktu terbaik untuk minum air?</div>
+    <div class="faq-a">Pagi hari (setelah bangun tidur) untuk rehidrasi setelah tidur. Sebelum makan untuk membantu pencernaan. Saat dan setelah olahraga untuk mengganti cairan yang hilang. Sebelum tidur (secukupnya, tidak berlebihan). Hindari minum terlalu banyak saat makan karena dapat mengencerkan enzim pencernaan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah air putih lebih baik dari air mineral?</div>
+    <div class="faq-a">Air mineral mengandung mineral alami seperti kalsium, magnesium, dan natrium yang bermanfaat bagi tubuh. Air putih yang dimasak dari air PAM juga aman jika kualitas airnya memenuhi standar. Keduanya sama-sama baik untuk hidrasi. Pilih air mineral kemasan jika kualitas air keran di daerah Anda kurang terjamin.</div></div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🔥</span>Kalkulator Kalori</a>
+      <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
+      <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kehamilan</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+let condition = 'normal';
+function setCondition(c, btn) {
+  condition = c;
+  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calculate();
+}
+
+function calculate() {
+  const weight = parseFloat(document.getElementById('weight').value);
+  const age = parseFloat(document.getElementById('age').value);
+  const activity = parseFloat(document.getElementById('activity').value);
+  if (!weight) return;
+
+  // Base: 35 ml per kg
+  let base = weight * 35;
+  // Age adjustment
+  if (age && age < 18) base = weight * 40;
+  else if (age && age > 65) base = weight * 30;
+  // Activity multiplier
+  let total = base * activity;
+  // Condition adjustments
+  let note = '';
+  if (condition === 'hamil') { total += 300; note = '🤰 Ditambah 300 ml untuk kehamilan'; }
+  if (condition === 'menyusui') { total += 700; note = '🤱 Ditambah 700 ml untuk menyusui'; }
+  if (condition === 'sakit') { total += 500; note = '🌡️ Ditambah 500 ml saat demam/sakit'; }
+
+  const liters = Math.round(total) / 1000;
+  const glasses = Math.ceil(liters * 1000 / 250);
+  const bottles = (liters / 0.6).toFixed(1);
+  const baseLiters = (Math.round(base) / 1000).toFixed(1);
+
+  document.getElementById('res-liter').textContent = liters.toFixed(1);
+  document.getElementById('res-glasses').textContent = glasses + ' gelas';
+  document.getElementById('res-bottles').textContent = bottles + ' botol';
+  document.getElementById('res-base').textContent = baseLiters + ' liter';
+  document.getElementById('res-note').textContent = note;
+
+  // Visual glasses
+  const glassCount = Math.min(glasses, 16);
+  document.getElementById('water-glasses').innerHTML =
+    Array.from({length: glassCount}, (_, i) => `<span class="glass filled">🥤</span>`).join('');
+
+  document.getElementById('result').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

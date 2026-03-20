@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kalkulator Selisih Tanggal — Hitung Jarak Antara Dua Tanggal | NovaCalcs</title>
+<meta name="description" content="Hitung selisih antara dua tanggal dalam hari, minggu, bulan, dan tahun. Cocok untuk menghitung masa kontrak, deadline, atau jarak antar kejadian penting."/>
+<meta name="keywords" content="kalkulator selisih tanggal, hitung jarak tanggal, berapa hari antara dua tanggal, selisih hari bulan tahun"/>
+<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/selisih-tanggal.html"/>
+<link rel="canonical" href="https://novacalcs.com/id/selisih-tanggal.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
+<link rel="stylesheet" href="/calc.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
+    <nav class="breadcrumb">
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#tanggal">Tanggal</a><span class="breadcrumb-sep">›</span>
+      <span>Selisih Tanggal</span>
+    </nav>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div>
+    <div class="calc-widget">
+      <div class="calc-title">📆 Selisih Tanggal</div>
+      <div class="calc-subtitle">Hitung jarak antara dua tanggal</div>
+
+      <div class="field"><label>Tanggal Mulai</label><div id="start-picker"></div></div>
+      <div class="field"><label>Tanggal Akhir</label><div id="end-picker"></div></div>
+
+      <div class="field"><label>Tambahkan / Kurangi Hari</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="number" id="add-days" placeholder="Contoh: 30 atau -7" style="flex:1"/>
+          <button onclick="addDaysToStart()" style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text-secondary);cursor:pointer;font-size:12px;white-space:nowrap">Hitung Tanggal</button>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Masukkan jumlah hari dari tanggal mulai (negatif = mundur)</div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Hitung Selisih</button>
+
+      <div class="result-panel" id="result">
+        <div class="result-main">
+          <div class="result-value" id="res-days">—</div>
+          <div class="result-unit">hari</div>
+          <div class="result-label" id="res-dir"></div>
+        </div>
+        <div class="result-rows">
+          <div class="result-row"><span class="rkey">Dalam minggu</span><span class="rval" id="res-weeks">—</span></div>
+          <div class="result-row"><span class="rkey">Dalam bulan (perkiraan)</span><span class="rval" id="res-months">—</span></div>
+          <div class="result-row"><span class="rkey">Dalam tahun (perkiraan)</span><span class="rval" id="res-years">—</span></div>
+        </div>
+      </div>
+
+      <div class="result-panel" id="result-add" style="margin-top:12px">
+        <div class="result-main">
+          <div class="result-value" style="font-size:1.4rem" id="res-add-date">—</div>
+          <div class="result-label" id="res-add-label"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h1>Kalkulator Selisih Tanggal — Hitung Jarak Dua Tanggal</h1>
+    <p class="page-desc">Hitung selisih antara dua tanggal dalam hari, minggu, bulan, dan tahun. Juga bisa menghitung tanggal hasil menambah atau mengurangi hari dari tanggal tertentu.</p>
+
+    <div class="ad-slot">Advertisement</div>
+
+    <h2>Kegunaan Kalkulator Selisih Tanggal</h2>
+    <ul>
+      <li>Menghitung sisa masa kontrak kerja atau sewa</li>
+      <li>Menghitung usia dalam hari atau minggu</li>
+      <li>Mengetahui berapa hari lagi deadline atau acara</li>
+      <li>Menghitung masa garansi produk</li>
+      <li>Menghitung lama perjalanan atau liburan</li>
+      <li>Mengetahui tanggal + 30/60/90 hari dari tanggal tertentu</li>
+    </ul>
+
+    <h2>Tahun Kabisat dan Perhitungan Tanggal</h2>
+    <p>Kalkulator ini secara otomatis memperhitungkan tahun kabisat. Tahun kabisat memiliki 366 hari (ada 29 Februari) dan terjadi pada tahun yang habis dibagi 4, kecuali tahun yang habis dibagi 100 namun tidak habis dibagi 400.</p>
+    <p>Contoh: 2000 = kabisat (habis 400), 1900 = bukan kabisat (habis 100 tapi tidak 400), 2024 = kabisat (habis 4).</p>
+
+    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung masa kontrak habis?</div>
+    <div class="faq-a">Masukkan tanggal mulai kontrak sebagai "Tanggal Mulai" dan tanggal hari ini sebagai "Tanggal Akhir" untuk mengetahui sudah berapa hari berlalu. Atau gunakan fitur "Tambahkan Hari" — masukkan tanggal mulai kontrak dan tambahkan durasi kontrak (misalnya 365 hari untuk 1 tahun) untuk mengetahui tanggal berakhir.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa hari dalam 1 bulan untuk perhitungan?</div>
+    <div class="faq-a">Tidak semua bulan memiliki jumlah hari yang sama. Januari, Maret, Mei, Juli, Agustus, Oktober, Desember = 31 hari. April, Juni, September, November = 30 hari. Februari = 28 hari (29 saat tahun kabisat). Kalkulator ini menghitung hari kalender yang tepat, bukan estimasi.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah tanggal hari ini dihitung atau tidak?</div>
+    <div class="faq-a">Kalkulator ini menghitung selisih murni — jika tanggal mulai dan akhir sama, hasilnya 0 hari. Hari pertama tidak dihitung. Misalnya dari 1 Januari ke 2 Januari = 1 hari. Ini adalah konvensi yang digunakan dalam konteks legal dan kalender.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">30 hari setelah tanggal tertentu jatuh pada hari apa?</div>
+    <div class="faq-a">Gunakan fitur "Tambahkan Hari" — masukkan tanggal awal dan ketikkan 30, lalu klik "Hitung Tanggal". Hasilnya akan menampilkan tanggal tepat 30 hari kemudian beserta nama harinya.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa hari dalam 1 tahun?</div>
+    <div class="faq-a">Tahun biasa = 365 hari. Tahun kabisat = 366 hari. Rata-rata 365,25 hari per tahun (itulah mengapa setiap 4 tahun ada tahun kabisat untuk mengkompensasi 0,25 hari tersebut).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa beda hari kalender dan hari kerja?</div>
+    <div class="faq-a">Hari kalender menghitung semua hari termasuk Sabtu, Minggu, dan hari libur. Hari kerja hanya menghitung hari Senin–Jumat (dan mengeluarkan hari libur nasional). Untuk menghitung masa kontrak atau deadline kerja, gunakan Kalkulator Hari Kerja.</div></div>
+
+    <h2>Kalkulator Terkait</h2>
+    <div class="related-grid">
+      <a href="/id/hari-kerja.html" class="related-item"><span class="ri">📋</span>Hari Kerja</a>
+      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
+      <a href="/id/kalkulator-hpl.html" class="related-item"><span class="ri">📅</span>Kalkulator HPL</a>
+      <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kehamilan</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+</footer>
+
+<script defer>
+const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const DAYS = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+function dpHTML(id, defaultToday) {
+  const yr = new Date().getFullYear();
+  const opts = MONTHS.map((m,i) => `<option value="${i+1}">${m}</option>`).join('');
+  return `<div class="date-picker">
+    <input type="number" class="dp-day"  id="${id}-d" placeholder="Tgl" min="1" max="31"/>
+    <select class="dp-month" id="${id}-m"><option value="">Bulan</option>${opts}</select>
+    <input type="number" class="dp-year" id="${id}-y" placeholder="Tahun" min="1900" max="${yr+50}"/>
+  </div>`;
+}
+function dpSet(id, date) {
+  document.getElementById(id+'-d').value = date.getDate();
+  document.getElementById(id+'-m').value = date.getMonth()+1;
+  document.getElementById(id+'-y').value = date.getFullYear();
+}
+function dpGet(id) {
+  const d = parseInt(document.getElementById(id+'-d').value);
+  const m = parseInt(document.getElementById(id+'-m').value);
+  const y = parseInt(document.getElementById(id+'-y').value);
+  if (!d||!m||!y) return null;
+  const dt = new Date(y,m-1,d);
+  return dt.getDate()===d ? dt : null;
+}
+function fmtDate(d) {
+  return DAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('start-picker').innerHTML = dpHTML('start');
+  document.getElementById('end-picker').innerHTML = dpHTML('end');
+  const today = new Date();
+  dpSet('end', today);
+  const yesterday = new Date(today); yesterday.setDate(today.getDate()-7);
+  dpSet('start', yesterday);
+});
+
+function calculate() {
+  const s = dpGet('start'), e = dpGet('end');
+  if (!s||!e) return alert('Masukkan tanggal yang valid.');
+  const diff = e - s;
+  const totalDays = Math.round(diff / 86400000);
+  const absDays = Math.abs(totalDays);
+  const dir = totalDays >= 0 ? 'Selisih (ke depan)' : 'Selisih (ke belakang)';
+
+  document.getElementById('res-days').textContent = absDays.toLocaleString('id-ID');
+  document.getElementById('res-dir').textContent = dir;
+  document.getElementById('res-weeks').textContent = (absDays / 7).toFixed(2) + ' minggu';
+  document.getElementById('res-months').textContent = (absDays / 30.44).toFixed(2) + ' bulan';
+  document.getElementById('res-years').textContent = (absDays / 365.25).toFixed(3) + ' tahun';
+  document.getElementById('result').classList.add('show');
+}
+
+function addDaysToStart() {
+  const s = dpGet('start');
+  const n = parseInt(document.getElementById('add-days').value);
+  if (!s) return alert('Masukkan tanggal mulai terlebih dahulu.');
+  if (isNaN(n)) return alert('Masukkan jumlah hari yang valid.');
+  const result = new Date(s);
+  result.setDate(result.getDate() + n);
+  document.getElementById('res-add-date').textContent = fmtDate(result);
+  document.getElementById('res-add-label').textContent =
+    (n>=0?'+ '+n+' hari dari ':'− '+Math.abs(n)+' hari dari ') + fmtDate(s);
+  document.getElementById('result-add').classList.add('show');
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>
