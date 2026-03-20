@@ -89,11 +89,11 @@
     <h2>Tabel Kategori WHR menurut WHO</h2>
     <table>
       <tr><th>Kategori</th><th>WHR Laki-laki</th><th>WHR Perempuan</th><th>Risiko</th></tr>
-      <tr><td>Rendah</td><td>≤ 0,85</td><td>≤ 0,75</td><td>Risiko rendah</td></tr>
-      <tr><td>Sedang</td><td>0,86 – 0,95</td><td>0,76 – 0,85</td><td>Risiko sedang</td></tr>
-      <tr><td>Tinggi</td><td>≥ 0,96</td><td>≥ 0,86</td><td>Risiko tinggi</td></tr>
+      <tr><td>Rendah</td><td>&lt; 0,90</td><td>&lt; 0,80</td><td>Risiko rendah</td></tr>
+      <tr><td>Sedang</td><td>0,90 – 0,99</td><td>0,80 – 0,85</td><td>Risiko sedang</td></tr>
+      <tr><td>Tinggi</td><td>≥ 1,00</td><td>≥ 0,86</td><td>Risiko tinggi</td></tr>
     </table>
-    <p style="margin-top:0.75rem">Batas risiko untuk laki-laki: WHR di atas 0,90 dianggap berisiko tinggi. Untuk perempuan: di atas 0,85.</p>
+    <p style="margin-top:0.75rem">Berdasarkan WHO Technical Report Series 894 (2000). Batas risiko tinggi untuk laki-laki: WHR ≥ 0,90; untuk perempuan: WHR ≥ 0,85.</p>
 
     <h2>Bentuk Tubuh Apel vs Pir</h2>
     <p><strong>Bentuk Apel (Apple Shape)</strong> — WHR tinggi, pinggang lebih besar dari pinggul. Lemak terkumpul di perut. Lebih banyak ditemukan pada pria. Risiko penyakit kardiovaskular lebih tinggi.</p>
@@ -172,17 +172,17 @@ function calculate() {
 
   let cat, badgeClass, shape;
   if (gender === 'male') {
-    if (whr <= 0.85) { cat = 'Risiko Rendah ✓'; badgeClass = 'badge-normal'; }
-    else if (whr <= 0.95) { cat = 'Risiko Sedang'; badgeClass = 'badge-overweight'; }
+    if (whr < 0.90) { cat = 'Risiko Rendah ✓'; badgeClass = 'badge-normal'; }
+    else if (whr < 1.00) { cat = 'Risiko Sedang'; badgeClass = 'badge-overweight'; }
     else { cat = 'Risiko Tinggi ⚠️'; badgeClass = 'badge-obese'; }
   } else {
-    if (whr <= 0.75) { cat = 'Risiko Rendah ✓'; badgeClass = 'badge-normal'; }
-    else if (whr <= 0.85) { cat = 'Risiko Sedang'; badgeClass = 'badge-overweight'; }
+    if (whr < 0.80) { cat = 'Risiko Rendah ✓'; badgeClass = 'badge-normal'; }
+    else if (whr < 0.86) { cat = 'Risiko Sedang'; badgeClass = 'badge-overweight'; }
     else { cat = 'Risiko Tinggi ⚠️'; badgeClass = 'badge-obese'; }
   }
 
-  shape = whr > 0.85 ? '🍎 Bentuk Apel (lemak perut dominan)' : '🍐 Bentuk Pir (lemak pinggul dominan)';
-  const idealStr = gender === 'male' ? '≤ 0,85 (aman) / ≤ 0,90 (WHO)' : '≤ 0,75 (aman) / ≤ 0,85 (WHO)';
+  shape = whr > 0.90 ? '🍎 Bentuk Apel (lemak perut dominan)' : '🍐 Bentuk Pir (lemak pinggul dominan)';
+  const idealStr = gender === 'male' ? '< 0,90 (WHO — risiko rendah)' : '< 0,80 (WHO — risiko rendah)';
 
   document.getElementById('res-whr').textContent = whrRound.toFixed(2).replace('.', ',');
   const badge = document.getElementById('res-badge');

@@ -103,7 +103,7 @@
       <tr><td>Kelebihan BB</td><td>25,0 – 29,9</td><td>7 – 11,5 kg</td><td>0,23 – 0,33 kg</td></tr>
       <tr><td>Obesitas</td><td>≥ 30,0</td><td>5 – 9 kg</td><td>0,17 – 0,27 kg</td></tr>
     </table>
-    <p style="margin-top:0.75rem">Untuk <strong>kehamilan kembar</strong>: tambahkan sekitar 4–6 kg dari rekomendasi di atas.</p>
+    <p style="margin-top:0.75rem">Untuk <strong>kehamilan kembar (twins)</strong>, panduan IOM 2009 menetapkan total kenaikan BB berbeda berdasarkan BMI: Normal BMI 17–25 kg, Overweight 14–23 kg, Obese 11–19 kg. Kenaikan yang lebih besar diperlukan karena pertumbuhan dua janin sekaligus.</p>
 
     <h2>Distribusi Kenaikan BB per Trimester</h2>
     <table>
@@ -193,7 +193,18 @@ function calculate() {
     minGain = 5; maxGain = 9; weeklyMin = 0.17; weeklyMax = 0.27; bmiCat = 'Obesitas'; badgeClass = 'badge-obese';
   }
 
-  if (isTwins) { minGain += 4; maxGain += 6; }
+  if (isTwins) {
+    // IOM 2009 rekomendasi kehamilan kembar berdasarkan BMI:
+    // Underweight: 23-28 kg total -> tidak cukup data, gunakan +10 kg
+    // Normal: 17-25 kg total
+    // Overweight: 14-23 kg total
+    // Obese: 11-19 kg total
+    if (bmi < 18.5)       { minGain = 23; maxGain = 28; }
+    else if (bmi < 25)    { minGain = 17; maxGain = 25; }
+    else if (bmi < 30)    { minGain = 14; maxGain = 23; }
+    else                  { minGain = 11; maxGain = 19; }
+    weeklyMin = 0.6; weeklyMax = 0.7; // estimasi umum kehamilan kembar
+  }
 
   // Expected gain at current week
   let expectedMin, expectedMax;
