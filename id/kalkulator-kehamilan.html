@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+  <link rel="icon" href="/favicon.ico" sizes="any"/>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 </head>
 <body>
 <header class="site-header">
@@ -43,7 +46,7 @@
       <div id="field-hpht">
         <div class="field">
           <label>Hari Pertama Haid Terakhir (HPHT)</label>
-          <div id="hpht-picker"></div>
+          <input type="date" id="hpht-date"/>
         </div>
         <div class="field">
           <label>Siklus haid rata-rata (hari)</label>
@@ -53,13 +56,13 @@
       <div id="field-konsepsi" style="display:none">
         <div class="field">
           <label>Tanggal Perkiraan Konsepsi</label>
-          <div id="konsepsi-picker"></div>
+          <input type="date" id="konsepsi-date"/>
         </div>
       </div>
       <div id="field-usg" style="display:none">
         <div class="field">
           <label>Tanggal USG dilakukan</label>
-          <div id="usg-picker"></div>
+          <input type="date" id="usg-date"/>
         </div>
         <div class="field">
           <label>Usia kandungan saat USG (minggu)</label>
@@ -165,29 +168,11 @@
 <script defer>
 let method = 'hpht';
 
-const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-function dpHTML(id) {
-  const yr = new Date().getFullYear();
-  const opts = MONTHS_ID.map((m,i) => `<option value="${i+1}">${m}</option>`).join('');
-  return `<div class="date-picker">
-    <input type="number" class="dp-day"  id="${id}-d" placeholder="Tgl" min="1" max="31"/>
-    <select class="dp-month" id="${id}-m"><option value="">Bulan</option>${opts}</select>
-    <input type="number" class="dp-year" id="${id}-y" placeholder="Tahun" min="1900" max="${yr}"/>
-  </div>`;
-}
-function dpGet(id) {
-  const d = parseInt(document.getElementById(id+'-d').value);
-  const m = parseInt(document.getElementById(id+'-m').value);
-  const y = parseInt(document.getElementById(id+'-y').value);
-  if (!d || !m || !y) return null;
-  const dt = new Date(y, m-1, d);
-  return dt.getDate() === d ? dt : null;
-}
-
 window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('hpht-picker').innerHTML    = dpHTML('hpht');
-  document.getElementById('konsepsi-picker').innerHTML = dpHTML('konsepsi');
-  document.getElementById('usg-picker').innerHTML     = dpHTML('usg');
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('hpht-date').max = today;
+  document.getElementById('konsepsi-date').max = today;
+  document.getElementById('usg-date').max = today;
 });
 
 function setMethod(m, btn) {
@@ -201,21 +186,21 @@ function setMethod(m, btn) {
 
 function calculate() {
   const today = new Date(); today.setHours(0,0,0,0);
-  let lmp;
+  let lmp; // Last menstrual period equivalent
 
   if (method === 'hpht') {
-    const d = dpGet('hpht');
-    if (!d) return alert('Masukkan tanggal HPHT yang valid.');
+    const d = document.getElementById('hpht-date').value;
+    if (!d) return alert('Masukkan tanggal HPHT Anda.');
     const cycle = parseInt(document.getElementById('cycle').value) || 28;
     lmp = new Date(d);
-    lmp.setDate(lmp.getDate() - (28 - cycle));
+    lmp.setDate(lmp.getDate() - (28 - cycle)); // adjust for cycle length
   } else if (method === 'konsepsi') {
-    const d = dpGet('konsepsi');
-    if (!d) return alert('Masukkan tanggal konsepsi yang valid.');
+    const d = document.getElementById('konsepsi-date').value;
+    if (!d) return alert('Masukkan tanggal konsepsi.');
     lmp = new Date(d);
     lmp.setDate(lmp.getDate() - 14);
   } else {
-    const d = dpGet('usg');
+    const d = document.getElementById('usg-date').value;
     const w = parseFloat(document.getElementById('usg-weeks').value);
     if (!d || !w) return alert('Masukkan tanggal USG dan usia kandungan.');
     lmp = new Date(d);
@@ -238,8 +223,8 @@ function calculate() {
 
   const t1End = new Date(lmp); t1End.setDate(t1End.getDate() + 84);
   const t2End = new Date(lmp); t2End.setDate(t2End.getDate() + 189);
-  const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  const fmt = d => d.getDate() + ' ' + MONTHS_ID[d.getMonth()] + ' ' + d.getFullYear();
+
+  const fmt = d => d.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
 
   document.getElementById('res-weeks').textContent = weeks;
   document.getElementById('res-days-label').textContent = days + ' hari ' + (remaining > 0 ? '(masih dalam kehamilan)' : '(sudah melewati HPL)');
