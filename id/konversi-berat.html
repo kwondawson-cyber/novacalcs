@@ -4,17 +4,35 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Konversi Berat — kg ke gram, ons, pound, ton | NovaCalcs</title>
-<meta name="description" content="Konversi berat antar satuan secara instan: kg, gram, ons, pound, ton, dan lainnya. Masukkan nilai dan pilih satuan, semua hasil langsung tampil sekaligus."/>
-<meta name="keywords" content="konversi berat, kg ke gram, kg ke pound, gram ke kg, konversi satuan berat, ons berapa gram"/>
+<meta name="description" content="Konversi berat antar satuan secara instan: kg, gram, ons Indonesia, pound, ton, dan lainnya. Lengkap dengan konversi cepat satu klik dan referensi berat sehari-hari."/>
+<meta name="keywords" content="konversi berat, kg ke gram, kg ke pound, gram ke kg, konversi satuan berat, ons berapa gram, pound ke kg"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-berat.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/konversi-berat.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
-  <link rel="icon" href="/favicon.ico" sizes="any"/>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem}
+.preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.55rem .5rem;cursor:pointer;font-size:.78rem;color:#c0cdd8;text-align:left;transition:all .2s;font-family:inherit}
+.preset-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.35);color:#00C9B1}
+.preset-btn strong{display:block;font-size:.85rem;color:#fff;margin-bottom:.1rem}
+.ref-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.ref-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.4rem .5rem;text-align:left;font-size:.78rem}
+.ref-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.ref-table tr:last-child td{border-bottom:none}
+.result-highlight{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-bottom:.5rem;font-size:.9rem}
+.ratio-bar{height:8px;border-radius:4px;background:rgba(255,255,255,.07);margin:.25rem 0;overflow:hidden}
+.ratio-fill{height:100%;background:linear-gradient(90deg,#00C9B1,#3b82f6);border-radius:4px}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -27,79 +45,95 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
       <div class="calc-title">⚖️ Konversi Berat</div>
       <div class="calc-subtitle">Semua satuan berat dalam satu konversi</div>
 
-      <div class="field"><label>Nilai</label>
-        <input type="number" id="val" placeholder="Masukkan nilai" step="any" oninput="convert()"/>
-      </div>
-      <div class="field"><label>Dari Satuan</label>
-        <select id="from" onchange="convert()">
-          <option value="kg">Kilogram (kg)</option>
-          <option value="g">Gram (g)</option>
-          <option value="mg">Miligram (mg)</option>
-          <option value="ton">Ton metrik (t)</option>
-          <option value="lb">Pound (lb)</option>
-          <option value="oz">Ounce (oz)</option>
-          <option value="ons">Ons Indonesia (ons = 100g)</option>
-          <option value="kati">Kati (kati = 617g)</option>
-          <option value="kuintal">Kuintal (100 kg)</option>
-        </select>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-konversi',this)">🔄 Konversi</button>
+        <button class="tab-btn" onclick="showTab('tab-cepat',this)">⚡ Konversi Cepat</button>
+        <button class="tab-btn" onclick="showTab('tab-referensi',this)">📋 Referensi</button>
       </div>
 
-      <button class="calc-btn" onclick="convert()">Konversi</button>
+      <!-- TAB 1: KONVERSI UTAMA -->
+      <div id="tab-konversi" class="tab-pane active">
+        <div class="field"><label>Nilai</label>
+          <input type="number" id="val" placeholder="Masukkan nilai" step="any" oninput="convert()"/>
+        </div>
+        <div class="field"><label>Dari Satuan</label>
+          <select id="from" onchange="convert()">
+            <option value="kg">Kilogram (kg)</option>
+            <option value="g">Gram (g)</option>
+            <option value="mg">Miligram (mg)</option>
+            <option value="ton">Ton metrik (t)</option>
+            <option value="lb">Pound (lb)</option>
+            <option value="oz">Ounce (oz)</option>
+            <option value="ons">Ons Indonesia (= 100 g)</option>
+            <option value="kati">Kati (= 617 g)</option>
+            <option value="kuintal">Kuintal (= 100 kg)</option>
+          </select>
+        </div>
+        <button class="calc-btn" onclick="convert()">Konversi</button>
+        <div class="result-panel" id="result">
+          <div class="result-rows" id="result-rows"></div>
+        </div>
+      </div>
 
-      <div class="result-panel" id="result">
-        <div class="result-rows" id="result-rows"></div>
+      <!-- TAB 2: KONVERSI CEPAT -->
+      <div id="tab-cepat" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Klik untuk langsung melihat konversi yang paling sering dicari.</p>
+        <div class="preset-grid" id="preset-grid"></div>
+        <div id="preset-result" style="display:none;margin-top:.5rem">
+          <div class="result-highlight" id="preset-highlight"></div>
+          <div class="result-rows" id="preset-rows"></div>
+        </div>
+      </div>
+
+      <!-- TAB 3: REFERENSI -->
+      <div id="tab-referensi" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Referensi berat benda-benda umum di sekitar kita.</p>
+        <table class="ref-table">
+          <thead><tr><th>Benda</th><th>Berat</th><th>Setara</th></tr></thead>
+          <tbody>
+            <tr><td>Selembar kertas A4</td><td>~5 g</td><td>0,005 kg</td></tr>
+            <tr><td>1 butir telur ayam</td><td>~60 g</td><td>0,6 ons</td></tr>
+            <tr><td>1 bungkus mie instan</td><td>~85 g</td><td>0,85 ons</td></tr>
+            <tr><td>Segelas air (240 mL)</td><td>~240 g</td><td>2,4 ons</td></tr>
+            <tr><td>1 kg beras</td><td>1.000 g</td><td>10 ons / 2,2 lb</td></tr>
+            <tr><td>Smartphone</td><td>~180–220 g</td><td>~1,8–2,2 ons</td></tr>
+            <tr><td>Laptop standar</td><td>~1,5–2 kg</td><td>~3,3–4,4 lb</td></tr>
+            <tr><td>Berat badan bayi baru lahir</td><td>2,5–4 kg</td><td>5,5–8,8 lb</td></tr>
+            <tr><td>Rata-rata berat orang dewasa</td><td>60–80 kg</td><td>132–176 lb</td></tr>
+            <tr><td>Motor bebek standar</td><td>~100–115 kg</td><td>~1 kuintal</td></tr>
+            <tr><td>Mobil sedan</td><td>1.200–1.800 kg</td><td>1,2–1,8 ton</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:.75rem;color:#6b7c8d;margin-top:.6rem">💡 Tip: Klik salah satu nilai di atas sebagai titik awal, lalu gunakan tab Konversi untuk penyesuaian lebih lanjut.</p>
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Konversi Berat Online — kg, gram, ons, pound, ton & lebih</h1>
+  <div class="content-area">
+    <h1>Konversi Berat Online — kg, gram, ons, pound, ton &amp; lebih</h1>
     <p class="page-desc">Konversi berat antar satuan metrik, imperial, dan tradisional Indonesia sekaligus dalam satu klik. Masukkan nilai dan pilih satuan asal — semua hasil langsung muncul. Cocok untuk memasak, belanja, pengiriman paket, dan keperluan industri.</p>
 
     <div class="ad-slot">Advertisement</div>
 
     <h2>Satuan Berat yang Tersedia</h2>
-    <p>Kalkulator konversi berat kami mendukung sembilan satuan yang paling umum digunakan, mulai dari sistem internasional hingga satuan tradisional khas Indonesia:</p>
+    <p>Kalkulator konversi berat ini mendukung sembilan satuan yang paling umum digunakan, mulai dari sistem internasional hingga satuan tradisional khas Indonesia:</p>
     <ul>
       <li><strong>Kilogram (kg)</strong> — Satuan berat standar SI, paling umum digunakan di Indonesia untuk bahan makanan, berat badan, dan pengiriman.</li>
       <li><strong>Gram (g)</strong> — Satuan kecil untuk resep masakan, obat-obatan, dan perhiasan. 1 kg = 1.000 g.</li>
-      <li><strong>Miligram (mg)</strong> — Digunakan untuk dosis obat dan bahan kimia. 1 g = 1.000 mg.</li>
+      <li><strong>Miligram (mg)</strong> — Untuk dosis obat dan bahan kimia. 1 g = 1.000 mg.</li>
       <li><strong>Ton metrik (t)</strong> — Untuk industri, pertanian, dan logistik besar. 1 ton = 1.000 kg.</li>
-      <li><strong>Pound (lb)</strong> — Satuan berat imperial yang umum di AS. 1 lb = 453,6 g.</li>
-      <li><strong>Ounce (oz)</strong> — Satuan kecil imperial. 1 oz = 28,35 g. Berbeda dari "ons" Indonesia!</li>
-      <li><strong>Ons Indonesia</strong> — Unik Indonesia: 1 ons = 100 gram (bukan 28,35 g seperti ounce internasional).</li>
+      <li><strong>Pound (lb)</strong> — Satuan berat imperial yang umum di AS. 1 lb = 453,592 g.</li>
+      <li><strong>Ounce (oz)</strong> — Satuan kecil imperial. 1 oz = 28,35 g. <strong>Berbeda dari "ons" Indonesia!</strong></li>
+      <li><strong>Ons Indonesia</strong> — Satuan unik Indonesia: 1 ons = 100 gram (bukan 28,35 g seperti ounce internasional).</li>
       <li><strong>Kati</strong> — Satuan tradisional komunitas Tionghoa Indonesia. 1 kati = 617 gram.</li>
       <li><strong>Kuintal</strong> — Digunakan di pertanian. 1 kuintal = 100 kg.</li>
     </ul>
-
-    <h2>Cara Menggunakan Kalkulator Konversi Berat</h2>
-    <ol>
-      <li>Masukkan <strong>nilai berat</strong> yang ingin dikonversi pada kolom input</li>
-      <li>Pilih <strong>satuan asal</strong> dari dropdown menu (misalnya kg, gram, pound, dll.)</li>
-      <li>Klik <strong>"Konversi"</strong> atau nilai langsung berubah saat Anda mengetik</li>
-      <li>Semua hasil konversi ke satuan lain langsung tampil di bawah</li>
-    </ol>
-    <p>Kalkulator ini menggunakan faktor konversi yang presisi. Untuk nilai yang sangat kecil (seperti miligram ke ton), hasilnya ditampilkan dalam notasi ilmiah agar tetap terbaca.</p>
-
-    <h2>Tabel Konversi Berat Lengkap</h2>
-    <table>
-      <tr><th>Satuan</th><th>Setara dengan</th></tr>
-      <tr><td>1 kilogram (kg)</td><td>1.000 g | 1.000.000 mg | 2,2046 lb | 35,274 oz | 10 ons | 0,001 ton</td></tr>
-      <tr><td>1 gram (g)</td><td>0,001 kg | 1.000 mg | 0,002205 lb | 0,03527 oz | 0,01 ons</td></tr>
-      <tr><td>1 pound (lb)</td><td>453,592 g | 0,45359 kg | 16 oz | 4,536 ons</td></tr>
-      <tr><td>1 ounce (oz)</td><td>28,3495 g | 0,028350 kg | 0,0625 lb</td></tr>
-      <tr><td>1 ons Indonesia</td><td>100 g | 0,1 kg | 0,22046 lb</td></tr>
-      <tr><td>1 kati</td><td>617 g | 0,617 kg | 6,17 ons</td></tr>
-      <tr><td>1 kuintal</td><td>100 kg | 100.000 g | 220,46 lb</td></tr>
-      <tr><td>1 ton metrik</td><td>1.000 kg | 1.000.000 g | 2.204,6 lb | 10 kuintal</td></tr>
-    </table>
 
     <h2>Perhatian: "Ons" Indonesia vs "Ounce" Internasional</h2>
     <p>Ini adalah sumber kebingungan yang sangat umum. Dua satuan ini memiliki nama mirip tetapi nilainya sangat berbeda:</p>
@@ -108,7 +142,28 @@
       <tr><td>Ons (Indonesia)</td><td>= 100 gram</td><td>Pasar tradisional Indonesia, resep masakan lokal</td></tr>
       <tr><td>Ounce / oz (internasional)</td><td>= 28,35 gram</td><td>AS, produk impor, farmasi internasional</td></tr>
     </table>
-    <p>Contoh kesalahan umum: resep internasional menyebut "4 oz mentega" → bukan 400 gram, melainkan 4 × 28,35 = 113 gram. Gunakan kalkulator ini untuk memastikan konversi yang tepat.</p>
+    <p>Contoh kesalahan umum: resep internasional menyebut "4 oz mentega" → bukan 400 gram, melainkan 4 × 28,35 = <strong>113 gram</strong>. Gunakan kalkulator ini untuk memastikan konversi yang tepat.</p>
+
+    <h2>Tabel Konversi Berat Lengkap</h2>
+    <table>
+      <tr><th>Satuan</th><th>Setara dengan</th></tr>
+      <tr><td>1 kilogram (kg)</td><td>1.000 g · 1.000.000 mg · 2,2046 lb · 35,274 oz · 10 ons · 0,001 ton</td></tr>
+      <tr><td>1 gram (g)</td><td>0,001 kg · 1.000 mg · 0,002205 lb · 0,03527 oz · 0,01 ons</td></tr>
+      <tr><td>1 pound (lb)</td><td>453,592 g · 0,4536 kg · 16 oz · 4,536 ons</td></tr>
+      <tr><td>1 ounce (oz)</td><td>28,3495 g · 0,02835 kg · 0,0625 lb</td></tr>
+      <tr><td>1 ons Indonesia</td><td>100 g · 0,1 kg · 0,22046 lb</td></tr>
+      <tr><td>1 kati</td><td>617 g · 0,617 kg · 6,17 ons</td></tr>
+      <tr><td>1 kuintal</td><td>100 kg · 100.000 g · 220,46 lb</td></tr>
+      <tr><td>1 ton metrik</td><td>1.000 kg · 1.000.000 g · 2.204,6 lb · 10 kuintal</td></tr>
+    </table>
+
+    <h2>Cara Menggunakan Kalkulator Konversi Berat</h2>
+    <ol>
+      <li>Masukkan <strong>nilai berat</strong> yang ingin dikonversi pada kolom input</li>
+      <li>Pilih <strong>satuan asal</strong> dari dropdown (misalnya kg, gram, pound, dll.)</li>
+      <li>Semua hasil konversi ke satuan lain langsung tampil di bawah</li>
+    </ol>
+    <p>Gunakan tab <strong>Konversi Cepat</strong> untuk langsung melihat konversi yang paling sering dicari tanpa perlu mengetik, dan tab <strong>Referensi</strong> untuk melihat berat benda-benda umum sehari-hari.</p>
 
     <h2>Contoh Penggunaan Sehari-hari</h2>
     <ul>
@@ -116,7 +171,7 @@
       <li><strong>Belanja online impor:</strong> Produk "1 lb coffee beans" = 453,6 gram ≈ setengah kilogram</li>
       <li><strong>Pengiriman ke luar negeri:</strong> Paket 2,5 kg = 5,51 pound (tarif pengiriman ke AS biasanya dalam lb)</li>
       <li><strong>Pertanian:</strong> Panen 3 kuintal padi = 300 kg</li>
-      <li><strong>Obat-obatan:</strong> "500 mg tablet" = 0,5 gram per tablet</li>
+      <li><strong>Obat-obatan:</strong> Tablet 500 mg = 0,5 gram per tablet</li>
     </ul>
 
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
@@ -129,59 +184,92 @@
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berat badan 70 kg berapa pound?</div>
     <div class="faq-a">70 kg × 2,2046 = 154,3 pound. Konversi ini sering dibutuhkan saat mengisi formulir medis atau visa di negara yang menggunakan imperial. Cara cepat: kalikan kg dengan 2,2 untuk perkiraan (70 × 2,2 = 154 lb).</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 kati berapa gram dan masih digunakan di mana?</div>
-    <div class="faq-a">1 kati = 617 gram (0,617 kg). Satuan kati masih aktif digunakan di pasar-pasar tradisional yang dikelola komunitas Tionghoa Indonesia, terutama untuk daging, ikan, dan bahan makanan segar. Di Malaysia, 1 kati = 600 gram (sedikit berbeda).</div></div>
+    <div class="faq-a">1 kati = 617 gram (0,617 kg). Satuan kati masih aktif digunakan di pasar-pasar tradisional yang dikelola komunitas Tionghoa Indonesia, terutama untuk daging, ikan, dan bahan makanan segar. Di Malaysia, 1 kati = 600 gram (sedikit berbeda dari kati Indonesia).</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapakah 1 ton dan apa bedanya dengan kuintal?</div>
-    <div class="faq-a">1 ton metrik = 1.000 kg = 10 kuintal. 1 kuintal = 100 kg. Ton digunakan untuk kargo besar, bahan bangunan, dan industri. Kuintal lebih umum di sektor pertanian Indonesia untuk menyatakan hasil panen. Ada juga "ton" versi Amerika (907 kg) dan Inggris (1.016 kg), namun di Indonesia "ton" selalu merujuk ke ton metrik (1.000 kg).</div></div>
+    <div class="faq-a">1 ton metrik = 1.000 kg = 10 kuintal. 1 kuintal = 100 kg. Ton digunakan untuk kargo besar, bahan bangunan, dan industri. Kuintal lebih umum di sektor pertanian Indonesia untuk menyatakan hasil panen. Di Indonesia, "ton" selalu merujuk ke ton metrik (1.000 kg), bukan ton Amerika (907 kg) atau ton Inggris (1.016 kg).</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/konversi-panjang.html" class="related-item"><span class="ri">📏</span>Konversi Panjang</a>
-      <a href="/id/konversi-suhu.html" class="related-item"><span class="ri">🌡️</span>Konversi Suhu</a>
+      <a href="/id/konversi-volume.html" class="related-item"><span class="ri">🧪</span>Konversi Volume</a>
       <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
       <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
-// to kg conversion factors
 const TO_KG = {
   kg:1, g:0.001, mg:0.000001, ton:1000,
   lb:0.45359237, oz:0.02834952,
-  ons:0.1, kati:0.6172, kuintal:100
+  ons:0.1, kati:0.617, kuintal:100
 };
 const LABELS = {
   kg:'Kilogram (kg)', g:'Gram (g)', mg:'Miligram (mg)',
   ton:'Ton metrik (t)', lb:'Pound (lb)', oz:'Ounce (oz)',
-  ons:'Ons Indonesia', kati:'Kati', kuintal:'Kuintal'
+  ons:'Ons Indonesia (ons)', kati:'Kati', kuintal:'Kuintal'
 };
 
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
 function fmt(n) {
-  if (Math.abs(n) === 0) return '0';
+  if (n === 0) return '0';
   if (Math.abs(n) < 0.0001) return n.toExponential(4);
   if (Math.abs(n) >= 1000000) return n.toLocaleString('id-ID', {maximumFractionDigits:2});
   return parseFloat(n.toPrecision(6)).toLocaleString('id-ID', {maximumFractionDigits:6}).replace(/\.?0+$/, '');
+}
+
+function renderRows(containerId, kg, excludeUnit) {
+  document.getElementById(containerId).innerHTML =
+    Object.entries(TO_KG).filter(([u]) => u !== excludeUnit).map(([unit, factor]) =>
+      `<div class="result-row"><span class="rkey">${LABELS[unit]}</span><span class="rval">${fmt(kg / factor)}</span></div>`
+    ).join('');
 }
 
 function convert() {
   const v = parseFloat(document.getElementById('val').value);
   const from = document.getElementById('from').value;
   if (isNaN(v)) return;
-  const kg = v * TO_KG[from];
-  const rows = Object.entries(TO_KG).map(([unit, factor]) => {
-    if (unit === from) return '';
-    const result = kg / factor;
-    return `<div class="result-row"><span class="rkey">${LABELS[unit]}</span><span class="rval">${fmt(result)}</span></div>`;
-  }).join('');
-  document.getElementById('result-rows').innerHTML = rows;
+  renderRows('result-rows', v * TO_KG[from], from);
   document.getElementById('result').classList.add('show');
 }
 
+// Preset data
+const PRESETS = [
+  { label: '1 kg → ?', val: 1, from: 'kg' },
+  { label: '500 g → ?', val: 500, from: 'g' },
+  { label: '1 lb → kg / g', val: 1, from: 'lb' },
+  { label: '70 kg → pound', val: 70, from: 'kg' },
+  { label: '1 ons → gram', val: 1, from: 'ons' },
+  { label: '250 g → ons', val: 250, from: 'g' },
+  { label: '5 kg → ons / lb', val: 5, from: 'kg' },
+  { label: '1 ton → kg / kuintal', val: 1, from: 'ton' },
+];
+
+function renderPresets() {
+  document.getElementById('preset-grid').innerHTML = PRESETS.map((p, i) =>
+    `<button class="preset-btn" onclick="runPreset(${i})"><strong>${p.label}</strong>${p.val} ${LABELS[p.from]}</button>`
+  ).join('');
+}
+
+function runPreset(i) {
+  const p = PRESETS[i];
+  const kg = p.val * TO_KG[p.from];
+  document.getElementById('preset-highlight').innerHTML =
+    `<strong style="color:#00C9B1">${p.val} ${LABELS[p.from]}</strong> sama dengan:`;
+  renderRows('preset-rows', kg, p.from);
+  document.getElementById('preset-result').style.display = 'block';
+}
+
+renderPresets();
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
 </script>
 </body>
