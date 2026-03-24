@@ -3,23 +3,91 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator KTA — Simulasi Kredit Tanpa Agunan Bulanan | NovaCalcs</title>
-<meta name="description" content="Hitung cicilan KTA (Kredit Tanpa Agunan) dari berbagai bank. Simulasikan pinjaman berdasarkan jumlah, tenor, dan bunga untuk mengetahui angsuran dan total biaya."/>
-<meta name="keywords" content="kalkulator KTA, kredit tanpa agunan, cicilan KTA, bunga KTA, simulasi pinjaman bank, KTA 2024"/>
+<title>Kalkulator KTA 2026 — Simulasi Cicilan Kredit Tanpa Agunan + Bandingkan Bank | NovaCalcs</title>
+<meta name="description" content="Simulasi cicilan KTA (Kredit Tanpa Agunan) 2026. Hitung angsuran, bandingkan 5 tenor dan 6 bank sekaligus, lihat tabel angsuran, dan cek kemampuan bayar dari gaji Anda."/>
+<meta name="keywords" content="kalkulator KTA 2026, kredit tanpa agunan, cicilan KTA bank, bandingkan KTA, simulasi pinjaman bank, KTA BCA BRI BNI Mandiri"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kta.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kta.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator KTA","url":"https://novacalcs.com/id/kalkulator-kta.html","description":"Simulasi KTA dengan perbandingan bank dan tabel angsuran lengkap","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.bank-table { width: 100%; font-size: 11px; border-collapse: collapse; margin-top: 14px; }
-.bank-table th { background: var(--bg-input); padding: 6px 8px; text-align: left; border: 1px solid var(--border); color: var(--text-secondary); font-weight: 600; }
-.bank-table td { padding: 6px 8px; border: 1px solid var(--border); }
-.bank-table tr:hover td { background: rgba(255,255,255,0.02); }
+/* Big cicilan display */
+.kta-main  { text-align:center; padding:14px 0 8px; }
+.kta-num   { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
+.kta-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Pokok vs bunga bar */
+.kta-bar-wrap  { margin:12px 0 6px; }
+.kta-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
+.kta-bar-pokok { background:#4ade80; transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.6rem; font-weight:700; color:#064e3b; }
+.kta-bar-bunga { background:#f97316; transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:700; color:#431407; }
+.kta-bar-legend{ display:flex; gap:14px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
+.kta-bar-legend span::before { content:'●'; margin-right:4px; }
+.leg-g::before { color:#4ade80; } .leg-o::before { color:#f97316; }
+
+/* Stats grid */
+.kta-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.ks-card   { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.ks-card .kc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.ks-card .kc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.ks-card.green  .kc-val { color:var(--mint); }
+.ks-card.orange .kc-val { color:#f97316; }
+.ks-card.warn   .kc-val { color:#fbbf24; }
+
+/* Kemampuan bayar box */
+.kemampuan-row { display:flex; justify-content:space-between; padding:5px 0; font-size:.82rem; border-bottom:1px solid var(--border); }
+.kemampuan-row:last-child { border-bottom:none; }
+.kr-val { font-weight:700; }
+.kr-ok   { color:var(--mint); }
+.kr-warn { color:#fbbf24; }
+.kr-bad  { color:#f87171; }
+
+/* Tenor comparison */
+.tenor-comp { width:100%; border-collapse:collapse; font-size:.78rem; margin-top:10px; }
+.tenor-comp th { background:var(--bg-input); color:var(--text-secondary); padding:6px 10px; text-align:right; font-weight:600; }
+.tenor-comp th:first-child { text-align:left; }
+.tenor-comp td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; }
+.tenor-comp td:first-child { text-align:left; color:var(--text-secondary); font-size:.75rem; }
+.tenor-comp tr.chosen td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
+.tenor-comp tr:last-child td { border-bottom:none; }
+
+/* Bank comparison */
+.bank-comp { width:100%; border-collapse:collapse; font-size:.75rem; margin-top:10px; }
+.bank-comp th { background:var(--bg-input); color:var(--text-secondary); padding:6px 8px; text-align:right; font-weight:600; }
+.bank-comp th:first-child { text-align:left; }
+.bank-comp td { padding:6px 8px; border-bottom:1px solid var(--border); text-align:right; }
+.bank-comp td:first-child { text-align:left; }
+.bank-comp tr.chosen-bank td { background:rgba(96,165,250,.1); color:#60a5fa; font-weight:700; }
+.bank-comp tr:last-child td { border-bottom:none; }
+
+/* Amortisasi */
+.amort-wrap { max-height:220px; overflow-y:auto; margin-top:10px; border:1px solid var(--border); border-radius:var(--radius-sm); }
+.amort-wrap table { width:100%; font-size:.74rem; border-collapse:collapse; }
+.amort-wrap th { position:sticky; top:0; background:var(--bg-card); padding:5px 9px; text-align:right; border-bottom:1px solid var(--border); font-weight:600; color:var(--text-secondary); z-index:1; }
+.amort-wrap th:first-child { text-align:left; }
+.amort-wrap td { padding:4px 9px; text-align:right; border-bottom:1px solid rgba(255,255,255,.02); }
+.amort-wrap td:first-child { text-align:left; color:var(--text-secondary); }
+
+/* Bank preset chips */
+.bank-chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.bank-chip  { padding:4px 10px; border-radius:6px; font-size:.72rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all .15s; }
+.bank-chip:hover,.bank-chip.active { background:rgba(96,165,250,.15); color:#60a5fa; border-color:rgba(96,165,250,.35); }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
 </style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -34,212 +102,246 @@
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🏦 Kalkulator KTA</div>
-      <div class="calc-subtitle">Simulasi Kredit Tanpa Agunan</div>
+      <div class="calc-title">🏦 Kalkulator KTA 2026</div>
+      <div class="calc-subtitle">Simulasi cicilan · Bandingkan bank · Tabel angsuran</div>
+
+      <div class="field">
+        <label>Pilih Bank / Bunga KTA</label>
+        <div class="bank-chips">
+          <div class="bank-chip" onclick="setBank(13.5,'BCA',this)">BCA 13,5%</div>
+          <div class="bank-chip" onclick="setBank(14,'BRI',this)">BRI 14%</div>
+          <div class="bank-chip" onclick="setBank(14,'BNI',this)">BNI 14%</div>
+          <div class="bank-chip" onclick="setBank(15,'Mandiri',this)">Mandiri 15%</div>
+          <div class="bank-chip" onclick="setBank(18,'CIMB',this)">CIMB 18%</div>
+          <div class="bank-chip" onclick="setBank(20,'Danamon',this)">Danamon 20%</div>
+        </div>
+      </div>
 
       <div class="field"><label>Jumlah Pinjaman (Rp)</label>
-        <div class="slider-row">
-          <label style="min-width:0">Rp</label>
-          <input type="range" id="pinjaman-range" min="1" max="200" value="50" oninput="syncPinjaman(this.value)"/>
-          <span class="slider-val" id="pinjaman-val">50 jt</span>
-        </div>
-        <input type="number" id="pinjaman" value="50000000" oninput="syncPinjamanInput(this.value)"/>
+        <input type="range" id="pinjaman-range" min="1" max="300" value="50" oninput="syncRange(this.value)" style="width:100%;accent-color:var(--mint)"/>
+        <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-muted)"><span>Rp 1 jt</span><span id="range-val" style="color:var(--mint);font-weight:700">Rp 50 jt</span><span>Rp 300 jt</span></div>
+        <input type="number" id="pinjaman" value="50000000" oninput="syncInput(this.value)" style="margin-top:6px"/>
       </div>
 
-      <div class="field"><label>Bank / Produk</label>
-        <select id="bank" onchange="setBank()">
-          <option value="custom">Masukkan bunga manual</option>
-          <option value="13.5">BCA — KTA Xtra (13,5%/th)</option>
-          <option value="14">BRI — KTA BRI (14%/th)</option>
-          <option value="14">BNI — KTA BNI (14%/th)</option>
-          <option value="15">Mandiri — KTA Mandiri (15%/th)</option>
-          <option value="18">CIMB Niaga — KTA (18%/th)</option>
-          <option value="20">Danamon — KTA (20%/th)</option>
-        </select>
-      </div>
-
-      <div class="field"><label>Bunga per tahun (%)</label>
-        <input type="number" id="bunga" value="14" step="0.1" oninput="calculate()"/>
+      <div class="field"><label>Bunga per Tahun (%)</label>
+        <input type="number" id="bunga" value="14" step="0.1" oninput="autoCalc()"/>
+        <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">KTA umumnya menggunakan bunga efektif (anuitas). Kisaran umum 2026: 13–22%/tahun.</p>
       </div>
 
       <div class="field"><label>Tenor (bulan)</label>
-        <div class="radio-group" id="tenor-opts">
+        <div class="radio-group" id="tenor-btns">
           <div class="radio-btn" onclick="setTenor(12,this)">12</div>
           <div class="radio-btn active" onclick="setTenor(24,this)">24</div>
           <div class="radio-btn" onclick="setTenor(36,this)">36</div>
           <div class="radio-btn" onclick="setTenor(48,this)">48</div>
+          <div class="radio-btn" onclick="setTenor(60,this)">60</div>
         </div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Simulasi KTA</button>
+      <div class="field"><label>Gaji bersih per bulan (opsional — untuk cek kemampuan bayar)</label>
+        <input type="number" id="gaji" placeholder="Contoh: 7.000.000" oninput="autoCalc()"/>
+      </div>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-cicilan">—</div>
-          <div class="result-label">Angsuran per bulan</div>
+      <button class="calc-btn" onclick="calculate()">🏦 Simulasi KTA</button>
+
+      <div class="result-box" id="result" style="display:none">
+
+        <!-- Main -->
+        <div class="kta-main">
+          <div class="kta-num" id="res-cicilan">—</div>
+          <div class="kta-label">Angsuran per bulan (bunga efektif)</div>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Pokok pinjaman</span><span class="rval" id="res-pokok">—</span></div>
-          <div class="result-row"><span class="rkey">Total bunga</span><span class="rval" id="res-bunga" style="color:#f87171">—</span></div>
-          <div class="result-row"><span class="rkey">Total yang dibayar</span><span class="rval" id="res-total">—</span></div>
-          <div class="result-row"><span class="rkey">Efektif biaya bunga</span><span class="rval" id="res-pct">—</span></div>
+
+        <!-- Bar -->
+        <div class="kta-bar-wrap">
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:5px">Komposisi total pembayaran</div>
+          <div class="kta-bar-track">
+            <div class="kta-bar-pokok" id="bar-pokok" style="width:70%">Pokok</div>
+            <div class="kta-bar-bunga" id="bar-bunga" style="width:30%">Bunga</div>
+          </div>
+          <div class="kta-bar-legend"><span class="leg-g">Pokok pinjaman</span><span class="leg-o">Total bunga</span></div>
         </div>
-        <div id="compare-area" style="display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:12px">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:8px">Perbandingan Tenor</div>
-          <table class="bank-table" id="compare-table">
-            <thead><tr><th>Tenor</th><th>Cicilan/bln</th><th>Total Bunga</th></tr></thead>
-            <tbody></tbody>
+
+        <!-- Stats -->
+        <div class="kta-stats">
+          <div class="ks-card"><div class="kc-label">Pokok pinjaman</div><div class="kc-val" id="s-pokok">—</div></div>
+          <div class="ks-card orange"><div class="kc-label">Total bunga (efektif)</div><div class="kc-val" id="s-bunga">—</div></div>
+          <div class="ks-card"><div class="kc-label">Total yang dibayar</div><div class="kc-val" id="s-total">—</div></div>
+          <div class="ks-card"><div class="kc-label">Biaya bunga / pokok</div><div class="kc-val" id="s-pct">—</div></div>
+        </div>
+
+        <!-- Kemampuan bayar -->
+        <div id="kemampuan-section" style="display:none;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-top:10px;">
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px;">💰 Analisis Kemampuan Bayar</div>
+          <div class="kemampuan-row"><span>Gaji bersih</span><span class="kr-val" id="k-gaji">—</span></div>
+          <div class="kemampuan-row"><span>Cicilan KTA</span><span class="kr-val" id="k-cicilan">—</span></div>
+          <div class="kemampuan-row"><span>Rasio cicilan/gaji</span><span class="kr-val" id="k-ratio">—</span></div>
+          <div class="kemampuan-row"><span>Status</span><span class="kr-val" id="k-status">—</span></div>
+        </div>
+
+        <!-- Tenor comparison -->
+        <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">📊 Perbandingan 5 Pilihan Tenor</div>
+        <table class="tenor-comp" id="tenor-comp"></table>
+
+        <!-- Bank comparison -->
+        <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">🏦 Perbandingan 6 Bank (tenor sama)</div>
+        <table class="bank-comp" id="bank-comp"></table>
+
+        <!-- Amortisasi -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 4px">
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600">📋 Tabel Angsuran Bulanan</div>
+          <div style="font-size:.68rem;color:var(--text-muted)">Geser ↓</div>
+        </div>
+        <div class="amort-wrap">
+          <table>
+            <thead><tr><th>Bln</th><th>Cicilan</th><th>Pokok</th><th style="color:#f97316">Bunga</th><th>Sisa</th></tr></thead>
+            <tbody id="amort-body"></tbody>
           </table>
         </div>
+
+        <!-- Advice -->
+        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator KTA — Simulasi Kredit Tanpa Agunan</h1>
-    <p class="page-desc">Hitung cicilan KTA dari berbagai bank Indonesia. Bandingkan pilihan tenor dan ketahui total biaya kredit sebelum mengajukan KTA, agar Anda bisa membuat keputusan yang tepat.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator KTA 2026 — Simulasi Cicilan Kredit Tanpa Agunan</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Simulasi cicilan KTA dari 6 bank Indonesia sekaligus. Hitung angsuran, total bunga, tabel amortisasi per bulan, dan cek kemampuan bayar berdasarkan gaji Anda — sebelum mengajukan KTA.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Apa itu KTA?</h2>
-    <p>KTA (Kredit Tanpa Agunan) adalah pinjaman bank yang tidak memerlukan jaminan aset. Prosesnya lebih cepat dibanding kredit dengan agunan, namun bunganya lebih tinggi karena bank menanggung risiko lebih besar. KTA cocok untuk kebutuhan mendesak seperti renovasi rumah, biaya pendidikan, atau modal usaha kecil.</p>
-
-    <h2>Perbandingan KTA Bank di Indonesia (2024)</h2>
-    <table>
-      <tr><th>Bank</th><th>Plafon</th><th>Bunga</th><th>Tenor</th></tr>
-      <tr><td>BCA — KTA Xtra</td><td>Rp 200 juta</td><td>Mulai 13,5%/th</td><td>12–60 bln</td></tr>
-      <tr><td>BRI</td><td>Rp 500 juta</td><td>Mulai 14%/th</td><td>12–60 bln</td></tr>
-      <tr><td>BNI</td><td>Rp 300 juta</td><td>Mulai 14%/th</td><td>12–60 bln</td></tr>
-      <tr><td>Mandiri</td><td>Rp 300 juta</td><td>Mulai 15%/th</td><td>12–60 bln</td></tr>
-      <tr><td>CIMB Niaga</td><td>Rp 200 juta</td><td>Mulai 18%/th</td><td>12–60 bln</td></tr>
+    <h2>Perbandingan KTA Bank Indonesia 2026</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Bank</th><th>Plafon Maksimum</th><th>Bunga (est.)</th><th>Tenor</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td>BCA — KTA Xtra</td><td>Rp 200 juta</td><td>Mulai 13,5%/th</td><td>12–60 bln</td><td>Cicilan tetap, proses online</td></tr>
+        <tr><td>BRI — Briguna</td><td>Rp 500 juta</td><td>Mulai 14%/th</td><td>12–60 bln</td><td>Khusus PNS/karyawan tetap</td></tr>
+        <tr><td>BNI — Flexi</td><td>Rp 300 juta</td><td>Mulai 14%/th</td><td>12–60 bln</td><td>Nasabah gaji BNI lebih mudah</td></tr>
+        <tr><td>Mandiri — KTA</td><td>Rp 300 juta</td><td>Mulai 15%/th</td><td>12–60 bln</td><td>Prioritas untuk nasabah Mandiri</td></tr>
+        <tr><td>CIMB Niaga — KTA</td><td>Rp 200 juta</td><td>Mulai 18%/th</td><td>12–60 bln</td><td>Persetujuan relatif cepat</td></tr>
+        <tr><td>Danamon — KTA</td><td>Rp 150 juta</td><td>Mulai 20%/th</td><td>12–36 bln</td><td>Persyaratan lebih fleksibel</td></tr>
+      </tbody>
     </table>
-    <p>*Bunga dapat berubah. Cek ke bank terkait untuk informasi terkini.</p>
+    <p style="font-size:.78rem;color:var(--text-muted)">*Bunga dan ketentuan dapat berubah. Selalu konfirmasi langsung ke bank. Bunga di atas adalah estimasi minimum — bunga aktual tergantung profil kredit dan hubungan dengan bank.</p>
+
+    <h2>Cara Kerja KTA dan Rumus Cicilan</h2>
+    <p>KTA (Kredit Tanpa Agunan) umumnya menggunakan metode <strong>bunga efektif (anuitas)</strong> — cicilan tetap setiap bulan, namun komposisi pokok:bunga berubah setiap bulannya:</p>
+    <ul>
+      <li>Cicilan = Pokok × [r(1+r)^n ÷ ((1+r)^n − 1)], di mana r = bunga/12, n = tenor</li>
+      <li>Di awal tenor, sebagian besar cicilan adalah bunga. Di akhir tenor, sebagian besar adalah pokok.</li>
+      <li>Ini membuat pelunasan dipercepat lebih menghemat karena sisa bunga di depan lebih besar.</li>
+    </ul>
+
+    <h2>Fitur Kalkulator KTA NovaCalcs</h2>
+    <ul>
+      <li><strong>Preset 6 bank dengan 1 klik</strong> — Pilih BCA, BRI, BNI, Mandiri, CIMB, atau Danamon untuk mengisi bunga otomatis, lalu bandingkan hasilnya.</li>
+      <li><strong>Slider pinjaman</strong> — Geser slider Rp 1–300 juta dan cicilan diperbarui real-time.</li>
+      <li><strong>Perbandingan 5 tenor sekaligus</strong> — Tabel otomatis menampilkan cicilan, total bunga, dan total bayar untuk tenor 12, 24, 36, 48, dan 60 bulan.</li>
+      <li><strong>Perbandingan 6 bank sekaligus</strong> — Dengan pokok dan tenor yang sama, lihat berapa cicilan dan total bunga untuk semua bank sekaligus — memudahkan memilih yang paling efisien.</li>
+      <li><strong>Tabel angsuran (amortisasi)</strong> — Lihat detail setiap bulan: cicilan, porsi pokok, porsi bunga, dan sisa utang. Penting untuk merencanakan pelunasan dipercepat.</li>
+      <li><strong>Analisis kemampuan bayar</strong> — Masukkan gaji dan kalkulator menghitung rasio cicilan terhadap gaji dengan status aman/perhatian/berat.</li>
+    </ul>
 
     <h2>Tips Memilih KTA yang Tepat</h2>
     <ul>
-      <li>Bandingkan bunga efektif, bukan hanya bunga flat — bunga flat lebih rendah angkanya tapi lebih mahal sebenarnya</li>
-      <li>Perhatikan biaya provisi, administrasi, dan asuransi yang biasanya dibebankan di awal</li>
-      <li>Pastikan cicilan maksimal 30% dari penghasilan bersih Anda</li>
-      <li>Cek apakah ada penalti pelunasan dipercepat</li>
-      <li>Ajukan ke bank di mana Anda punya rekening aktif — proses lebih mudah dan bunga kadang lebih rendah</li>
+      <li><strong>Bandingkan bunga efektif, bukan bunga nominal</strong> — Bunga flat terlihat lebih kecil angkanya, namun biaya totalnya lebih besar. KTA umumnya sudah pakai bunga efektif, namun pastikan.</li>
+      <li><strong>Perhatikan biaya di luar bunga</strong> — Provisi (1–2%), biaya administrasi, premi asuransi jiwa, dan biaya pelunasan dipercepat bisa menambah total biaya KTA secara signifikan.</li>
+      <li><strong>Ajukan ke bank tempat Anda punya rekening aktif</strong> — Proses lebih mudah, bunga sering lebih kompetitif, dan limit bisa lebih tinggi.</li>
+      <li><strong>Jaga rasio cicilan maksimal 30% dari gaji</strong> — Ini berlaku untuk semua cicilan total (KTA + KPR + kendaraan + lainnya). Jika cicilan KTA saja sudah 25% gaji, pertimbangkan plafon yang lebih kecil atau tenor lebih panjang.</li>
+      <li><strong>Cek SLIK OJK Anda terlebih dahulu</strong> — Riwayat kredit buruk langsung mempengaruhi persetujuan dan bunga yang ditawarkan. Permintaan bisa dilakukan di kantor OJK atau online.</li>
     </ul>
 
-    <h2>Kapan KTA Boleh Dipakai dan Kapan Harus Dihindari?</h2>
-    <p>KTA adalah produk utang yang mahal karena tidak ada jaminan dan proses cepat. Gunakan dengan bijak:</p>
-    <p><strong>✅ Penggunaan yang masuk akal:</strong></p>
-    <ul>
-      <li>Darurat medis yang mendesak dan tidak ada pilihan lain</li>
-      <li>Renovasi rumah yang meningkatkan nilai properti</li>
-      <li>Konsolidasi utang berbunga lebih tinggi (misal lunasi pinjol)</li>
-      <li>Modal usaha dengan proyeksi return yang jelas dan lebih tinggi dari bunga KTA</li>
-    </ul>
-    <p><strong>❌ Penggunaan yang sebaiknya dihindari:</strong></p>
-    <ul>
-      <li>Liburan atau gaya hidup konsumtif</li>
-      <li>Membayar cicilan utang lain yang semakin membesar</li>
-      <li>Kebutuhan yang bisa ditunda dan ditabung</li>
-      <li>Investasi spekulatif (kripto, trading saham tanpa keahlian)</li>
-    </ul>
-
-    <h2>Cara Membandingkan Biaya KTA yang Sebenarnya (APRC)</h2>
-    <p>Bunga yang diiklankan (misal "bunga flat 0,9%/bulan") seringkali berbeda dengan total biaya sebenarnya. Gunakan <strong>APRC (Annual Percentage Rate of Charge)</strong> atau tingkat bunga efektif untuk perbandingan yang adil. Rumus sederhana:</p>
-    <ul>
-      <li>Bunga flat 1%/bulan ≈ bunga efektif 1,7–2,2%/bulan (hampir dua kali lipat!)</li>
-      <li>Selain bunga, hitung biaya provisi, biaya asuransi, dan biaya keterlambatan dalam total biaya pinjaman</li>
-      <li>Bandingkan Total Cost of Credit (total seluruh pembayaran dikurangi pokok pinjaman) antar bank</li>
-    </ul>
-
-    <h2>Alternatif KTA yang Lebih Murah</h2>
-    <ul>
-      <li><strong>Pinjaman koperasi</strong> — Bunga umumnya lebih rendah, terutama untuk anggota koperasi karyawan</li>
-      <li><strong>Pinjaman BPJS Ketenagakerjaan</strong> — Program MLT (Manfaat Layanan Tambahan) untuk peserta aktif JHT, bunga ringan</li>
-      <li><strong>PayLater dari e-commerce</strong> — Untuk kebutuhan tertentu, biaya bisa lebih rendah dari KTA jika disiplin bayar tepat waktu</li>
-      <li><strong>Pinjam ke keluarga/teman</strong> — Jika memungkinkan, tanpa bunga dengan komitmen tertulis untuk menjaga hubungan</li>
-    </ul>
-
-    <h2>Checklist Sebelum Mengajukan KTA</h2>
-    <p>Sebelum memutuskan mengajukan KTA, pastikan Anda sudah melewati checklist berikut:</p>
-    <ul>
-      <li>☐ Sudah mencoba semua alternatif yang lebih murah (tabungan, koperasi, pinjam keluarga)</li>
-      <li>☐ Kebutuhan ini benar-benar mendesak dan tidak bisa ditunda</li>
-      <li>☐ Cicilan KTA tidak akan melebihi 30% penghasilan bulanan</li>
-      <li>☐ Sudah membandingkan minimal 3 produk KTA dari bank berbeda</li>
-      <li>☐ Memahami total biaya (bukan hanya bunga, tapi juga provisi dan asuransi)</li>
-      <li>☐ Sudah cek skor kredit di SLIK OJK (iDebku.ojk.go.id) — gratis</li>
-      <li>☐ Punya rencana pelunasan yang realistis sebelum menandatangani</li>
-    </ul>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan KTA dan pinjaman online (pinjol)?</div>
+      <div class="faq-a">KTA adalah produk resmi bank yang diawasi ketat oleh OJK, dengan bunga 13–22%/tahun dan perlindungan hukum yang jelas. Pinjol (fintech lending) dari platform yang terdaftar OJK legal, namun bunganya bisa lebih tinggi (hingga 0,1–0,4%/hari untuk pinjaman jangka pendek). Hindari pinjol ilegal yang tidak terdaftar OJK — tidak ada perlindungan hukum dan praktik penagihan bisa melanggar hukum.</div>
+    </div>
+    <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Berapa gaji minimum untuk mengajukan KTA?</div>
-      <div class="faq-a">Syarat penghasilan minimum bervariasi per bank, umumnya Rp 3–5 juta/bulan untuk karyawan tetap. Bank juga mempertimbangkan status kepegawaian, lama bekerja (biasanya minimal 1–2 tahun), dan riwayat kredit (SLIK OJK). Karyawan BUMN dan PNS biasanya lebih mudah disetujui.</div>
+      <div class="faq-a">Persyaratan gaji minimum bervariasi: umumnya Rp 3–5 juta/bulan untuk karyawan swasta, Rp 3 juta untuk PNS. Bank juga mempertimbangkan status kepegawaian (tetap vs kontrak), lama bekerja di perusahaan (minimal 1–2 tahun), dan riwayat kredit di SLIK OJK. Karyawan BUMN, PNS, dan TNI/Polri umumnya lebih mudah mendapat persetujuan dengan bunga yang lebih rendah.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah KTA mempengaruhi pengajuan KPR?</div>
+      <div class="faq-a">Ya, sangat berpengaruh. Saat mengajukan KPR, bank akan menghitung semua kewajiban cicilan aktif termasuk KTA. Jika total cicilan sudah mencapai 30–35% gaji, plafon KPR yang disetujui akan berkurang. Jika memang berencana mengambil KPR dalam waktu dekat (1–2 tahun), sebaiknya lunasi atau hindari mengambil KTA baru terlebih dahulu untuk memaksimalkan plafon KPR.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik untuk melunasi KTA lebih cepat?</div>
+      <div class="faq-a">Untuk KTA dengan bunga efektif/anuitas: pelunasan dipercepat di awal-awal tenor paling menguntungkan, karena porsi bunga di bulan-bulan awal sangat besar. Misalnya, melunasi di bulan ke-6 dari tenor 36 bulan bisa menghemat bunga 30 bulan ke depan. Namun cek dulu: apakah ada penalti pelunasan dipercepat (biasanya 1–5% dari sisa pokok)? Pastikan penghematan bunga lebih besar dari penaltinya.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Lebih baik KTA atau kartu kredit untuk kebutuhan mendadak?</div>
+      <div class="faq-a">Tergantung jumlah dan jangka waktu. Untuk kebutuhan kecil (&lt;Rp 10 juta) yang bisa dilunasi dalam 1 bulan, kartu kredit lebih praktis (bunga 0% jika dilunasi penuh). Untuk jumlah besar (Rp 20–100 juta) dengan pembayaran bertahap 1–3 tahun, KTA jauh lebih murah (13–20%/tahun vs kartu kredit 24–27%/tahun jika tidak dilunasi penuh setiap bulan).</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Berapa lama proses persetujuan KTA?</div>
-      <div class="faq-a">KTA digital (melalui aplikasi) bisa disetujui dalam 1–3 hari kerja. KTA konvensional (pengajuan ke kantor bank) biasanya 3–7 hari kerja. Proses bisa lebih cepat jika Anda sudah nasabah aktif bank tersebut dengan rekening dan produk yang baik.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah KTA dan pinjol (pinjaman online) berbeda?</div>
-      <div class="faq-a">Sangat berbeda. KTA adalah produk resmi bank yang diawasi OJK dengan bunga 13–20%/tahun. Pinjol (fintech lending) yang resmi diawasi OJK bisa memiliki bunga lebih tinggi. Hindari pinjol ilegal yang tidak terdaftar OJK — bunganya bisa mencapai ratusan persen per tahun dan praktiknya tidak terlindungi hukum.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Lebih baik KTA atau kartu kredit untuk kebutuhan tunai?</div>
-      <div class="faq-a">Tergantung jumlah dan jangka waktu. Untuk jumlah besar (> Rp 10 juta) jangka menengah (1–3 tahun), KTA biasanya lebih murah. Kartu kredit cocok untuk kebutuhan kecil jangka pendek yang bisa dilunasi dalam 1–2 bulan. Bunga kartu kredit bisa mencapai 2–2,25%/bulan (27%/tahun) jika tidak dilunasi penuh.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah memiliki KTA berpengaruh pada pengajuan KPR?</div>
-      <div class="faq-a">Ya. Bank akan memperhitungkan semua cicilan aktif Anda termasuk KTA saat menghitung kemampuan bayar KPR. Jika cicilan KTA sudah mengambil 20% dari gaji, ruang untuk cicilan KPR berkurang. Idealnya lunasi KTA sebelum mengajukan KPR jika ingin plafon KPR yang lebih besar.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mempercepat pelunasan KTA?</div>
-      <div class="faq-a">Strategi umum: (1) Bayar lebih dari cicilan minimum jika memungkinkan. (2) Alokasikan bonus/THR untuk partial prepayment. (3) Cek penalti pelunasan dipercepat terlebih dahulu. Untuk bunga flat, manfaat pelunasan awal lebih kecil — namun tetap menghemat beban bunga ke depan.</div>
+      <div class="faq-a">KTA digital melalui aplikasi bank (seperti BCA mobile, BRImo) bisa disetujui dalam 1–3 hari kerja jika data lengkap dan rekam jejak kredit baik. KTA konvensional melalui kantor cabang biasanya 3–7 hari kerja. Proses bisa lebih cepat jika Anda sudah nasabah aktif dan memiliki produk lain (tabungan, kartu kredit) di bank yang sama.</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-cicilan.html" class="related-item"><span class="ri">💳</span>Kalkulator Cicilan</a>
       <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
+      <a href="/id/kalkulator-bunga-pinjol.html" class="related-item"><span class="ri">📱</span>Kalkulator Pinjol</a>
       <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
-      <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Investasi</a>
     </div>
   </div>
 </main>
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <script defer>
 let tenor = 24;
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+let selectedBank = '';
+const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmtM = n => {
+  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  return fmt(n);
+};
 
-function syncPinjaman(v) {
-  document.getElementById('pinjaman-val').textContent = v + ' jt';
-  document.getElementById('pinjaman').value = v * 1000000;
-  calculate();
-}
-function syncPinjamanInput(v) {
-  const jt = Math.round(v / 1000000);
-  document.getElementById('pinjaman-range').value = Math.min(200, jt);
-  document.getElementById('pinjaman-val').textContent = jt + ' jt';
-  calculate();
+const BANKS = [
+  { name:'BCA',     bunga:13.5 },
+  { name:'BRI',     bunga:14   },
+  { name:'BNI',     bunga:14   },
+  { name:'Mandiri', bunga:15   },
+  { name:'CIMB',    bunga:18   },
+  { name:'Danamon', bunga:20   },
+];
+
+function setBank(b, name, btn) {
+  document.getElementById('bunga').value = b;
+  selectedBank = name;
+  document.querySelectorAll('.bank-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc();
 }
 
-function setBank() {
-  const val = document.getElementById('bank').value;
-  if (val !== 'custom') {
-    document.getElementById('bunga').value = val;
-    calculate();
-  }
+function syncRange(v) {
+  document.getElementById('range-val').textContent = 'Rp ' + v + ' jt';
+  document.getElementById('pinjaman').value = v * 1_000_000;
+  autoCalc();
+}
+function syncInput(v) {
+  const jt = Math.round(v / 1_000_000);
+  document.getElementById('pinjaman-range').value = Math.min(300, jt);
+  document.getElementById('range-val').textContent = 'Rp ' + Math.min(300, jt) + ' jt';
+  autoCalc();
 }
 
 function setTenor(t, btn) {
   tenor = t;
-  document.querySelectorAll('#tenor-opts .radio-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#tenor-btns .radio-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  calculate();
+  autoCalc();
+}
+
+function autoCalc() {
+  const p = parseFloat(document.getElementById('pinjaman').value);
+  const b = parseFloat(document.getElementById('bunga').value);
+  if (p > 0 && b >= 0) calculate();
 }
 
 function calcCicilan(pokok, bungaTh, tn) {
@@ -249,37 +351,104 @@ function calcCicilan(pokok, bungaTh, tn) {
 }
 
 function calculate() {
-  const pokok = parseFloat(document.getElementById('pinjaman').value) || 0;
-  const bunga = parseFloat(document.getElementById('bunga').value);
-  if (!pokok || isNaN(bunga)) return;
+  const pokok  = parseFloat(document.getElementById('pinjaman').value) || 0;
+  const bunga  = parseFloat(document.getElementById('bunga').value)    || 14;
+  const gaji   = parseFloat(document.getElementById('gaji').value)     || 0;
+  if (!pokok) return;
 
-  const cicilan = calcCicilan(pokok, bunga, tenor);
+  const cicilan    = calcCicilan(pokok, bunga, tenor);
   const totalBayar = cicilan * tenor;
   const totalBunga = totalBayar - pokok;
-  const pct = ((totalBunga / pokok) * 100).toFixed(1);
+  const pct        = (totalBunga / pokok * 100).toFixed(1);
 
+  // Main
   document.getElementById('res-cicilan').textContent = fmt(cicilan);
-  document.getElementById('res-pokok').textContent = fmt(pokok);
-  document.getElementById('res-bunga').textContent = fmt(totalBunga);
-  document.getElementById('res-total').textContent = fmt(totalBayar);
-  document.getElementById('res-pct').textContent = '+' + pct + '% dari pokok';
 
-  // Compare table
-  const tbody = document.querySelector('#compare-table tbody');
+  // Bar
+  const pokokPct = Math.round(pokok / totalBayar * 100);
+  const bungaPct = 100 - pokokPct;
+  document.getElementById('bar-pokok').style.width = pokokPct + '%';
+  document.getElementById('bar-pokok').textContent = pokokPct > 15 ? 'Pokok ' + pokokPct + '%' : '';
+  document.getElementById('bar-bunga').style.width = bungaPct + '%';
+  document.getElementById('bar-bunga').textContent = bungaPct > 10 ? 'Bunga ' + bungaPct + '%' : '';
+
+  // Stats
+  document.getElementById('s-pokok').textContent = fmtM(pokok);
+  document.getElementById('s-bunga').textContent = fmtM(totalBunga);
+  document.getElementById('s-total').textContent = fmtM(totalBayar);
+  document.getElementById('s-pct').textContent   = '+' + pct + '% dari pokok';
+
+  // Kemampuan
+  const kemEl = document.getElementById('kemampuan-section');
+  if (gaji > 0) {
+    const ratio = cicilan / gaji * 100;
+    document.getElementById('k-gaji').textContent    = fmtM(gaji);
+    document.getElementById('k-cicilan').textContent = fmt(cicilan);
+    document.getElementById('k-ratio').textContent   = ratio.toFixed(1) + '%';
+    const statusEl = document.getElementById('k-status');
+    if (ratio <= 20)      { statusEl.textContent = '✅ Sangat aman (≤20%)';     statusEl.className = 'kr-val kr-ok'; }
+    else if (ratio <= 30) { statusEl.textContent = '✅ Aman (≤30%)';            statusEl.className = 'kr-val kr-ok'; }
+    else if (ratio <= 40) { statusEl.textContent = '⚠️ Perlu perhatian (>30%)'; statusEl.className = 'kr-val kr-warn'; }
+    else                  { statusEl.textContent = '❌ Terlalu berat (>40%)';   statusEl.className = 'kr-val kr-bad'; }
+    kemEl.style.display = '';
+  } else {
+    kemEl.style.display = 'none';
+  }
+
+  // Tenor comparison
   const tenors = [12, 24, 36, 48, 60];
-  tbody.innerHTML = tenors.map(t => {
+  const tcomp  = document.getElementById('tenor-comp');
+  tcomp.innerHTML = '<thead><tr><th>Tenor</th><th>Cicilan/bln</th><th>Total Bunga</th><th>Total Bayar</th></tr></thead>';
+  const tb1 = document.createElement('tbody');
+  tenors.forEach(t => {
     const c = calcCicilan(pokok, bunga, t);
     const b = c * t - pokok;
-    const isActive = t === tenor;
-    return `<tr style="${isActive ? 'color:var(--mint);font-weight:600' : ''}">
-      <td>${t} bulan</td><td>${fmt(c)}</td><td>${fmt(b)}</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('compare-area').style.display = '';
+    const tr = document.createElement('tr');
+    if (t === tenor) tr.className = 'chosen';
+    tr.innerHTML = `<td>${t} bulan</td><td>${fmt(c)}</td><td>${fmtM(b)}</td><td>${fmtM(c*t)}</td>`;
+    tb1.appendChild(tr);
+  });
+  tcomp.appendChild(tb1);
+
+  // Bank comparison
+  const bcomp = document.getElementById('bank-comp');
+  bcomp.innerHTML = '<thead><tr><th>Bank</th><th>Bunga</th><th>Cicilan/bln</th><th>Total Bunga</th></tr></thead>';
+  const tb2 = document.createElement('tbody');
+  BANKS.forEach(bk => {
+    const c = calcCicilan(pokok, bk.bunga, tenor);
+    const b = c * tenor - pokok;
+    const tr = document.createElement('tr');
+    if (bk.name === selectedBank) tr.className = 'chosen-bank';
+    tr.innerHTML = `<td>${bk.name}</td><td>${bk.bunga}%/th</td><td>${fmt(c)}</td><td>${fmtM(b)}</td>`;
+    tb2.appendChild(tr);
+  });
+  bcomp.appendChild(tb2);
+
+  // Amortisasi
+  const r = bunga / 100 / 12;
+  let sisa = pokok;
+  const amortBody = document.getElementById('amort-body');
+  amortBody.innerHTML = '';
+  for (let m = 1; m <= tenor; m++) {
+    const bungaBln = sisa * r;
+    const pokokBln = cicilan - bungaBln;
+    sisa = Math.max(0, sisa - pokokBln);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${m}</td><td>${fmt(cicilan)}</td><td>${fmt(pokokBln)}</td><td style="color:#f97316">${fmt(bungaBln)}</td><td>${fmt(sisa)}</td>`;
+    amortBody.appendChild(tr);
+  }
+
+  // Advice
+  const effRate = (totalBunga / pokok * 100).toFixed(1);
+  document.getElementById('res-advice').innerHTML =
+    `💡 KTA ${fmtM(pokok)} dengan bunga <strong>${bunga}%/tahun</strong> selama <strong>${tenor} bulan</strong>: cicilan <strong>${fmt(cicilan)}/bulan</strong>, total bunga <strong>${fmtM(totalBunga)}</strong> (+${effRate}% dari pokok). Untuk tenor lebih pendek, cicilan lebih besar tapi total bunga jauh lebih hemat. Lihat tabel perbandingan tenor di atas.`;
+
+  document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
 </script>
 </body>
 </html>
