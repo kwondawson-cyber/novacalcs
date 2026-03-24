@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Zakat Penghasilan 2026 — Hitung Zakat Gaji dan Profesi | NovaCalcs</title>
-<meta name="description" content="Hitung zakat penghasilan (zakat profesi) berdasarkan gaji dan penghasilan Anda. Dilengkapi cek nisab emas terkini dan panduan pembayaran zakat."/>
-<meta name="keywords" content="kalkulator zakat penghasilan, zakat profesi, zakat gaji, hitung zakat, nisab zakat, zakat mal penghasilan, BAZNAS"/>
+<meta name="description" content="Hitung zakat penghasilan (zakat profesi) berdasarkan gaji Anda. Cek nisab emas terkini 2026, pilih metode bruto atau neto, dan lihat dampak zakat terhadap PPh 21."/>
+<meta name="keywords" content="kalkulator zakat penghasilan, zakat profesi, zakat gaji, hitung zakat, nisab zakat 2026, zakat mal penghasilan, BAZNAS, zakat dan pajak"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-zakat-penghasilan.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-zakat-penghasilan.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,6 +13,33 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.nisab-bar-wrap{margin:.6rem 0}
+.nisab-bar{height:12px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden}
+.nisab-fill{height:100%;border-radius:6px;transition:width .5s}
+.nisab-labels{display:flex;justify-content:space-between;font-size:.7rem;color:#8fa3b1;margin-top:.2rem}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.85rem}
+.breakdown-row:last-child{border-bottom:none}
+.annual-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.75rem}
+.annual-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.45rem .5rem;text-align:left}
+.annual-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.annual-table tr:last-child td{border-bottom:none}
+.annual-table .total-row td{font-weight:700;color:#00C9B1;background:rgba(0,201,177,.06)}
+.ramadan-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.85rem;margin:.5rem 0}
+.ramadan-card h4{margin:0 0 .35rem;color:#f59e0b;font-size:.9rem}
+.ramadan-card p{margin:0;font-size:.82rem;color:#8fa3b1;line-height:1.5}
+.pph-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.5rem}
+.pph-table th{background:rgba(255,255,255,.07);padding:.4rem .5rem;text-align:left;font-size:.78rem;color:#8fa3b1}
+.pph-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.pph-table .highlight{color:#00C9B1;font-weight:600}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -29,88 +56,193 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">🌙 Kalkulator Zakat Penghasilan</div>
-      <div class="calc-subtitle">Hitung zakat profesi dan gaji sesuai ketentuan BAZNAS</div>
-      <div class="field"><label>Penghasilan Bruto per Bulan (Rp)</label><input type="number" id="income" placeholder="Contoh: 10000000" min="0"/></div>
-      <div class="field"><label>Pengeluaran Wajib Bulanan (cicilan, nafkah keluarga, dll.) — Rp</label><input type="number" id="expenses" placeholder="Contoh: 3000000" min="0" value="0"/></div>
-      <div class="field">
-        <label>Metode Perhitungan</label>
-        <select id="method">
-          <option value="bruto">Bruto — 2,5% dari penghasilan kotor (lebih mudah)</option>
-          <option value="neto" selected>Neto — 2,5% dari penghasilan bersih (setelah kebutuhan pokok)</option>
-        </select>
+      <div class="calc-subtitle">Hitung zakat profesi dan gaji sesuai ketentuan BAZNAS 2026</div>
+
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-kalkulator',this)">🧮 Kalkulator</button>
+        <button class="tab-btn" onclick="showTab('tab-tahunan',this)">📅 Ringkasan Tahunan</button>
+        <button class="tab-btn" onclick="showTab('tab-ramadan',this)">🕌 Ramadan</button>
       </div>
-      <div class="field"><label>Harga Emas (Rp/gram) — untuk cek nisab</label><input type="number" id="gold-price" value="1350000" min="0"/>
-        <small style="color:#aaa">Cek harga emas Antam terkini di logammulia.com</small>
-      </div>
-      <button class="calc-btn" onclick="calculate()">Hitung Zakat</button>
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-zakat">—</div>
-          <div class="result-label">Zakat yang Harus Dibayar per Bulan</div>
-          <div class="result-badge" id="res-badge"></div>
+
+      <!-- TAB 1: KALKULATOR -->
+      <div id="tab-kalkulator" class="tab-pane active">
+        <div class="field"><label>Penghasilan Bruto per Bulan (Rp)</label><input type="number" id="income" placeholder="Contoh: 10000000" min="0"/></div>
+        <div class="field"><label>Pengeluaran Wajib Bulanan (cicilan, nafkah keluarga, dll.) — Rp</label><input type="number" id="expenses" placeholder="Contoh: 3000000" min="0" value="0"/></div>
+        <div class="field">
+          <label>Metode Perhitungan</label>
+          <select id="method">
+            <option value="bruto">Bruto — 2,5% dari penghasilan kotor (lebih mudah, lebih berhati-hati)</option>
+            <option value="neto" selected>Neto — 2,5% dari penghasilan bersih setelah kebutuhan pokok</option>
+          </select>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Dasar perhitungan (haul bulanan)</span><span class="rval" id="res-dasar">—</span></div>
-          <div class="result-row"><span class="rkey">Nisab (85g emas × harga/gram)</span><span class="rval" id="res-nisab">—</span></div>
-          <div class="result-row"><span class="rkey">Nisab per bulan</span><span class="rval" id="res-nisab-bulan">—</span></div>
-          <div class="result-row"><span class="rkey">Zakat setahun</span><span class="rval" id="res-zakat-tahun">—</span></div>
+        <div class="field">
+          <label>Harga Emas Antam (Rp/gram) — untuk cek nisab</label>
+          <input type="number" id="gold-price" value="1800000" min="0"/>
+          <small style="color:#7a8fa0">Perkiraan 2026. Cek harga terkini di logammulia.com</small>
+        </div>
+        <button class="calc-btn" onclick="calculateZakat()">Hitung Zakat</button>
+
+        <div class="result-panel" id="result">
+          <div class="result-main">
+            <div class="result-value" id="res-zakat">—</div>
+            <div class="result-label">Zakat yang Harus Dibayar per Bulan</div>
+            <div class="result-badge" id="res-badge"></div>
+          </div>
+
+          <!-- Nisab Progress Bar -->
+          <div class="nisab-bar-wrap" id="nisab-bar-wrap">
+            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.3rem" id="nisab-bar-title">Penghasilan vs Nisab</div>
+            <div class="nisab-bar"><div class="nisab-fill" id="nisab-fill" style="width:0%"></div></div>
+            <div class="nisab-labels">
+              <span>Rp 0</span>
+              <span id="nisab-bar-label">Nisab: —</span>
+            </div>
+          </div>
+
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Dasar perhitungan (haul bulanan)</span><span class="rval" id="res-dasar">—</span></div>
+            <div class="result-row"><span class="rkey">Nisab tahunan (85g × harga emas)</span><span class="rval" id="res-nisab">—</span></div>
+            <div class="result-row"><span class="rkey">Nisab per bulan (÷ 12)</span><span class="rval" id="res-nisab-bulan">—</span></div>
+            <div class="result-row"><span class="rkey">Zakat per tahun</span><span class="rval" id="res-zakat-tahun">—</span></div>
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- TAB 2: RINGKASAN TAHUNAN -->
+      <div id="tab-tahunan" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Hitung tab Kalkulator terlebih dahulu untuk mengisi otomatis, atau masukkan data di bawah ini.</p>
+        <div class="field"><label>Penghasilan Bruto per Bulan (Rp)</label><input type="number" id="t-income" placeholder="Dari tab Kalkulator" min="0"/></div>
+        <div class="field"><label>Pengeluaran Wajib Bulanan (Rp)</label><input type="number" id="t-expenses" placeholder="0" value="0" min="0"/></div>
+        <div class="field">
+          <label>Metode</label>
+          <select id="t-method">
+            <option value="bruto">Bruto</option>
+            <option value="neto" selected>Neto</option>
+          </select>
+        </div>
+        <div class="field"><label>Harga Emas (Rp/gram)</label><input type="number" id="t-gold" value="1800000" min="0"/></div>
+        <div class="field"><label>Apakah ada bonus atau THR? (Rp per tahun)</label><input type="number" id="t-bonus" placeholder="Contoh: 10000000" value="0" min="0"/></div>
+        <button class="calc-btn" onclick="calculateTahunan()">Lihat Ringkasan Tahunan</button>
+        <div id="t-result" style="display:none;margin-top:1rem">
+          <div id="t-summary" style="background:rgba(0,201,177,.08);border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem"></div>
+          <table class="annual-table">
+            <thead><tr><th>Bulan</th><th>Penghasilan</th><th>Dasar Zakat</th><th>Zakat</th></tr></thead>
+            <tbody id="t-tbody"></tbody>
+          </table>
+
+          <div style="margin-top:1rem;font-size:.85rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">💼 Dampak Zakat terhadap PPh 21 (estimasi)</div>
+          <table class="pph-table" id="pph-table"></table>
+        </div>
+      </div>
+
+      <!-- TAB 3: RAMADAN -->
+      <div id="tab-ramadan" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Banyak Muslim memilih membayar zakat penghasilan sekaligus di bulan Ramadan. Simulasikan dampaknya di sini.</p>
+        <div class="field"><label>Penghasilan Bruto per Bulan (Rp)</label><input type="number" id="r-income" placeholder="Contoh: 10000000" min="0"/></div>
+        <div class="field"><label>Pengeluaran Wajib Bulanan (Rp)</label><input type="number" id="r-expenses" placeholder="0" value="0" min="0"/></div>
+        <div class="field">
+          <label>Metode</label>
+          <select id="r-method">
+            <option value="bruto">Bruto</option>
+            <option value="neto" selected>Neto</option>
+          </select>
+        </div>
+        <div class="field"><label>Harga Emas (Rp/gram)</label><input type="number" id="r-gold" value="1800000" min="0"/></div>
+        <div class="field"><label>Berapa bulan yang belum dibayar?</label><input type="number" id="r-months" value="12" min="1" max="12"/></div>
+        <button class="calc-btn" onclick="calculateRamadan()">Hitung Zakat Ramadan</button>
+        <div id="r-result" style="display:none;margin-top:1rem">
+          <div id="r-summary" style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem"></div>
+          <div style="font-size:.82rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">Perbandingan Cara Pembayaran</div>
+          <div class="ramadan-card">
+            <h4>📅 Bayar Bulanan (dianjurkan untuk keringanan)</h4>
+            <p id="r-bulanan"></p>
+          </div>
+          <div class="ramadan-card">
+            <h4>🌙 Bayar Sekaligus di Ramadan</h4>
+            <p id="r-sekaligus"></p>
+          </div>
+          <div class="ramadan-card" style="border-color:rgba(0,201,177,.15)">
+            <h4 style="color:#00C9B1">💡 Catatan Zakat Fitrah</h4>
+            <p id="r-fitrah">Zakat fitrah (beras ~2,5 kg atau nilai setara) wajib dibayar sebelum Shalat Idul Fitri. Zakat fitrah berbeda dari zakat penghasilan dan wajib dikeluarkan oleh setiap jiwa Muslim yang mampu.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /calc-widget -->
   </div>
-  <div class="seo-content">
+
+  <div class="content-area">
     <h1>Kalkulator Zakat Penghasilan — Hitung Zakat Profesi dan Gaji 2026</h1>
-    <p class="page-desc">Zakat penghasilan (zakat profesi) adalah kewajiban bagi Muslim yang memiliki penghasilan dari pekerjaan yang telah mencapai nisab. Kalkulator ini membantu Anda menghitung zakat yang harus dibayarkan setiap bulan sesuai ketentuan BAZNAS dan fatwa MUI.</p>
+    <p class="page-desc">Zakat penghasilan (zakat profesi) adalah kewajiban bagi Muslim yang memiliki penghasilan dari pekerjaan yang telah mencapai nisab. Kalkulator ini membantu Anda menghitung zakat yang harus dibayarkan setiap bulan sesuai ketentuan BAZNAS dan Fatwa MUI.</p>
+
     <div class="ad-slot">Advertisement</div>
+
     <h2>Apa itu Zakat Penghasilan?</h2>
-    <p>Zakat penghasilan (zakat profesi atau zakat mal dari penghasilan) adalah zakat yang dikeluarkan dari penghasilan yang diperoleh dari pekerjaan atau profesi, seperti gaji karyawan, honorarium, dan pendapatan profesi bebas. Landasan hukumnya adalah Fatwa MUI No. 3 Tahun 2003 dan Peraturan Menteri Agama No. 52 Tahun 2014.</p>
-    <p>Besarnya zakat penghasilan adalah <strong>2,5%</strong> dari penghasilan yang telah mencapai <strong>nisab</strong> (batas minimum). Nisab zakat penghasilan menggunakan nisab emas sebesar <strong>85 gram emas</strong> per tahun, yang nilainya berubah mengikuti harga emas.</p>
-    <h2>Cara Menggunakan Kalkulator</h2>
+    <p>Zakat penghasilan (atau zakat profesi) adalah zakat yang dikeluarkan dari penghasilan yang diperoleh melalui pekerjaan atau profesi, seperti gaji karyawan, honorarium, dan pendapatan profesi bebas. Landasan hukumnya adalah <strong>Fatwa MUI No. 3 Tahun 2003</strong> dan <strong>Peraturan Menteri Agama No. 52 Tahun 2014</strong>.</p>
+    <p>Besarnya zakat penghasilan adalah <strong>2,5%</strong> dari penghasilan yang telah mencapai <strong>nisab</strong> (batas minimum wajib zakat). Nisab zakat penghasilan menggunakan standar <strong>85 gram emas murni per tahun</strong>, yang nilainya berubah mengikuti harga emas. Dengan harga emas Antam sekitar <strong>Rp 1.800.000/gram (estimasi 2026)</strong>, nisab setahun menjadi sekitar <strong>Rp 153.000.000</strong> atau sekitar <strong>Rp 12.750.000 per bulan</strong>.</p>
+
+    <h2>Cara Menggunakan Kalkulator Zakat Penghasilan</h2>
     <ol>
-      <li>Masukkan <strong>penghasilan bruto per bulan</strong> (gaji kotor sebelum potongan)</li>
-      <li>Masukkan <strong>pengeluaran wajib</strong> jika menggunakan metode neto (hutang, cicilan, nafkah)</li>
+      <li>Masukkan <strong>penghasilan bruto per bulan</strong> (gaji kotor sebelum potongan apapun)</li>
+      <li>Jika memilih metode neto, masukkan <strong>pengeluaran wajib</strong> (cicilan hutang, nafkah keluarga yang wajib)</li>
       <li>Pilih <strong>metode perhitungan</strong> — bruto atau neto</li>
-      <li>Masukkan atau cek <strong>harga emas terkini</strong> (gram) untuk menyesuaikan nisab</li>
-      <li>Klik <strong>"Hitung Zakat"</strong></li>
+      <li>Pastikan <strong>harga emas</strong> sesuai dengan harga terkini (cek di logammulia.com atau baznas.go.id)</li>
+      <li>Klik <strong>"Hitung Zakat"</strong> untuk melihat kewajiban zakat Anda dan perbandingan dengan nisab</li>
     </ol>
+
     <h2>Dua Metode Perhitungan Zakat Penghasilan</h2>
     <table>
-      <tr><th>Metode</th><th>Dasar Perhitungan</th><th>Nisab Pembanding</th></tr>
-      <tr><td>Bruto</td><td>2,5% × penghasilan kotor per bulan</td><td>Nisab per bulan (nisab tahunan ÷ 12)</td></tr>
-      <tr><td>Neto</td><td>2,5% × (penghasilan − kebutuhan pokok)</td><td>Nisab per bulan</td></tr>
+      <tr><th>Metode</th><th>Dasar Perhitungan</th><th>Keterangan</th></tr>
+      <tr><td><strong>Bruto</strong></td><td>2,5% × penghasilan kotor per bulan</td><td>Lebih mudah, lebih berhati-hati (membayar lebih banyak)</td></tr>
+      <tr><td><strong>Neto</strong></td><td>2,5% × (penghasilan − kebutuhan pokok wajib)</td><td>Dibolehkan bagi yang penghasilannya sebagian besar untuk kebutuhan primer</td></tr>
     </table>
-    <p style="margin-top:0.75rem">Metode bruto lebih mudah dan lebih berhati-hati (lebih banyak zakat). Metode neto diperbolehkan bagi yang penghasilannya sebagian besar digunakan untuk kebutuhan pokok. Mayoritas ulama dan BAZNAS menggunakan pendekatan bulanan (haul = 1 bulan) untuk kemudahan pembayaran.</p>
-    <h2>Contoh Perhitungan</h2>
-    <p>Gaji Rp 12.000.000/bulan, harga emas Rp 1.350.000/gram. Nisab setahun = 85g × Rp 1.350.000 = Rp 114.750.000. Nisab per bulan = Rp 9.562.500. Penghasilan Rp 12.000.000 &gt; nisab Rp 9.562.500 → <strong>wajib zakat</strong>. Zakat bruto = 2,5% × Rp 12.000.000 = <strong>Rp 300.000/bulan</strong>.</p>
-    <h2>Zakat Penghasilan vs PPh 21: Bisa Dikurangkan?</h2>
-    <p>Ya! Zakat penghasilan yang dibayarkan ke BAZNAS atau LAZNAS resmi dapat dikurangkan dari Penghasilan Kena Pajak (PKP) PPh 21. Artinya, membayar zakat secara resmi justru bisa mengurangi pajak yang harus dibayar. Cara kerjanya:</p>
+    <p style="margin-top:.75rem">Mayoritas ulama dan BAZNAS menggunakan pendekatan <strong>haul bulanan</strong> — zakat dihitung dan dibayar setiap bulan saat menerima penghasilan, bukan menunggu satu tahun penuh. Ini lebih mudah dan membantu perencanaan keuangan bulanan.</p>
+
+    <h2>Contoh Perhitungan Zakat Penghasilan 2026</h2>
+    <p><strong>Contoh 1 — Metode Bruto:</strong><br>
+    Gaji Rp 15.000.000/bulan, harga emas Rp 1.800.000/gram.<br>
+    Nisab tahunan = 85g × Rp 1.800.000 = Rp 153.000.000.<br>
+    Nisab per bulan = Rp 153.000.000 ÷ 12 = <strong>Rp 12.750.000/bulan</strong>.<br>
+    Penghasilan Rp 15.000.000 &gt; nisab Rp 12.750.000 → <strong>wajib zakat</strong>.<br>
+    Zakat bruto = 2,5% × Rp 15.000.000 = <strong>Rp 375.000/bulan</strong>.</p>
+
+    <p><strong>Contoh 2 — Metode Neto:</strong><br>
+    Gaji Rp 15.000.000, pengeluaran wajib (cicilan KPR + nafkah) = Rp 5.000.000.<br>
+    Penghasilan neto = Rp 15.000.000 − Rp 5.000.000 = Rp 10.000.000.<br>
+    Rp 10.000.000 &lt; nisab Rp 12.750.000 → <strong>belum wajib zakat dengan metode neto</strong>.</p>
+
+    <h2>Zakat Penghasilan vs PPh 21: Bisa Mengurangi Pajak?</h2>
+    <p>Ya! Zakat penghasilan yang dibayarkan melalui BAZNAS atau LAZNAS resmi dapat dikurangkan dari <strong>Penghasilan Kena Pajak (PKP)</strong> PPh 21, berdasarkan UU No. 36 Tahun 2008 tentang Pajak Penghasilan. Artinya, membayar zakat secara resmi justru mengurangi pajak yang harus dibayar.</p>
     <table>
       <tr><th>Komponen</th><th>Tanpa Zakat Resmi</th><th>Dengan Zakat Resmi</th></tr>
-      <tr><td>Penghasilan neto tahunan</td><td>Rp 100.000.000</td><td>Rp 100.000.000</td></tr>
+      <tr><td>Penghasilan neto setahun</td><td>Rp 100.000.000</td><td>Rp 100.000.000</td></tr>
       <tr><td>Zakat penghasilan (2,5%)</td><td>—</td><td>Rp 2.500.000</td></tr>
       <tr><td>PKP setelah PTKP (TK/0)</td><td>Rp 46.000.000</td><td>Rp 43.500.000</td></tr>
-      <tr><td>PPh 21 (5%)</td><td>Rp 2.300.000</td><td>Rp 2.175.000</td></tr>
-      <tr><td>Penghematan pajak</td><td>—</td><td>Rp 125.000</td></tr>
+      <tr><td>PPh 21 terutang (5%)</td><td>Rp 2.300.000</td><td>Rp 2.175.000</td></tr>
+      <tr><td><strong>Penghematan pajak</strong></td><td>—</td><td><strong>Rp 125.000/tahun</strong></td></tr>
     </table>
-    <p>Agar zakat bisa menjadi pengurang PKP, simpan bukti setor zakat dari BAZNAS/LAZNAS dan lampirkan dalam SPT Tahunan pada kolom "Zakat/sumbangan keagamaan wajib".</p>
+    <p>Agar zakat bisa menjadi pengurang PKP, simpan <strong>bukti setor zakat resmi</strong> dari BAZNAS/LAZNAS dan lampirkan dalam SPT Tahunan pada kolom "Zakat/sumbangan keagamaan wajib".</p>
 
     <h2>Fatwa MUI tentang Zakat Penghasilan</h2>
-    <p>Zakat penghasilan (zakat profesi) mulai populer berdasarkan <strong>Fatwa MUI No. 3 Tahun 2003</strong>. Fatwa ini menetapkan bahwa setiap penghasilan dari pekerjaan atau profesi wajib dizakati jika memenuhi nishab. Beberapa poin penting fatwa ini:</p>
+    <p>Zakat penghasilan menjadi kewajiban yang lebih terstruktur di Indonesia sejak <strong>Fatwa MUI No. 3 Tahun 2003</strong>. Beberapa poin penting dari fatwa ini:</p>
     <ul>
-      <li>Nishab menggunakan standar emas 85 gram (bukan gabungan seluruh harta)</li>
-      <li>Zakat bisa dikeluarkan setiap kali menerima penghasilan (bulanan) atau diakumulasikan setahun sekali</li>
-      <li>Jika dikeluarkan per bulan, nishabnya adalah 1/12 dari nishab tahunan</li>
-      <li>Tarif zakat penghasilan adalah 2,5% dari penghasilan bruto (sebelum dipotong biaya)</li>
+      <li>Nisab menggunakan standar emas 85 gram (bukan akumulasi semua harta)</li>
+      <li>Zakat boleh dikeluarkan setiap bulan (haul bulanan) atau diakumulasikan setahun sekali</li>
+      <li>Jika dibayar per bulan, nisabnya adalah 1/12 dari nisab tahunan</li>
+      <li>Tarif zakat penghasilan adalah 2,5% dari penghasilan bruto menurut fatwa, namun metode neto juga dibolehkan</li>
     </ul>
 
-    
+    <h2>Di Mana Membayar Zakat Penghasilan?</h2>
+    <p>Pembayaran zakat penghasilan bisa dilakukan secara online maupun offline melalui lembaga zakat resmi yang terdaftar di Kementerian Agama, antara lain: BAZNAS (baznas.go.id), Dompet Dhuafa, Rumah Zakat, Lazismu, NU Care-LAZISNU, dan Yatim Mandiri. Bisa juga melalui fitur zakat/donasi di aplikasi perbankan seperti BCA, Mandiri, BNI, dan BRI. Pastikan lembaga sudah mendapat <strong>izin operasional dari Kementerian Agama</strong> agar bukti setor bisa digunakan sebagai pengurang PKP.</p>
+
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa nisab zakat penghasilan saat ini?</div><div class="faq-a">Nisab zakat penghasilan setara nilai 85 gram emas murni. Dengan harga emas Antam sekitar Rp 1.350.000/gram (2025), nisab setahun ≈ Rp 114.750.000 atau sekitar Rp 9.562.500/bulan. Karena harga emas berfluktuasi, selalu cek harga terkini di logammulia.com atau website BAZNAS untuk nilai nisab yang akurat.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah zakat penghasilan bisa mengurangi PPh?</div><div class="faq-a">Ya. Berdasarkan UU No. 36 Tahun 2008 tentang Pajak Penghasilan dan UU No. 23 Tahun 2011 tentang Pengelolaan Zakat, zakat yang dibayarkan melalui Badan Amil Zakat resmi (BAZNAS atau LAZ resmi) dapat dikurangkan dari penghasilan kena pajak (bukan kredit pajak, melainkan pengurang PKP). Simpan bukti setor zakat untuk dilampirkan di SPT Tahunan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah boleh membayar zakat langsung ke penerima tanpa melalui BAZNAS?</div><div class="faq-a">Boleh, dan sah secara agama. Anda bisa menyalurkan langsung kepada 8 golongan asnaf (mustahiq): fakir, miskin, amil, mualaf, riqab, gharim, fisabilillah, dan ibnu sabil. Namun melalui BAZNAS atau LAZ resmi lebih dianjurkan karena lebih terorganisir, bisa mendapatkan bukti setor untuk pengurangan pajak, dan distribusinya lebih merata.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika penghasilan tidak tetap (freelancer)?</div><div class="faq-a">Untuk penghasilan tidak tetap, zakat dihitung setiap kali menerima penghasilan yang mencapai nisab (per transaksi/per bulan). Jika total penghasilan satu bulan mencapai nisab, keluarkan 2,5% pada bulan tersebut. Bulan dengan penghasilan di bawah nisab tidak wajib zakat. Metode haul tahunan juga bisa digunakan: akumulasikan penghasilan setahun, jika melebihi nisab tahunan, keluarkan 2,5% dari total.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah THR dan bonus juga wajib dizakati?</div><div class="faq-a">Ya, THR, bonus, dan pendapatan lain yang sejenis adalah bagian dari penghasilan yang wajib dizakati jika mencapai nisab. Cara menghitungnya: tambahkan ke penghasilan bulan tersebut, lalu hitung 2,5% dari total jika sudah mencapai nisab. Untuk kemudahan, banyak ulama membolehkan pembayaran zakat THR sekaligus saat menerimanya di bulan Ramadan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Di mana bisa membayar zakat penghasilan secara online?</div><div class="faq-a">Banyak platform resmi: website dan aplikasi BAZNAS (baznas.go.id), Kitabisa, Dompet Dhuafa, Yatim Mandiri, Rumah Zakat, Lazismu, NU Care, dan melalui aplikasi perbankan (BCA, Mandiri, BNI, BRI) di fitur donasi/zakat. Pastikan lembaga zakat sudah terdaftar dan mendapat izin dari Kementerian Agama.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa nisab zakat penghasilan saat ini di 2026?</div><div class="faq-a">Nisab zakat penghasilan setara nilai 85 gram emas murni. Dengan harga emas Antam sekitar Rp 1.800.000/gram (estimasi 2026), nisab setahun ≈ Rp 153.000.000 atau sekitar Rp 12.750.000/bulan. Karena harga emas berfluktuasi, selalu cek harga terkini di logammulia.com atau website BAZNAS untuk nilai nisab yang akurat sebelum menghitung.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah zakat penghasilan bisa mengurangi PPh 21?</div><div class="faq-a">Ya. Berdasarkan UU No. 36 Tahun 2008 tentang Pajak Penghasilan dan UU No. 23 Tahun 2011 tentang Pengelolaan Zakat, zakat yang dibayarkan melalui badan amil zakat resmi (BAZNAS atau LAZ berizin) dapat dikurangkan dari penghasilan kena pajak (bukan kredit pajak, tetapi pengurang PKP). Simpan bukti setor zakat dan lampirkan dalam SPT Tahunan pada kolom zakat/sumbangan keagamaan wajib.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah boleh membayar zakat langsung kepada penerima tanpa melalui BAZNAS?</div><div class="faq-a">Boleh, dan sah secara agama. Anda bisa menyalurkan langsung kepada 8 golongan asnaf (mustahiq): fakir, miskin, amil, mualaf, riqab, gharim, fisabilillah, dan ibnu sabil. Namun melalui BAZNAS atau LAZ resmi lebih dianjurkan karena lebih terorganisir, distribusinya lebih merata, dan Anda mendapatkan bukti setor resmi untuk pengurangan PPh.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika penghasilan tidak tetap, misalnya freelancer?</div><div class="faq-a">Untuk penghasilan tidak tetap, zakat dihitung setiap kali menerima penghasilan. Jika total penghasilan dalam satu bulan mencapai nisab bulanan (sekitar Rp 12.750.000 dengan harga emas 2026), keluarkan 2,5% di bulan tersebut. Bulan dengan penghasilan di bawah nisab tidak wajib zakat. Alternatifnya, akumulasikan penghasilan setahun penuh — jika melebihi nisab tahunan, keluarkan 2,5% dari total.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah THR dan bonus juga wajib dizakati?</div><div class="faq-a">Ya, THR, bonus, komisi, dan penghasilan tambahan sejenis adalah bagian dari penghasilan yang wajib dizakati. Cara mudahnya: tambahkan ke penghasilan bulan diterimanya, lalu hitung 2,5% dari total jika sudah mencapai nisab. Untuk THR yang diterima di bulan Ramadan, banyak ulama membolehkan pembayaran zakat sekaligus saat menerima THR — ini dianggap lebih berkah dan lebih mudah dilaksanakan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan zakat penghasilan dan zakat fitrah?</div><div class="faq-a">Keduanya berbeda. Zakat penghasilan (zakat profesi/mal) dihitung berdasarkan penghasilan dan nisab emas, dibayar bulanan atau tahunan, dan jumlahnya bervariasi tergantung penghasilan. Zakat fitrah adalah kewajiban per jiwa yang dibayarkan satu kali setahun menjelang Idul Fitri, besarnya sekitar 2,5 kg beras atau nilai uang setaranya — wajib bagi setiap Muslim yang mampu, terlepas dari apakah penghasilannya mencapai nisab atau tidak.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa yang dimaksud metode bruto dan neto, mana yang sebaiknya dipilih?</div><div class="faq-a">Metode bruto menghitung zakat dari penghasilan kotor tanpa dikurangi apapun — lebih mudah dan lebih berhati-hati (membayar zakat lebih banyak). Metode neto menghitung zakat dari penghasilan setelah dikurangi kebutuhan pokok wajib seperti cicilan hutang dan nafkah keluarga — lebih meringankan. Mayoritas ulama dan BAZNAS membolehkan keduanya. Jika tidak ada beban kebutuhan pokok yang besar, metode bruto lebih dianjurkan.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -126,32 +258,152 @@
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 <script defer>
-function fmt(n){ return 'Rp '+Math.round(n).toLocaleString('id-ID'); }
-function calculate(){
-  const income = parseFloat(document.getElementById('income').value);
-  const expenses = parseFloat(document.getElementById('expenses').value)||0;
-  const method = document.getElementById('method').value;
-  const goldPrice = parseFloat(document.getElementById('gold-price').value)||1350000;
-  if(!income||income<=0) return alert('Masukkan penghasilan yang valid.');
-  const nisabTahunan = 85 * goldPrice;
-  const nisabBulan = nisabTahunan / 12;
-  const dasar = method==='bruto' ? income : Math.max(0, income - expenses);
-  const isWajib = dasar >= nisabBulan;
-  const zakat = isWajib ? dasar * 0.025 : 0;
-  let badgeText, badgeClass;
-  if(isWajib){ badgeText='✅ Wajib Zakat'; badgeClass='badge-normal'; }
-  else { badgeText='Belum Mencapai Nisab'; badgeClass='badge-overweight'; }
-  document.getElementById('res-zakat').textContent = isWajib ? fmt(zakat)+'/bulan' : 'Belum wajib zakat';
-  const badge = document.getElementById('res-badge');
-  badge.textContent = badgeText; badge.className = 'result-badge '+badgeClass;
-  document.getElementById('res-dasar').textContent = fmt(dasar)+' ('+method+')';
-  document.getElementById('res-nisab').textContent = fmt(nisabTahunan)+'/tahun';
-  document.getElementById('res-nisab-bulan').textContent = fmt(nisabBulan)+'/bulan';
-  document.getElementById('res-zakat-tahun').textContent = isWajib ? fmt(zakat*12)+'/tahun' : '—';
-  document.getElementById('result').classList.add('show');
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
-function toggleFaq(el){ el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); });
+
+function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+
+function computeZakat(income, expenses, method, goldPrice) {
+  const nisabTahunan = 85 * goldPrice;
+  const nisabBulan   = nisabTahunan / 12;
+  const dasar        = method === 'bruto' ? income : Math.max(0, income - expenses);
+  const isWajib      = dasar >= nisabBulan;
+  const zakat        = isWajib ? dasar * 0.025 : 0;
+  return { nisabTahunan, nisabBulan, dasar, isWajib, zakat };
+}
+
+function calculateZakat() {
+  const income    = parseFloat(document.getElementById('income').value);
+  const expenses  = parseFloat(document.getElementById('expenses').value) || 0;
+  const method    = document.getElementById('method').value;
+  const goldPrice = parseFloat(document.getElementById('gold-price').value) || 1800000;
+
+  if (!income || income <= 0) { alert('Masukkan penghasilan yang valid.'); return; }
+
+  const { nisabTahunan, nisabBulan, dasar, isWajib, zakat } = computeZakat(income, expenses, method, goldPrice);
+
+  document.getElementById('res-zakat').textContent = isWajib ? fmt(zakat) + '/bulan' : 'Belum wajib zakat';
+  const badge = document.getElementById('res-badge');
+  badge.textContent  = isWajib ? '✅ Wajib Zakat' : '⚪ Belum Mencapai Nisab';
+  badge.className    = 'result-badge ' + (isWajib ? 'badge-normal' : 'badge-overweight');
+
+  // Nisab bar
+  const pct = Math.min(dasar / nisabBulan * 100, 150);
+  const fillColor = isWajib ? '#00C9B1' : '#6b7c8d';
+  document.getElementById('nisab-fill').style.width      = Math.min(pct, 100) + '%';
+  document.getElementById('nisab-fill').style.background = fillColor;
+  document.getElementById('nisab-bar-label').textContent = 'Nisab: ' + fmt(nisabBulan) + '/bln';
+  document.getElementById('nisab-bar-title').textContent =
+    isWajib
+      ? '✅ Penghasilan ' + Math.round(dasar / nisabBulan * 100) + '% dari nisab (sudah wajib)'
+      : '⚪ Penghasilan ' + Math.round(dasar / nisabBulan * 100) + '% dari nisab (belum wajib)';
+
+  document.getElementById('res-dasar').textContent       = fmt(dasar) + ' (' + method + ')';
+  document.getElementById('res-nisab').textContent       = fmt(nisabTahunan) + '/tahun';
+  document.getElementById('res-nisab-bulan').textContent = fmt(nisabBulan) + '/bulan';
+  document.getElementById('res-zakat-tahun').textContent = isWajib ? fmt(zakat * 12) + '/tahun' : '—';
+  document.getElementById('result').classList.add('show');
+
+  // Pre-fill other tabs
+  document.getElementById('t-income').value   = income;
+  document.getElementById('t-expenses').value = expenses;
+  document.getElementById('t-gold').value     = goldPrice;
+  document.getElementById('r-income').value   = income;
+  document.getElementById('r-expenses').value = expenses;
+  document.getElementById('r-gold').value     = goldPrice;
+}
+
+function calculateTahunan() {
+  const income    = parseFloat(document.getElementById('t-income').value);
+  const expenses  = parseFloat(document.getElementById('t-expenses').value) || 0;
+  const method    = document.getElementById('t-method').value;
+  const goldPrice = parseFloat(document.getElementById('t-gold').value) || 1800000;
+  const bonus     = parseFloat(document.getElementById('t-bonus').value) || 0;
+
+  if (!income || income <= 0) { alert('Masukkan penghasilan yang valid.'); return; }
+
+  const bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  let totalZakat = 0;
+  let tbody = '';
+
+  // Bonus bulan ke-12 (misal THR di bulan ke-12)
+  for (let i = 0; i < 12; i++) {
+    const inc  = income + (i === 11 ? bonus : 0);
+    const { dasar, isWajib, zakat } = computeZakat(inc, expenses, method, goldPrice);
+    totalZakat += zakat;
+    tbody += `<tr>
+      <td>${bulan[i]}</td>
+      <td>${fmt(inc)}</td>
+      <td>${fmt(dasar)}</td>
+      <td style="color:${isWajib ? '#00C9B1' : '#6b7c8d'}">${isWajib ? fmt(zakat) : '—'}</td>
+    </tr>`;
+  }
+  tbody += `<tr class="total-row"><td colspan="3">Total Zakat Setahun</td><td>${fmt(totalZakat)}</td></tr>`;
+  document.getElementById('t-tbody').innerHTML = tbody;
+
+  // PPh impact estimate (simplified: assume PTKP TK/0 Rp 54jt, tarif 5%)
+  const annualIncome = income * 12 + bonus;
+  const ptkp         = 54000000;
+  const zakatDeduct  = totalZakat;
+  const pkpTanpa     = Math.max(0, annualIncome - ptkp);
+  const pkpDengan    = Math.max(0, annualIncome - ptkp - zakatDeduct);
+  const pphTanpa     = pkpTanpa <= 60000000 ? pkpTanpa * 0.05 : pkpTanpa * 0.08; // simplified
+  const pphDengan    = pkpDengan <= 60000000 ? pkpDengan * 0.05 : pkpDengan * 0.08;
+  const hemat        = pphTanpa - pphDengan;
+
+  document.getElementById('pph-table').innerHTML = `
+    <thead><tr><th>Keterangan</th><th>Tanpa Zakat Resmi</th><th>Dengan Zakat Resmi</th></tr></thead>
+    <tbody>
+      <tr><td>Penghasilan neto setahun</td><td>${fmt(annualIncome)}</td><td>${fmt(annualIncome)}</td></tr>
+      <tr><td>Total zakat dibayar</td><td>—</td><td class="highlight">${fmt(zakatDeduct)}</td></tr>
+      <tr><td>PKP (setelah PTKP TK/0)</td><td>${fmt(pkpTanpa)}</td><td>${fmt(pkpDengan)}</td></tr>
+      <tr><td>Estimasi PPh 21</td><td>${fmt(pphTanpa)}</td><td>${fmt(pphDengan)}</td></tr>
+      <tr><td><strong>Penghematan pajak</strong></td><td>—</td><td class="highlight"><strong>${fmt(hemat)}/tahun</strong></td></tr>
+    </tbody>`;
+
+  document.getElementById('t-summary').innerHTML =
+    `🌙 Total zakat penghasilan setahun: <strong style="color:#00C9B1">${fmt(totalZakat)}</strong>${bonus > 0 ? ' (termasuk zakat dari bonus/THR Rp ' + fmt(bonus) + ')' : ''}. Dengan membayar zakat melalui BAZNAS/LAZ resmi, Anda menghemat PPh 21 sekitar <strong style="color:#00C9B1">${fmt(hemat)}</strong>.`;
+
+  document.getElementById('t-result').style.display = 'block';
+}
+
+function calculateRamadan() {
+  const income    = parseFloat(document.getElementById('r-income').value);
+  const expenses  = parseFloat(document.getElementById('r-expenses').value) || 0;
+  const method    = document.getElementById('r-method').value;
+  const goldPrice = parseFloat(document.getElementById('r-gold').value) || 1800000;
+  const months    = parseInt(document.getElementById('r-months').value) || 12;
+
+  if (!income || income <= 0) { alert('Masukkan penghasilan yang valid.'); return; }
+
+  const { isWajib, zakat, nisabBulan } = computeZakat(income, expenses, method, goldPrice);
+
+  if (!isWajib) {
+    document.getElementById('r-result').style.display = 'block';
+    document.getElementById('r-summary').innerHTML =
+      `⚪ Dengan penghasilan dan harga emas saat ini, Anda <strong>belum mencapai nisab</strong> (Rp ${fmt(nisabBulan)}/bulan). Zakat penghasilan belum wajib untuk kondisi ini.`;
+    document.getElementById('r-bulanan').textContent = '—';
+    document.getElementById('r-sekaligus').textContent = '—';
+    return;
+  }
+
+  const totalSekaligus = zakat * months;
+  document.getElementById('r-summary').innerHTML =
+    `🌙 Anda belum membayar zakat penghasilan selama <strong>${months} bulan</strong>. Total yang perlu dibayarkan di Ramadan ini: <strong style="color:#f59e0b">${fmt(totalSekaligus)}</strong>.`;
+  document.getElementById('r-bulanan').textContent =
+    `${fmt(zakat)}/bulan × 12 bulan = ${fmt(zakat * 12)}/tahun. Lebih ringan dirasakan karena dibayar rutin dan tidak menumpuk.`;
+  document.getElementById('r-sekaligus').textContent =
+    `${months} bulan × ${fmt(zakat)}/bulan = ${fmt(totalSekaligus)} dibayarkan sekaligus di Ramadan ${months === 12 ? '(setahun penuh)' : '(' + months + ' bulan)'}. Secara hukum sah, namun membutuhkan persiapan finansial lebih.`;
+
+  document.getElementById('r-result').style.display = 'block';
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculateZakat(); });
 </script>
 </body>
 </html>

@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Usia Pensiun 2026 — Hitung Waktu dan Dana Pensiun | NovaCalcs</title>
-<meta name="description" content="Hitung berapa lama lagi Anda pensiun, berapa tahun masa pensiun yang akan dijalani, dan estimasi dana pensiun yang dibutuhkan. Rencanakan pensiun Anda sekarang."/>
-<meta name="keywords" content="kalkulator pensiun, usia pensiun, dana pensiun, perencanaan pensiun, masa pensiun Indonesia, BPJS ketenagakerjaan pensiun"/>
+<meta name="description" content="Hitung berapa lama lagi menuju pensiun, estimasi dana yang dibutuhkan, dan strategi investasi pensiun yang tepat. Dilengkapi milestone tracker dan rekomendasi alokasi portofolio."/>
+<meta name="keywords" content="kalkulator pensiun, usia pensiun Indonesia, dana pensiun, perencanaan pensiun, BPJS ketenagakerjaan pensiun, FIRE Indonesia, 4% rule, investasi pensiun"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-umur-pensiun.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-umur-pensiun.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,9 +13,35 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
-  <link rel="icon" href="/favicon.ico" sizes="any"/>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.timeline-wrap{padding:.75rem 0 1.75rem;position:relative}
+.timeline-bar{position:relative;height:24px;background:rgba(255,255,255,.07);border-radius:12px;margin:.5rem 0;overflow:visible}
+.timeline-track{height:100%;border-radius:12px;background:linear-gradient(90deg,#1a3a5c,#00C9B1);transition:width .6s}
+.t-marker{position:absolute;top:50%;transform:translateY(-50%) translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.t-dot{width:14px;height:14px;border-radius:50%;border:2px solid #fff}
+.t-label{font-size:.67rem;color:#8fa3b1;white-space:nowrap;margin-top:20px;position:absolute;top:0}
+.milestone-table{width:100%;border-collapse:collapse;margin-top:.75rem;font-size:.83rem}
+.milestone-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.45rem .6rem;text-align:left;font-weight:600}
+.milestone-table td{padding:.45rem .6rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.milestone-table tr:last-child td{border-bottom:none}
+.s-ok{color:#00C9B1;font-weight:700}.s-warn{color:#f59e0b;font-weight:700}.s-bad{color:#ef4444;font-weight:700}
+.alloc-bar{display:flex;height:18px;border-radius:9px;overflow:hidden;margin:.4rem 0}
+.a-saham{background:#00C9B1}.a-obligasi{background:#3b82f6}.a-deposito{background:#8b5cf6}
+.alloc-legend{display:flex;gap:.75rem;flex-wrap:wrap;font-size:.78rem;margin:.35rem 0}
+.leg-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+.strat-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.8rem;margin:.45rem 0}
+.strat-card h4{margin:0 0 .3rem;color:#00C9B1;font-size:.88rem}
+.strat-card p{margin:0;font-size:.8rem;color:#8fa3b1}
+.badge-fire{display:inline-block;background:rgba(0,201,177,.15);color:#00C9B1;border-radius:5px;font-size:.72rem;padding:.1rem .4rem;margin-left:.3rem}
+.ms-summary{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.85rem;margin-bottom:.75rem;font-size:.87rem;line-height:1.5}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -23,7 +49,7 @@
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
     <nav class="breadcrumb">
       <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
       <span>Kalkulator Pensiun</span>
     </nav>
   </div>
@@ -31,84 +57,178 @@
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">👴 Kalkulator Usia & Dana Pensiun</div>
+      <div class="calc-title">👴 Kalkulator Usia &amp; Dana Pensiun</div>
       <div class="calc-subtitle">Rencanakan masa pensiun Anda mulai sekarang</div>
 
-      <div class="field"><label>Usia Saat Ini (tahun)</label><input type="number" id="current-age" placeholder="Contoh: 35" min="18" max="65"/></div>
-      <div class="field">
-        <label>Target Usia Pensiun</label>
-        <select id="retire-age">
-          <option value="56">56 tahun (usia mulai klaim BPJS JP awal)</option>
-          <option value="58" selected>58 tahun (Standar Permenaker No.2/2022)</option>
-          <option value="60">60 tahun (ASN/PNS jabatan tertentu)</option>
-          <option value="65">65 tahun (standar internasional)</option>
-          <option value="55">55 tahun (pensiun dini)</option>
-          <option value="50">50 tahun (FIRE — Financial Independence)</option>
-        </select>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-simulasi',this)">📊 Simulasi</button>
+        <button class="tab-btn" onclick="showTab('tab-milestone',this)">🎯 Milestone Dana</button>
+        <button class="tab-btn" onclick="showTab('tab-strategi',this)">📈 Strategi Investasi</button>
       </div>
-      <div class="field"><label>Pengeluaran Bulanan Saat Ini (Rp)</label><input type="number" id="monthly-expense" placeholder="Contoh: 5000000" min="0"/></div>
-      <div class="field"><label>Asumsi Inflasi (% per tahun)</label><input type="number" id="inflation" value="4" min="0" max="20" step="0.5"/></div>
-      <div class="field"><label>Asumsi Return Investasi Pensiun (% per tahun)</label><input type="number" id="return-rate" value="7" min="0" max="30" step="0.5"/></div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Rencana Pensiun</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-years-left">—</div>
-          <div class="result-label">Tahun lagi menuju pensiun</div>
+      <!-- TAB 1: SIMULASI -->
+      <div id="tab-simulasi" class="tab-pane active">
+        <div class="field"><label>Usia Saat Ini (tahun)</label><input type="number" id="current-age" placeholder="Contoh: 35" min="18" max="64"/></div>
+        <div class="field">
+          <label>Target Usia Pensiun</label>
+          <select id="retire-age">
+            <option value="50">50 tahun — FIRE (Financial Independence) <span class="badge-fire">Pensiun Dini</span></option>
+            <option value="55">55 tahun — Pensiun dini</option>
+            <option value="56">56 tahun — Usia klaim BPJS JP awal</option>
+            <option value="58" selected>58 tahun — Standar Permenaker No. 2/2022</option>
+            <option value="60">60 tahun — ASN/PNS jabatan tertentu</option>
+            <option value="65">65 tahun — Standar internasional</option>
+          </select>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Pensiun di usia</span><span class="rval" id="res-retire-at">—</span></div>
-          <div class="result-row"><span class="rkey">Estimasi masa pensiun</span><span class="rval" id="res-retire-duration">—</span></div>
-          <div class="result-row"><span class="rkey">Kebutuhan bulanan saat pensiun (inflasi)</span><span class="rval" id="res-monthly-retire">—</span></div>
-          <div class="result-row"><span class="rkey">Total dana pensiun dibutuhkan (25× rule)</span><span class="rval" id="res-total-needed">—</span></div>
-          <div class="result-row"><span class="rkey">Tabungan bulanan yang perlu disiapkan</span><span class="rval" id="res-monthly-save">—</span></div>
+        <div class="field">
+          <label>Harapan Hidup (untuk estimasi durasi pensiun)</label>
+          <select id="life-expectancy">
+            <option value="75">75 tahun — Rata-rata Indonesia (BPS 2023)</option>
+            <option value="80" selected>80 tahun — Perencanaan konservatif (rekomendasi)</option>
+            <option value="85">85 tahun — Perencanaan sangat konservatif</option>
+            <option value="90">90 tahun — Untuk keamanan penuh</option>
+          </select>
+        </div>
+        <div class="field"><label>Pengeluaran Bulanan Saat Ini (Rp)</label><input type="number" id="monthly-expense" placeholder="Contoh: 5000000" min="0"/></div>
+        <div class="field"><label>Asumsi Inflasi (% per tahun)</label><input type="number" id="inflation" value="4" min="0" max="20" step="0.5"/></div>
+        <div class="field"><label>Asumsi Imbal Hasil Investasi (% per tahun)</label><input type="number" id="return-rate" value="7" min="0" max="30" step="0.5"/></div>
+        <button class="calc-btn" onclick="calculateRetire()">Hitung Rencana Pensiun</button>
+
+        <div class="result-panel" id="result">
+          <div class="result-main">
+            <div class="result-value" id="res-years-left">—</div>
+            <div class="result-label">Tahun lagi menuju pensiun</div>
+          </div>
+
+          <!-- Timeline Bar -->
+          <div class="timeline-wrap">
+            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.35rem">⏳ Garis Waktu Hidup Anda</div>
+            <div class="timeline-bar">
+              <div class="timeline-track" id="tl-track" style="width:0%"></div>
+              <div class="t-marker" id="tl-now" style="left:0%">
+                <div class="t-dot" style="background:#00C9B1"></div>
+                <div class="t-label" id="tl-now-label">Sekarang</div>
+              </div>
+              <div class="t-marker" id="tl-retire" style="left:60%">
+                <div class="t-dot" style="background:#f59e0b"></div>
+                <div class="t-label" id="tl-retire-label">Pensiun</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.68rem;color:#6b7c8d;margin-top:1.5rem">
+              <span>18 th</span>
+              <span id="tl-life-label">— th</span>
+            </div>
+          </div>
+
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Pensiun di usia</span><span class="rval" id="res-retire-at">—</span></div>
+            <div class="result-row"><span class="rkey">Estimasi durasi pensiun</span><span class="rval" id="res-retire-duration">—</span></div>
+            <div class="result-row"><span class="rkey">Kebutuhan bulanan saat pensiun (sudah inflasi)</span><span class="rval" id="res-monthly-retire">—</span></div>
+            <div class="result-row"><span class="rkey">Total dana pensiun dibutuhkan (aturan 25×)</span><span class="rval" id="res-total-needed">—</span></div>
+            <div class="result-row"><span class="rkey">Setoran bulanan yang perlu disiapkan</span><span class="rval" id="res-monthly-save">—</span></div>
+          </div>
+          <p style="font-size:.73rem;color:#6b7c8d;margin-top:.65rem">* Dihitung dari nol. Untuk hasil lebih akurat, masukkan tabungan Anda di tab <strong style="color:#8fa3b1">Milestone Dana</strong>.</p>
         </div>
       </div>
-    </div>
+
+      <!-- TAB 2: MILESTONE DANA -->
+      <div id="tab-milestone" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Cek apakah Anda sudah on track. Hitung tab Simulasi terlebih dahulu untuk hasil terbaik.</p>
+        <div class="field"><label>Tabungan &amp; Investasi Pensiun Saat Ini (Rp)</label><input type="number" id="current-savings" placeholder="Contoh: 50000000" value="0" min="0"/></div>
+        <div class="field"><label>Setoran Rutin per Bulan (Rp)</label><input type="number" id="ms-monthly" placeholder="Otomatis dari tab Simulasi" min="0"/></div>
+        <button class="calc-btn" onclick="calculateMilestone()">Lihat Milestone Dana Saya</button>
+        <div id="ms-result" style="display:none;margin-top:1rem">
+          <div class="ms-summary" id="ms-summary"></div>
+          <table class="milestone-table">
+            <thead><tr><th>Usia</th><th>Proyeksi Dana Anda</th><th>Target Minimal</th><th>Status</th></tr></thead>
+            <tbody id="ms-tbody"></tbody>
+          </table>
+          <p style="font-size:.72rem;color:#6b7c8d;margin-top:.5rem">Target minimal = jumlah yang harus sudah terkumpul agar bisa mencapai tujuan akhir meski tanpa setoran tambahan lagi.</p>
+        </div>
+      </div>
+
+      <!-- TAB 3: STRATEGI INVESTASI -->
+      <div id="tab-strategi" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Rekomendasi alokasi portofolio berdasarkan jarak Anda ke pensiun. Hitung tab Simulasi terlebih dahulu untuk mengisi otomatis.</p>
+        <div class="field"><label>Berapa Tahun Lagi Pensiun?</label><input type="number" id="st-years" placeholder="Contoh: 20" min="1" max="50"/></div>
+        <div class="field"><label>Target Total Dana Pensiun (Rp)</label><input type="number" id="st-target" placeholder="Otomatis dari tab Simulasi" min="0"/></div>
+        <button class="calc-btn" onclick="calculateStrategi()">Lihat Rekomendasi Strategi</button>
+        <div id="st-result" style="display:none;margin-top:1rem">
+          <div style="font-size:.95rem;font-weight:700;color:#00C9B1;margin-bottom:.65rem" id="st-phase"></div>
+          <div style="font-size:.8rem;color:#8fa3b1;margin-bottom:.25rem">Rekomendasi Alokasi Aset</div>
+          <div class="alloc-bar" id="st-alloc-bar"></div>
+          <div class="alloc-legend" id="st-alloc-legend"></div>
+          <div id="st-cards" style="margin-top:.65rem"></div>
+        </div>
+      </div>
+
+    </div><!-- /calc-widget -->
   </div>
 
-  <div class="seo-content">
+  <div class="content-area">
     <h1>Kalkulator Usia Pensiun — Hitung Waktu Pensiun dan Dana yang Dibutuhkan</h1>
-    <p class="page-desc">Perencanaan pensiun yang baik dimulai jauh sebelum hari pensiun tiba. Kalkulator ini membantu Anda menghitung berapa lama lagi menuju pensiun dan berapa dana yang perlu disiapkan.</p>
+    <p class="page-desc">Perencanaan pensiun yang baik dimulai jauh sebelum hari pensiun tiba. Kalkulator ini membantu Anda menghitung berapa lama lagi menuju pensiun, estimasi dana yang perlu disiapkan, dan strategi investasi yang sesuai usia Anda.</p>
 
     <div class="ad-slot">Advertisement</div>
 
-    <h2>Usia Pensiun di Indonesia</h2>
-    <p>Usia pensiun normal di Indonesia menurut Peraturan Menaker No. 2 Tahun 2022 adalah <strong>58 tahun</strong>, dan akan naik secara bertahap menjadi 59 tahun (2028) dan 60 tahun (2033). PNS/ASN memiliki aturan berbeda berdasarkan UU ASN No. 20 Tahun 2023: umumnya 58 tahun untuk eselon III ke bawah, dan 60 tahun untuk pejabat pimpinan tinggi dan jabatan fungsional tertentu.</p>
-    <p>Perlu dicatat, usia 56 tahun adalah <strong>usia minimum pencairan BPJS Ketenagakerjaan (Jaminan Pensiun)</strong> bagi peserta yang sudah memasuki usia tersebut, bukan usia pensiun wajib. Usia pensiun wajib pekerja swasta tetap mengacu pada perjanjian kerja atau PKB perusahaan, dengan acuan normatif 58 tahun sesuai Permenaker.</p>
-    <p>Semakin banyak orang Indonesia yang merencanakan "pensiun dini" mengikuti konsep FIRE (Financial Independence, Retire Early), yang menargetkan pensiun di usia 40–55 tahun dengan membangun aset yang cukup untuk hidup dari hasil investasi.</p>
+    <h2>Usia Pensiun di Indonesia 2026</h2>
+    <p>Usia pensiun normal di Indonesia menurut <strong>Peraturan Menaker No. 2 Tahun 2022</strong> adalah <strong>58 tahun</strong>, dan akan naik secara bertahap menjadi 59 tahun pada 2028, kemudian 60 tahun pada 2033. PNS/ASN diatur berdasarkan UU ASN No. 20 Tahun 2023: umumnya 58 tahun untuk jabatan struktural eselon III ke bawah, dan 60 tahun untuk pejabat pimpinan tinggi serta jabatan fungsional tertentu.</p>
+    <p>Perlu diperhatikan bahwa usia 56 tahun adalah <strong>usia minimum pencairan BPJS Ketenagakerjaan program Jaminan Pensiun (JP)</strong> bagi peserta yang sudah memenuhi masa iur minimal 15 tahun — bukan usia pensiun wajib dari perusahaan. Usia pensiun pekerja swasta mengacu pada perjanjian kerja atau PKB masing-masing perusahaan, dengan acuan normatif 58 tahun sesuai Permenaker.</p>
+    <p>Semakin banyak pekerja Indonesia yang merencanakan pensiun lebih awal mengikuti konsep <strong>FIRE (Financial Independence, Retire Early)</strong>, yaitu membangun kebebasan finansial di usia 40–55 tahun melalui penghematan agresif dan investasi konsisten.</p>
 
-    <h2>Cara Menggunakan Kalkulator Pensiun</h2>
+    <h2>Cara Menggunakan Kalkulator Pensiun Ini</h2>
     <ol>
-      <li>Masukkan <strong>usia Anda saat ini</strong></li>
-      <li>Pilih <strong>target usia pensiun</strong></li>
-      <li>Masukkan <strong>pengeluaran bulanan saat ini</strong> (semua kebutuhan hidup)</li>
-      <li>Atur asumsi <strong>inflasi</strong> dan <strong>return investasi</strong> sesuai profil risiko Anda</li>
-      <li>Klik <strong>"Hitung Rencana Pensiun"</strong></li>
+      <li><strong>Tab Simulasi:</strong> Masukkan usia saat ini, target usia pensiun, harapan hidup, pengeluaran bulanan, asumsi inflasi, dan imbal hasil investasi. Kalkulator akan menampilkan total dana yang dibutuhkan dan setoran bulanan yang harus disiapkan mulai sekarang.</li>
+      <li><strong>Tab Milestone Dana:</strong> Masukkan tabungan yang sudah Anda miliki saat ini dan setoran rutin per bulan, lalu lihat apakah Anda sudah on track di setiap checkpoint usia.</li>
+      <li><strong>Tab Strategi Investasi:</strong> Dapatkan rekomendasi alokasi portofolio dan instrumen investasi yang sesuai dengan jarak Anda ke masa pensiun.</li>
     </ol>
 
-    <h2>Aturan 25× (The 4% Rule) untuk Dana Pensiun</h2>
-    <p>Penelitian Trinity Study yang sangat berpengaruh menunjukkan bahwa seseorang bisa menarik 4% dari portofolio investasi setiap tahun tanpa menghabiskan modal selama minimal 30 tahun. Artinya, dana pensiun yang dibutuhkan adalah 25× pengeluaran tahunan saat pensiun. Ini dikenal sebagai "4% Rule" atau "Aturan 25×".</p>
-    <p>Contoh: Jika Anda butuh Rp 8 juta/bulan (Rp 96 juta/tahun) saat pensiun, total dana yang dibutuhkan adalah Rp 96 juta × 25 = Rp 2,4 miliar.</p>
+    <h2>Aturan 25× (The 4% Rule) — Cara Menghitung Dana Pensiun</h2>
+    <p>Penelitian <em>Trinity Study</em> yang sangat berpengaruh menyimpulkan bahwa seseorang bisa menarik <strong>4% dari nilai portofolio setiap tahun</strong> tanpa menghabiskan pokok selama minimal 30 tahun. Artinya, dana pensiun yang dibutuhkan adalah <strong>25× pengeluaran tahunan</strong> saat pensiun (setelah inflasi).</p>
+    <p>Contoh: Jika Anda membutuhkan Rp 8 juta/bulan (Rp 96 juta/tahun) saat pensiun, total dana yang dibutuhkan adalah Rp 96 juta × 25 = <strong>Rp 2,4 miliar</strong>.</p>
+    <p>Catatan penting: Aturan 4% dirancang untuk masa pensiun ~30 tahun. Jika berencana pensiun lebih awal (FIRE), pertimbangkan aturan <strong>3,5% atau 3%</strong> (faktor 28–33×) agar dana lebih tahan lama, karena masa pensiun bisa mencapai 40–50 tahun.</p>
+
+    <h2>Strategi Investasi Berdasarkan Jarak ke Pensiun</h2>
+    <p>Pendekatan <em>glide path</em> menyarankan agar portofolio bergeser dari aset berisiko tinggi ke aset konservatif seiring mendekati pensiun. Ini bertujuan melindungi nilai yang sudah terkumpul dari volatilitas pasar saat mendekati hari pensiun:</p>
+    <table>
+      <tr><th>Jarak ke Pensiun</th><th>Saham / Reksa Dana</th><th>Obligasi / SBN</th><th>Deposito / Kas</th></tr>
+      <tr><td>&gt; 20 tahun</td><td>80%</td><td>15%</td><td>5%</td></tr>
+      <tr><td>10–20 tahun</td><td>60%</td><td>30%</td><td>10%</td></tr>
+      <tr><td>5–10 tahun</td><td>40%</td><td>40%</td><td>20%</td></tr>
+      <tr><td>&lt; 5 tahun</td><td>20%</td><td>40%</td><td>40%</td></tr>
+    </table>
 
     <h2>Sumber Dana Pensiun di Indonesia</h2>
     <table>
-      <tr><th>Sumber</th><th>Keterangan</th></tr>
-      <tr><td>BPJS Ketenagakerjaan (JHT + JP)</td><td>Wajib, manfaat terbatas</td></tr>
-      <tr><td>DPLK (Dana Pensiun Lembaga Keuangan)</td><td>Tambahan sukarela, manfaat pajak</td></tr>
-      <tr><td>Reksa dana / saham</td><td>Fleksibel, potensi return tinggi</td></tr>
-      <tr><td>Properti sewa</td><td>Passive income, modal besar</td></tr>
-      <tr><td>Deposito / obligasi pemerintah</td><td>Stabil, return rendah-sedang</td></tr>
+      <tr><th>Sumber</th><th>Keterangan</th><th>Kelebihan</th></tr>
+      <tr><td>BPJS Ketenagakerjaan (JHT + JP)</td><td>Wajib, JP maksimal ~40% upah tertinggi yang dilaporkan</td><td>Otomatis, proteksi dasar</td></tr>
+      <tr><td>DPLK (Dana Pensiun Lembaga Keuangan)</td><td>Sukarela, dari perusahaan atau mandiri</td><td>Insentif pajak, disiplin menabung</td></tr>
+      <tr><td>Reksa Dana / Saham</td><td>Fleksibel, potensi imbal hasil tinggi jangka panjang</td><td>Likuid, mudah diversifikasi</td></tr>
+      <tr><td>Properti Sewa</td><td>Aset riil, penghasilan pasif dari sewa</td><td>Lindung nilai inflasi</td></tr>
+      <tr><td>Obligasi Negara (ORI, SBR, Sukuk)</td><td>Stabil, dijamin pemerintah</td><td>Risiko rendah, imbal hasil terprediksi</td></tr>
     </table>
 
+    <h2>Estimasi Biaya Hidup Pensiun di Indonesia 2026</h2>
+    <p>Kebutuhan dana pensiun sangat bergantung pada gaya hidup dan lokasi. Berikut gambaran kasar untuk 2026 (belum memperhitungkan inflasi ke depan):</p>
+    <table>
+      <tr><th>Gaya Hidup</th><th>Lokasi Rekomendasi</th><th>Kebutuhan/Bulan</th><th>Dana Pensiun (25×)</th></tr>
+      <tr><td>Sederhana</td><td>Kota tier-2/3 (Jogja, Solo, Malang)</td><td>Rp 4–6 juta</td><td>Rp 1,2–1,8 miliar</td></tr>
+      <tr><td>Menengah</td><td>Kota besar (Surabaya, Bandung, Medan)</td><td>Rp 8–12 juta</td><td>Rp 2,4–3,6 miliar</td></tr>
+      <tr><td>Nyaman</td><td>Jakarta / Jabodetabek</td><td>Rp 15–25 juta</td><td>Rp 4,5–7,5 miliar</td></tr>
+    </table>
+    <p>Gunakan kalkulator Simulasi di atas untuk menyesuaikan angka-angka ini dengan kondisi dan asumsi inflasi Anda sendiri.</p>
+
+    <h2>Manfaat BPJS Ketenagakerjaan untuk Pensiun: JHT vs JP</h2>
+    <p>Banyak pekerja yang belum memahami perbedaan dua program BPJS Ketenagakerjaan yang relevan untuk pensiun. JHT (Jaminan Hari Tua) adalah tabungan yang dikumpulkan selama bekerja dengan iuran 5,7% dari gaji (3,7% ditanggung karyawan, 2% perusahaan), yang bisa dicairkan sekaligus saat berhenti kerja atau pensiun. JP (Jaminan Pensiun) adalah program pensiun bulanan dengan iuran 3% dari gaji (1% karyawan, 2% perusahaan), dengan manfaat bulanan mulai usia 56 tahun bagi peserta yang memenuhi masa iur minimal 15 tahun. Besaran manfaat JP maksimum sekitar 40% dari upah tertinggi yang pernah dilaporkan — jauh dari cukup sebagai satu-satunya sumber pendapatan di masa pensiun.</p>
+
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa dana pensiun yang cukup di Indonesia?</div><div class="faq-a">Bergantung gaya hidup yang diinginkan. Sebagai patokan: untuk hidup sederhana di kota tier-2 Indonesia, Rp 5–7 juta/bulan mungkin cukup, membutuhkan dana ~Rp 1,5–2 miliar. Untuk gaya hidup nyaman di Jakarta, Rp 15–25 juta/bulan, membutuhkan dana Rp 4,5–7,5 miliar. Semakin cepat mulai menabung, semakin mudah mencapainya berkat compounding.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik mulai investasi pensiun?</div><div class="faq-a">Sekarang. Setiap tahun yang terlewat berdampak besar pada hasil akhir karena bunga berbunga (compounding). Contoh: menginvestasikan Rp 1 juta/bulan mulai usia 25 dengan return 8% akan menghasilkan ~Rp 3,5 miliar di usia 55. Jika baru mulai usia 35, dengan jumlah dan return sama, hanya menghasilkan ~Rp 1,5 miliar — perbedaan Rp 2 miliar hanya karena 10 tahun lebih awal!</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu FIRE dan apakah realistis di Indonesia?</div><div class="faq-a">FIRE (Financial Independence, Retire Early) adalah gerakan gaya hidup yang berfokus pada penghematan agresif (50–70% dari penghasilan) dan investasi untuk pensiun jauh lebih awal dari normal. Di Indonesia, FIRE semakin populer. Dengan biaya hidup yang lebih rendah dari negara Barat, target FIRE di Indonesia lebih mudah dicapai — terutama jika tinggal di luar kota besar atau pindah ke daerah dengan biaya hidup lebih rendah saat pensiun.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah BPJS Ketenagakerjaan cukup untuk pensiun?</div><div class="faq-a">Tidak. Manfaat BPJS Ketenagakerjaan terdiri dari dua program: JHT (Jaminan Hari Tua) yang bisa dicairkan saat usia 56 tahun atau berhenti bekerja, dan JP (Jaminan Pensiun) yang dibayarkan bulanan mulai usia 56 tahun bagi peserta yang memenuhi syarat masa iur minimal 15 tahun. Besaran manfaat JP maksimum sekitar 40% dari upah tertinggi yang dilaporkan — jauh dari cukup sebagai sumber utama penghasilan pensiun. Penting untuk memiliki sumber pendapatan pensiun tambahan di luar BPJS.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah properti cukup untuk dana pensiun?</div><div class="faq-a">Properti bisa menjadi komponen penting portofolio pensiun melalui pendapatan sewa. Namun hanya mengandalkan properti memiliki risiko: properti kurang likuid, membutuhkan perawatan, ada risiko tidak tersewa, dan harga bisa stagnan di beberapa lokasi. Para perencana keuangan merekomendasikan diversifikasi antara properti, saham/reksa dana, dan instrumen pendapatan tetap untuk portofolio pensiun yang seimbang.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana memilih instrumen investasi untuk pensiun?</div><div class="faq-a">Sesuaikan dengan horizon waktu: semakin jauh dari pensiun, semakin besar porsi aset berisiko tinggi-return tinggi (saham, reksa dana saham) yang bisa diambil. Saat mendekati pensiun (5–10 tahun sebelum), secara bertahap geser ke aset lebih konservatif (obligasi, deposito) untuk melindungi dari volatilitas pasar. Ini disebut strategi "glide path" dalam perencanaan pensiun.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa dana pensiun yang cukup di Indonesia?</div><div class="faq-a">Sangat bergantung pada gaya hidup dan lokasi yang diinginkan. Sebagai patokan umum: untuk hidup sederhana di kota tier-2/3 Indonesia, kebutuhan sekitar Rp 4–6 juta/bulan, artinya dana pensiun yang dibutuhkan sekitar Rp 1,2–1,8 miliar. Untuk gaya hidup nyaman di Jakarta, Rp 15–25 juta/bulan, membutuhkan dana Rp 4,5–7,5 miliar. Semakin awal memulai, semakin ringan beban menabungnya berkat efek bunga berbunga (compounding).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik mulai mempersiapkan dana pensiun?</div><div class="faq-a">Sesegera mungkin — karena bunga berbunga (compound interest) membutuhkan waktu untuk bekerja secara maksimal. Contoh nyata: menginvestasikan Rp 1 juta/bulan mulai usia 25 tahun dengan imbal hasil 8% per tahun menghasilkan sekitar Rp 3,5 miliar di usia 55. Jika baru mulai di usia 35 dengan kondisi sama, hasilnya hanya sekitar Rp 1,5 miliar — selisih Rp 2 miliar hanya karena 10 tahun lebih awal.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu FIRE dan apakah realistis di Indonesia?</div><div class="faq-a">FIRE (Financial Independence, Retire Early) adalah gerakan yang berfokus pada penghematan agresif (50–70% dari penghasilan) dan investasi konsisten untuk mencapai kebebasan finansial jauh lebih awal dari usia pensiun normal. Di Indonesia, FIRE semakin populer. Biaya hidup di daerah atau kota tier-2/3 jauh lebih terjangkau dibanding Jakarta, sehingga target FIRE lebih mudah dicapai — terutama bagi yang bersedia pindah ke daerah saat pensiun.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah BPJS Ketenagakerjaan cukup untuk pensiun?</div><div class="faq-a">Tidak cukup sebagai satu-satunya sumber. Manfaat JP (Jaminan Pensiun) maksimum sekitar 40% dari upah yang dilaporkan, dibayarkan bulanan mulai usia 56 tahun bagi peserta dengan masa iur minimal 15 tahun. Jumlah ini umumnya tidak cukup untuk mempertahankan standar hidup yang sama dengan masa kerja. Sangat penting memiliki sumber pendapatan pensiun tambahan seperti reksa dana, properti, atau tabungan mandiri melalui DPLK.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa asumsi inflasi yang tepat untuk perencanaan pensiun?</div><div class="faq-a">Bank Indonesia menargetkan inflasi 2,5% ± 1% (kisaran 1,5%–3,5%). Namun untuk perencanaan jangka panjang, menggunakan asumsi 4% memberikan margin keamanan ekstra, mengingat inflasi historis Indonesia lebih sering berada di kisaran 3–5%. Khusus untuk kebutuhan kesehatan yang biasanya naik lebih cepat, pertimbangkan asumsi inflasi medis terpisah sekitar 6–8% per tahun.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa imbal hasil investasi yang realistis untuk jangka panjang?</div><div class="faq-a">Secara historis, reksa dana saham Indonesia menghasilkan imbal hasil 10–15% per tahun dalam jangka panjang (20+ tahun), meski dengan volatilitas tinggi. Untuk perencanaan konservatif, gunakan asumsi 7–8% per tahun. Obligasi/SBN pemerintah saat ini menawarkan yield 6–7%, deposito 4–5%. Semakin dekat ke pensiun, alokasi portofolio sebaiknya semakin konservatif mengikuti prinsip glide path.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah properti saja cukup untuk dana pensiun?</div><div class="faq-a">Properti bisa menjadi komponen penting melalui pendapatan sewa sebagai passive income. Namun mengandalkan properti saja berisiko karena: kurang likuid (sulit dijual cepat), membutuhkan biaya perawatan, ada risiko unit kosong tidak tersewa, dan harga bisa stagnan di beberapa lokasi. Perencana keuangan umumnya menyarankan diversifikasi antara properti, reksa dana/saham, dan instrumen pendapatan tetap.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -124,48 +244,210 @@
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 <script defer>
-function calculate() {
-  const currentAge = parseInt(document.getElementById('current-age').value);
-  const retireAge = parseInt(document.getElementById('retire-age').value);
-  const monthlyExpense = parseFloat(document.getElementById('monthly-expense').value);
-  const inflation = parseFloat(document.getElementById('inflation').value) / 100;
-  const returnRate = parseFloat(document.getElementById('return-rate').value) / 100;
+var G = {}; // shared state between tabs
 
-  if (!currentAge || !monthlyExpense || currentAge < 18 || currentAge >= retireAge) {
-    return alert('Pastikan usia saat ini valid dan lebih kecil dari usia pensiun.');
-  }
-
-  const yearsLeft = retireAge - currentAge;
-  const lifeExpectancy = 75; // Indonesia avg
-  const retireDuration = lifeExpectancy - retireAge;
-
-  // Monthly expense at retirement (adjusted for inflation)
-  const monthlyAtRetire = monthlyExpense * Math.pow(1 + inflation, yearsLeft);
-  const annualAtRetire = monthlyAtRetire * 12;
-
-  // Total needed (25x rule)
-  const totalNeeded = annualAtRetire * 25;
-
-  // Monthly savings needed (future value of annuity)
-  const monthlyReturn = returnRate / 12;
-  const months = yearsLeft * 12;
-  let monthlySave;
-  if (monthlyReturn > 0) {
-    monthlySave = totalNeeded * monthlyReturn / (Math.pow(1 + monthlyReturn, months) - 1);
-  } else {
-    monthlySave = totalNeeded / months;
-  }
-
-  document.getElementById('res-years-left').textContent = yearsLeft + ' tahun';
-  document.getElementById('res-retire-at').textContent = retireAge + ' tahun';
-  document.getElementById('res-retire-duration').textContent = Math.max(0, retireDuration) + ' tahun (estimasi hingga 75 th)';
-  document.getElementById('res-monthly-retire').textContent = 'Rp ' + Math.round(monthlyAtRetire).toLocaleString('id-ID') + '/bulan';
-  document.getElementById('res-total-needed').textContent = 'Rp ' + Math.round(totalNeeded).toLocaleString('id-ID');
-  document.getElementById('res-monthly-save').textContent = 'Rp ' + Math.round(monthlySave).toLocaleString('id-ID') + '/bulan';
-  document.getElementById('result').classList.add('show');
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
+
+function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+function fmtShort(n) {
+  if (n >= 1e12) return 'Rp ' + (n / 1e12).toFixed(2) + ' triliun';
+  if (n >= 1e9)  return 'Rp ' + (n / 1e9).toFixed(2) + ' miliar';
+  if (n >= 1e6)  return 'Rp ' + (n / 1e6).toFixed(1) + ' juta';
+  return fmt(n);
+}
+
+function calculateRetire() {
+  const curAge    = parseInt(document.getElementById('current-age').value);
+  const retireAge = parseInt(document.getElementById('retire-age').value);
+  const lifeExp   = parseInt(document.getElementById('life-expectancy').value);
+  const expense   = parseFloat(document.getElementById('monthly-expense').value);
+  const inf       = parseFloat(document.getElementById('inflation').value) / 100;
+  const ret       = parseFloat(document.getElementById('return-rate').value) / 100;
+
+  if (!curAge || !expense || curAge < 18 || curAge >= retireAge) {
+    alert('Pastikan usia saat ini valid (18–' + (retireAge - 1) + ' tahun) dan pengeluaran diisi.');
+    return;
+  }
+
+  const yearsLeft      = retireAge - curAge;
+  const durasi         = Math.max(0, lifeExp - retireAge);
+  const mRetire        = expense * Math.pow(1 + inf, yearsLeft);
+  const totalNeeded    = mRetire * 12 * 25;
+  const mr             = ret / 12;
+  const months         = yearsLeft * 12;
+  const monthlySave    = mr > 0
+    ? totalNeeded * mr / (Math.pow(1 + mr, months) - 1)
+    : totalNeeded / months;
+
+  G = { curAge, retireAge, lifeExp, expense, inf, ret, yearsLeft, totalNeeded, monthlySave, mr };
+
+  document.getElementById('res-years-left').textContent   = yearsLeft + ' tahun';
+  document.getElementById('res-retire-at').textContent    = retireAge + ' tahun';
+  document.getElementById('res-retire-duration').textContent = durasi + ' tahun (estimasi hingga usia ' + lifeExp + ')';
+  document.getElementById('res-monthly-retire').textContent  = fmt(mRetire) + '/bulan';
+  document.getElementById('res-total-needed').textContent    = fmtShort(totalNeeded);
+  document.getElementById('res-monthly-save').textContent    = fmt(monthlySave) + '/bulan';
+  document.getElementById('result').classList.add('show');
+
+  // Timeline bar
+  const span    = lifeExp - 18;
+  const nowPct  = ((curAge - 18) / span * 100).toFixed(1);
+  const retPct  = ((retireAge - 18) / span * 100).toFixed(1);
+  document.getElementById('tl-track').style.width        = retPct + '%';
+  document.getElementById('tl-now').style.left           = nowPct + '%';
+  document.getElementById('tl-retire').style.left        = retPct + '%';
+  document.getElementById('tl-now-label').textContent    = curAge + ' th';
+  document.getElementById('tl-retire-label').textContent = retireAge + ' th';
+  document.getElementById('tl-life-label').textContent   = lifeExp + ' th';
+
+  // Pre-fill other tabs
+  document.getElementById('ms-monthly').value = Math.round(monthlySave);
+  document.getElementById('st-years').value   = yearsLeft;
+  document.getElementById('st-target').value  = Math.round(totalNeeded);
+}
+
+function calculateMilestone() {
+  if (!G.totalNeeded) {
+    alert('Harap hitung Simulasi terlebih dahulu di tab pertama.');
+    return;
+  }
+  const savings  = parseFloat(document.getElementById('current-savings').value) || 0;
+  const monthly  = parseFloat(document.getElementById('ms-monthly').value) || 0;
+  const { curAge, retireAge, totalNeeded, mr, ret: retRate } = G;
+
+  // Build checkpoint ages (every 5 years + retirement year)
+  const checkpoints = [];
+  for (let a = Math.ceil((curAge + 1) / 5) * 5; a < retireAge; a += 5) checkpoints.push(a);
+  if (!checkpoints.includes(retireAge)) checkpoints.push(retireAge);
+
+  const tbody = document.getElementById('ms-tbody');
+  tbody.innerHTML = '';
+
+  checkpoints.forEach(age => {
+    const m = (age - curAge) * 12;
+    const projected = mr > 0
+      ? savings * Math.pow(1 + mr, m) + monthly * (Math.pow(1 + mr, m) - 1) / mr
+      : savings + monthly * m;
+    const yToRetire = retireAge - age;
+    const required  = totalNeeded / Math.pow(1 + (retRate || 0.07), yToRetire);
+    const ratio     = required > 0 ? projected / required : 1;
+
+    let status, cls;
+    if (age === retireAge) {
+      if (projected >= totalNeeded)            { status = '✅ Tercapai';  cls = 's-ok'; }
+      else if (projected >= totalNeeded * 0.8) { status = '⚠️ Hampir';   cls = 's-warn'; }
+      else                                      { status = '❌ Kurang';   cls = 's-bad'; }
+    } else {
+      if (ratio >= 1)      { status = '✅ On Track';          cls = 's-ok'; }
+      else if (ratio >= 0.7){ status = '⚠️ Perlu ditingkatkan'; cls = 's-warn'; }
+      else                  { status = '❌ Perlu perhatian';  cls = 's-bad'; }
+    }
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${age} th</td><td>${fmtShort(projected)}</td><td>${fmtShort(required)}</td><td class="${cls}">${status}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Final projection
+  const lastM     = (retireAge - curAge) * 12;
+  const finalProj = mr > 0
+    ? savings * Math.pow(1 + mr, lastM) + monthly * (Math.pow(1 + mr, lastM) - 1) / mr
+    : savings + monthly * lastM;
+  const gap       = finalProj - totalNeeded;
+
+  document.getElementById('ms-summary').innerHTML = gap >= 0
+    ? `🎉 <strong>Selamat!</strong> Dengan setoran Rp ${monthly.toLocaleString('id-ID')}/bulan dan tabungan awal saat ini, Anda diperkirakan memiliki <strong>${fmtShort(finalProj)}</strong> saat pensiun (target: ${fmtShort(totalNeeded)}). Surplus: <strong style="color:#00C9B1">${fmtShort(gap)}</strong>.`
+    : `⚠️ Dengan kondisi saat ini, Anda diperkirakan <strong>kekurangan ${fmtShort(Math.abs(gap))}</strong> dari target ${fmtShort(totalNeeded)}. Pertimbangkan menambah setoran bulanan atau meningkatkan imbal hasil investasi.`;
+
+  document.getElementById('ms-result').style.display = 'block';
+}
+
+function calculateStrategi() {
+  const yrs    = parseInt(document.getElementById('st-years').value);
+  const target = parseFloat(document.getElementById('st-target').value);
+  if (!yrs || yrs < 1) { alert('Masukkan jumlah tahun yang valid.'); return; }
+
+  let phase, s, o, d, desc, items;
+
+  if (yrs > 20) {
+    phase = '🚀 Fase Akumulasi Agresif — lebih dari 20 tahun ke pensiun';
+    s = 80; o = 15; d = 5;
+    desc = 'Anda masih memiliki waktu sangat panjang. Prioritaskan aset pertumbuhan tinggi untuk memaksimalkan efek bunga berbunga.';
+    items = [
+      ['Reksa Dana Saham / Indeks', '50–60%', 'Reksa dana indeks IHSG atau global (S&P 500)'],
+      ['Saham Individual', '20–30%', 'Portofolio saham blue chip Indonesia'],
+      ['Obligasi / SBN', '10–15%', 'ORI, SR, SBR sebagai jangkar portofolio'],
+      ['Deposito / Kas Darurat', '5–10%', 'Dana darurat dan likuiditas jangka pendek'],
+    ];
+  } else if (yrs > 10) {
+    phase = '📈 Fase Akumulasi Moderat — 10 hingga 20 tahun ke pensiun';
+    s = 60; o = 30; d = 10;
+    desc = 'Mulai menyeimbangkan pertumbuhan dan perlindungan. Kurangi secara bertahap aset dengan volatilitas tinggi.';
+    items = [
+      ['Reksa Dana Campuran / Saham', '40–60%', 'Diversifikasi sektoral lebih ketat dari sebelumnya'],
+      ['Obligasi Korporasi & SBN', '25–30%', 'Yield lebih tinggi dari deposito, risiko terukur'],
+      ['Properti / REITs', '10–15%', 'Diversifikasi ke aset riil penghasil passive income'],
+      ['Deposito / Pasar Uang', '5–10%', 'Likuiditas dan keamanan jangka pendek'],
+    ];
+  } else if (yrs > 5) {
+    phase = '🛡️ Fase Transisi — 5 hingga 10 tahun ke pensiun';
+    s = 40; o = 40; d = 20;
+    desc = 'Mulai geser portofolio ke aset lebih konservatif. Lindungi nilai yang sudah terkumpul dari risiko volatilitas pasar.';
+    items = [
+      ['Reksa Dana Pendapatan Tetap', '35–40%', 'Lebih stabil, imbal hasil terprediksi'],
+      ['Reksa Dana Saham (dikurangi)', '30–40%', 'Hanya saham defensif dan blue chip'],
+      ['Deposito Berjangka (laddering)', '15–20%', 'Atur jatuh tempo berbeda untuk kebutuhan pensiun'],
+      ['Emas / Komoditas', '5–10%', 'Lindung nilai terhadap inflasi jangka panjang'],
+    ];
+  } else {
+    phase = '🏦 Fase Preservasi — kurang dari 5 tahun ke pensiun';
+    s = 20; o = 40; d = 40;
+    desc = 'Prioritas utama adalah menjaga nilai aset. Minimalisir risiko dan pastikan dana mudah diakses saat dibutuhkan.';
+    items = [
+      ['Deposito & Tabungan Pensiun', '35–40%', 'Keamanan dan kemudahan akses menjadi prioritas'],
+      ['Obligasi Negara Jangka Pendek', '35–40%', 'ORI, SBR tenor 2–3 tahun, aman dan likuid'],
+      ['Reksa Dana Pasar Uang', '10–15%', 'Likuiditas harian, hampir setara deposito'],
+      ['Reksa Dana Saham (minimal)', '10–20%', 'Komponen pertumbuhan kecil untuk lindungi daya beli'],
+    ];
+  }
+
+  document.getElementById('st-phase').textContent = phase;
+  document.getElementById('st-alloc-bar').innerHTML =
+    `<div class="a-saham" style="width:${s}%"></div>
+     <div class="a-obligasi" style="width:${o}%"></div>
+     <div class="a-deposito" style="width:${d}%"></div>`;
+  document.getElementById('st-alloc-legend').innerHTML =
+    `<span><span class="leg-dot" style="background:#00C9B1"></span>Saham/RD: ${s}%</span>
+     <span><span class="leg-dot" style="background:#3b82f6"></span>Obligasi/SBN: ${o}%</span>
+     <span><span class="leg-dot" style="background:#8b5cf6"></span>Deposito/Kas: ${d}%</span>`;
+
+  let html = `<div class="strat-card" style="border-color:rgba(0,201,177,.15)"><p style="color:#c0cdd8;font-size:.85rem">${desc}</p></div>
+    <div style="font-size:.8rem;font-weight:600;color:#8fa3b1;margin:.65rem 0 .25rem">📋 Rekomendasi Instrumen</div>`;
+  items.forEach(([name, alloc, note]) => {
+    html += `<div class="strat-card"><h4>${name} — <span style="color:#f59e0b">${alloc}</span></h4><p>${note}</p></div>`;
+  });
+
+  if (target > 0) {
+    const mr7 = 0.07 / 12;
+    const m   = yrs * 12;
+    const ms7 = target * mr7 / (Math.pow(1 + mr7, m) - 1);
+    html += `<div class="strat-card" style="border-color:rgba(0,201,177,.25);background:rgba(0,201,177,.05)">
+      <h4>💡 Estimasi Setoran Bulanan (asumsi return 7%)</h4>
+      <p>Untuk mencapai <strong style="color:#fff">${fmtShort(target)}</strong> dalam <strong style="color:#fff">${yrs} tahun</strong>, Anda perlu menabung sekitar <strong style="color:#00C9B1;font-size:1rem">${fmt(ms7)}/bulan</strong>.</p>
+    </div>`;
+  }
+
+  document.getElementById('st-cards').innerHTML = html;
+  document.getElementById('st-result').style.display = 'block';
+}
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculateRetire(); });
 </script>
 </body>
 </html>
