@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Tagihan Listrik PLN 2026 — Estimasi Biaya Listrik Rumah | NovaCalcs</title>
-<meta name="description" content="Hitung estimasi tagihan listrik PLN berdasarkan daya dan pemakaian kWh. Cocok untuk perencanaan biaya listrik rumah tangga dan usaha."/>
-<meta name="keywords" content="kalkulator listrik PLN, hitung tagihan listrik, tarif listrik 2026, biaya listrik rumah, kWh listrik PLN"/>
+<meta name="description" content="Hitung estimasi tagihan listrik PLN berdasarkan golongan daya dan pemakaian kWh. Simulasi konsumsi per peralatan, estimasi token listrik, dan tips hemat tagihan bulanan."/>
+<meta name="keywords" content="kalkulator listrik PLN, hitung tagihan listrik, tarif listrik 2026, biaya listrik rumah, kWh PLN, token listrik, hemat listrik"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-listrik.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-listrik.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,6 +13,32 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.usage-bar-wrap{margin:.75rem 0}
+.usage-bar{display:flex;height:16px;border-radius:8px;overflow:hidden;margin:.3rem 0}
+.ub-label{font-size:.73rem;color:#8fa3b1;margin-bottom:.2rem}
+.ub-seg{height:100%;transition:width .4s}
+.ub-legend{display:flex;gap:.6rem;flex-wrap:wrap;font-size:.73rem;margin-top:.3rem}
+.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+.device-row{display:grid;grid-template-columns:1fr auto auto;gap:.5rem;align-items:center;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.device-row:last-child{border-bottom:none}
+.device-label{color:#c0cdd8}
+.device-kwh{color:#8fa3b1;text-align:right;font-size:.78rem}
+.device-cost{color:#00C9B1;text-align:right;font-weight:600}
+.token-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin:.45rem 0}
+.token-card h4{margin:0 0 .3rem;color:#f59e0b;font-size:.88rem}
+.token-card p{margin:0;font-size:.82rem;color:#8fa3b1;line-height:1.5}
+.saving-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.saving-item:last-child{border-bottom:none}
+.saving-amount{color:#00C9B1;font-weight:600}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -29,144 +55,187 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">⚡ Kalkulator Tagihan Listrik PLN</div>
-      <div class="calc-subtitle">Estimasi biaya listrik bulanan rumah Anda</div>
+      <div class="calc-subtitle">Estimasi tagihan, simulasi peralatan, dan tips hemat</div>
 
-      <div class="field">
-        <label>Golongan / Daya Listrik</label>
-        <select id="golongan">
-          <optgroup label="Rumah Tangga">
-            <option value="920">R-1/TR 900 VA — subsidi (Rp 605/kWh)</option>
-            <option value="1352" selected>R-1/TR 900 VA — mampu (Rp 1.352/kWh)</option>
-            <option value="1444">R-1/TR 1.300 VA (Rp 1.444,70/kWh)</option>
-            <option value="1444b">R-1/TR 2.200 VA (Rp 1.444,70/kWh)</option>
-            <option value="1699">R-2/TR 3.500–5.500 VA (Rp 1.699,53/kWh)</option>
-            <option value="1699b">R-3/TR 6.600 VA ke atas (Rp 1.699,53/kWh)</option>
-          </optgroup>
-          <optgroup label="Bisnis">
-            <option value="1115">B-1/TR s.d. 5.500 VA (Rp 1.115/kWh)</option>
-            <option value="1372">B-2/TR 6.600–200 kVA (Rp 1.372/kWh)</option>
-          </optgroup>
-        </select>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-tagihan',this)">🧮 Tagihan Bulanan</button>
+        <button class="tab-btn" onclick="showTab('tab-peralatan',this)">🔌 Simulasi Peralatan</button>
+        <button class="tab-btn" onclick="showTab('tab-token',this)">💡 Token &amp; Hemat</button>
       </div>
-      <div class="field">
-        <label>Mode Hitung</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-kwh" onclick="setMode('kwh')">Dari Pemakaian kWh</div>
-          <div class="radio-btn" id="btn-peralatan" onclick="setMode('peralatan')">Dari Peralatan</div>
+
+      <!-- TAB 1: TAGIHAN BULANAN -->
+      <div id="tab-tagihan" class="tab-pane active">
+        <div class="field">
+          <label>Golongan / Daya Listrik</label>
+          <select id="golongan" onchange="syncGolongan()">
+            <optgroup label="Rumah Tangga">
+              <option value="450">R-1/TR 450 VA — subsidi (Rp 415/kWh)</option>
+              <option value="900s">R-1/TR 900 VA — subsidi (Rp 605/kWh)</option>
+              <option value="900">R-1/TR 900 VA — non-subsidi (Rp 1.352/kWh)</option>
+              <option value="1300" selected>R-1/TR 1.300 VA (Rp 1.444,70/kWh)</option>
+              <option value="2200">R-1/TR 2.200 VA (Rp 1.444,70/kWh)</option>
+              <option value="3500">R-2/TR 3.500–5.500 VA (Rp 1.699,53/kWh)</option>
+              <option value="6600">R-3/TR 6.600 VA ke atas (Rp 1.699,53/kWh)</option>
+            </optgroup>
+            <optgroup label="Bisnis">
+              <option value="b1">B-1/TR s.d. 5.500 VA (Rp 1.115/kWh)</option>
+              <option value="b2">B-2/TR 6.600–200 kVA (Rp 1.372/kWh)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field"><label>Pemakaian Listrik Bulan Ini (kWh)</label><input type="number" id="kwh" placeholder="Contoh: 150" min="0" step="0.1"/></div>
+        <button class="calc-btn" onclick="calculateTagihan()">Hitung Tagihan</button>
+
+        <div class="result-panel" id="res-tagihan">
+          <div class="result-main">
+            <div class="result-value" id="res-bill">—</div>
+            <div class="result-label">Estimasi Tagihan Listrik / Bulan</div>
+          </div>
+          <div class="usage-bar-wrap">
+            <div class="ub-label">Komposisi Tagihan</div>
+            <div class="usage-bar">
+              <div class="ub-seg" id="ub-energi" style="background:#00C9B1;width:80%"></div>
+              <div class="ub-seg" id="ub-abon" style="background:#3b82f6;width:15%"></div>
+              <div class="ub-seg" id="ub-ppj" style="background:#8b5cf6;width:5%"></div>
+            </div>
+            <div class="ub-legend">
+              <span><span class="leg-dot" style="background:#00C9B1"></span>Biaya energi</span>
+              <span><span class="leg-dot" style="background:#3b82f6"></span>Abonemen</span>
+              <span><span class="leg-dot" style="background:#8b5cf6"></span>PPJ (3%)</span>
+            </div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Pemakaian kWh</span><span class="rval" id="res-kwh">—</span></div>
+            <div class="result-row"><span class="rkey">Tarif per kWh</span><span class="rval" id="res-rate">—</span></div>
+            <div class="result-row"><span class="rkey">Biaya energi</span><span class="rval" id="res-energi">—</span></div>
+            <div class="result-row"><span class="rkey">Biaya abonemen (estimasi)</span><span class="rval" id="res-abonemen">—</span></div>
+            <div class="result-row"><span class="rkey">PPJ estimasi (3%)</span><span class="rval" id="res-ppj">—</span></div>
+            <div class="result-row"><span class="rkey">Biaya per hari</span><span class="rval" id="res-daily">—</span></div>
+          </div>
+          <p style="font-size:.72rem;color:#6b7c8d;margin-top:.6rem">* Estimasi. PPJ (Pajak Penerangan Jalan) bervariasi per daerah (umumnya 3–10%). Abonemen adalah estimasi. Tagihan aktual bisa berbeda — cek struk tagihan PLN untuk angka pasti.</p>
         </div>
       </div>
 
-      <div id="mode-kwh">
-        <div class="field"><label>Pemakaian Listrik (kWh/bulan)</label><input type="number" id="kwh" placeholder="Contoh: 150" min="0" step="0.1"/></div>
-      </div>
-
-      <div id="mode-peralatan" style="display:none">
-        <div class="field"><label>AC (PK) — jam pakai per hari</label><input type="number" id="ac-hours" placeholder="0" min="0" max="24" step="0.5"/><small style="color:#aaa">1 PK AC ≈ 800–900 watt</small></div>
-        <div class="field"><label>Kulkas (1 pintu) — otomatis menyala</label><small style="color:#aaa">~30–50 kWh/bulan</small></div>
-        <div class="field"><label>TV LED 32–55 inci — jam pakai per hari</label><input type="number" id="tv-hours" placeholder="0" min="0" max="24"/><small style="color:#aaa">~60–150 watt</small></div>
-        <div class="field"><label>Mesin cuci — kali pakai per bulan</label><input type="number" id="washer" placeholder="0" min="0" max="60"/><small style="color:#aaa">~0,5 kWh per pemakaian</small></div>
-        <div class="field"><label>Lampu LED (total watt, misalnya 10 lampu × 10W = 100W)</label><input type="number" id="lights-watt" placeholder="Contoh: 100" min="0"/></div>
-      </div>
-
-      <button class="calc-btn" onclick="calculate()">Hitung Tagihan</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-bill">—</div>
-          <div class="result-label">Estimasi Tagihan Listrik / Bulan</div>
+      <!-- TAB 2: SIMULASI PERALATAN -->
+      <div id="tab-peralatan" class="tab-pane">
+        <div class="field">
+          <label>Golongan Listrik (untuk tarif)</label>
+          <select id="gol2" onchange="syncGolongan()">
+            <option value="450">450 VA subsidi (Rp 415/kWh)</option>
+            <option value="900s">900 VA subsidi (Rp 605/kWh)</option>
+            <option value="900">900 VA non-subsidi (Rp 1.352/kWh)</option>
+            <option value="1300" selected>1.300 VA (Rp 1.444,70/kWh)</option>
+            <option value="2200">2.200 VA (Rp 1.444,70/kWh)</option>
+            <option value="3500">3.500 VA+ (Rp 1.699,53/kWh)</option>
+          </select>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Total pemakaian kWh</span><span class="rval" id="res-kwh">—</span></div>
-          <div class="result-row"><span class="rkey">Tarif per kWh</span><span class="rval" id="res-rate">—</span></div>
-          <div class="result-row"><span class="rkey">Biaya abonemen (estimasi)</span><span class="rval" id="res-abonemen">—</span></div>
-          <div class="result-row"><span class="rkey">Biaya per hari</span><span class="rval" id="res-daily">—</span></div>
+        <div class="field"><label>AC (PK) — jam pakai per hari</label><input type="number" id="ac-hours" placeholder="0" min="0" max="24" step="0.5" value="0"/><small style="color:#7a8fa0">1 PK AC ≈ 850 watt rata-rata (non-inverter)</small></div>
+        <div class="field"><label>Kulkas — jumlah unit</label><input type="number" id="kulkas" placeholder="0 atau 1" min="0" max="5" value="1"/><small style="color:#7a8fa0">1 kulkas 1 pintu ≈ 35 kWh/bulan</small></div>
+        <div class="field"><label>TV LED 32–55 inci — jam pakai per hari</label><input type="number" id="tv-hours" placeholder="0" min="0" max="24" value="0"/><small style="color:#7a8fa0">~80–120 watt</small></div>
+        <div class="field"><label>Mesin cuci — kali pakai per bulan</label><input type="number" id="washer" placeholder="0" min="0" max="60" value="0"/><small style="color:#7a8fa0">~0,5 kWh per pemakaian</small></div>
+        <div class="field"><label>Pompa air — jam per hari</label><input type="number" id="pump-hours" placeholder="0" min="0" max="12" step="0.5" value="0"/><small style="color:#7a8fa0">~150 watt</small></div>
+        <div class="field"><label>Total watt lampu (semua lampu)</label><input type="number" id="lights-watt" placeholder="Contoh: 80" min="0" value="0"/><small style="color:#7a8fa0">Misal 8 lampu × 10W = 80W, nyala rata-rata 8 jam/hari</small></div>
+        <div class="field"><label>Lain-lain (watt) — laptop, charger, dll.</label><input type="number" id="other-watt" placeholder="Contoh: 100" min="0" value="0"/><small style="color:#7a8fa0">Estimasi rata-rata nyala ~10 jam/hari</small></div>
+        <button class="calc-btn" onclick="calculatePeralatan()">Simulasikan</button>
+
+        <div id="res-peralatan" style="display:none;margin-top:1rem">
+          <div class="result-main" style="text-align:center;padding:.75rem;background:rgba(0,201,177,.08);border-radius:10px;margin-bottom:.75rem">
+            <div class="result-value" id="per-total-bill" style="font-size:1.5rem">—</div>
+            <div style="font-size:.8rem;color:#8fa3b1">Estimasi Tagihan Bulanan</div>
+          </div>
+          <div class="ub-label">Pemakaian per Peralatan</div>
+          <div id="per-device-list" style="margin:.5rem 0"></div>
+          <div class="usage-bar-wrap">
+            <div class="ub-label">Komposisi Konsumsi</div>
+            <div class="usage-bar" id="per-usage-bar"></div>
+            <div class="ub-legend" id="per-legend"></div>
+          </div>
         </div>
       </div>
+
+      <!-- TAB 3: TOKEN & HEMAT -->
+      <div id="tab-token" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Hitung nominal token listrik yang perlu dibeli, atau cek berapa hari token Anda bertahan.</p>
+        <div class="field">
+          <label>Golongan Listrik</label>
+          <select id="gol3" onchange="syncGolongan()">
+            <option value="450">450 VA subsidi (Rp 415/kWh)</option>
+            <option value="900s">900 VA subsidi (Rp 605/kWh)</option>
+            <option value="900">900 VA non-subsidi (Rp 1.352/kWh)</option>
+            <option value="1300" selected>1.300 VA (Rp 1.444,70/kWh)</option>
+            <option value="2200">2.200 VA (Rp 1.444,70/kWh)</option>
+            <option value="3500">3.500 VA+ (Rp 1.699,53/kWh)</option>
+          </select>
+        </div>
+        <div class="field"><label>Nominal Token yang Dibeli (Rp)</label><input type="number" id="token-nominal" placeholder="Contoh: 100000" min="0"/></div>
+        <div class="field"><label>Rata-rata Pemakaian per Hari (kWh)</label><input type="number" id="token-daily" placeholder="Contoh: 5" min="0" step="0.1"/></div>
+        <button class="calc-btn" onclick="calculateToken()">Hitung Token</button>
+        <div id="res-token" style="display:none;margin-top:1rem">
+          <div id="tok-summary" style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
+          <div style="font-size:.85rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">💡 Potensi Penghematan Bulanan</div>
+          <div id="savings-list"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
+  <div class="content-area">
     <h1>Kalkulator Tagihan Listrik PLN 2026 — Estimasi Biaya Listrik Rumah Tangga</h1>
-    <p class="page-desc">Hitung estimasi tagihan listrik PLN bulanan berdasarkan golongan daya dan pemakaian kWh. Lengkap dengan perkiraan konsumsi berbagai peralatan rumah tangga.</p>
+    <p class="page-desc">Hitung estimasi tagihan listrik PLN bulanan berdasarkan golongan daya dan pemakaian kWh. Lengkap dengan simulasi konsumsi per peralatan, estimasi token listrik, dan tips hemat yang efektif.</p>
 
     <div class="ad-slot">Advertisement</div>
 
     <h2>Tarif Listrik PLN 2026 untuk Rumah Tangga</h2>
-    <p>Tarif listrik PLN dibedakan berdasarkan golongan daya (VA) dan jenis pelanggan. Untuk rumah tangga, golongan R-1 (900 VA, 1.300 VA, 2.200 VA) adalah yang paling umum. Penting untuk membedakan pelanggan 900 VA subsidi (masih mendapat tarif Rp 605/kWh) dengan 900 VA non-subsidi atau mampu (Rp 1.352/kWh). Pelanggan 1.300 VA dan 2.200 VA dikenakan tarif Rp 1.444,70/kWh.</p>
-    <p><em>Catatan: Tarif PLN dapat berubah sewaktu-waktu sesuai kebijakan pemerintah. Angka ini adalah estimasi berdasarkan tarif yang berlaku. Cek tagihan atau website PLN untuk tarif terkini.</em></p>
+    <p>Tarif listrik PLN dibedakan berdasarkan golongan daya (VA) dan jenis pelanggan. Untuk rumah tangga, golongan yang paling umum adalah R-1 (900 VA, 1.300 VA, 2.200 VA). Penting untuk membedakan pelanggan <strong>900 VA bersubsidi</strong> (terdaftar di DTKS, tarif Rp 605/kWh) dengan <strong>900 VA non-subsidi/mampu</strong> (tarif Rp 1.352/kWh). Pelanggan 1.300 VA dan 2.200 VA dikenakan tarif Rp 1.444,70/kWh.</p>
+    <p style="font-size:.85rem;color:#8fa3b1"><em>Catatan: Tarif PLN dapat berubah sesuai kebijakan pemerintah. Angka ini berdasarkan tarif yang berlaku saat ini. Selalu cek tagihan atau website PLN (pln.co.id) untuk tarif terkini.</em></p>
 
-    <h2>Cara Menggunakan</h2>
+    <h2>Cara Menggunakan Kalkulator Listrik Ini</h2>
     <ol>
-      <li>Pilih <strong>golongan/daya listrik</strong> Anda (cek di struk tagihan atau MCB)</li>
-      <li>Pilih mode: <strong>dari pemakaian kWh</strong> (lihat struk tagihan) atau <strong>dari peralatan</strong> (estimasi)</li>
-      <li>Masukkan data yang diminta</li>
-      <li>Klik <strong>"Hitung Tagihan"</strong></li>
+      <li><strong>Tab Tagihan Bulanan:</strong> Pilih golongan daya listrik Anda, masukkan pemakaian kWh dari struk tagihan atau meteran, lalu lihat estimasi tagihan beserta komposisinya.</li>
+      <li><strong>Tab Simulasi Peralatan:</strong> Masukkan jumlah dan durasi pemakaian setiap peralatan untuk mengetahui peralatan mana yang paling boros dan perkiraan tagihan total.</li>
+      <li><strong>Tab Token &amp; Hemat:</strong> Hitung berapa lama token Anda bertahan dan lihat potensi penghematan dari berbagai langkah efisiensi.</li>
     </ol>
 
-    <h2>Konsumsi Listrik Peralatan Umum</h2>
+    <h2>Konsumsi Listrik Peralatan Rumah Tangga Umum</h2>
     <table>
       <tr><th>Peralatan</th><th>Daya (Watt)</th><th>kWh/bulan (estimasi)</th></tr>
-      <tr><td>AC 1 PK (8 jam/hari)</td><td>800–900 W</td><td>~200–220 kWh</td></tr>
-      <tr><td>Kulkas 1 pintu</td><td>60–100 W</td><td>~30–45 kWh</td></tr>
+      <tr><td>AC 1 PK non-inverter (8 jam/hari)</td><td>850–900 W</td><td>~200–220 kWh</td></tr>
+      <tr><td>AC 1 PK inverter (8 jam/hari)</td><td>400–600 W</td><td>~100–145 kWh</td></tr>
+      <tr><td>Kulkas 1 pintu</td><td>60–100 W</td><td>~30–40 kWh</td></tr>
       <tr><td>TV LED 40 inci (5 jam/hari)</td><td>80–120 W</td><td>~12–18 kWh</td></tr>
-      <tr><td>Mesin cuci (2x/minggu)</td><td>300–500 W</td><td>~3–5 kWh</td></tr>
-      <tr><td>Pompa air (1 jam/hari)</td><td>125–250 W</td><td>~4–8 kWh</td></tr>
-      <tr><td>Lampu LED 10W (6 jam/hari)</td><td>10 W</td><td>~1,8 kWh/lampu</td></tr>
-      <tr><td>Rice cooker (2 kali masak/hari)</td><td>300–500 W</td><td>~10–15 kWh</td></tr>
-      <tr><td>Water heater (30 menit/hari)</td><td>300–2000 W</td><td>~5–30 kWh</td></tr>
+      <tr><td>Mesin cuci (8 kali/bulan)</td><td>300–500 W</td><td>~2,5–4 kWh</td></tr>
+      <tr><td>Pompa air (1 jam/hari)</td><td>125–200 W</td><td>~3,75–6 kWh</td></tr>
+      <tr><td>Rice cooker (2 kali masak/hari)</td><td>300–400 W</td><td>~10–14 kWh</td></tr>
+      <tr><td>Lampu LED 10W (8 jam/hari)</td><td>10 W</td><td>~2,4 kWh/lampu</td></tr>
     </table>
 
-    <h2>Tips Hemat Listrik Rumah Tangga</h2>
-    <p>AC adalah penyumbang terbesar tagihan listrik (bisa 40–60% dari total). Naikkan suhu AC ke 25–26°C, bersihkan filter setiap bulan, dan gunakan timer/sleep mode. Ganti lampu incandescent dengan LED yang 80% lebih hemat. Cabut charger dan peralatan dari colokan saat tidak digunakan — "vampire power" bisa mencapai 5–10% dari total pemakaian. Gunakan mesin cuci saat penuh dan pilih mode hemat energi.</p>
+    <h2>Tips Hemat Listrik Paling Efektif</h2>
+    <p>AC adalah penyumbang terbesar tagihan listrik di rumah Indonesia, bisa mencapai 40–60% dari total konsumsi. Menaikkan suhu AC dari 20°C ke 26°C saja bisa menghemat 30–40% konsumsi AC. Gunakan mode sleep/timer dan bersihkan filter setiap 1–2 bulan. Pertimbangkan beralih ke AC inverter yang 30–50% lebih hemat dari non-inverter. Ganti lampu konvensional dengan LED yang 80% lebih hemat. Cabut peralatan dari colokan saat tidak digunakan — <em>vampire power</em> (konsumsi standby) bisa mencapai 5–10% dari total pemakaian bulanan.</p>
 
-    <h2>Cara Membaca Meteran Listrik dan Tagihan PLN</h2>
-    <p>Memahami tagihan listrik PLN membantu Anda mengidentifikasi jika ada kesalahan pencatatan atau lonjakan tagihan yang tidak wajar:</p>
-    <ul>
-      <li><strong>kWh (kilowatt-hour)</strong> — Satuan energi listrik. 1 kWh = menggunakan daya 1.000 watt selama 1 jam. Atau setara AC 1 PK menyala 1 jam</li>
-      <li><strong>Angka meteran</strong> — Catat angka meteran bulan ini dan bulan lalu. Selisihnya adalah pemakaian kWh yang ditagihkan</li>
-      <li><strong>Abodemen/biaya beban</strong> — Biaya tetap per bulan sesuai daya terpasang (VA), dibayar meski tidak pakai listrik sekalipun</li>
-      <li><strong>Tagihan listrik = (pemakaian kWh × tarif per kWh) + biaya beban + PPJ (Pajak Penerangan Jalan)</strong></li>
-    </ul>
+    <h2>Cara Membaca Tagihan Listrik PLN</h2>
+    <p>Tagihan listrik PLN terdiri dari beberapa komponen: <strong>biaya pemakaian/energi</strong> (pemakaian kWh × tarif per kWh), <strong>biaya abonemen/beban</strong> (biaya tetap per bulan sesuai daya terpasang, dibayar meski tidak pakai listrik), dan <strong>PPJ (Pajak Penerangan Jalan)</strong> yang bervariasi per daerah umumnya 3–10% dari biaya energi. Untuk pelanggan prabayar (token), tidak ada biaya abonemen terpisah — semua sudah termasuk dalam harga per kWh token.</p>
 
-    <h2>Program Subsidi Listrik: Siapa yang Berhak?</h2>
-    <p>PLN memberikan subsidi listrik untuk golongan tidak mampu. Per 2026, penerima subsidi listrik:</p>
-    <ul>
-      <li>Rumah tangga dengan daya 450 VA — mendapat subsidi penuh (tarif sangat rendah)</li>
-      <li>Rumah tangga dengan daya 900 VA yang terdaftar sebagai keluarga tidak mampu (data DTKS Kemensos) — mendapat subsidi parsial</li>
-    </ul>
-    <p>Jika Anda termasuk keluarga kurang mampu tapi belum menerima subsidi listrik, daftar atau perbarui data di Kantor Desa/Kelurahan atau melalui portal SIKS-NG Kemensos. Subsidi bisa menghemat tagihan hingga 40–60% per bulan.</p>
+    <h2>Program Subsidi Listrik 2026: Siapa yang Berhak?</h2>
+    <p>PLN memberikan subsidi listrik bagi golongan tidak mampu yang terdaftar dalam Data Terpadu Kesejahteraan Sosial (DTKS) Kementerian Sosial. Per 2026, penerima subsidi listrik adalah rumah tangga daya 450 VA (subsidi penuh) dan rumah tangga daya 900 VA yang terdaftar sebagai keluarga kurang mampu di DTKS. Jika Anda termasuk kelompok kurang mampu namun belum menerima subsidi listrik, perbarui data di Kantor Desa/Kelurahan atau melalui portal aplikasi pemerintah setempat.</p>
 
-    <h2>10 Peralatan Listrik Paling Boros di Rumah Indonesia</h2>
-    <table>
-      <tr><th>Peralatan</th><th>Daya (Watt)</th><th>Biaya per Jam (Rp)</th></tr>
-      <tr><td>AC 1 PK (non-inverter)</td><td>900 W</td><td>~Rp 117</td></tr>
-      <tr><td>AC 1 PK (inverter)</td><td>400–600 W</td><td>~Rp 60–78</td></tr>
-      <tr><td>Pemanas air (water heater)</td><td>350–2.000 W</td><td>~Rp 45–260</td></tr>
-      <tr><td>Mesin cuci</td><td>300–500 W</td><td>~Rp 39–65</td></tr>
-      <tr><td>Kulkas 2 pintu</td><td>100–200 W</td><td>~Rp 13–26</td></tr>
-      <tr><td>Rice cooker</td><td>300–400 W</td><td>~Rp 39–52</td></tr>
-      <tr><td>Setrika</td><td>300–1.000 W</td><td>~Rp 39–130</td></tr>
-      <tr><td>TV LED 43 inci</td><td>70–100 W</td><td>~Rp 9–13</td></tr>
-      <tr><td>Laptop</td><td>45–100 W</td><td>~Rp 6–13</td></tr>
-      <tr><td>Lampu LED 9W</td><td>9 W</td><td>~Rp 1,2</td></tr>
-    </table>
-    <p><em>Asumsi tarif listrik Rp 1.300/kWh untuk golongan R-1/1.300 VA</em></p>
+    <h2>Panel Surya untuk Rumah: Apakah Sepadan?</h2>
+    <p>Panel surya atap (PLTS) bisa sangat mengurangi tagihan listrik, bahkan hingga nol melalui skema net metering PLN (ekspor kelebihan produksi ke jaringan). Investasi awal untuk sistem 1–2 kWp berkisar Rp 15–25 juta, mampu memenuhi 50–80% kebutuhan listrik rumah tangga standar. Masa pengembalian investasi (payback period) umumnya 5–8 tahun. Dengan umur panel 20–25 tahun, keuntungan finansial jangka panjangnya signifikan — belum termasuk manfaat lingkungan.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara membaca meteran kWh?</div><div class="faq-a">Pada meteran konvensional, catat angka yang tertera (biasanya 5–6 digit). Pemakaian bulan ini = angka meteran akhir bulan − angka meteran awal bulan. Untuk meteran digital/smart meter, angka langsung ditampilkan dalam kWh. PLN biasanya membaca meteran sekitar tanggal yang sama setiap bulan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kenapa tagihan listrik bisa tiba-tiba naik?</div><div class="faq-a">Penyebab umum lonjakan tagihan: cuaca panas (AC lebih sering menyala), penambahan peralatan baru, musim liburan (semua orang di rumah), kerusakan peralatan yang menyebabkan konsumsi abnormal, atau perubahan tarif PLN. Jika lonjakan sangat drastis tanpa alasan jelas, minta PLN cek meteran untuk memastikan tidak ada kesalahan baca.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah beralih ke listrik pascabayar lebih hemat?</div><div class="faq-a">Tidak ada perbedaan tarif antara prabayar (token) dan pascabayar. Namun banyak pengguna merasa lebih hemat dengan sistem token karena mereka lebih sadar penggunaan listrik (bisa memantau sisa kredit secara real-time). Prabayar juga menghilangkan risiko tunggakan dan biaya keterlambatan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa rata-rata tagihan listrik rumah tangga Indonesia?</div><div class="faq-a">Rata-rata tagihan listrik rumah tangga daya 1.300 VA di Indonesia berkisar Rp 150.000–Rp 300.000 per bulan untuk penggunaan sedang (100–200 kWh). Rumah dengan AC bisa lebih tinggi, Rp 400.000–Rp 700.000+ per bulan. Apartemen dengan AC sentral biasanya lebih mahal karena tarif dan pengelolaan gedung.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu abonemen listrik?</div><div class="faq-a">Abonemen adalah biaya tetap yang harus dibayar setiap bulan terlepas dari seberapa banyak listrik yang digunakan. Besarannya tergantung golongan daya: semakin besar daya (VA), semakin tinggi biaya abonemen. Untuk 900 VA non-subsidi, abonemen sekitar Rp 20.000–Rp 40.000/bulan. Untuk 3.500 VA, sekitar Rp 85.000/bulan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah panel surya bisa mengurangi tagihan listrik?</div><div class="faq-a">Ya, panel surya (PLTS atap) bisa signifikan mengurangi tagihan listrik, bahkan menjadi nol atau negatif (ekspor ke PLN dengan skema net metering). Investasi awal sekitar Rp 15–25 juta untuk sistem 1–2 kWp yang bisa memenuhi 50–80% kebutuhan listrik rumah. Payback period umumnya 5–8 tahun dengan penghematan bertahun-tahun setelahnya.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara membaca meteran listrik kWh?</div><div class="faq-a">Pada meteran konvensional, catat angka yang tertera (biasanya 5–6 digit). Pemakaian bulan ini = angka meteran akhir bulan − angka meteran awal bulan. Untuk meteran digital/smart meter, angka langsung ditampilkan dalam kWh. PLN biasanya membaca meteran sekitar tanggal yang sama setiap bulan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kenapa tagihan listrik bisa tiba-tiba naik drastis?</div><div class="faq-a">Penyebab paling umum: cuaca panas (AC lebih sering menyala), penambahan peralatan baru, musim liburan (semua anggota keluarga di rumah), peralatan yang rusak dan menyedot daya berlebih, atau perubahan tarif PLN. Jika lonjakan sangat drastis tanpa alasan jelas, minta PLN melakukan pengecekan meteran untuk memastikan tidak ada kesalahan baca atau masalah teknis.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Prabayar (token) atau pascabayar — mana lebih hemat?</div><div class="faq-a">Tidak ada perbedaan tarif antara prabayar dan pascabayar untuk golongan yang sama. Namun banyak pengguna merasa lebih hemat dengan sistem token karena lebih sadar terhadap konsumsi (bisa memantau sisa kWh secara real-time di meteran). Prabayar juga menghilangkan risiko tunggakan dan biaya keterlambatan pembayaran.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa rata-rata tagihan listrik rumah tangga Indonesia per bulan?</div><div class="faq-a">Rata-rata rumah tangga dengan daya 1.300 VA dan pemakaian sedang (100–200 kWh) membayar sekitar Rp 150.000–Rp 300.000 per bulan. Rumah dengan AC bisa lebih tinggi, Rp 400.000–Rp 700.000+. Apartemen dengan pengelolaan gedung dan AC sentral biasanya lebih mahal.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu biaya abonemen listrik?</div><div class="faq-a">Abonemen adalah biaya tetap bulanan yang harus dibayar terlepas dari seberapa banyak listrik yang digunakan. Besarnya tergantung golongan daya yang terpasang — semakin besar daya (VA), semakin tinggi biaya abonemennya. Ini adalah kompensasi untuk "hak pakai" kapasitas daya yang sudah terpasang di rumah Anda. Untuk pelanggan token/prabayar, tidak ada tagihan abonemen terpisah.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah AC inverter benar-benar lebih hemat?</div><div class="faq-a">Ya, signifikan. AC inverter menggunakan kompresor yang bekerja dengan kecepatan variabel — melambat saat suhu target tercapai, lalu mempercepat saat perlu pendinginan lagi. Ini jauh lebih efisien dari AC non-inverter yang hanya bisa on/off. Penghematan listrik AC inverter bisa mencapai 30–50% dibanding non-inverter. Dengan biaya listrik AC yang bisa Rp 200.000–Rp 400.000/bulan, investasi lebih pada AC inverter biasanya balik modal dalam 1–2 tahun.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-bbm.html" class="related-item"><span class="ri">⛽</span>Kalkulator BBM</a>
-      <a href="/id/kalkulator-pengeluaran.html" class="related-item"><span class="ri">💸</span>Pengeluaran Bulanan</a>
+      <a href="/id/kalkulator-kos.html" class="related-item"><span class="ri">🏠</span>Kalkulator Kos</a>
       <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💰</span>Gaji Bersih</a>
-      <a href="/id/konversi-waktu.html" class="related-item"><span class="ri">⏱️</span>Konversi Waktu</a>
+      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
     </div>
   </div>
 </main>
@@ -175,52 +244,147 @@
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 <script defer>
-let mode = 'kwh';
-const tariffs = { '920':605, '1352':1352, '1444':1444.7, '1444b':1444.7, '1699':1699.53, '1699b':1699.53, '1115':1115, '1372':1372 };
-const abonemen = { '920':11000, '1352':20000, '1444':40234, '1444b':67380, '1699':112560, '1699b':168210, '1115':40000, '1372':80000 };
+const TARIFFS = {
+  '450': 415, '900s': 605, '900': 1352,
+  '1300': 1444.7, '2200': 1444.7,
+  '3500': 1699.53, '6600': 1699.53,
+  'b1': 1115, 'b2': 1372
+};
+const ABONEMEN = {
+  '450': 11000, '900s': 11000, '900': 20000,
+  '1300': 40234, '2200': 67380,
+  '3500': 112560, '6600': 168210,
+  'b1': 40000, 'b2': 80000
+};
 
-function setMode(m) {
-  mode = m;
-  document.getElementById('btn-kwh').classList.toggle('active', m === 'kwh');
-  document.getElementById('btn-peralatan').classList.toggle('active', m === 'peralatan');
-  document.getElementById('mode-kwh').style.display = m === 'kwh' ? '' : 'none';
-  document.getElementById('mode-peralatan').style.display = m === 'peralatan' ? '' : 'none';
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
 
-function calculate() {
-  const gol = document.getElementById('golongan').value;
-  const rate = tariffs[gol];
-  const abon = abonemen[gol];
-  let kwh = 0;
-
-  if (mode === 'kwh') {
-    kwh = parseFloat(document.getElementById('kwh').value);
-    if (!kwh || kwh < 0) return alert('Masukkan pemakaian kWh yang valid.');
-  } else {
-    const acHours = parseFloat(document.getElementById('ac-hours').value) || 0;
-    const tvHours = parseFloat(document.getElementById('tv-hours').value) || 0;
-    const washer = parseFloat(document.getElementById('washer').value) || 0;
-    const lightsWatt = parseFloat(document.getElementById('lights-watt').value) || 0;
-    const days = 30;
-    kwh += acHours * 0.85 * days;  // 850W avg AC
-    kwh += 40;  // kulkas flat
-    kwh += tvHours * 0.1 * days;   // 100W TV
-    kwh += washer * 0.5;
-    kwh += (lightsWatt / 1000) * 8 * days; // 8 hours default
-  }
-
-  const energyCost = kwh * rate;
-  const totalBill = energyCost + abon;
-
-  document.getElementById('res-bill').textContent = 'Rp ' + Math.round(totalBill).toLocaleString('id-ID');
-  document.getElementById('res-kwh').textContent = kwh.toFixed(1).replace('.', ',') + ' kWh';
-  document.getElementById('res-rate').textContent = 'Rp ' + rate.toLocaleString('id-ID') + '/kWh';
-  document.getElementById('res-abonemen').textContent = 'Rp ' + abon.toLocaleString('id-ID');
-  document.getElementById('res-daily').textContent = 'Rp ' + Math.round(totalBill / 30).toLocaleString('id-ID') + '/hari';
-  document.getElementById('result').classList.add('show');
+function syncGolongan() {
+  const v = document.getElementById('golongan').value;
+  if (document.getElementById('gol2')) document.getElementById('gol2').value = v;
+  if (document.getElementById('gol3')) document.getElementById('gol3').value = v;
 }
+
+function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+
+function calculateTagihan() {
+  const gol  = document.getElementById('golongan').value;
+  const kwh  = parseFloat(document.getElementById('kwh').value);
+  if (!kwh || kwh < 0) { alert('Masukkan pemakaian kWh yang valid.'); return; }
+
+  const rate    = TARIFFS[gol];
+  const abon    = ABONEMEN[gol] || 0;
+  const energi  = kwh * rate;
+  const ppj     = energi * 0.03;
+  const total   = energi + abon + ppj;
+  const totalPct = total > 0 ? total : 1;
+
+  document.getElementById('res-bill').textContent   = fmt(total);
+  document.getElementById('res-kwh').textContent    = kwh.toFixed(1).replace('.', ',') + ' kWh';
+  document.getElementById('res-rate').textContent   = 'Rp ' + rate.toLocaleString('id-ID') + '/kWh';
+  document.getElementById('res-energi').textContent = fmt(energi);
+  document.getElementById('res-abonemen').textContent = fmt(abon);
+  document.getElementById('res-ppj').textContent    = fmt(ppj) + ' (3% estimasi)';
+  document.getElementById('res-daily').textContent  = fmt(total / 30) + '/hari';
+
+  document.getElementById('ub-energi').style.width = (energi / totalPct * 100).toFixed(1) + '%';
+  document.getElementById('ub-abon').style.width   = (abon / totalPct * 100).toFixed(1) + '%';
+  document.getElementById('ub-ppj').style.width    = (ppj / totalPct * 100).toFixed(1) + '%';
+
+  document.getElementById('res-tagihan').classList.add('show');
+}
+
+function calculatePeralatan() {
+  const gol = document.getElementById('gol2').value;
+  const rate = TARIFFS[gol];
+  const abon = ABONEMEN[gol] || 0;
+  const days = 30;
+
+  const acH   = parseFloat(document.getElementById('ac-hours').value) || 0;
+  const kulkas= parseFloat(document.getElementById('kulkas').value) || 0;
+  const tvH   = parseFloat(document.getElementById('tv-hours').value) || 0;
+  const wash  = parseFloat(document.getElementById('washer').value) || 0;
+  const pumpH = parseFloat(document.getElementById('pump-hours').value) || 0;
+  const lW    = parseFloat(document.getElementById('lights-watt').value) || 0;
+  const othW  = parseFloat(document.getElementById('other-watt').value) || 0;
+
+  const devices = [
+    { name: 'AC', kwh: acH * 0.85 * days },
+    { name: 'Kulkas', kwh: kulkas * 35 },
+    { name: 'TV LED', kwh: tvH * 0.1 * days },
+    { name: 'Mesin cuci', kwh: wash * 0.5 },
+    { name: 'Pompa air', kwh: pumpH * 0.15 * days },
+    { name: 'Lampu', kwh: (lW / 1000) * 8 * days },
+    { name: 'Lain-lain', kwh: (othW / 1000) * 10 * days },
+  ].filter(d => d.kwh > 0);
+
+  const totalKwh = devices.reduce((s, d) => s + d.kwh, 0);
+  if (totalKwh <= 0) { alert('Masukkan setidaknya satu peralatan.'); return; }
+
+  const totalBill = totalKwh * rate + abon;
+  document.getElementById('per-total-bill').textContent = fmt(totalBill) + ' (~' + totalKwh.toFixed(1) + ' kWh)';
+
+  const colors = ['#00C9B1','#3b82f6','#8b5cf6','#f59e0b','#ef4444','#10b981','#6366f1'];
+  let deviceHtml = '';
+  devices.forEach((d, i) => {
+    const cost = d.kwh * rate;
+    deviceHtml += `<div class="device-row">
+      <span class="device-label">${d.name}</span>
+      <span class="device-kwh">${d.kwh.toFixed(1)} kWh</span>
+      <span class="device-cost">${fmt(cost)}</span>
+    </div>`;
+  });
+  document.getElementById('per-device-list').innerHTML = deviceHtml;
+
+  let barHtml = '', legendHtml = '';
+  devices.forEach((d, i) => {
+    const pct = (d.kwh / totalKwh * 100).toFixed(1);
+    barHtml += `<div class="ub-seg" style="background:${colors[i%colors.length]};width:${pct}%"></div>`;
+    legendHtml += `<span><span class="leg-dot" style="background:${colors[i%colors.length]}"></span>${d.name} ${pct}%</span>`;
+  });
+  document.getElementById('per-usage-bar').innerHTML = barHtml;
+  document.getElementById('per-legend').innerHTML = legendHtml;
+  document.getElementById('res-peralatan').style.display = 'block';
+}
+
+function calculateToken() {
+  const gol     = document.getElementById('gol3').value;
+  const rate    = TARIFFS[gol];
+  const nominal = parseFloat(document.getElementById('token-nominal').value);
+  const daily   = parseFloat(document.getElementById('token-daily').value);
+  if (!nominal || nominal <= 0) { alert('Masukkan nominal token yang valid.'); return; }
+
+  // Token kWh = nominal * 0.95 / rate (approximation, ~5% admin fee)
+  const kwhToken = (nominal * 0.95) / rate;
+  const days = daily > 0 ? kwhToken / daily : null;
+
+  document.getElementById('tok-summary').innerHTML =
+    `Token <strong>${fmt(nominal)}</strong> menghasilkan sekitar <strong>${kwhToken.toFixed(1)} kWh</strong> bersih (setelah admin ~5%).` +
+    (days ? ` Dengan pemakaian <strong>${daily} kWh/hari</strong>, token cukup untuk sekitar <strong>${days.toFixed(1)} hari</strong>.` : '');
+
+  const savings = [
+    ['Naikkan suhu AC dari 20°C → 26°C', Math.round(daily > 0 ? daily * 0.35 * 30 * rate : 0)],
+    ['Matikan AC saat tidur (hemat 2 jam/hari)', Math.round(daily > 0 ? 2 * 0.85 * 30 * rate : 0)],
+    ['Ganti AC non-inverter → inverter', Math.round(daily > 0 ? daily * 0.30 * 30 * rate : 0)],
+    ['Cabut peralatan standby (vampire power)', Math.round(daily > 0 ? daily * 0.07 * 30 * rate : 0)],
+  ];
+
+  document.getElementById('savings-list').innerHTML = savings.map(([tip, save]) => `
+    <div class="saving-item">
+      <span>${tip}</span>
+      <span class="saving-amount">${save > 0 ? 'Hemat ~' + fmt(save) + '/bln' : '—'}</span>
+    </div>`).join('');
+
+  document.getElementById('res-token').style.display = 'block';
+}
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculateTagihan(); });
 </script>
 </body>
 </html>

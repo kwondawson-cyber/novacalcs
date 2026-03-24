@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Biaya Kos 2026 — Hitung & Bandingkan Harga Sewa Kos | NovaCalcs</title>
-<meta name="description" content="Hitung dan bandingkan total biaya kos bulanan vs kontrak tahunan. Termasuk deposit, listrik, air, dan Wi-Fi. Cari tahu pilihan kos mana yang lebih hemat."/>
-<meta name="keywords" content="kalkulator kos, biaya kos bulanan, harga sewa kos, perbandingan kos, deposit kos, kos kontrak tahunan"/>
+<meta name="description" content="Hitung total biaya kos bulanan termasuk listrik, air, dan Wi-Fi. Bandingkan dua pilihan kos, hitung break-even kontrak tahunan, dan cari tahu batas ideal anggaran kos dari gaji Anda."/>
+<meta name="keywords" content="kalkulator kos, biaya kos bulanan, harga sewa kos, perbandingan kos, deposit kos, kos kontrak tahunan, budget kos gaji"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kos.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kos.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,6 +13,30 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.cost-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:.4rem 0}
+.cb-seg{height:100%;transition:width .4s}
+.cb-legend{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.72rem;color:#8fa3b1;margin-top:.25rem}
+.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+.cmp-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.8rem;text-align:center}
+.cmp-card.winner{border-color:rgba(0,201,177,.4);background:rgba(0,201,177,.06)}
+.cmp-name{font-size:.78rem;color:#8fa3b1;margin-bottom:.25rem}
+.cmp-val{font-size:1.05rem;font-weight:700;color:#fff}
+.cmp-sub{font-size:.72rem;color:#6b7c8d;margin-top:.2rem}
+.winner-badge{display:inline-block;background:#00C9B1;color:#0d1b2a;font-size:.65rem;font-weight:700;padding:.1rem .4rem;border-radius:5px;margin-bottom:.3rem}
+.budget-bar{height:10px;background:rgba(255,255,255,.07);border-radius:5px;margin:.3rem 0;overflow:hidden}
+.budget-fill{height:100%;border-radius:5px;transition:width .5s}
+.budget-item{padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.83rem;display:flex;justify-content:space-between}
+.budget-item:last-child{border-bottom:none}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -29,92 +53,146 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">🏠 Kalkulator Biaya Kos</div>
-      <div class="calc-subtitle">Hitung total biaya bulanan dan bandingkan pilihan kos</div>
-      <div class="field"><label>Sewa Bulanan (Rp)</label><input type="number" id="sewa-bulan" placeholder="Contoh: 1500000" min="0" oninput="autoCalc()"/></div>
-      <div class="field"><label>Sewa Kontrak Tahunan (Rp) — opsional</label><input type="number" id="sewa-tahun" placeholder="Contoh: 15000000" min="0" oninput="autoCalc()"/></div>
-      <div class="field"><label>Uang Deposit / Jaminan (Rp)</label><input type="number" id="deposit" placeholder="Contoh: 1500000" min="0" oninput="autoCalc()"/></div>
-      <div class="field"><label>Biaya Listrik / Bulan (Rp)</label><input type="number" id="listrik" placeholder="Contoh: 200000" min="0" value="0" oninput="autoCalc()"/></div>
-      <div class="field"><label>Biaya Air / Bulan (Rp)</label><input type="number" id="air" placeholder="Contoh: 50000" min="0" value="0" oninput="autoCalc()"/></div>
-      <div class="field"><label>Biaya Wi-Fi / Bulan (Rp)</label><input type="number" id="wifi" placeholder="Contoh: 100000" min="0" value="0" oninput="autoCalc()"/></div>
-      <div class="field"><label>Lama Tinggal (bulan)</label><input type="number" id="durasi" placeholder="Contoh: 12" min="1" max="120" value="12" oninput="autoCalc()"/></div>
-      <button class="calc-btn" onclick="calculate()">Hitung Total Biaya</button>
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-total-bulan">—</div>
-          <div class="result-label">Total Pengeluaran Selama Tinggal</div>
-        </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Biaya bulanan all-in</span><span class="rval" id="res-per-bulan">—</span></div>
-          <div class="result-row"><span class="rkey">Total sewa selama tinggal</span><span class="rval" id="res-sewa-total">—</span></div>
-          <div class="result-row"><span class="rkey">Deposit (dapat kembali)</span><span class="rval" id="res-deposit">—</span></div>
-          <div class="result-row" id="kontrak-row" style="display:none"><span class="rkey">Hemat jika kontrak tahunan</span><span class="rval" id="res-hemat">—</span></div>
-          <div class="result-row" id="breakeven-row" style="display:none"><span class="rkey">Break-even kontrak (bulan)</span><span class="rval" id="res-breakeven">—</span></div>
+      <div class="calc-subtitle">Hitung, bandingkan, dan rencanakan anggaran kos Anda</div>
+
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-hitung',this)">🧮 Hitung Kos</button>
+        <button class="tab-btn" onclick="showTab('tab-banding',this)">⚖️ Bandingkan 2 Kos</button>
+        <button class="tab-btn" onclick="showTab('tab-budget',this)">💰 Budget Planner</button>
+      </div>
+
+      <!-- TAB 1: HITUNG KOS -->
+      <div id="tab-hitung" class="tab-pane active">
+        <div class="field"><label>Sewa Bulanan (Rp)</label><input type="number" id="sewa-bulan" placeholder="Contoh: 1500000" min="0"/></div>
+        <div class="field"><label>Sewa Kontrak Tahunan (Rp) — opsional untuk cek penghematan</label><input type="number" id="sewa-tahun" placeholder="Contoh: 15000000" min="0"/></div>
+        <div class="field"><label>Uang Deposit / Jaminan (Rp)</label><input type="number" id="deposit" placeholder="Biasanya 1 bulan sewa" min="0"/></div>
+        <div class="field"><label>Biaya Listrik per Bulan (Rp)</label><input type="number" id="listrik" placeholder="Contoh: 200000" min="0" value="0"/></div>
+        <div class="field"><label>Biaya Air per Bulan (Rp)</label><input type="number" id="air" placeholder="Contoh: 50000" min="0" value="0"/></div>
+        <div class="field"><label>Biaya Wi-Fi per Bulan (Rp)</label><input type="number" id="wifi" placeholder="Contoh: 100000" min="0" value="0"/></div>
+        <div class="field"><label>Rencana Lama Tinggal (bulan)</label><input type="number" id="durasi" placeholder="Contoh: 12" min="1" max="120" value="12"/></div>
+        <button class="calc-btn" onclick="calculateKos()">Hitung Total Biaya</button>
+
+        <div class="result-panel" id="res-kos">
+          <div class="result-main">
+            <div class="result-value" id="res-total">—</div>
+            <div class="result-label">Total Pengeluaran Selama Tinggal</div>
+          </div>
+          <!-- Cost breakdown bar -->
+          <div style="margin:.6rem 0">
+            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.2rem">Komposisi Biaya Bulanan</div>
+            <div class="cost-bar" id="cost-bar"></div>
+            <div class="cb-legend" id="cost-legend"></div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Biaya bulanan all-in</span><span class="rval" id="res-per-bulan">—</span></div>
+            <div class="result-row"><span class="rkey">Total sewa selama tinggal</span><span class="rval" id="res-sewa-total">—</span></div>
+            <div class="result-row"><span class="rkey">Deposit (idealnya kembali saat keluar)</span><span class="rval" id="res-deposit">—</span></div>
+            <div class="result-row" id="hemat-row" style="display:none"><span class="rkey">Hemat dengan kontrak tahunan</span><span class="rval" id="res-hemat">—</span></div>
+            <div class="result-row" id="be-row" style="display:none"><span class="rkey">Break-even kontrak (min. lama tinggal)</span><span class="rval" id="res-be">—</span></div>
+          </div>
         </div>
       </div>
+
+      <!-- TAB 2: BANDINGKAN 2 KOS -->
+      <div id="tab-banding" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Masukkan detail dua pilihan kos untuk dibandingkan secara langsung.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+          <div>
+            <div style="font-size:.8rem;font-weight:600;color:#00C9B1;margin-bottom:.5rem">🏠 Kos A</div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Sewa/bulan (Rp)</label><input type="number" id="a-sewa" placeholder="1500000" min="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Listrik/bulan (Rp)</label><input type="number" id="a-listrik" placeholder="200000" min="0" value="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Air/bulan (Rp)</label><input type="number" id="a-air" placeholder="50000" min="0" value="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Wi-Fi/bulan (Rp)</label><input type="number" id="a-wifi" placeholder="0" min="0" value="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Deposit (Rp)</label><input type="number" id="a-deposit" placeholder="1500000" min="0" value="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Jarak ke kantor/kampus (km)</label><input type="number" id="a-jarak" placeholder="2" min="0" step="0.1" value="0"/></div>
+          </div>
+          <div>
+            <div style="font-size:.8rem;font-weight:600;color:#3b82f6;margin-bottom:.5rem">🏠 Kos B</div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Sewa/bulan (Rp)</label><input type="number" id="b-sewa" placeholder="1200000" min="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Listrik/bulan (Rp)</label><input type="number" id="b-listrik" placeholder="150000" min="0" value="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Air/bulan (Rp)</label><input type="number" id="b-air" placeholder="50000" min="0" value="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Wi-Fi/bulan (Rp)</label><input type="number" id="b-wifi" placeholder="100000" min="0" value="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Deposit (Rp)</label><input type="number" id="b-deposit" placeholder="1200000" min="0" value="0"/></div>
+            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Jarak ke kantor/kampus (km)</label><input type="number" id="b-jarak" placeholder="5" min="0" step="0.1" value="0"/></div>
+          </div>
+        </div>
+        <div class="field"><label>Lama Tinggal Rencana (bulan)</label><input type="number" id="cmp-durasi" placeholder="12" min="1" value="12"/></div>
+        <div class="field"><label>Estimasi Biaya Transportasi per km (Rp)</label><input type="number" id="cmp-transport" placeholder="Contoh: 5000 per km per hari" value="5000" min="0"/><small style="color:#7a8fa0">Biaya ojek/bensin per km, estimasi untuk 22 hari kerja/bulan</small></div>
+        <button class="calc-btn" onclick="calculateBanding()">Bandingkan Sekarang</button>
+        <div id="res-banding" style="display:none;margin-top:1rem">
+          <div id="banding-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
+          <div class="compare-grid" id="compare-cards"></div>
+        </div>
+      </div>
+
+      <!-- TAB 3: BUDGET PLANNER -->
+      <div id="tab-budget" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Cek apakah biaya kos Anda masih dalam batas ideal dari penghasilan, dan lihat simulasi pengeluaran bulanan lengkap.</p>
+        <div class="field"><label>Penghasilan Bersih per Bulan (Rp)</label><input type="number" id="bp-income" placeholder="Contoh: 5000000" min="0"/></div>
+        <div class="field"><label>Biaya Kos All-in per Bulan (Rp)</label><input type="number" id="bp-kos" placeholder="Contoh: 1800000" min="0"/></div>
+        <div class="field"><label>Biaya Makan per Bulan (Rp)</label><input type="number" id="bp-makan" placeholder="Contoh: 1500000" min="0" value="0"/></div>
+        <div class="field"><label>Biaya Transportasi per Bulan (Rp)</label><input type="number" id="bp-transport" placeholder="Contoh: 500000" min="0" value="0"/></div>
+        <div class="field"><label>Biaya Lain-lain per Bulan (Rp)</label><input type="number" id="bp-other" placeholder="Contoh: 500000" min="0" value="0"/></div>
+        <button class="calc-btn" onclick="calculateBudget()">Analisis Budget</button>
+        <div id="res-budget" style="display:none;margin-top:1rem">
+          <div id="bp-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
+          <div style="font-size:.8rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">Rincian Pengeluaran Bulanan</div>
+          <div id="bp-items"></div>
+          <div style="font-size:.8rem;font-weight:600;color:#8fa3b1;margin:.75rem 0 .25rem">Proporsi Pengeluaran</div>
+          <div class="cost-bar" id="bp-bar"></div>
+          <div class="cb-legend" id="bp-legend"></div>
+          <div style="margin-top:.75rem;padding:.6rem;background:rgba(0,201,177,.07);border-radius:8px;font-size:.82rem" id="bp-advice"></div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="seo-content">
+
+  <div class="content-area">
     <h1>Kalkulator Biaya Kos — Hitung Total Pengeluaran dan Bandingkan Pilihan Sewa 2026</h1>
-    <p class="page-desc">Memilih kos yang tepat bukan hanya soal harga sewa, tapi total biaya all-in termasuk listrik, air, dan Wi-Fi. Kalkulator ini membantu Anda menghitung dan membandingkan biaya kos secara komprehensif.</p>
+    <p class="page-desc">Memilih kos yang tepat bukan hanya soal harga sewa, melainkan total biaya all-in termasuk listrik, air, dan Wi-Fi. Kalkulator ini membantu Anda menghitung, membandingkan, dan merencanakan anggaran kos secara menyeluruh.</p>
+
     <div class="ad-slot">Advertisement</div>
-    <h2>Komponen Biaya Kos yang Sering Terlupakan</h2>
-    <p>Banyak pencari kos fokus pada harga sewa saja, padahal ada komponen biaya lain yang bisa signifikan. Di Jakarta dan kota besar, biaya listrik kos bisa mencapai Rp 150.000–Rp 500.000 per bulan tergantung penggunaan AC dan peralatan elektronik. Air biasanya Rp 30.000–Rp 100.000. Wi-Fi bisa gratis atau berbayar Rp 100.000–Rp 200.000. Deposit biasanya 1–2 bulan sewa yang (seharusnya) bisa kembali saat keluar.</p>
-    <h2>Cara Menggunakan Kalkulator Kos</h2>
+
+    <h2>Komponen Biaya Kos yang Wajib Diperhitungkan</h2>
+    <p>Banyak pencari kos hanya fokus pada harga sewa, padahal ada komponen biaya lain yang bisa cukup signifikan. Di Jakarta dan kota besar, biaya listrik kos bisa mencapai Rp 150.000–Rp 500.000 per bulan tergantung penggunaan AC dan peralatan elektronik. Air biasanya Rp 30.000–Rp 100.000. Wi-Fi bisa gratis atau berbayar Rp 100.000–Rp 200.000. Deposit biasanya 1 bulan sewa yang idealnya kembali saat keluar tanpa kerusakan. Hitung semua komponen ini sebelum memutuskan pilihan kos.</p>
+
+    <h2>Cara Menggunakan Kalkulator Kos Ini</h2>
     <ol>
-      <li>Masukkan <strong>sewa bulanan</strong></li>
-      <li>Jika ada opsi <strong>kontrak tahunan</strong>, masukkan harganya untuk perbandingan</li>
-      <li>Masukkan <strong>deposit</strong> yang diminta</li>
-      <li>Isi biaya <strong>listrik, air, dan Wi-Fi</strong> per bulan</li>
-      <li>Masukkan <strong>berapa lama</strong> Anda berencana tinggal</li>
-      <li>Klik <strong>"Hitung Total Biaya"</strong></li>
+      <li><strong>Tab Hitung Kos:</strong> Masukkan semua komponen biaya kos — sewa, deposit, listrik, air, Wi-Fi, dan rencana durasi tinggal. Lihat biaya bulanan all-in dan total selama masa tinggal, serta perbandingan dengan opsi kontrak tahunan jika ada.</li>
+      <li><strong>Tab Bandingkan 2 Kos:</strong> Masukkan detail dua pilihan kos termasuk jarak ke tempat kerja/kampus, lalu lihat perbandingan biaya total per bulan dan selama periode tinggal.</li>
+      <li><strong>Tab Budget Planner:</strong> Masukkan penghasilan dan semua pos pengeluaran bulanan untuk mengecek apakah biaya kos Anda masih dalam batas ideal, dan melihat sisa anggaran untuk tabungan.</li>
     </ol>
+
     <h2>Kisaran Harga Kos di Kota Besar Indonesia 2026</h2>
     <table>
-      <tr><th>Kota</th><th>Kos Standar</th><th>Kos AC</th><th>Kos Premium</th></tr>
+      <tr><th>Kota</th><th>Kos Standar (tanpa AC)</th><th>Kos AC</th><th>Kos Premium</th></tr>
       <tr><td>Jakarta (Jabodetabek)</td><td>Rp 700rb–1,5jt</td><td>Rp 1,5–3jt</td><td>Rp 3–8jt+</td></tr>
       <tr><td>Surabaya</td><td>Rp 500rb–1,2jt</td><td>Rp 1,2–2,5jt</td><td>Rp 2,5–5jt</td></tr>
       <tr><td>Bandung</td><td>Rp 500rb–1jt</td><td>Rp 1–2jt</td><td>Rp 2–4jt</td></tr>
       <tr><td>Yogyakarta</td><td>Rp 400rb–900rb</td><td>Rp 900rb–1,8jt</td><td>Rp 1,8–3,5jt</td></tr>
       <tr><td>Medan</td><td>Rp 400rb–900rb</td><td>Rp 900rb–2jt</td><td>Rp 2–4jt</td></tr>
     </table>
+
     <h2>Bulanan vs Kontrak Tahunan — Mana Lebih Hemat?</h2>
-    <p>Kontrak tahunan biasanya 10–25% lebih murah dari harga bulanan dikalikan 12 bulan. Jika Anda yakin tinggal lebih dari 10 bulan, kontrak tahunan hampir selalu lebih hemat. Namun risikonya: jika Anda harus pindah sebelum kontrak selesai, uang yang sudah dibayar umumnya tidak bisa dikembalikan. Hitung break-even point — berapa bulan minimum agar kontrak tahunan lebih menguntungkan.</p>
-    <h2>Tips Negosiasi Harga Kos yang Efektif</h2>
-    <p>Harga kos bukanlah harga mati. Beberapa strategi negosiasi yang terbukti berhasil:</p>
-    <ul>
-      <li><strong>Bayar kontrak tahunan di muka</strong> — Pemilik kos biasanya mau memberi diskon 10–20% jika Anda bayar setahun penuh di awal. Untuk kos Rp 1.500.000/bulan, penghematan bisa mencapai Rp 1,8–3,6 juta/tahun</li>
-      <li><strong>Datang langsung, jangan lewat aplikasi</strong> — Aplikasi cari kos seperti Mamikos mengambil komisi dari pemilik. Bertemu langsung seringkali memberi harga lebih baik</li>
-      <li><strong>Cari di akhir bulan</strong> — Pemilik yang unit kosnya belum terisi di akhir bulan biasanya lebih fleksibel dalam negosiasi</li>
-      <li><strong>Tawarkan diri jadi "humas"</strong> — Berjanji akan merekomendasikan ke teman jika harga cocok, sering menjadi nilai tawar tambahan</li>
-    </ul>
+    <p>Kontrak tahunan biasanya <strong>10–25% lebih murah</strong> dari harga bulanan dikalikan 12. Jika Anda yakin tinggal lebih dari 10 bulan, kontrak tahunan hampir selalu lebih hemat. Namun risikonya jelas: jika harus pindah sebelum kontrak berakhir, uang yang sudah dibayar umumnya tidak bisa dikembalikan. Gunakan fitur kalkulator untuk menghitung <em>break-even point</em> — berapa bulan minimum agar kontrak tahunan lebih menguntungkan.</p>
+
+    <h2>Berapa Ideal Anggaran Kos dari Gaji?</h2>
+    <p>Aturan umum perencanaan keuangan: total biaya tempat tinggal (kos + semua utilitas) sebaiknya tidak melebihi <strong>30% dari penghasilan bersih</strong> per bulan. Dengan UMP Jakarta 2026 sekitar Rp 5.396.761, batas ideal adalah sekitar Rp 1.619.000/bulan untuk biaya kos total. Jika biaya kos melebihi 30% gaji, pertimbangkan mencari teman sekamar (berbagi kos), pindah ke kawasan dengan harga lebih terjangkau, atau menambah penghasilan.</p>
 
     <h2>Hak dan Kewajiban Penghuni Kos di Indonesia</h2>
-    <p>Meski tidak ada UU khusus tentang kos-kosan, beberapa perlindungan hukum berlaku bagi penghuni:</p>
-    <ul>
-      <li><strong>Perjanjian tertulis</strong> — Pastikan ada kontrak tertulis yang mencantumkan harga, fasilitas, aturan, dan konsekuensi pelanggaran</li>
-      <li><strong>Deposit/uang jaminan</strong> — Lazimnya 1 bulan sewa. Harus dikembalikan saat keluar jika tidak ada kerusakan</li>
-      <li><strong>Pemberitahuan sebelum masuk kamar</strong> — Pemilik tidak boleh masuk kamar tanpa izin penghuni, kecuali darurat</li>
-      <li><strong>Kenaikan harga transparan</strong> — Pemilik harus memberi tahu kenaikan harga minimal 1 bulan sebelumnya</li>
-    </ul>
+    <p>Meski belum ada undang-undang khusus tentang kos-kosan di Indonesia, beberapa perlindungan hukum berlaku bagi penghuni kos. Pastikan selalu ada perjanjian tertulis yang mencantumkan harga, fasilitas, aturan, dan konsekuensi pelanggaran. Deposit atau uang jaminan lazimnya 1 bulan sewa dan harus dikembalikan saat berakhirnya perjanjian jika tidak ada kerusakan yang disebabkan penghuni. Pemilik kos tidak boleh masuk kamar tanpa izin penghuni kecuali dalam keadaan darurat. Kenaikan harga sewa harus diberitahukan minimal 1 bulan sebelumnya agar penghuni punya waktu untuk memutuskan.</p>
 
-    <h2>Perbandingan Kos vs Ngontrak vs Beli Rumah</h2>
-    <table>
-      <tr><th>Aspek</th><th>Kos</th><th>Ngontrak Rumah</th><th>Beli Rumah (KPR)</th></tr>
-      <tr><td>Modal awal</td><td>Deposit 1 bulan</td><td>6–12 bulan sewa</td><td>DP 10–30%</td></tr>
-      <tr><td>Fleksibilitas</td><td>Sangat tinggi</td><td>Sedang</td><td>Rendah</td></tr>
-      <tr><td>Fasilitas</td><td>Sudah tersedia</td><td>Perlu melengkapi</td><td>Perlu melengkapi</td></tr>
-      <tr><td>Cocok untuk</td><td>Mahasiswa, pekerja baru</td><td>Keluarga, pasangan</td><td>Jangka panjang</td></tr>
-      <tr><td>Membangun aset</td><td>Tidak</td><td>Tidak</td><td>Ya</td></tr>
-    </table>
+    <h2>Tips Negosiasi Harga Kos yang Efektif</h2>
+    <p>Harga kos bukanlah harga mati. Bayar kontrak tahunan di muka — pemilik biasanya mau memberi diskon 10–20%. Datang langsung daripada melalui aplikasi pencari kos (aplikasi mengambil komisi dari pemilik). Cari di akhir bulan saat pemilik dengan unit kosong lebih fleksibel. Tanyakan apakah ada diskon untuk pembayaran beberapa bulan sekaligus. Tawarkan komitmen jangka panjang — pemilik kos biasanya lebih suka penghuni yang stabil dan membayar tepat waktu.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah deposit kos harus dikembalikan?</div><div class="faq-a">Secara hukum perdata Indonesia, deposit (uang jaminan) harus dikembalikan saat berakhirnya perjanjian sewa, kecuali ada kerusakan yang menjadi tanggung jawab penyewa. Sayangnya banyak kasus deposit tidak dikembalikan penuh atau dengan alasan yang tidak jelas. Selalu minta kuitansi deposit tertulis dan dokumentasikan kondisi kamar saat masuk (foto/video) sebagai bukti jika ada sengketa.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung apakah kontrak tahunan lebih hemat?</div><div class="faq-a">Bandingkan: (sewa bulanan × 12) vs (harga kontrak tahunan). Jika sewa bulanan Rp 1.500.000 dan kontrak tahunan Rp 15.000.000 — selisihnya Rp 3.000.000. Artinya kontrak tahunan lebih hemat jika Anda tinggal minimal 10 bulan (karena sudah "impas" di bulan ke-10, dan bulan 11–12 menjadi keuntungan).</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Tips mencari kos yang baik dan aman?</div><div class="faq-a">Cek lokasi langsung sebelum bayar; perhatikan keamanan, kebersihan, dan akses transportasi. Tanyakan biaya listrik (per kWh atau flat), air (termasuk atau terpisah), dan Wi-Fi. Baca perjanjian sewa dengan teliti — perhatikan klausul kenaikan harga, pembatalan, dan denda. Cek review di platform seperti Mamikos, 99.co, atau komunitas lokal. Lebih baik kos sedikit lebih mahal tapi jujur soal biaya daripada harga murah tapi banyak biaya tersembunyi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah biaya listrik kos bisa dinegosiasi?</div><div class="faq-a">Bisa, terutama jika tarif listrik per kWh yang dikenakan jauh lebih tinggi dari tarif PLN (Rp 1.444/kWh untuk 1300VA). Beberapa pemilik kos mengenakan Rp 2.000–3.000/kWh yang merupakan keuntungan tambahan. Negosiasikan agar listrik dihitung sesuai tarif PLN, atau pilih kos dengan listrik flat yang sudah termasuk dalam harga sewa jika konsumsi Anda diprediksi rendah.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa ideal anggaran kos dari gaji?</div><div class="faq-a">Aturan umum: total biaya tempat tinggal (kos + semua utilitas) sebaiknya tidak lebih dari 30% dari penghasilan bersih per bulan. Dengan UMR Jakarta ~Rp 5.000.000, batas ideal adalah sekitar Rp 1.500.000/bulan untuk biaya kos total. Jika biaya kos di kota Anda melebihi 30% gaji, pertimbangkan berbagi kamar (share kos), pindah ke daerah pinggiran yang lebih terjangkau, atau menambah penghasilan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kos vs apartemen — mana yang lebih baik?</div><div class="faq-a">Kos umumnya lebih murah dan fleksibel (bisa bulanan), cocok untuk mahasiswa dan pekerja awal. Apartemen menawarkan privasi lebih, fasilitas lebih lengkap (gym, kolam renang), dan lebih cocok untuk jangka panjang atau pasangan. Dari sisi biaya, apartemen studio di Jakarta mulai Rp 3–5 juta/bulan, jauh lebih mahal dari kos standar. Pilih sesuai kebutuhan, durasi tinggal, dan kemampuan finansial.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah deposit kos harus dikembalikan?</div><div class="faq-a">Secara hukum perdata Indonesia, deposit (uang jaminan) harus dikembalikan saat berakhirnya perjanjian sewa, kecuali ada kerusakan yang menjadi tanggung jawab penyewa. Sayangnya banyak kasus deposit tidak dikembalikan penuh atau dengan alasan yang tidak jelas. Selalu minta kuitansi deposit tertulis dan dokumentasikan kondisi kamar saat pertama kali masuk (foto/video sebagai bukti) agar ada pegangan jika terjadi sengketa.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung apakah kontrak tahunan lebih hemat?</div><div class="faq-a">Bandingkan: (sewa bulanan × 12) dengan harga kontrak tahunan. Jika sewa bulanan Rp 1.500.000 dan kontrak tahunan Rp 15.000.000, selisihnya Rp 3.000.000 per tahun. Untuk break-even, hitung: harga kontrak tahunan ÷ sewa bulanan = jumlah bulan minimum. Di contoh ini: 15.000.000 ÷ 1.500.000 = 10 bulan. Artinya jika tinggal minimal 10 bulan, kontrak tahunan sudah impas, dan bulan ke-11 hingga ke-12 menjadi penghematan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Tips mencari kos yang aman dan tidak menguras kantong?</div><div class="faq-a">Selalu cek lokasi langsung sebelum membayar; perhatikan keamanan lingkungan, kebersihan, dan akses transportasi umum. Tanyakan secara detail biaya listrik (per kWh atau flat), air, dan Wi-Fi. Baca perjanjian sewa dengan teliti — perhatikan klausul kenaikan harga, pembatalan, dan denda. Cek ulasan di platform seperti Mamikos, 99.co, atau komunitas lokal. Kos sedikit lebih mahal tapi transparan soal biaya jauh lebih baik daripada kos murah dengan banyak biaya tersembunyi.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah biaya listrik kos bisa dinegosiasi?</div><div class="faq-a">Bisa, terutama jika tarif per kWh yang dikenakan jauh di atas tarif PLN standar (Rp 1.444/kWh untuk 1.300 VA). Beberapa pemilik kos mengenakan Rp 2.000–3.000/kWh yang merupakan keuntungan tambahan bagi mereka. Coba negosiasikan agar listrik dihitung sesuai tarif PLN, atau pilih kos dengan listrik flat yang sudah termasuk dalam harga sewa jika konsumsi Anda diperkirakan rendah.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa ideal anggaran kos dari gaji?</div><div class="faq-a">Aturan umum: total biaya tempat tinggal (kos + semua utilitas) sebaiknya tidak melebihi 30% dari penghasilan bersih per bulan. Dengan UMP DKI Jakarta 2026 sekitar Rp 5.396.761, batas idealnya sekitar Rp 1,6 juta/bulan untuk biaya kos total. Jika biaya kos di kota Anda melebihi 30% gaji, pertimbangkan berbagi kamar, pindah ke kawasan pinggiran yang lebih terjangkau, atau menambah penghasilan dari sampingan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kos vs apartemen — mana yang lebih cocok?</div><div class="faq-a">Kos umumnya lebih murah dan fleksibel (bisa kontrak bulanan), cocok untuk mahasiswa dan pekerja baru. Apartemen menawarkan privasi lebih, fasilitas lebih lengkap (gym, kolam renang), dan lebih cocok untuk jangka panjang atau pasangan. Dari sisi biaya, apartemen studio di Jakarta mulai Rp 3–5 juta/bulan, jauh lebih mahal dari kos standar. Pilih sesuai kebutuhan, durasi tinggal yang direncanakan, dan kemampuan finansial.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -130,45 +208,188 @@
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 <script defer>
-function fmt(n){ return 'Rp '+Math.round(n).toLocaleString('id-ID'); }
-function autoCalc(){ /* live update */ }
-function calculate(){
-  const sewaBulan = parseFloat(document.getElementById('sewa-bulan').value)||0;
-  const sewaTahun = parseFloat(document.getElementById('sewa-tahun').value)||0;
-  const deposit = parseFloat(document.getElementById('deposit').value)||0;
-  const listrik = parseFloat(document.getElementById('listrik').value)||0;
-  const air = parseFloat(document.getElementById('air').value)||0;
-  const wifi = parseFloat(document.getElementById('wifi').value)||0;
-  const durasi = parseInt(document.getElementById('durasi').value)||12;
-  if(!sewaBulan) return alert('Masukkan harga sewa bulanan.');
-  const utilitas = listrik + air + wifi;
-  const perBulan = sewaBulan + utilitas;
-  const sewaTotal = sewaBulan * durasi;
-  const totalKeseluruhan = sewaTotal + (utilitas * durasi) + deposit;
-
-  document.getElementById('res-total-bulan').textContent = fmt(totalKeseluruhan);
-  document.getElementById('res-per-bulan').textContent = fmt(perBulan)+'/bulan';
-  document.getElementById('res-sewa-total').textContent = fmt(sewaTotal)+' ('+durasi+' bln)';
-  document.getElementById('res-deposit').textContent = fmt(deposit);
-
-  if(sewaTahun > 0){
-    const sewaBulan12 = sewaBulan * 12;
-    const hemat = sewaBulan12 - sewaTahun;
-    document.getElementById('kontrak-row').style.display = '';
-    document.getElementById('breakeven-row').style.display = '';
-    if(hemat > 0){
-      document.getElementById('res-hemat').textContent = fmt(hemat)+'/tahun ✓';
-      const breakeven = Math.ceil(sewaTahun / sewaBulan);
-      document.getElementById('res-breakeven').textContent = breakeven+' bulan (tinggal min. '+breakeven+' bln agar hemat)';
-    } else {
-      document.getElementById('res-hemat').textContent = 'Kontrak tahunan lebih mahal! Pilih bulanan.';
-      document.getElementById('res-breakeven').textContent = '—';
-    }
-  }
-  document.getElementById('result').classList.add('show');
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
-function toggleFaq(el){ el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); });
+function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+
+function calculateKos() {
+  const sewa    = parseFloat(document.getElementById('sewa-bulan').value) || 0;
+  const sewaThn = parseFloat(document.getElementById('sewa-tahun').value) || 0;
+  const deposit = parseFloat(document.getElementById('deposit').value) || 0;
+  const listrik = parseFloat(document.getElementById('listrik').value) || 0;
+  const air     = parseFloat(document.getElementById('air').value) || 0;
+  const wifi    = parseFloat(document.getElementById('wifi').value) || 0;
+  const durasi  = parseInt(document.getElementById('durasi').value) || 12;
+
+  if (!sewa) { alert('Masukkan harga sewa bulanan.'); return; }
+
+  const utilitas   = listrik + air + wifi;
+  const perBulan   = sewa + utilitas;
+  const sewaTotal  = sewa * durasi;
+  const total      = sewaTotal + (utilitas * durasi) + deposit;
+
+  document.getElementById('res-total').textContent    = fmt(total);
+  document.getElementById('res-per-bulan').textContent= fmt(perBulan) + '/bulan';
+  document.getElementById('res-sewa-total').textContent = fmt(sewaTotal) + ' (' + durasi + ' bln)';
+  document.getElementById('res-deposit').textContent  = fmt(deposit);
+
+  // Cost breakdown bar
+  const segs = [
+    { label: 'Sewa', val: sewa, color: '#00C9B1' },
+    { label: 'Listrik', val: listrik, color: '#3b82f6' },
+    { label: 'Air', val: air, color: '#8b5cf6' },
+    { label: 'Wi-Fi', val: wifi, color: '#f59e0b' },
+  ].filter(s => s.val > 0);
+  let barHtml = '', legHtml = '';
+  segs.forEach(s => {
+    const pct = (s.val / perBulan * 100).toFixed(1);
+    barHtml += `<div class="cb-seg" style="background:${s.color};width:${pct}%"></div>`;
+    legHtml += `<span><span class="leg-dot" style="background:${s.color}"></span>${s.label} ${pct}%</span>`;
+  });
+  document.getElementById('cost-bar').innerHTML   = barHtml;
+  document.getElementById('cost-legend').innerHTML = legHtml;
+
+  if (sewaThn > 0) {
+    const hemat = (sewa * 12) - sewaThn;
+    const be    = Math.ceil(sewaThn / sewa);
+    document.getElementById('hemat-row').style.display = '';
+    document.getElementById('be-row').style.display    = '';
+    document.getElementById('res-hemat').textContent = hemat > 0
+      ? fmt(hemat) + '/tahun ✅ Kontrak tahunan lebih hemat'
+      : 'Kontrak tahunan lebih mahal! Pilih bulanan.';
+    document.getElementById('res-be').textContent = be + ' bulan (tinggal minimal ' + be + ' bulan agar impas)';
+  } else {
+    document.getElementById('hemat-row').style.display = 'none';
+    document.getElementById('be-row').style.display    = 'none';
+  }
+  document.getElementById('res-kos').classList.add('show');
+}
+
+function calculateBanding() {
+  const dur    = parseInt(document.getElementById('cmp-durasi').value) || 12;
+  const tpkm   = parseFloat(document.getElementById('cmp-transport').value) || 5000;
+  const wdays  = 22; // hari kerja/bulan
+
+  function getTotalA() {
+    const s = parseFloat(document.getElementById('a-sewa').value) || 0;
+    const l = parseFloat(document.getElementById('a-listrik').value) || 0;
+    const a = parseFloat(document.getElementById('a-air').value) || 0;
+    const w = parseFloat(document.getElementById('a-wifi').value) || 0;
+    const d = parseFloat(document.getElementById('a-deposit').value) || 0;
+    const j = parseFloat(document.getElementById('a-jarak').value) || 0;
+    const transport = j * 2 * tpkm * wdays; // pulang pergi
+    return { perBulan: s + l + a + w + transport, deposit: d, transport };
+  }
+  function getTotalB() {
+    const s = parseFloat(document.getElementById('b-sewa').value) || 0;
+    const l = parseFloat(document.getElementById('b-listrik').value) || 0;
+    const a = parseFloat(document.getElementById('b-air').value) || 0;
+    const w = parseFloat(document.getElementById('b-wifi').value) || 0;
+    const d = parseFloat(document.getElementById('b-deposit').value) || 0;
+    const j = parseFloat(document.getElementById('b-jarak').value) || 0;
+    const transport = j * 2 * tpkm * wdays;
+    return { perBulan: s + l + a + w + transport, deposit: d, transport };
+  }
+
+  const A = getTotalA(), B = getTotalB();
+  if (!A.perBulan && !B.perBulan) { alert('Masukkan data setidaknya satu kos.'); return; }
+
+  const totalA = A.perBulan * dur + A.deposit;
+  const totalB = B.perBulan * dur + B.deposit;
+  const winner = totalA <= totalB ? 'A' : 'B';
+  const diff   = Math.abs(totalA - totalB);
+
+  document.getElementById('banding-summary').innerHTML =
+    `🏆 <strong>Kos ${winner} lebih hemat</strong> selama ${dur} bulan dengan selisih <strong style="color:#00C9B1">${fmt(diff)}</strong> (termasuk estimasi transportasi).`;
+  document.getElementById('banding-summary').style.background = 'rgba(0,201,177,.08)';
+  document.getElementById('banding-summary').style.border = '1px solid rgba(0,201,177,.2)';
+
+  document.getElementById('compare-cards').innerHTML = `
+    <div class="cmp-card${winner === 'A' ? ' winner' : ''}">
+      ${winner === 'A' ? '<div class="winner-badge">✓ Lebih hemat</div>' : ''}
+      <div class="cmp-name">Kos A</div>
+      <div class="cmp-val">${fmt(A.perBulan)}/bln</div>
+      <div class="cmp-sub">Total ${dur}bln: ${fmt(totalA)}</div>
+      ${A.transport > 0 ? `<div class="cmp-sub">Incl. transport: ${fmt(A.transport)}/bln</div>` : ''}
+    </div>
+    <div class="cmp-card${winner === 'B' ? ' winner' : ''}">
+      ${winner === 'B' ? '<div class="winner-badge">✓ Lebih hemat</div>' : ''}
+      <div class="cmp-name">Kos B</div>
+      <div class="cmp-val">${fmt(B.perBulan)}/bln</div>
+      <div class="cmp-sub">Total ${dur}bln: ${fmt(totalB)}</div>
+      ${B.transport > 0 ? `<div class="cmp-sub">Incl. transport: ${fmt(B.transport)}/bln</div>` : ''}
+    </div>`;
+
+  document.getElementById('res-banding').style.display = 'block';
+}
+
+function calculateBudget() {
+  const income    = parseFloat(document.getElementById('bp-income').value) || 0;
+  const kos       = parseFloat(document.getElementById('bp-kos').value) || 0;
+  const makan     = parseFloat(document.getElementById('bp-makan').value) || 0;
+  const transport = parseFloat(document.getElementById('bp-transport').value) || 0;
+  const other     = parseFloat(document.getElementById('bp-other').value) || 0;
+
+  if (!income || !kos) { alert('Masukkan penghasilan dan biaya kos.'); return; }
+
+  const totalExp   = kos + makan + transport + other;
+  const sisa       = income - totalExp;
+  const kosRatio   = kos / income * 100;
+  const idealRatio = 30;
+  const status     = kosRatio <= idealRatio ? '✅ Ideal' : kosRatio <= 40 ? '⚠️ Agak tinggi' : '❌ Terlalu tinggi';
+
+  const summaryColor = kosRatio <= 30 ? '#00C9B1' : kosRatio <= 40 ? '#f59e0b' : '#ef4444';
+  document.getElementById('bp-summary').innerHTML =
+    `Biaya kos Anda <strong>${kosRatio.toFixed(1)}%</strong> dari penghasilan — <strong style="color:${summaryColor}">${status}</strong> (ideal: ≤30%). Sisa setelah semua pengeluaran: <strong style="color:${sisa >= 0 ? '#00C9B1' : '#ef4444'}">${fmt(sisa)}/bulan</strong>.`;
+  document.getElementById('bp-summary').style.background = `rgba(${kosRatio <= 30 ? '0,201,177' : kosRatio <= 40 ? '245,158,11' : '239,68,68'},.08)`;
+  document.getElementById('bp-summary').style.border = `1px solid rgba(${kosRatio <= 30 ? '0,201,177' : kosRatio <= 40 ? '245,158,11' : '239,68,68'},.2)`;
+
+  const items = [
+    { label: 'Kos all-in', val: kos, color: '#00C9B1' },
+    { label: 'Makan', val: makan, color: '#3b82f6' },
+    { label: 'Transportasi', val: transport, color: '#8b5cf6' },
+    { label: 'Lain-lain', val: other, color: '#f59e0b' },
+  ].filter(i => i.val > 0);
+
+  document.getElementById('bp-items').innerHTML = items.map(i => `
+    <div class="budget-item">
+      <span><span class="leg-dot" style="background:${i.color}"></span>${i.label}</span>
+      <span>${fmt(i.val)} (${(i.val/income*100).toFixed(1)}%)</span>
+    </div>
+  `).join('') + `<div class="budget-item" style="font-weight:700;color:${sisa>=0?'#00C9B1':'#ef4444'}">
+    <span>Sisa / Tabungan</span><span>${fmt(sisa)}</span>
+  </div>`;
+
+  let barHtml = '', legHtml = '';
+  items.forEach(i => {
+    const pct = (i.val / income * 100).toFixed(1);
+    barHtml += `<div class="cb-seg" style="background:${i.color};width:${pct}%"></div>`;
+    legHtml += `<span><span class="leg-dot" style="background:${i.color}"></span>${i.label} ${pct}%</span>`;
+  });
+  if (sisa > 0) {
+    barHtml += `<div class="cb-seg" style="background:#374151;width:${(sisa/income*100).toFixed(1)}%"></div>`;
+    legHtml += `<span><span class="leg-dot" style="background:#374151"></span>Sisa ${(sisa/income*100).toFixed(1)}%</span>`;
+  }
+  document.getElementById('bp-bar').innerHTML    = barHtml;
+  document.getElementById('bp-legend').innerHTML = legHtml;
+
+  const advice = kosRatio > 40
+    ? '💡 Biaya kos Anda terlalu tinggi. Pertimbangkan mencari teman sekamar untuk berbagi biaya, pindah ke lokasi yang lebih terjangkau, atau menambah penghasilan dari pekerjaan sampingan.'
+    : kosRatio > 30
+    ? '💡 Biaya kos sedikit di atas ideal. Coba negosiasi harga atau kurangi biaya utilitas (hemat listrik, minta Wi-Fi dimasukkan ke sewa).'
+    : sisa < income * 0.1
+    ? '💡 Sisa penghasilan Anda tipis. Prioritaskan menabung minimal 10% dari gaji — mulai dengan nominal kecil dan tingkatkan seiring waktu.'
+    : '✅ Alokasi keuangan Anda terlihat sehat. Pastikan sisa penghasilan diinvestasikan, tidak hanya tersimpan di rekening biasa.';
+  document.getElementById('bp-advice').textContent = advice;
+  document.getElementById('res-budget').style.display = 'block';
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculateKos(); });
 </script>
 </body>
 </html>
