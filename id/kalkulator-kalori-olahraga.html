@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Kalori Olahraga 2026 — Hitung Kalori Terbakar Saat Olahraga | NovaCalcs</title>
-<meta name="description" content="Hitung kalori yang terbakar saat olahraga berdasarkan jenis aktivitas, durasi, dan berat badan Anda. Tersedia 30+ jenis olahraga populer."/>
-<meta name="keywords" content="kalkulator kalori olahraga, kalori terbakar, hitung kalori lari, kalori bersepeda, kalori renang, olahraga kalori"/>
+<title>Kalkulator Kalori Olahraga 2026 — Hitung Kalori Terbakar + Planner Mingguan | NovaCalcs</title>
+<meta name="description" content="Hitung kalori yang terbakar saat olahraga berdasarkan MET, berat badan, dan durasi. Multi-aktivitas, setara makanan, dan planner olahraga mingguan untuk defisit kalori."/>
+<meta name="keywords" content="kalkulator kalori olahraga, kalori terbakar lari, MET olahraga, planner olahraga mingguan, bakar kalori, defisit kalori, kalori bersepeda renang"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kalori-olahraga.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kalori-olahraga.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,6 +13,83 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Kalori Olahraga","url":"https://novacalcs.com/id/kalkulator-kalori-olahraga.html","description":"Kalkulator kalori olahraga dengan multi-aktivitas dan planner mingguan","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Tabs */
+.ol-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.ol-tab  { flex:1; padding:8px 6px; font-size:.74rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
+.ol-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
+.ol-panel { display:none; }
+.ol-panel.active { display:block; }
+
+/* Big kalori display */
+.ol-main  { text-align:center; padding:14px 0 8px; }
+.ol-num   { font-size:2.4rem; font-weight:700; color:var(--mint); line-height:1; }
+.ol-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Stats */
+.ol-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.os-card  { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.os-card .oc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.os-card .oc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.os-card.green .oc-val { color:var(--mint); }
+.os-card.orange .oc-val{ color:#f97316; }
+
+/* Food equivalents */
+.food-equiv { display:grid; gap:6px; margin-top:10px; }
+.fe-row { background:var(--bg-input); border-radius:var(--radius-sm); padding:8px 12px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:.8rem; }
+.fe-name { color:var(--text-secondary); }
+.fe-val  { color:var(--mint); font-weight:700; }
+
+/* Fat burn progress */
+.fat-bar-wrap { margin:12px 0 6px; }
+.fat-bar-track { height:14px; border-radius:7px; background:var(--bg-input); overflow:hidden; }
+.fat-bar-fill  { height:100%; border-radius:7px; background:var(--mint); transition:width .7s; }
+
+/* MET comparison bars */
+.met-bars { margin-top:10px; }
+.met-row  { display:flex; align-items:center; gap:8px; padding:4px 0; border-bottom:1px solid rgba(255,255,255,.03); font-size:.76rem; }
+.met-row:last-child { border-bottom:none; }
+.met-name  { min-width:130px; color:var(--text-secondary); font-size:.7rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.met-track { flex:1; height:10px; background:var(--bg-card); border-radius:5px; overflow:hidden; }
+.met-fill  { height:100%; border-radius:5px; background:var(--mint); transition:width .5s; }
+.met-kcal  { min-width:70px; text-align:right; font-weight:600; color:var(--mint); font-size:.73rem; }
+
+/* Activity rows (multi-session) */
+.act-row { display:grid; grid-template-columns:1fr 90px 70px 32px; gap:6px; align-items:center; margin-bottom:6px; }
+.act-row select, .act-row input { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:7px 8px; color:var(--text-primary); font-size:.78rem; width:100%; }
+.act-del { background:rgba(248,113,113,.12); border:1px solid rgba(248,113,113,.25); color:#f87171; border-radius:var(--radius-sm); cursor:pointer; font-size:1rem; padding:5px; }
+.act-hdr { display:grid; grid-template-columns:1fr 90px 70px 32px; gap:6px; font-size:.65rem; color:var(--text-muted); margin-bottom:4px; }
+
+/* Weekly plan */
+.week-day { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); margin-bottom:6px; }
+.wd-name  { font-size:.78rem; font-weight:700; color:var(--text-primary); margin-bottom:6px; }
+.wd-row   { display:grid; grid-template-columns:1fr 80px; gap:6px; }
+.wd-row select, .wd-row input { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:5px 8px; color:var(--text-primary); font-size:.76rem; width:100%; }
+
+/* Weekly result bars */
+.weekly-bar-wrap { margin-top:12px; }
+.wb-row  { display:flex; align-items:center; gap:8px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,.03); font-size:.76rem; }
+.wb-row:last-child { border-bottom:none; }
+.wb-day   { min-width:65px; color:var(--text-secondary); font-size:.7rem; }
+.wb-track { flex:1; height:10px; background:var(--bg-card); border-radius:5px; overflow:hidden; }
+.wb-fill  { height:100%; border-radius:5px; background:var(--mint); }
+.wb-val   { min-width:75px; text-align:right; font-weight:600; color:var(--mint); font-size:.73rem; }
+
+/* Deficit progress */
+.deficit-box { background:rgba(0,201,177,.07); border:1px solid rgba(0,201,177,.2); border-radius:var(--radius-sm); padding:12px 14px; margin-top:10px; }
+.db-num   { font-size:1.3rem; font-weight:700; color:var(--mint); }
+.db-label { font-size:.72rem; color:var(--text-secondary); }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
+</style>
 </head>
 <body>
 
@@ -30,180 +107,248 @@
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🏃 Kalkulator Kalori Olahraga</div>
-      <div class="calc-subtitle">Hitung kalori yang terbakar saat berolahraga</div>
+      <div class="calc-title">🏃 Kalkulator Kalori Olahraga 2026</div>
+      <div class="calc-subtitle">Hitung kalori · Multi-aktivitas · Planner mingguan</div>
 
-      <div class="field">
-        <label>Berat Badan (kg)</label>
-        <input type="number" id="weight" placeholder="Contoh: 65" min="20" max="300"/>
-      </div>
-      <div class="field">
-        <label>Jenis Olahraga</label>
-        <select id="exercise">
-          <optgroup label="🏃 Kardio">
-            <option value="8.0">Lari (8 km/jam — jogging)</option>
-            <option value="11.0">Lari (12 km/jam — cepat)</option>
-            <option value="14.5">Lari (16 km/jam — sprint)</option>
-            <option value="3.5">Jalan santai (5 km/jam)</option>
-            <option value="5.0">Jalan cepat (7 km/jam)</option>
-            <option value="7.0">Bersepeda (16–19 km/jam)</option>
-            <option value="10.0">Bersepeda (22–25 km/jam)</option>
-            <option value="6.0">Renang (gaya bebas, sedang)</option>
-            <option value="9.8">Renang (gaya bebas, cepat)</option>
-            <option value="8.0">Lompat tali (sedang)</option>
-          </optgroup>
-          <optgroup label="💪 Latihan Kekuatan">
-            <option value="3.5">Angkat beban (ringan)</option>
-            <option value="5.0">Angkat beban (sedang)</option>
-            <option value="6.0">Angkat beban (berat/intensif)</option>
-            <option value="5.0">Push-up / sit-up (sedang)</option>
-            <option value="8.0">CrossFit / HIIT</option>
-          </optgroup>
-          <optgroup label="🧘 Olahraga Santai">
-            <option value="2.5">Yoga / Pilates</option>
-            <option value="3.0">Peregangan / Stretching</option>
-            <option value="4.0">Senam aerobik</option>
-            <option value="5.0">Zumba</option>
-            <option value="4.0">Bulu tangkis (kasual)</option>
-            <option value="7.0">Bulu tangkis (kompetitif)</option>
-            <option value="7.0">Futsal / Sepak bola</option>
-            <option value="6.0">Basket</option>
-            <option value="4.5">Voli</option>
-            <option value="6.0">Tennis</option>
-          </optgroup>
-          <optgroup label="🏠 Aktivitas Sehari-hari">
-            <option value="3.5">Berkebun</option>
-            <option value="2.5">Menyapu / Mengepel</option>
-            <option value="4.0">Naik turun tangga</option>
-            <option value="2.0">Berdiri aktif</option>
-          </optgroup>
-        </select>
-      </div>
-      <div class="field">
-        <label>Durasi (menit)</label>
-        <input type="number" id="duration" placeholder="Contoh: 45" min="1" max="600"/>
+      <div class="ol-tabs">
+        <div class="ol-tab active" onclick="switchTab(0,this)">🏃 Satu Aktivitas</div>
+        <div class="ol-tab" onclick="switchTab(1,this)">⚡ Multi-Aktivitas</div>
+        <div class="ol-tab" onclick="switchTab(2,this)">📅 Planner Mingguan</div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Kalori Terbakar</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-cal">—</div>
-          <div class="result-label">Kalori terbakar (kkal)</div>
+      <!-- TAB 0: Satu aktivitas -->
+      <div class="ol-panel active" id="op0">
+        <div class="field"><label>Berat Badan (kg)</label>
+          <input type="number" id="weight0" placeholder="Contoh: 65" min="20" max="300" oninput="autoCalc0()"/>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Per menit</span><span class="rval" id="res-per-min">—</span></div>
-          <div class="result-row"><span class="rkey">Setara makanan</span><span class="rval" id="res-food">—</span></div>
-          <div class="result-row"><span class="rkey">Untuk bakar 1 kg lemak</span><span class="rval" id="res-fat">—</span></div>
+        <div class="field">
+          <label>Jenis Olahraga / Aktivitas</label>
+          <select id="exercise0" onchange="autoCalc0()">
+            <optgroup label="🏃 Kardio">
+              <option value="3.5">Jalan santai (5 km/jam)</option>
+              <option value="5.0">Jalan cepat (7 km/jam)</option>
+              <option value="8.0" selected>Lari / Jogging (8 km/jam)</option>
+              <option value="11.0">Lari cepat (12 km/jam)</option>
+              <option value="14.5">Sprint (16 km/jam+)</option>
+              <option value="7.0">Bersepeda (16–19 km/jam)</option>
+              <option value="10.0">Bersepeda (22–25 km/jam)</option>
+              <option value="6.0">Renang gaya bebas (sedang)</option>
+              <option value="9.8">Renang gaya bebas (cepat)</option>
+              <option value="8.0">Lompat tali</option>
+            </optgroup>
+            <optgroup label="💪 Latihan Kekuatan">
+              <option value="3.5">Angkat beban (ringan)</option>
+              <option value="5.0">Angkat beban (sedang)</option>
+              <option value="6.0">Angkat beban (berat)</option>
+              <option value="5.0">Push-up / sit-up (sedang)</option>
+              <option value="8.0">CrossFit / HIIT</option>
+            </optgroup>
+            <optgroup label="🧘 Olahraga Santai & Permainan">
+              <option value="2.5">Yoga / Pilates</option>
+              <option value="3.0">Peregangan / Stretching</option>
+              <option value="4.0">Senam aerobik</option>
+              <option value="5.0">Zumba</option>
+              <option value="4.0">Bulu tangkis (kasual)</option>
+              <option value="7.0">Bulu tangkis (kompetitif)</option>
+              <option value="7.0">Futsal / Sepak bola</option>
+              <option value="6.0">Basket</option>
+              <option value="4.5">Voli</option>
+              <option value="6.0">Tenis</option>
+            </optgroup>
+            <optgroup label="🏠 Aktivitas Sehari-hari">
+              <option value="3.5">Berkebun</option>
+              <option value="2.5">Menyapu / Mengepel</option>
+              <option value="4.0">Naik turun tangga</option>
+              <option value="2.0">Berdiri aktif</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field"><label>Durasi (menit)</label>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+            <div class="radio-btn" onclick="setDur(15,this)" style="font-size:.72rem">15 mnt</div>
+            <div class="radio-btn" onclick="setDur(30,this)" style="font-size:.72rem">30 mnt</div>
+            <div class="radio-btn active" onclick="setDur(45,this)" style="font-size:.72rem">45 mnt</div>
+            <div class="radio-btn" onclick="setDur(60,this)" style="font-size:.72rem">60 mnt</div>
+          </div>
+          <input type="number" id="duration0" value="45" min="1" max="600" oninput="autoCalc0()"/>
+        </div>
+        <button class="calc-btn" onclick="calcSingle()">🔥 Hitung Kalori Terbakar</button>
+
+        <div class="result-box" id="res0" style="display:none">
+          <div class="ol-main">
+            <div class="ol-num" id="r0-cal">—</div>
+            <div class="ol-label">kalori terbakar (kkal)</div>
+          </div>
+
+          <!-- Stats -->
+          <div class="ol-stats">
+            <div class="os-card"><div class="oc-label">Per menit</div><div class="oc-val" id="r0-permin">—</div></div>
+            <div class="os-card orange"><div class="oc-label">MET aktivitas ini</div><div class="oc-val" id="r0-met">—</div></div>
+            <div class="os-card"><div class="oc-label">Sesi untuk bakar 1 kg lemak</div><div class="oc-val" id="r0-sesi">—</div></div>
+            <div class="os-card green"><div class="oc-label">Setara kalori berjalan (kaki)</div><div class="oc-val" id="r0-jalan">—</div></div>
+          </div>
+
+          <!-- Fat burn progress -->
+          <div class="fat-bar-wrap">
+            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-secondary);margin-bottom:5px">
+              <span>Kontribusi menuju defisit 1 kg lemak (7.700 kkal)</span>
+              <span id="r0-fat-pct" style="color:var(--mint);font-weight:700">—%</span>
+            </div>
+            <div class="fat-bar-track"><div class="fat-bar-fill" id="r0-fat-bar" style="width:0%"></div></div>
+          </div>
+
+          <!-- Food equivalents -->
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px">🍽️ Setara dengan makanan</div>
+          <div class="food-equiv" id="r0-foods"></div>
+
+          <!-- MET comparison -->
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px">📊 Perbandingan dengan olahraga lain (durasi sama)</div>
+          <div class="met-bars" id="r0-met-bars"></div>
+
+          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
       </div>
+
+      <!-- TAB 1: Multi-aktivitas -->
+      <div class="ol-panel" id="op1">
+        <div class="field"><label>Berat Badan (kg)</label>
+          <input type="number" id="weight1" placeholder="Contoh: 65" oninput="calcMulti()"/>
+        </div>
+        <div style="margin:10px 0">
+          <div class="act-hdr"><span>Aktivitas</span><span>Durasi (mnt)</span><span>Kalori</span><span></span></div>
+          <div id="act-rows"></div>
+          <button class="add-btn" onclick="addActivity()">+ Tambah Aktivitas</button>
+        </div>
+        <button class="calc-btn" onclick="calcMulti()">⚡ Hitung Total Kalori</button>
+        <div class="result-box" id="res1" style="display:none">
+          <div class="ol-main">
+            <div class="ol-num" id="r1-total">—</div>
+            <div class="ol-label">total kalori sesi ini</div>
+          </div>
+          <div class="ol-stats">
+            <div class="os-card"><div class="oc-label">Total durasi</div><div class="oc-val" id="r1-dur">—</div></div>
+            <div class="os-card green"><div class="oc-label">Rata-rata kalori/menit</div><div class="oc-val" id="r1-avg">—</div></div>
+          </div>
+          <div id="r1-act-detail" style="margin-top:10px;"></div>
+          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Weekly planner -->
+      <div class="ol-panel" id="op2">
+        <div class="field"><label>Berat Badan (kg)</label>
+          <input type="number" id="weight2" placeholder="Contoh: 65" oninput="calcWeekly()"/>
+        </div>
+        <div class="field"><label>Target Defisit Kalori per Minggu (kkal) — opsional</label>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+            <div class="radio-btn" onclick="setDefisit(1000,this)" style="font-size:.72rem">1.000</div>
+            <div class="radio-btn" onclick="setDefisit(2000,this)" style="font-size:.72rem">2.000</div>
+            <div class="radio-btn active" onclick="setDefisit(3500,this)" style="font-size:.72rem">3.500</div>
+          </div>
+          <input type="number" id="target-deficit" value="3500" oninput="calcWeekly()"/>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">3.500 kkal/minggu ≈ turun 0,5 kg/minggu dari olahraga</p>
+        </div>
+        <div id="week-plan"></div>
+        <button class="calc-btn" onclick="calcWeekly()">📅 Hitung Rencana Mingguan</button>
+
+        <div class="result-box" id="res2" style="display:none">
+          <div class="deficit-box">
+            <div class="db-num" id="r2-weekly-cal">—</div>
+            <div class="db-label">total kalori terbakar per minggu</div>
+          </div>
+          <div class="ol-stats" style="margin-top:10px">
+            <div class="os-card green"><div class="oc-label">Estimasi penurunan BB/minggu</div><div class="oc-val" id="r2-weight-loss">—</div></div>
+            <div class="os-card"><div class="oc-label">Hari aktif per minggu</div><div class="oc-val" id="r2-active-days">—</div></div>
+          </div>
+
+          <!-- Progress vs target -->
+          <div style="font-size:.7rem;color:var(--text-secondary);display:flex;justify-content:space-between;margin:12px 0 5px">
+            <span>Progress vs target defisit</span>
+            <span id="r2-deficit-pct" style="color:var(--mint);font-weight:700">—%</span>
+          </div>
+          <div class="fat-bar-track"><div class="fat-bar-fill" id="r2-deficit-bar" style="width:0%"></div></div>
+
+          <!-- Day bars -->
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px">Kalori per hari</div>
+          <div class="weekly-bar-wrap" id="r2-day-bars"></div>
+
+          <div id="r2-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Kalori Olahraga — Hitung Kalori Terbakar dari 30+ Jenis Aktivitas</h1>
-    <p class="page-desc">Ingin tahu berapa kalori yang terbakar saat jogging, bersepeda, atau renang? Kalkulator ini menghitung pengeluaran kalori secara akurat berdasarkan berat badan, jenis olahraga, dan durasi Anda.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Kalori Olahraga 2026 — Hitung Kalori Terbakar dari 30+ Aktivitas</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung kalori yang terbakar saat jogging, bersepeda, renang, dan 30+ jenis olahraga lainnya. Tersedia mode multi-aktivitas untuk satu sesi, planner mingguan dengan estimasi penurunan berat badan, dan perbandingan MET antar olahraga.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Cara Menghitung Kalori yang Terbakar Saat Olahraga</h2>
-    <p>Pengeluaran kalori saat olahraga dihitung menggunakan nilai MET (Metabolic Equivalent of Task). MET adalah rasio antara laju metabolisme saat beraktivitas dibandingkan saat istirahat. Semakin tinggi nilai MET, semakin banyak kalori yang dibakar.</p>
-    <p>Rumus yang digunakan secara ilmiah adalah:</p>
-    <table>
-      <tr><th>Rumus</th><th>Keterangan</th></tr>
-      <tr><td><strong>Kalori = MET × Berat (kg) × Durasi (jam)</strong></td><td>Rumus standar MET</td></tr>
-    </table>
-    <p style="margin-top:0.75rem">Contoh: Jogging (MET 8,0) selama 45 menit oleh orang 65 kg: 8,0 × 65 × 0,75 = <strong>390 kkal</strong></p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li>Masukkan <strong>berat badan</strong> Anda saat ini dalam kg</li>
-      <li>Pilih <strong>jenis olahraga</strong> dari daftar yang tersedia</li>
-      <li>Masukkan <strong>durasi olahraga</strong> dalam menit</li>
-      <li>Klik <strong>"Hitung Kalori Terbakar"</strong></li>
-      <li>Lihat hasil lengkap termasuk perbandingan dengan makanan umum</li>
-    </ol>
-
-    <h2>Tabel MET Berbagai Jenis Olahraga</h2>
-    <table>
-      <tr><th>Olahraga</th><th>Nilai MET</th><th>Intensitas</th></tr>
-      <tr><td>Jalan santai</td><td>3,5</td><td>Rendah</td></tr>
-      <tr><td>Jalan cepat</td><td>5,0</td><td>Sedang</td></tr>
-      <tr><td>Jogging (8 km/jam)</td><td>8,0</td><td>Sedang-Tinggi</td></tr>
-      <tr><td>Lari cepat (12 km/jam)</td><td>11,0</td><td>Tinggi</td></tr>
-      <tr><td>Bersepeda (sedang)</td><td>7,0</td><td>Sedang</td></tr>
-      <tr><td>Renang gaya bebas</td><td>6,0–9,8</td><td>Sedang-Tinggi</td></tr>
-      <tr><td>HIIT / CrossFit</td><td>8,0</td><td>Sangat Tinggi</td></tr>
-      <tr><td>Yoga</td><td>2,5</td><td>Rendah</td></tr>
-      <tr><td>Bulu tangkis kompetitif</td><td>7,0</td><td>Tinggi</td></tr>
-    </table>
-
-    <h2>Olahraga Terbaik untuk Membakar Kalori</h2>
-    <p>Bagi yang ingin menurunkan berat badan, olahraga dengan intensitas tinggi tentu membakar lebih banyak kalori. Namun yang paling penting adalah konsistensi dan kenyamanan. Olahraga yang Anda nikmati jauh lebih efektif daripada olahraga intens yang hanya dilakukan seminggu sekali. Lari dan renang adalah pilihan terbaik dari sisi efisiensi kalori, sementara bulu tangkis dan futsal sangat populer di Indonesia karena menyenangkan sekaligus efektif membakar kalori.</p>
-
-    <h2>Olahraga Populer di Indonesia dan Kalori yang Terbakar</h2>
-    <p>Berikut referensi kalori yang terbakar dari olahraga yang umum dilakukan di Indonesia, untuk berat badan 65 kg selama 30 menit:</p>
-    <table>
-      <tr><th>Olahraga</th><th>Kalori (30 menit)</th><th>MET</th></tr>
-      <tr><td>Jalan santai</td><td>~110 kkal</td><td>2,8</td></tr>
-      <tr><td>Jalan cepat</td><td>~165 kkal</td><td>4,3</td></tr>
-      <tr><td>Lari 8 km/jam</td><td>~295 kkal</td><td>7,5</td></tr>
-      <tr><td>Bersepeda santai</td><td>~195 kkal</td><td>5,0</td></tr>
-      <tr><td>Renang gaya bebas</td><td>~250 kkal</td><td>6,0</td></tr>
-      <tr><td>Badminton</td><td>~210 kkal</td><td>5,5</td></tr>
-      <tr><td>Futsal</td><td>~295 kkal</td><td>7,0</td></tr>
-      <tr><td>Senam aerobik</td><td>~220 kkal</td><td>5,5</td></tr>
-      <tr><td>Zumba</td><td>~240 kkal</td><td>6,0</td></tr>
-      <tr><td>Yoga</td><td>~110 kkal</td><td>2,5–3,0</td></tr>
-      <tr><td>Angkat beban (sedang)</td><td>~175 kkal</td><td>4,5</td></tr>
-      <tr><td>HIIT</td><td>~320 kkal</td><td>8,0</td></tr>
-    </table>
-
-    <h2>Mengapa Kalori yang Terbakar Bervariasi Antar Orang?</h2>
-    <p>Dua orang yang melakukan olahraga yang sama bisa membakar kalori yang berbeda signifikan karena:</p>
+    <h2>Cara Menghitung Kalori Olahraga — Rumus MET</h2>
+    <p>Kalkulator ini menggunakan nilai MET (Metabolic Equivalent of Task) dari <em>Compendium of Physical Activities</em>, referensi standar internasional. MET mengukur intensitas aktivitas relatif terhadap kondisi istirahat:</p>
     <ul>
-      <li><strong>Berat badan</strong> — Orang yang lebih berat membakar lebih banyak kalori untuk gerakan yang sama (harus menggerakkan massa lebih besar)</li>
-      <li><strong>Komposisi tubuh</strong> — Otot membakar lebih banyak kalori daripada lemak bahkan saat istirahat. Orang dengan massa otot lebih tinggi lebih efisien membakar kalori</li>
-      <li><strong>Tingkat kebugaran</strong> — Orang yang sudah terbiasa berolahraga cenderung lebih efisien (membakar lebih sedikit kalori untuk aktivitas yang sama) — tanda tubuh sudah beradaptasi</li>
-      <li><strong>Intensitas relatif</strong> — "Intensitas sedang" berbeda-beda untuk setiap orang. Gunakan target heart rate (60–80% detak jantung maksimal) sebagai panduan intensitas yang lebih objektif</li>
-      <li><strong>Genetik dan metabolisme basal</strong> — Ada variasi alami antar individu dalam efisiensi metabolisme</li>
+      <li><strong>Rumus:</strong> Kalori = MET × Berat Badan (kg) × Durasi (jam)</li>
+      <li>MET 1 = istirahat (tidak bergerak), MET 5 = 5× lebih banyak kalori dari istirahat</li>
+    </ul>
+    <p><strong>Contoh:</strong> Jogging (MET 8,0), 65 kg, 45 menit: 8,0 × 65 × (45÷60) = <strong>390 kkal</strong></p>
+
+    <h2>Tabel MET Olahraga Populer Indonesia</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Olahraga</th><th>MET</th><th>Kalori/jam (65 kg)</th><th>Intensitas</th></tr></thead>
+      <tbody>
+        <tr><td>Jalan santai (5 km/jam)</td><td>3,5</td><td>~228 kkal</td><td>Rendah</td></tr>
+        <tr><td>Jogging (8 km/jam)</td><td>8,0</td><td>~520 kkal</td><td>Sedang-Tinggi</td></tr>
+        <tr><td>Lari cepat (12 km/jam)</td><td>11,0</td><td>~715 kkal</td><td>Tinggi</td></tr>
+        <tr><td>Bersepeda (16–19 km/jam)</td><td>7,0</td><td>~455 kkal</td><td>Sedang</td></tr>
+        <tr><td>Renang gaya bebas (sedang)</td><td>6,0</td><td>~390 kkal</td><td>Sedang</td></tr>
+        <tr><td>Bulu tangkis (kompetitif)</td><td>7,0</td><td>~455 kkal</td><td>Tinggi</td></tr>
+        <tr><td>CrossFit / HIIT</td><td>8,0</td><td>~520 kkal</td><td>Sangat Tinggi</td></tr>
+        <tr><td>Yoga / Pilates</td><td>2,5</td><td>~163 kkal</td><td>Rendah</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.78rem;color:var(--text-muted)">*Nilai MET dari Compendium of Physical Activities (Ainsworth et al.). Kalori aktual ±15–20% tergantung individu, intensitas, dan kondisi.</p>
+
+    <h2>Fitur Kalkulator Kalori Olahraga NovaCalcs</h2>
+    <ul>
+      <li><strong>Mode Satu Aktivitas</strong> — Pilih jenis olahraga, masukkan berat badan dan durasi. Hasil menampilkan kalori total, per menit, setara makanan (nasi, ayam goreng, dll.), serta perbandingan MET dengan olahraga lain untuk durasi yang sama.</li>
+      <li><strong>Progress menuju -1 kg lemak</strong> — Bar visual menunjukkan seberapa besar kontribusi sesi ini menuju defisit 7.700 kkal yang dibutuhkan untuk membakar 1 kg lemak tubuh.</li>
+      <li><strong>Mode Multi-Aktivitas</strong> — Hitung total kalori dari satu sesi yang terdiri dari beberapa aktivitas berbeda, misalnya pemanasan (10 mnt jalan cepat) + latihan inti (30 mnt HIIT) + pendinginan (10 mnt yoga).</li>
+      <li><strong>Planner Mingguan</strong> — Atur jadwal olahraga per hari (Senin–Minggu), tentukan target defisit kalori mingguan, dan lihat estimasi penurunan berat badan. Bar chart per hari memperlihatkan distribusi aktivitas sepanjang minggu.</li>
     </ul>
 
-    <h2>Olahraga untuk Pemula: Mulai dari Mana?</h2>
-    <p>Bagi yang baru memulai rutinitas olahraga, program berikut aman dan efektif:</p>
+    <h2>Berapa Kalori yang Harus Dibakar untuk Turun Berat Badan?</h2>
+    <p>Prinsip dasar penurunan berat badan: defisit kalori. 1 kg lemak tubuh setara dengan sekitar <strong>7.700 kkal</strong>:</p>
     <ul>
-      <li><strong>Minggu 1–2</strong> — Jalan kaki 20–30 menit, 3× seminggu. Tidak perlu ke gym, cukup di sekitar perumahan atau taman</li>
-      <li><strong>Minggu 3–4</strong> — Naikkan jadi 4× seminggu. Tambahkan interval: jalan cepat 2 menit, jalan santai 3 menit, bergantian</li>
-      <li><strong>Bulan 2</strong> — Tambahkan latihan kekuatan dasar: push-up, squat, plank (bisa di rumah tanpa alat)</li>
-      <li><strong>Bulan 3 ke atas</strong> — Variasikan jenis olahraga. Pertimbangkan bergabung dengan komunitas lari atau kelas zumba untuk motivasi sosial</li>
+      <li>Defisit 500 kkal/hari → turun ~0,5 kg/minggu (realistis dan sehat)</li>
+      <li>Defisit 1.000 kkal/hari → turun ~1 kg/minggu (agresif, butuh pengaturan diet ketat)</li>
+      <li>Olahraga saja sulit menciptakan defisit besar — kombinasi diet + olahraga jauh lebih efektif</li>
     </ul>
-    <p>Konsistensi jauh lebih penting dari intensitas. Olahraga 30 menit setiap hari jauh lebih baik dari sekali seminggu 3 jam.</p>
+    <p>Contoh realistis: Jogging 45 mnt (390 kkal) × 4 kali/minggu = 1.560 kkal/minggu dari olahraga = ~0,2 kg/minggu. Untuk hasil lebih cepat, tambahkan pengurangan kalori dari makanan.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa lama olahraga yang dibutuhkan untuk bakar 500 kalori?</div>
-      <div class="faq-a">Untuk seseorang dengan berat 65 kg, dibutuhkan sekitar 45–60 menit jogging, 60–75 menit bersepeda sedang, atau 50–65 menit renang untuk membakar 500 kkal. Semakin berat badan Anda, semakin banyak kalori yang terbakar dalam waktu yang sama.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa lama olahraga untuk membakar 500 kkal?</div>
+      <div class="faq-a">Untuk seseorang berat 65 kg: jogging (8 km/jam) sekitar 58 menit, bersepeda sedang sekitar 66 menit, atau renang sedang sekitar 77 menit. Semakin berat badan Anda, semakin banyak kalori yang terbakar dalam waktu yang sama. Gunakan kalkulator ini untuk simulasi dengan berat badan dan olahraga spesifik Anda.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah kalori yang terbakar saat olahraga bisa dimakan kembali?</div>
-      <div class="faq-a">Ini adalah pertanyaan yang sering diperdebatkan. Secara umum, jika tujuan Anda mempertahankan berat badan, Anda bisa mengganti sebagian kalori yang terbakar. Namun jika tujuannya menurunkan berat badan, sebaiknya pertahankan defisit kalori harian Anda dan jangan makan lebih banyak hanya karena sudah olahraga. Penelitian menunjukkan banyak orang cenderung melebih-lebihkan kalori yang terbakar saat olahraga.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah kalori yang terbakar olahraga bisa langsung dimakan kembali?</div>
+      <div class="faq-a">Secara teknis bisa, namun ini menghilangkan manfaat defisit kalori untuk penurunan berat badan. Penelitian menunjukkan banyak orang cenderung melebih-lebihkan kalori yang terbakar dan mengompensasi dengan makan lebih banyak. Jika tujuan Anda menurunkan berat badan, pertahankan defisit kalori harian dan jangan "mengganti" kalori olahraga. Jika tujuannya mempertahankan berat badan atau meningkatkan performa, makan sesuai kebutuhan total (TDEE).</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Mengapa orang lebih gemuk membakar lebih banyak kalori?</div>
-      <div class="faq-a">Karena tubuh yang lebih berat memerlukan lebih banyak energi untuk bergerak. Rumus MET memperhitungkan berat badan secara langsung — setiap kg ekstra berkontribusi pada peningkatan pengeluaran energi. Ini adalah salah satu "keuntungan" olahraga bagi orang yang kelebihan berat badan: setiap sesi olahraga membakar lebih banyak kalori.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Olahraga apa yang paling efisien membakar kalori?</div>
+      <div class="faq-a">Dari sisi kalori per jam tertinggi: sprint (MET 14,5), renang cepat (MET 9,8), lari 12 km/jam (MET 11,0), dan lompat tali intensif (MET 8,0). Namun dari sisi keterjangkauan dan keberlanjutan untuk kebanyakan orang, jogging dan bersepeda adalah pilihan terbaik. HIIT sangat efisien dalam waktu singkat (20–30 menit bisa setara 45 menit kardio biasa). Yang paling efektif adalah olahraga yang bisa Anda lakukan konsisten — kepuasan dan kenyamanan lebih penting dari efisiensi kalori semata.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah angka kalori ini akurat?</div>
-      <div class="faq-a">Nilai MET yang digunakan bersumber dari Compendium of Physical Activities yang merupakan referensi standar internasional. Namun perlu diingat bahwa hasil aktual bisa berbeda ±15–20% tergantung intensitas individu, kondisi cuaca, kebugaran, dan faktor genetik. Angka ini adalah perkiraan yang baik untuk perencanaan, bukan pengukuran yang tepat.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah angka kalori kalkulator ini akurat?</div>
+      <div class="faq-a">Nilai MET dari Compendium of Physical Activities adalah referensi standar ilmiah internasional. Namun kalori aktual bisa berbeda ±15–20% dari estimasi, dipengaruhi oleh: kebugaran awal (orang yang lebih bugar membakar lebih sedikit kalori untuk aktivitas sama), intensitas individu, kondisi lingkungan (cuaca panas meningkatkan pengeluaran energi), dan faktor genetik. Gunakan angka ini sebagai panduan perencanaan, bukan pengukuran presisi.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Olahraga apa yang terbaik untuk turun berat badan?</div>
-      <div class="faq-a">Dari sisi pembakaran kalori tertinggi per jam, lari cepat, renang intensif, dan HIIT adalah yang paling efisien. Namun penelitian menunjukkan kombinasi kardio dan latihan beban memberikan hasil terbaik jangka panjang karena latihan beban meningkatkan massa otot yang pada gilirannya meningkatkan BMR (metabolisme basal). Yang terpenting: pilih olahraga yang Anda nikmati dan bisa dilakukan secara konsisten.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa frekuensi olahraga ideal per minggu?</div>
+      <div class="faq-a">WHO merekomendasikan minimal 150–300 menit aktivitas aerobik intensitas sedang, atau 75–150 menit intensitas tinggi per minggu, ditambah 2 hari latihan kekuatan. Untuk penurunan berat badan, 250–300 menit/minggu kardio sedang lebih efektif. Yang penting: konsistensi jangka panjang lebih berharga dari sesi ekstrem yang sesekali. Pastikan ada hari istirahat (rest day) untuk pemulihan otot, minimal 1–2 hari per minggu.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa banyak kalori yang harus dibakar per minggu?</div>
-      <div class="faq-a">WHO merekomendasikan setidaknya 150–300 menit aktivitas aerobik intensitas sedang per minggu, yang setara dengan membakar sekitar 1.000–2.000 kkal dari olahraga. Untuk penurunan berat badan yang signifikan, targetkan 2.000–3.000 kkal per minggu dari olahraga, dikombinasikan dengan pengaturan pola makan.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Mengapa olahraga tidak langsung menurunkan berat badan?</div>
+      <div class="faq-a">Beberapa alasan ilmiah: (1) Tubuh mengkompensasi — setelah olahraga intens, tubuh cenderung lebih lelah dan kurang bergerak sepanjang sisa hari, (2) Nafsu makan meningkat — terutama untuk olahraga berdurasi panjang, (3) Retensi air — otot yang diperbaiki menyimpan lebih banyak glikogen dan air, bisa naik 1–2 kg di minggu pertama, (4) Kurang makan sayuran. Olahraga tetap sangat bermanfaat untuk kesehatan jantung, metabolisme, dan mood — namun untuk penurunan berat badan, pengaturan pola makan adalah faktor dominan (80% diet, 20% olahraga).</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
@@ -226,36 +371,236 @@
 </footer>
 
 <script defer>
-function calculate() {
-  const weight = parseFloat(document.getElementById('weight').value);
-  const duration = parseFloat(document.getElementById('duration').value);
-  const met = parseFloat(document.getElementById('exercise').value);
+const EXERCISES = [
+  { name:'Jalan santai', met:3.5 },
+  { name:'Jalan cepat', met:5.0 },
+  { name:'Jogging (8 km/jam)', met:8.0 },
+  { name:'Lari cepat (12 km/jam)', met:11.0 },
+  { name:'Bersepeda (sedang)', met:7.0 },
+  { name:'Bersepeda (cepat)', met:10.0 },
+  { name:'Renang (sedang)', met:6.0 },
+  { name:'HIIT / CrossFit', met:8.0 },
+  { name:'Bulu tangkis (kompetitif)', met:7.0 },
+  { name:'Yoga', met:2.5 },
+];
 
-  if (!weight || !duration || weight < 20 || duration < 1) {
-    return alert('Masukkan berat badan dan durasi yang valid.');
-  }
+const FOODS = [
+  { name:'Nasi putih (100g)', cal:130 },
+  { name:'Nasi putih (1 piring, 200g)', cal:260 },
+  { name:'Ayam goreng (1 potong)', cal:200 },
+  { name:'Mie instan (1 bungkus)', cal:380 },
+  { name:'Indomie goreng', cal:400 },
+  { name:'Bakso kuah (1 porsi)', cal:350 },
+  { name:'Pisang (1 buah)', cal:90 },
+  { name:'Alpukat (1 buah)', cal:160 },
+];
 
-  const calories = met * weight * (duration / 60);
-  const perMin = calories / duration;
+const DAYS = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+let actCount = 0;
+let targetDeficit = 3500;
 
-  let food = '';
-  if (calories < 150) food = 'segelas es teh manis';
-  else if (calories < 300) food = 'sepiring nasi putih (200g)';
-  else if (calories < 500) food = '2 piring nasi putih';
-  else if (calories < 700) food = '1 porsi ayam goreng + nasi';
-  else food = '2 porsi makan siang lengkap';
+function switchTab(idx, btn) {
+  document.querySelectorAll('.ol-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ol-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('op' + idx).classList.add('active');
+}
 
-  const sessionNeeded = Math.round(7700 / calories * 10) / 10;
+function setDur(v, btn) {
+  document.getElementById('duration0').value = v;
+  document.querySelectorAll('#op0 .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc0();
+}
+function autoCalc0() {
+  const w = document.getElementById('weight0').value;
+  const d = document.getElementById('duration0').value;
+  if (w && d) calcSingle();
+}
 
-  document.getElementById('res-cal').textContent = Math.round(calories).toLocaleString('id-ID') + ' kkal';
-  document.getElementById('res-per-min').textContent = perMin.toFixed(1) + ' kkal/menit';
-  document.getElementById('res-food').textContent = 'Setara ' + food;
-  document.getElementById('res-fat').textContent = sessionNeeded + 'x sesi latihan ini';
-  document.getElementById('result').classList.add('show');
+/* ── TAB 0 ── */
+function calcSingle() {
+  const weight = parseFloat(document.getElementById('weight0').value) || 0;
+  const dur    = parseFloat(document.getElementById('duration0').value) || 0;
+  const met    = parseFloat(document.getElementById('exercise0').value) || 8.0;
+  if (!weight || !dur) return;
+
+  const cal     = met * weight * (dur / 60);
+  const perMin  = cal / dur;
+  const sessions1kg = (7700 / cal).toFixed(1);
+  // Setara jalan kaki: MET 3.5
+  const jalanMnt = (cal / (3.5 * weight / 60)).toFixed(0);
+  const fatPct   = Math.min(100, (cal / 7700 * 100));
+
+  document.getElementById('r0-cal').textContent   = Math.round(cal).toLocaleString('id-ID') + ' kkal';
+  document.getElementById('r0-permin').textContent = perMin.toFixed(1) + ' kkal/mnt';
+  document.getElementById('r0-met').textContent   = met.toFixed(1);
+  document.getElementById('r0-sesi').textContent  = sessions1kg + 'x sesi';
+  document.getElementById('r0-jalan').textContent = jalanMnt + ' menit jalan kaki';
+
+  // Fat bar
+  document.getElementById('r0-fat-pct').textContent = fatPct.toFixed(1) + '%';
+  document.getElementById('r0-fat-bar').style.width = fatPct + '%';
+
+  // Food equivalents
+  document.getElementById('r0-foods').innerHTML = FOODS.slice(0, 4).map(f => {
+    const portions = (cal / f.cal).toFixed(1);
+    return `<div class="fe-row"><span class="fe-name">${f.name} (${f.cal} kkal)</span><span class="fe-val">${portions}× porsi</span></div>`;
+  }).join('');
+
+  // MET comparison bars
+  const sortedEx = [...EXERCISES].sort((a,b) => b.met - a.met);
+  const maxCal   = sortedEx[0].met * weight * (dur / 60);
+  document.getElementById('r0-met-bars').innerHTML = sortedEx.map(ex => {
+    const c = ex.met * weight * (dur / 60);
+    const w = (c / maxCal * 100).toFixed(1);
+    const isThis = Math.abs(ex.met - met) < 0.1;
+    return `<div class="met-row">
+      <span class="met-name" style="${isThis ? 'color:var(--mint);font-weight:700' : ''}">${ex.name}</span>
+      <div class="met-track"><div class="met-fill" style="width:${w}%;${isThis ? 'background:#fbbf24' : ''}"></div></div>
+      <span class="met-kcal" style="${isThis ? 'color:#fbbf24' : ''}">${Math.round(c)} kkal</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('r0-advice').innerHTML =
+    `🔥 <strong>${dur} menit</strong> olahraga ini membakar <strong>${Math.round(cal)} kkal</strong> (${perMin.toFixed(1)} kkal/mnt). Dibutuhkan <strong>${sessions1kg} sesi</strong> seperti ini untuk membakar setara 1 kg lemak. Setara dengan ${jalanMnt} menit jalan kaki santai.`;
+
+  document.getElementById('res0').style.display = 'block';
+  document.getElementById('res0').classList.add('show');
+}
+
+/* ── TAB 1: Multi ── */
+function exSelectHTML(cls) {
+  return `<select class="${cls}">
+    ${EXERCISES.map(e => `<option value="${e.met}">${e.name}</option>`).join('')}
+  </select>`;
+}
+
+function addActivity() {
+  actCount++;
+  const div = document.createElement('div');
+  div.className = 'act-row';
+  div.id = 'act-' + actCount;
+  const id = actCount;
+  div.innerHTML = `
+    ${exSelectHTML('act-ex')}
+    <input type="number" placeholder="Menit" min="1" class="act-dur" oninput="calcMulti()"/>
+    <span class="act-cal" style="font-size:.76rem;color:var(--mint);font-weight:600;text-align:right">—</span>
+    <button class="act-del" onclick="document.getElementById('act-${id}').remove();calcMulti()">×</button>`;
+  div.querySelector('.act-ex').addEventListener('change', calcMulti);
+  document.getElementById('act-rows').appendChild(div);
+}
+
+function calcMulti() {
+  const weight = parseFloat(document.getElementById('weight1').value) || 0;
+  if (!weight) return;
+  const rows = document.querySelectorAll('.act-row');
+  let totalCal = 0, totalDur = 0;
+  const details = [];
+  rows.forEach(row => {
+    const met = parseFloat(row.querySelector('.act-ex').value) || 0;
+    const dur = parseFloat(row.querySelector('.act-dur').value) || 0;
+    const cal = met * weight * (dur / 60);
+    row.querySelector('.act-cal').textContent = dur > 0 ? Math.round(cal) + ' kkal' : '—';
+    if (dur > 0) { totalCal += cal; totalDur += dur; details.push({ met, dur, cal }); }
+  });
+  if (details.length === 0) return;
+
+  document.getElementById('r1-total').textContent = Math.round(totalCal).toLocaleString('id-ID') + ' kkal';
+  document.getElementById('r1-dur').textContent   = totalDur + ' menit';
+  document.getElementById('r1-avg').textContent   = (totalCal / totalDur).toFixed(1) + ' kkal/mnt';
+
+  const exList = document.querySelectorAll('.act-ex');
+  document.getElementById('r1-act-detail').innerHTML =
+    '<div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:6px">Rincian per aktivitas</div>' +
+    details.map((d, i) => {
+      const name = exList[i]?.selectedOptions[0]?.text || 'Aktivitas';
+      return `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:.8rem">
+        <span style="color:var(--text-secondary)">${name} (${d.dur} mnt)</span>
+        <span style="font-weight:700;color:var(--mint)">${Math.round(d.cal)} kkal</span>
+      </div>`;
+    }).join('');
+
+  document.getElementById('r1-advice').innerHTML =
+    `⚡ Total sesi: <strong>${Math.round(totalCal)} kkal</strong> dari ${totalDur} menit aktivitas. Rata-rata ${(totalCal/totalDur).toFixed(1)} kkal/menit.`;
+
+  document.getElementById('res1').style.display = 'block';
+  document.getElementById('res1').classList.add('show');
+}
+
+/* ── TAB 2: Weekly ── */
+function setDefisit(v, btn) {
+  targetDeficit = v;
+  document.getElementById('target-deficit').value = v;
+  document.querySelectorAll('#op2 .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcWeekly();
+}
+
+// Build week plan UI
+function buildWeekPlan() {
+  const container = document.getElementById('week-plan');
+  container.innerHTML = DAYS.map((day, i) => `
+    <div class="week-day">
+      <div class="wd-name">${day}</div>
+      <div class="wd-row">
+        <select id="wd-ex-${i}" onchange="calcWeekly()">
+          <option value="0">— Istirahat —</option>
+          ${EXERCISES.map(e => `<option value="${e.met}">${e.name}</option>`).join('')}
+        </select>
+        <input type="number" id="wd-dur-${i}" placeholder="Mnt" min="0" value="0" oninput="calcWeekly()"/>
+      </div>
+    </div>`).join('');
+}
+
+function calcWeekly() {
+  const weight = parseFloat(document.getElementById('weight2').value) || 0;
+  targetDeficit = parseFloat(document.getElementById('target-deficit').value) || 3500;
+  if (!weight) return;
+
+  const dayCals = DAYS.map((_, i) => {
+    const met = parseFloat(document.getElementById(`wd-ex-${i}`)?.value || '0');
+    const dur = parseFloat(document.getElementById(`wd-dur-${i}`)?.value || '0');
+    return met * weight * (dur / 60);
+  });
+
+  const totalCal   = dayCals.reduce((a, b) => a + b, 0);
+  const activeDays = dayCals.filter(c => c > 0).length;
+  const weightLoss = (totalCal / 7700).toFixed(2);
+  const defPct     = Math.min(100, Math.round(totalCal / targetDeficit * 100));
+
+  document.getElementById('r2-weekly-cal').textContent    = Math.round(totalCal).toLocaleString('id-ID') + ' kkal/minggu';
+  document.getElementById('r2-weight-loss').textContent   = weightLoss + ' kg';
+  document.getElementById('r2-active-days').textContent   = activeDays + ' hari';
+  document.getElementById('r2-deficit-pct').textContent   = defPct + '%';
+  document.getElementById('r2-deficit-bar').style.width   = defPct + '%';
+
+  const maxDay = Math.max(1, ...dayCals);
+  document.getElementById('r2-day-bars').innerHTML = DAYS.map((day, i) => {
+    const c = dayCals[i];
+    return `<div class="wb-row">
+      <span class="wb-day">${day}</span>
+      <div class="wb-track"><div class="wb-fill" style="width:${(c/maxDay*100).toFixed(1)}%"></div></div>
+      <span class="wb-val">${c > 0 ? Math.round(c) + ' kkal' : 'Istirahat'}</span>
+    </div>`;
+  }).join('');
+
+  const shortage = Math.max(0, targetDeficit - totalCal);
+  document.getElementById('r2-advice').innerHTML = totalCal >= targetDeficit
+    ? `✅ Target defisit <strong>${targetDeficit.toLocaleString('id-ID')} kkal/minggu</strong> tercapai! Total kalori olahraga: <strong>${Math.round(totalCal).toLocaleString('id-ID')} kkal</strong>. Estimasi penurunan berat dari olahraga: ~${weightLoss} kg/minggu.`
+    : `📅 Total kalori olahraga: <strong>${Math.round(totalCal).toLocaleString('id-ID')} kkal</strong>. Masih kurang <strong>${Math.round(shortage).toLocaleString('id-ID')} kkal</strong> dari target. Tambahkan sesi olahraga atau kombinasikan dengan pengurangan kalori dari makanan.`;
+
+  document.getElementById('res2').style.display = 'block';
+  document.getElementById('res2').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calcSingle(); });
+
+window.addEventListener('DOMContentLoaded', () => {
+  buildWeekPlan();
+  addActivity(); addActivity();
+});
 </script>
 </body>
 </html>

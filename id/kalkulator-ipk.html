@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator IPK 2026 — Hitung Indeks Prestasi Kumulatif Online | NovaCalcs</title>
-<meta name="description" content="Hitung IPK (Indeks Prestasi Kumulatif) dan IP Semester secara otomatis. Masukkan nilai dan SKS setiap mata kuliah untuk hasil akurat sesuai sistem penilaian Indonesia."/>
-<meta name="keywords" content="kalkulator IPK, hitung IPK, indeks prestasi kumulatif, IP semester, nilai SKS, kalkulator mahasiswa"/>
+<title>Kalkulator IPK 2026 — IPS, Kumulatif & Target Cum Laude | NovaCalcs</title>
+<meta name="description" content="Hitung IPK dan IPS semester secara akurat. Simulasi akumulasi IPK dari beberapa semester, dan cari tahu nilai yang diperlukan untuk mencapai target IPK Cum Laude."/>
+<meta name="keywords" content="kalkulator IPK, hitung IPK semester, IPS kumulatif, target cum laude, nilai SKS mahasiswa, kalkulator nilai kuliah"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ipk.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-ipk.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,13 +13,92 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator IPK","url":"https://novacalcs.com/id/kalkulator-ipk.html","description":"Hitung IPK, IPS, akumulasi semester, dan target nilai untuk Cum Laude","applicationCategory":"EducationApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.course-row { display:grid; grid-template-columns:1fr 80px 100px 36px; gap:8px; align-items:center; margin-bottom:8px; }
-.course-row input, .course-row select { width:100%; }
-.del-btn { background:#ff4d4d22; border:1px solid #ff4d4d44; color:#ff7777; border-radius:6px; cursor:pointer; font-size:1.1rem; padding:6px; }
-.del-btn:hover { background:#ff4d4d44; }
-.add-course-btn { background:transparent; border:1px dashed var(--accent,#00C9B1); color:var(--accent,#00C9B1); border-radius:8px; padding:8px; width:100%; cursor:pointer; font-size:0.9rem; margin-bottom:12px; }
-.course-header { display:grid; grid-template-columns:1fr 80px 100px 36px; gap:8px; font-size:0.75rem; color:#888; margin-bottom:4px; }
+/* Tabs */
+.ipk-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.ipk-tab  { flex:1; padding:8px 6px; font-size:.75rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
+.ipk-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
+.ipk-panel { display:none; }
+.ipk-panel.active { display:block; }
+
+/* Course input grid */
+.course-row { display:grid; grid-template-columns:1fr 70px 100px 32px; gap:6px; align-items:center; margin-bottom:7px; }
+.course-row input, .course-row select { width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:7px 8px; color:var(--text-primary); font-size:.82rem; }
+.course-row select { font-size:.78rem; }
+.del-btn { background:rgba(248,113,113,.12); border:1px solid rgba(248,113,113,.25); color:#f87171; border-radius:var(--radius-sm); cursor:pointer; font-size:1rem; padding:6px; line-height:1; }
+.del-btn:hover { background:rgba(248,113,113,.25); }
+.add-btn { background:transparent; border:1px dashed rgba(0,201,177,.4); color:var(--mint); border-radius:var(--radius-sm); padding:8px; width:100%; cursor:pointer; font-size:.82rem; margin-bottom:12px; transition:all .15s; }
+.add-btn:hover { background:var(--mint-dim); }
+.course-header { display:grid; grid-template-columns:1fr 70px 100px 32px; gap:6px; font-size:.68rem; color:var(--text-muted); margin-bottom:5px; padding:0 2px; }
+
+/* Big IPK display */
+.ipk-main  { text-align:center; padding:14px 0 8px; }
+.ipk-num   { font-size:2.8rem; font-weight:700; color:var(--mint); line-height:1; }
+.ipk-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Predikat badge large */
+.predikat-badge { display:inline-block; padding:6px 18px; border-radius:20px; font-size:.82rem; font-weight:700; margin-top:8px; }
+.pb-cumlaude  { background:rgba(251,191,36,.18); color:#fbbf24; border:1px solid rgba(251,191,36,.35); }
+.pb-sangatmem { background:rgba(0,201,177,.15); color:var(--mint); border:1px solid rgba(0,201,177,.3); }
+.pb-mem       { background:rgba(96,165,250,.15); color:#60a5fa; border:1px solid rgba(96,165,250,.3); }
+.pb-lulus     { background:rgba(148,163,184,.15); color:#94a3b8; border:1px solid rgba(148,163,184,.3); }
+.pb-gagal     { background:rgba(248,113,113,.15); color:#f87171; border:1px solid rgba(248,113,113,.3); }
+
+/* Stats */
+.ipk-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.is-card   { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.is-card .ic-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.is-card .ic-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.is-card.green .ic-val { color:var(--mint); }
+.is-card.yellow .ic-val { color:#fbbf24; }
+
+/* Grade distribution bars */
+.grade-dist { margin-top:10px; }
+.gd-row    { display:flex; align-items:center; gap:8px; padding:4px 0; font-size:.75rem; }
+.gd-label  { min-width:32px; text-align:right; color:var(--text-muted); font-weight:600; }
+.gd-track  { flex:1; height:12px; background:var(--bg-card); border-radius:6px; overflow:hidden; }
+.gd-fill   { height:100%; border-radius:6px; background:var(--mint); }
+.gd-count  { min-width:60px; font-size:.7rem; color:var(--text-secondary); }
+
+/* IPK progress bar (toward cum laude) */
+.ipk-progress-wrap { margin:12px 0; }
+.ipk-track  { height:12px; background:var(--bg-input); border-radius:6px; overflow:hidden; position:relative; }
+.ipk-fill   { height:100%; border-radius:6px; transition:width .7s; }
+.ipk-fill.cl  { background:#fbbf24; }
+.ipk-fill.sm  { background:var(--mint); }
+.ipk-fill.mem { background:#60a5fa; }
+.ipk-fill.l   { background:#94a3b8; }
+.ipk-fill.f   { background:#f87171; }
+.ipk-markers  { display:flex; justify-content:space-between; font-size:.62rem; color:var(--text-muted); margin-top:3px; }
+
+/* Semester table */
+.sem-tbl { width:100%; border-collapse:collapse; font-size:.78rem; margin-top:10px; }
+.sem-tbl th { background:var(--bg-input); color:var(--text-secondary); padding:6px 10px; text-align:right; font-weight:600; }
+.sem-tbl th:first-child { text-align:left; }
+.sem-tbl td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; }
+.sem-tbl td:first-child { text-align:left; color:var(--text-secondary); }
+.sem-tbl tr:last-child td { border-bottom:none; font-weight:700; }
+
+/* Semester input rows */
+.sem-row { display:grid; grid-template-columns:80px 80px 80px; gap:6px; align-items:center; margin-bottom:6px; }
+.sem-row input { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:7px 8px; color:var(--text-primary); font-size:.82rem; width:100%; }
+.sem-row-label { font-size:.72rem; color:var(--text-secondary); margin-bottom:4px; display:grid; grid-template-columns:80px 80px 80px; gap:6px; }
+
+/* Target result box */
+.target-box { background:var(--mint-dim); border:1px solid rgba(0,201,177,.25); border-radius:var(--radius-sm); padding:14px; margin-top:10px; }
+.tb-main  { font-size:1.4rem; font-weight:700; color:var(--mint); margin-bottom:4px; }
+.tb-row   { display:flex; justify-content:space-between; padding:4px 0; font-size:.82rem; border-bottom:1px solid rgba(0,201,177,.1); }
+.tb-row:last-child { border-bottom:none; }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
 </style>
 </head>
 <body>
@@ -29,7 +108,7 @@
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
     <nav class="breadcrumb">
       <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#matematika">Pendidikan</a><span class="breadcrumb-sep">›</span>
       <span>Kalkulator IPK</span>
     </nav>
   </div>
@@ -38,131 +117,206 @@
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🎓 Kalkulator IPK</div>
-      <div class="calc-subtitle">Hitung Indeks Prestasi Semester & Kumulatif</div>
+      <div class="calc-title">🎓 Kalkulator IPK 2026</div>
+      <div class="calc-subtitle">IPS Semester · Kumulatif · Target Cum Laude</div>
 
-      <div id="courses">
+      <div class="ipk-tabs">
+        <div class="ipk-tab active" onclick="switchTab(0,this)">📋 IPS Semester</div>
+        <div class="ipk-tab" onclick="switchTab(1,this)">📈 Kumulatif</div>
+        <div class="ipk-tab" onclick="switchTab(2,this)">🎯 Target IPK</div>
+      </div>
+
+      <!-- TAB 0: IPS Semester -->
+      <div class="ipk-panel active" id="tp0">
         <div class="course-header"><span>Mata Kuliah</span><span>SKS</span><span>Nilai</span><span></span></div>
-      </div>
-      <button class="add-course-btn" onclick="addCourse()">+ Tambah Mata Kuliah</button>
+        <div id="courses"></div>
+        <button class="add-btn" onclick="addCourse()">+ Tambah Mata Kuliah</button>
+        <button class="calc-btn" onclick="calcIPS()">🎓 Hitung IPS</button>
 
-      <button class="calc-btn" onclick="calculate()">Hitung IPK</button>
+        <div class="result-box" id="res0" style="display:none">
+          <div class="ipk-main">
+            <div class="ipk-num" id="r0-ipk">—</div>
+            <div class="ipk-label">IPS Semester</div>
+            <div class="predikat-badge" id="r0-badge">—</div>
+          </div>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-ipk">—</div>
-          <div class="result-label">IPK / IP Semester</div>
-          <div class="result-badge" id="res-badge"></div>
-        </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Total SKS</span><span class="rval" id="res-sks">—</span></div>
-          <div class="result-row"><span class="rkey">Total Poin Mutu</span><span class="rval" id="res-mutu">—</span></div>
-          <div class="result-row"><span class="rkey">Predikat</span><span class="rval" id="res-predikat">—</span></div>
+          <!-- IPK progress bar -->
+          <div class="ipk-progress-wrap">
+            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-secondary);margin-bottom:5px">
+              <span>Progress menuju Cum Laude (3,51)</span>
+              <span id="r0-pct" style="font-weight:700;color:var(--mint)">—%</span>
+            </div>
+            <div class="ipk-track"><div class="ipk-fill" id="r0-bar" style="width:0%"></div></div>
+            <div class="ipk-markers"><span>0,00</span><span>Lulus<br>2,00</span><span>Memu-<br>askan 2,76</span><span>Sangat<br>Mem. 3,01</span><span>Cum<br>Laude 3,51</span><span>4,00</span></div>
+          </div>
+
+          <!-- Stats -->
+          <div class="ipk-stats">
+            <div class="is-card"><div class="ic-label">Total SKS</div><div class="ic-val" id="r0-sks">—</div></div>
+            <div class="is-card"><div class="ic-label">Total Poin Mutu</div><div class="ic-val" id="r0-mutu">—</div></div>
+            <div class="is-card yellow"><div class="ic-label">Mata kuliah diinput</div><div class="ic-val" id="r0-count">—</div></div>
+            <div class="is-card green"><div class="ic-label">Rata-rata nilai</div><div class="ic-val" id="r0-avg-grade">—</div></div>
+          </div>
+
+          <!-- Grade distribution -->
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px">📊 Distribusi Nilai</div>
+          <div class="grade-dist" id="r0-dist"></div>
+
+          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
       </div>
+
+      <!-- TAB 1: Kumulatif antar semester -->
+      <div class="ipk-panel" id="tp1">
+        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
+          Masukkan IPS dan total SKS setiap semester untuk menghitung IPK kumulatif.
+        </div>
+        <div class="sem-row-label"><span>Semester</span><span>SKS (sem ini)</span><span>IPS</span></div>
+        <div id="sem-rows"></div>
+        <button class="add-btn" onclick="addSemester()">+ Tambah Semester</button>
+        <button class="calc-btn" onclick="calcKumulatif()">📈 Hitung IPK Kumulatif</button>
+
+        <div class="result-box" id="res1" style="display:none">
+          <div class="ipk-main">
+            <div class="ipk-num" id="r1-ipk">—</div>
+            <div class="ipk-label">IPK Kumulatif</div>
+            <div class="predikat-badge" id="r1-badge">—</div>
+          </div>
+          <div class="ipk-stats">
+            <div class="is-card"><div class="ic-label">Total SKS kumulatif</div><div class="ic-val" id="r1-sks">—</div></div>
+            <div class="is-card"><div class="ic-label">Jumlah semester</div><div class="ic-val" id="r1-sem">—</div></div>
+          </div>
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px">📋 Rincian per Semester</div>
+          <table class="sem-tbl" id="r1-tbl"></table>
+          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Target IPK -->
+      <div class="ipk-panel" id="tp2">
+        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
+          Sudah punya IPK sekarang? Cari tahu nilai rata-rata yang dibutuhkan untuk mencapai target.
+        </div>
+        <div class="field"><label>IPK Saat Ini</label>
+          <input type="number" id="t-ipk-now" placeholder="Contoh: 3,20" step="0.01" min="0" max="4" oninput="autoCalcTarget()"/>
+        </div>
+        <div class="field"><label>Total SKS yang Sudah Ditempuh</label>
+          <input type="number" id="t-sks-done" placeholder="Contoh: 80" oninput="autoCalcTarget()"/>
+        </div>
+        <div class="field"><label>SKS yang Akan Ditempuh Lagi</label>
+          <input type="number" id="t-sks-left" placeholder="Contoh: 60" oninput="autoCalcTarget()"/>
+        </div>
+        <div class="field">
+          <label>Target IPK</label>
+          <div class="radio-group" id="target-btns">
+            <div class="radio-btn" onclick="setTarget(2.75,this)">2,75</div>
+            <div class="radio-btn" onclick="setTarget(3.00,this)">3,00</div>
+            <div class="radio-btn" onclick="setTarget(3.50,this)">3,50</div>
+            <div class="radio-btn active" onclick="setTarget(3.51,this)">3,51 CL</div>
+          </div>
+          <input type="number" id="t-target" value="3.51" step="0.01" min="0" max="4" oninput="autoCalcTarget()"/>
+        </div>
+        <button class="calc-btn" onclick="calcTarget()">🎯 Hitung Nilai yang Dibutuhkan</button>
+        <div class="result-box" id="res2" style="display:none">
+          <div class="target-box">
+            <div class="tb-main" id="t-needed-ipk">—</div>
+            <div style="font-size:.72rem;color:var(--mint)">IPS rata-rata yang diperlukan untuk sisa studi</div>
+            <div style="margin-top:12px">
+              <div class="tb-row"><span>IPK saat ini</span><span style="font-weight:700" id="t-now-out">—</span></div>
+              <div class="tb-row"><span>Target IPK</span><span style="font-weight:700" id="t-target-out">—</span></div>
+              <div class="tb-row"><span>SKS sudah ditempuh</span><span style="font-weight:700" id="t-sks-done-out">—</span></div>
+              <div class="tb-row"><span>SKS tersisa</span><span style="font-weight:700" id="t-sks-left-out">—</span></div>
+              <div class="tb-row"><span>Poin mutu tambahan yang diperlukan</span><span style="font-weight:700;color:var(--mint)" id="t-mutu-needed">—</span></div>
+            </div>
+          </div>
+          <div id="t-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator IPK Online — Hitung Indeks Prestasi Semester & Kumulatif 2026</h1>
-    <p class="page-desc">Hitung IPK (Indeks Prestasi Kumulatif) dan IPS (Indeks Prestasi Semester) Anda dengan mudah. Masukkan nama mata kuliah, SKS, dan nilai untuk mendapatkan IPK secara otomatis.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator IPK 2026 — IPS, Kumulatif & Target Cum Laude</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung IPS semester, IPK kumulatif dari beberapa semester, dan simulasi nilai yang diperlukan untuk mencapai target IPK termasuk predikat Cum Laude (≥3,51).</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Apa itu IPK dan Bagaimana Cara Menghitungnya?</h2>
-    <p>IPK (Indeks Prestasi Kumulatif) adalah nilai rata-rata tertimbang dari seluruh mata kuliah yang telah ditempuh selama kuliah, dengan bobot SKS (Satuan Kredit Semester) sebagai penimbang. Skala IPK di Indonesia umumnya 0–4,00.</p>
-    <p>IPK berbeda dengan rata-rata nilai biasa karena memperhitungkan bobot SKS setiap mata kuliah. Mata kuliah dengan SKS lebih besar memiliki pengaruh lebih besar terhadap IPK dibandingkan mata kuliah ber-SKS kecil.</p>
-    <p>IPS (Indeks Prestasi Semester) adalah IPK untuk satu semester saja, sementara IPK adalah akumulasi dari semua semester yang sudah dijalani.</p>
-
-    <h2>Cara Menggunakan Kalkulator IPK Ini</h2>
-    <ol>
-      <li>Klik <strong>"+ Tambah Mata Kuliah"</strong> untuk setiap mata kuliah</li>
-      <li>Isi <strong>nama mata kuliah</strong> (opsional, untuk referensi)</li>
-      <li>Isi <strong>jumlah SKS</strong> mata kuliah tersebut</li>
-      <li>Pilih <strong>nilai</strong> yang Anda terima (A, A-, B+, B, dst.)</li>
-      <li>Ulangi untuk semua mata kuliah</li>
-      <li>Klik <strong>"Hitung IPK"</strong></li>
-    </ol>
-
-    <h2>Tabel Konversi Nilai ke Bobot Mutu</h2>
-    <table>
-      <tr><th>Nilai Huruf</th><th>Bobot Mutu</th><th>Keterangan</th></tr>
-      <tr><td>A</td><td>4,00</td><td>Sangat Baik (Istimewa)</td></tr>
-      <tr><td>A-</td><td>3,75</td><td>Sangat Baik</td></tr>
-      <tr><td>B+</td><td>3,50</td><td>Baik Sekali</td></tr>
-      <tr><td>B</td><td>3,00</td><td>Baik</td></tr>
-      <tr><td>B-</td><td>2,75</td><td>Cukup Baik</td></tr>
-      <tr><td>C+</td><td>2,50</td><td>Cukup</td></tr>
-      <tr><td>C</td><td>2,00</td><td>Cukup</td></tr>
-      <tr><td>D</td><td>1,00</td><td>Kurang</td></tr>
-      <tr><td>E</td><td>0,00</td><td>Tidak Lulus</td></tr>
-    </table>
-    <p style="margin-top:0.75rem"><em>Catatan: Sistem penilaian bisa berbeda antar universitas. Beberapa kampus tidak menggunakan nilai A- atau B+. Sesuaikan dengan sistem kampus Anda.</em></p>
-
-    <h2>Predikat Kelulusan Berdasarkan IPK</h2>
-    <table>
-      <tr><th>IPK</th><th>Predikat</th><th>Keterangan</th></tr>
-      <tr><td>3,51 – 4,00</td><td>Dengan Pujian (Cum Laude)</td><td>Lulus dengan masa studi tepat waktu</td></tr>
-      <tr><td>3,01 – 3,50</td><td>Sangat Memuaskan</td><td>Prestasi akademik sangat baik</td></tr>
-      <tr><td>2,76 – 3,00</td><td>Memuaskan</td><td>Prestasi akademik baik</td></tr>
-      <tr><td>2,00 – 2,75</td><td>Lulus</td><td>Memenuhi syarat kelulusan</td></tr>
-      <tr><td>&lt; 2,00</td><td>Tidak Memenuhi Syarat</td><td>Perlu pengulangan atau DO</td></tr>
-    </table>
-
-    <h2>IPK Minimum untuk Karier dan Studi Lanjut</h2>
-    <p>IPK bukan satu-satunya penentu karier, tapi masih menjadi filter awal di banyak jalur:</p>
-    <table>
-      <tr><th>Jalur</th><th>IPK Minimum Umum</th><th>Keterangan</th></tr>
-      <tr><td>CPNS (PNS)</td><td>2,75–3,00</td><td>Tergantung formasi dan instansi</td></tr>
-      <tr><td>BUMN besar (Pertamina, PLN, BNI)</td><td>3,00–3,25</td><td>Sering pakai 3,00 sebagai filter awal</td></tr>
-      <tr><td>Konsultan Big 4 (Deloitte, PWC, dll.)</td><td>3,50</td><td>Ketat, tapi skills & pengalaman juga dinilai</td></tr>
-      <tr><td>S2 dalam negeri (beasiswa LPDP)</td><td>3,00–3,25</td><td>Tergantung program studi</td></tr>
-      <tr><td>S2 luar negeri (top 100 dunia)</td><td>3,50–3,75</td><td>Plus IELTS/TOEFL dan pengalaman kerja</td></tr>
-    </table>
-
-    <h2>Strategi Meningkatkan IPK yang Terbukti Efektif</h2>
+    <h2>Cara Menghitung IPK — Rumus dan Contoh</h2>
+    <p>IPK (Indeks Prestasi Kumulatif) adalah rata-rata tertimbang (weighted average) dari semua nilai mata kuliah, dengan SKS sebagai bobot:</p>
     <ul>
-      <li><strong>Fokus pada mata kuliah berbobot SKS tinggi</strong> — Nilai A di mata kuliah 4 SKS lebih berdampak pada IPK daripada mata kuliah 2 SKS</li>
-      <li><strong>Manfaatkan semester pendek / remediasi</strong> — Banyak kampus memberi kesempatan mengulang mata kuliah untuk memperbaiki nilai</li>
-      <li><strong>Aktif bertanya di kelas</strong> — Dosen yang mengenal mahasiswanya cenderung memberi nilai lebih baik pada borderline cases</li>
-      <li><strong>Jangan ambil terlalu banyak SKS</strong> — Lebih baik ambil 18 SKS dan dapat nilai bagus semua daripada 24 SKS tapi nilai rata-rata</li>
-      <li><strong>Buat jadwal belajar konsisten</strong> — Belajar 1–2 jam per hari lebih efektif dari sistem kebut semalam (SKS — Sistem Kebut Semalam)</li>
+      <li><strong>Poin Mutu</strong> per mata kuliah = SKS × Bobot Nilai (misal: A = 4,00)</li>
+      <li><strong>IPK / IPS</strong> = Σ(Poin Mutu) ÷ Σ(SKS)</li>
+    </ul>
+    <p><strong>Contoh:</strong> 5 mata kuliah dengan SKS 3, 3, 4, 2, 2 dan nilai A, B+, A, B, A-:</p>
+    <ul>
+      <li>Poin mutu: (3×4,0) + (3×3,5) + (4×4,0) + (2×3,0) + (2×3,75) = 12 + 10,5 + 16 + 6 + 7,5 = 52,0</li>
+      <li>Total SKS: 3+3+4+2+2 = 14</li>
+      <li>IPK = 52,0 ÷ 14 = <strong>3,71</strong> (Cum Laude)</li>
     </ul>
 
-    <h2>IPK vs Pengalaman: Mana yang Lebih Penting?</h2>
-    <p>Survei HRD di Indonesia menunjukkan: IPK paling berpengaruh untuk <strong>seleksi administrasi awal</strong>, terutama di perusahaan besar dan instansi pemerintah. Namun begitu lolos administrasi, faktor lain seperti pengalaman organisasi, magang, portofolio proyek, dan kemampuan komunikasi menjadi jauh lebih menentukan. Rekomendasi: targetkan IPK minimal 3,00, lalu manfaatkan sisa waktu kuliah untuk membangun pengalaman nyata.</p>
+    <h2>Tabel Konversi Nilai & Predikat Kelulusan</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Nilai Huruf</th><th>Bobot Mutu</th><th>IPK</th><th>Predikat Kelulusan</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>4,00</td><td>3,51–4,00</td><td>🏆 Dengan Pujian (Cum Laude)</td></tr>
+        <tr><td>A−</td><td>3,75</td><td>3,01–3,50</td><td>⭐ Sangat Memuaskan</td></tr>
+        <tr><td>B+</td><td>3,50</td><td>2,76–3,00</td><td>Memuaskan</td></tr>
+        <tr><td>B</td><td>3,00</td><td>2,00–2,75</td><td>Lulus</td></tr>
+        <tr><td>B−</td><td>2,75</td><td>&lt; 2,00</td><td>⚠️ Tidak Memenuhi Syarat</td></tr>
+        <tr><td>C+</td><td>2,50</td><td colspan="2" rowspan="4" style="color:var(--text-muted)"><em>Sistem penilaian bisa berbeda antar kampus. Beberapa tidak menggunakan A− atau B+. Cek buku panduan akademik kampus Anda.</em></td></tr>
+        <tr><td>C</td><td>2,00</td></tr>
+        <tr><td>D</td><td>1,00</td></tr>
+        <tr><td>E</td><td>0,00</td></tr>
+      </tbody>
+    </table>
 
-    
+    <h2>Fitur Kalkulator IPK NovaCalcs</h2>
+    <ul>
+      <li><strong>Mode IPS Semester</strong> — Input mata kuliah, SKS, dan nilai. Hasil menampilkan IPS, distribusi nilai (berapa mata kuliah dapat A, B, C), progress bar menuju Cum Laude, dan saran peningkatan.</li>
+      <li><strong>Progress bar IPK</strong> — Bar visual menunjukkan posisi IPK Anda antara 0,00 dan 4,00 dengan penanda di titik Lulus (2,00), Memuaskan (2,76), Sangat Memuaskan (3,01), dan Cum Laude (3,51).</li>
+      <li><strong>Mode Kumulatif</strong> — Masukkan IPS dan SKS setiap semester untuk menghitung IPK kumulatif keseluruhan. Tabel rincian per semester memperlihatkan tren prestasi dari semester ke semester.</li>
+      <li><strong>Mode Target IPK</strong> — Sudah tahu IPK sekarang dan sisa SKS? Kalkulator menghitung IPS rata-rata yang harus dicapai untuk sisa studi agar target IPK (mis. 3,51 Cum Laude) bisa tercapai.</li>
+    </ul>
+
+    <h2>Strategi Menaikkan IPK yang Efektif</h2>
+    <p>Karena IPK adalah rata-rata tertimbang, dampak setiap nilai bergantung pada jumlah SKS mata kuliah tersebut:</p>
+    <ul>
+      <li><strong>Prioritaskan mata kuliah ber-SKS besar</strong> — Nilai A di mata kuliah 4 SKS memberi dampak 2× lebih besar dari nilai A di mata kuliah 2 SKS.</li>
+      <li><strong>Manfaatkan pengulangan mata kuliah</strong> — Banyak kampus mengganti nilai lama dengan nilai baru saat pengulangan. Targetkan nilai yang lebih baik untuk mata kuliah dengan nilai rendah.</li>
+      <li><strong>Strategis pilih mata kuliah pilihan</strong> — Pilih mata kuliah pilihan yang Anda kuasai dan berpeluang mendapat nilai tinggi.</li>
+      <li><strong>Jangan hitung semester terakhir sepele</strong> — Tugas akhir dan skripsi biasanya memiliki SKS besar (6–8 SKS) dan bisa sangat mempengaruhi IPK akhir.</li>
+    </ul>
+
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah IPK 3,5 sudah bagus?</div>
-      <div class="faq-a">Ya, IPK 3,5 sudah sangat baik dan masuk predikat "Sangat Memuaskan". Untuk Cum Laude diperlukan IPK minimal 3,51 dengan masa studi tepat waktu. IPK 3,5 ke atas membuka banyak peluang beasiswa, kerja di perusahaan top, dan melanjutkan studi ke jenjang lebih tinggi.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa IPK minimum untuk Cum Laude?</div>
+      <div class="faq-a">IPK minimal 3,51 adalah syarat umum predikat Cum Laude di sebagian besar PTN/PTS Indonesia. Namun ada syarat tambahan: lulus dalam waktu normal (biasanya 8 semester untuk S1), tidak pernah mengulang mata kuliah dengan nilai E, dan tidak ada nilai D atau sejenisnya. Syarat spesifik bisa berbeda per kampus — cek peraturan akademik kampus Anda.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah IPK penting untuk cari kerja?</div>
-      <div class="faq-a">IPK masih menjadi salah satu syarat di banyak perusahaan besar dan BUMN di Indonesia, yang umumnya mensyaratkan IPK minimal 3,00. Namun, di industri startup dan kreatif, portofolio dan pengalaman sering lebih dinilai dari IPK. IPK tinggi tetap menjadi nilai plus yang menunjukkan kedisiplinan akademik, terutama untuk fresh graduate.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah IPK 3,0 cukup untuk melamar kerja?</div>
+      <div class="faq-a">Banyak perusahaan besar dan BUMN mensyaratkan IPK minimal 3,00 untuk fresh graduate. Namun batas ini tidak mutlak — perusahaan startup, kreatif, dan teknologi sering lebih mempertimbangkan portofolio, pengalaman, dan kemampuan teknis daripada IPK. IPK 3,00 sudah aman untuk sebagian besar lowongan formal. Untuk masuk BUMN, konsultan besar, atau lanjut ke luar negeri, targetkan minimal 3,25–3,50.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menaikkan IPK yang sudah rendah?</div>
-      <div class="faq-a">Karena IPK adalah rata-rata tertimbang, nilainya sulit diubah drastis di semester akhir. Strategi terbaik: ambil mata kuliah dengan SKS besar dan targetkan nilai A, manfaatkan pengulangan mata kuliah (nilai diganti nilai baru), ambil extra mata kuliah pilihan yang Anda kuasai, dan konsultasikan dengan dosen pembimbing akademik untuk strategi pengambilan matakuliah.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Bisakah IPK semester akhir mendongkrak IPK keseluruhan secara signifikan?</div>
+      <div class="faq-a">Bisa, tapi semakin banyak SKS yang sudah ditempuh, semakin sulit mengubah IPK secara drastis. Gunakan Tab "Target IPK" di kalkulator ini untuk menghitung secara presisi berapa IPS yang harus dicapai di sisa semester. Umumnya, jika sudah di semester 5+ dengan IPK 3,00, mencapai Cum Laude 3,51 dalam sisa 2–3 semester membutuhkan nilai hampir A semua — bisa dilakukan tapi sangat challenging.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa IPK minimum untuk lulus?</div>
-      <div class="faq-a">Sebagian besar perguruan tinggi di Indonesia mensyaratkan IPK minimal 2,00 untuk lulus. Namun beberapa program studi tertentu (terutama kedokteran dan profesi) mungkin memiliki syarat lebih tinggi. Banyak juga yang memiliki syarat IPK minimum per semester (biasanya 1,75 atau 2,00) untuk melanjutkan studi.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah nilai D menggugurkan peluang Cum Laude?</div>
+      <div class="faq-a">Kebijakan ini berbeda per kampus. Banyak kampus mensyaratkan tidak ada nilai D (atau bahkan C) untuk meraih Cum Laude, terlepas dari IPK akhir. Nilai D dengan SKS besar juga akan menurunkan IPK secara signifikan karena bobotnya besar. Jika mendapat D, segera cek apakah kampus mengizinkan pengulangan dan apakah nilai lama diganti.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah sistem penilaian sama di semua kampus?</div>
-      <div class="faq-a">Tidak, ada variasi antar kampus. Beberapa kampus tidak menggunakan nilai A- atau B+, beberapa menggunakan skala angka (75–100 = A, dst.), dan bobot mutu untuk setiap nilai huruf pun bisa berbeda. Selalu rujuk buku panduan akademik kampus Anda untuk sistem penilaian yang berlaku.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah semua kampus menggunakan skala 0–4,00?</div>
+      <div class="faq-a">Hampir semua PTN dan PTS di Indonesia menggunakan skala 0–4,00 sesuai panduan Dikti. Namun konversi nilai huruf ke angka bisa sedikit berbeda. Beberapa kampus tidak memiliki A− dan B+, sehingga langsung dari A (4,00) ke B (3,00). Ada juga yang menggunakan skala angka murni. Kalkulator ini menggunakan sistem yang paling umum — sesuaikan dengan panduan akademik kampus Anda.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan IPK dan IPS?</div>
-      <div class="faq-a">IPS (Indeks Prestasi Semester) adalah nilai rata-rata tertimbang untuk satu semester saja, sedangkan IPK (Indeks Prestasi Kumulatif) adalah akumulasi dari seluruh semester yang telah ditempuh. IPK yang tercantum di ijazah adalah IPK kumulatif dari semester 1 hingga semester terakhir. IPS berguna untuk memantau perkembangan prestasi per semester.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan IPK untuk S1, S2, dan S3?</div>
+      <div class="faq-a">Sistem perhitungan IPK sama untuk semua jenjang. Namun standar predikat bisa berbeda. Untuk S2 dan S3, predikat Cum Laude umumnya mensyaratkan IPK ≥3,75 atau bahkan 4,00 (tergantung kampus), dan batas masa studi lebih ketat. Standar akademik di jenjang pascasarjana secara umum jauh lebih tinggi, dan nilai di bawah B (3,00) biasanya dianggap tidak lulus mata kuliah.</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-nilai.html" class="related-item"><span class="ri">📝</span>Kalkulator Nilai</a>
-      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata & Statistik</a>
+      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata</a>
       <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
       <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
     </div>
@@ -179,80 +333,249 @@
 </footer>
 
 <script defer>
-const gradeMap = { 'A':4.0, 'A-':3.75, 'B+':3.5, 'B':3.0, 'B-':2.75, 'C+':2.5, 'C':2.0, 'D':1.0, 'E':0.0 };
-let courseCount = 0;
+const gradeMap = { 'A':4.0,'A-':3.75,'B+':3.5,'B':3.0,'B-':2.75,'C+':2.5,'C':2.0,'D':1.0,'E':0.0 };
+const gradeOrder = ['A','A-','B+','B','B-','C+','C','D','E'];
+let courseCount = 0, semCount = 0;
+let targetIPK = 3.51;
 
-function addCourse() {
+function switchTab(idx, btn) {
+  document.querySelectorAll('.ipk-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ipk-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tp' + idx).classList.add('active');
+}
+
+/* ── Grade select HTML ── */
+function gradeSelect(cls) {
+  return `<select class="${cls}">
+    <option value="">Nilai</option>
+    ${gradeOrder.map(g => `<option value="${g}">${g} (${gradeMap[g].toFixed(2)})</option>`).join('')}
+  </select>`;
+}
+
+/* ── TAB 0: IPS ── */
+function addCourse(name='', sks='', grade='') {
   courseCount++;
   const div = document.createElement('div');
   div.className = 'course-row';
-  div.id = 'course-' + courseCount;
+  div.id = 'cr-' + courseCount;
+  const id = courseCount;
   div.innerHTML = `
-    <input type="text" placeholder="Mata Kuliah ${courseCount}" style="font-size:0.85rem"/>
-    <input type="number" placeholder="SKS" min="1" max="6" class="sks-input"/>
-    <select class="grade-input">
-      <option value="">Nilai</option>
-      <option value="A">A (4,00)</option>
-      <option value="A-">A- (3,75)</option>
-      <option value="B+">B+ (3,50)</option>
-      <option value="B">B (3,00)</option>
-      <option value="B-">B- (2,75)</option>
-      <option value="C+">C+ (2,50)</option>
-      <option value="C">C (2,00)</option>
-      <option value="D">D (1,00)</option>
-      <option value="E">E (0,00)</option>
-    </select>
-    <button class="del-btn" onclick="removeCourse(${courseCount})">×</button>
+    <input type="text" placeholder="MK ${id}" value="${name}" style="font-size:.78rem"/>
+    <input type="number" placeholder="SKS" min="1" max="6" value="${sks}" class="sks-in"/>
+    ${gradeSelect('grade-in')}
+    <button class="del-btn" onclick="document.getElementById('cr-${id}').remove()">×</button>
   `;
+  if (grade) div.querySelector('.grade-in').value = grade;
   document.getElementById('courses').appendChild(div);
 }
 
-function removeCourse(id) {
-  const el = document.getElementById('course-' + id);
-  if (el) el.remove();
+function getPredikat(ipk) {
+  if (ipk >= 3.51) return { text:'🏆 Cum Laude', cls:'pb-cumlaude' };
+  if (ipk >= 3.01) return { text:'⭐ Sangat Memuaskan', cls:'pb-sangatmem' };
+  if (ipk >= 2.76) return { text:'Memuaskan', cls:'pb-mem' };
+  if (ipk >= 2.00) return { text:'Lulus', cls:'pb-lulus' };
+  return { text:'⚠️ Tidak Memenuhi Syarat', cls:'pb-gagal' };
 }
 
-function calculate() {
+function calcIPS() {
   const rows = document.querySelectorAll('.course-row');
   let totalSKS = 0, totalMutu = 0, valid = 0;
+  const gradeCounts = {};
+  gradeOrder.forEach(g => gradeCounts[g] = { count:0, sks:0 });
 
   rows.forEach(row => {
-    const sks = parseFloat(row.querySelector('.sks-input').value);
-    const grade = row.querySelector('.grade-input').value;
-    if (sks && grade !== '') {
+    const sks   = parseFloat(row.querySelector('.sks-in').value);
+    const grade = row.querySelector('.grade-in').value;
+    if (sks && grade) {
       const mutu = gradeMap[grade];
-      totalSKS += sks;
+      totalSKS  += sks;
       totalMutu += sks * mutu;
       valid++;
+      gradeCounts[grade].count++;
+      gradeCounts[grade].sks += sks;
     }
   });
 
-  if (valid === 0) return alert('Tambahkan minimal satu mata kuliah dengan SKS dan nilai.');
+  if (valid === 0) return alert('Tambahkan minimal satu mata kuliah dengan SKS dan nilai yang valid.');
 
   const ipk = totalMutu / totalSKS;
-  const ipkRound = Math.round(ipk * 100) / 100;
+  const avg = totalMutu / totalSKS;
+  const pred = getPredikat(ipk);
 
-  let predikat, badgeClass;
-  if (ipk >= 3.51) { predikat = 'Dengan Pujian (Cum Laude) 🏆'; badgeClass = 'badge-normal'; }
-  else if (ipk >= 3.01) { predikat = 'Sangat Memuaskan ⭐'; badgeClass = 'badge-normal'; }
-  else if (ipk >= 2.76) { predikat = 'Memuaskan'; badgeClass = 'badge-overweight'; }
-  else if (ipk >= 2.00) { predikat = 'Lulus'; badgeClass = 'badge-overweight'; }
-  else { predikat = 'Tidak Memenuhi Syarat ⚠️'; badgeClass = 'badge-obese'; }
+  document.getElementById('r0-ipk').textContent = ipk.toFixed(2).replace('.', ',');
+  const badge = document.getElementById('r0-badge');
+  badge.textContent = pred.text; badge.className = 'predikat-badge ' + pred.cls;
+  document.getElementById('r0-sks').textContent    = totalSKS + ' SKS';
+  document.getElementById('r0-mutu').textContent   = totalMutu.toFixed(2).replace('.', ',');
+  document.getElementById('r0-count').textContent  = valid + ' mata kuliah';
+  document.getElementById('r0-avg-grade').textContent = avg.toFixed(2).replace('.',',');
 
-  document.getElementById('res-ipk').textContent = ipkRound.toFixed(2).replace('.', ',');
-  const badge = document.getElementById('res-badge');
-  badge.textContent = predikat;
-  badge.className = 'result-badge ' + badgeClass;
-  document.getElementById('res-sks').textContent = totalSKS + ' SKS';
-  document.getElementById('res-mutu').textContent = totalMutu.toFixed(2).replace('.', ',');
-  document.getElementById('res-predikat').textContent = predikat;
-  document.getElementById('result').classList.add('show');
+  // Progress bar
+  const pct = Math.min(100, Math.round(ipk / 4.0 * 100));
+  document.getElementById('r0-pct').textContent = pct + '%';
+  const bar = document.getElementById('r0-bar');
+  bar.style.width = pct + '%';
+  bar.className   = 'ipk-fill ' + pred.cls.replace('pb-','').replace('cumlaude','cl').replace('sangatmem','sm').replace('mem','mem').replace('lulus','l').replace('gagal','f');
+
+  // Grade distribution
+  const maxCount = Math.max(1, ...Object.values(gradeCounts).map(g => g.count));
+  document.getElementById('r0-dist').innerHTML = gradeOrder
+    .filter(g => gradeCounts[g].count > 0)
+    .map(g => {
+      const w = (gradeCounts[g].count / maxCount * 100).toFixed(0);
+      return `<div class="gd-row">
+        <span class="gd-label">${g}</span>
+        <div class="gd-track"><div class="gd-fill" style="width:${w}%"></div></div>
+        <span class="gd-count">${gradeCounts[g].count} MK · ${gradeCounts[g].sks} SKS</span>
+      </div>`;
+    }).join('');
+
+  // Advice
+  let advice;
+  if (ipk >= 3.51) advice = `🏆 Selamat! IPS <strong>${ipk.toFixed(2).replace('.',',')}</strong> — sudah mencapai Cum Laude. Pertahankan konsistensi ini di semester-semester berikutnya!`;
+  else if (ipk >= 3.01) advice = `⭐ IPS <strong>${ipk.toFixed(2).replace('.',',')}</strong> sangat baik! Untuk mencapai Cum Laude (≥3,51), butuh peningkatan ${(3.51 - ipk).toFixed(2).replace('.',',')} poin. Fokus pada mata kuliah ber-SKS besar dan targetkan nilai A lebih banyak.`;
+  else advice = `💪 IPS <strong>${ipk.toFixed(2).replace('.',',')}</strong>. Masih ada ruang untuk berkembang. Gunakan Tab "Target IPK" untuk menghitung berapa nilai yang dibutuhkan agar IPK kumulatif Anda mencapai target.`;
+  document.getElementById('r0-advice').innerHTML = advice;
+
+  document.getElementById('res0').style.display = 'block';
+  document.getElementById('res0').classList.add('show');
+}
+
+/* ── TAB 1: Kumulatif ── */
+function addSemester() {
+  semCount++;
+  const div = document.createElement('div');
+  div.className = 'sem-row';
+  div.id = 'sem-' + semCount;
+  const id = semCount;
+  div.innerHTML = `
+    <div style="display:flex;align-items:center;gap:6px">
+      <span style="font-size:.72rem;color:var(--text-secondary);white-space:nowrap">Sem ${id}</span>
+    </div>
+    <input type="number" placeholder="SKS" min="1" max="30" class="sem-sks" style="font-size:.82rem"/>
+    <div style="display:flex;gap:4px">
+      <input type="number" placeholder="IPS" step="0.01" min="0" max="4" class="sem-ips" style="font-size:.82rem;flex:1"/>
+      <button class="del-btn" style="padding:5px 7px" onclick="document.getElementById('sem-${id}').remove()">×</button>
+    </div>`;
+  document.getElementById('sem-rows').appendChild(div);
+}
+
+function calcKumulatif() {
+  const rows = document.querySelectorAll('.sem-row');
+  let totalSKS = 0, totalMutu = 0, valid = 0;
+  const semData = [];
+
+  rows.forEach((row, i) => {
+    const sks = parseFloat(row.querySelector('.sem-sks').value);
+    const ips = parseFloat(row.querySelector('.sem-ips').value);
+    if (sks && !isNaN(ips)) {
+      totalSKS  += sks;
+      totalMutu += sks * ips;
+      valid++;
+      semData.push({ sem:i+1, sks, ips, mutu:(sks*ips) });
+    }
+  });
+
+  if (valid === 0) return alert('Masukkan minimal satu semester dengan SKS dan IPS.');
+
+  const ipk = totalMutu / totalSKS;
+  const pred = getPredikat(ipk);
+
+  document.getElementById('r1-ipk').textContent = ipk.toFixed(2).replace('.', ',');
+  const b = document.getElementById('r1-badge');
+  b.textContent = pred.text; b.className = 'predikat-badge ' + pred.cls;
+  document.getElementById('r1-sks').textContent = totalSKS + ' SKS';
+  document.getElementById('r1-sem').textContent = valid + ' semester';
+
+  // Table
+  const tbl = document.getElementById('r1-tbl');
+  tbl.innerHTML = '<thead><tr><th>Semester</th><th>SKS</th><th>IPS</th><th>Poin Mutu</th><th>IPK Kumulatif</th></tr></thead>';
+  const tbody = document.createElement('tbody');
+  let cumSKS = 0, cumMutu = 0;
+  semData.forEach(s => {
+    cumSKS  += s.sks;
+    cumMutu += s.mutu;
+    const cumIPK = cumMutu / cumSKS;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>Sem ${s.sem}</td><td>${s.sks}</td><td>${s.ips.toFixed(2).replace('.',',')}</td><td>${s.mutu.toFixed(2)}</td><td style="color:var(--mint);font-weight:600">${cumIPK.toFixed(2).replace('.',',')}</td>`;
+    tbody.appendChild(tr);
+  });
+  const totTr = document.createElement('tr');
+  totTr.innerHTML = `<td>TOTAL</td><td>${totalSKS}</td><td>—</td><td>${totalMutu.toFixed(2)}</td><td style="color:var(--mint)">${ipk.toFixed(2).replace('.',',')}</td>`;
+  tbody.appendChild(totTr);
+  tbl.appendChild(tbody);
+
+  document.getElementById('r1-advice').innerHTML =
+    `📈 IPK kumulatif dari <strong>${valid} semester</strong> = <strong>${ipk.toFixed(2).replace('.',',')}</strong> — ${pred.text}. Total ${totalSKS} SKS dengan ${totalMutu.toFixed(1)} poin mutu.`;
+
+  document.getElementById('res1').style.display = 'block';
+  document.getElementById('res1').classList.add('show');
+}
+
+/* ── TAB 2: Target ── */
+function setTarget(v, btn) {
+  targetIPK = v;
+  document.getElementById('t-target').value = v;
+  document.querySelectorAll('#target-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalcTarget();
+}
+function autoCalcTarget() {
+  const a = document.getElementById('t-ipk-now').value;
+  const b = document.getElementById('t-sks-done').value;
+  const c = document.getElementById('t-sks-left').value;
+  if (a && b && c) calcTarget();
+}
+
+function calcTarget() {
+  const ipkNow  = parseFloat(document.getElementById('t-ipk-now').value)  || 0;
+  const sksDone = parseFloat(document.getElementById('t-sks-done').value) || 0;
+  const sksLeft = parseFloat(document.getElementById('t-sks-left').value) || 0;
+  targetIPK     = parseFloat(document.getElementById('t-target').value)   || 3.51;
+
+  // Mutu yang sudah terkumpul
+  const mutuDone   = ipkNow * sksDone;
+  // Total mutu yang diperlukan
+  const mutuNeeded = targetIPK * (sksDone + sksLeft);
+  // Mutu tambahan yang diperlukan dari sisa SKS
+  const mutuExtra  = mutuNeeded - mutuDone;
+  // IPS rata-rata yang diperlukan untuk sisa SKS
+  const ipsNeeded  = sksLeft > 0 ? mutuExtra / sksLeft : null;
+
+  document.getElementById('t-now-out').textContent     = ipkNow.toFixed(2).replace('.',',');
+  document.getElementById('t-target-out').textContent  = targetIPK.toFixed(2).replace('.',',');
+  document.getElementById('t-sks-done-out').textContent = sksDone + ' SKS';
+  document.getElementById('t-sks-left-out').textContent = sksLeft + ' SKS';
+  document.getElementById('t-mutu-needed').textContent  = mutuExtra.toFixed(2) + ' poin mutu';
+
+  let adviceText;
+  if (ipsNeeded === null) {
+    document.getElementById('t-needed-ipk').textContent = '—';
+    adviceText = 'Masukkan sisa SKS yang akan ditempuh.';
+  } else if (ipsNeeded > 4.0) {
+    document.getElementById('t-needed-ipk').textContent = 'Tidak Mungkin Dicapai';
+    document.getElementById('t-needed-ipk').style.color = '#f87171';
+    adviceText = `⚠️ Target IPK <strong>${targetIPK.toFixed(2).replace('.',',')}</strong> tidak bisa dicapai dari posisi sekarang. Diperlukan IPS <strong>${ipsNeeded.toFixed(2).replace('.',',')}</strong> untuk sisa ${sksLeft} SKS, namun nilai tertinggi hanya 4,00. Pertimbangkan target yang lebih realistis.`;
+  } else {
+    document.getElementById('t-needed-ipk').textContent = 'IPS ≥ ' + ipsNeeded.toFixed(2).replace('.',',');
+    document.getElementById('t-needed-ipk').style.color = '';
+    const pred = getPredikat(ipsNeeded);
+    adviceText = `🎯 Untuk mencapai IPK <strong>${targetIPK.toFixed(2).replace('.',',')}</strong>, Anda perlu rata-rata IPS <strong>${ipsNeeded.toFixed(2).replace('.',',')}</strong> untuk sisa <strong>${sksLeft} SKS</strong>. ${ipsNeeded >= 3.51 ? 'Ini setara dengan hampir semua nilai A — challenging tapi bisa!' : ipsNeeded >= 3.0 ? 'Ini berarti mayoritas nilai A dan B+ — realistis dengan kerja keras!' : 'Target yang cukup terjangkau dengan konsistensi belajar.'}`;
+  }
+  document.getElementById('t-advice').innerHTML = adviceText;
+
+  document.getElementById('res2').style.display = 'block';
+  document.getElementById('res2').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
 
-// Add 5 default courses
-for (let i = 0; i < 5; i++) addCourse();
+// Init: 5 default courses
+window.addEventListener('DOMContentLoaded', () => {
+  for (let i = 0; i < 5; i++) addCourse();
+  for (let i = 0; i < 3; i++) addSemester();
+});
 </script>
 </body>
 </html>
