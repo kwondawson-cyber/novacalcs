@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator DP Rumah 2026 — Hitung Uang Muka KPR dan Biaya Beli Rumah | NovaCalcs</title>
-<meta name="description" content="Hitung uang muka (DP) KPR, total biaya pembelian rumah, dan kemampuan beli properti berdasarkan penghasilan Anda. Gratis dan akurat."/>
-<meta name="keywords" content="kalkulator DP rumah, uang muka KPR, down payment rumah, biaya beli rumah, kemampuan beli properti, KPR subsidi"/>
+<title>Kalkulator DP Rumah 2026 — Uang Muka KPR + Biaya + Rencana Tabungan | NovaCalcs</title>
+<meta name="description" content="Hitung DP KPR, total biaya beli rumah, dan cicilan bulanan. Simulasi berbagai persentase DP, estimasi lama menabung, dan cek kemampuan beli properti berdasarkan gaji."/>
+<meta name="keywords" content="kalkulator DP rumah, uang muka KPR 2026, down payment rumah, FLPP 2026, biaya beli rumah, kemampuan beli properti, rencana tabungan DP"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-dp-rumah.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-dp-rumah.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,8 +13,87 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator DP Rumah","url":"https://novacalcs.com/id/kalkulator-dp-rumah.html","description":"Kalkulator DP KPR dengan simulasi cicilan, biaya, dan rencana tabungan","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Tabs */
+.dp-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.dp-tab  { flex:1; padding:8px 6px; font-size:.75rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
+.dp-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
+.dp-panel { display:none; }
+.dp-panel.active { display:block; }
+
+/* Big DP display */
+.dp-main  { text-align:center; padding:14px 0 8px; }
+.dp-num   { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
+.dp-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Budget breakdown bar */
+.budget-bar-wrap  { margin:12px 0 6px; }
+.budget-bar-track { height:20px; border-radius:10px; overflow:hidden; display:flex; }
+.bb-dp    { background:var(--mint); transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.6rem; font-weight:700; color:#001a17; }
+.bb-extra { background:#fbbf24; transition:width .6s; display:flex; align-items:center; padding-left:6px; font-size:.6rem; font-weight:700; color:#451a03; }
+.bb-loan  { background:#60a5fa; transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:700; color:#0c1a2e; }
+.bb-legend{ display:flex; flex-wrap:wrap; gap:10px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
+.bb-legend span::before { content:'●'; margin-right:4px; }
+.leg-m::before { color:var(--mint); } .leg-y::before { color:#fbbf24; } .leg-b::before { color:#60a5fa; }
+
+/* Stats */
+.dp-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.ds-card  { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.ds-card .dc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.ds-card .dc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.ds-card.green  .dc-val { color:var(--mint); }
+.ds-card.blue   .dc-val { color:#60a5fa; }
+.ds-card.yellow .dc-val { color:#fbbf24; }
+.ds-card.red    .dc-val { color:#f87171; }
+
+/* Cicilan bar (ratio of income) */
+.cicilan-bar-wrap { margin:10px 0; }
+.cb-track { height:14px; border-radius:7px; background:var(--bg-input); overflow:hidden; }
+.cb-fill  { height:100%; border-radius:7px; transition:width .5s; }
+.cb-fill.ok   { background:var(--mint); }
+.cb-fill.warn { background:#fbbf24; }
+.cb-fill.over { background:#f87171; }
+
+/* DP comparison table */
+.dp-comp { width:100%; border-collapse:collapse; font-size:.78rem; margin-top:10px; }
+.dp-comp th { background:var(--bg-input); color:var(--text-secondary); padding:6px 10px; text-align:right; font-weight:600; }
+.dp-comp th:first-child { text-align:left; }
+.dp-comp td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; }
+.dp-comp td:first-child { text-align:left; color:var(--text-secondary); font-size:.75rem; }
+.dp-comp tr.chosen td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
+.dp-comp tr:last-child td { border-bottom:none; }
+
+/* Biaya breakdown list */
+.biaya-rows { margin:10px 0; }
+.biaya-row  { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:.82rem; }
+.biaya-row:last-child { border-bottom:none; font-weight:700; }
+.br-name  { color:var(--text-secondary); }
+.br-val   { font-weight:600; color:var(--text-primary); }
+
+/* Saving plan result */
+.save-result { background:var(--mint-dim); border:1px solid rgba(0,201,177,.25); border-radius:var(--radius-sm); padding:14px; margin-top:10px; }
+.sr-num   { font-size:1.6rem; font-weight:700; color:var(--mint); margin-bottom:4px; }
+.sr-row   { display:flex; justify-content:space-between; padding:4px 0; font-size:.82rem; border-bottom:1px solid rgba(0,201,177,.1); }
+.sr-row:last-child { border-bottom:none; }
+
+/* Price presets */
+.price-presets { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.pp-btn { padding:4px 10px; border-radius:6px; font-size:.72rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all .15s; }
+.pp-btn:hover,.pp-btn.on { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,.35); }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
+</style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -25,157 +104,484 @@
     </nav>
   </div>
 </header>
+
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🏠 Kalkulator DP Rumah & Biaya KPR</div>
-      <div class="calc-subtitle">Hitung uang muka dan total biaya pembelian properti</div>
+      <div class="calc-title">🏠 Kalkulator DP Rumah 2026</div>
+      <div class="calc-subtitle">DP + Biaya · Cicilan KPR · Rencana Tabungan</div>
 
-      <div class="field"><label>Harga Rumah (Rp)</label><input type="number" id="price" placeholder="Contoh: 500000000" min="0"/></div>
-      <div class="field">
-        <label>Persentase DP (%)</label>
-        <select id="dp-pct">
-          <option value="5">5% (KPR Subsidi FLPP)</option>
-          <option value="10" selected>10% (minimum umum)</option>
-          <option value="15">15%</option>
-          <option value="20">20%</option>
-          <option value="30">30%</option>
-          <option value="50">50%</option>
-        </select>
+      <div class="dp-tabs">
+        <div class="dp-tab active" onclick="switchTab(0,this)">🏠 DP & Biaya</div>
+        <div class="dp-tab" onclick="switchTab(1,this)">💰 Rencana Tabungan</div>
       </div>
-      <div class="field"><label>Penghasilan Bulanan (Rp) <small>— untuk cek kemampuan bayar</small></label><input type="number" id="income" placeholder="Contoh: 8000000" min="0"/></div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung DP & Biaya</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-dp">—</div>
-          <div class="result-label">Uang Muka (DP) yang Dibutuhkan</div>
+      <!-- TAB 0: Hitung DP -->
+      <div class="dp-panel active" id="dp0">
+        <div class="field">
+          <label>Harga Rumah (Rp)</label>
+          <div class="price-presets">
+            <div class="pp-btn" onclick="setPrice(300000000,this)">Rp 300 jt</div>
+            <div class="pp-btn" onclick="setPrice(500000000,this)">Rp 500 jt</div>
+            <div class="pp-btn" onclick="setPrice(800000000,this)">Rp 800 jt</div>
+            <div class="pp-btn" onclick="setPrice(1000000000,this)">Rp 1 M</div>
+          </div>
+          <input type="number" id="price" placeholder="Contoh: 500.000.000" oninput="autoCalc()"/>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Pokok KPR (pinjaman bank)</span><span class="rval" id="res-loan">—</span></div>
-          <div class="result-row"><span class="rkey">Estimasi biaya tambahan (~5%)</span><span class="rval" id="res-extra">—</span></div>
-          <div class="result-row"><span class="rkey">Total uang siap diperlukan</span><span class="rval" id="res-total">—</span></div>
-          <div class="result-row"><span class="rkey">Cicilan maks (30% gaji)</span><span class="rval" id="res-max-cicil">—</span></div>
-          <div class="result-row"><span class="rkey">Status kemampuan bayar</span><span class="rval" id="res-status">—</span></div>
+        <div class="field">
+          <label>Persentase DP (%)</label>
+          <div class="radio-group" id="dp-pct-btns">
+            <div class="radio-btn" onclick="setDP(1,this)">1% FLPP</div>
+            <div class="radio-btn" onclick="setDP(10,this)">10%</div>
+            <div class="radio-btn active" onclick="setDP(20,this)">20%</div>
+            <div class="radio-btn" onclick="setDP(30,this)">30%</div>
+          </div>
+          <input type="range" id="dp-slider" min="1" max="80" value="20" oninput="syncSlider(this.value)" style="width:100%;accent-color:var(--mint);margin-top:8px"/>
+          <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-muted)">
+            <span>1%</span><span id="dp-slider-label" style="color:var(--mint);font-weight:700">20%</span><span>80%</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Bunga KPR per Tahun (%)</label>
+          <div class="radio-group" id="bunga-btns">
+            <div class="radio-btn" onclick="setBunga(5,this)">5% FLPP</div>
+            <div class="radio-btn active" onclick="setBunga(10,this)">10%</div>
+            <div class="radio-btn" onclick="setBunga(11,this)">11%</div>
+            <div class="radio-btn" onclick="setBunga(12,this)">12%</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Tenor KPR (tahun)</label>
+          <div class="radio-group" id="tenor-btns">
+            <div class="radio-btn" onclick="setTenor(10,this)">10 th</div>
+            <div class="radio-btn active" onclick="setTenor(20,this)">20 th</div>
+            <div class="radio-btn" onclick="setTenor(25,this)">25 th</div>
+            <div class="radio-btn" onclick="setTenor(30,this)">30 th</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Gaji Bersih per Bulan (opsional)</label>
+          <input type="number" id="income" placeholder="Untuk analisis kemampuan bayar" oninput="autoCalc()"/>
+        </div>
+        <button class="calc-btn" onclick="calcDP()">🏠 Hitung DP & Cicilan</button>
+
+        <div class="result-box" id="res0" style="display:none">
+          <div class="dp-main">
+            <div class="dp-num" id="r0-dp">—</div>
+            <div class="dp-label" id="r0-dp-label">Uang muka (DP)</div>
+          </div>
+
+          <!-- Budget breakdown bar -->
+          <div class="budget-bar-wrap">
+            <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:5px">Total dana yang harus disiapkan</div>
+            <div class="budget-bar-track">
+              <div class="bb-dp"    id="r0-bar-dp"    style="width:40%">DP</div>
+              <div class="bb-extra" id="r0-bar-extra"  style="width:5%">Biaya</div>
+              <div class="bb-loan"  id="r0-bar-loan"  style="width:55%">KPR</div>
+            </div>
+            <div class="bb-legend">
+              <span class="leg-m">DP tunai</span>
+              <span class="leg-y">Biaya tambahan</span>
+              <span class="leg-b">Pinjaman KPR</span>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="dp-stats">
+            <div class="ds-card green"><div class="dc-label">DP tunai</div><div class="dc-val" id="s-dp">—</div></div>
+            <div class="ds-card yellow"><div class="dc-label">Biaya tambahan (~5%)</div><div class="dc-val" id="s-extra">—</div></div>
+            <div class="ds-card green" style="border-color:rgba(0,201,177,.3)"><div class="dc-label">Total siap diperlukan</div><div class="dc-val" id="s-total">—</div></div>
+            <div class="ds-card blue"><div class="dc-label">Pokok KPR</div><div class="dc-val" id="s-loan">—</div></div>
+          </div>
+
+          <!-- Cicilan KPR -->
+          <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin:10px 0">
+            <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px">📋 Estimasi Cicilan KPR (Bunga Efektif/Anuitas)</div>
+            <div style="font-size:1.4rem;font-weight:700;color:var(--mint)" id="s-cicilan">—</div>
+            <div style="font-size:.72rem;color:var(--text-secondary);margin-top:3px" id="s-cicilan-detail">—</div>
+            <!-- Income ratio bar -->
+            <div class="cicilan-bar-wrap" id="cicilan-bar-section" style="display:none;margin-top:10px">
+              <div style="font-size:.7rem;color:var(--text-secondary);display:flex;justify-content:space-between;margin-bottom:4px">
+                <span>Proporsi cicilan dari gaji</span>
+                <span id="cicilan-ratio-label" style="font-weight:700">—%</span>
+              </div>
+              <div class="cb-track"><div class="cb-fill ok" id="cicilan-bar" style="width:30%"></div></div>
+              <div id="cicilan-status" style="font-size:.72rem;margin-top:4px"></div>
+            </div>
+          </div>
+
+          <!-- Biaya tambahan breakdown -->
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px">💰 Rincian Biaya Tambahan</div>
+          <div class="biaya-rows" id="biaya-rows"></div>
+
+          <!-- DP Comparison -->
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px">📊 Perbandingan Pilihan DP</div>
+          <table class="dp-comp" id="dp-comp-tbl"></table>
+
+          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
       </div>
+
+      <!-- TAB 1: Rencana Tabungan DP -->
+      <div class="dp-panel" id="dp1">
+        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
+          Hitung berapa lama menabung untuk DP, atau berapa setoran bulanan yang dibutuhkan.
+        </div>
+        <div class="field">
+          <label>Target DP yang Dibutuhkan (Rp)</label>
+          <input type="number" id="target-dp" placeholder="Contoh: 100.000.000" oninput="autoCalcSave()"/>
+        </div>
+        <div class="field">
+          <label>Tabungan DP yang Sudah Ada (Rp)</label>
+          <input type="number" id="current-dp" value="0" oninput="autoCalcSave()"/>
+        </div>
+        <div class="field">
+          <label>Kemampuan Menabung per Bulan (Rp)</label>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+            <div class="pp-btn" onclick="setSaving(1000000,this)">Rp 1 jt</div>
+            <div class="pp-btn" onclick="setSaving(2000000,this)">Rp 2 jt</div>
+            <div class="pp-btn" onclick="setSaving(3000000,this)">Rp 3 jt</div>
+            <div class="pp-btn" onclick="setSaving(5000000,this)">Rp 5 jt</div>
+          </div>
+          <input type="number" id="monthly-saving" placeholder="Contoh: 2.000.000" oninput="autoCalcSave()"/>
+        </div>
+        <div class="field">
+          <label>Return Tabungan per Tahun (%) — opsional</label>
+          <input type="number" id="saving-rate" value="5" step="0.1" oninput="autoCalcSave()"/>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Deposito ~5%, Reksa Dana Pasar Uang ~5–6%, 0% = tidak ada bunga</p>
+        </div>
+        <button class="calc-btn" onclick="calcSavePlan()">💰 Hitung Rencana Tabungan</button>
+
+        <div class="result-box" id="res1" style="display:none">
+          <div class="save-result">
+            <div class="sr-num" id="r1-months">—</div>
+            <div style="font-size:.72rem;color:var(--mint)">estimasi waktu mencapai target DP</div>
+            <div style="margin-top:12px">
+              <div class="sr-row"><span>Target DP</span><span style="font-weight:700" id="r1-target">—</span></div>
+              <div class="sr-row"><span>Tabungan saat ini</span><span style="font-weight:700" id="r1-current">—</span></div>
+              <div class="sr-row"><span>Setoran per bulan</span><span style="font-weight:700" id="r1-monthly">—</span></div>
+              <div class="sr-row"><span>Return tabungan</span><span style="font-weight:700" id="r1-rate">—</span></div>
+              <div class="sr-row"><span>Estimasi tercapai (tahun)</span><span style="font-weight:700;color:var(--mint)" id="r1-year">—</span></div>
+            </div>
+          </div>
+          <div class="dp-stats" style="margin-top:10px">
+            <div class="ds-card"><div class="dc-label">Kontribusi sendiri</div><div class="dc-val" id="r1-self">—</div></div>
+            <div class="ds-card green"><div class="dc-label">Dari bunga/return</div><div class="dc-val" id="r1-return">—</div></div>
+          </div>
+          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator DP Rumah — Uang Muka KPR, Biaya Tambahan, dan Kemampuan Beli</h1>
-    <p class="page-desc">Membeli rumah adalah keputusan keuangan terbesar dalam hidup kebanyakan orang. Kalkulator ini membantu Anda memahami berapa DP yang dibutuhkan, total biaya yang harus disiapkan, dan apakah penghasilan Anda cukup.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator DP Rumah 2026 — Uang Muka KPR, Biaya, dan Rencana Tabungan</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung DP KPR, estimasi cicilan bulanan (annuitas), total biaya pembelian rumah, dan buat rencana tabungan DP yang realistis. Cocok untuk KPR subsidi FLPP maupun non-subsidi.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Berapa DP Minimum untuk KPR di Indonesia?</h2>
-    <p>Bank Indonesia dan OJK mengatur ketentuan LTV (Loan to Value) yang menentukan DP minimum KPR. Untuk rumah pertama (tipe ≤70 m²), DP minimum adalah 5% untuk KPR Subsidi FLPP. Untuk properti non-subsidi, DP minimum umumnya 10–20% tergantung kebijakan bank dan kondisi pasar. Semakin besar DP yang Anda berikan, semakin kecil pinjaman dan cicilan bulanan Anda.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li>Masukkan <strong>harga rumah</strong> yang ingin dibeli</li>
-      <li>Pilih <strong>persentase DP</strong> yang direncanakan</li>
-      <li>Masukkan <strong>penghasilan bulanan</strong> untuk menilai kemampuan cicilan</li>
-      <li>Klik <strong>"Hitung DP &amp; Biaya"</strong></li>
-    </ol>
-
-    <h2>Biaya Tambahan Saat Membeli Rumah</h2>
-    <table>
-      <tr><th>Komponen Biaya</th><th>Estimasi</th></tr>
-      <tr><td>BPHTB (Bea Perolehan Hak atas Tanah dan Bangunan)</td><td>2,5% dari harga transaksi</td></tr>
-      <tr><td>Biaya Notaris / PPAT</td><td>0,5–1% dari harga</td></tr>
-      <tr><td>Biaya KPR (provisi, admin, asuransi)</td><td>1–2% dari nilai kredit</td></tr>
-      <tr><td>Biaya balik nama sertifikat</td><td>Rp 500.000 – Rp 2.000.000</td></tr>
-      <tr><td>Biaya appraisal bank</td><td>Rp 500.000 – Rp 1.500.000</td></tr>
-      <tr><td><strong>Total estimasi biaya tambahan</strong></td><td><strong>~4–6% dari harga rumah</strong></td></tr>
+    <h2>DP Minimum KPR Indonesia 2026</h2>
+    <p>Ketentuan uang muka KPR diatur dalam regulasi OJK dan Bank Indonesia (LTV/Loan to Value):</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Jenis KPR</th><th>DP Minimum</th><th>Bunga</th><th>Syarat</th></tr></thead>
+      <tbody>
+        <tr><td>KPR Subsidi FLPP</td><td>1% (atau 0% program tertentu)</td><td>5%/thn tetap</td><td>Gaji ≤Rp 8 jt/bln, rumah pertama</td></tr>
+        <tr><td>KPR Non-Subsidi rumah pertama (≤70m²)</td><td>10–15%</td><td>Pasar (10–12%)</td><td>Sesuai kebijakan bank</td></tr>
+        <tr><td>KPR Non-Subsidi rumah pertama (&gt;70m²)</td><td>15%</td><td>Pasar</td><td>—</td></tr>
+        <tr><td>KPR Rumah Kedua</td><td>20–30%</td><td>Pasar</td><td>LTV lebih ketat</td></tr>
+        <tr><td>KPR Rumah Ketiga+</td><td>30–40%</td><td>Pasar</td><td>LTV paling ketat</td></tr>
+      </tbody>
     </table>
 
-    <h2>Aturan 30% untuk Cicilan Rumah</h2>
-    <p>Para ahli keuangan merekomendasikan agar total cicilan KPR tidak melebihi 30% dari penghasilan bulanan kotor. Ini adalah patokan "aman" yang memastikan Anda masih memiliki ruang untuk kebutuhan hidup, tabungan, dan biaya tak terduga. Bank pun umumnya menggunakan rasio 30–35% sebagai batas maksimum persetujuan KPR.</p>
+    <h2>Biaya-biaya Saat Membeli Rumah</h2>
+    <p>Selain DP, ada biaya tambahan yang harus disiapkan — total biasanya 4–6% dari harga rumah:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Komponen</th><th>Estimasi</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td>BPHTB</td><td>2,5% dari harga transaksi</td><td>Dibayar pembeli ke Pemda</td></tr>
+        <tr><td>Biaya Notaris / PPAT</td><td>0,5–1% dari harga</td><td>Pengurusan AJB dan balik nama</td></tr>
+        <tr><td>Biaya KPR (provisi + admin)</td><td>1–2% dari nilai kredit</td><td>Dibayar ke bank di awal</td></tr>
+        <tr><td>Asuransi jiwa + kebakaran KPR</td><td>0,3–0,5% / tahun</td><td>Biasanya di-premi di muka</td></tr>
+        <tr><td>Biaya appraisal bank</td><td>Rp 500.000–1.500.000</td><td>Penilaian harga properti oleh bank</td></tr>
+        <tr><td>Biaya balik nama sertifikat</td><td>Rp 500.000–2.000.000</td><td>Tergantung daerah</td></tr>
+        <tr><td><strong>Total estimasi</strong></td><td><strong>~4–6% harga rumah</strong></td><td>Siapkan lebih untuk antisipasi</td></tr>
+      </tbody>
+    </table>
 
-    <h2>Program Bantuan DP Rumah dari Pemerintah</h2>
-    <p>Pemerintah Indonesia memiliki beberapa program untuk membantu MBR memiliki rumah dengan DP yang lebih ringan:</p>
+    <h2>Fitur Kalkulator DP Rumah NovaCalcs</h2>
     <ul>
-      <li><strong>FLPP (Fasilitas Likuiditas Pembiayaan Perumahan)</strong> — DP minimum 1%, bunga tetap 5% sepanjang tenor, untuk rumah subsidi maksimal Rp 166–240 juta</li>
-      <li><strong>BP2BT (Bantuan Pembiayaan Perumahan Berbasis Tabungan)</strong> — Bantuan uang muka langsung dari APBN, cocok untuk yang sudah menabung di tabungan perumahan</li>
-      <li><strong>Tapera (Tabungan Perumahan Rakyat)</strong> — Iuran wajib 3% (dibagi pekerja dan pemberi kerja) yang bisa digunakan untuk DP atau cicilan rumah pertama</li>
+      <li><strong>Slider DP persentase</strong> — Geser slider 1–80% untuk melihat DP, cicilan, dan total biaya berubah real-time. Tombol cepat untuk 1% FLPP, 10%, 20%, 30%.</li>
+      <li><strong>Visualisasi anggaran 3 komponen</strong> — Bar warna menunjukkan proporsi DP, biaya tambahan, dan KPR dari total harga rumah — agar jelas berapa bagian yang dibayar tunai vs dipinjam.</li>
+      <li><strong>Cicilan KPR dengan rumus anuitas</strong> — Berbeda dari estimasi kasar, kalkulator ini menggunakan rumus cicilan anuitas (annuity) yang akurat: Pokok × [r(1+r)^n ÷ ((1+r)^n − 1)].</li>
+      <li><strong>Analisis kemampuan bayar</strong> — Masukkan gaji dan kalkulator menampilkan rasio cicilan terhadap penghasilan beserta status aman/perlu perhatian/berat.</li>
+      <li><strong>Perbandingan 5 pilihan DP sekaligus</strong> — Tabel otomatis menampilkan DP, KPR, cicilan, dan total bayar untuk 5%, 10%, 20%, 30%, 40% — dengan baris pilihan Anda disorot.</li>
+      <li><strong>Perencana Tabungan DP</strong> — Tab kedua untuk menghitung berapa bulan/tahun lagi bisa kumpulkan DP, atau berapa yang harus ditabung per bulan.</li>
     </ul>
-    <p>Untuk mengecek kelayakan dan daftar program perumahan subsidi, kunjungi website <strong>sikasep.kemenpera.go.id</strong> atau hubungi bank penyalur KPR bersubsidi.</p>
 
-    <h2>Biaya-Biaya yang Perlu Dipersiapkan Selain DP</h2>
-    <p>Banyak pembeli rumah pertama kaget saat mengetahui ada banyak biaya di luar DP yang perlu disiapkan. Estimasi biaya tambahan pembelian rumah seharga Rp 500 juta:</p>
-    <table>
-      <tr><th>Jenis Biaya</th><th>Estimasi</th></tr>
-      <tr><td>Biaya KPR (provisi, appraisal, asuransi)</td><td>Rp 5–15 juta</td></tr>
-      <tr><td>Biaya notaris & PPAT</td><td>Rp 5–10 juta</td></tr>
-      <tr><td>BPHTB (Bea Perolehan Hak Atas Tanah dan Bangunan)</td><td>2,5% × (Harga − NJOPTKP) ≈ Rp 10–12 juta</td></tr>
-      <tr><td>PPN (untuk rumah dari developer, harga &gt; Rp 2 miliar)</td><td>11% dari harga</td></tr>
-      <tr><td>Biaya balik nama sertifikat</td><td>Rp 2–5 juta</td></tr>
-      <tr><td>Renovasi/furnitur awal</td><td>Rp 20–50 juta</td></tr>
-      <tr><td><strong>Total biaya di luar DP</strong></td><td><strong>Rp 40–90 juta</strong></td></tr>
-    </table>
-    <p>Pastikan dana yang disiapkan mencakup DP plus seluruh biaya tambahan di atas. Idealnya siapkan dana ekstra 15–20% dari harga rumah untuk menutup semua biaya transaksi.</p>
+    <h2>Strategi Menabung DP Rumah yang Efektif</h2>
+    <ul>
+      <li><strong>Pisahkan rekening khusus DP</strong> — Jangan campur dengan dana darurat atau dana konsumsi. Gunakan rekening tabungan atau reksa dana khusus tujuan rumah.</li>
+      <li><strong>Optimalkan instrumen tabungan</strong> — Deposito (5–6%/thn), Reksa Dana Pasar Uang (5–6%/thn, lebih likuid), atau ORI/SBR (6–7%/thn) bisa mempercepat pencapaian target DP dibanding tabungan biasa (0,5–2%/thn).</li>
+      <li><strong>Alokasikan pendapatan ekstra</strong> — Bonus, THR, dan kenaikan gaji bisa langsung dialokasikan ke rekening DP untuk mempercepat target.</li>
+      <li><strong>Pertimbangkan inflasi harga properti</strong> — Harga rumah historis naik 5–10%/tahun. Jika target rumah Rp 500 juta dan menabung 3 tahun, harga rumah itu mungkin sudah Rp 575–665 juta. Sesuaikan target DP.</li>
+    </ul>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah lebih baik DP besar atau kecil?</div><div class="faq-a">DP besar mengurangi pokok pinjaman, cicilan bulanan, dan total bunga yang dibayar selama tenor KPR — penghematan yang bisa mencapai puluhan juta rupiah. Namun DP besar berarti modal terikat dan tidak bisa diinvestasikan. Jika return investasi Anda lebih tinggi dari bunga KPR, DP kecil dengan investasi sisa modal bisa lebih menguntungkan. Pertimbangkan kondisi keuangan dan goals Anda secara keseluruhan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu KPR Subsidi FLPP?</div><div class="faq-a">KPR Subsidi FLPP (Fasilitas Likuiditas Pembiayaan Perumahan) adalah program pemerintah untuk membantu MBR (Masyarakat Berpenghasilan Rendah) memiliki rumah. Keunggulannya: bunga tetap 5% per tahun, DP minimal 1% (bahkan 0% pada program tertentu), tenor hingga 20 tahun, dan bebas PPN. Syarat: penghasilan ≤Rp 8 juta/bulan (rumah tapak) atau ≤Rp 7 juta (rusun), belum pernah memiliki rumah, dan memenuhi syarat lainnya.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa lama menabung untuk DP rumah?</div><div class="faq-a">Bergantung harga rumah dan kemampuan menabung. Untuk rumah Rp 500 juta dengan DP 20% (Rp 100 juta), jika Anda bisa menabung Rp 2 juta/bulan, dibutuhkan 50 bulan (~4 tahun). Tips: pisahkan rekening tabungan khusus DP, pertimbangkan instrumen dengan return lebih baik dari deposito (reksa dana pasar uang, ORI), dan kurangi pengeluaran tidak penting.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah BPHTB bisa dicicil atau ditangguhkan?</div><div class="faq-a">BPHTB umumnya harus dibayar lunas saat proses balik nama. Namun beberapa pemerintah daerah memiliki program keringanan atau pembebasan BPHTB untuk rumah pertama atau kelompok MBR tertentu. Cek kebijakan di daerah Anda sebelum membeli. BPHTB dihitung dari NJOP atau harga transaksi (mana yang lebih tinggi), dikurangi NPOPTKP yang biasanya Rp 60–80 juta.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bolehkah DP dibayar dengan pinjaman?</div><div class="faq-a">Secara regulasi OJK, DP KPR tidak boleh berasal dari pinjaman lembaga keuangan (kredit tanpa agunan, kartu kredit, dll.). Tujuannya untuk memastikan kemampuan finansial pembeli. Namun meminjam dari keluarga atau menggunakan dana yang sudah ada (seperti tabungan atau pesangon) diperbolehkan. Bank akan mengevaluasi catatan keuangan Anda secara keseluruhan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah harga rumah akan terus naik?</div><div class="faq-a">Secara historis, harga properti di Indonesia cenderung naik jangka panjang, rata-rata 5–10% per tahun di lokasi strategis. Namun ada fluktuasi di tengah (krisis 1998, pandemi 2020). Membeli properti di lokasi yang sedang berkembang (terutama di sekitar infrastruktur baru) cenderung memberikan apresiasi lebih tinggi. Namun properti adalah investasi jangka panjang — jangan berharap profit cepat.</div></div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Lebih baik DP besar atau kecil untuk KPR?</div>
+      <div class="faq-a">DP besar mengurangi pokok KPR, cicilan bulanan, dan total bunga — penghematan bisa puluhan hingga ratusan juta rupiah selama tenor. Namun DP besar berarti modal tunai terikat. Jika return investasi Anda (mis. reksa dana saham 12%/thn) lebih tinggi dari bunga KPR (mis. 10%), secara matematis DP minimum lebih menguntungkan — sisa dana diinvestasikan. Namun untuk psikologi keuangan dan keamanan, DP yang lebih besar memberikan cicilan lebih ringan dan risiko lebih kecil.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu KPR Subsidi FLPP dan siapa yang berhak?</div>
+      <div class="faq-a">FLPP (Fasilitas Likuiditas Pembiayaan Perumahan) adalah program KPR bersubsidi pemerintah. Keunggulan: bunga tetap 5%/tahun (tidak naik selama tenor), DP minimal 1%, tenor hingga 20 tahun, bebas PPN. Syarat 2026: belum pernah memiliki rumah, penghasilan ≤Rp 8 juta/bulan (rumah tapak) atau ≤Rp 7 juta (rusun), WNI, sudah bekerja minimal 1 tahun, dan properti memenuhi syarat harga maksimum FLPP yang ditetapkan pemerintah per daerah.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa lama waktu ideal menabung DP?</div>
+      <div class="faq-a">Idealnya 2–4 tahun. Terlalu singkat berarti setoran terlalu besar dan bisa mengganggu keuangan lain. Terlalu lama berarti risiko harga properti naik lebih tinggi dari kemampuan menabung. Untuk rumah Rp 500 juta dengan DP 20% (Rp 100 juta) + biaya tambahan (Rp 25 juta), total Rp 125 juta: jika menabung Rp 3 juta/bulan, tercapai dalam ~42 bulan. Gunakan Tab "Rencana Tabungan" di kalkulator ini untuk simulasi lebih akurat.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah DP boleh berasal dari pinjaman?</div>
+      <div class="faq-a">Tidak boleh secara regulasi OJK. DP KPR tidak boleh bersumber dari pinjaman lembaga keuangan (KTA, kartu kredit, pinjol). Tujuannya memastikan pembeli memiliki kemampuan finansial yang nyata. Dana DP harus berasal dari tabungan sendiri, dana keluarga (bukan pinjaman formal), atau hasil penjualan aset. Bank akan memverifikasi sumber dana DP melalui rekening koran.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung BPHTB?</div>
+      <div class="faq-a">BPHTB = 5% × (Nilai Perolehan − NPOPTKP). Nilai perolehan adalah harga transaksi atau NJOP (mana yang lebih tinggi). NPOPTKP (Nilai Perolehan Objek Pajak Tidak Kena Pajak) biasanya Rp 60–300 juta tergantung daerah — untuk rumah pertama, beberapa daerah memiliki NPOPTKP lebih tinggi. Contoh: rumah Rp 500 juta, NPOPTKP Rp 80 juta: BPHTB = 5% × (500 juta − 80 juta) = Rp 21 juta. Catatan: beberapa pemda memiliki insentif pembebasan BPHTB untuk MBR atau rumah pertama.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah pengajuan KPR memerlukan SLIK OJK bersih?</div>
+      <div class="faq-a">Ya. Bank akan mengecek riwayat kredit pemohon di SLIK (Sistem Layanan Informasi Keuangan) OJK sebelum menyetujui KPR. Kredit bermasalah (kolektibilitas 2+) akan mempersulit atau menggagalkan pengajuan. Jika Anda punya utang bermasalah, lunasi dan tunggu minimal 6–12 bulan sebelum mengajukan KPR agar catatan kredit membaik. Anda bisa cek SLIK sendiri secara gratis di konsumen.ojk.go.id.</div>
+    </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏡</span>Kalkulator KPR</a>
+      <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
       <a href="/id/kalkulator-cicilan.html" class="related-item"><span class="ri">💳</span>Kalkulator Cicilan</a>
-      <a href="/id/kalkulator-roi.html" class="related-item"><span class="ri">💹</span>Kalkulator ROI</a>
       <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
     </div>
   </div>
 </main>
+
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
+
 <script defer>
-function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
-function calculate() {
-  const price = parseFloat(document.getElementById('price').value);
-  const dpPct = parseFloat(document.getElementById('dp-pct').value) / 100;
-  const income = parseFloat(document.getElementById('income').value) || null;
-  if (!price || price <= 0) return alert('Masukkan harga rumah yang valid.');
+const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmtM = n => {
+  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  return fmt(n);
+};
 
-  const dp = price * dpPct;
-  const loan = price - dp;
-  const extraCost = price * 0.05; // ~5% biaya tambahan
-  const totalNeeded = dp + extraCost;
-  const maxCicil = income ? income * 0.30 : null;
+let dpPct = 20, bungaTh = 10, tenorTh = 20;
 
-  document.getElementById('res-dp').textContent = fmt(dp);
-  document.getElementById('res-loan').textContent = fmt(loan);
-  document.getElementById('res-extra').textContent = fmt(extraCost);
-  document.getElementById('res-total').textContent = fmt(totalNeeded);
+function switchTab(idx, btn) {
+  document.querySelectorAll('.dp-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.dp-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('dp' + idx).classList.add('active');
+}
 
-  if (maxCicil) {
-    document.getElementById('res-max-cicil').textContent = fmt(maxCicil) + '/bulan';
-    // Rough estimate: loan / (months * rough factor for ~10% interest 20yr tenor)
-    const estimatedMonthly = loan / (20 * 12) * 1.55; // very rough
-    if (estimatedMonthly <= maxCicil) {
-      document.getElementById('res-status').textContent = '✅ Kemungkinan mampu (estimasi)';
-    } else {
-      document.getElementById('res-status').textContent = '⚠️ Cicilan estimasi melebihi 30% gaji';
-    }
+function setPrice(v, btn) {
+  document.getElementById('price').value = v;
+  btn.closest('.field').querySelectorAll('.pp-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  autoCalc();
+}
+function setDP(v, btn) {
+  dpPct = v;
+  document.getElementById('dp-slider').value = v;
+  document.getElementById('dp-slider-label').textContent = v + '%';
+  document.querySelectorAll('#dp-pct-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc();
+}
+function syncSlider(v) {
+  dpPct = parseInt(v);
+  document.getElementById('dp-slider-label').textContent = v + '%';
+  document.querySelectorAll('#dp-pct-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  autoCalc();
+}
+function setBunga(v, btn) {
+  bungaTh = v;
+  document.querySelectorAll('#bunga-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc();
+}
+function setTenor(v, btn) {
+  tenorTh = v;
+  document.querySelectorAll('#tenor-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc();
+}
+function autoCalc() {
+  const p = parseFloat(document.getElementById('price').value);
+  if (p > 0) calcDP();
+}
+
+// Annuity cicilan formula
+function calcCicilan(loan, bungaYear, tahun) {
+  const r = bungaYear / 100 / 12;
+  const n = tahun * 12;
+  if (r === 0) return loan / n;
+  return loan * (r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
+}
+
+function calcDP() {
+  const price  = parseFloat(document.getElementById('price').value) || 0;
+  const income = parseFloat(document.getElementById('income').value) || 0;
+  if (!price) return;
+
+  const dp         = price * dpPct / 100;
+  const loan       = price - dp;
+  const extraCost  = price * 0.05;
+  const totalCash  = dp + extraCost;
+  const cicilan    = calcCicilan(loan, bungaTh, tenorTh);
+  const totalBayar = cicilan * tenorTh * 12;
+  const totalBunga = totalBayar - loan;
+
+  // Main
+  document.getElementById('r0-dp').textContent    = fmt(dp);
+  document.getElementById('r0-dp-label').textContent = `Uang muka (DP ${dpPct}%)`;
+
+  // Budget bar
+  const dpBarPct    = Math.round(dp / (price + extraCost) * 100);
+  const extraBarPct = Math.round(extraCost / (price + extraCost) * 100);
+  const loanBarPct  = 100 - dpBarPct - extraBarPct;
+  const barDp = document.getElementById('r0-bar-dp');
+  barDp.style.width = dpBarPct + '%';
+  barDp.textContent = dpBarPct > 10 ? `DP ${dpBarPct}%` : '';
+  const barExtra = document.getElementById('r0-bar-extra');
+  barExtra.style.width = extraBarPct + '%';
+  barExtra.textContent = extraBarPct > 8 ? 'Biaya' : '';
+  const barLoan = document.getElementById('r0-bar-loan');
+  barLoan.style.width = loanBarPct + '%';
+  barLoan.textContent = loanBarPct > 10 ? `KPR ${loanBarPct}%` : '';
+
+  // Stats
+  document.getElementById('s-dp').textContent    = fmtM(dp);
+  document.getElementById('s-extra').textContent = fmtM(extraCost);
+  document.getElementById('s-total').textContent = fmtM(totalCash);
+  document.getElementById('s-loan').textContent  = fmtM(loan);
+
+  // Cicilan
+  document.getElementById('s-cicilan').textContent       = fmt(cicilan) + '/bulan';
+  document.getElementById('s-cicilan-detail').textContent =
+    `Bunga ${bungaTh}%/thn, tenor ${tenorTh} thn · Total bunga Rp ${Math.round(totalBunga).toLocaleString('id-ID')}`;
+
+  if (income > 0) {
+    const ratio = cicilan / income * 100;
+    const barEl = document.getElementById('cicilan-bar');
+    barEl.style.width = Math.min(100, ratio).toFixed(0) + '%';
+    barEl.className   = 'cb-fill ' + (ratio <= 30 ? 'ok' : ratio <= 40 ? 'warn' : 'over');
+    document.getElementById('cicilan-ratio-label').textContent = ratio.toFixed(1) + '% dari gaji';
+    const statusEl = document.getElementById('cicilan-status');
+    if (ratio <= 30)     statusEl.innerHTML = '<span style="color:var(--mint)">✅ Aman (≤30% gaji)</span>';
+    else if (ratio <= 40) statusEl.innerHTML = '<span style="color:#fbbf24">⚠️ Perlu perhatian (30–40%)</span>';
+    else                 statusEl.innerHTML = '<span style="color:#f87171">❌ Terlalu berat (>40%)</span>';
+    document.getElementById('cicilan-bar-section').style.display = '';
   } else {
-    document.getElementById('res-max-cicil').textContent = 'Isi gaji untuk menghitung';
-    document.getElementById('res-status').textContent = 'Isi gaji untuk menilai';
+    document.getElementById('cicilan-bar-section').style.display = 'none';
   }
 
-  document.getElementById('result').classList.add('show');
+  // Biaya breakdown
+  const bphtb     = price * 0.025;
+  const notaris   = price * 0.0075;
+  const provisi   = loan  * 0.015;
+  const asuransi  = loan  * 0.004;
+  const biayaLain = extraCost - bphtb - notaris - provisi - asuransi;
+  document.getElementById('biaya-rows').innerHTML = [
+    { name:'BPHTB (2,5%)', val:bphtb },
+    { name:'Notaris/PPAT (~0,75%)', val:notaris },
+    { name:'Provisi + admin KPR (~1,5%)', val:provisi },
+    { name:'Asuransi jiwa + kebakaran (~0,4%)', val:asuransi },
+    { name:'Biaya lain-lain (appraisal, dll.)', val:biayaLain },
+    { name:'Total biaya tambahan (~5%)', val:extraCost },
+  ].map((r, i) => `<div class="biaya-row ${i === 5 ? 'font-bold' : ''}">
+    <span class="br-name">${r.name}</span>
+    <span class="br-val">${fmt(r.val)}</span>
+  </div>`).join('');
+
+  // DP comparison table
+  const DP_OPTS = [5, 10, 20, 30, 40];
+  const tbl = document.getElementById('dp-comp-tbl');
+  tbl.innerHTML = '<thead><tr><th>DP %</th><th>DP Tunai</th><th>KPR</th><th>Cicilan/bln</th><th>Total Bayar</th></tr></thead>';
+  const tbody = document.createElement('tbody');
+  DP_OPTS.forEach(pct => {
+    const d = price * pct / 100;
+    const l = price - d;
+    const c = calcCicilan(l, bungaTh, tenorTh);
+    const tot = c * tenorTh * 12;
+    const tr = document.createElement('tr');
+    if (pct === dpPct) tr.className = 'chosen';
+    tr.innerHTML = `<td>${pct}%</td><td>${fmtM(d)}</td><td>${fmtM(l)}</td><td>${fmtM(c)}</td><td>${fmtM(tot)}</td>`;
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+
+  // Advice
+  const statusMsg = income > 0
+    ? (cicilan/income <= 0.30 ? '✅ Cicilan masih dalam batas aman (≤30% gaji).' : `⚠️ Cicilan ${(cicilan/income*100).toFixed(0)}% dari gaji — pertimbangkan DP lebih besar atau tenor lebih panjang.`)
+    : '';
+  document.getElementById('r0-advice').innerHTML =
+    `🏠 Rumah ${fmtM(price)} dengan DP <strong>${dpPct}% (${fmtM(dp)})</strong>. Total dana tunai yang disiapkan: <strong>${fmtM(totalCash)}</strong> (termasuk biaya ~5%). Cicilan KPR: <strong>${fmt(cicilan)}/bulan</strong> (bunga ${bungaTh}%, ${tenorTh} thn). ${statusMsg}`;
+
+  document.getElementById('res0').style.display = 'block';
+  document.getElementById('res0').classList.add('show');
 }
+
+function setSaving(v, btn) {
+  document.getElementById('monthly-saving').value = v;
+  btn.closest('.field').querySelectorAll('.pp-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  autoCalcSave();
+}
+function autoCalcSave() {
+  const t = document.getElementById('target-dp').value;
+  const m = document.getElementById('monthly-saving').value;
+  if (t && m) calcSavePlan();
+}
+
+function calcSavePlan() {
+  const target  = parseFloat(document.getElementById('target-dp').value) || 0;
+  const current = parseFloat(document.getElementById('current-dp').value) || 0;
+  const monthly = parseFloat(document.getElementById('monthly-saving').value) || 0;
+  const rYear   = parseFloat(document.getElementById('saving-rate').value) / 100;
+  if (!target || !monthly) return;
+
+  const r = rYear / 12;
+  let nilai = current;
+  let months = 0;
+  while (nilai < target && months < 600) {
+    nilai = nilai * (1 + r) + monthly;
+    months++;
+  }
+
+  const totalSelf   = current + monthly * months;
+  const returnTotal = nilai - totalSelf;
+  const yr = new Date().getFullYear();
+  const estYear = yr + Math.ceil(months / 12);
+
+  document.getElementById('r1-months').textContent  = months + ' bulan (' + (months/12).toFixed(1).replace('.',',') + ' tahun)';
+  document.getElementById('r1-target').textContent  = fmtM(target);
+  document.getElementById('r1-current').textContent = fmtM(current);
+  document.getElementById('r1-monthly').textContent = fmtM(monthly) + '/bulan';
+  document.getElementById('r1-rate').textContent    = rYear > 0 ? (rYear*100).toFixed(1) + '%/thn' : 'Tanpa bunga';
+  document.getElementById('r1-year').textContent    = 'Tahun ' + estYear;
+  document.getElementById('r1-self').textContent    = fmtM(totalSelf);
+  document.getElementById('r1-return').textContent  = rYear > 0 ? '+' + fmtM(Math.max(0, returnTotal)) : 'Rp 0';
+
+  document.getElementById('r1-advice').innerHTML =
+    `💰 Dengan menabung <strong>${fmt(monthly)}/bulan</strong>, target DP <strong>${fmtM(target)}</strong> tercapai dalam <strong>${months} bulan</strong> (estimasi tahun <strong>${estYear}</strong>). ${rYear > 0 ? `Dengan return ${(rYear*100).toFixed(1)}%/thn, bunga menambah ${fmtM(Math.max(0,returnTotal))} ke tabungan Anda.` : 'Gunakan deposito atau reksa dana untuk mempercepat dengan tambahan return.'}`;
+
+  document.getElementById('res1').style.display = 'block';
+  document.getElementById('res1').classList.add('show');
+}
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calcDP(); });
 </script>
 </body>
 </html>

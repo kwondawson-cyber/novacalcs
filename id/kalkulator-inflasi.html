@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Inflasi 2026 — Hitung Nilai Uang dan Daya Beli | NovaCalcs</title>
-<meta name="description" content="Hitung dampak inflasi terhadap nilai uang Anda. Ketahui berapa nilai Rp1.000.000 di masa lalu atau di masa depan setelah inflasi."/>
-<meta name="keywords" content="kalkulator inflasi, nilai uang inflasi, daya beli, hitung inflasi Indonesia, laju inflasi, kalkulator keuangan"/>
+<title>Kalkulator Inflasi 2026 — Nilai Uang, Daya Beli & Gaji Riil | NovaCalcs</title>
+<meta name="description" content="Hitung dampak inflasi terhadap nilai uang dan daya beli. Simulasi nilai masa depan, erosi tabungan, gaji riil vs inflasi, dan berapa investasi yang dibutuhkan untuk mengalahkan inflasi."/>
+<meta name="keywords" content="kalkulator inflasi, nilai uang inflasi Indonesia, daya beli, inflasi 2026, gaji riil, hitung inflasi, return investasi riil"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-inflasi.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-inflasi.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,8 +13,82 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Inflasi","url":"https://novacalcs.com/id/kalkulator-inflasi.html","description":"Kalkulator dampak inflasi terhadap nilai uang, daya beli, dan gaji riil","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Tabs */
+.inf-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.inf-tab  { flex:1; padding:8px 6px; font-size:.74rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
+.inf-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
+.inf-panel { display:none; }
+.inf-panel.active { display:block; }
+
+/* Big value display */
+.inf-main  { text-align:center; padding:14px 0 8px; }
+.inf-num   { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
+.inf-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Value erosion bar */
+.erosion-wrap  { margin:12px 0 6px; }
+.erosion-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
+.er-real  { background:var(--mint); transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#001a17; }
+.er-lost  { background:#f87171; flex:1; display:flex; align-items:center; padding-left:6px; font-size:.62rem; font-weight:700; color:#450a0a; }
+.er-legend{ display:flex; gap:14px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
+.er-legend span::before { content:'●'; margin-right:4px; }
+.leg-m::before { color:var(--mint); } .leg-r::before { color:#f87171; }
+
+/* Stats */
+.inf-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.is-card   { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.is-card .ic-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.is-card .ic-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.is-card.green .ic-val { color:var(--mint); }
+.is-card.red   .ic-val { color:#f87171; }
+.is-card.orange .ic-val { color:#f97316; }
+
+/* Year-by-year bars */
+.year-bars { margin-top:12px; }
+.yb-row    { display:flex; align-items:center; gap:8px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,.03); font-size:.78rem; }
+.yb-row:last-child { border-bottom:none; }
+.yb-label { min-width:65px; color:var(--text-muted); font-size:.7rem; }
+.yb-track { flex:1; height:7px; background:var(--bg-card); border-radius:3px; overflow:hidden; }
+.yb-fill  { height:100%; border-radius:3px; background:var(--mint); transition:width .5s; }
+.yb-val   { min-width:90px; text-align:right; font-weight:600; color:var(--mint); font-size:.75rem; }
+
+/* Gaji comparison */
+.gaji-result { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; margin-top:10px; }
+.gr-row   { display:flex; justify-content:space-between; padding:5px 0; font-size:.82rem; border-bottom:1px solid var(--border); }
+.gr-row:last-child { border-bottom:none; }
+.gr-ok   { color:var(--mint); font-weight:700; }
+.gr-bad  { color:#f87171; font-weight:700; }
+.gr-warn { color:#fbbf24; font-weight:700; }
+
+/* Rate presets */
+.rate-presets { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.rate-btn { padding:4px 10px; border-radius:6px; font-size:.72rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all .15s; }
+.rate-btn:hover,.rate-btn.on { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,.35); }
+
+/* Product compare */
+.prod-compare { width:100%; border-collapse:collapse; font-size:.78rem; margin-top:10px; }
+.prod-compare th { background:var(--bg-input); color:var(--text-secondary); padding:6px 10px; text-align:right; font-weight:600; }
+.prod-compare th:first-child { text-align:left; }
+.prod-compare td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; }
+.prod-compare td:first-child { text-align:left; color:var(--text-secondary); }
+.prod-compare tr.beat td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
+.prod-compare tr.lose td { background:rgba(248,113,113,.06); color:#f87171; }
+.prod-compare tr:last-child td { border-bottom:none; }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
+</style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -25,172 +99,472 @@
     </nav>
   </div>
 </header>
+
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">📈 Kalkulator Inflasi & Nilai Uang</div>
-      <div class="calc-subtitle">Hitung dampak inflasi terhadap daya beli uang Anda</div>
+      <div class="calc-title">📈 Kalkulator Inflasi 2026</div>
+      <div class="calc-subtitle">Nilai uang · Daya beli · Gaji riil · Kalahkan inflasi</div>
 
-      <div class="field">
-        <label>Mode</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-future" onclick="setMode('future')">Nilai Masa Depan</div>
-          <div class="radio-btn" id="btn-past" onclick="setMode('past')">Nilai Masa Lalu</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Jumlah Uang (Rp)</label>
-        <input type="number" id="amount" placeholder="Contoh: 1000000" min="0"/>
-      </div>
-      <div class="field">
-        <label>Laju Inflasi per Tahun (%)</label>
-        <input type="number" id="rate" placeholder="Contoh: 4" value="4" min="0" max="100" step="0.1"/>
-        <small style="color:#aaa">Rata-rata inflasi Indonesia ~3–5% per tahun</small>
-      </div>
-      <div class="field">
-        <label>Jangka Waktu (tahun)</label>
-        <input type="number" id="years" placeholder="Contoh: 10" min="1" max="100"/>
+      <div class="inf-tabs">
+        <div class="inf-tab active" onclick="switchTab(0,this)">💰 Nilai Uang</div>
+        <div class="inf-tab" onclick="switchTab(1,this)">💼 Gaji Riil</div>
+        <div class="inf-tab" onclick="switchTab(2,this)">📊 Kalahkan Inflasi</div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Dampak Inflasi</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-val">—</div>
-          <div class="result-label" id="res-label">Nilai Uang</div>
+      <!-- TAB 0: Nilai Uang & Daya Beli -->
+      <div class="inf-panel active" id="ip0">
+        <div class="field">
+          <label>Mode Perhitungan</label>
+          <div class="radio-group">
+            <div class="radio-btn active" id="btn-future" onclick="setMode('future',this)">Nilai Masa Depan</div>
+            <div class="radio-btn" id="btn-past" onclick="setMode('past',this)">Nilai Masa Lalu</div>
+          </div>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px" id="mode-hint">Uang sekarang akan bernilai berapa setelah N tahun?</p>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Jumlah awal</span><span class="rval" id="res-initial">—</span></div>
-          <div class="result-row"><span class="rkey">Penurunan daya beli</span><span class="rval" id="res-loss">—</span></div>
-          <div class="result-row"><span class="rkey">Perlu simpan sekarang untuk nilai sama</span><span class="rval" id="res-needed">—</span></div>
+        <div class="field">
+          <label>Jumlah Uang (Rp)</label>
+          <input type="number" id="amount" placeholder="Contoh: 1.000.000" oninput="autoCalc0()"/>
+        </div>
+        <div class="field">
+          <label>Laju Inflasi per Tahun (%)</label>
+          <div class="rate-presets">
+            <div class="rate-btn" onclick="setRate('amount-rate',2.5,this)">2,5% (target BI)</div>
+            <div class="rate-btn on" onclick="setRate('amount-rate',4,this)">4% (historis)</div>
+            <div class="rate-btn" onclick="setRate('amount-rate',7,this)">7% (tinggi)</div>
+          </div>
+          <input type="number" id="amount-rate" value="4" step="0.1" oninput="autoCalc0()"/>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Target BI 2026: 2,5±1% · Rata-rata historis Indonesia: ~3–5%/thn</p>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="yr0-btns">
+            <div class="radio-btn" onclick="setYr('yr0',5,this)">5</div>
+            <div class="radio-btn active" onclick="setYr('yr0',10,this)">10</div>
+            <div class="radio-btn" onclick="setYr('yr0',20,this)">20</div>
+            <div class="radio-btn" onclick="setYr('yr0',30,this)">30</div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcNilaiUang()">💰 Hitung Dampak Inflasi</button>
+
+        <div class="result-box" id="res0" style="display:none">
+          <div class="inf-main">
+            <div class="inf-num" id="r0-val">—</div>
+            <div class="inf-label" id="r0-label">—</div>
+          </div>
+
+          <!-- Erosion bar -->
+          <div class="erosion-wrap">
+            <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:5px;display:flex;justify-content:space-between">
+              <span>Sisa daya beli</span>
+              <span id="r0-real-pct" style="color:#f87171;font-weight:700">—% erosi</span>
+            </div>
+            <div class="erosion-track">
+              <div class="er-real" id="r0-bar-real" style="width:70%">Riil</div>
+              <div class="er-lost" id="r0-bar-lost">Erosi inflasi</div>
+            </div>
+            <div class="er-legend"><span class="leg-m">Nilai riil tersisa</span><span class="leg-r">Daya beli yang terkikis</span></div>
+          </div>
+
+          <!-- Stats -->
+          <div class="inf-stats">
+            <div class="is-card"><div class="ic-label">Jumlah awal</div><div class="ic-val" id="r0-initial">—</div></div>
+            <div class="is-card orange"><div class="ic-label">Inflasi kumulatif</div><div class="ic-val" id="r0-cum-inf">—</div></div>
+            <div class="is-card red"><div class="ic-label">Erosi daya beli</div><div class="ic-val" id="r0-loss">—</div></div>
+            <div class="is-card green"><div class="ic-label">Dibutuhkan untuk nilai sama</div><div class="ic-val" id="r0-needed">—</div></div>
+          </div>
+
+          <!-- Year by year -->
+          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin:12px 0 8px">Proyeksi Tahunan</div>
+          <div class="year-bars" id="r0-year-bars"></div>
+
+          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
       </div>
+
+      <!-- TAB 1: Gaji Riil -->
+      <div class="inf-panel" id="ip1">
+        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
+          Apakah kenaikan gaji Anda benar-benar meningkatkan daya beli? Cek di sini.
+        </div>
+        <div class="field"><label>Gaji Sekarang (Rp/bulan)</label>
+          <input type="number" id="gaji-now" placeholder="Contoh: 8.000.000" oninput="autoCalc1()"/>
+        </div>
+        <div class="field"><label>Kenaikan Gaji per Tahun (%)</label>
+          <div class="rate-presets">
+            <div class="rate-btn" onclick="setRate('kenaikan-rate',5,this)">5%</div>
+            <div class="rate-btn on" onclick="setRate('kenaikan-rate',8,this)">8%</div>
+            <div class="rate-btn" onclick="setRate('kenaikan-rate',10,this)">10%</div>
+            <div class="rate-btn" onclick="setRate('kenaikan-rate',15,this)">15%</div>
+          </div>
+          <input type="number" id="kenaikan-rate" value="8" step="0.1" oninput="autoCalc1()"/>
+        </div>
+        <div class="field"><label>Laju Inflasi per Tahun (%)</label>
+          <div class="rate-presets">
+            <div class="rate-btn" onclick="setRate('gaji-inf-rate',3,this)">3%</div>
+            <div class="rate-btn on" onclick="setRate('gaji-inf-rate',4,this)">4%</div>
+            <div class="rate-btn" onclick="setRate('gaji-inf-rate',5,this)">5%</div>
+          </div>
+          <input type="number" id="gaji-inf-rate" value="4" step="0.1" oninput="autoCalc1()"/>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="yr1-btns">
+            <div class="radio-btn" onclick="setYr('yr1',3,this)">3</div>
+            <div class="radio-btn" onclick="setYr('yr1',5,this)">5</div>
+            <div class="radio-btn active" onclick="setYr('yr1',10,this)">10</div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcGajiRiil()">💼 Hitung Gaji Riil</button>
+
+        <div class="result-box" id="res1" style="display:none">
+          <div class="inf-main">
+            <div class="inf-num" id="r1-riil-growth">—</div>
+            <div class="inf-label">Kenaikan daya beli riil per tahun</div>
+          </div>
+          <div class="gaji-result">
+            <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px">Perbandingan nominal vs riil</div>
+            <div class="gr-row"><span>Gaji sekarang</span><span id="r1-gaji-now">—</span></div>
+            <div class="gr-row"><span>Gaji nominal N tahun lagi</span><span id="r1-gaji-nominal">—</span></div>
+            <div class="gr-row"><span>Gaji riil (daya beli setara saat ini)</span><span id="r1-gaji-riil">—</span></div>
+            <div class="gr-row"><span>Status daya beli</span><span id="r1-status">—</span></div>
+          </div>
+          <!-- Year bars for gaji -->
+          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin:12px 0 8px">Proyeksi Gaji Nominal vs Riil</div>
+          <div class="year-bars" id="r1-year-bars"></div>
+          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Kalahkan inflasi -->
+      <div class="inf-panel" id="ip2">
+        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
+          Berapa return investasi yang dibutuhkan untuk menjaga atau menumbuhkan daya beli?
+        </div>
+        <div class="field"><label>Jumlah Uang (Rp)</label>
+          <input type="number" id="beat-amount" placeholder="Contoh: 10.000.000" oninput="autoCalc2()"/>
+        </div>
+        <div class="field"><label>Laju Inflasi (%/tahun)</label>
+          <input type="number" id="beat-inf" value="4" step="0.1" oninput="autoCalc2()"/>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="yr2-btns">
+            <div class="radio-btn" onclick="setYr('yr2',5,this)">5</div>
+            <div class="radio-btn active" onclick="setYr('yr2',10,this)">10</div>
+            <div class="radio-btn" onclick="setYr('yr2',20,this)">20</div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcKalahkan()">📊 Bandingkan Produk</button>
+        <div class="result-box" id="res2" style="display:none">
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px">Nilai akhir per instrumen vs kebutuhan daya beli</div>
+          <table class="prod-compare" id="r2-tbl"></table>
+          <div id="r2-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Inflasi — Hitung Nilai Uang dan Daya Beli di Masa Depan</h1>
-    <p class="page-desc">Inflasi adalah musuh diam-diam keuangan Anda. Kalkulator ini membantu Anda memahami seberapa besar inflasi menggerogoti nilai uang dan daya beli Anda seiring waktu.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Inflasi 2026 — Nilai Uang, Daya Beli & Gaji Riil</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Inflasi adalah pajak diam-diam yang menggerogoti nilai uang setiap tahun. Hitung dampak inflasi pada tabungan, gaji, dan rencana keuangan Anda — serta lihat instrumen mana yang bisa mengalahkan inflasi.</p>
 
-    <div class="ad-slot">Advertisement</div>
+    <h2>Inflasi Indonesia 2026 — Data Terkini</h2>
+    <p>Bank Indonesia (BI) menetapkan target inflasi Indonesia sebesar <strong>2,5% ± 1%</strong> (kisaran 1,5–3,5%) untuk tahun 2025–2026. Beberapa referensi historis penting:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Periode / Kondisi</th><th>Laju Inflasi</th><th>Catatan</th></tr></thead>
+      <tbody>
+        <tr><td>Target BI 2025–2026</td><td>2,5% ± 1%</td><td>1,5–3,5%</td></tr>
+        <tr><td>Rata-rata 2015–2024</td><td>~3,5–4%/tahun</td><td>Asumsi perencanaan konservatif</td></tr>
+        <tr><td>2022 (pasca-pandemi + BBM naik)</td><td>5,5% (tertinggi sejak 2015)</td><td>Dampak global + kenaikan BBM</td></tr>
+        <tr><td>2023–2024</td><td>~2,5–3%/tahun</td><td>Kembali dalam rentang target</td></tr>
+        <tr><td>Krisis 1998</td><td>&gt;75%</td><td>Anomali krisis ekonomi</td></tr>
+      </tbody>
+    </table>
+    <p>Untuk perencanaan keuangan jangka panjang (10–30 tahun), menggunakan asumsi inflasi <strong>4%/tahun</strong> adalah konservatif dan realistis, terutama karena inflasi riil yang dirasakan konsumen untuk kebutuhan seperti pendidikan dan kesehatan sering melebihi inflasi umum.</p>
 
-    <h2>Apa itu Inflasi dan Mengapa Penting?</h2>
-    <p>Inflasi adalah kenaikan harga barang dan jasa secara umum dan berkelanjutan dari waktu ke waktu. Ketika inflasi terjadi, nilai uang turun — artinya dengan jumlah uang yang sama Anda bisa membeli lebih sedikit barang di masa depan dibandingkan hari ini.</p>
-    <p>Di Indonesia, inflasi rata-rata berada di kisaran 3–5% per tahun selama satu dekade terakhir, meski sempat melonjak tinggi pada periode tertentu seperti krisis 1998 (lebih dari 50%) dan dampak pandemi 2022.</p>
-    <p>Memahami inflasi sangat penting untuk perencanaan keuangan: menentukan target tabungan pensiun, menilai return investasi riil, dan memahami apakah kenaikan gaji Anda benar-benar menaikkan daya beli.</p>
-
-    <h2>Cara Menggunakan Kalkulator Inflasi</h2>
-    <ol>
-      <li>Pilih mode: <strong>Nilai Masa Depan</strong> (uang sekarang bernilai berapa nanti?) atau <strong>Nilai Masa Lalu</strong> (uang sekarang setara berapa di masa lalu?)</li>
-      <li>Masukkan <strong>jumlah uang</strong> yang ingin dihitung</li>
-      <li>Masukkan <strong>laju inflasi</strong> per tahun (rata-rata Indonesia ~3–5%)</li>
-      <li>Masukkan <strong>jangka waktu</strong> dalam tahun</li>
-      <li>Klik <strong>"Hitung Dampak Inflasi"</strong></li>
-    </ol>
-
-    <h2>Rumus Perhitungan Inflasi</h2>
-    <table>
-      <tr><th>Menghitung</th><th>Rumus</th></tr>
-      <tr><td>Nilai masa depan</td><td>Nilai Depan = Jumlah × (1 + inflasi%)^tahun</td></tr>
-      <tr><td>Nilai riil (daya beli)</td><td>Daya Beli = Jumlah ÷ (1 + inflasi%)^tahun</td></tr>
-      <tr><td>Return investasi riil</td><td>Return Riil ≈ Return Nominal − Laju Inflasi</td></tr>
+    <h2>Dampak Nyata Inflasi pada Nilai Uang</h2>
+    <p>Inflasi 4%/tahun mungkin terdengar kecil, namun akumulasinya sangat signifikan:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Jangka Waktu</th><th>Nilai Rp 10 juta (4%/thn)</th><th>Daya Beli Tersisa</th></tr></thead>
+      <tbody>
+        <tr><td>5 tahun</td><td>Butuh Rp 12,17 juta untuk daya beli sama</td><td>82%</td></tr>
+        <tr><td>10 tahun</td><td>Butuh Rp 14,80 juta</td><td>68%</td></tr>
+        <tr><td>20 tahun</td><td>Butuh Rp 21,91 juta</td><td>46%</td></tr>
+        <tr><td>30 tahun</td><td>Butuh Rp 32,43 juta</td><td>31%</td></tr>
+      </tbody>
     </table>
 
-    <h2>Contoh Dampak Inflasi di Indonesia</h2>
-    <p>Rp 1.000.000 pada tahun 2006, dengan inflasi rata-rata 4% per tahun, setara dengan sekitar Rp 1.480.000 pada tahun 2016 dan Rp 2.191.000 pada tahun 2026. Artinya, tabungan Rp 1 juta yang tidak diinvestasikan 20 tahun lalu hanya mampu membeli barang senilai Rp 1 juta, padahal harga barang tersebut kini sudah Rp 2,2 juta. Itulah mengapa menabung di bawah bantal "membakar uang" secara perlahan.</p>
+    <h2>Fitur Kalkulator Inflasi NovaCalcs</h2>
+    <ul>
+      <li><strong>Mode Nilai Uang</strong> — Hitung nilai nominal yang dibutuhkan di masa depan untuk mempertahankan daya beli, atau cari tahu berapa nilai uang sekarang setara dengan jumlah di masa lalu. Visualisasi bar menunjukkan proporsi daya beli yang tersisa vs yang terkikis inflasi.</li>
+      <li><strong>Proyeksi tahunan bar chart</strong> — Grafik bar per tahun menampilkan nilai uang dari tahun ke tahun, sehingga Anda bisa melihat seberapa cepat inflasi menggerogoti nilai secara visual.</li>
+      <li><strong>Mode Gaji Riil</strong> — Masukkan gaji sekarang, persentase kenaikan gaji per tahun, dan laju inflasi. Kalkulator menampilkan gaji nominal vs gaji riil (daya beli), dan apakah kenaikan gaji Anda benar-benar meningkatkan kemampuan membeli.</li>
+      <li><strong>Mode Kalahkan Inflasi</strong> — Bandingkan 7 instrumen keuangan (tabungan, deposito, ORI/SBR, reksa dana, saham, properti) sekaligus untuk melihat mana yang mengalahkan inflasi, dan mana yang justru menurunkan daya beli riil.</li>
+      <li><strong>Preset inflasi</strong> — Tombol cepat untuk target BI 2,5%, historis 4%, dan skenario tinggi 7%.</li>
+    </ul>
 
-    <h2>Inflasi Indonesia: Data dan Tren Historis</h2>
-    <p>Memahami data inflasi historis Indonesia penting untuk perencanaan keuangan jangka panjang:</p>
-    <table>
-      <tr><th>Periode</th><th>Rata-rata Inflasi/Tahun</th><th>Konteks</th></tr>
-      <tr><td>1998</td><td>77,6%</td><td>Krisis moneter Asia</td></tr>
-      <tr><td>2000–2010</td><td>7–8%</td><td>Pemulihan dan stabilisasi</td></tr>
-      <tr><td>2011–2019</td><td>4–6%</td><td>Era inflasi moderat</td></tr>
-      <tr><td>2020–2021</td><td>1,7–2,0%</td><td>Pandemi COVID-19, permintaan lesu</td></tr>
-      <tr><td>2022</td><td>5,5%</td><td>Kenaikan harga energi global</td></tr>
-      <tr><td>2023–2024</td><td>2,5–3,5%</td><td>Normalisasi pasca-pandemi</td></tr>
+    <h2>Cara Mengalahkan Inflasi — Panduan Instrumen 2026</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Instrumen</th><th>Return est. 2026</th><th>vs Inflasi 4%</th></tr></thead>
+      <tbody>
+        <tr><td>Tabungan bank biasa</td><td>0,5–2%</td><td>❌ Kalah (daya beli turun)</td></tr>
+        <tr><td>Deposito bank</td><td>4–6%</td><td>⚠️ Pas / sedikit lebih</td></tr>
+        <tr><td>ORI / SBR (obligasi negara)</td><td>6–7,5%</td><td>✅ Menang (pajak 10%)</td></tr>
+        <tr><td>Reksa Dana Pasar Uang</td><td>4–6%</td><td>⚠️ Pas / sedikit lebih</td></tr>
+        <tr><td>Reksa Dana Campuran/Saham</td><td>10–15% (jk. panjang)</td><td>✅ Menang signifikan</td></tr>
+        <tr><td>Saham langsung (IHSG historis)</td><td>12–15% (10+ tahun)</td><td>✅ Menang signifikan</td></tr>
+        <tr><td>Properti strategis</td><td>7–12%/tahun</td><td>✅ Menang (plus nilai guna)</td></tr>
+      </tbody>
     </table>
-    <p>Bank Indonesia menargetkan inflasi di kisaran <strong>2,5% ± 1%</strong> per tahun sebagai sasaran jangka menengah. Ketika inflasi melebihi batas atas (3,5%), BI biasanya menaikkan suku bunga acuan (BI Rate) untuk mendinginkan perekonomian.</p>
 
-    <h2>Dampak Inflasi terhadap Tabungan dan Investasi</h2>
-    <p>Memahami <strong>return riil</strong> (return setelah dikurangi inflasi) sangat krusial dalam perencanaan investasi:</p>
-    <ul>
-      <li>Deposito bunga 5%/tahun dikurangi inflasi 3,5% = return riil hanya <strong>1,5%</strong></li>
-      <li>Tabungan biasa bunga 0,5–1%/tahun dengan inflasi 3,5% = return riil <strong>negatif −2,5%</strong></li>
-      <li>Saham (return historis IHSG ~10%/tahun) dikurangi inflasi 3,5% = return riil ~<strong>6,5%</strong></li>
-    </ul>
-    <p>Simpanan di tabungan biasa secara nyata <em>menyusut nilainya</em> setiap tahun. Ini alasan utama mengapa menabung saja tidak cukup untuk persiapan masa depan — diperlukan investasi yang returnnya minimal setara atau melebihi inflasi.</p>
-
-    <h2>Cara Melindungi Daya Beli dari Inflasi</h2>
-    <ul>
-      <li><strong>Investasi di instrumen yang mengalahkan inflasi</strong> — Saham, reksa dana saham, properti, atau obligasi dengan yield di atas inflasi</li>
-      <li><strong>Beli emas</strong> — Secara historis emas mampu mempertahankan daya beli jangka panjang</li>
-      <li><strong>Kunci harga lewat kontrak jangka panjang</strong> — Untuk biaya besar seperti sewa kantor atau biaya pendidikan anak</li>
-      <li><strong>Tingkatkan penghasilan secara berkala</strong> — Negosiasi kenaikan gaji minimal sesuai inflasi tahunan</li>
-    </ul>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa inflasi Indonesia saat ini?</div><div class="faq-a">Inflasi Indonesia dijaga oleh Bank Indonesia dalam target 2,5±1% (yaitu 1,5–3,5%). Secara historis, inflasi Indonesia rata-rata sekitar 3–5% per tahun dalam 10 tahun terakhir. Untuk perencanaan keuangan jangka panjang, menggunakan asumsi 4–5% per tahun adalah angka yang konservatif dan realistis.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah tabungan di bank aman dari inflasi?</div><div class="faq-a">Tabungan biasa di bank memberikan bunga sekitar 0,5–3% per tahun, yang umumnya lebih rendah dari laju inflasi (3–5%). Artinya, daya beli tabungan Anda sebenarnya menurun secara riil. Untuk mengalahkan inflasi, pertimbangkan instrumen investasi dengan return lebih tinggi seperti deposito, reksa dana, obligasi pemerintah (ORI/SBR), atau saham untuk jangka panjang.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana inflasi mempengaruhi gaji saya?</div><div class="faq-a">Jika gaji Anda naik 5% per tahun tapi inflasi 4%, kenaikan daya beli riil Anda hanya 1%. Jika gaji naik 3% tapi inflasi 4%, daya beli Anda sebenarnya turun 1% meski nominalnya naik. Ini mengapa negosiasi gaji harus mempertimbangkan inflasi, bukan hanya persentase kenaikan nominal.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa yang menyebabkan inflasi tinggi?</div><div class="faq-a">Inflasi dapat disebabkan oleh beberapa faktor: demand-pull inflation (permintaan terlalu tinggi), cost-push inflation (biaya produksi naik, misalnya harga BBM atau bahan baku), imported inflation (harga impor naik, seperti saat nilai Rupiah melemah), dan kelebihan jumlah uang beredar. Di Indonesia, kenaikan BBM, harga pangan, dan pelemahan Rupiah sering menjadi pemicu inflasi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa dana pensiun yang dibutuhkan dengan mempertimbangkan inflasi?</div><div class="faq-a">Ini adalah pertanyaan kritis yang sering diabaikan. Jika Anda butuh Rp 5 juta/bulan saat ini dan pensiun 25 tahun lagi, dengan inflasi 4%, Anda akan butuh sekitar Rp 13,3 juta/bulan di masa pensiun untuk daya beli yang sama. Hitung kebutuhan pensiun berbasis biaya hidup di masa depan, bukan saat ini.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu deflasi dan apakah lebih baik dari inflasi?</div><div class="faq-a">Deflasi adalah penurunan harga secara umum — kebalikan inflasi. Meski terdengar bagus (harga turun!), deflasi berkepanjangan berbahaya karena mendorong konsumen menunda pembelian (menunggu harga lebih turun), yang memperlambat ekonomi dan bisa memicu resesi. Inflasi rendah dan stabil (2–4%) justru dianggap sehat untuk pertumbuhan ekonomi.</div></div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa target inflasi Indonesia 2026?</div>
+      <div class="faq-a">Bank Indonesia menetapkan target inflasi 2,5% ± 1% (kisaran 1,5–3,5%) untuk 2025–2026. Dalam praktiknya, inflasi yang dirasakan konsumen untuk barang tertentu seperti pendidikan, kesehatan, dan pangan sering lebih tinggi dari angka headline. Untuk perencanaan keuangan yang konservatif, gunakan asumsi 4%/tahun.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah tabungan di bank aman dari inflasi?</div>
+      <div class="faq-a">Tabungan biasa memberikan bunga 0,5–2%/tahun, jauh di bawah inflasi 3–4%. Artinya, daya beli tabungan Anda turun secara riil meskipun nominalnya bertambah. Untuk minimal setara inflasi, gunakan deposito (4–6%) atau reksa dana pasar uang (4–6%). Untuk mengalahkan inflasi secara signifikan jangka panjang, reksa dana saham atau ORI/SBR menjadi pilihan lebih baik.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung return investasi riil?</div>
+      <div class="faq-a">Return riil (Fisher Equation) = (1 + return nominal) ÷ (1 + inflasi) − 1. Contoh: deposito 6%/thn, inflasi 4%: return riil = (1,06/1,04) − 1 = 1,92%/thn. Pendekatan sederhananya: return riil ≈ return nominal − inflasi = 6% − 4% = 2%/thn. Return riil positif artinya daya beli Anda tumbuh. Return riil negatif (mis. tabungan 1,5% saat inflasi 4%) artinya daya beli turun meski saldo bertambah.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana inflasi mempengaruhi perencanaan pensiun?</div>
+      <div class="faq-a">Inflasi adalah faktor paling sering diabaikan dalam perencanaan pensiun. Jika Anda butuh Rp 5 juta/bulan saat ini dan pensiun 25 tahun lagi, dengan inflasi 4%/tahun, Anda akan butuh ~Rp 13,3 juta/bulan untuk daya beli yang sama. Selalu rencanakan dana pensiun dalam nilai masa depan, bukan saat ini. Investasi di instrumen yang mengalahkan inflasi (saham, reksa dana saham) menjadi sangat penting untuk tujuan jangka panjang seperti pensiun.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan inflasi umum vs inflasi inti?</div>
+      <div class="faq-a">Inflasi umum (headline inflation) mencakup semua komponen termasuk harga pangan dan energi yang sangat volatile. Inflasi inti (core inflation) mengecualikan pangan segar dan harga yang diatur pemerintah (BBM, listrik) — lebih mencerminkan tekanan inflasi yang persisten. Bank Indonesia lebih memperhatikan inflasi inti untuk kebijakan moneter. Bagi perencanaan keuangan personal, inflasi yang Anda rasakan mungkin berbeda dari angka resmi karena bergantung pada pola konsumsi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara membandingkan gaji dari tahun berbeda dengan inflasi?</div>
+      <div class="faq-a">Gunakan rumus: Nilai riil = Nilai nominal ÷ (1 + inflasi)^tahun. Contoh: gaji Rp 5 juta di 2016 vs gaji Rp 7 juta di 2026 dengan inflasi rata-rata 4%: Nilai riil Rp 7 juta di 2026 (dalam nilai 2016) = 7 juta ÷ (1,04)^10 = ~Rp 4,73 juta. Artinya meski nominal naik Rp 2 juta, daya beli sebenarnya turun dibanding 2016! Gunakan Tab "Gaji Riil" di kalkulator ini untuk simulasi langsung.</div>
+    </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Investasi</a>
       <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
+      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
       <a href="/id/kalkulator-roi.html" class="related-item"><span class="ri">💹</span>Kalkulator ROI</a>
-      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
     </div>
   </div>
 </main>
+
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
+
 <script defer>
-let mode = 'future';
-function setMode(m) {
-  mode = m;
+const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmtM = n => {
+  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  return fmt(n);
+};
+
+const yr = { yr0:10, yr1:10, yr2:10 };
+let mode0 = 'future';
+
+const INSTRUMENTS = [
+  { name:'Tabungan bank biasa',   ret:1.5,   icon:'🏦' },
+  { name:'Deposito (5,5%)',       ret:5.5,   icon:'💰' },
+  { name:'ORI/SBR (6,5%, pajak 10%)', ret:6.5*0.9, icon:'📜' },
+  { name:'Reksa Dana Pasar Uang', ret:5.5,   icon:'💵' },
+  { name:'Reksa Dana Campuran',   ret:10,    icon:'📊' },
+  { name:'Reksa Dana Saham',      ret:12,    icon:'📈' },
+  { name:'Properti strategis',    ret:9,     icon:'🏠' },
+];
+
+function switchTab(idx, btn) {
+  document.querySelectorAll('.inf-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.inf-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('ip' + idx).classList.add('active');
+}
+function setMode(m, btn) {
+  mode0 = m;
   document.getElementById('btn-future').classList.toggle('active', m === 'future');
   document.getElementById('btn-past').classList.toggle('active', m === 'past');
+  document.getElementById('mode-hint').textContent = m === 'future'
+    ? 'Uang sekarang akan bernilai berapa setelah N tahun?'
+    : 'Uang sekarang setara berapa di masa lalu?';
+  autoCalc0();
 }
-function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
-function calculate() {
-  const amount = parseFloat(document.getElementById('amount').value);
-  const rate = parseFloat(document.getElementById('rate').value) / 100;
-  const years = parseInt(document.getElementById('years').value);
-  if (!amount || isNaN(rate) || !years || amount <= 0 || years < 1) return alert('Pastikan semua data diisi dengan benar.');
+function setRate(id, v, btn) {
+  document.getElementById(id).value = v;
+  btn.closest('.field').querySelectorAll('.rate-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  autoCalc0(); autoCalc1(); autoCalc2();
+}
+function setYr(key, v, btn) {
+  yr[key] = v;
+  document.querySelectorAll('#' + key + '-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc0(); autoCalc1(); autoCalc2();
+}
+function autoCalc0() { if (document.getElementById('amount').value) calcNilaiUang(); }
+function autoCalc1() { if (document.getElementById('gaji-now').value) calcGajiRiil(); }
+function autoCalc2() { if (document.getElementById('beat-amount').value) calcKalahkan(); }
 
-  let resultVal, label, loss, needed;
-  if (mode === 'future') {
-    // Future value needed to maintain purchasing power
-    resultVal = amount * Math.pow(1 + rate, years);
-    label = `Uang dibutuhkan ${years} tahun lagi`;
-    loss = resultVal - amount;
-    needed = amount / Math.pow(1 + rate, years);
-    document.getElementById('res-loss').textContent = '+' + fmt(loss) + ' (karena inflasi)';
-    document.getElementById('res-needed').textContent = fmt(needed) + ' (nilai riil sekarang)';
+function renderYearBars(containerId, data, maxVal) {
+  document.getElementById(containerId).innerHTML = data.map(d => `
+    <div class="yb-row">
+      <span class="yb-label">${d.label}</span>
+      <div class="yb-track"><div class="yb-fill" style="width:${(d.v/maxVal*100).toFixed(1)}%"></div></div>
+      <span class="yb-val">${fmtM(d.v)}</span>
+    </div>`).join('');
+}
+
+/* ── TAB 0 ── */
+function calcNilaiUang() {
+  const amount = parseFloat(document.getElementById('amount').value) || 0;
+  const rate   = parseFloat(document.getElementById('amount-rate').value) / 100;
+  const t      = yr.yr0;
+  if (!amount) return;
+
+  const cumFactor = Math.pow(1 + rate, t);
+  let resultVal, loss, needed;
+
+  if (mode0 === 'future') {
+    // Butuh berapa di masa depan untuk daya beli sama
+    resultVal = amount * cumFactor;
+    loss      = resultVal - amount;
+    needed    = amount; // nilai asli yang dipegang saat ini
   } else {
-    // Equivalent value in the past
-    resultVal = amount / Math.pow(1 + rate, years);
-    label = `Nilai ${years} tahun lalu`;
-    loss = amount - resultVal;
-    needed = amount * Math.pow(1 + rate, years);
-    document.getElementById('res-loss').textContent = fmt(loss) + ' (erosi inflasi)';
-    document.getElementById('res-needed').textContent = fmt(needed) + ' (nilai kini)';
+    // Nilai uang saat ini setara berapa di masa lalu
+    resultVal = amount / cumFactor;
+    loss      = amount - resultVal;
+    needed    = amount * cumFactor;
   }
 
-  document.getElementById('res-val').textContent = fmt(resultVal);
-  document.getElementById('res-label').textContent = label;
-  document.getElementById('res-initial').textContent = fmt(amount);
-  document.getElementById('result').classList.add('show');
+  const realPct = Math.round((1 / cumFactor) * 100);
+  document.getElementById('r0-val').textContent    = mode0 === 'future' ? fmt(resultVal) : fmt(resultVal);
+  document.getElementById('r0-label').textContent  = mode0 === 'future'
+    ? `Dibutuhkan ${t} tahun lagi untuk daya beli sama`
+    : `Nilai ${t} tahun lalu setara sekarang`;
+  document.getElementById('r0-initial').textContent  = fmtM(amount);
+  document.getElementById('r0-cum-inf').textContent  = '+' + ((cumFactor - 1) * 100).toFixed(1) + '%';
+  document.getElementById('r0-loss').textContent     = mode0 === 'future' ? fmtM(loss) : fmtM(loss);
+  document.getElementById('r0-needed').textContent   = mode0 === 'future' ? fmt(resultVal) : fmt(needed);
+  document.getElementById('r0-real-pct').textContent = (100 - realPct) + '% erosi';
+
+  // Bar
+  const barW = Math.max(5, realPct);
+  document.getElementById('r0-bar-real').style.width = barW + '%';
+  document.getElementById('r0-bar-real').textContent = barW > 15 ? 'Riil ' + realPct + '%' : '';
+  document.getElementById('r0-bar-lost').textContent = (100 - barW) > 15 ? 'Erosi ' + (100-realPct) + '%' : '';
+
+  // Year bars (future mode)
+  const milestones = [];
+  for (let y = 1; y <= t; y++) {
+    const v = mode0 === 'future' ? amount * Math.pow(1+rate,y) : amount / Math.pow(1+rate,y);
+    milestones.push({ label:`Tahun ${y}`, v });
+  }
+  renderYearBars('r0-year-bars', milestones, Math.max(...milestones.map(m=>m.v)));
+
+  const msg = mode0 === 'future'
+    ? `📈 Dengan inflasi ${(rate*100).toFixed(1)}%/tahun selama ${t} tahun, Anda butuh <strong>${fmt(resultVal)}</strong> untuk daya beli yang sama dengan <strong>${fmt(amount)}</strong> sekarang. Daya beli uang yang disimpan turun menjadi <strong>${realPct}%</strong> dari nilai aslinya.`
+    : `📅 Uang <strong>${fmt(amount)}</strong> saat ini setara dengan <strong>${fmt(resultVal)}</strong> pada ${t} tahun lalu (inflasi ${(rate*100).toFixed(1)}%/thn).`;
+  document.getElementById('r0-advice').innerHTML = msg;
+
+  document.getElementById('res0').style.display = 'block';
+  document.getElementById('res0').classList.add('show');
 }
+
+/* ── TAB 1 ── */
+function calcGajiRiil() {
+  const gajiNow  = parseFloat(document.getElementById('gaji-now').value) || 0;
+  const kenaikan = parseFloat(document.getElementById('kenaikan-rate').value) / 100;
+  const infRate  = parseFloat(document.getElementById('gaji-inf-rate').value) / 100;
+  const t        = yr.yr1;
+  if (!gajiNow) return;
+
+  const gajiNominal = gajiNow * Math.pow(1 + kenaikan, t);
+  const gajiRiil    = gajiNominal / Math.pow(1 + infRate, t);
+  const riilGrowth  = (Math.pow(1 + kenaikan, t) / Math.pow(1 + infRate, t) - 1) * 100;
+  const annualRiil  = ((1 + kenaikan) / (1 + infRate) - 1) * 100;
+
+  document.getElementById('r1-riil-growth').textContent = annualRiil >= 0
+    ? '+' + annualRiil.toFixed(2).replace('.',',') + '%/tahun'
+    : annualRiil.toFixed(2).replace('.',',') + '%/tahun';
+  document.getElementById('r1-gaji-now').textContent     = fmt(gajiNow);
+  document.getElementById('r1-gaji-nominal').textContent = fmt(gajiNominal);
+  document.getElementById('r1-gaji-riil').textContent    = fmt(gajiRiil);
+
+  const statusEl = document.getElementById('r1-status');
+  if (annualRiil > 2)      { statusEl.textContent = '✅ Daya beli naik signifikan'; statusEl.className = 'gr-ok'; }
+  else if (annualRiil > 0) { statusEl.textContent = '⚠️ Daya beli naik sedikit'; statusEl.className = 'gr-warn'; }
+  else                     { statusEl.textContent = '❌ Daya beli turun meski gaji naik'; statusEl.className = 'gr-bad'; }
+
+  // Year bars for nominal & riil
+  const milestones = [];
+  for (let y = 1; y <= t; y++) {
+    const nom  = gajiNow * Math.pow(1+kenaikan, y);
+    const riil = nom / Math.pow(1+infRate, y);
+    milestones.push({ label:`Tahun ${y}`, v:riil, nom });
+  }
+  renderYearBars('r1-year-bars', milestones, Math.max(...milestones.map(m=>m.nom)));
+
+  document.getElementById('r1-advice').innerHTML = annualRiil > 0
+    ? `💼 Kenaikan gaji ${(kenaikan*100).toFixed(1)}% di atas inflasi ${(infRate*100).toFixed(1)}% — daya beli riil Anda tumbuh <strong>${annualRiil.toFixed(2)}%/tahun</strong>. Dalam ${t} tahun, gaji nominal jadi <strong>${fmt(gajiNominal)}</strong>, namun nilai riilnya <strong>${fmt(gajiRiil)}</strong> (setara daya beli saat ini).`
+    : `⚠️ Kenaikan gaji ${(kenaikan*100).toFixed(1)}% di <strong>bawah</strong> inflasi ${(infRate*100).toFixed(1)}% — daya beli Anda turun <strong>${Math.abs(annualRiil).toFixed(2)}%/tahun</strong> meski gaji nominal naik! Negosiasikan kenaikan minimal sebesar inflasi ditambah produktivitas Anda.`;
+
+  document.getElementById('res1').style.display = 'block';
+  document.getElementById('res1').classList.add('show');
+}
+
+/* ── TAB 2 ── */
+function calcKalahkan() {
+  const amount = parseFloat(document.getElementById('beat-amount').value) || 0;
+  const infRate = parseFloat(document.getElementById('beat-inf').value) / 100;
+  const t       = yr.yr2;
+  if (!amount) return;
+
+  const targetVal = amount * Math.pow(1 + infRate, t);  // needed to maintain purchasing power
+  const results   = INSTRUMENTS.map(inst => {
+    const ret     = inst.ret / 100;
+    const finalV  = amount * Math.pow(1 + ret, t);
+    const beat    = finalV >= targetVal;
+    return { ...inst, finalV, beat };
+  });
+
+  const tbl = document.getElementById('r2-tbl');
+  tbl.innerHTML = `<thead><tr><th>Instrumen</th><th>Return</th><th>Nilai Akhir</th><th>vs Inflasi</th></tr></thead>`;
+  const tbody = document.createElement('tbody');
+
+  // Inflasi reference row
+  const refTr = document.createElement('tr');
+  refTr.style.borderBottom = '2px solid var(--border)';
+  refTr.innerHTML = `<td style="color:var(--text-muted);font-style:italic">🎯 Target (jaga daya beli)</td><td style="text-align:right;color:var(--text-muted)">${(infRate*100).toFixed(1)}%/thn</td><td style="text-align:right;font-weight:700">${fmt(targetVal)}</td><td style="text-align:right;color:var(--text-muted)">—</td>`;
+  tbody.appendChild(refTr);
+
+  results.forEach(r => {
+    const diff  = r.finalV - targetVal;
+    const pct   = ((r.finalV / targetVal - 1) * 100).toFixed(1);
+    const tr    = document.createElement('tr');
+    tr.className = r.beat ? 'beat' : 'lose';
+    tr.innerHTML = `<td>${r.icon} ${r.name}</td><td style="text-align:right">${r.ret.toFixed(1)}%/thn</td><td style="text-align:right">${fmt(r.finalV)}</td><td style="text-align:right">${diff >= 0 ? '+' : ''}${fmtM(diff)}<br><span style="font-size:.65rem">(${pct > 0 ? '+' : ''}${pct}%)</span></td>`;
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+
+  const winners = results.filter(r => r.beat).length;
+  document.getElementById('r2-advice').innerHTML =
+    `📊 Untuk <strong>${fmtM(amount)}</strong> selama <strong>${t} tahun</strong> dengan inflasi <strong>${(infRate*100).toFixed(1)}%/thn</strong>: target daya beli yang harus dijaga adalah <strong>${fmt(targetVal)}</strong>. <strong>${winners} dari ${results.length}</strong> instrumen berhasil melampaui target. Tabungan biasa dan deposito hampir tidak bisa mengalahkan inflasi jangka panjang — reksa dana saham dan ORI lebih efektif.`;
+
+  document.getElementById('res2').style.display = 'block';
+  document.getElementById('res2').classList.add('show');
+}
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calcNilaiUang(); });
 </script>
 </body>
 </html>
