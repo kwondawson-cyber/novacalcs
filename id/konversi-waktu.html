@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Konversi Satuan Waktu 2026 — Ubah Detik, Menit, Jam, Hari Online | NovaCalcs</title>
-<meta name="description" content="Konversi satuan waktu secara instan: detik, menit, jam, hari, minggu, bulan, tahun. Gratis dan akurat untuk kebutuhan perhitungan waktu."/>
-<meta name="keywords" content="konversi waktu, ubah jam ke menit, detik ke menit, hari ke jam, satuan waktu, konversi durasi"/>
+<meta name="description" content="Konversi satuan waktu secara instan: detik, menit, jam, hari, minggu, bulan, tahun. Lengkap dengan pemecah durasi jam:menit:detik dan konverter zona waktu Indonesia."/>
+<meta name="keywords" content="konversi waktu, ubah jam ke menit, detik ke menit, hari ke jam, satuan waktu, zona waktu indonesia, WIB WITA WIT"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-waktu.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/konversi-waktu.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,6 +13,27 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.75rem}
+.preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.5rem .5rem;cursor:pointer;font-size:.77rem;color:#c0cdd8;text-align:left;transition:all .2s;font-family:inherit}
+.preset-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.35);color:#00C9B1}
+.preset-btn strong{display:block;font-size:.83rem;color:#fff;margin-bottom:.1rem}
+.result-highlight{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-bottom:.5rem}
+.tool-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin-bottom:.6rem}
+.tool-card h4{margin:0 0 .5rem;color:#00C9B1;font-size:.88rem}
+.tool-result{background:rgba(0,201,177,.07);border-radius:7px;padding:.5rem .7rem;margin-top:.5rem;font-size:.85rem;color:#c0cdd8;display:none;line-height:1.7}
+.tz-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.7rem;margin:.4rem 0;display:flex;justify-content:space-between;align-items:center}
+.tz-name{font-size:.78rem;color:#8fa3b1}
+.tz-time{font-size:1rem;font-weight:700;color:#fff}
+.tz-sub{font-size:.72rem;color:#6b7c8d;margin-top:.1rem}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -29,99 +50,167 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">⏱️ Konversi Satuan Waktu</div>
-      <div class="calc-subtitle">Konversi detik, menit, jam, hari, minggu, bulan, tahun</div>
-      <div class="field"><label>Nilai</label><input type="number" id="input-val" placeholder="Masukkan angka" step="any" oninput="convert()"/></div>
-      <div class="field">
-        <label>Dari Satuan</label>
-        <select id="from-unit" onchange="convert()">
-          <option value="ms">Milidetik (ms)</option>
-          <option value="s">Detik (s)</option>
-          <option value="min">Menit (min)</option>
-          <option value="hr" selected>Jam (hr)</option>
-          <option value="day">Hari</option>
-          <option value="week">Minggu</option>
-          <option value="month">Bulan (30 hari)</option>
-          <option value="year">Tahun (365 hari)</option>
-          <option value="decade">Dekade (10 tahun)</option>
-          <option value="century">Abad (100 tahun)</option>
-        </select>
+      <div class="calc-subtitle">Detik, menit, jam, hari, bulan, tahun &amp; lebih</div>
+
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-konversi',this)">🔄 Konversi</button>
+        <button class="tab-btn" onclick="showTab('tab-durasi',this)">🕐 Pecah Durasi</button>
+        <button class="tab-btn" onclick="showTab('tab-zonaWaktu',this)">🌏 Zona Waktu</button>
       </div>
-      <div class="result-panel show" id="result" style="margin-top:16px">
-        <div class="result-rows" id="result-rows"><div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div></div>
+
+      <!-- TAB 1: KONVERSI -->
+      <div id="tab-konversi" class="tab-pane active">
+        <div class="field"><label>Nilai</label>
+          <input type="number" id="input-val" placeholder="Masukkan angka" step="any" oninput="convert()"/>
+        </div>
+        <div class="field"><label>Dari Satuan</label>
+          <select id="from-unit" onchange="convert()">
+            <option value="ms">Milidetik (ms)</option>
+            <option value="s">Detik (s)</option>
+            <option value="min">Menit</option>
+            <option value="hr" selected>Jam</option>
+            <option value="day">Hari</option>
+            <option value="week">Minggu</option>
+            <option value="month">Bulan (30 hari)</option>
+            <option value="year">Tahun (365 hari)</option>
+            <option value="decade">Dekade (10 tahun)</option>
+            <option value="century">Abad (100 tahun)</option>
+          </select>
+        </div>
+
+        <div style="font-size:.78rem;font-weight:600;color:#8fa3b1;margin:.6rem 0 .35rem">⚡ Konversi Populer</div>
+        <div class="preset-grid" id="preset-grid"></div>
+        <div id="preset-result" style="display:none;margin-bottom:.6rem">
+          <div class="result-highlight" id="preset-highlight"></div>
+          <div class="result-rows" id="preset-rows"></div>
+        </div>
+
+        <button class="calc-btn" onclick="convert()">Konversi</button>
+        <div class="result-panel" id="result">
+          <div class="result-rows" id="result-rows">
+            <div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: PECAH DURASI -->
+      <div id="tab-durasi" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:.75rem">Ubah total detik/menit/jam ke format yang mudah dibaca (hari, jam, menit, detik).</p>
+
+        <div class="tool-card">
+          <h4>🔢 Total Detik / Menit / Jam → Format Mudah Baca</h4>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:end">
+            <div class="field" style="margin:0"><label style="font-size:.75rem">Nilai</label><input type="number" id="dur-val" placeholder="Contoh: 3661" min="0" step="any"/></div>
+            <select id="dur-unit" style="height:40px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#c0cdd8;padding:0 .5rem;font-family:inherit;font-size:.82rem">
+              <option value="s">Detik</option>
+              <option value="min">Menit</option>
+              <option value="hr">Jam</option>
+            </select>
+          </div>
+          <button style="width:100%;margin-top:.5rem;padding:.45rem;background:rgba(0,201,177,.15);border:1px solid rgba(0,201,177,.3);color:#00C9B1;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.83rem" onclick="calculateDuration()">Pecah Durasi</button>
+          <div class="tool-result" id="dur-result"></div>
+        </div>
+
+        <div class="tool-card">
+          <h4>⏱️ Gabung hh:mm:ss → Total Detik / Menit</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem">
+            <div class="field" style="margin:0"><label style="font-size:.75rem">Jam</label><input type="number" id="hms-h" placeholder="0" min="0" value="0"/></div>
+            <div class="field" style="margin:0"><label style="font-size:.75rem">Menit</label><input type="number" id="hms-m" placeholder="0" min="0" max="59" value="0"/></div>
+            <div class="field" style="margin:0"><label style="font-size:.75rem">Detik</label><input type="number" id="hms-s" placeholder="0" min="0" max="59" value="0"/></div>
+          </div>
+          <button style="width:100%;margin-top:.5rem;padding:.45rem;background:rgba(0,201,177,.15);border:1px solid rgba(0,201,177,.3);color:#00C9B1;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.83rem" onclick="calculateHMS()">Hitung Total</button>
+          <div class="tool-result" id="hms-result"></div>
+        </div>
+      </div>
+
+      <!-- TAB 3: ZONA WAKTU INDONESIA -->
+      <div id="tab-zonaWaktu" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:.75rem">Konversi jam antar zona waktu Indonesia dan perbandingan dengan kota besar dunia.</p>
+
+        <div class="tool-card">
+          <h4>🇮🇩 Konversi Antar Zona Waktu Indonesia</h4>
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:.5rem;align-items:center">
+            <div>
+              <label style="font-size:.75rem;display:block;margin-bottom:.25rem">Waktu input</label>
+              <input type="time" id="tz-input" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;padding:.45rem .5rem;font-family:inherit;font-size:.88rem"/>
+            </div>
+            <div style="text-align:center;font-size:.75rem;color:#8fa3b1;padding-top:1.2rem">dari</div>
+            <div>
+              <label style="font-size:.75rem;display:block;margin-bottom:.25rem">Zona asal</label>
+              <select id="tz-from" style="width:100%;height:38px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#c0cdd8;padding:0 .5rem;font-family:inherit;font-size:.82rem">
+                <option value="7">WIB (UTC+7)</option>
+                <option value="8">WITA (UTC+8)</option>
+                <option value="9">WIT (UTC+9)</option>
+              </select>
+            </div>
+          </div>
+          <button style="width:100%;margin-top:.5rem;padding:.45rem;background:rgba(0,201,177,.15);border:1px solid rgba(0,201,177,.3);color:#00C9B1;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.83rem" onclick="convertTimezone()">Konversi Zona Waktu</button>
+          <div id="tz-result" style="display:none;margin-top:.6rem">
+            <div id="tz-cards"></div>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <h4>🌍 Jam Sekarang di Berbagai Kota</h4>
+          <button style="width:100%;padding:.45rem;background:rgba(0,201,177,.15);border:1px solid rgba(0,201,177,.3);color:#00C9B1;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.83rem;margin-bottom:.5rem" onclick="showWorldClock()">Tampilkan Jam Dunia</button>
+          <div id="world-clock" style="display:none"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="seo-content">
+
+  <div class="content-area">
     <h1>Konversi Satuan Waktu — Detik, Menit, Jam, Hari, Minggu, Tahun</h1>
-    <p class="page-desc">Kalkulator konversi waktu lengkap dari milidetik hingga abad. Ubah jam ke menit, hari ke detik, atau tahun ke hari secara instan.</p>
+    <p class="page-desc">Kalkulator konversi waktu lengkap dari milidetik hingga abad. Dilengkapi pemecah format durasi hh:mm:ss dan konverter zona waktu Indonesia (WIB, WITA, WIT).</p>
+
     <div class="ad-slot">Advertisement</div>
+
     <h2>Satuan Waktu yang Digunakan Sehari-hari</h2>
-    <p>Dalam kehidupan sehari-hari kita menggunakan berbagai satuan waktu tanpa berpikir dua kali: detik untuk menghitung mundur, menit untuk jadwal rapat, jam untuk jam kerja, hari untuk kalender, minggu untuk perencanaan, dan tahun untuk ulang tahun dan kontrak. Di dunia teknologi dan sains, milidetik bahkan mikrodetik menjadi penting untuk mengukur performa komputer dan kecepatan reaksi.</p>
-    <h2>Cara Menggunakan</h2>
+    <p>Dalam kehidupan sehari-hari kita menggunakan berbagai satuan waktu: detik untuk menghitung mundur dan olahraga, menit untuk jadwal rapat, jam untuk jam kerja, hari untuk kalender, minggu dan bulan untuk perencanaan, dan tahun untuk kontrak dan ulang tahun. Di dunia teknologi, milidetik bahkan mikrodetik penting untuk mengukur performa komputer dan kecepatan jaringan.</p>
+
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
     <ol>
-      <li>Masukkan <strong>nilai waktu</strong> yang ingin dikonversi</li>
-      <li>Pilih <strong>satuan asal</strong> dari dropdown</li>
-      <li>Semua konversi akan muncul <strong>otomatis</strong></li>
+      <li><strong>Tab Konversi:</strong> Masukkan nilai dan pilih satuan asal — semua konversi tampil otomatis. Gunakan preset untuk konversi yang paling sering dicari.</li>
+      <li><strong>Tab Pecah Durasi:</strong> Ubah total detik/menit/jam ke format hari:jam:menit:detik yang mudah dibaca. Atau gabung input hh:mm:ss menjadi total detik.</li>
+      <li><strong>Tab Zona Waktu:</strong> Konversi jam antar WIB, WITA, dan WIT secara langsung, plus lihat jam sekarang di berbagai kota dunia.</li>
     </ol>
+
     <h2>Tabel Konversi Satuan Waktu</h2>
     <table>
-      <tr><th>Satuan</th><th>Setara dalam Detik</th></tr>
-      <tr><td>1 milidetik</td><td>0,001 detik</td></tr>
-      <tr><td>1 detik</td><td>1 detik</td></tr>
-      <tr><td>1 menit</td><td>60 detik</td></tr>
-      <tr><td>1 jam</td><td>3.600 detik</td></tr>
-      <tr><td>1 hari</td><td>86.400 detik</td></tr>
-      <tr><td>1 minggu</td><td>604.800 detik</td></tr>
-      <tr><td>1 bulan (30 hari)</td><td>2.592.000 detik</td></tr>
-      <tr><td>1 tahun (365 hari)</td><td>31.536.000 detik</td></tr>
+      <tr><th>Satuan</th><th>Setara dalam Detik</th><th>Setara dalam Menit</th></tr>
+      <tr><td>1 milidetik</td><td>0,001</td><td>0,0000167</td></tr>
+      <tr><td>1 detik</td><td>1</td><td>0,01667</td></tr>
+      <tr><td>1 menit</td><td>60</td><td>1</td></tr>
+      <tr><td>1 jam</td><td>3.600</td><td>60</td></tr>
+      <tr><td>1 hari</td><td>86.400</td><td>1.440</td></tr>
+      <tr><td>1 minggu</td><td>604.800</td><td>10.080</td></tr>
+      <tr><td>1 bulan (30 hari)</td><td>2.592.000</td><td>43.200</td></tr>
+      <tr><td>1 tahun (365 hari)</td><td>31.536.000</td><td>525.600</td></tr>
     </table>
-    <h2>Fakta Menarik tentang Waktu</h2>
-    <p>Dalam 1 tahun ada sekitar 31,5 juta detik. Jantung manusia berdetak sekitar 100.000 kali per hari. Cahaya menempuh jarak 300.000 km dalam 1 detik — cukup untuk mengelilingi bumi 7,5 kali. Usia bumi diperkirakan sekitar 4,5 miliar tahun, atau sekitar 4,5 × 10¹⁷ detik.</p>
+
     <h2>Zona Waktu Indonesia: WIB, WITA, dan WIT</h2>
-    <p>Indonesia membentang di tiga zona waktu resmi, hal unik yang perlu dipahami terutama saat berkoordinasi antar daerah:</p>
+    <p>Indonesia membentang di tiga zona waktu resmi yang mencakup rentang 2 jam — hal unik yang perlu dipahami saat berkoordinasi antar wilayah:</p>
     <table>
-      <tr><th>Zona</th><th>Offset dari UTC</th><th>Wilayah</th></tr>
-      <tr><td>WIB (Waktu Indonesia Barat)</td><td>UTC+7</td><td>Jawa, Sumatera, Kalimantan Barat & Tengah</td></tr>
-      <tr><td>WITA (Waktu Indonesia Tengah)</td><td>UTC+8</td><td>Bali, NTB, NTT, Kalimantan Selatan, Timur & Utara, Sulawesi</td></tr>
-      <tr><td>WIT (Waktu Indonesia Timur)</td><td>UTC+9</td><td>Maluku, Papua</td></tr>
+      <tr><th>Zona</th><th>UTC</th><th>Wilayah</th></tr>
+      <tr><td><strong>WIB</strong> — Waktu Indonesia Barat</td><td>UTC+7</td><td>Jawa, Sumatera, Kalimantan Barat &amp; Tengah</td></tr>
+      <tr><td><strong>WITA</strong> — Waktu Indonesia Tengah</td><td>UTC+8</td><td>Bali, NTB, NTT, Kalimantan Selatan/Timur/Utara, Sulawesi</td></tr>
+      <tr><td><strong>WIT</strong> — Waktu Indonesia Timur</td><td>UTC+9</td><td>Maluku, Papua</td></tr>
     </table>
-    <p>Perbedaan: WIB dan WITA berbeda 1 jam; WIB dan WIT berbeda 2 jam. Ketika rapat online antara Jakarta (WIB) dan Makassar (WITA) pukul 09.00 WIB, di Makassar sudah pukul 10.00 WITA.</p>
+    <p>Contoh: Meeting online pukul 09.00 WIB → di Bali (WITA) sudah 10.00, di Papua (WIT) sudah 11.00.</p>
 
-    <h2>Konversi Waktu Kerja yang Sering Dibutuhkan</h2>
-    <ul>
-      <li><strong>UU Ketenagakerjaan</strong> — Jam kerja maksimal 8 jam/hari atau 40 jam/minggu (5 hari kerja). Kelebihan dihitung lembur.</li>
-      <li><strong>Lembur per tahun</strong> — Maksimal 4 jam/hari dan 18 jam/minggu. Dalam setahun (52 minggu): maks 52 × 18 = 936 jam lembur.</li>
-      <li><strong>Konversi hari ke jam</strong> — 1 tahun kerja (240 hari efektif × 8 jam) = 1.920 jam produktif.</li>
-    </ul>
+    <h2>Waktu Kerja: Konversi yang Sering Dibutuhkan</h2>
+    <p>Menurut UU Ketenagakerjaan Indonesia, jam kerja maksimal adalah 8 jam per hari atau 40 jam per minggu untuk 5 hari kerja. Lembur maksimal 4 jam per hari dan 18 jam per minggu. Dalam satu tahun kerja dengan 240 hari efektif, total jam produktif sekitar 1.920 jam. Gaji per jam dapat dihitung dengan membagi gaji bulanan dengan 173 jam (rata-rata jam kerja per bulan menurut standar Permenaker).</p>
 
-    <h2>Waktu dalam Format 12 Jam vs 24 Jam</h2>
-    <p>Indonesia sehari-hari menggunakan format 12 jam dengan keterangan pagi/siang/sore/malam, tapi dokumen resmi, jadwal transportasi, dan militer menggunakan format 24 jam:</p>
-    <ul>
-      <li>12:00 = siang (tengah hari) → 12.00</li>
-      <li>1:00 PM (siang) → 13.00</li>
-      <li>6:00 PM (sore) → 18.00</li>
-      <li>12:00 AM (tengah malam) → 00.00</li>
-      <li>1:00 AM (dini hari) → 01.00</li>
-    </ul>
+    <h2>Fakta Menarik tentang Waktu</h2>
+    <p>Dalam 1 tahun ada sekitar 31,5 juta detik. Jantung manusia berdetak sekitar 100.000 kali per hari — selama 70 tahun itu sekitar 2,5 miliar detak. Cahaya menempuh jarak 300.000 km dalam 1 detik, cukup untuk mengelilingi bumi 7,5 kali. Usia bumi sekitar 4,5 miliar tahun = sekitar 1,4 × 10¹⁷ detik.</p>
 
-    <h2>Konversi Waktu untuk Perencanaan Keuangan</h2>
-    <p>Memahami konversi waktu berguna dalam konteks keuangan dan bisnis sehari-hari:</p>
-    <ul>
-      <li><strong>Gaji per jam</strong> — Gaji bulanan Rp 6.000.000 ÷ 173 jam kerja (rata-rata sebulan) = Rp 34.682/jam. Berguna untuk menghitung lembur atau gig economy</li>
-      <li><strong>Tenor pinjaman</strong> — KPR 20 tahun = 240 bulan = 7.300 hari. Penting untuk menghitung total bunga yang dibayarkan</li>
-      <li><strong>Masa tunggu haji</strong> — Antrian 30 tahun = 10.950 hari. Mulai menabung sedini mungkin!</li>
-      <li><strong>Investasi jangka panjang</strong> — Deposito 12 bulan ≠ 365 hari kalender (tahun kabisat berbeda). Bank biasanya menggunakan 360 atau 365 hari dalam perhitungan bunga</li>
-    </ul>
-    <p>Untuk menghitung selisih dua tanggal secara tepat, gunakan kalkulator selisih tanggal kami yang memperhitungkan tahun kabisat secara otomatis.</p>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 jam berapa menit?</div><div class="faq-a">1 jam = 60 menit = 3.600 detik. Ini adalah salah satu konversi paling dasar yang sering digunakan dalam kehidupan sehari-hari, dari penjadwalan rapat hingga memasak.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 tahun berapa hari?</div><div class="faq-a">1 tahun biasa = 365 hari. Tahun kabisat (leap year) = 366 hari, dengan bulan Februari memiliki 29 hari. Tahun kabisat terjadi setiap 4 tahun (tahun yang habis dibagi 4), kecuali tahun abad yang harus habis dibagi 400. Contoh: 2000 adalah tahun kabisat, 1900 bukan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa jam waktu kerja dalam setahun?</div><div class="faq-a">Dengan asumsi 8 jam kerja per hari, 5 hari kerja per minggu, dan sekitar 52 minggu per tahun: 8 × 5 × 52 = 2.080 jam kerja per tahun. Dikurangi hari libur nasional dan cuti tahunan, biasanya sekitar 1.920–2.000 jam efektif per tahun.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu tahun cahaya?</div><div class="faq-a">Tahun cahaya bukan satuan waktu, melainkan satuan jarak! Ini adalah jarak yang ditempuh cahaya dalam 1 tahun. Karena cahaya bergerak ~300.000 km/detik, dalam 1 tahun cahaya menempuh sekitar 9,46 × 10¹² km (9,46 triliun kilometer). Tahun cahaya digunakan untuk mengukur jarak antar bintang dan galaksi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa ada 60 menit dalam 1 jam?</div><div class="faq-a">Sistem 60 menit per jam berasal dari sistem sexagesimal (basis 60) yang dikembangkan oleh bangsa Sumeria dan Babilonia kuno sekitar 2000 SM. Mereka memilih 60 karena 60 habis dibagi oleh banyak bilangan (1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30), sehingga memudahkan pembagian hari menjadi pecahan-pecahan yang berguna.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa lama 1 juta detik?</div><div class="faq-a">1 juta detik = 1.000.000 ÷ 86.400 ≈ 11,57 hari (sekitar 11 hari 13 jam 46 menit). Sebagai perbandingan: 1 miliar detik ≈ 31,7 tahun. Jika Anda berusia 31,7 tahun, Anda sudah hidup selama sekitar 1 miliar detik!</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 jam berapa menit?</div><div class="faq-a">1 jam = 60 menit = 3.600 detik. Ini salah satu konversi paling dasar yang sering digunakan dalam kehidupan sehari-hari, dari penjadwalan rapat hingga memasak dan olahraga.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 tahun berapa hari?</div><div class="faq-a">1 tahun biasa = 365 hari. Tahun kabisat (leap year) = 366 hari, dengan Februari memiliki 29 hari. Tahun kabisat terjadi setiap 4 tahun (habis dibagi 4), kecuali tahun abad yang harus habis dibagi 400. Contoh: 2000 adalah tahun kabisat, 2100 bukan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa jam waktu kerja dalam setahun?</div><div class="faq-a">Dengan 8 jam/hari, 5 hari/minggu, 52 minggu/tahun: 8 × 5 × 52 = 2.080 jam per tahun. Dikurangi hari libur nasional (~16 hari) dan cuti tahunan (12 hari): sekitar 1.920 jam efektif per tahun. Ini dasar perhitungan upah per jam dan lembur.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu tahun cahaya — apakah satuan waktu?</div><div class="faq-a">Tahun cahaya bukan satuan waktu, melainkan satuan jarak! Ini adalah jarak yang ditempuh cahaya dalam 1 tahun — sekitar 9,46 × 10¹² km (9,46 triliun kilometer). Tahun cahaya digunakan untuk mengukur jarak antar bintang dan galaksi karena angkanya lebih mudah dipahami dibanding kilometer.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa ada 60 menit dalam 1 jam?</div><div class="faq-a">Sistem 60 menit per jam berasal dari sistem sexagesimal (basis 60) bangsa Sumeria dan Babilonia kuno sekitar 2000 SM. Mereka memilih 60 karena habis dibagi oleh banyak bilangan (1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30), memudahkan pembagian hari menjadi pecahan-pecahan yang berguna.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa lama 1 juta detik?</div><div class="faq-a">1 juta detik = 1.000.000 ÷ 86.400 ≈ 11 hari 13 jam 46 menit. Sebagai perbandingan: 1 miliar detik ≈ 31,7 tahun. Jika Anda berusia 31,7 tahun, Anda sudah hidup selama sekitar 1 miliar detik!</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -137,25 +226,163 @@
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 <script defer>
-const toSec = { ms:0.001, s:1, min:60, hr:3600, day:86400, week:604800, month:2592000, year:31536000, decade:315360000, century:3153600000 };
-const labels = { ms:'Milidetik (ms)', s:'Detik (s)', min:'Menit', hr:'Jam', day:'Hari', week:'Minggu', month:'Bulan (30 hari)', year:'Tahun (365 hari)', decade:'Dekade', century:'Abad' };
+const toSec = {
+  ms:0.001, s:1, min:60, hr:3600, day:86400, week:604800,
+  month:2592000, year:31536000, decade:315360000, century:3153600000
+};
+const labels = {
+  ms:'Milidetik (ms)', s:'Detik (s)', min:'Menit', hr:'Jam',
+  day:'Hari', week:'Minggu', month:'Bulan (30 hari)',
+  year:'Tahun (365 hari)', decade:'Dekade', century:'Abad'
+};
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
 function fmt(n) {
   if (n === 0) return '0';
   if (Math.abs(n) >= 0.001 && Math.abs(n) < 1e12) return n.toLocaleString('id-ID', {maximumSignificantDigits:6});
-  return n.toExponential(4).replace('.',',');
+  return n.toExponential(4).replace('.', ',');
 }
+
 function convert() {
-  const val = parseFloat(document.getElementById('input-val').value);
+  const val  = parseFloat(document.getElementById('input-val').value);
   const from = document.getElementById('from-unit').value;
-  if (isNaN(val)) { document.getElementById('result-rows').innerHTML = '<div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>'; return; }
-  const inSec = val * toSec[from];
-  let html = '';
-  for (const [unit, factor] of Object.entries(toSec)) {
-    if (unit === from) continue;
-    html += `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(inSec/factor)}</span></div>`;
+  if (isNaN(val)) {
+    document.getElementById('result-rows').innerHTML = '<div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>';
+    return;
   }
-  document.getElementById('result-rows').innerHTML = html;
+  const sec = val * toSec[from];
+  document.getElementById('result-rows').innerHTML =
+    Object.entries(toSec).filter(([u]) => u !== from).map(([unit, factor]) =>
+      `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(sec/factor)}</span></div>`
+    ).join('');
+  document.getElementById('result').classList.add('show');
 }
+
+const PRESETS = [
+  {label:'1 jam → menit / detik', val:1, from:'hr'},
+  {label:'24 jam → menit', val:24, from:'hr'},
+  {label:'1 tahun → hari / jam', val:1, from:'year'},
+  {label:'30 menit → detik', val:30, from:'min'},
+  {label:'1 minggu → hari / jam', val:1, from:'week'},
+  {label:'100 hari → bulan / minggu', val:100, from:'day'},
+];
+function renderPresets() {
+  document.getElementById('preset-grid').innerHTML = PRESETS.map((p, i) =>
+    `<button class="preset-btn" onclick="runPreset(${i})"><strong>${p.label}</strong>${p.val} ${labels[p.from]}</button>`
+  ).join('');
+}
+function runPreset(i) {
+  const p = PRESETS[i];
+  const sec = p.val * toSec[p.from];
+  document.getElementById('preset-highlight').innerHTML =
+    `<strong style="color:#00C9B1">${p.val} ${labels[p.from]}</strong> sama dengan:`;
+  document.getElementById('preset-rows').innerHTML =
+    Object.entries(toSec).filter(([u]) => u !== p.from).map(([unit, factor]) =>
+      `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(sec/factor)}</span></div>`
+    ).join('');
+  document.getElementById('preset-result').style.display = 'block';
+}
+renderPresets();
+
+function calculateDuration() {
+  const val   = parseFloat(document.getElementById('dur-val').value);
+  const unit  = document.getElementById('dur-unit').value;
+  if (!val || val < 0) { alert('Masukkan nilai yang valid.'); return; }
+  const sec   = val * toSec[unit];
+
+  const days  = Math.floor(sec / 86400);
+  const hrs   = Math.floor((sec % 86400) / 3600);
+  const mins  = Math.floor((sec % 3600) / 60);
+  const secs  = Math.round(sec % 60);
+
+  let parts = [];
+  if (days  > 0) parts.push(`<strong>${days}</strong> hari`);
+  if (hrs   > 0) parts.push(`<strong>${hrs}</strong> jam`);
+  if (mins  > 0) parts.push(`<strong>${mins}</strong> menit`);
+  if (secs  > 0 || parts.length === 0) parts.push(`<strong>${secs}</strong> detik`);
+
+  const r = document.getElementById('dur-result');
+  r.innerHTML = `${val} ${labels[unit]} = <span style="color:#00C9B1">${parts.join(' ')}</span><br>
+    Format: <strong style="color:#fff">${String(days*24+hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}</strong> (hh:mm:ss tanpa hari)`;
+  r.style.display = 'block';
+}
+
+function calculateHMS() {
+  const h = parseInt(document.getElementById('hms-h').value) || 0;
+  const m = parseInt(document.getElementById('hms-m').value) || 0;
+  const s = parseInt(document.getElementById('hms-s').value) || 0;
+  const total = h * 3600 + m * 60 + s;
+  const r = document.getElementById('hms-result');
+  r.innerHTML = `<strong>${h}h ${m}m ${s}s</strong> = <strong style="color:#00C9B1">${total.toLocaleString('id-ID')} detik</strong> · ${(total/60).toFixed(2).replace('.',',')} menit · ${(total/3600).toFixed(4).replace('.',',')} jam`;
+  r.style.display = 'block';
+}
+
+function convertTimezone() {
+  const timeStr = document.getElementById('tz-input').value;
+  const fromOffset = parseInt(document.getElementById('tz-from').value);
+  if (!timeStr) { alert('Pilih waktu terlebih dahulu.'); return; }
+
+  const [h, m] = timeStr.split(':').map(Number);
+  const utcMin = h * 60 + m - fromOffset * 60;
+
+  const zones = [
+    {name:'WIB', region:'Jakarta, Medan, Surabaya', offset:7},
+    {name:'WITA', region:'Bali, Makassar, Balikpapan', offset:8},
+    {name:'WIT', region:'Ambon, Jayapura, Manado*', offset:9},
+  ];
+
+  document.getElementById('tz-cards').innerHTML = zones.map(z => {
+    let totalMin = (utcMin + z.offset * 60 + 1440) % 1440;
+    const zh = Math.floor(totalMin / 60).toString().padStart(2, '0');
+    const zm = (totalMin % 60).toString().padStart(2, '0');
+    const isFrom = z.offset === fromOffset;
+    return `<div class="tz-card" style="${isFrom ? 'border-color:rgba(0,201,177,.3);background:rgba(0,201,177,.07)' : ''}">
+      <div>
+        <div class="tz-name">${z.name} (UTC+${z.offset}) ${isFrom ? '← sumber' : ''}</div>
+        <div class="tz-sub">${z.region}</div>
+      </div>
+      <div class="tz-time" style="${isFrom ? 'color:#00C9B1' : ''}">${zh}:${zm}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('tz-result').style.display = 'block';
+}
+
+function showWorldClock() {
+  const now = new Date();
+  const cities = [
+    {name:'Jakarta 🇮🇩', offset:7, sub:'WIB'},
+    {name:'Singapore 🇸🇬', offset:8, sub:'SGT'},
+    {name:'Tokyo 🇯🇵', offset:9, sub:'JST'},
+    {name:'Dubai 🇦🇪', offset:4, sub:'GST'},
+    {name:'London 🇬🇧', offset:1, sub:'BST (musim panas)'},
+    {name:'New York 🇺🇸', offset:-4, sub:'EDT (musim panas)'},
+    {name:'Sydney 🇦🇺', offset:10, sub:'AEST'},
+  ];
+  document.getElementById('world-clock').innerHTML = cities.map(c => {
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const local = new Date(utc + c.offset * 3600000);
+    const hh = local.getHours().toString().padStart(2, '0');
+    const mm = local.getMinutes().toString().padStart(2, '0');
+    return `<div class="tz-card">
+      <div><div class="tz-name">${c.name}</div><div class="tz-sub">${c.sub} (UTC${c.offset >= 0 ? '+' : ''}${c.offset})</div></div>
+      <div class="tz-time">${hh}:${mm}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('world-clock').style.display = 'block';
+}
+
+// Set default time input to current time
+const nowDefault = new Date();
+const hh = nowDefault.getHours().toString().padStart(2,'0');
+const mm = nowDefault.getMinutes().toString().padStart(2,'0');
+document.getElementById('tz-input').value = `${hh}:${mm}`;
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
 </script>
 </body>
