@@ -3,22 +3,81 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Diskon Online — Hitung Harga Setelah Diskon | NovaCalcs</title>
-<meta name="description" content="Hitung harga setelah diskon secara instan. Masukkan harga asli dan persentase diskon, langsung tahu harga akhir dan berapa yang Anda hemat."/>
-<meta name="keywords" content="kalkulator diskon, hitung diskon, harga setelah diskon, berapa diskon, hemat berapa, sale calculator"/>
+<title>Kalkulator Diskon — Hitung Harga Setelah Diskon + Diskon Bertingkat | NovaCalcs</title>
+<meta name="description" content="Hitung harga setelah diskon secara instan. Termasuk kalkulator diskon bertingkat (50%+20%), hitung harga asli dari harga diskon, dan simulasi multi-item belanja."/>
+<meta name="keywords" content="kalkulator diskon, harga setelah diskon, diskon bertingkat, double discount, hitung diskon, harbolnas, flash sale, kalkulator belanja"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-diskon.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-diskon.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Diskon","url":"https://novacalcs.com/id/kalkulator-diskon.html","description":"Kalkulator diskon lengkap dengan diskon bertingkat, reverse, dan multi-item","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.disc-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.disc-preset { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer; transition: all 0.15s; }
-.disc-preset:hover, .disc-preset.active { background: var(--mint-dim); color: var(--mint); border-color: rgba(0,201,177,0.35); }
+/* Tabs */
+.disc-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; overflow-x:auto; }
+.disc-tab { padding:8px 12px; font-size:0.78rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; white-space:nowrap; flex:1; text-align:center; transition:all 0.15s; }
+.disc-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
+.disc-mode { display:none; }
+.disc-mode.active { display:block; }
+
+/* Discount presets */
+.disc-presets { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+.disc-preset { padding:5px 12px; border-radius:20px; font-size:0.75rem; font-weight:700; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all 0.15s; }
+.disc-preset:hover,.disc-preset.active { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,0.35); }
+
+/* Event presets (Harbolnas etc) */
+.event-presets { display:flex; flex-wrap:wrap; gap:5px; margin:8px 0; }
+.event-btn { padding:4px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); color:#fbbf24; cursor:pointer; transition:all 0.15s; }
+.event-btn:hover { background:rgba(251,191,36,0.2); }
+
+/* Big price display */
+.disc-main { text-align:center; padding:16px 0 10px; }
+.disc-final { font-size:2.4rem; font-weight:700; color:var(--mint); line-height:1; }
+.disc-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
+.disc-badge { display:inline-block; padding:3px 12px; border-radius:12px; font-size:0.82rem; font-weight:700; background:rgba(248,113,113,0.15); color:#f87171; margin-top:6px; }
+
+/* Savings bar */
+.savings-bar-wrap { margin:12px 0 6px; }
+.savings-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
+.savings-bar-pay { background:#4ade80; transition:width 0.5s; display:flex; align-items:center; padding-left:8px; font-size:0.62rem; font-weight:700; color:#064e3b; }
+.savings-bar-save { background:#f87171; transition:width 0.5s; display:flex; align-items:center; justify-content:center; font-size:0.62rem; font-weight:700; color:#450a0a; }
+.savings-legend { display:flex; gap:14px; margin-top:5px; font-size:0.72rem; color:var(--text-secondary); }
+.savings-legend span::before { content:'●'; margin-right:4px; }
+.leg-g::before { color:#4ade80; } .leg-r::before { color:#f87171; }
+
+/* Stats */
+.disc-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.disc-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.disc-stat .ds-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
+.disc-stat .ds-val { font-size:0.92rem; font-weight:700; color:var(--text-primary); }
+.disc-stat.green .ds-val { color:var(--mint); }
+.disc-stat.red .ds-val { color:#f87171; }
+
+/* Double discount viz */
+.dd-steps { display:flex; align-items:center; gap:8px; margin:12px 0; flex-wrap:wrap; }
+.dd-step { background:var(--bg-input); border-radius:var(--radius-sm); padding:8px 12px; text-align:center; border:1px solid var(--border); flex:1; min-width:80px; }
+.dd-step .ds-num { font-size:1.1rem; font-weight:700; color:var(--text-primary); }
+.dd-step .ds-lbl { font-size:0.65rem; color:var(--text-muted); margin-top:2px; }
+.dd-arrow { color:var(--text-muted); font-size:1.2rem; }
+
+/* Multi-item */
+.shop-item-row { display:flex; gap:6px; align-items:center; margin-bottom:6px; }
+.shop-item-row input { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:7px 10px; color:var(--text-primary); font-size:0.82rem; }
+.shop-item-row input:focus { border-color:var(--border-focus); outline:none; }
+.shop-item-row .si-name { flex:2; }
+.shop-item-row .si-price { flex:2; }
+.shop-item-row .si-disc { flex:1; max-width:70px; }
+.shop-item-row .si-final { min-width:90px; text-align:right; font-size:0.78rem; color:var(--mint); font-weight:600; }
+.add-row-btn { background:var(--bg-input); border:1px dashed var(--border); border-radius:var(--radius-sm); padding:8px; width:100%; font-size:0.78rem; color:var(--text-muted); cursor:pointer; margin-top:4px; transition:all 0.15s; }
+.add-row-btn:hover { border-color:var(--mint); color:var(--mint); }
 </style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -34,145 +93,238 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">🏷️ Kalkulator Diskon</div>
-      <div class="calc-subtitle">Hitung harga akhir setelah diskon dengan cepat</div>
+      <div class="calc-subtitle">Diskon biasa · Diskon bertingkat · Cari harga asli · Multi-item</div>
 
-      <div class="field">
-        <label>Harga Asli (Rp)</label>
-        <input type="number" id="price" placeholder="Contoh: 250000" oninput="liveCalc()"/>
+      <div class="disc-tabs">
+        <div class="disc-tab active" onclick="switchTab(0,this)">🏷️ Diskon</div>
+        <div class="disc-tab" onclick="switchTab(1,this)">🔢 Bertingkat</div>
+        <div class="disc-tab" onclick="switchTab(2,this)">🔍 Balik</div>
+        <div class="disc-tab" onclick="switchTab(3,this)">🛒 Belanja</div>
       </div>
 
-      <div class="field">
-        <label>Persentase Diskon</label>
+      <!-- TAB 0: Diskon biasa -->
+      <div class="disc-mode active" id="tab0">
+        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:6px;">Preset Diskon Umum</div>
         <div class="disc-presets">
-          <div class="disc-preset" onclick="setDisc(10,this)">10%</div>
-          <div class="disc-preset" onclick="setDisc(20,this)">20%</div>
-          <div class="disc-preset" onclick="setDisc(25,this)">25%</div>
-          <div class="disc-preset" onclick="setDisc(30,this)">30%</div>
-          <div class="disc-preset" onclick="setDisc(50,this)">50%</div>
-          <div class="disc-preset" onclick="setDisc(70,this)">70%</div>
+          <div class="disc-preset" onclick="setDisc0(10,this)">10%</div>
+          <div class="disc-preset" onclick="setDisc0(20,this)">20%</div>
+          <div class="disc-preset" onclick="setDisc0(25,this)">25%</div>
+          <div class="disc-preset" onclick="setDisc0(30,this)">30%</div>
+          <div class="disc-preset" onclick="setDisc0(50,this)">50%</div>
+          <div class="disc-preset" onclick="setDisc0(70,this)">70%</div>
         </div>
-        <input type="number" id="disc" placeholder="Masukkan % diskon" min="0" max="100" oninput="liveCalc()"/>
+        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:6px;">Harbolnas & Event Belanja</div>
+        <div class="event-presets">
+          <div class="event-btn" onclick="setDisc0Event(15,70)">11.11 (70%)</div>
+          <div class="event-btn" onclick="setDisc0Event(15,80)">12.12 (80%)</div>
+          <div class="event-btn" onclick="setDisc0Event(15,50)">Hari Belanja (50%)</div>
+          <div class="event-btn" onclick="setDisc0Event(15,30)">Weekend Sale (30%)</div>
+        </div>
+        <div class="field"><label>Harga Asli (Rp)</label>
+          <input type="number" id="d0-harga" placeholder="Contoh: 250.000" oninput="calcDiskon0()"/>
+        </div>
+        <div class="field"><label>Persentase Diskon (%)</label>
+          <input type="number" id="d0-disc" placeholder="Contoh: 30" min="0" max="100" oninput="calcDiskon0()"/>
+        </div>
+        <div class="field"><label>Jumlah barang</label>
+          <input type="number" id="d0-qty" value="1" min="1" oninput="calcDiskon0()"/>
+        </div>
+        <button class="calc-btn" onclick="calcDiskon0()">🏷️ Hitung Diskon</button>
+        <div class="result-box" id="res0" style="display:none">
+          <div class="disc-main">
+            <div class="disc-final" id="r0-final">—</div>
+            <div class="disc-label">Harga per item setelah diskon</div>
+            <div class="disc-badge" id="r0-badge">Hemat —</div>
+          </div>
+          <div class="savings-bar-wrap">
+            <div class="savings-bar-track">
+              <div class="savings-bar-pay" id="r0-bar-pay" style="width:70%">Bayar</div>
+              <div class="savings-bar-save" id="r0-bar-save" style="width:30%">Hemat</div>
+            </div>
+            <div class="savings-legend">
+              <span class="leg-g">Harga yang dibayar</span>
+              <span class="leg-r">Penghematan</span>
+            </div>
+          </div>
+          <div class="disc-stats">
+            <div class="disc-stat"><div class="ds-label">Harga asli</div><div class="ds-val" id="r0-orig">—</div></div>
+            <div class="disc-stat red"><div class="ds-label">Potongan per item</div><div class="ds-val" id="r0-saved">—</div></div>
+            <div class="disc-stat green"><div class="ds-label">Total bayar (× jumlah)</div><div class="ds-val" id="r0-total">—</div></div>
+            <div class="disc-stat"><div class="ds-label">Total hemat</div><div class="ds-val" id="r0-tsaved">—</div></div>
+          </div>
+        </div>
       </div>
 
-      <div class="field">
-        <label>Jumlah barang</label>
-        <input type="number" id="qty" value="1" min="1" max="9999" oninput="liveCalc()"/>
+      <!-- TAB 1: Diskon Bertingkat -->
+      <div class="disc-mode" id="tab1">
+        <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);border-radius:var(--radius-sm);padding:10px 12px;font-size:0.75rem;color:#f0a800;margin-bottom:14px;">
+          ⚠️ Diskon 50%+20% <strong>bukan</strong> diskon 70%! Total efektifnya hanya 60%. Lihat penjelasan di bawah.
+        </div>
+        <div class="field"><label>Harga Asli (Rp)</label>
+          <input type="number" id="d1-harga" placeholder="Contoh: 500.000" oninput="calcBertingkat()"/>
+        </div>
+        <div class="field"><label>Diskon Pertama (%)</label>
+          <input type="number" id="d1-d1" placeholder="Contoh: 50" min="0" max="100" oninput="calcBertingkat()"/>
+        </div>
+        <div class="field"><label>Diskon Kedua (%) <span style="color:var(--text-muted);font-size:0.72rem">— dihitung dari harga setelah diskon 1</span></label>
+          <input type="number" id="d1-d2" placeholder="Contoh: 20" min="0" max="100" oninput="calcBertingkat()"/>
+        </div>
+        <div class="field"><label>Diskon Ketiga (%) <span style="color:var(--text-muted);font-size:0.72rem">— opsional</span></label>
+          <input type="number" id="d1-d3" placeholder="Kosongkan jika tidak ada" min="0" max="100" oninput="calcBertingkat()"/>
+        </div>
+        <button class="calc-btn" onclick="calcBertingkat()">🔢 Hitung Diskon Bertingkat</button>
+        <div class="result-box" id="res1" style="display:none">
+          <div class="dd-steps" id="dd-steps"></div>
+          <div class="disc-main">
+            <div class="disc-final" id="r1-final">—</div>
+            <div class="disc-label">Harga akhir</div>
+            <div class="disc-badge" id="r1-badge">Diskon efektif —%</div>
+          </div>
+          <div class="disc-stats">
+            <div class="disc-stat"><div class="ds-label">Harga asli</div><div class="ds-val" id="r1-orig">—</div></div>
+            <div class="disc-stat red"><div class="ds-label">Total penghematan</div><div class="ds-val" id="r1-saved">—</div></div>
+            <div class="disc-stat green"><div class="ds-label">Diskon efektif (sebenarnya)</div><div class="ds-val" id="r1-eff">—</div></div>
+            <div class="disc-stat"><div class="ds-label">Diskon klaim (dijumlah)</div><div class="ds-val" id="r1-klaim">—</div></div>
+          </div>
+          <div id="r1-warn" style="display:none;margin-top:8px;padding:10px 12px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);border-radius:var(--radius-sm);font-size:0.78rem;color:#fbbf24;"></div>
+        </div>
       </div>
 
-      <button class="calc-btn" onclick="liveCalc()">Hitung Diskon</button>
-
-      <div class="result-panel show" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-final">—</div>
-          <div class="result-label">Harga per item setelah diskon</div>
+      <!-- TAB 2: Reverse (Cari Harga Asli) -->
+      <div class="disc-mode" id="tab2">
+        <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5;">
+          Tahu harga setelah diskon tapi ingin tahu harga aslinya? Gunakan mode ini.
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Harga asli</span><span class="rval" id="res-orig">—</span></div>
-          <div class="result-row"><span class="rkey">Potongan harga</span><span class="rval" id="res-saved" style="color:#60a5fa">—</span></div>
-          <div class="result-row"><span class="rkey">Total (× jumlah barang)</span><span class="rval" id="res-total">—</span></div>
-          <div class="result-row"><span class="rkey">Total hemat</span><span class="rval" id="res-total-saved" style="color:#60a5fa">—</span></div>
+        <div class="field"><label>Harga Setelah Diskon (Rp)</label>
+          <input type="number" id="d2-harga" placeholder="Contoh: 315.000" oninput="calcReverse()"/>
+        </div>
+        <div class="field"><label>Persentase Diskon yang Diberikan (%)</label>
+          <input type="number" id="d2-disc" placeholder="Contoh: 30" min="0" max="99" oninput="calcReverse()"/>
+        </div>
+        <button class="calc-btn" onclick="calcReverse()">🔍 Cari Harga Asli</button>
+        <div class="result-box" id="res2" style="display:none">
+          <div class="disc-main">
+            <div class="disc-final" id="r2-asli">—</div>
+            <div class="disc-label">Harga asli sebelum diskon</div>
+          </div>
+          <div class="disc-stats">
+            <div class="disc-stat"><div class="ds-label">Harga asli (dicari)</div><div class="ds-val" id="r2-orig">—</div></div>
+            <div class="disc-stat red"><div class="ds-label">Nilai potongan</div><div class="ds-val" id="r2-saved">—</div></div>
+            <div class="disc-stat green"><div class="ds-label">Harga setelah diskon</div><div class="ds-val" id="r2-final">—</div></div>
+            <div class="disc-stat"><div class="ds-label">Persentase diskon</div><div class="ds-val" id="r2-pct">—</div></div>
+          </div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.78rem;color:var(--text-secondary);" id="r2-check"></div>
         </div>
       </div>
+
+      <!-- TAB 3: Multi Item Belanja -->
+      <div class="disc-mode" id="tab3">
+        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:6px;">Daftar Belanja</div>
+        <div style="display:grid;grid-template-columns:2fr 2fr 1fr auto;gap:4px;font-size:0.65rem;color:var(--text-muted);font-weight:600;padding:0 2px 4px;border-bottom:1px solid var(--border);margin-bottom:6px;">
+          <span>Nama Barang</span><span>Harga Asli</span><span>Disc%</span><span>Akhir</span>
+        </div>
+        <div id="shop-items"></div>
+        <div class="add-row-btn" onclick="addShopItem()">+ Tambah Barang</div>
+        <button class="calc-btn" style="margin-top:10px" onclick="calcShop()">🛒 Hitung Total Belanja</button>
+        <div class="result-box" id="res3" style="display:none">
+          <div class="disc-stats">
+            <div class="disc-stat"><div class="ds-label">Total harga asli</div><div class="ds-val" id="s-orig">—</div></div>
+            <div class="disc-stat red"><div class="ds-label">Total penghematan</div><div class="ds-val" id="s-saved">—</div></div>
+            <div class="disc-stat green" style="grid-column:1/-1"><div class="ds-label">Total yang harus dibayar</div><div class="ds-val" id="s-total" style="font-size:1.1rem">—</div></div>
+          </div>
+          <div id="s-savings-bar" style="margin-top:10px">
+            <div class="savings-bar-track">
+              <div class="savings-bar-pay" id="s-bar-pay" style="width:80%">Bayar</div>
+              <div class="savings-bar-save" id="s-bar-save" style="width:20%">Hemat</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;padding:10px;background:var(--mint-dim);border-radius:var(--radius-sm);font-size:0.8rem;color:var(--text-secondary)" id="s-advice"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Diskon — Hitung Harga Setelah Diskon Instan</h1>
-    <p class="page-desc">Tidak perlu bingung lagi saat belanja. Kalkulator diskon kami langsung menampilkan harga akhir, jumlah penghematan, dan total belanja. Cocok digunakan saat Harbolnas, flash sale, atau belanja sehari-hari.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Diskon — Harga Setelah Diskon, Diskon Bertingkat & Multi-Item</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung harga setelah diskon dengan cepat dan tepat. Tersedia empat mode: diskon biasa, diskon bertingkat (50%+20%), mencari harga asli dari harga diskon, dan kalkulator belanja multi-item.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Cara Menghitung Diskon</h2>
-    <p>Menghitung diskon sangat mudah dengan rumus berikut:</p>
+    <h2>Cara Menghitung Diskon dengan Benar</h2>
+    <p>Rumus dasar diskon sangat sederhana, namun sering salah dipahami terutama untuk diskon bertingkat:</p>
     <ul>
       <li><strong>Jumlah diskon</strong> = Harga asli × (Diskon% ÷ 100)</li>
-      <li><strong>Harga akhir</strong> = Harga asli − Jumlah diskon</li>
-      <li>Atau lebih singkat: <strong>Harga akhir</strong> = Harga asli × (1 − Diskon%/100)</li>
+      <li><strong>Harga akhir</strong> = Harga asli × (1 − Diskon%/100)</li>
+      <li><strong>Harga asli dari harga diskon</strong> = Harga diskon ÷ (1 − Diskon%/100)</li>
     </ul>
-    <p><strong>Contoh:</strong> Sepatu seharga Rp 450.000 diskon 30%:<br/>
-    Diskon = 450.000 × 0,30 = 135.000<br/>
-    Harga akhir = 450.000 − 135.000 = <strong>Rp 315.000</strong></p>
+    <p><strong>Contoh:</strong> Sepatu Rp 450.000 diskon 30% → Potongan = Rp 135.000 → Harga akhir = <strong>Rp 315.000</strong></p>
+    <p>Verifikasi terbalik: Rp 315.000 ÷ (1 − 0,30) = Rp 315.000 ÷ 0,70 = <strong>Rp 450.000</strong> ✓</p>
 
-    <h2>Diskon Bertingkat (Double Discount)</h2>
-    <p>Banyak toko menawarkan diskon ganda seperti "50% + 20% off". Cara menghitungnya:</p>
+    <h2>Jebakan Diskon Bertingkat yang Sering Menipu</h2>
+    <p>Diskon bertingkat (stacked discount) seperti "50% + 20% off" adalah salah satu trik marketing paling umum. Banyak konsumen mengira ini sama dengan diskon 70%, padahal <strong>tidak</strong>:</p>
     <ul>
-      <li>Diskon pertama: Rp 100.000 × 50% = Rp 50.000</li>
-      <li>Diskon kedua dari harga setelah diskon pertama: Rp 50.000 × 20% = Rp 10.000</li>
-      <li>Harga akhir: Rp 50.000 − Rp 10.000 = <strong>Rp 40.000</strong> (bukan Rp 30.000)</li>
+      <li>Harga asli: Rp 100.000</li>
+      <li>Setelah diskon 50%: Rp 50.000</li>
+      <li>Setelah diskon 20% dari Rp 50.000: Rp 40.000</li>
+      <li>Diskon efektif sebenarnya: (100.000 − 40.000) ÷ 100.000 = <strong>60%, bukan 70%</strong></li>
     </ul>
-    <p>Diskon 50% + 20% ≠ diskon 70%. Total diskon sebenarnya = 60%, bukan 70%!</p>
+    <p>Rumus diskon bertingkat: Harga akhir = Harga asli × (1 − D1) × (1 − D2) × (1 − D3...)</p>
+    <p>Untuk 50% + 20%: 100.000 × 0,50 × 0,80 = <strong>Rp 40.000</strong>. Diskon efektif = 1 − (0,50 × 0,80) = 1 − 0,40 = 60%.</p>
 
-    <h2>Tips Belanja Saat Harbolnas dan Flash Sale</h2>
+    <h2>Fitur Kalkulator Diskon NovaCalcs</h2>
     <ul>
-      <li>Cek harga asli sebelum flash sale — beberapa toko menaikkan harga dulu lalu memberi "diskon"</li>
-      <li>Bandingkan harga dengan toko lain sebelum membeli</li>
-      <li>Perhatikan biaya pengiriman — diskon besar bisa tergerus ongkir yang mahal</li>
-      <li>Hitung total dengan kalkulator ini sebelum checkout untuk menghindari kejutan</li>
-      <li>Prioritaskan barang yang memang sudah direncanakan, bukan karena tergiur diskon semata</li>
+      <li><strong>Mode Diskon Biasa</strong> — Masukkan harga dan persen diskon, langsung dapat harga akhir, penghematan, dan total untuk beberapa unit. Preset cepat untuk diskon 10–70% dan event Harbolnas.</li>
+      <li><strong>Mode Diskon Bertingkat</strong> — Hitung diskon ganda (50%+20%) atau bahkan tiga lapis sekaligus. Kalkulator menampilkan langkah per langkah dan diskon efektif sebenarnya vs diskon yang "diklaim" penjual — sehingga Anda bisa langsung menilai seberapa menguntungkan penawaran tersebut.</li>
+      <li><strong>Mode Reverse (Cari Harga Asli)</strong> — Kalau yang diketahui hanya harga setelah diskon, gunakan mode ini untuk menemukan harga asli sebelum diskon. Berguna untuk mengecek apakah "diskon" yang ditawarkan memang wajar.</li>
+      <li><strong>Mode Multi-Item Belanja</strong> — Masukkan daftar belanja dengan harga dan diskon yang berbeda-beda per item. Kalkulator menghitung total penghematan dan total yang harus dibayar sekaligus — persis seperti di kasir.</li>
+      <li><strong>Savings bar visual</strong> — Bar hijau-merah memperlihatkan secara intuitif berapa persen yang benar-benar dibayar vs berapa yang dihemat.</li>
+      <li><strong>Preset event belanja</strong> — Tombol cepat untuk simulasi Harbolnas 11.11, 12.12, dan promo umum lainnya.</li>
     </ul>
 
-    <h2>Cara Memaksimalkan Belanja di Harbolnas, Flash Sale, dan Ramadan Sale</h2>
-    <p>Indonesia adalah salah satu negara dengan penetrasi e-commerce tertinggi di Asia Tenggara. Event belanja besar seperti Harbolnas 12.12, 11.11, dan Ramadan Sale menawarkan diskon besar, tapi ada strategi agar tidak terjebak impulse buying:</p>
+    <h2>Tips Cerdas Belanja Saat Flash Sale & Harbolnas</h2>
     <ul>
-      <li><strong>Buat daftar belanja sebelum event</strong> — Tentukan item yang memang dibutuhkan. Diskon 70% untuk barang yang tidak diperlukan tetap lebih mahal dari tidak membeli sama sekali</li>
-      <li><strong>Pantau harga sejak jauh hari</strong> — Beberapa penjual menaikkan harga sebelum event lalu memberikan "diskon" ke harga normal. Gunakan ekstensi browser Priceza atau Telunjuk untuk melacak historis harga</li>
-      <li><strong>Manfaatkan cashback dan voucher</strong> — Kombinasikan diskon produk + cashback platform (Shopee, Tokopedia) + cashback kartu kredit/e-wallet untuk penghematan berlapis</li>
-      <li><strong>Hitung ongkos kirim</strong> — Gratis ongkir sering ada syarat minimum belanja. Kalkulasikan apakah lebih hemat menambah item atau membayar ongkos kirim</li>
+      <li><strong>Screenshot harga sebelum sale</strong> — Simpan harga normal 1–2 minggu sebelum event. Beberapa penjual menaikkan harga dulu ("mark up") lalu memberi "diskon" — sehingga harga sale sebenarnya sama atau lebih mahal dari harga normal.</li>
+      <li><strong>Bandingkan lintas platform</strong> — Cek Shopee, Tokopedia, Lazada, dan website brand langsung. Harga bisa berbeda signifikan antar platform bahkan untuk produk yang sama.</li>
+      <li><strong>Hitung harga per unit/gram/ml</strong> — Untuk kebutuhan sehari-hari, beli ukuran besar lebih hemat. Bagi harga dengan berat atau volume untuk perbandingan yang adil.</li>
+      <li><strong>Perhatikan ongkir</strong> — Diskon 30% bisa tergerus ongkos kirim yang mahal. Manfaatkan promo gratis ongkir atau kumpulkan pesanan sampai minimum free ongkir.</li>
+      <li><strong>Jangan tergoda FOMO</strong> — "Stok tersisa 5!" atau "Penawaran habis dalam 1 jam!" adalah teknik urgensi. Tanyakan: "Apakah saya memang butuh barang ini?" sebelum checkout.</li>
     </ul>
 
-    <h2>Jenis-jenis Diskon yang Sering Membingungkan</h2>
-    <table>
-      <tr><th>Jenis Diskon</th><th>Cara Hitung</th><th>Contoh</th></tr>
-      <tr><td>Diskon persen biasa</td><td>Harga × (1 − %diskon)</td><td>Rp 200rb diskon 30% = Rp 140rb</td></tr>
-      <tr><td>Double discount (50%+20%)</td><td>Harga × 0,5 × 0,8</td><td>Rp 200rb → Rp 100rb → Rp 80rb</td></tr>
-      <tr><td>Diskon nominal</td><td>Harga − nominal diskon</td><td>Rp 200rb − Rp 50rb = Rp 150rb</td></tr>
-      <tr><td>Buy X Get Y free</td><td>Harga ÷ (X+Y) × X per item</td><td>Beli 2 gratis 1: hemat 33% per item</td></tr>
-      <tr><td>Cashback</td><td>Bayar penuh, terima kembali sebagian</td><td>Bayar Rp 200rb, cashback Rp 30rb</td></tr>
-    </table>
-    <p>Perhatian: double discount 50%+20% <strong>tidak sama</strong> dengan diskon 70%. Hasilnya hanya 60% dari harga asli (hemat 40%), bukan hemat 70%.</p>
-
-    <h2>Psikologi Harga dan Diskon: Kenapa Kita Mudah Tergoda?</h2>
-    <p>Memahami trik psikologi harga membantu Anda berbelanja lebih rasional:</p>
-    <ul>
-      <li><strong>Harga anchor (jangkar)</strong> — Harga coret yang tinggi membuat harga setelah diskon terasa sangat murah, meski harga aslinya mungkin sudah dinaikkan lebih dulu</li>
-      <li><strong>Harga Rp 99.000 vs Rp 100.000</strong> — Otak memproses Rp 99.000 lebih dekat ke Rp 90.000 daripada Rp 100.000 (charm pricing). Selisihnya hanya Rp 1.000 tapi persepsinya berbeda</li>
-      <li><strong>FOMO (Fear of Missing Out)</strong> — "Flash sale 2 jam lagi!" dan "Stok tersisa 3!" menciptakan urgensi buatan yang memicu pembelian impulsif</li>
-      <li><strong>Bundling</strong> — "Beli 2 gratis 1" mendorong pembelian lebih banyak dari yang dibutuhkan. Hitung dulu apakah barang ketiga memang akan terpakai</li>
-    </ul>
-    <p>Pertahanan terbaik: tunggu 24 jam sebelum membeli barang non-darurat. Rasa "wajib beli sekarang" biasanya hilang setelah sehari, dan Anda bisa mengevaluasi apakah pembelian itu benar-benar diperlukan.</p>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Diskon 50%+20% sama dengan diskon 70%?</div>
-      <div class="faq-a">Tidak. Diskon 50%+20% artinya diskon 50% dulu, lalu dari harga hasil diskon itu, dikurangi lagi 20%. Total efektifnya adalah 60%, bukan 70%. Ini trik marketing yang perlu diwaspadai.</div>
+      <div class="faq-a">Tidak. Diskon bertingkat 50%+20% artinya: dari harga asli dikurangi 50%, lalu sisa harganya dikurangi lagi 20%. Diskon efektif sebenarnya adalah 60%, bukan 70%. Rumusnya: 1 − (0,50 × 0,80) = 0,40 → hemat 60%. Selisih 10% ini terdengar kecil, tapi pada harga Rp 1 juta misalnya, beda antara diskon 60% (bayar Rp 400.000) vs 70% (bayar Rp 300.000) adalah Rp 100.000.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung harga asli dari harga diskon?</div>
-      <div class="faq-a">Jika Anda tahu harga setelah diskon dan persentase diskonnya: Harga asli = Harga setelah diskon ÷ (1 − Diskon/100). Contoh: harga setelah diskon 30% adalah Rp 350.000, maka harga asli = 350.000 ÷ 0,70 = Rp 500.000.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mencari harga asli dari harga setelah diskon?</div>
+      <div class="faq-a">Rumusnya: Harga asli = Harga setelah diskon ÷ (1 − Diskon%/100). Contoh: harga setelah diskon 30% adalah Rp 350.000, maka harga asli = 350.000 ÷ 0,70 = Rp 500.000. Gunakan Mode Reverse di kalkulator ini untuk menghitung secara otomatis — berguna juga untuk mengecek apakah harga "diskon" yang ditampilkan masuk akal.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada aplikasi untuk scan barcode dan cek diskon?</div>
-      <div class="faq-a">Di Indonesia, beberapa aplikasi seperti Tokopedia, Shopee, dan aplikasi supermarket tertentu memiliki fitur scan untuk cek harga. Namun untuk perhitungan cepat tanpa aplikasi tambahan, kalkulator diskon kami lebih praktis.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung cashback berbeda dengan diskon?</div>
-      <div class="faq-a">Diskon langsung mengurangi harga di kasir. Cashback adalah pengembalian uang setelah transaksi, biasanya masuk ke dompet digital atau rekening. Secara finansial efeknya sama, tapi dengan cashback Anda membayar penuh dulu baru mendapat kembalian.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu cashback dan bedanya dengan diskon?</div>
+      <div class="faq-a">Diskon langsung mengurangi harga yang Anda bayar di kasir atau saat checkout. Cashback adalah pengembalian sebagian uang setelah transaksi selesai — biasanya masuk ke dompet digital (OVO, GoPay, dll.) atau rekening bank dalam beberapa hari. Secara finansial efek akhirnya sama, namun dengan cashback Anda membayar penuh dulu dan menunggu pengembalian. Pastikan cashback tidak ada kadaluwarsa atau syarat penggunaan yang mempersulit pemakaiannya.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Apakah diskon dikenakan PPN?</div>
-      <div class="faq-a">PPN 11% biasanya dikenakan pada harga setelah diskon, bukan harga asli. Jadi harga asli Rp 100.000, diskon 20%, harga setelah diskon Rp 80.000, PPN = 11% × 80.000 = Rp 8.800. Total yang dibayar = Rp 88.800.</div>
+      <div class="faq-a">PPN biasanya dihitung dari harga setelah diskon, bukan harga asli. Jadi: harga asli Rp 100.000, diskon 20%, harga setelah diskon Rp 80.000, PPN 11% = Rp 8.800. Total yang dibayar = Rp 88.800. Namun ada kasus di mana PPN dihitung dari harga sebelum diskon tergantung cara pengusaha menerbitkan faktur pajaknya. Untuk kepastian, lihat rincian di struk atau faktur pajak.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara cek apakah harga sebelum sale memang harga normal?</div>
+      <div class="faq-a">Beberapa cara yang bisa dilakukan: (1) Gunakan ekstensi browser seperti Telunjuk atau fitur riwayat harga di Tokopedia/Shopee untuk melihat grafik harga historis, (2) Screenshot atau catat harga 1–2 minggu sebelum event, (3) Cek harga di beberapa platform sekaligus untuk referensi, (4) Bandingkan dengan harga di website resmi brand. Regulasi BPKN (Badan Perlindungan Konsumen Nasional) sebenarnya melarang manipulasi harga saat flash sale, namun pengawasannya masih terbatas.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Berapa diskon minimum yang benar-benar menguntungkan?</div>
-      <div class="faq-a">Ini tergantung konteks. Untuk belanja online, diskon perlu minimal menutupi ongkos kirim agar menguntungkan. Untuk barang kebutuhan rutin, diskon 5–10% sudah berarti jika membelinya dalam jumlah besar. Intinya, bandingkan selalu dengan harga di tempat lain.</div>
+      <div class="faq-a">Tidak ada angka universal — tergantung konteks. Untuk belanja online, diskon minimal perlu menutup ongkos kirim agar benar-benar hemat. Untuk barang kebutuhan rutin yang sudah pasti dibeli, diskon 5–10% sudah bermakna jika kuantitasnya besar. Untuk barang tersier atau impulsif, diskon besar pun tidak menguntungkan jika barang tersebut sebenarnya tidak diperlukan. Prinsip terpenting: beli karena butuh, bukan karena diskon.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu voucher dan bedanya dengan diskon langsung?</div>
+      <div class="faq-a">Diskon langsung otomatis mengurangi harga tanpa syarat tambahan. Voucher adalah kode atau kupon yang harus dimasukkan saat checkout untuk mendapat potongan — bisa berbentuk potongan nominal (Rp 50.000 off) atau persentase (10% off). Beberapa voucher punya syarat minimum pembelian, berlaku untuk produk tertentu, atau terbatas jumlahnya (first-come-first-served). Selalu baca syarat dan ketentuan voucher sebelum berencana menggunakannya.</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
-      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
       <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
-      <a href="/id/pembagi-tagihan.html" class="related-item"><span class="ri">👥</span>Bagi Tagihan</a>
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+      <a href="/id/kalkulator-split-bill.html" class="related-item"><span class="ri">👥</span>Split Bill</a>
       <a href="/id/kalkulator-tip.html" class="related-item"><span class="ri">🍽️</span>Kalkulator Tip</a>
     </div>
   </div>
@@ -180,36 +332,177 @@
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <script defer>
-function setDisc(val, btn) {
-  document.getElementById('disc').value = val;
-  document.querySelectorAll('.disc-preset').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  liveCalc();
-}
-
 const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
 
-function liveCalc() {
-  const price = parseFloat(document.getElementById('price').value);
-  const disc = parseFloat(document.getElementById('disc').value);
-  const qty = parseInt(document.getElementById('qty').value) || 1;
-  if (isNaN(price) || isNaN(disc)) return;
-
-  const saved = price * (disc / 100);
-  const final = price - saved;
-  document.getElementById('res-final').textContent = fmt(final);
-  document.getElementById('res-orig').textContent = fmt(price);
-  document.getElementById('res-saved').textContent = '− ' + fmt(saved);
-  document.getElementById('res-total').textContent = fmt(final * qty);
-  document.getElementById('res-total-saved').textContent = '− ' + fmt(saved * qty);
-  document.getElementById('result').classList.add('show');
+function switchTab(idx, btn) {
+  document.querySelectorAll('.disc-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.disc-mode').forEach(m => m.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab' + idx).classList.add('active');
 }
 
+// ── TAB 0: Diskon Biasa ──
+function setDisc0(val, btn) {
+  document.getElementById('d0-disc').value = val;
+  document.querySelectorAll('.disc-preset').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcDiskon0();
+}
+function setDisc0Event(min, disc) {
+  document.getElementById('d0-disc').value = disc;
+  document.querySelectorAll('.disc-preset').forEach(b => b.classList.remove('active'));
+  calcDiskon0();
+}
+function calcDiskon0() {
+  const price = parseFloat(document.getElementById('d0-harga').value) || 0;
+  const disc  = parseFloat(document.getElementById('d0-disc').value);
+  const qty   = parseInt(document.getElementById('d0-qty').value) || 1;
+  if (!price || isNaN(disc)) return;
+  const saved = price * disc / 100;
+  const final = price - saved;
+  const payPct = Math.round(final / price * 100);
+
+  document.getElementById('r0-final').textContent = fmt(final);
+  document.getElementById('r0-badge').textContent = `Hemat ${disc}% = ${fmt(saved)}`;
+  document.getElementById('r0-orig').textContent = fmt(price);
+  document.getElementById('r0-saved').textContent = '−' + fmt(saved);
+  document.getElementById('r0-total').textContent = fmt(final * qty);
+  document.getElementById('r0-tsaved').textContent = '−' + fmt(saved * qty);
+  document.getElementById('r0-bar-pay').style.width = payPct + '%';
+  document.getElementById('r0-bar-pay').textContent = payPct > 20 ? payPct + '%' : '';
+  document.getElementById('r0-bar-save').style.width = (100 - payPct) + '%';
+  document.getElementById('r0-bar-save').textContent = (100-payPct) > 10 ? (100-payPct) + '%' : '';
+  document.getElementById('res0').style.display = 'block';
+  document.getElementById('res0').classList.add('show');
+}
+
+// ── TAB 1: Diskon Bertingkat ──
+function calcBertingkat() {
+  const h  = parseFloat(document.getElementById('d1-harga').value) || 0;
+  const d1 = parseFloat(document.getElementById('d1-d1').value) || 0;
+  const d2 = parseFloat(document.getElementById('d1-d2').value) || 0;
+  const d3 = parseFloat(document.getElementById('d1-d3').value) || 0;
+  if (!h || !d1) return;
+
+  let price = h;
+  const steps = [{label:'Harga Asli', val:h}];
+  if (d1) { price = price * (1 - d1/100); steps.push({label:`−${d1}%`, val:price}); }
+  if (d2) { price = price * (1 - d2/100); steps.push({label:`−${d2}%`, val:price}); }
+  if (d3) { price = price * (1 - d3/100); steps.push({label:`−${d3}%`, val:price}); }
+
+  const effDisc = ((h - price) / h * 100).toFixed(1);
+  const klaimDisc = d1 + d2 + (d3 || 0);
+  const saved = h - price;
+
+  // Steps visualization
+  const stepsEl = document.getElementById('dd-steps');
+  stepsEl.innerHTML = steps.map((s, i) => {
+    const isFirst = i === 0;
+    const isLast  = i === steps.length - 1;
+    return (isFirst ? '' : '<span class="dd-arrow">→</span>') +
+      `<div class="dd-step">
+        <div class="ds-num" style="color:${isLast ? 'var(--mint)' : 'var(--text-primary)'}">${fmt(s.val)}</div>
+        <div class="ds-lbl">${s.label}</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('r1-final').textContent = fmt(price);
+  document.getElementById('r1-badge').textContent = `Diskon efektif ${effDisc}%`;
+  document.getElementById('r1-orig').textContent   = fmt(h);
+  document.getElementById('r1-saved').textContent  = '−' + fmt(saved);
+  document.getElementById('r1-eff').textContent    = effDisc + '%';
+  document.getElementById('r1-klaim').textContent  = klaimDisc + '%';
+
+  const warnEl = document.getElementById('r1-warn');
+  if (klaimDisc > parseFloat(effDisc) + 0.5) {
+    warnEl.style.display = 'block';
+    warnEl.textContent = `⚠️ Penjual "mengklaim" diskon ${klaimDisc}%, tapi diskon efektif sebenarnya hanya ${effDisc}%. Selisih ${(klaimDisc - effDisc).toFixed(1)}% ini adalah jebakan yang umum dalam marketing diskon bertingkat.`;
+  } else {
+    warnEl.style.display = 'none';
+  }
+
+  document.getElementById('res1').style.display = 'block';
+  document.getElementById('res1').classList.add('show');
+}
+
+// ── TAB 2: Reverse ──
+function calcReverse() {
+  const hDiskon = parseFloat(document.getElementById('d2-harga').value) || 0;
+  const disc    = parseFloat(document.getElementById('d2-disc').value) || 0;
+  if (!hDiskon || !disc) return;
+  const asli  = hDiskon / (1 - disc/100);
+  const saved = asli - hDiskon;
+
+  document.getElementById('r2-asli').textContent  = fmt(asli);
+  document.getElementById('r2-orig').textContent  = fmt(asli);
+  document.getElementById('r2-saved').textContent = '−' + fmt(saved);
+  document.getElementById('r2-final').textContent = fmt(hDiskon);
+  document.getElementById('r2-pct').textContent   = disc + '%';
+  document.getElementById('r2-check').innerHTML   = `✅ Verifikasi: ${fmt(asli)} × (1 − ${disc}%) = ${fmt(asli)} × ${(1-disc/100).toFixed(2)} = <strong>${fmt(hDiskon)}</strong>`;
+  document.getElementById('res2').style.display = 'block';
+  document.getElementById('res2').classList.add('show');
+}
+
+// ── TAB 3: Multi Item ──
+let shopCount = 0;
+function addShopItem() {
+  shopCount++;
+  const row = document.createElement('div');
+  row.className = 'shop-item-row';
+  row.id = 'shop-' + shopCount;
+  row.innerHTML = `
+    <input class="si-name" type="text" placeholder="Nama barang" />
+    <input class="si-price" type="number" placeholder="Harga (Rp)" oninput="calcShop()"/>
+    <input class="si-disc" type="number" placeholder="%" min="0" max="100" oninput="calcShop()"/>
+    <span class="si-final" id="sf-${shopCount}">—</span>
+    <span style="cursor:pointer;color:var(--text-muted);padding:0 4px;font-size:1.1rem" onclick="removeShopItem(${shopCount})">×</span>`;
+  document.getElementById('shop-items').appendChild(row);
+}
+function removeShopItem(id) {
+  const el = document.getElementById('shop-' + id);
+  if (el) el.remove();
+  calcShop();
+}
+function calcShop() {
+  let totalOrig = 0, totalFinal = 0;
+  document.querySelectorAll('#shop-items .shop-item-row').forEach(row => {
+    const price = parseFloat(row.querySelector('.si-price').value) || 0;
+    const disc  = parseFloat(row.querySelector('.si-disc').value) || 0;
+    const final = price * (1 - disc/100);
+    const id = row.id.split('-')[1];
+    const sfEl = document.getElementById('sf-' + id);
+    if (sfEl) sfEl.textContent = price > 0 ? fmt(final) : '—';
+    totalOrig  += price;
+    totalFinal += final;
+  });
+  const totalSaved = totalOrig - totalFinal;
+  const payPct = totalOrig > 0 ? Math.round(totalFinal / totalOrig * 100) : 80;
+
+  if (totalOrig > 0) {
+    document.getElementById('s-orig').textContent  = fmt(totalOrig);
+    document.getElementById('s-saved').textContent = '−' + fmt(totalSaved);
+    document.getElementById('s-total').textContent = fmt(totalFinal);
+    document.getElementById('s-bar-pay').style.width  = payPct + '%';
+    document.getElementById('s-bar-pay').textContent  = payPct > 20 ? payPct + '%' : '';
+    document.getElementById('s-bar-save').style.width = (100-payPct) + '%';
+    document.getElementById('s-bar-save').textContent = (100-payPct) > 10 ? (100-payPct) + '%' : '';
+    const effDisc = totalOrig > 0 ? (totalSaved / totalOrig * 100).toFixed(1) : 0;
+    document.getElementById('s-advice').innerHTML = `🛒 Total hemat <strong>${fmt(totalSaved)}</strong> (${effDisc}% dari total harga asli). Harga yang harus dibayar: <strong>${fmt(totalFinal)}</strong>.`;
+    document.getElementById('res3').style.display = 'block';
+  }
+}
+
+// Init shop items
+window.addEventListener('DOMContentLoaded', () => {
+  addShopItem(); addShopItem(); addShopItem();
+});
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') { calcDiskon0(); calcBertingkat(); calcReverse(); calcShop(); } });
 </script>
 </body>
 </html>
