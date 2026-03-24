@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator PPh Freelancer 2026 — Pajak Penghasilan Tenaga Ahli & UMKM | NovaCalcs</title>
-<meta name="description" content="Hitung PPh 21 untuk freelancer, tenaga ahli, dan konsultan. Mendukung tarif PPh 21 tenaga ahli dan PPh Final 0,5% PP 23/2018 untuk UMKM."/>
-<meta name="keywords" content="kalkulator PPh freelancer, pajak penghasilan freelancer, PPh 21 tenaga ahli, PPh final UMKM, pajak konsultan, hitung pajak freelance"/>
+<meta name="description" content="Hitung PPh 21 untuk freelancer dan tenaga ahli, atau PPh Final 0,5% untuk UMKM. Bandingkan mana yang lebih hemat, lengkap dengan estimasi take-home setelah pajak."/>
+<meta name="keywords" content="kalkulator PPh freelancer, pajak penghasilan freelancer, PPh 21 tenaga ahli, PPh final UMKM, pajak konsultan, hitung pajak freelance 2026"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pph-freelance.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-pph-freelance.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,6 +13,26 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.tax-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:.35rem 0}
+.tb-seg{height:100%;transition:width .4s}
+.tb-legend{display:flex;gap:.6rem;flex-wrap:wrap;font-size:.73rem;margin-top:.25rem}
+.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+.cmp-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin:.45rem 0}
+.cmp-card.winner{border-color:rgba(0,201,177,.4);background:rgba(0,201,177,.06)}
+.cmp-card h4{margin:0 0 .3rem;font-size:.88rem}
+.cmp-card p{margin:0;font-size:.82rem;color:#8fa3b1;line-height:1.5}
+.winner-label{display:inline-block;background:#00C9B1;color:#0d1b2a;font-size:.65rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem}
+.ptkp-row{display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.ptkp-row:last-child{border-bottom:none}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -29,82 +49,146 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">💻 Kalkulator PPh Freelancer</div>
-      <div class="calc-subtitle">Hitung pajak penghasilan untuk freelancer dan UMKM</div>
+      <div class="calc-subtitle">Hitung pajak untuk tenaga ahli, konsultan &amp; UMKM</div>
 
-      <div class="field">
-        <label>Jenis Pajak</label>
-        <select id="tax-type" onchange="updateMode()">
-          <option value="pph21">PPh 21 — Tenaga Ahli / Konsultan</option>
-          <option value="pp23">PPh Final 0,5% — UMKM (PP 23/2018)</option>
-        </select>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-pph21',this)">👔 PPh 21 Tenaga Ahli</button>
+        <button class="tab-btn" onclick="showTab('tab-umkm',this)">🏪 PPh Final UMKM</button>
+        <button class="tab-btn" onclick="showTab('tab-banding',this)">⚖️ Perbandingan</button>
       </div>
-      <div id="mode-pph21">
-        <div class="field"><label>Penghasilan Bruto (Rp) — per transaksi atau per bulan</label><input type="number" id="bruto-21" placeholder="Contoh: 10000000" min="0"/></div>
+
+      <!-- TAB 1: PPh 21 -->
+      <div id="tab-pph21" class="tab-pane active">
+        <div class="field"><label>Penghasilan Bruto per Bulan (Rp)</label><input type="number" id="bruto-21" placeholder="Contoh: 15000000" min="0"/></div>
         <div class="field">
-          <label>Periode</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="btn-per-transaksi" onclick="setPeriode('transaksi')">Per transaksi</div>
-            <div class="radio-btn" id="btn-per-tahun" onclick="setPeriode('tahun')">Total setahun</div>
-          </div>
+          <label>Status Perkawinan &amp; Tanggungan (PTKP)</label>
+          <select id="ptkp-status">
+            <option value="54000000">TK/0 — Tidak kawin, tanpa tanggungan (Rp 54 juta)</option>
+            <option value="58500000">TK/1 — Tidak kawin, 1 tanggungan (Rp 58,5 juta)</option>
+            <option value="63000000">TK/2 — Tidak kawin, 2 tanggungan (Rp 63 juta)</option>
+            <option value="67500000">TK/3 — Tidak kawin, 3 tanggungan (Rp 67,5 juta)</option>
+            <option value="58500000">K/0 — Kawin, tanpa tanggungan (Rp 58,5 juta)</option>
+            <option value="63000000">K/1 — Kawin, 1 tanggungan (Rp 63 juta)</option>
+            <option value="67500000">K/2 — Kawin, 2 tanggungan (Rp 67,5 juta)</option>
+            <option value="72000000">K/3 — Kawin, 3 tanggungan (Rp 72 juta)</option>
+          </select>
         </div>
         <div class="field">
           <label>Status NPWP</label>
           <div class="radio-group">
-            <div class="radio-btn active" id="btn-punya" onclick="setNpwp(true)">Punya NPWP</div>
-            <div class="radio-btn" id="btn-nopwp" onclick="setNpwp(false)">Tidak punya NPWP (+20%)</div>
+            <div class="radio-btn active" id="btn-npwp" onclick="setNpwp(true)">Punya NPWP / NIK aktif</div>
+            <div class="radio-btn" id="btn-nonpwp" onclick="setNpwp(false)">Tidak punya NPWP (+20%)</div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calculatePph21()">Hitung PPh 21</button>
+
+        <div class="result-panel" id="res-pph21">
+          <div class="result-main">
+            <div class="result-value" id="r21-pph">—</div>
+            <div class="result-label">PPh 21 Terutang per Bulan</div>
+          </div>
+          <div style="margin:.6rem 0">
+            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.2rem">Komposisi Penghasilan Bulanan</div>
+            <div class="tax-bar">
+              <div class="tb-seg" id="r21-bar-takehome" style="background:#00C9B1"></div>
+              <div class="tb-seg" id="r21-bar-pph" style="background:#ef4444"></div>
+            </div>
+            <div class="tb-legend">
+              <span><span class="leg-dot" style="background:#00C9B1"></span>Take-home</span>
+              <span><span class="leg-dot" style="background:#ef4444"></span>PPh 21</span>
+            </div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">DPP (50% dari bruto tahunan)</span><span class="rval" id="r21-dpp">—</span></div>
+            <div class="result-row"><span class="rkey">PTKP yang digunakan</span><span class="rval" id="r21-ptkp">—</span></div>
+            <div class="result-row"><span class="rkey">PKP (DPP − PTKP)</span><span class="rval" id="r21-pkp">—</span></div>
+            <div class="result-row"><span class="rkey">PPh 21 setahun</span><span class="rval" id="r21-tahunan">—</span></div>
+            <div class="result-row"><span class="rkey">Tarif efektif dari bruto</span><span class="rval" id="r21-efektif">—</span></div>
+            <div class="result-row"><span class="rkey">Take-home setelah pajak</span><span class="rval" id="r21-takehome">—</span></div>
           </div>
         </div>
       </div>
-      <div id="mode-pp23" style="display:none">
-        <div class="field"><label>Omzet / Penghasilan Bruto Setahun (Rp)</label><input type="number" id="omzet-23" placeholder="Contoh: 200000000" min="0"/></div>
-        <small style="color:#aaa;display:block;margin-bottom:12px">Berlaku untuk omzet di bawah Rp 4,8 miliar/tahun. Tarif: 0,5% dari omzet bruto.</small>
+
+      <!-- TAB 2: UMKM PP 23 -->
+      <div id="tab-umkm" class="tab-pane">
+        <div class="field"><label>Omzet / Penghasilan Bruto Setahun (Rp)</label><input type="number" id="omzet-23" placeholder="Contoh: 300000000" min="0"/></div>
+        <div class="field"><label>Tahun ke berapa menggunakan PP 23/2018?</label>
+          <select id="pp23-year">
+            <option value="1">Tahun ke-1 (max 7 tahun untuk Orang Pribadi)</option>
+            <option value="2">Tahun ke-2</option>
+            <option value="3">Tahun ke-3</option>
+            <option value="4">Tahun ke-4</option>
+            <option value="5">Tahun ke-5</option>
+            <option value="6">Tahun ke-6</option>
+            <option value="7">Tahun ke-7 (terakhir untuk Orang Pribadi)</option>
+          </select>
+        </div>
+        <button class="calc-btn" onclick="calculateUmkm()">Hitung PPh UMKM</button>
+
+        <div class="result-panel" id="res-umkm">
+          <div class="result-main">
+            <div class="result-value" id="r23-pph">—</div>
+            <div class="result-label">PPh Final per Tahun</div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Omzet bruto setahun</span><span class="rval" id="r23-omzet">—</span></div>
+            <div class="result-row"><span class="rkey">Status bebas PPh 500jt pertama</span><span class="rval" id="r23-status">—</span></div>
+            <div class="result-row"><span class="rkey">PPh terutang per bulan</span><span class="rval" id="r23-bulan">—</span></div>
+            <div class="result-row"><span class="rkey">Take-home bersih per bulan</span><span class="rval" id="r23-takehome">—</span></div>
+            <div class="result-row"><span class="rkey">Tarif efektif dari omzet</span><span class="rval" id="r23-efektif">—</span></div>
+          </div>
+          <div id="r23-warning" style="display:none;margin-top:.6rem;padding:.6rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;font-size:.78rem;color:#f59e0b"></div>
+        </div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Pajak</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-pph">—</div>
-          <div class="result-label" id="res-label">PPh Terutang</div>
+      <!-- TAB 3: PERBANDINGAN -->
+      <div id="tab-banding" class="tab-pane">
+        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Masukkan penghasilan bulanan untuk melihat mana yang lebih hemat antara PPh 21 Tenaga Ahli dan PPh Final UMKM.</p>
+        <div class="field"><label>Penghasilan Bruto per Bulan (Rp)</label><input type="number" id="cmp-income" placeholder="Contoh: 20000000" min="0"/></div>
+        <div class="field">
+          <label>Status PTKP</label>
+          <select id="cmp-ptkp">
+            <option value="54000000">TK/0 — Rp 54 juta/tahun</option>
+            <option value="58500000">K/0 atau TK/1 — Rp 58,5 juta/tahun</option>
+            <option value="63000000">K/1 atau TK/2 — Rp 63 juta/tahun</option>
+            <option value="67500000">K/2 atau TK/3 — Rp 67,5 juta/tahun</option>
+            <option value="72000000">K/3 — Rp 72 juta/tahun</option>
+          </select>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">DPP (Dasar Pengenaan Pajak)</span><span class="rval" id="res-dpp">—</span></div>
-          <div class="result-row"><span class="rkey">Tarif efektif dari bruto</span><span class="rval" id="res-efektif">—</span></div>
-          <div class="result-row"><span class="rkey">Take-home setelah pajak</span><span class="rval" id="res-takehome">—</span></div>
-          <div class="result-row"><span class="rkey">Jenis tarif</span><span class="rval" id="res-jenis">—</span></div>
+        <button class="calc-btn" onclick="calculateBanding()">Bandingkan Sekarang</button>
+        <div id="res-banding" style="display:none;margin-top:1rem">
+          <div id="banding-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
+          <div id="banding-cards"></div>
+          <div style="margin-top:.75rem;padding:.6rem;background:rgba(255,255,255,.04);border-radius:8px;font-size:.78rem;color:#8fa3b1" id="banding-note"></div>
         </div>
       </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator PPh Freelancer 2026 — Pajak Penghasilan Tenaga Ahli, Konsultan & UMKM</h1>
-    <p class="page-desc">Freelancer, konsultan, dan pelaku UMKM wajib membayar pajak penghasilan. Kalkulator ini membantu menghitung PPh 21 untuk tenaga ahli dan PPh Final 0,5% untuk UMKM sesuai peraturan pajak Indonesia terkini.</p>
+  <div class="content-area">
+    <h1>Kalkulator PPh Freelancer 2026 — Pajak Penghasilan Tenaga Ahli, Konsultan &amp; UMKM</h1>
+    <p class="page-desc">Freelancer, konsultan, dan pelaku UMKM wajib membayar pajak penghasilan. Kalkulator ini membantu menghitung PPh 21 untuk tenaga ahli dan PPh Final 0,5% untuk UMKM, serta membandingkan mana yang lebih menguntungkan untuk situasi Anda.</p>
 
     <div class="ad-slot">Advertisement</div>
 
     <h2>Dua Skema Pajak untuk Freelancer di Indonesia</h2>
-    <p>Freelancer di Indonesia bisa dikenakan dua skema pajak yang berbeda tergantung status dan omzetnya:</p>
-    <p><strong>1. PPh 21 Tenaga Ahli</strong> — berlaku untuk profesional yang memberikan jasa keahlian kepada pemberi kerja/klien korporat, seperti konsultan, dokter, pengacara, arsitek, dan desainer. DPP dihitung sebesar 50% dari penghasilan bruto, kemudian dikalikan tarif progresif Pasal 17 UU PPh (sebagaimana diubah UU HPP 2021).</p>
-    <p><strong>2. PPh Final 0,5% (PP 23/2018)</strong> — berlaku untuk Wajib Pajak UMKM dengan omzet tidak melebihi Rp 4,8 miliar per tahun. Tarif 0,5% dihitung langsung dari omzet bruto tanpa pengurangan biaya. Berlaku maksimal 7 tahun untuk WP Orang Pribadi.</p>
-
-    <h2>Cara Menggunakan Kalkulator</h2>
-    <ol>
-      <li>Pilih <strong>jenis pajak</strong> yang berlaku untuk Anda</li>
-      <li>Untuk PPh 21: masukkan <strong>penghasilan bruto</strong> per transaksi atau total setahun, dan status NPWP</li>
-      <li>Untuk PP 23: masukkan <strong>total omzet</strong> setahun</li>
-      <li>Klik <strong>"Hitung Pajak"</strong></li>
-    </ol>
+    <p>Freelancer di Indonesia bisa dikenakan dua skema pajak yang berbeda tergantung jenis pekerjaan dan besarnya omzet:</p>
+    <p><strong>1. PPh 21 Tenaga Ahli</strong> — berlaku untuk profesional yang memberikan jasa keahlian kepada klien korporat, seperti konsultan, dokter, pengacara, arsitek, dan desainer. DPP dihitung sebesar 50% dari penghasilan bruto, kemudian dikurangi PTKP, dan dikenakan tarif progresif Pasal 17 UU PPh (sebagaimana diubah UU HPP 2021).</p>
+    <p><strong>2. PPh Final 0,5% (PP 23/2018 jo. PP 55/2022)</strong> — berlaku untuk pelaku UMKM dengan omzet tidak melebihi Rp 4,8 miliar per tahun. Penghasilan hingga Rp 500 juta per tahun <strong>bebas pajak</strong> (berdasarkan PP 55/2022). Omzet di atas Rp 500 juta hingga Rp 4,8 miliar dikenakan 0,5% dari bruto. Berlaku maksimal 7 tahun untuk Wajib Pajak Orang Pribadi.</p>
 
     <h2>Rumus PPh 21 Tenaga Ahli</h2>
     <table>
-      <tr><th>Langkah</th><th>Rumus</th></tr>
-      <tr><td>DPP</td><td>50% × Penghasilan Bruto</td></tr>
-      <tr><td>PPh (setahun)</td><td>DPP × Tarif Progresif Pasal 17</td></tr>
-      <tr><td>Tidak punya NPWP</td><td>PPh × 120% (tarif naik 20%)</td></tr>
+      <tr><th>Langkah</th><th>Cara Hitung</th></tr>
+      <tr><td>1. DPP</td><td>50% × penghasilan bruto</td></tr>
+      <tr><td>2. Annualisasi</td><td>DPP × 12 bulan</td></tr>
+      <tr><td>3. PKP</td><td>DPP tahunan − PTKP</td></tr>
+      <tr><td>4. PPh tahunan</td><td>PKP × Tarif Progresif Pasal 17</td></tr>
+      <tr><td>5. PPh per bulan</td><td>PPh tahunan ÷ 12</td></tr>
+      <tr><td>6. Tanpa NPWP</td><td>PPh × 120% (tarif naik 20%)</td></tr>
     </table>
-    <table style="margin-top:0.75rem">
-      <tr><th>Lapisan PKP</th><th>Tarif</th></tr>
+    <table style="margin-top:.75rem">
+      <tr><th>Lapisan PKP (Pasal 17 UU HPP)</th><th>Tarif</th></tr>
       <tr><td>Rp 0 – Rp 60 juta</td><td>5%</td></tr>
       <tr><td>Rp 60 juta – Rp 250 juta</td><td>15%</td></tr>
       <tr><td>Rp 250 juta – Rp 500 juta</td><td>25%</td></tr>
@@ -112,48 +196,46 @@
       <tr><td>Di atas Rp 5 miliar</td><td>35%</td></tr>
     </table>
 
-    <h2>Contoh Perhitungan</h2>
-    <p><strong>PPh 21 Tenaga Ahli:</strong> Konsultan menerima honor Rp 20.000.000 dari klien korporat. DPP = 50% × Rp 20.000.000 = Rp 10.000.000. Disetahunkan = Rp 120.000.000. PPh = (60jt × 5%) + (60jt × 15%) = Rp 3.000.000 + Rp 9.000.000 = Rp 12.000.000/tahun. PPh per transaksi = Rp 12.000.000 / 12 = <strong>Rp 1.000.000</strong>.</p>
-    <p><strong>PPh Final UMKM:</strong> Penjual online dengan omzet Rp 300.000.000/tahun. PPh = 0,5% × Rp 300.000.000 = <strong>Rp 1.500.000/tahun</strong> (Rp 125.000/bulan).</p>
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
+    <ol>
+      <li><strong>Tab PPh 21 Tenaga Ahli:</strong> Masukkan penghasilan bruto bulanan, status PTKP, dan kepemilikan NPWP. Dapatkan rincian DPP, PKP, PPh terutang, dan take-home bersih.</li>
+      <li><strong>Tab PPh Final UMKM:</strong> Masukkan total omzet setahun dan tahun ke berapa Anda menggunakan skema PP 23/2018. Lihat PPh yang harus dibayar beserta fasilitas bebas Rp 500 juta.</li>
+      <li><strong>Tab Perbandingan:</strong> Masukkan penghasilan bulanan, lalu lihat secara langsung mana yang lebih hemat antara skema PPh 21 dan PPh Final UMKM untuk kondisi Anda.</li>
+    </ol>
 
-    <h2>Kewajiban Administrasi Pajak Freelancer di Indonesia</h2>
-    <p>Selain menghitung dan membayar pajak, freelancer di Indonesia memiliki beberapa kewajiban administrasi yang wajib dipenuhi:</p>
+    <h2>Contoh Perhitungan PPh 21 Tenaga Ahli 2026</h2>
+    <p><strong>Konsultan IT, penghasilan bruto Rp 30.000.000/bulan, status TK/0 (PTKP Rp 54 juta):</strong></p>
     <ul>
-      <li><strong>Memiliki NPWP/NIK aktif</strong> — Wajib dimiliki freelancer yang penghasilannya melebihi PTKP (Rp 54 juta/tahun). Sejak 2022, NIK KTP otomatis berfungsi sebagai NPWP.</li>
-      <li><strong>Lapor SPT Tahunan</strong> — Setiap tahun sebelum 31 Maret menggunakan formulir 1770 (bukan 1770S) untuk freelancer dengan penghasilan dari lebih dari satu sumber.</li>
-      <li><strong>Menyimpan bukti potong</strong> — Jika klien memotong PPh 21, minta Bukti Potong (Bupot) yang bisa dikreditkan di SPT Tahunan.</li>
-      <li><strong>Bayar angsuran PPh 25</strong> — Jika tahun lalu ada kurang bayar pajak yang signifikan, DJP bisa menetapkan angsuran bulanan PPh 25.</li>
+      <li>DPP tahunan = 50% × (Rp 30 juta × 12) = 50% × Rp 360 juta = <strong>Rp 180 juta</strong></li>
+      <li>PKP = Rp 180 juta − Rp 54 juta PTKP = <strong>Rp 126 juta</strong></li>
+      <li>PPh tahunan = (Rp 60 juta × 5%) + (Rp 66 juta × 15%) = Rp 3 juta + Rp 9,9 juta = <strong>Rp 12,9 juta/tahun</strong></li>
+      <li>PPh per bulan = Rp 12,9 juta ÷ 12 = <strong>Rp 1.075.000/bulan</strong></li>
+      <li>Take-home = Rp 30 juta − Rp 1.075.000 = <strong>Rp 28.925.000/bulan</strong></li>
+      <li>Tarif efektif = 1.075.000 ÷ 30.000.000 = <strong>3,58%</strong> dari bruto</li>
     </ul>
 
-    <h2>PP 55/2022: Kemudahan Pajak untuk Freelancer UMKM</h2>
-    <p>Freelancer dan konsultan dengan omzet tahunan di bawah <strong>Rp 500 juta</strong> mendapat fasilitas khusus berdasarkan PP No. 55 Tahun 2022:</p>
-    <ul>
-      <li>Penghasilan di bawah Rp 500 juta/tahun — <strong>bebas PPh Final 0,5%</strong></li>
-      <li>Penghasilan Rp 500 juta – Rp 4,8 miliar/tahun — dikenakan PPh Final 0,5% dari omzet bruto</li>
-    </ul>
-    <p>Fasilitas ini sangat menguntungkan freelancer yang baru mulai. Dengan omzet Rp 400 juta per tahun, tidak ada pajak penghasilan yang perlu dibayar (selama memakai skema PP 55/2022). Namun ini hanya bisa digunakan maksimal 7 tahun untuk perorangan.</p>
+    <h2>Fasilitas Bebas Pajak Rp 500 Juta untuk UMKM (PP 55/2022)</h2>
+    <p>Berdasarkan PP No. 55 Tahun 2022, Wajib Pajak Orang Pribadi pelaku UMKM mendapat fasilitas <strong>penghasilan hingga Rp 500 juta per tahun bebas dari PPh Final 0,5%</strong>. Ini berarti freelancer dengan omzet tahunan di bawah Rp 500 juta tidak perlu membayar PPh Final sama sekali. PPh Final 0,5% hanya dikenakan atas omzet yang melebihi Rp 500 juta, hingga batas atas Rp 4,8 miliar per tahun.</p>
+
+    <h2>Kewajiban Administrasi Pajak Freelancer</h2>
+    <p>Selain menghitung dan membayar pajak, freelancer di Indonesia memiliki kewajiban administrasi yang wajib dipenuhi. Setiap tahun sebelum 31 Maret, freelancer harus menyampaikan SPT Tahunan menggunakan formulir 1770 (bukan 1770S — formulir 1770S hanya untuk karyawan dengan satu pemberi kerja). Jika klien korporat sudah memotong PPh 21, minta Bukti Potong (Bupot) yang bisa dikreditkan di SPT Tahunan. Untuk skema PPh Final PP 23, setor sendiri setiap bulan paling lambat tanggal 15 bulan berikutnya menggunakan kode billing dari e-Billing DJP Online.</p>
 
     <h2>Strategi Pajak Legal untuk Freelancer</h2>
-    <ul>
-      <li><strong>Pisahkan rekening bisnis dan pribadi</strong> — Mempermudah perhitungan penghasilan neto dan dokumentasi biaya</li>
-      <li><strong>Catat semua biaya usaha</strong> — Biaya internet, laptop, langganan software, coworking space bisa menjadi pengurang penghasilan (untuk skema PPh Orang Pribadi)</li>
-      <li><strong>Gunakan e-Billing DJP</strong> — Bayar pajak online melalui djponline.pajak.go.id untuk memudahkan pelaporan dan menyimpan bukti pembayaran</li>
-    </ul>
+    <p>Beberapa strategi yang sah secara hukum untuk mengoptimalkan pajak: pastikan PTKP yang digunakan sudah sesuai status perkawinan dan jumlah tanggungan karena ini langsung mengurangi PKP. Bayar zakat penghasilan melalui BAZNAS/LAZ resmi — zakat dapat mengurangi PKP sehingga menghemat PPh. Jika Anda memiliki lebih dari satu sumber penghasilan, konsultasikan dengan konsultan pajak mengenai pelaporan yang optimal. Gunakan e-Billing DJP Online dan simpan semua bukti pembayaran dengan rapi untuk kemudahan lapor SPT Tahunan.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah freelancer wajib punya NPWP?</div><div class="faq-a">Secara hukum, setiap WP Orang Pribadi yang memiliki penghasilan di atas PTKP (Penghasilan Tidak Kena Pajak — Rp 54 juta/tahun untuk lajang) wajib mendaftarkan diri dan memiliki NPWP. Tanpa NPWP, tarif pemotongan PPh 21 naik 20%. Mendaftar NPWP gratis, bisa online di ereg.pajak.go.id atau di KPP terdekat.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mana yang lebih menguntungkan: PPh 21 atau PP 23?</div><div class="faq-a">Tergantung besarnya penghasilan dan biaya operasional. PP 23 (0,5% dari omzet) lebih sederhana dan menguntungkan jika margin keuntungan Anda rendah atau omzet tidak terlalu besar. PPh 21 tenaga ahli bisa lebih efisien jika penghasilan Anda murni dari jasa keahlian tanpa banyak biaya operasional, karena DPP hanya 50% dari bruto. Konsultasikan dengan konsultan pajak untuk situasi spesifik Anda.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara melaporkan pajak sebagai freelancer?</div><div class="faq-a">Jika dipotong PPh 21 oleh klien korporat: minta bukti potong (form 1721-A2 atau sejenisnya) dari setiap klien, laporkan di SPT Tahunan sebagai penghasilan yang sudah dipotong. Jika PP 23: setor sendiri setiap bulan paling lambat tanggal 15 bulan berikutnya menggunakan kode billing dari e-billing pajak, dan lapor di SPT Tahunan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa PTKP (Penghasilan Tidak Kena Pajak) untuk freelancer?</div><div class="faq-a">PTKP terbaru: Rp 54.000.000/tahun untuk WP tidak kawin tanpa tanggungan (TK/0), Rp 58.500.000 untuk kawin tanpa tanggungan (K/0), dan bertambah Rp 4.500.000 per tanggungan (max 3 orang). Untuk PPh 21 tenaga ahli, PTKP diperhitungkan saat menghitung PKP tahunan sebelum dikenakan tarif progresif.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah platform freelance internasional (Upwork, Fiverr) memotong pajak?</div><div class="faq-a">Platform luar negeri umumnya tidak memotong PPh Indonesia. Namun Anda tetap wajib melaporkan dan membayar pajak atas penghasilan dari luar negeri tersebut di SPT Tahunan Indonesia. Penghasilan dari luar negeri wajib dilaporkan dan dikenakan tarif PPh umum. Jika sudah dipotong pajak di negara sumber, bisa dikreditkan sesuai perjanjian P3B (tax treaty) jika ada.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Sampai kapan PP 23 bisa digunakan?</div><div class="faq-a">Berdasarkan PP 23/2018, WP Orang Pribadi dapat menggunakan tarif PPh Final 0,5% selama maksimal 7 tahun sejak terdaftar. Setelah itu, wajib menggunakan tarif PPh umum (norma penghitungan atau pembukuan). WP Badan non-PT hanya 4 tahun, dan PT hanya 3 tahun. Batas omzet tetap Rp 4,8 miliar/tahun.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah freelancer wajib punya NPWP?</div><div class="faq-a">Setiap Wajib Pajak Orang Pribadi yang memiliki penghasilan di atas PTKP (minimal Rp 54 juta/tahun untuk TK/0) wajib mendaftarkan diri. Sejak 2023, NIK KTP secara otomatis berfungsi sebagai NPWP (integrasi NIK-NPWP). Tanpa NPWP/NIK aktif, tarif pemotongan PPh 21 naik 20%. Pendaftaran NPWP gratis di ereg.pajak.go.id atau KPP terdekat.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mana yang lebih hemat: PPh 21 atau PPh Final UMKM?</div><div class="faq-a">Bergantung besarnya penghasilan. Untuk penghasilan di bawah Rp 500 juta per tahun: PPh Final UMKM (PP 55/2022) jelas lebih menguntungkan karena bebas pajak sepenuhnya. Untuk penghasilan Rp 500 juta–Rp 1 miliar: PPh Final 0,5% dari omzet di atas 500 juta umumnya lebih hemat dari tarif progresif PPh 21. Di atas itu, perlu perbandingan detail tergantung status PTKP dan besarnya DPP. Gunakan Tab Perbandingan di atas untuk hasil spesifik situasi Anda.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara melaporkan pajak sebagai freelancer?</div><div class="faq-a">Jika PPh 21 dipotong oleh klien korporat: minta Bukti Potong dari setiap klien dan laporkan di SPT Tahunan 1770 sebagai penghasilan dengan pemotongan pajak. Jika PP 23 UMKM: setor sendiri paling lambat tanggal 15 bulan berikutnya melalui e-Billing DJP, dan laporkan di SPT Tahunan 1770. Setiap tahun sebelum 31 Maret, sampaikan SPT Tahunan di djponline.pajak.go.id.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa PTKP (Penghasilan Tidak Kena Pajak) terbaru?</div><div class="faq-a">PTKP terbaru (berlaku sejak 2016, belum ada perubahan hingga 2026): TK/0 = Rp 54 juta/tahun, tambahan kawin = Rp 4,5 juta, tambahan per tanggungan = Rp 4,5 juta (maksimal 3 tanggungan). Jadi PTKP tertinggi (K/3) = Rp 54 juta + Rp 4,5 juta + (3 × Rp 4,5 juta) = Rp 72 juta/tahun. PTKP langsung mengurangi DPP sebelum dikenakan tarif progresif.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah penghasilan dari klien luar negeri (Upwork, Fiverr) wajib dilaporkan?</div><div class="faq-a">Ya, wajib. Prinsip perpajakan Indonesia menggunakan asas domisili — seluruh penghasilan Wajib Pajak Indonesia, baik dari dalam maupun luar negeri, wajib dilaporkan di SPT Tahunan. Platform luar negeri umumnya tidak memotong PPh Indonesia. Anda perlu menghitung dan membayar sendiri pajak atas penghasilan tersebut. Jika sudah dipotong pajak di negara asal, bisa dikreditkan sesuai perjanjian Penghindaran Pajak Berganda (P3B/tax treaty) yang berlaku.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Sampai kapan bisa menggunakan skema PPh Final 0,5%?</div><div class="faq-a">Berdasarkan PP 23/2018, Wajib Pajak Orang Pribadi dapat menggunakan tarif PPh Final 0,5% selama maksimal 7 tahun sejak pertama kali terdaftar menggunakan skema ini. Wajib Pajak Badan non-PT hanya 4 tahun, dan PT hanya 3 tahun. Setelah habis masa penggunaan, wajib beralih ke skema PPh umum (norma penghitungan penghasilan neto atau pembukuan lengkap). Batas omzet tetap Rp 4,8 miliar per tahun.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>PPh 21 Karyawan</a>
       <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
-      <a href="/id/kalkulator-roi.html" class="related-item"><span class="ri">💹</span>Kalkulator ROI</a>
+      <a href="/id/kalkulator-zakat-penghasilan.html" class="related-item"><span class="ri">🌙</span>Zakat Penghasilan</a>
       <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
     </div>
   </div>
@@ -163,33 +245,32 @@
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 <script defer>
-let taxType = 'pph21';
-let periode = 'transaksi';
 let hasNpwp = true;
 
-function updateMode(){
-  taxType = document.getElementById('tax-type').value;
-  document.getElementById('mode-pph21').style.display = taxType==='pph21' ? '' : 'none';
-  document.getElementById('mode-pp23').style.display = taxType==='pp23' ? '' : 'none';
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
-function setPeriode(p){
-  periode = p;
-  document.getElementById('btn-per-transaksi').classList.toggle('active', p==='transaksi');
-  document.getElementById('btn-per-tahun').classList.toggle('active', p==='tahun');
-}
-function setNpwp(v){
+function setNpwp(v) {
   hasNpwp = v;
-  document.getElementById('btn-punya').classList.toggle('active', v);
-  document.getElementById('btn-nopwp').classList.toggle('active', !v);
+  document.getElementById('btn-npwp').classList.toggle('active', v);
+  document.getElementById('btn-nonpwp').classList.toggle('active', !v);
 }
-function fmt(n){ return 'Rp '+Math.round(n).toLocaleString('id-ID'); }
+function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+function fmtShort(n) {
+  if (n >= 1e9) return 'Rp ' + (n / 1e9).toFixed(2) + ' miliar';
+  if (n >= 1e6) return 'Rp ' + (n / 1e6).toFixed(1) + ' juta';
+  return fmt(n);
+}
 
-function hitungProgresif(pkp){
+function hitungProgresif(pkp) {
   let pph = 0;
-  const layers = [[60e6,0.05],[190e6,0.15],[250e6,0.25],[4500e6,0.30],[Infinity,0.35]];
+  const layers = [[60e6, 0.05], [190e6, 0.15], [250e6, 0.25], [4500e6, 0.30], [Infinity, 0.35]];
   let sisa = pkp;
-  for(const [batas, rate] of layers){
-    if(sisa<=0) break;
+  for (const [batas, rate] of layers) {
+    if (sisa <= 0) break;
     const kena = Math.min(sisa, batas);
     pph += kena * rate;
     sisa -= kena;
@@ -197,41 +278,128 @@ function hitungProgresif(pkp){
   return pph;
 }
 
-function calculate(){
-  if(taxType === 'pph21'){
-    const bruto = parseFloat(document.getElementById('bruto-21').value);
-    if(!bruto||bruto<=0) return alert('Masukkan penghasilan bruto yang valid.');
-    const brutoTahunan = periode==='transaksi' ? bruto*12 : bruto;
-    const dpp = brutoTahunan * 0.50;
-    const ptkp = 54_000_000;
-    const pkp = Math.max(0, dpp - ptkp);
-    let pphTahunan = hitungProgresif(pkp);
-    if(!hasNpwp) pphTahunan *= 1.2;
-    const pphPeriode = periode==='transaksi' ? pphTahunan/12 : pphTahunan;
-    const efektif = (pphPeriode / bruto * 100).toFixed(2);
-    document.getElementById('res-pph').textContent = fmt(pphPeriode);
-    document.getElementById('res-label').textContent = 'PPh 21 Terutang '+(periode==='transaksi'?'per Transaksi':'per Tahun');
-    document.getElementById('res-dpp').textContent = fmt(periode==='transaksi'?dpp/12:dpp)+' (50% bruto)';
-    document.getElementById('res-efektif').textContent = efektif.replace('.',',')+' % dari bruto';
-    document.getElementById('res-takehome').textContent = fmt(bruto - pphPeriode);
-    document.getElementById('res-jenis').textContent = 'PPh 21 Tenaga Ahli'+(hasNpwp?'':' (non-NPWP +20%)');
-  } else {
-    const omzet = parseFloat(document.getElementById('omzet-23').value);
-    if(!omzet||omzet<=0) return alert('Masukkan omzet yang valid.');
-    if(omzet > 4_800_000_000) return alert('PP 23/2018 hanya berlaku untuk omzet di bawah Rp 4,8 miliar/tahun.');
-    const pph = omzet * 0.005;
-    const pphBulan = pph / 12;
-    document.getElementById('res-pph').textContent = fmt(pph)+'/tahun';
-    document.getElementById('res-label').textContent = 'PPh Final (PP 23/2018)';
-    document.getElementById('res-dpp').textContent = fmt(omzet)+' (omzet bruto)';
-    document.getElementById('res-efektif').textContent = '0,5% dari omzet';
-    document.getElementById('res-takehome').textContent = fmt(pphBulan)+'/bulan';
-    document.getElementById('res-jenis').textContent = 'PPh Final 0,5% UMKM';
-  }
-  document.getElementById('result').classList.add('show');
+function calculatePph21() {
+  const bruto = parseFloat(document.getElementById('bruto-21').value);
+  const ptkp  = parseFloat(document.getElementById('ptkp-status').value);
+  if (!bruto || bruto <= 0) { alert('Masukkan penghasilan bruto yang valid.'); return; }
+
+  const brutoTahunan = bruto * 12;
+  const dppTahunan   = brutoTahunan * 0.5;
+  const pkp          = Math.max(0, dppTahunan - ptkp);
+  let   pphTahunan   = hitungProgresif(pkp);
+  if (!hasNpwp) pphTahunan *= 1.2;
+
+  const pphBulan   = pphTahunan / 12;
+  const takehome   = bruto - pphBulan;
+  const efektif    = bruto > 0 ? (pphBulan / bruto * 100).toFixed(2) : '0';
+
+  document.getElementById('r21-pph').textContent      = fmt(pphBulan) + '/bulan';
+  document.getElementById('r21-dpp').textContent      = fmtShort(dppTahunan) + '/tahun';
+  document.getElementById('r21-ptkp').textContent     = fmtShort(ptkp) + '/tahun';
+  document.getElementById('r21-pkp').textContent      = fmtShort(pkp) + '/tahun';
+  document.getElementById('r21-tahunan').textContent  = fmt(pphTahunan) + '/tahun' + (!hasNpwp ? ' (+20%)' : '');
+  document.getElementById('r21-efektif').textContent  = efektif.replace('.', ',') + '% dari bruto';
+  document.getElementById('r21-takehome').textContent = fmt(takehome) + '/bulan';
+
+  // bar
+  const thPct = (takehome / bruto * 100).toFixed(1);
+  const pphPct = (pphBulan / bruto * 100).toFixed(1);
+  document.getElementById('r21-bar-takehome').style.width = thPct + '%';
+  document.getElementById('r21-bar-pph').style.width      = pphPct + '%';
+
+  document.getElementById('res-pph21').classList.add('show');
+
+  // Sync banding tab
+  document.getElementById('cmp-income').value = bruto;
 }
-function toggleFaq(el){ el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); });
+
+function calculateUmkm() {
+  const omzet = parseFloat(document.getElementById('omzet-23').value);
+  const yr    = parseInt(document.getElementById('pp23-year').value);
+  if (!omzet || omzet <= 0) { alert('Masukkan omzet yang valid.'); return; }
+  if (omzet > 4_800_000_000) { alert('PP 23/2018 hanya berlaku untuk omzet di bawah Rp 4,8 miliar/tahun.'); return; }
+
+  const batasBebas = 500_000_000;
+  const kenaOmzet  = Math.max(0, omzet - batasBebas);
+  const pphTahunan = kenaOmzet * 0.005;
+  const pphBulan   = pphTahunan / 12;
+  const takehomeBulan = omzet / 12 - pphBulan;
+  const efektif = (pphTahunan / omzet * 100).toFixed(3);
+
+  document.getElementById('r23-pph').textContent      = fmt(pphTahunan) + '/tahun';
+  document.getElementById('r23-omzet').textContent    = fmtShort(omzet) + '/tahun';
+  document.getElementById('r23-status').textContent   = omzet <= batasBebas
+    ? '✅ Seluruh omzet bebas PPh (di bawah Rp 500 juta)'
+    : '⚠️ Rp 500 juta pertama bebas, sisanya kena 0,5%';
+  document.getElementById('r23-bulan').textContent    = fmt(pphBulan) + '/bulan';
+  document.getElementById('r23-takehome').textContent = fmt(takehomeBulan) + '/bulan';
+  document.getElementById('r23-efektif').textContent  = efektif.replace('.', ',') + '% dari omzet';
+
+  const warn = document.getElementById('r23-warning');
+  if (yr >= 7) {
+    warn.style.display = '';
+    warn.textContent = '⚠️ Ini adalah tahun terakhir penggunaan PPh Final 0,5% untuk Orang Pribadi (maksimal 7 tahun). Tahun depan, Anda wajib beralih ke skema PPh umum (norma atau pembukuan).';
+  } else {
+    warn.style.display = 'none';
+  }
+
+  document.getElementById('res-umkm').classList.add('show');
+  document.getElementById('cmp-income').value = Math.round(omzet / 12);
+}
+
+function calculateBanding() {
+  const income = parseFloat(document.getElementById('cmp-income').value);
+  const ptkp   = parseFloat(document.getElementById('cmp-ptkp').value);
+  if (!income || income <= 0) { alert('Masukkan penghasilan bulanan yang valid.'); return; }
+
+  // PPh 21
+  const brutoTahunan = income * 12;
+  const dppTahunan   = brutoTahunan * 0.5;
+  const pkp          = Math.max(0, dppTahunan - ptkp);
+  const pphTahunan21 = hitungProgresif(pkp);
+  const pph21Bulan   = pphTahunan21 / 12;
+
+  // PPh Final UMKM
+  const omzetTahunan = income * 12;
+  const kenaOmzet    = Math.max(0, omzetTahunan - 500_000_000);
+  const pphUmkm      = kenaOmzet * 0.005;
+  const pphUmkmBulan = pphUmkm / 12;
+
+  const winner = pph21Bulan <= pphUmkmBulan ? 'PPh 21' : 'PPh Final UMKM';
+  const selisih = Math.abs(pph21Bulan - pphUmkmBulan);
+
+  document.getElementById('banding-summary').innerHTML =
+    `📊 Untuk penghasilan <strong>${fmt(income)}/bulan</strong>, skema <strong style="color:#00C9B1">${winner}</strong> lebih hemat dengan selisih <strong style="color:#00C9B1">${fmt(selisih)}/bulan</strong> (${fmt(selisih * 12)}/tahun).`;
+  document.getElementById('banding-summary').style.background = 'rgba(0,201,177,.08)';
+  document.getElementById('banding-summary').style.border = '1px solid rgba(0,201,177,.2)';
+
+  const is21Winner = pph21Bulan <= pphUmkmBulan;
+  document.getElementById('banding-cards').innerHTML = `
+    <div class="cmp-card ${is21Winner ? 'winner' : ''}">
+      <h4 style="color:#3b82f6">💼 PPh 21 Tenaga Ahli ${is21Winner ? '<span class="winner-label">Lebih hemat</span>' : ''}</h4>
+      <p>PPh per bulan: <strong style="color:#fff">${fmt(pph21Bulan)}</strong><br>
+      PPh per tahun: <strong>${fmt(pphTahunan21)}</strong><br>
+      Take-home: ${fmt(income - pph21Bulan)}/bln<br>
+      Tarif efektif: ${(pph21Bulan / income * 100).toFixed(2).replace('.', ',')}%</p>
+    </div>
+    <div class="cmp-card ${!is21Winner ? 'winner' : ''}">
+      <h4 style="color:#00C9B1">🏪 PPh Final UMKM 0,5% ${!is21Winner ? '<span class="winner-label">Lebih hemat</span>' : ''}</h4>
+      <p>PPh per bulan: <strong style="color:#fff">${fmt(pphUmkmBulan)}</strong><br>
+      PPh per tahun: <strong>${fmt(pphUmkm)}</strong><br>
+      Take-home: ${fmt(income - pphUmkmBulan)}/bln<br>
+      Tarif efektif: ${(pphUmkmBulan / income * 100).toFixed(3).replace('.', ',')}%</p>
+    </div>`;
+
+  document.getElementById('banding-note').innerHTML =
+    omzetTahunan <= 500_000_000
+      ? '💡 Omzet tahunan Anda di bawah Rp 500 juta → PPh Final UMKM = Rp 0 (bebas pajak berdasarkan PP 55/2022). Skema ini jauh lebih hemat jika Anda memenuhi syarat.'
+      : '💡 Perbandingan ini menggunakan asumsi Anda memenuhi syarat skema PP 23/2018 (omzet &lt; Rp 4,8 miliar/tahun dan masih dalam masa 7 tahun). Konsultasikan dengan konsultan pajak untuk kepastian hukum.';
+
+  document.getElementById('res-banding').style.display = 'block';
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculatePph21(); });
 </script>
 </body>
 </html>
