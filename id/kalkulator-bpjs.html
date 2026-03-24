@@ -3,17 +3,80 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator BPJS Kesehatan — Hitung Iuran Bulanan 2026 | NovaCalcs</title>
-<meta name="description" content="Hitung iuran BPJS Kesehatan bulanan Anda berdasarkan kelas dan status kepesertaan. Kelas 1, 2, dan 3 untuk peserta mandiri, serta karyawan dan PBI."/>
-<meta name="keywords" content="kalkulator BPJS Kesehatan, iuran BPJS 2026, biaya BPJS kelas 1 2 3, BPJS mandiri, BPJS pekerja"/>
+<title>Kalkulator BPJS Kesehatan 2026 — Iuran Mandiri, Karyawan & Keluarga | NovaCalcs</title>
+<meta name="description" content="Hitung iuran BPJS Kesehatan 2026 untuk peserta mandiri, karyawan, dan keluarga. Simulasi kelas 1, 2, 3 — lengkap dengan info KRIS dan perbandingan antarkelas."/>
+<meta name="keywords" content="kalkulator BPJS Kesehatan 2026, iuran BPJS kelas 1 2 3, BPJS mandiri, BPJS karyawan, BPJS keluarga, KRIS BPJS 2026, biaya BPJS bulanan"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bpjs.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-bpjs.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator BPJS Kesehatan","url":"https://novacalcs.com/id/kalkulator-bpjs.html","description":"Kalkulator iuran BPJS Kesehatan 2026 untuk mandiri, karyawan, dan keluarga","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Tabs */
+.bpjs-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.bpjs-tab  { flex:1; padding:8px 6px; font-size:.75rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
+.bpjs-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
+.bpjs-panel { display:none; }
+.bpjs-panel.active { display:block; }
+
+/* Big iuran display */
+.bpjs-main  { text-align:center; padding:14px 0 8px; }
+.bpjs-num   { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
+.bpjs-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Kelas comparison cards */
+.kelas-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:12px 0; }
+.kelas-card { border-radius:var(--radius-md); padding:12px; text-align:center; border:2px solid var(--border); cursor:pointer; transition:all .15s; }
+.kelas-card.k1 { background:rgba(251,191,36,.08); }
+.kelas-card.k2 { background:rgba(0,201,177,.07); }
+.kelas-card.k3 { background:rgba(96,165,250,.07); }
+.kelas-card.selected.k1 { border-color:#fbbf24; }
+.kelas-card.selected.k2 { border-color:var(--mint); }
+.kelas-card.selected.k3 { border-color:#60a5fa; }
+.kelas-card .kc-label { font-size:.68rem; font-weight:700; margin-bottom:4px; }
+.kelas-card.k1 .kc-label { color:#fbbf24; }
+.kelas-card.k2 .kc-label { color:var(--mint); }
+.kelas-card.k3 .kc-label { color:#60a5fa; }
+.kelas-card .kc-price { font-size:1rem; font-weight:700; color:var(--text-primary); }
+.kelas-card .kc-sub   { font-size:.62rem; color:var(--text-muted); margin-top:3px; }
+
+/* Stats */
+.bpjs-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.bs-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.bs-card .bc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.bs-card .bc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.bs-card.green .bc-val { color:var(--mint); }
+.bs-card.blue  .bc-val { color:#60a5fa; }
+
+/* Karyawan bar: karyawan vs perusahaan */
+.split-bar-wrap  { margin:12px 0 6px; }
+.split-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
+.sb-kary  { background:#60a5fa; transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#0c1a2e; }
+.sb-perus { background:var(--mint); transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:700; color:#001a17; }
+.sb-legend { display:flex; gap:14px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
+.sb-legend span::before { content:'●'; margin-right:4px; }
+.leg-b::before { color:#60a5fa; } .leg-m::before { color:var(--mint); }
+
+/* Keluarga member rows */
+.member-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:.82rem; }
+.member-row:last-child { border-bottom:none; }
+.mr-name { color:var(--text-secondary); }
+.mr-iuran { color:var(--mint); font-weight:700; }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
+</style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -28,152 +91,205 @@
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🏥 Kalkulator BPJS Kesehatan</div>
-      <div class="calc-subtitle">Hitung iuran BPJS Kesehatan bulanan Anda</div>
+      <div class="calc-title">🏥 Kalkulator BPJS Kesehatan 2026</div>
+      <div class="calc-subtitle">Mandiri · Karyawan · Simulasi Keluarga</div>
 
-      <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);border-radius:8px;padding:10px 12px;font-size:11px;color:#f0a800;margin-bottom:16px">
-        📢 <strong>Info 2025:</strong> Sistem kelas 1/2/3 sedang bertahap diganti menjadi <strong>KRIS</strong> (Kelas Rawat Inap Standar) sesuai Perpres No. 59/2024. Iuran belum berubah hingga ada keputusan resmi.
+      <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:var(--radius-sm);padding:10px 12px;font-size:.75rem;color:#f0a800;margin-bottom:14px">
+        📢 <strong>Info 2026:</strong> Sistem kelas 1/2/3 sedang bertahap diganti menjadi <strong>KRIS</strong> (Kelas Rawat Inap Standar) sesuai Perpres No. 59/2024. Iuran <strong>belum berubah</strong> hingga ada Peraturan Presiden baru yang menetapkan iuran KRIS.
       </div>
 
-      <div class="field"><label>Jenis Kepesertaan</label>
-        <select id="jenis" onchange="updateForm()">
-          <option value="mandiri">Peserta Mandiri (PBPU)</option>
-          <option value="pekerja">Pekerja Penerima Upah (PPU/Karyawan)</option>
-          <option value="pbi">PBI (Penerima Bantuan Iuran / Gratis)</option>
-        </select>
+      <div class="bpjs-tabs">
+        <div class="bpjs-tab active" onclick="switchTab(0,this)">👤 Mandiri</div>
+        <div class="bpjs-tab" onclick="switchTab(1,this)">💼 Karyawan</div>
+        <div class="bpjs-tab" onclick="switchTab(2,this)">👨‍👩‍👧 Keluarga</div>
       </div>
 
-      <div id="form-mandiri">
-        <div class="field"><label>Kelas Perawatan</label>
-          <div class="radio-group">
-            <div class="radio-btn" id="btn-k1" onclick="setKelas(1,this)">Kelas 1</div>
-            <div class="radio-btn active" id="btn-k2" onclick="setKelas(2,this)">Kelas 2</div>
-            <div class="radio-btn" id="btn-k3" onclick="setKelas(3,this)">Kelas 3</div>
+      <!-- TAB 0: Mandiri -->
+      <div class="bpjs-panel active" id="bt0">
+        <div class="field">
+          <label>Pilih Kelas Perawatan</label>
+          <div class="kelas-grid">
+            <div class="kelas-card k1" id="kc1" onclick="setKelas(1)">
+              <div class="kc-label">Kelas 1</div>
+              <div class="kc-price">Rp 150.000</div>
+              <div class="kc-sub">1–2 tempat tidur</div>
+            </div>
+            <div class="kelas-card k2 selected" id="kc2" onclick="setKelas(2)">
+              <div class="kc-label">Kelas 2</div>
+              <div class="kc-price">Rp 100.000</div>
+              <div class="kc-sub">3–4 tempat tidur</div>
+            </div>
+            <div class="kelas-card k3" id="kc3" onclick="setKelas(3)">
+              <div class="kc-label">Kelas 3</div>
+              <div class="kc-price">Rp 42.000</div>
+              <div class="kc-sub">Bangsal umum</div>
+            </div>
           </div>
         </div>
-        <div class="field"><label>Jumlah anggota keluarga (termasuk Anda)</label>
-          <input type="number" id="anggota" value="1" min="1" max="20" oninput="calculate()"/>
+        <div class="field"><label>Jumlah Anggota Keluarga (termasuk Anda)</label>
+          <input type="number" id="anggota" value="1" min="1" max="20" oninput="calcMandiri()"/>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Maks. 5 orang: Anda + pasangan + 3 anak</p>
+        </div>
+        <button class="calc-btn" onclick="calcMandiri()">🏥 Hitung Iuran</button>
+        <div class="result-box" id="res0" style="display:none">
+          <div class="bpjs-main">
+            <div class="bpjs-num" id="r0-total">—</div>
+            <div class="bpjs-label" id="r0-label">Iuran per bulan</div>
+          </div>
+          <div class="bpjs-stats">
+            <div class="bs-card"><div class="bc-label">Kelas perawatan</div><div class="bc-val" id="r0-kelas">—</div></div>
+            <div class="bs-card"><div class="bc-label">Iuran per orang</div><div class="bc-val" id="r0-per-org">—</div></div>
+            <div class="bs-card green"><div class="bc-label">Total per tahun</div><div class="bc-val" id="r0-tahunan">—</div></div>
+            <div class="bs-card"><div class="bc-label">Jumlah anggota</div><div class="bc-val" id="r0-anggota">—</div></div>
+          </div>
+          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
       </div>
 
-      <div id="form-pekerja" style="display:none">
-        <div class="field"><label>Gaji / Upah per bulan (Rp)</label>
-          <input type="number" id="gaji-bpjs" placeholder="Contoh: 8000000" oninput="calculate()"/>
+      <!-- TAB 1: Karyawan PPU -->
+      <div class="bpjs-panel" id="bt1">
+        <div class="field"><label>Gaji / Upah per Bulan (Rp)</label>
+          <input type="number" id="gaji-ppu" placeholder="Contoh: 8.000.000" oninput="calcKaryawan()"/>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Batas atas perhitungan: Rp 12.000.000/bulan</p>
+        </div>
+        <button class="calc-btn" onclick="calcKaryawan()">💼 Hitung Iuran Karyawan</button>
+        <div class="result-box" id="res1" style="display:none">
+          <div class="bpjs-main">
+            <div class="bpjs-num" id="r1-kary">—</div>
+            <div class="bpjs-label">Potongan dari gaji Anda (1%)</div>
+          </div>
+          <div class="split-bar-wrap">
+            <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:5px">Pembagian iuran 5%</div>
+            <div class="split-bar-track">
+              <div class="sb-kary"  id="r1-bar-k" style="width:20%">Karyawan 1%</div>
+              <div class="sb-perus" id="r1-bar-p" style="width:80%">Perusahaan 4%</div>
+            </div>
+            <div class="sb-legend"><span class="leg-b">Karyawan (1%)</span><span class="leg-m">Perusahaan (4%)</span></div>
+          </div>
+          <div class="bpjs-stats">
+            <div class="bs-card"><div class="bc-label">Gaji dasar perhitungan</div><div class="bc-val" id="r1-gaji-cap">—</div></div>
+            <div class="bs-card blue"><div class="bc-label">Potongan karyawan (1%)</div><div class="bc-val" id="r1-kary2">—</div></div>
+            <div class="bs-card green"><div class="bc-label">Kontribusi perusahaan (4%)</div><div class="bc-val" id="r1-perus">—</div></div>
+            <div class="bs-card"><div class="bc-label">Total iuran (5%)</div><div class="bc-val" id="r1-total">—</div></div>
+          </div>
+          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
       </div>
 
-      <div id="form-pbi" style="display:none">
-        <div style="background:var(--mint-dim);border:1px solid rgba(0,201,177,0.3);border-radius:var(--radius-md);padding:14px;font-size:0.813rem;color:var(--text-secondary)">
-          ✅ Sebagai peserta PBI, iuran BPJS Kesehatan Anda <strong style="color:var(--mint)">ditanggung sepenuhnya oleh pemerintah</strong>. Anda mendapat layanan kelas 3.
+      <!-- TAB 2: Simulasi Keluarga -->
+      <div class="bpjs-panel" id="bt2">
+        <div class="field">
+          <label>Kelas Perawatan Keluarga</label>
+          <div class="radio-group">
+            <div class="radio-btn" id="fk1" onclick="setKelasKeluarga(1,this)">Kelas 1</div>
+            <div class="radio-btn active" id="fk2" onclick="setKelasKeluarga(2,this)">Kelas 2</div>
+            <div class="radio-btn" id="fk3" onclick="setKelasKeluarga(3,this)">Kelas 3</div>
+          </div>
+        </div>
+        <div class="field"><label>Jumlah Orang yang Ditanggung</label>
+          <table style="width:100%;font-size:.82rem;border-collapse:collapse">
+            <tr><td style="padding:6px 0">Anda sendiri</td><td style="text-align:right"><input type="number" id="f-anda" value="1" min="0" max="1" style="width:60px;text-align:center;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text-primary)" oninput="calcKeluarga()"/></td></tr>
+            <tr><td style="padding:6px 0">Pasangan (suami/istri)</td><td style="text-align:right"><input type="number" id="f-pasangan" value="1" min="0" max="1" style="width:60px;text-align:center;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text-primary)" oninput="calcKeluarga()"/></td></tr>
+            <tr><td style="padding:6px 0">Anak (maks 3)</td><td style="text-align:right"><input type="number" id="f-anak" value="2" min="0" max="3" style="width:60px;text-align:center;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text-primary)" oninput="calcKeluarga()"/></td></tr>
+          </table>
+        </div>
+        <button class="calc-btn" onclick="calcKeluarga()">👨‍👩‍👧 Hitung Iuran Keluarga</button>
+        <div class="result-box" id="res2" style="display:none">
+          <div class="bpjs-main">
+            <div class="bpjs-num" id="r2-total">—</div>
+            <div class="bpjs-label">Total iuran keluarga per bulan</div>
+          </div>
+          <div id="r2-members" style="background:var(--bg-input);border-radius:var(--radius-sm);padding:10px 14px;margin:10px 0;border:1px solid var(--border);"></div>
+          <div class="bpjs-stats">
+            <div class="bs-card green"><div class="bc-label">Per bulan</div><div class="bc-val" id="r2-bln">—</div></div>
+            <div class="bs-card"><div class="bc-label">Per tahun</div><div class="bc-val" id="r2-thn">—</div></div>
+          </div>
         </div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Iuran BPJS</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-iuran">—</div>
-          <div class="result-label" id="res-label">Iuran per bulan</div>
-        </div>
-        <div class="result-rows" id="res-rows"></div>
-      </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator BPJS Kesehatan — Iuran Bulanan 2026</h1>
-    <p class="page-desc">Hitung berapa iuran BPJS Kesehatan yang harus Anda bayar setiap bulan berdasarkan jenis kepesertaan, kelas perawatan, dan jumlah anggota keluarga.</p>
-
-    <div class="ad-slot">Advertisement</div>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator BPJS Kesehatan 2026 — Iuran Mandiri, Karyawan & Keluarga</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung iuran BPJS Kesehatan bulanan untuk peserta mandiri (PBPU), karyawan (PPU), dan simulasi iuran keluarga. Lengkap dengan info terbaru tentang KRIS dan perbandingan kelas perawatan.</p>
 
     <h2>Besaran Iuran BPJS Kesehatan 2026</h2>
-    <table>
-      <tr><th>Jenis Peserta</th><th>Iuran / Orang / Bulan</th></tr>
-      <tr><td>Mandiri Kelas 1</td><td>Rp 150.000</td></tr>
-      <tr><td>Mandiri Kelas 2</td><td>Rp 100.000</td></tr>
-      <tr><td>Mandiri Kelas 3</td><td>Rp 42.000 (peserta bayar Rp 35.000, subsidi pemerintah Rp 7.000)</td></tr>
-      <tr><td>Pekerja Penerima Upah (Karyawan)</td><td>5% dari gaji (karyawan 1%, perusahaan 4%), maks gaji Rp 12 juta</td></tr>
-      <tr><td>PBI (fakir miskin & tidak mampu)</td><td>Ditanggung pemerintah penuh</td></tr>
+    <p>Iuran BPJS Kesehatan ditetapkan berdasarkan Perpres No. 64 Tahun 2020 dan masih berlaku hingga 2026 karena iuran KRIS belum ditetapkan secara resmi:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Jenis Peserta</th><th>Iuran per Orang/Bulan</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td>Mandiri Kelas 1</td><td>Rp 150.000</td><td>1–2 tempat tidur per kamar</td></tr>
+        <tr><td>Mandiri Kelas 2</td><td>Rp 100.000</td><td>3–4 tempat tidur per kamar</td></tr>
+        <tr><td>Mandiri Kelas 3</td><td>Rp 42.000 (efektif Rp 35.000)</td><td>Subsidi pemerintah Rp 7.000/orang</td></tr>
+        <tr><td>Karyawan (PPU)</td><td>5% dari gaji (maks Rp 12 juta)</td><td>Karyawan 1%, perusahaan 4%</td></tr>
+        <tr><td>PBI (penerima bantuan iuran)</td><td>Rp 0 (gratis)</td><td>Ditanggung penuh APBN, kelas 3</td></tr>
+      </tbody>
     </table>
-    <p>⚠️ <strong>Perubahan 2025:</strong> Berdasarkan Perpres No. 59 Tahun 2024, sistem kelas 1, 2, dan 3 akan diganti menjadi <strong>KRIS (Kelas Rawat Inap Standar)</strong> secara bertahap. Hingga ada keputusan resmi terkait iuran KRIS, besaran iuran di atas masih berlaku.</p>
 
-    <h2>Perbedaan Kelas Perawatan BPJS</h2>
-    <table>
-      <tr><th>Kelas</th><th>Kapasitas Kamar</th><th>Fasilitas</th></tr>
-      <tr><td>Kelas 1</td><td>1–2 tempat tidur</td><td>Kamar lebih privat, fasilitas lebih baik</td></tr>
-      <tr><td>Kelas 2</td><td>3–4 tempat tidur</td><td>Standar, cukup nyaman</td></tr>
-      <tr><td>Kelas 3</td><td>4–6 tempat tidur</td><td>Bangsal umum</td></tr>
-    </table>
-    <p>Catatan: Semua kelas mendapatkan layanan medis yang sama. Perbedaan hanya pada fasilitas kamar rawat inap.</p>
-
-    <h2>Batas Upah untuk Iuran Karyawan</h2>
-    <p>Iuran BPJS Kesehatan untuk pekerja penerima upah dihitung 5% dari gaji, dengan batas atas gaji <strong>Rp 12.000.000/bulan</strong>. Artinya, iuran maksimum adalah Rp 600.000/bulan (karyawan Rp 120.000, perusahaan Rp 480.000).</p>
-
-    <h2>Cara Daftar dan Aktivasi BPJS Kesehatan</h2>
-    <p>Mendaftar BPJS Kesehatan kini bisa dilakukan secara online melalui aplikasi Mobile JKN tanpa harus antre di kantor. Langkah pendaftaran untuk pekerja mandiri (bukan karyawan):</p>
-    <ol>
-      <li>Unduh aplikasi <strong>Mobile JKN</strong> di Play Store atau App Store</li>
-      <li>Pilih menu "Daftar" → "Pendaftaran Peserta Baru"</li>
-      <li>Masukkan NIK KTP dan data diri</li>
-      <li>Pilih fasilitas kesehatan (faskes) tingkat 1 terdekat</li>
-      <li>Pilih kelas perawatan (1, 2, atau 3)</li>
-      <li>Bayar iuran pertama — peserta aktif 14 hari setelah pembayaran</li>
-    </ol>
-    <p>Untuk karyawan, pendaftaran dilakukan oleh perusahaan secara kolektif. Karyawan hanya perlu menyerahkan data diri dan data keluarga yang akan ditanggung ke bagian HR.</p>
-
-    <h2>Manfaat BPJS Kesehatan yang Sering Tidak Diketahui</h2>
-    <p>Banyak peserta BPJS Kesehatan yang belum memaksimalkan manfaat yang tersedia. Berikut layanan yang ditanggung BPJS yang sering tidak diketahui:</p>
+    <h2>KRIS — Kelas Rawat Inap Standar 2026</h2>
+    <p>Berdasarkan Peraturan Presiden No. 59 Tahun 2024, sistem kelas 1, 2, dan 3 BPJS Kesehatan secara bertahap digantikan dengan <strong>KRIS (Kelas Rawat Inap Standar)</strong> — satu standar kamar rawat inap yang sama untuk semua peserta. Beberapa poin penting:</p>
     <ul>
-      <li><strong>Skrining kesehatan gratis</strong> — Peserta berhak mendapat skrining kesehatan minimal 1 kali per tahun di faskes tingkat 1 (diabetes, hipertensi, kanker serviks, dll.)</li>
-      <li><strong>Kacamata</strong> — Ditanggung setiap 2 tahun dengan plafon sesuai kelas: Kelas 1 Rp 330.000, Kelas 2 Rp 220.000, Kelas 3 Rp 165.000</li>
-      <li><strong>Gigi palsu (protesa gigi)</strong> — Ditanggung sesuai plafon dengan rujukan</li>
-      <li><strong>Alat bantu dengar</strong> — Ditanggung dengan plafon Rp 1.000.000 per 5 tahun</li>
-      <li><strong>Fisioterapi</strong> — Ditanggung sesuai indikasi medis dengan rujukan dokter</li>
-      <li><strong>Layanan kesehatan jiwa</strong> — Termasuk konsultasi psikiatri dan rawat inap gangguan jiwa</li>
+      <li>Implementasi KRIS dilakukan secara bertahap di seluruh rumah sakit mitra BPJS</li>
+      <li><strong>Besaran iuran KRIS belum ditetapkan</strong> — menunggu Peraturan Presiden baru. Hingga saat ini, iuran kelas 1/2/3 masih berlaku.</li>
+      <li>Standar KRIS: minimal 4 tempat tidur per ruang, kamar mandi dalam, AC, dan fasilitas pendukung lainnya</li>
+      <li>Semua peserta akan mendapat layanan medis yang setara — tidak ada perbedaan fasilitas kamar antarkelompok peserta</li>
     </ul>
 
-    <h2>Apa yang TIDAK Ditanggung BPJS Kesehatan</h2>
-    <p>Agar tidak kecewa, penting mengetahui layanan yang dikecualikan dari BPJS Kesehatan:</p>
+    <h2>Perbedaan Kelas Perawatan BPJS Kesehatan</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Kelas</th><th>Iuran/Orang</th><th>Kapasitas Kamar</th><th>Catatan</th></tr></thead>
+      <tbody>
+        <tr><td>Kelas 1</td><td>Rp 150.000/bln</td><td>1–2 tempat tidur</td><td>Kamar lebih privat</td></tr>
+        <tr><td>Kelas 2</td><td>Rp 100.000/bln</td><td>3–4 tempat tidur</td><td>Standar nyaman</td></tr>
+        <tr><td>Kelas 3</td><td>Rp 42.000/bln</td><td>4–6 tempat tidur</td><td>Bangsal umum, ada subsidi Rp 7.000</td></tr>
+      </tbody>
+    </table>
+    <p>Semua kelas mendapat layanan medis yang sama. Perbedaan hanya pada fasilitas kamar rawat inap. Dengan berlakunya KRIS secara penuh, perbedaan ini akan dihapus.</p>
+
+    <h2>Fitur Kalkulator BPJS NovaCalcs</h2>
     <ul>
-      <li>Pelayanan kesehatan yang tidak sesuai prosedur (tanpa rujukan berjenjang)</li>
-      <li>Perawatan kecantikan dan kosmetik</li>
-      <li>Infertilitas (program bayi tabung, IVF)</li>
-      <li>Operasi plastik untuk alasan estetika</li>
-      <li>Pengobatan komplementer/alternatif yang tidak terstandarisasi</li>
-      <li>Penyakit akibat penyalahgunaan obat/alkohol</li>
+      <li><strong>Mode Mandiri</strong> — Pilih kelas (1/2/3) dengan kartu visual interaktif, masukkan jumlah anggota keluarga, langsung dapat iuran per bulan dan per tahun.</li>
+      <li><strong>Mode Karyawan (PPU)</strong> — Masukkan gaji dan kalkulator otomatis menghitung potongan gaji (1%) dan kontribusi perusahaan (4%). Bar visualisasi menunjukkan proporsi 1%:4%.</li>
+      <li><strong>Mode Simulasi Keluarga</strong> — Input detail: Anda + pasangan + jumlah anak (maks 3). Hasilnya merinci iuran per anggota dan total keluarga per bulan dan tahun.</li>
+      <li><strong>Info KRIS</strong> — Penjelasan transparan tentang status transisi ke KRIS dan dampaknya pada iuran.</li>
     </ul>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mendaftarkan anggota keluarga ke BPJS?</div>
-      <div class="faq-a">Anggota keluarga yang dapat didaftarkan adalah suami/istri dan anak kandung/angkat maksimal 3 anak. Daftarkan melalui aplikasi Mobile JKN, website BPJS Kesehatan, atau kantor BPJS terdekat dengan membawa KK, KTP, dan buku nikah.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mendaftarkan anggota keluarga ke BPJS Kesehatan?</div>
+      <div class="faq-a">Anggota keluarga yang dapat didaftarkan adalah suami/istri dan anak kandung/angkat maksimal 3 anak. Cara mendaftar: (1) Melalui aplikasi Mobile JKN di smartphone, (2) Melalui website bpjs-kesehatan.go.id, atau (3) Datang langsung ke kantor BPJS Kesehatan terdekat dengan membawa KK, KTP anggota keluarga, dan buku nikah (untuk pasangan). Anggota keluarga tambahan di luar tanggungan resmi bisa didaftarkan sebagai peserta mandiri terpisah.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa yang terjadi jika telat bayar iuran BPJS?</div>
-      <div class="faq-a">Kepesertaan akan dinonaktifkan jika menunggak lebih dari 1 bulan. Setelah dilunasi, kepesertaan aktif kembali dalam 1×24 jam. Jika dalam 45 hari setelah aktif kembali ada pelayanan rawat inap, akan dikenakan denda 5% dari biaya pelayanan × jumlah bulan menunggak (maks 12 bulan).</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apa yang terjadi jika terlambat bayar iuran BPJS Kesehatan?</div>
+      <div class="faq-a">Kepesertaan dinonaktifkan jika menunggak lebih dari 1 bulan. Setelah melunasi tunggakan, kepesertaan aktif kembali dalam 1×24 jam. Jika dalam 45 hari setelah aktif kembali terdapat pelayanan rawat inap, akan dikenakan denda 5% dari biaya pelayanan × jumlah bulan menunggak (maksimal 12 bulan, maksimal Rp 30 juta). Untuk menghindari ini, pertimbangkan autodebet dari rekening bank.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah bisa naik kelas perawatan saat dirawat?</div>
-      <div class="faq-a">Bisa, dengan membayar selisih biaya kamar secara mandiri (biaya tambahan). Misalnya peserta kelas 2 ingin dirawat di kelas 1, membayar selisih harga kamar. Namun kenaikan kelas ke VIP atau kelas di atas hak tidak diperkenankan kecuali kondisi darurat.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah KRIS akan mengubah besaran iuran BPJS?</div>
+      <div class="faq-a">Kemungkinan besar ya, namun besaran iuran KRIS belum ditetapkan hingga pertengahan 2026. Pemerintah melalui Perpres 59/2024 menyatakan iuran KRIS akan ditetapkan dengan Peraturan Presiden tersendiri. Beberapa skenario yang beredar menyebut iuran KRIS sekitar Rp 50.000–70.000/bulan (setara kelas 2 ke atas). Pantau perkembangan resmi di bpjs-kesehatan.go.id.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana alur berobat menggunakan BPJS?</div>
-      <div class="faq-a">Alur standar: (1) Berobat ke Faskes Tingkat 1 (puskesmas/klinik/dokter pratama) sesuai pilihan saat daftar. (2) Jika perlu penanganan lanjutan, faskes 1 memberikan surat rujukan ke RS. (3) Berobat di RS sesuai rujukan. Kondisi darurat dapat langsung ke IGD RS manapun.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana alur berobat menggunakan BPJS Kesehatan?</div>
+      <div class="faq-a">Alur standar: (1) Berobat ke Faskes Tingkat 1 (puskesmas, klinik pratama, atau dokter keluarga) sesuai pilihan yang terdaftar. (2) Jika butuh penanganan lanjutan, faskes 1 memberikan surat rujukan ke rumah sakit. (3) Berobat di RS sesuai rujukan menggunakan kartu BPJS. Kondisi gawat darurat dapat langsung ke IGD rumah sakit mana pun tanpa rujukan — cukup tunjukkan kartu BPJS atau NIK KTP.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah BPJS Kesehatan menanggung semua penyakit?</div>
-      <div class="faq-a">BPJS Kesehatan menanggung hampir semua jenis penyakit sesuai indikasi medis. Beberapa yang tidak ditanggung: perawatan kosmetik/estetika, pengobatan tidak sesuai prosedur, pelayanan di luar negeri, dan beberapa kondisi yang ditentukan dalam regulasi.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah penyakit bawaan (pre-existing condition) ditanggung BPJS?</div>
+      <div class="faq-a">Secara prinsip, BPJS Kesehatan menanggung semua penyakit termasuk penyakit yang sudah ada sebelum mendaftar (pre-existing condition). Ini adalah keunggulan besar BPJS dibanding asuransi komersial yang biasanya mengecualikan kondisi pra-ada. Namun ada pengecualian: perawatan yang tidak sesuai indikasi medis, perawatan estetika/kosmetik, dan beberapa kondisi yang diatur dalam regulasi BPJS.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bisakah peserta mandiri berubah ke kelas yang berbeda?</div>
-      <div class="faq-a">Bisa. Perubahan kelas dapat dilakukan setelah minimal 12 bulan kepesertaan aktif di kelas yang ada. Pengajuan perubahan ke kantor BPJS atau melalui aplikasi Mobile JKN. Perubahan berlaku di bulan berikutnya.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Bolehkah peserta mandiri beralih kelas perawatan?</div>
+      <div class="faq-a">Boleh. Perubahan kelas dapat dilakukan setelah minimal 12 bulan aktif di kelas yang ada. Pengajuan bisa melalui kantor BPJS terdekat atau aplikasi Mobile JKN. Perubahan berlaku pada bulan berikutnya. Naik kelas (mis. dari Kelas 3 ke Kelas 2) langsung bisa, sementara turun kelas umumnya lebih mudah. Dengan implementasi KRIS, perubahan kelas secara bertahap tidak lagi relevan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada perbedaan manfaat antara BPJS dan asuransi kesehatan swasta?</div>
+      <div class="faq-a">Ya, ada perbedaan signifikan. BPJS Kesehatan: iuran sangat terjangkau, menanggung hampir semua penyakit termasuk pre-existing, berlaku di seluruh faskes mitra, namun harus mengikuti alur rujukan. Asuransi swasta: premi lebih mahal, umumnya mengecualikan pre-existing condition, namun bisa langsung ke dokter/RS tanpa rujukan, pilihan rumah sakit lebih luas, kamar bisa lebih premium. Banyak orang memiliki keduanya: BPJS sebagai jaminan dasar, asuransi swasta sebagai pelengkap.</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
       <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
+      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>PPh 21</a>
       <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
       <a href="/id/kalkulator-pesangon.html" class="related-item"><span class="ri">📋</span>Pesangon</a>
     </div>
@@ -187,66 +303,115 @@
 
 <script defer>
 let kelas = 2;
-const IURAN = {1: 150000, 2: 100000, 3: 42000};
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+let kelasKeluarga = 2;
+const IURAN = { 1:150000, 2:100000, 3:42000 };
+const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmtM = n => {
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(2) + ' jt';
+  return fmt(n);
+};
 
-function setKelas(k, btn) {
-  kelas = k;
-  document.querySelectorAll('#form-mandiri .radio-btn').forEach(b => b.classList.remove('active'));
+function switchTab(idx, btn) {
+  document.querySelectorAll('.bpjs-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.bpjs-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  calculate();
+  document.getElementById('bt' + idx).classList.add('active');
 }
 
-function updateForm() {
-  const jenis = document.getElementById('jenis').value;
-  document.getElementById('form-mandiri').style.display = jenis === 'mandiri' ? '' : 'none';
-  document.getElementById('form-pekerja').style.display = jenis === 'pekerja' ? '' : 'none';
-  document.getElementById('form-pbi').style.display    = jenis === 'pbi' ? '' : 'none';
-  document.getElementById('result').classList.remove('show');
+function setKelas(k) {
+  kelas = k;
+  [1,2,3].forEach(i => {
+    document.getElementById('kc' + i).classList.toggle('selected', i === k);
+  });
+  calcMandiri();
 }
 
-function calculate() {
-  const jenis = document.getElementById('jenis').value;
-  const rows = document.getElementById('res-rows');
+function setKelasKeluarga(k, btn) {
+  kelasKeluarga = k;
+  document.querySelectorAll('#bt2 .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcKeluarga();
+}
 
-  if (jenis === 'pbi') {
-    document.getElementById('res-iuran').textContent = 'Rp 0';
-    document.getElementById('res-label').textContent = 'Iuran ditanggung pemerintah';
-    rows.innerHTML = '';
-    document.getElementById('result').classList.add('show');
-    return;
-  }
+/* ── Mandiri ── */
+function calcMandiri() {
+  const anggota = parseInt(document.getElementById('anggota').value) || 1;
+  const iuranPer = IURAN[kelas];
+  const total    = iuranPer * anggota;
 
-  if (jenis === 'mandiri') {
-    const anggota = parseInt(document.getElementById('anggota').value) || 1;
-    const iuranPerOrang = IURAN[kelas];
-    const total = iuranPerOrang * anggota;
-    document.getElementById('res-iuran').textContent = fmt(total);
-    document.getElementById('res-label').textContent = 'Iuran per bulan (Kelas ' + kelas + ')';
-    rows.innerHTML = `
-      <div class="result-row"><span class="rkey">Kelas perawatan</span><span class="rval">Kelas ${kelas}</span></div>
-      <div class="result-row"><span class="rkey">Iuran per orang</span><span class="rval">${fmt(iuranPerOrang)}</span></div>
-      <div class="result-row"><span class="rkey">Jumlah anggota</span><span class="rval">${anggota} orang</span></div>
-      <div class="result-row"><span class="rkey">Total per tahun</span><span class="rval">${fmt(total * 12)}</span></div>`;
-  } else {
-    const gaji = parseFloat(document.getElementById('gaji-bpjs').value) || 0;
-    if (!gaji) return;
-    const gajiCapped = Math.min(gaji, 12000000);
-    const iuranKaryawan = gajiCapped * 0.01;
-    const iuranPerusahaan = gajiCapped * 0.04;
-    const total = gajiCapped * 0.05;
-    document.getElementById('res-iuran').textContent = fmt(iuranKaryawan);
-    document.getElementById('res-label').textContent = 'Potongan dari gaji Anda (1%)';
-    rows.innerHTML = `
-      <div class="result-row"><span class="rkey">Gaji dasar perhitungan</span><span class="rval">${fmt(gajiCapped)}</span></div>
-      <div class="result-row"><span class="rkey">Iuran karyawan (1%)</span><span class="rval">${fmt(iuranKaryawan)}</span></div>
-      <div class="result-row"><span class="rkey">Kontribusi perusahaan (4%)</span><span class="rval">${fmt(iuranPerusahaan)}</span></div>
-      <div class="result-row"><span class="rkey">Total iuran (5%)</span><span class="rval">${fmt(total)}</span></div>`;
-  }
-  document.getElementById('result').classList.add('show');
+  document.getElementById('r0-total').textContent   = fmt(total);
+  document.getElementById('r0-label').textContent   = `Iuran per bulan (Kelas ${kelas})`;
+  document.getElementById('r0-kelas').textContent   = `Kelas ${kelas}`;
+  document.getElementById('r0-per-org').textContent = fmt(iuranPer);
+  document.getElementById('r0-tahunan').textContent = fmtM(total * 12);
+  document.getElementById('r0-anggota').textContent = anggota + ' orang';
+
+  const kelasLabel = ['', 'satu (premium)', 'dua (standar)', 'tiga (ekonomi)'][kelas];
+  document.getElementById('r0-advice').innerHTML =
+    `🏥 Iuran kelas ${kelas} untuk ${anggota} orang: <strong>${fmt(total)}/bulan</strong> atau <strong>${fmtM(total*12)}/tahun</strong>. ${kelas === 3 ? 'Dari Rp 42.000, Anda hanya membayar Rp 35.000 — sisanya subsidi pemerintah Rp 7.000.' : kelas === 1 ? 'Kelas 1 memberikan kamar lebih privat dengan 1–2 tempat tidur.' : 'Kelas 2 adalah pilihan paling populer — keseimbangan antara biaya dan kenyamanan.'}`;
+
+  document.getElementById('res0').style.display = 'block';
+  document.getElementById('res0').classList.add('show');
+}
+
+/* ── Karyawan ── */
+function calcKaryawan() {
+  const gaji   = parseFloat(document.getElementById('gaji-ppu').value) || 0;
+  if (!gaji) return;
+  const gajiCap = Math.min(gaji, 12_000_000);
+  const kary    = gajiCap * 0.01;
+  const perus   = gajiCap * 0.04;
+  const total   = gajiCap * 0.05;
+
+  document.getElementById('r1-kary').textContent    = fmt(kary);
+  document.getElementById('r1-gaji-cap').textContent= fmt(gajiCap);
+  document.getElementById('r1-kary2').textContent   = fmt(kary);
+  document.getElementById('r1-perus').textContent   = fmt(perus);
+  document.getElementById('r1-total').textContent   = fmt(total);
+
+  const capped = gaji > 12_000_000;
+  document.getElementById('r1-advice').innerHTML = capped
+    ? `💼 Gaji Anda Rp ${gaji.toLocaleString('id-ID')} melebihi batas atas Rp 12 juta. Iuran dihitung dari batas Rp 12 juta. Potongan dari gaji Anda: <strong>${fmt(kary)}/bulan</strong>, perusahaan menanggung <strong>${fmt(perus)}/bulan</strong>.`
+    : `💼 Dari gaji <strong>${fmt(gaji)}</strong>, BPJS dipotong <strong>${fmt(kary)}/bulan</strong> (1%). Perusahaan menambahkan <strong>${fmt(perus)}/bulan</strong> (4%) sehingga total iuran <strong>${fmt(total)}/bulan</strong>.`;
+
+  document.getElementById('res1').style.display = 'block';
+  document.getElementById('res1').classList.add('show');
+}
+
+/* ── Keluarga ── */
+function calcKeluarga() {
+  const anda    = parseInt(document.getElementById('f-anda').value)    || 0;
+  const pas     = parseInt(document.getElementById('f-pasangan').value)|| 0;
+  const anak    = Math.min(parseInt(document.getElementById('f-anak').value) || 0, 3);
+  const total   = (anda + pas + anak) * IURAN[kelasKeluarga];
+  const iuranPer= IURAN[kelasKeluarga];
+
+  document.getElementById('r2-total').textContent = fmt(total);
+  document.getElementById('r2-bln').textContent   = fmt(total);
+  document.getElementById('r2-thn').textContent   = fmtM(total * 12);
+
+  const rows = [
+    anda    > 0 ? { label:'Anda', n:anda }    : null,
+    pas     > 0 ? { label:'Pasangan', n:pas }  : null,
+    anak    > 0 ? { label:`Anak (${anak} orang)`, n:anak } : null,
+  ].filter(Boolean);
+
+  document.getElementById('r2-members').innerHTML =
+    '<div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px">Rincian per anggota</div>' +
+    rows.map(r => `<div class="member-row"><span class="mr-name">${r.label}</span><span class="mr-iuran">${fmt(r.n * iuranPer)}/bln (${r.n} × ${fmt(iuranPer)})</span></div>`).join('') +
+    `<div class="member-row" style="font-weight:700"><span>Total</span><span class="mr-iuran">${fmt(total)}/bulan</span></div>`;
+
+  document.getElementById('res2').style.display = 'block';
+  document.getElementById('res2').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+
+// Init on load
+window.addEventListener('DOMContentLoaded', () => {
+  setKelas(2);
+  calcKeluarga();
+});
 </script>
 </body>
 </html>
