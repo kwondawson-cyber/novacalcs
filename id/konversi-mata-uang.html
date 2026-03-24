@@ -3,30 +3,76 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Konversi Mata Uang — Kurs Rupiah ke Dollar, Euro, Yen Hari Ini | NovaCalcs</title>
-<meta name="description" content="Konversi mata uang dan cek kurs Rupiah (IDR) ke USD, EUR, JPY, SGD, MYR, dan 30+ mata uang lainnya. Kurs diperbarui secara real-time."/>
-<meta name="keywords" content="konversi mata uang, kurs rupiah, kurs dollar, kurs hari ini, IDR ke USD, nilai tukar rupiah"/>
+<title>Konversi Mata Uang 2026 — Kurs Rupiah Real-time ke 30+ Mata Uang | NovaCalcs</title>
+<meta name="description" content="Konversi mata uang real-time. Kurs Rupiah (IDR) ke Dollar, Euro, Yen, Ringgit, dan 30+ mata uang. Mode konverter standar, perbandingan multi-mata-uang, dan kalkulator biaya perjalanan."/>
+<meta name="keywords" content="konversi mata uang, kurs rupiah hari ini, kurs dollar 2026, kurs IDR USD EUR JPY, nilai tukar rupiah, money changer, kalkulator kurs"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-mata-uang.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/konversi-mata-uang.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Konversi Mata Uang","url":"https://novacalcs.com/id/konversi-mata-uang.html","description":"Konversi mata uang real-time IDR ke 30+ mata uang dunia","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.currency-row { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 12px; }
-.currency-row .field { flex: 1; margin-bottom: 0; }
-.currency-row select { width: 100%; }
-.swap-btn { background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; width: 40px; height: 44px; color: var(--mint); font-size: 1.1rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.15s; }
-.swap-btn:hover { background: var(--mint-dim); }
-.rate-info { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px; }
-.quick-rates { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 14px; }
-.qrate { background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 11px; }
-.qrate .qflag { font-size: 14px; }
-.qrate .qval { font-weight: 700; color: var(--mint); font-size: 12px; }
-.qrate .qname { color: var(--text-muted); }
+/* Main tabs */
+.curr-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.curr-tab { padding:8px 12px; font-size:0.78rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; flex:1; text-align:center; transition:all 0.15s; }
+.curr-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
+.curr-mode { display:none; }
+.curr-mode.active { display:block; }
+
+/* Converter layout */
+.conv-row { display:flex; gap:8px; align-items:flex-end; margin-bottom:10px; }
+.conv-row .field { flex:1; margin-bottom:0; }
+.swap-btn { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); width:38px; height:42px; color:var(--mint); font-size:1.2rem; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.15s; }
+.swap-btn:hover { background:var(--mint-dim); border-color:var(--mint); }
+
+/* Big result display */
+.conv-result { text-align:center; padding:14px 0 8px; }
+.conv-num { font-size:2rem; font-weight:700; color:var(--mint); line-height:1; }
+.conv-label { font-size:0.78rem; color:var(--text-secondary); margin-top:4px; }
+.conv-rate { font-size:0.8rem; color:var(--text-muted); margin-top:6px; padding:6px 12px; background:var(--bg-input); border-radius:var(--radius-sm); display:inline-block; }
+
+/* Status badge */
+.api-badge { display:inline-flex; align-items:center; gap:5px; font-size:0.68rem; padding:3px 8px; border-radius:10px; margin-bottom:10px; }
+.api-badge.live { background:rgba(74,222,128,0.12); color:#4ade80; border:1px solid rgba(74,222,128,0.25); }
+.api-badge.offline { background:rgba(251,191,36,0.12); color:#fbbf24; border:1px solid rgba(251,191,36,0.25); }
+
+/* Popular rates grid */
+.pop-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:12px; }
+.pop-card { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 12px; cursor:pointer; transition:all 0.15s; }
+.pop-card:hover { border-color:rgba(0,201,177,0.35); background:var(--mint-dim); }
+.pop-card .pc-flag { font-size:1.1rem; margin-bottom:3px; }
+.pop-card .pc-pair { font-size:0.72rem; color:var(--text-muted); }
+.pop-card .pc-rate { font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-top:2px; }
+.pop-card .pc-idr { font-size:0.72rem; color:var(--mint); }
+
+/* Multi compare */
+.multi-row { display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.82rem; }
+.multi-row:last-child { border-bottom:none; }
+.multi-flag { font-size:1.1rem; flex-shrink:0; }
+.multi-name { flex:1; color:var(--text-secondary); }
+.multi-val { font-weight:700; color:var(--mint); }
+.multi-rate { font-size:0.7rem; color:var(--text-muted); }
+
+/* Travel budget */
+.budget-summary { background:var(--bg-input); border-radius:var(--radius-sm); padding:12px 14px; margin-top:10px; }
+.budget-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border); font-size:0.82rem; }
+.budget-row:last-child { border-bottom:none; font-weight:700; }
+.budget-val { color:var(--mint); font-weight:600; }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
 </style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -42,158 +88,200 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">💱 Konversi Mata Uang</div>
-      <div class="calc-subtitle">Kurs Rupiah dan mata uang dunia</div>
+      <div class="calc-subtitle">Kurs real-time · Bandingkan · Hitung biaya perjalanan</div>
 
-      <div class="currency-row">
-        <div class="field">
-          <label>Jumlah</label>
-          <input type="number" id="amount" value="1000000" oninput="convert()"/>
-        </div>
-        <div class="field">
-          <label>Dari</label>
-          <select id="from-curr" onchange="convert()"></select>
-        </div>
+      <div id="api-status" class="api-badge live">⚡ Memuat kurs...</div>
+
+      <div class="curr-tabs">
+        <div class="curr-tab active" onclick="switchTab(0,this)">💱 Konverter</div>
+        <div class="curr-tab" onclick="switchTab(1,this)">📊 Populer</div>
+        <div class="curr-tab" onclick="switchTab(2,this)">🔢 Bandingkan</div>
+        <div class="curr-tab" onclick="switchTab(3,this)">✈️ Perjalanan</div>
       </div>
 
-      <div style="text-align:center;margin:-4px 0 8px">
-        <button class="swap-btn" onclick="swapCurrencies()" title="Tukar">⇄</button>
-      </div>
-
-      <div class="currency-row">
-        <div class="field" style="flex:0 0 auto;width:100%">
+      <!-- TAB 0: Konverter utama -->
+      <div class="curr-mode active" id="tab0">
+        <div class="conv-row">
+          <div class="field">
+            <label>Jumlah</label>
+            <input type="number" id="amount" value="1000000" oninput="convert()"/>
+          </div>
+          <div class="field">
+            <label>Dari</label>
+            <select id="from-curr" onchange="convert()"></select>
+          </div>
+        </div>
+        <div style="text-align:center;margin:-4px 0 6px">
+          <button class="swap-btn" onclick="swapCurrencies()" title="Tukar arah">⇄</button>
+        </div>
+        <div class="field">
           <label>Ke</label>
           <select id="to-curr" onchange="convert()"></select>
         </div>
-      </div>
-
-      <button class="calc-btn" onclick="fetchAndConvert()">🔄 Perbarui Kurs</button>
-
-      <div class="result-panel show" id="result">
-        <div class="result-main">
-          <div class="result-value" style="font-size:1.8rem" id="res-val">—</div>
-          <div class="result-label" id="res-label"></div>
-        </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Kurs 1 unit</span><span class="rval" id="res-rate">—</span></div>
-          <div class="result-row"><span class="rkey">Kurs diperbarui</span><span class="rval" id="res-updated">—</span></div>
+        <button class="calc-btn" onclick="fetchAndConvert()">🔄 Perbarui Kurs</button>
+        <div class="result-box" id="res0" style="display:none">
+          <div class="conv-result">
+            <div class="conv-num" id="res-val">—</div>
+            <div class="conv-label" id="res-label">—</div>
+            <div class="conv-rate" id="res-rate">—</div>
+          </div>
+          <div style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:6px" id="res-updated">—</div>
         </div>
       </div>
 
-      <div id="quick-rates-area" style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px;display:none">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:8px">Kurs Populer vs IDR</div>
-        <div class="quick-rates" id="quick-rates"></div>
+      <!-- TAB 1: Kurs populer vs IDR -->
+      <div class="curr-mode" id="tab1">
+        <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:10px;">Klik kartu untuk mengisi konverter. Kurs diperbarui otomatis.</div>
+        <div class="pop-grid" id="pop-grid">
+          <div style="color:var(--text-muted);font-size:0.8rem;padding:10px">Memuat kurs...</div>
+        </div>
       </div>
+
+      <!-- TAB 2: Bandingkan multi mata uang -->
+      <div class="curr-mode" id="tab2">
+        <div class="field">
+          <label>Jumlah (dalam IDR)</label>
+          <input type="number" id="multi-idr" value="10000000" placeholder="Contoh: 10.000.000" oninput="calcMulti()"/>
+        </div>
+        <div id="multi-result" style="margin-top:12px;">
+          <div style="color:var(--text-muted);font-size:0.8rem;padding:10px">Memuat kurs...</div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Kalkulator biaya perjalanan -->
+      <div class="curr-mode" id="tab3">
+        <div class="field">
+          <label>Negara tujuan</label>
+          <select id="travel-curr" onchange="calcTravel()">
+            <option value="USD">🇺🇸 Amerika Serikat (USD)</option>
+            <option value="EUR">🇪🇺 Eropa (EUR)</option>
+            <option value="JPY">🇯🇵 Jepang (JPY)</option>
+            <option value="SGD">🇸🇬 Singapura (SGD)</option>
+            <option value="MYR">🇲🇾 Malaysia (MYR)</option>
+            <option value="THB">🇹🇭 Thailand (THB)</option>
+            <option value="AUD">🇦🇺 Australia (AUD)</option>
+            <option value="SAR">🇸🇦 Arab Saudi (SAR)</option>
+            <option value="KRW">🇰🇷 Korea Selatan (KRW)</option>
+          </select>
+        </div>
+        <div class="field"><label>Budget akomodasi per malam (IDR)</label>
+          <input type="number" id="t-hotel" placeholder="Contoh: 1.500.000" oninput="calcTravel()"/>
+        </div>
+        <div class="field"><label>Budget makan per hari (IDR)</label>
+          <input type="number" id="t-makan" placeholder="Contoh: 500.000" oninput="calcTravel()"/>
+        </div>
+        <div class="field"><label>Budget transportasi per hari (IDR)</label>
+          <input type="number" id="t-transport" placeholder="Contoh: 300.000" oninput="calcTravel()"/>
+        </div>
+        <div class="field"><label>Lama perjalanan (hari)</label>
+          <input type="number" id="t-hari" value="7" min="1" oninput="calcTravel()"/>
+        </div>
+        <button class="calc-btn" onclick="calcTravel()">✈️ Hitung Biaya Perjalanan</button>
+        <div class="result-box" id="res3" style="display:none">
+          <div class="budget-summary">
+            <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px" id="travel-title">—</div>
+            <div class="budget-row"><span>Akomodasi total</span><span class="budget-val" id="t-hotel-out">—</span></div>
+            <div class="budget-row"><span>Makan total</span><span class="budget-val" id="t-makan-out">—</span></div>
+            <div class="budget-row"><span>Transportasi total</span><span class="budget-val" id="t-trans-out">—</span></div>
+            <div class="budget-row"><span>Total kebutuhan (IDR)</span><span class="budget-val" id="t-total-idr">—</span></div>
+            <div class="budget-row"><span id="t-curr-label">Dalam mata uang lokal</span><span class="budget-val" id="t-total-curr">—</span></div>
+          </div>
+          <div id="t-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.78rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Konversi Mata Uang — Kurs Rupiah Real-time</h1>
-    <p class="page-desc">Cek kurs dan konversi mata uang Rupiah (IDR) ke Dollar AS, Euro, Yen Jepang, Ringgit Malaysia, Dollar Singapura, dan lebih dari 30 mata uang lainnya. Kurs diperbarui secara real-time dari sumber terpercaya.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Konversi Mata Uang 2026 — Kurs Rupiah Real-time</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Konversi mata uang Rupiah (IDR) ke Dollar AS, Euro, Yen Jepang, Ringgit Malaysia, dan 30+ mata uang lainnya dengan kurs real-time. Tersedia juga kalkulator biaya perjalanan dan perbandingan multi-mata-uang.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Mata Uang yang Tersedia</h2>
-    <p>Kalkulator ini mendukung konversi antar mata uang utama dunia termasuk IDR (Rupiah Indonesia), USD (Dollar AS), EUR (Euro), JPY (Yen Jepang), SGD (Dollar Singapura), MYR (Ringgit Malaysia), GBP (Pound Inggris), AUD (Dollar Australia), CNY (Yuan China), dan banyak lainnya.</p>
-
-    <h2>Faktor yang Mempengaruhi Kurs Rupiah</h2>
+    <h2>Fitur Konversi Mata Uang NovaCalcs</h2>
+    <p>Kalkulator ini dirancang lebih dari sekadar konverter biasa:</p>
     <ul>
-      <li><strong>Kebijakan Bank Indonesia</strong> — Kenaikan atau penurunan suku bunga BI</li>
-      <li><strong>Neraca perdagangan</strong> — Ekspor vs impor Indonesia</li>
-      <li><strong>Sentimen pasar global</strong> — Indeks dolar AS, harga komoditas</li>
-      <li><strong>Inflasi</strong> — Perbedaan inflasi antara Indonesia dan negara lain</li>
-      <li><strong>Kepercayaan investor</strong> — Arus masuk/keluar investasi asing</li>
+      <li><strong>Kurs real-time</strong> — Data kurs diambil langsung dari Frankfurter API (European Central Bank) setiap kali halaman dimuat atau tombol perbarui diklik. Kurs mendekati mid-market rate yang digunakan pasar internasional.</li>
+      <li><strong>30+ mata uang</strong> — IDR, USD, EUR, JPY, SGD, MYR, GBP, AUD, CNY, KRW, THB, HKD, SAR, AED, CHF, CAD, INR, dan lebih banyak lagi.</li>
+      <li><strong>Kartu kurs populer</strong> — Tab "Populer" menampilkan kurs utama vs IDR sekaligus. Klik kartu untuk langsung mengisi konverter.</li>
+      <li><strong>Bandingkan multi-mata-uang</strong> — Masukkan jumlah IDR dan lihat nilainya dalam 10 mata uang populer sekaligus — berguna sebelum bepergian atau bertransaksi valas.</li>
+      <li><strong>Kalkulator biaya perjalanan</strong> — Rencanakan budget perjalanan luar negeri dengan memasukkan estimasi akomodasi, makan, dan transport. Hasilnya ditampilkan dalam IDR dan mata uang negara tujuan.</li>
     </ul>
 
-    <h2>Tips Menukar Mata Uang dengan Rate Terbaik</h2>
+    <h2>Faktor yang Mempengaruhi Kurs Rupiah 2026</h2>
+    <p>Nilai tukar Rupiah dipengaruhi oleh berbagai faktor makroekonomi yang terus berubah:</p>
     <ul>
-      <li>Bandingkan kurs di beberapa tempat penukaran sebelum bertransaksi</li>
-      <li>Money changer resmi di pusat kota biasanya menawarkan kurs lebih baik dari bandara</li>
-      <li>Kartu debit/kredit dengan fitur "no foreign transaction fee" sering memberikan kurs mendekati rate pasar</li>
-      <li>Hindari penukaran di hotel — biasanya kurs paling tidak menguntungkan</li>
-      <li>Perhatikan apakah ada biaya administrasi di luar kurs yang ditampilkan</li>
+      <li><strong>Kebijakan Bank Indonesia</strong> — BI Rate saat ini menjadi acuan utama. Kenaikan suku bunga BI cenderung memperkuat Rupiah karena menarik investor asing.</li>
+      <li><strong>Suku bunga The Fed (AS)</strong> — Keputusan Federal Reserve AS sangat berpengaruh pada nilai tukar global termasuk IDR. Ketika The Fed menaikkan bunga, USD menguat dan IDR cenderung melemah.</li>
+      <li><strong>Neraca perdagangan Indonesia</strong> — Surplus ekspor (komoditas: batu bara, CPO, nikel) memperkuat Rupiah. Defisit neraca berjalan melemahkan.</li>
+      <li><strong>Harga komoditas global</strong> — Indonesia sebagai eksportir besar nikel, batu bara, dan CPO — kenaikan harga komoditas menguntungkan Rupiah.</li>
+      <li><strong>Sentimen risiko global (risk-on/off)</strong> — Saat investor global menghindari risiko, mereka menjual aset negara berkembang termasuk IDR untuk membeli USD (safe haven).</li>
     </ul>
 
-    <h2>Perbedaan Kurs Jual dan Kurs Beli</h2>
-    <p>Bank dan money changer menggunakan dua kurs berbeda:</p>
-    <ul>
-      <li><strong>Kurs beli (buying rate)</strong> — Harga bank membeli valuta asing dari Anda. Lebih rendah dari kurs tengah.</li>
-      <li><strong>Kurs jual (selling rate)</strong> — Harga bank menjual valuta asing ke Anda. Lebih tinggi dari kurs tengah.</li>
-      <li><strong>Kurs tengah (mid rate)</strong> — Rata-rata antara kurs beli dan jual. Ini yang ditampilkan di kalkulator kami.</li>
-    </ul>
-    <p>Selisih antara kurs jual dan beli disebut "spread" — ini adalah keuntungan bank/money changer.</p>
-
-    <h2>Sejarah Nilai Tukar Rupiah dan Faktor yang Mempengaruhinya</h2>
-    <p>Rupiah telah mengalami perjalanan panjang. Memahami faktor yang menggerakkan kurs membantu Anda membuat keputusan finansial lebih bijak:</p>
-    <ul>
-      <li><strong>Suku bunga BI (BI Rate)</strong> — Ketika BI menaikkan suku bunga, investor asing tertarik menanamkan modal di Indonesia (return lebih tinggi), sehingga permintaan Rupiah naik dan kurs menguat</li>
-      <li><strong>Neraca perdagangan</strong> — Ekspor Indonesia lebih besar dari impor → permintaan Rupiah meningkat → kurs menguat. Sebaliknya jika impor dominan</li>
-      <li><strong>Inflasi relatif</strong> — Inflasi Indonesia yang lebih tinggi dari AS membuat Rupiah cenderung melemah terhadap USD dalam jangka panjang</li>
-      <li><strong>Sentimen global (risk-on/risk-off)</strong> — Krisis global biasanya memicu pelarian modal ke aset aman (USD), menekan Rupiah</li>
-      <li><strong>Harga komoditas</strong> — Indonesia adalah eksportir besar batubara, CPO, dan nikel. Harga komoditas naik → devisa masuk → Rupiah menguat</li>
-    </ul>
-
-    <h2>Tips Menukar Mata Uang dengan Kurs Terbaik</h2>
-    <ul>
-      <li><strong>Hindari money changer di bandara</strong> — Kurs di bandara biasanya 3–7% lebih buruk dari money changer kota. Tukar secukupnya untuk transportasi awal saja</li>
-      <li><strong>Money changer resmi berizin BI</strong> — Cari yang terdaftar di Bank Indonesia. Biasanya menawarkan kurs lebih baik dari bank untuk jumlah besar</li>
-      <li><strong>Gunakan kartu debit Wise atau Jenius</strong> — Untuk transaksi internasional, beberapa kartu menawarkan kurs mendekati kurs tengah tanpa markup besar</li>
-      <li><strong>Perhatikan bid-ask spread</strong> — Kurs jual (bank beli dari Anda) selalu lebih rendah dari kurs beli (bank jual ke Anda). Spread yang sempit = lebih menguntungkan</li>
-      <li><strong>Pantau tren kurs beberapa hari</strong> — Untuk jumlah besar, pantau pergerakan kurs 1–2 minggu dan tukar saat Rupiah sedang kuat</li>
-    </ul>
-
-    <h2>Mata Uang Utama dan Singkatannya (ISO 4217)</h2>
-    <table>
-      <tr><th>Mata Uang</th><th>Kode ISO</th><th>Negara</th></tr>
-      <tr><td>Rupiah</td><td>IDR</td><td>Indonesia</td></tr>
-      <tr><td>Dolar Amerika</td><td>USD</td><td>Amerika Serikat</td></tr>
-      <tr><td>Euro</td><td>EUR</td><td>Zona Euro (20 negara)</td></tr>
-      <tr><td>Yen Jepang</td><td>JPY</td><td>Jepang</td></tr>
-      <tr><td>Dolar Singapura</td><td>SGD</td><td>Singapura</td></tr>
-      <tr><td>Ringgit Malaysia</td><td>MYR</td><td>Malaysia</td></tr>
-      <tr><td>Dirham UAE</td><td>AED</td><td>Uni Emirat Arab</td></tr>
-      <tr><td>Riyal Saudi</td><td>SAR</td><td>Arab Saudi</td></tr>
+    <h2>Perbedaan Kurs Jual, Kurs Beli, dan Kurs Tengah</h2>
+    <p>Saat menukar uang di bank atau money changer, ada tiga jenis kurs yang perlu dipahami:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Jenis Kurs</th><th>Definisi</th><th>Digunakan Saat</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Kurs Beli (Buying Rate)</strong></td><td>Harga bank membeli valuta asing dari nasabah</td><td>Anda jual valas ke bank — Anda dapat lebih sedikit</td></tr>
+        <tr><td><strong>Kurs Jual (Selling Rate)</strong></td><td>Harga bank menjual valuta asing kepada nasabah</td><td>Anda beli valas dari bank — Anda bayar lebih mahal</td></tr>
+        <tr><td><strong>Kurs Tengah (Mid Rate)</strong></td><td>Rata-rata antara kurs beli dan jual</td><td>Referensi, laporan keuangan, JISDOR BI</td></tr>
+      </tbody>
     </table>
+    <p>Selisih antara kurs jual dan beli disebut <strong>spread</strong> — ini keuntungan bank/money changer. Spread bisa 0,5–5% tergantung mata uang dan institusi. Kalkulator ini menggunakan mid-market rate sebagai referensi.</p>
 
-    
+    <h2>Tips Menukar Uang dengan Kurs Terbaik</h2>
+    <ul>
+      <li><strong>Hindari menukar di bandara</strong> — Money changer bandara biasanya menawarkan kurs paling tidak menguntungkan karena ketergantungan penumpang yang tidak sempat mencari alternatif lain. Selisihnya bisa 5–10% dari kurs pasar.</li>
+      <li><strong>Cari money changer di pusat kota</strong> — Money changer di Glodok (Jakarta), Pasar Baru, atau pusat perbelanjaan biasanya memberi kurs lebih kompetitif. Bandingkan minimal 2–3 tempat.</li>
+      <li><strong>Gunakan kartu dengan zero foreign fee</strong> — Kartu debit/kredit berfitur no foreign transaction fee (seperti beberapa produk BCA, Mandiri, atau kartu Wise) memberikan kurs mendekati mid-market dengan biaya minim.</li>
+      <li><strong>Pakai Wise atau Revolut untuk transfer</strong> — Layanan fintech ini menawarkan kurs jauh lebih baik dari transfer bank konvensional untuk pengiriman uang ke luar negeri.</li>
+      <li><strong>Pantau tren kurs sebelum menukar</strong> — Gunakan kalkulator ini secara berkala untuk memantau tren. Meski sulit memprediksi puncak/lembah kurs, memahami range kurs beberapa minggu terakhir membantu keputusan yang lebih baik.</li>
+    </ul>
+
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa kurs Dollar ke Rupiah hari ini?</div>
+      <div class="faq-a">Kurs USD/IDR berubah setiap detik mengikuti kondisi pasar global. Gunakan kalkulator di atas dan klik "Perbarui Kurs" untuk mendapat kurs real-time. Secara historis, kurs USD/IDR berada di kisaran Rp 15.000–17.000 sepanjang 2023–2026, dengan tekanan pelemahan Rupiah saat dolar AS menguat secara global.</div>
+    </div>
+    <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Mengapa kurs di kalkulator berbeda dengan di bank saya?</div>
-      <div class="faq-a">Kurs yang ditampilkan adalah kurs pasar (mid-market rate), yaitu nilai tengah antara kurs beli dan jual. Bank dan money changer menambahkan margin keuntungan di atas kurs ini. Perbedaan bisa antara 1–5% tergantung institusi.</div>
+      <div class="faq-a">Kurs yang ditampilkan di sini adalah mid-market rate dari European Central Bank — ini nilai "adil" tanpa margin tambahan. Bank dan money changer menambahkan spread keuntungan di atas kurs ini, biasanya 1–5% tergantung institusi dan mata uang. Perbedaan ini wajar dan bukan kesalahan kalkulator.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik untuk menukar Rupiah ke Dollar?</div>
-      <div class="faq-a">Sulit memprediksi secara pasti, karena kurs dipengaruhi banyak faktor global. Yang bisa dilakukan: ikuti tren kurs beberapa minggu sebelum perjalanan, hindari menukar saat mendekati liburan panjang atau kondisi pasar sedang volatile, dan bandingkan beberapa money changer.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu JISDOR dan bedanya dengan kurs yang ditampilkan di sini?</div>
+      <div class="faq-a">JISDOR (Jakarta Interbank Spot Dollar Rate) adalah kurs referensi resmi Bank Indonesia yang diterbitkan setiap hari kerja pukul 10.00 WIB, dihitung dari transaksi USD/IDR interbank. Kalkulator ini menggunakan kurs dari ECB (European Central Bank) yang sedikit berbeda karena metodologi dan waktu pengambilan data yang berbeda. Untuk transaksi bisnis resmi di Indonesia, JISDOR adalah referensi yang diakui pemerintah.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa kurs dollar ke rupiah hari ini?</div>
-      <div class="faq-a">Kurs USD/IDR berubah setiap hari mengikuti kondisi pasar. Gunakan kalkulator di atas dan klik "Perbarui Kurs" untuk mendapatkan kurs terkini. Secara historis, 1 USD ≈ Rp 15.000–16.500 dalam beberapa tahun terakhir.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Lebih baik bawa cash atau kartu saat ke luar negeri?</div>
+      <div class="faq-a">Idealnya kombinasi keduanya: (1) Kartu kredit/debit internasional dengan fitur no foreign fee untuk pembayaran di merchant — kursnya biasanya terbaik dan aman, (2) Cash secukupnya (20–30% dari budget) untuk pasar tradisional, taksi, atau tempat yang tidak menerima kartu. Jangan simpan semua uang di satu tempat. Untuk destinasi Eropa dan AS, kartu lebih dominan. Untuk Asia Tenggara seperti Thailand dan Vietnam, cash masih sangat berguna.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah lebih baik bawa Dollar atau kartu saat ke luar negeri?</div>
-      <div class="faq-a">Idealnya kombinasi keduanya. Kartu kredit/debit internasional dengan fitur no foreign fee memberikan kurs mendekati pasar, nyaman, dan lebih aman. Cash dollar berguna di tempat yang tidak menerima kartu atau saat darurat. Bawa cash sekitar 20–30% dari total budget perjalanan sebagai cadangan.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah bisa transfer uang ke luar negeri dengan kurs terbaik?</div>
+      <div class="faq-a">Ya. Untuk transfer internasional, layanan fintech seperti Wise (dulu TransferWise), Revolut, atau Instarem biasanya memberikan kurs jauh lebih baik (mendekati mid-market) dibandingkan transfer SWIFT melalui bank konvensional yang seringkali ada biaya tersembunyi dan spread besar. Selalu bandingkan total biaya (termasuk fee) di Wise.com sebelum bertransaksi.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara transfer uang ke luar negeri dengan kurs terbaik?</div>
-      <div class="faq-a">Layanan transfer internasional seperti Wise (TransferWise) atau Remitly seringkali menawarkan kurs yang jauh lebih baik dibandingkan transfer bank konvensional, dengan biaya transparan. Untuk jumlah besar, selalu bandingkan minimal 2–3 layanan sebelum bertransaksi.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Kenapa Rupiah sering melemah saat dolar AS menguat?</div>
+      <div class="faq-a">Ini adalah fenomena global — saat dolar menguat, hampir semua mata uang negara berkembang (emerging market) melemah relatif terhadap USD. Penyebabnya: (1) Investor global menjual aset berisiko (termasuk saham dan obligasi Indonesia) untuk beralih ke USD yang dianggap lebih aman, (2) Pelemahan mata uang negara berkembang sering bergerak bersamaan karena faktor global yang sama. Rupiah juga dipengaruhi oleh harga komoditas ekspor dan keputusan BI Rate.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu kurs referensi Bank Indonesia?</div>
-      <div class="faq-a">Bank Indonesia menerbitkan Kurs Referensi Jakarta Interbank Spot Dollar Rate (JISDOR) setiap hari kerja pukul 10.00 WIB. Ini adalah kurs resmi yang digunakan sebagai acuan transaksi IDR/USD di pasar interbank Indonesia dan sering dijadikan referensi oleh bank dan pemerintah.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara melindungi nilai dari fluktuasi kurs?</div>
+      <div class="faq-a">Untuk individu: (1) Jika ada kebutuhan valas di masa depan (bayar biaya sekolah luar negeri, cicilan utang valas), tukar sebagian lebih awal saat kurs menguntungkan, (2) Simpan sebagian tabungan dalam deposito mata uang asing (valas) sebagai lindung nilai, (3) Gunakan rekening valas di bank untuk menghindari konversi bolak-balik. Untuk bisnis, instrumen seperti forward contract atau opsi valas tersedia melalui bank. Konsultasikan dengan perencana keuangan untuk strategi yang sesuai kondisi Anda.</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
-      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
       <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
+      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
       <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh</a>
+      <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
     </div>
   </div>
 </main>
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <script defer>
@@ -216,84 +304,187 @@ const CURRENCIES = [
   {code:'CAD',name:'Dollar Kanada',flag:'🇨🇦'},
   {code:'INR',name:'Rupee India',flag:'🇮🇳'},
   {code:'PKR',name:'Rupee Pakistan',flag:'🇵🇰'},
+  {code:'BRL',name:'Real Brasil',flag:'🇧🇷'},
+  {code:'TRY',name:'Lira Turki',flag:'🇹🇷'},
 ];
+
+// Fallback rates 2026 (diperbarui sesuai estimasi Maret 2026)
+const FALLBACK = {
+  USD:1, IDR:16300, EUR:0.92, JPY:150, SGD:1.35, MYR:4.45,
+  GBP:0.79, AUD:1.59, CNY:7.27, KRW:1430, THB:33.8, HKD:7.79,
+  SAR:3.75, AED:3.67, CHF:0.88, CAD:1.44, INR:86.5, PKR:278,
+  BRL:5.9, TRY:38.5
+};
 
 let rates = {};
 let lastUpdated = '';
+let isLive = false;
 
-const fromSel = document.getElementById('from-curr');
-const toSel = document.getElementById('to-curr');
+const POP_PAIRS = [
+  {code:'USD',flag:'🇺🇸',name:'Dollar AS'},
+  {code:'EUR',flag:'🇪🇺',name:'Euro'},
+  {code:'SGD',flag:'🇸🇬',name:'Singapura'},
+  {code:'MYR',flag:'🇲🇾',name:'Malaysia'},
+  {code:'JPY',flag:'🇯🇵',name:'Yen Jepang'},
+  {code:'SAR',flag:'🇸🇦',name:'Riyal Saudi'},
+  {code:'AUD',flag:'🇦🇺',name:'Australia'},
+  {code:'GBP',flag:'🇬🇧',name:'Pound'},
+];
 
-function populateSelects() {
-  CURRENCIES.forEach(c => {
-    const opt1 = new Option(c.flag + ' ' + c.code + ' — ' + c.name, c.code);
-    const opt2 = new Option(c.flag + ' ' + c.code + ' — ' + c.name, c.code);
-    fromSel.add(opt1); toSel.add(opt2);
-  });
-  fromSel.value = 'IDR';
-  toSel.value = 'USD';
-}
+const MULTI_PAIRS = [
+  {code:'USD',flag:'🇺🇸'},{code:'EUR',flag:'🇪🇺'},{code:'JPY',flag:'🇯🇵'},
+  {code:'SGD',flag:'🇸🇬'},{code:'MYR',flag:'🇲🇾'},{code:'GBP',flag:'🇬🇧'},
+  {code:'AUD',flag:'🇦🇺'},{code:'SAR',flag:'🇸🇦'},{code:'KRW',flag:'🇰🇷'},{code:'CNY',flag:'🇨🇳'},
+];
 
-async function fetchAndConvert() {
-  document.getElementById('res-updated').textContent = 'Memperbarui...';
-  try {
-    const res = await fetch('https://api.frankfurter.app/latest?from=USD');
-    const data = await res.json();
-    rates = data.rates;
-    rates['USD'] = 1;
-    lastUpdated = new Date().toLocaleString('id-ID');
-    document.getElementById('res-updated').textContent = lastUpdated;
-    convert();
-    renderQuickRates();
-  } catch(e) {
-    // Fallback static rates if API fails
-    rates = {USD:1,IDR:15800,EUR:0.92,JPY:149,SGD:1.34,MYR:4.71,GBP:0.79,AUD:1.53,CNY:7.24,KRW:1330,THB:35.1,HKD:7.83,SAR:3.75,AED:3.67,CHF:0.88,CAD:1.36,INR:83.1,PKR:279};
-    lastUpdated = 'Kurs cadangan (offline)';
-    document.getElementById('res-updated').textContent = lastUpdated;
-    convert();
-    renderQuickRates();
-  }
-}
+const fmtNum = (n, code) => {
+  if (['IDR','KRW','JPY'].includes(code)) return n.toLocaleString('id-ID', {maximumFractionDigits:0});
+  return n.toLocaleString('id-ID', {minimumFractionDigits:2, maximumFractionDigits:4});
+};
+const fmtIDR = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
 
 function getRate(from, to) {
   if (!rates[from] || !rates[to]) return null;
   return rates[to] / rates[from];
 }
 
+function populateSelects() {
+  const fromSel = document.getElementById('from-curr');
+  const toSel   = document.getElementById('to-curr');
+  CURRENCIES.forEach(c => {
+    const label = c.flag + ' ' + c.code + ' — ' + c.name;
+    fromSel.add(new Option(label, c.code));
+    toSel.add(new Option(label, c.code));
+  });
+  fromSel.value = 'IDR';
+  toSel.value   = 'USD';
+}
+
+async function fetchAndConvert() {
+  const badge = document.getElementById('api-status');
+  badge.textContent = '⏳ Memperbarui...';
+  badge.className = 'api-badge offline';
+  try {
+    const res = await fetch('https://api.frankfurter.app/latest?from=USD');
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    rates = {...data.rates, USD:1};
+    lastUpdated = new Date().toLocaleString('id-ID', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    isLive = true;
+    badge.textContent = '⚡ Kurs live — ' + lastUpdated;
+    badge.className = 'api-badge live';
+  } catch(e) {
+    rates = {...FALLBACK};
+    lastUpdated = 'Kurs cadangan (perkiraan Mar 2026)';
+    isLive = false;
+    badge.textContent = '📋 ' + lastUpdated;
+    badge.className = 'api-badge offline';
+  }
+  convert();
+  renderPopular();
+  calcMulti();
+  calcTravel();
+}
+
 function convert() {
-  const amount = parseFloat(document.getElementById('amount').value);
-  const from = fromSel.value;
-  const to = toSel.value;
-  if (isNaN(amount) || !rates[from]) return;
+  const amount = parseFloat(document.getElementById('amount').value) || 0;
+  const from = document.getElementById('from-curr').value;
+  const to   = document.getElementById('to-curr').value;
+  if (!amount || !rates[from]) return;
   const rate = getRate(from, to);
   if (!rate) return;
   const result = amount * rate;
-  const fmt = (n, cur) => {
-    if (cur === 'IDR' || cur === 'KRW' || cur === 'JPY') return n.toLocaleString('id-ID', {maximumFractionDigits:0});
-    return n.toLocaleString('id-ID', {maximumFractionDigits:2});
-  };
-  document.getElementById('res-val').textContent = fmt(result, to) + ' ' + to;
-  document.getElementById('res-label').textContent = fmt(amount, from) + ' ' + from + ' = ' + fmt(result, to) + ' ' + to;
-  document.getElementById('res-rate').textContent = '1 ' + from + ' = ' + fmt(rate, to) + ' ' + to;
+  const cur = CURRENCIES.find(c => c.code === to) || {flag:'',name:to};
+  document.getElementById('res-val').textContent = fmtNum(result, to) + ' ' + to;
+  document.getElementById('res-label').textContent = fmtNum(amount, from) + ' ' + from + ' = ' + fmtNum(result, to) + ' ' + to;
+  document.getElementById('res-rate').textContent = '1 ' + from + ' = ' + fmtNum(rate, to) + ' ' + to;
+  document.getElementById('res0').style.display = 'block';
+  document.getElementById('res0').classList.add('show');
 }
 
 function swapCurrencies() {
-  const f = fromSel.value, t = toSel.value;
-  fromSel.value = t; toSel.value = f;
+  const f = document.getElementById('from-curr').value;
+  const t = document.getElementById('to-curr').value;
+  document.getElementById('from-curr').value = t;
+  document.getElementById('to-curr').value   = f;
   convert();
 }
 
-function renderQuickRates() {
-  const area = document.getElementById('quick-rates-area');
-  const container = document.getElementById('quick-rates');
-  const pairs = [{code:'USD',flag:'🇺🇸'},{code:'EUR',flag:'🇪🇺'},{code:'SGD',flag:'🇸🇬'},{code:'MYR',flag:'🇲🇾'},{code:'JPY',flag:'🇯🇵'},{code:'SAR',flag:'🇸🇦'}];
-  container.innerHTML = pairs.map(p => {
+function renderPopular() {
+  const grid = document.getElementById('pop-grid');
+  grid.innerHTML = POP_PAIRS.map(p => {
     const rate = getRate('IDR', p.code);
     if (!rate) return '';
-    const val = (1000000 * rate).toLocaleString('id-ID', {maximumFractionDigits: p.code === 'JPY' ? 0 : 2});
-    return `<div class="qrate"><span class="qflag">${p.flag}</span> <span class="qval">${p.code}</span> <span class="qname">Rp 1jt = ${val}</span></div>`;
+    const per1m = (1_000_000 * rate);
+    return `<div class="pop-card" onclick="setConvPair('IDR','${p.code}')">
+      <div class="pc-flag">${p.flag}</div>
+      <div class="pc-pair">IDR → ${p.code}</div>
+      <div class="pc-rate">1 ${p.code} = ${fmtIDR(1/rate)}</div>
+      <div class="pc-idr">Rp 1jt = ${fmtNum(per1m, p.code)} ${p.code}</div>
+    </div>`;
   }).join('');
-  area.style.display = '';
+}
+
+function setConvPair(from, to) {
+  document.getElementById('from-curr').value = from;
+  document.getElementById('to-curr').value   = to;
+  switchTab(0, document.querySelectorAll('.curr-tab')[0]);
+  convert();
+}
+
+function switchTab(idx, btn) {
+  document.querySelectorAll('.curr-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.curr-mode').forEach(m => m.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab' + idx).classList.add('active');
+}
+
+function calcMulti() {
+  const idr = parseFloat(document.getElementById('multi-idr').value) || 10_000_000;
+  const container = document.getElementById('multi-result');
+  if (!Object.keys(rates).length) return;
+  container.innerHTML = MULTI_PAIRS.map(p => {
+    const rate = getRate('IDR', p.code);
+    if (!rate) return '';
+    const val = idr * rate;
+    return `<div class="multi-row">
+      <span class="multi-flag">${p.flag}</span>
+      <span class="multi-name">${p.code}</span>
+      <div style="text-align:right">
+        <div class="multi-val">${fmtNum(val, p.code)} ${p.code}</div>
+        <div class="multi-rate">1 ${p.code} = ${fmtIDR(1/rate)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function calcTravel() {
+  const curr    = document.getElementById('travel-curr').value;
+  const hotel   = parseFloat(document.getElementById('t-hotel').value) || 0;
+  const makan   = parseFloat(document.getElementById('t-makan').value) || 0;
+  const trans   = parseFloat(document.getElementById('t-transport').value) || 0;
+  const hari    = parseInt(document.getElementById('t-hari').value) || 7;
+  if (!hotel && !makan && !trans) return;
+
+  const totalIDR = (hotel + makan + trans) * hari;
+  const rate = getRate('IDR', curr);
+  const totalCurr = rate ? totalIDR * rate : 0;
+  const c = CURRENCIES.find(x => x.code === curr) || {flag:'',name:curr};
+
+  document.getElementById('travel-title').textContent = `✈️ Budget ${hari} hari ke negara ${c.flag} (${curr})`;
+  document.getElementById('t-hotel-out').textContent  = fmtIDR(hotel * hari);
+  document.getElementById('t-makan-out').textContent  = fmtIDR(makan * hari);
+  document.getElementById('t-trans-out').textContent  = fmtIDR(trans * hari);
+  document.getElementById('t-total-idr').textContent  = fmtIDR(totalIDR);
+  document.getElementById('t-curr-label').textContent = `Dalam ${curr} (kurs saat ini)`;
+  document.getElementById('t-total-curr').textContent = rate ? fmtNum(totalCurr, curr) + ' ' + curr : '—';
+
+  const advice = rate
+    ? `💡 Siapkan setidaknya <strong>${fmtIDR(totalIDR * 1.15)}</strong> (termasuk cadangan 15%) untuk perjalanan ${hari} hari. Dalam ${curr}: ~${fmtNum(totalCurr * 1.15, curr)} ${curr}. Rekomendasi: tukar uang dalam 2 tahap — sebagian sebelum berangkat (untuk kepastian), sisanya di negara tujuan setelah cek kurs money changer lokal.`
+    : '';
+  document.getElementById('t-advice').innerHTML = advice;
+  document.getElementById('res3').style.display = 'block';
+  document.getElementById('res3').classList.add('show');
 }
 
 populateSelects();

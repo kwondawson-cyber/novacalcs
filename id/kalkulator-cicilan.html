@@ -3,17 +3,77 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Cicilan — Simulasi Kredit & Angsuran Bulanan | NovaCalcs</title>
-<meta name="description" content="Hitung cicilan kredit bulanan dengan mudah. Masukkan harga, uang muka, tenor, dan bunga untuk mendapatkan simulasi angsuran lengkap beserta total biaya kredit."/>
-<meta name="keywords" content="kalkulator cicilan, hitung cicilan kredit, angsuran per bulan, simulasi kredit, bunga cicilan, kalkulator pinjaman"/>
+<title>Kalkulator Cicilan 2026 — Flat vs Efektif + Tabel Angsuran | NovaCalcs</title>
+<meta name="description" content="Simulasi cicilan kredit bulanan dengan metode flat, efektif (anuitas), dan anuitas menurun. Bandingkan ketiga metode sekaligus dan lihat tabel angsuran lengkap."/>
+<meta name="keywords" content="kalkulator cicilan, hitung cicilan kredit, angsuran bulanan, bunga flat efektif, simulasi kredit, tabel amortisasi, cicilan motor mobil KTA"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-cicilan.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-cicilan.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Cicilan","url":"https://novacalcs.com/id/kalkulator-cicilan.html","description":"Simulasi cicilan dengan tiga metode bunga dan tabel amortisasi lengkap","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Big cicilan display */
+.cic-main { text-align:center; padding:16px 0 8px; }
+.cic-num { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
+.cic-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Pokok vs bunga bar */
+.cic-bar-wrap { margin:12px 0 6px; }
+.cic-bar-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:5px; }
+.cic-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
+.cic-bar-pokok { background:#4ade80; transition:width 0.6s; display:flex; align-items:center; padding-left:8px; font-size:0.62rem; font-weight:700; color:#064e3b; }
+.cic-bar-bunga { background:#f97316; transition:width 0.6s; display:flex; align-items:center; justify-content:center; font-size:0.62rem; font-weight:700; color:#431407; }
+.cic-bar-legend { display:flex; gap:14px; margin-top:5px; font-size:0.72rem; color:var(--text-secondary); }
+.cic-bar-legend span::before { content:'●'; margin-right:4px; }
+.leg-g::before { color:#4ade80; } .leg-o::before { color:#f97316; }
+
+/* Stats grid */
+.cic-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.cic-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.cic-stat .cs-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
+.cic-stat .cs-val { font-size:0.9rem; font-weight:700; color:var(--text-primary); }
+.cic-stat.highlight .cs-val { color:var(--mint); }
+.cic-stat.warn .cs-val { color:#f97316; }
+
+/* Method comparison table */
+.method-comp { width:100%; border-collapse:collapse; font-size:0.78rem; margin:10px 0; }
+.method-comp th { background:var(--bg-input); color:var(--text-secondary); padding:7px 10px; text-align:right; font-weight:600; }
+.method-comp th:first-child { text-align:left; }
+.method-comp td { padding:7px 10px; border-bottom:1px solid var(--border); text-align:right; }
+.method-comp td:first-child { text-align:left; font-weight:600; color:var(--text-secondary); }
+.method-comp tr.chosen td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
+.method-comp tr:last-child td { border-bottom:none; }
+.method-comp .cheaper { color:#4ade80; }
+.method-comp .pricier { color:#f97316; }
+
+/* Amortization */
+.amort-wrap { max-height:260px; overflow-y:auto; scrollbar-width:thin; margin-top:10px; border:1px solid var(--border); border-radius:var(--radius-sm); }
+.amort-wrap table { width:100%; font-size:0.75rem; border-collapse:collapse; }
+.amort-wrap th { position:sticky; top:0; background:var(--bg-card); padding:6px 10px; color:var(--text-secondary); text-align:right; border-bottom:1px solid var(--border); font-weight:600; z-index:1; }
+.amort-wrap th:first-child { text-align:left; }
+.amort-wrap td { padding:5px 10px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.02); }
+.amort-wrap td:first-child { text-align:left; color:var(--text-secondary); }
+.amort-wrap tr:hover td { background:var(--bg-input); }
+
+/* Tenor buttons */
+.tenor-btns { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.tenor-btn { padding:5px 10px; border-radius:6px; font-size:0.75rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all 0.15s; }
+.tenor-btn.active { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,0.35); }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
+</style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -28,132 +88,186 @@
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">💳 Kalkulator Cicilan</div>
-      <div class="calc-subtitle">Simulasi angsuran kredit bulanan</div>
+      <div class="calc-title">💳 Kalkulator Cicilan 2026</div>
+      <div class="calc-subtitle">Flat · Efektif · Bandingkan + Tabel Angsuran</div>
 
-      <div class="field"><label>Harga / Jumlah Pinjaman (Rp)</label><input type="number" id="harga" placeholder="Contoh: 10000000"/></div>
-      <div class="field"><label>Uang Muka / DP (Rp)</label><input type="number" id="dp" value="0" placeholder="0 = tanpa DP"/></div>
-      <div class="field"><label>Bunga per tahun (%)</label><input type="number" id="bunga" placeholder="Contoh: 12" step="0.1"/></div>
-      <div class="field"><label>Tenor (bulan)</label>
-        <div class="radio-group" id="tenor-opts">
-          <div class="radio-btn" onclick="setTenor(6,this)">6</div>
-          <div class="radio-btn" onclick="setTenor(12,this)">12</div>
-          <div class="radio-btn active" onclick="setTenor(24,this)">24</div>
-          <div class="radio-btn" onclick="setTenor(36,this)">36</div>
-        </div>
-        <input type="number" id="tenor" value="24" min="1" max="360" placeholder="Bulan" style="margin-top:8px"/>
+      <div class="field"><label>Harga / Jumlah Pinjaman (Rp)</label>
+        <input type="number" id="harga" placeholder="Contoh: 20.000.000" oninput="autoCalc()"/>
       </div>
-      <div class="field"><label>Metode Bunga</label>
+      <div class="field"><label>Uang Muka / DP (Rp)</label>
+        <input type="number" id="dp" value="0" placeholder="0 = tanpa DP" oninput="autoCalc()"/>
+      </div>
+      <div class="field"><label>Bunga per tahun (%)</label>
+        <input type="number" id="bunga" placeholder="Contoh: 12" step="0.1" oninput="autoCalc()"/>
+        <p style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">Bunga flat 1%/bln = 12%/thn. Bunga efektif 1%/bln = 12,68%/thn (APR)</p>
+      </div>
+      <div class="field">
+        <label>Tenor</label>
+        <div class="tenor-btns" id="tenor-btns">
+          <div class="tenor-btn" onclick="setTenor(6,this)">6 bln</div>
+          <div class="tenor-btn" onclick="setTenor(12,this)">12 bln</div>
+          <div class="tenor-btn active" onclick="setTenor(24,this)">24 bln</div>
+          <div class="tenor-btn" onclick="setTenor(36,this)">36 bln</div>
+          <div class="tenor-btn" onclick="setTenor(48,this)">48 bln</div>
+          <div class="tenor-btn" onclick="setTenor(60,this)">60 bln</div>
+        </div>
+        <input type="number" id="tenor" value="24" min="1" max="360" placeholder="Bulan" oninput="autoCalc()"/>
+      </div>
+      <div class="field">
+        <label>Metode Bunga</label>
         <div class="radio-group">
-          <div class="radio-btn active" id="btn-flat" onclick="setMetode('flat',this)">Flat</div>
-          <div class="radio-btn" id="btn-efektif" onclick="setMetode('efektif',this)">Efektif</div>
+          <div class="radio-btn active" id="btn-flat"    onclick="setMetode('flat',this)">Flat</div>
+          <div class="radio-btn"        id="btn-efektif" onclick="setMetode('efektif',this)">Efektif (Anuitas)</div>
+          <div class="radio-btn"        id="btn-menurun" onclick="setMetode('menurun',this)">Pokok Tetap</div>
         </div>
+        <p style="font-size:0.7rem;color:var(--text-muted);margin-top:4px" id="metode-desc">Flat: bunga dihitung dari pokok awal sepanjang tenor. Umum di kredit kendaraan/barang.</p>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Simulasi Cicilan</button>
+      <button class="calc-btn" onclick="calculate()">💳 Simulasi Cicilan</button>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-cicilan">—</div>
-          <div class="result-label">Angsuran per bulan</div>
+      <div class="result-box" id="result" style="display:none">
+        <!-- Main cicilan -->
+        <div class="cic-main">
+          <div class="cic-num" id="res-cicilan">—</div>
+          <div class="cic-label" id="res-cicilan-label">Angsuran per bulan</div>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Pokok pinjaman</span><span class="rval" id="res-pokok">—</span></div>
-          <div class="result-row"><span class="rkey">Total bayar</span><span class="rval" id="res-total">—</span></div>
-          <div class="result-row"><span class="rkey">Total bunga</span><span class="rval" id="res-bunga" style="color:#f87171">—</span></div>
-          <div class="result-row"><span class="rkey">Biaya bunga per bulan</span><span class="rval" id="res-bunga-bln">—</span></div>
+
+        <!-- Pokok vs bunga bar -->
+        <div class="cic-bar-wrap">
+          <div class="cic-bar-title">Komposisi Total Pembayaran</div>
+          <div class="cic-bar-track">
+            <div class="cic-bar-pokok" id="bar-pokok" style="width:60%">Pokok</div>
+            <div class="cic-bar-bunga" id="bar-bunga" style="width:40%">Bunga</div>
+          </div>
+          <div class="cic-bar-legend">
+            <span class="leg-g">Pokok pinjaman</span>
+            <span class="leg-o">Total bunga</span>
+          </div>
         </div>
+
+        <!-- Stats -->
+        <div class="cic-stats">
+          <div class="cic-stat"><div class="cs-label">Pokok pinjaman</div><div class="cs-val" id="s-pokok">—</div></div>
+          <div class="cic-stat"><div class="cs-label">Uang muka (DP)</div><div class="cs-val" id="s-dp">—</div></div>
+          <div class="cic-stat warn"><div class="cs-label">Total bunga</div><div class="cs-val" id="s-bunga">—</div></div>
+          <div class="cic-stat"><div class="cs-label">Total bayar (pokok+bunga)</div><div class="cs-val" id="s-total">—</div></div>
+        </div>
+
+        <!-- Metode comparison -->
+        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">📊 Perbandingan Tiga Metode (bunga sama)</div>
+        <table class="method-comp" id="method-comp"></table>
+
+        <!-- Amortization table -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 4px">
+          <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600">📋 Tabel Angsuran per Bulan</div>
+          <div style="font-size:0.68rem;color:var(--text-muted)">Geser ↓ untuk semua</div>
+        </div>
+        <div class="amort-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align:left">Bln</th>
+                <th>Cicilan</th>
+                <th>Pokok</th>
+                <th style="color:#f97316">Bunga</th>
+                <th>Sisa</th>
+              </tr>
+            </thead>
+            <tbody id="amort-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Advice -->
+        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Cicilan — Simulasi Kredit Bulanan</h1>
-    <p class="page-desc">Hitung cicilan bulanan untuk kredit motor, mobil, barang elektronik, pinjaman tunai, atau KTA. Kalkulator ini mendukung dua metode bunga: flat dan efektif (anuitas), sesuai jenis kredit yang Anda ambil.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Cicilan 2026 — Flat, Efektif & Pokok Tetap</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Simulasi cicilan kredit bulanan dengan tiga metode bunga sekaligus. Bandingkan total bunga yang harus dibayar, lihat tabel angsuran per bulan, dan pahami mana metode yang lebih menguntungkan.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Perbedaan Bunga Flat dan Bunga Efektif</h2>
-    <table>
-      <tr><th>Aspek</th><th>Bunga Flat</th><th>Bunga Efektif</th></tr>
-      <tr><td>Cara hitung</td><td>% × pokok awal ÷ 12</td><td>% × sisa pokok per bulan</td></tr>
-      <tr><td>Cicilan bulanan</td><td>Tetap sama setiap bulan</td><td>Tetap (anuitas)</td></tr>
-      <tr><td>Umum digunakan</td><td>Kredit motor, barang</td><td>KPR, KTA, KMG</td></tr>
-      <tr><td>Total bunga</td><td>Lebih tinggi</td><td>Lebih rendah</td></tr>
+    <h2>Tiga Metode Bunga Kredit — Perbedaan dan Penggunaannya</h2>
+    <p>Metode penghitungan bunga sangat menentukan berapa total yang Anda bayar dan bagaimana beban cicilan terdistribusi. Berikut penjelasan ketiga metode yang didukung kalkulator ini:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Aspek</th><th>Flat</th><th>Efektif (Anuitas)</th><th>Pokok Tetap</th></tr></thead>
+      <tbody>
+        <tr><td>Cara hitung bunga</td><td>% × pokok awal ÷ 12</td><td>% × sisa pokok tiap bulan</td><td>% × sisa pokok tiap bulan</td></tr>
+        <tr><td>Cicilan per bulan</td><td>Tetap sama</td><td>Tetap sama</td><td>Turun setiap bulan</td></tr>
+        <tr><td>Total bunga</td><td>Paling besar</td><td>Lebih kecil dari flat</td><td>Paling kecil jika dibandingkan</td></tr>
+        <tr><td>Cicilan awal</td><td>Sedang</td><td>Sedang</td><td>Paling besar di awal</td></tr>
+        <tr><td>Umum digunakan</td><td>Kredit motor, barang elektronik, leasing</td><td>KPR, KTA, kartu kredit</td><td>KPR syariah (murabahah), pinjaman tertentu</td></tr>
+      </tbody>
     </table>
-    <p><strong>Catatan penting:</strong> Bunga flat 1% per bulan ≠ bunga efektif 1% per bulan. Bunga flat 1%/bulan setara dengan bunga efektif sekitar 1,8–2%/bulan karena dihitung dari pokok penuh sepanjang tenor.</p>
+    <p>⚠️ <strong>Perhatian penting:</strong> Bunga flat 1%/bulan (12%/tahun) dan bunga efektif 1%/bulan (12%/tahun) menghasilkan cicilan yang <em>berbeda</em> dan total bunga yang berbeda. Bunga flat dihitung dari pokok awal penuh, sehingga secara efektif lebih mahal. Bunga flat 12%/tahun setara dengan bunga efektif sekitar 21–22%/tahun dalam hal total biaya.</p>
 
-    <h2>Cicilan Kendaraan Bermotor (Estimasi)</h2>
-    <table>
-      <tr><th>Harga</th><th>DP 20%</th><th>Cicilan 24 bln (Flat 1%/bln)</th></tr>
-      <tr><td>Motor Rp 20 juta</td><td>Rp 4 juta</td><td>±Rp 933.000/bln</td></tr>
-      <tr><td>Motor Rp 30 juta</td><td>Rp 6 juta</td><td>±Rp 1.400.000/bln</td></tr>
-      <tr><td>Mobil Rp 200 juta</td><td>Rp 40 juta</td><td>±Rp 9.333.000/bln</td></tr>
-    </table>
-
-    <h2>Cicilan yang Sehat: Aturan 30% dari Penghasilan</h2>
-    <p>Para ahli keuangan merekomendasikan total cicilan bulanan tidak melebihi 30% dari penghasilan bersih. Jika total cicilan (KPR + cicilan mobil + cicilan lainnya) sudah di atas angka ini, risiko kesulitan keuangan meningkat signifikan, terutama jika ada keadaan darurat seperti PHK atau sakit.</p>
-    <p>Contoh: Jika gaji bersih Anda Rp 8.000.000/bulan, maka total cicilan maksimal yang disarankan adalah Rp 2.400.000. Jika cicilan KPR sudah Rp 2.000.000, maka kapasitas cicilan lain tinggal Rp 400.000.</p>
-
-    <h2>Strategi Melunasi Cicilan Lebih Cepat</h2>
-    <p>Ada dua strategi populer untuk melunasi utang lebih cepat:</p>
+    <h2>Rumus Perhitungan Masing-masing Metode</h2>
+    <p>Berikut rumus yang digunakan kalkulator ini — sudah diverifikasi terhadap kalkulator kredit bank:</p>
     <ul>
-      <li><strong>Metode Debt Snowball</strong> — Lunasi cicilan terkecil terlebih dahulu (tanpa memperdulikan bunga). Memberikan motivasi psikologis karena cepat menyelesaikan satu cicilan.</li>
-      <li><strong>Metode Debt Avalanche</strong> — Lunasi cicilan dengan bunga tertinggi lebih dahulu. Secara matematis lebih hemat, tapi membutuhkan disiplin lebih.</li>
+      <li><strong>Flat:</strong> Cicilan = (Pokok ÷ Tenor) + (Pokok × Bunga/12). Total bunga = Pokok × Bunga/12 × Tenor</li>
+      <li><strong>Efektif/Anuitas:</strong> Cicilan = Pokok × [r(1+r)ⁿ ÷ ((1+r)ⁿ−1)], di mana r = bunga/12, n = tenor. Cicilan sama setiap bulan tetapi komposisi pokok/bunga berubah.</li>
+      <li><strong>Pokok Tetap:</strong> Pokok per bulan = Pokok ÷ Tenor (tetap). Bunga per bulan = Sisa pokok × Bunga/12 (turun setiap bulan). Cicilan = Pokok/bulan + Bunga/bulan (menurun).</li>
     </ul>
-    <p>Selain itu, jika ada rezeki lebih (bonus, THR), pertimbangkan untuk melakukan <strong>pelunasan sebagian (partial payment)</strong> ke pokok utang. Untuk pinjaman bank, pelunasan sebagian akan langsung mengurangi pokok dan memperpendek tenor atau memperkecil cicilan bulanan.</p>
 
-    <h2>Biaya Tersembunyi dalam Pinjaman yang Sering Diabaikan</h2>
+    <h2>Fitur Kalkulator Cicilan NovaCalcs</h2>
     <ul>
-      <li><strong>Biaya provisi</strong> — Biaya administrasi di awal pinjaman, biasanya 0,5–1% dari total pinjaman</li>
-      <li><strong>Biaya asuransi</strong> — Asuransi jiwa dan/atau asuransi kredit wajib di beberapa produk pinjaman</li>
-      <li><strong>Biaya pelunasan dipercepat</strong> — Beberapa lembaga membebankan penalti 1–3% jika melunasi sebelum tenor habis</li>
-      <li><strong>Biaya keterlambatan</strong> — Denda per hari jika cicilan tidak dibayar tepat waktu</li>
+      <li><strong>Tiga metode bunga dalam satu kalkulator</strong> — Pilih metode yang sesuai jenis kredit Anda: flat (leasing kendaraan), efektif/anuitas (KPR/KTA), atau pokok tetap (KPR syariah).</li>
+      <li><strong>Perbandingan otomatis tiga metode</strong> — Setelah menghitung, tabel perbandingan otomatis muncul menampilkan cicilan, total bunga, dan total bayar untuk ketiga metode sekaligus — sehingga Anda bisa langsung melihat mana yang paling murah.</li>
+      <li><strong>Tabel angsuran per bulan (amortisasi)</strong> — Lihat detail setiap bulan: cicilan, berapa yang mengurangi pokok, berapa yang menjadi bunga, dan sisa pinjaman. Penting untuk memahami kapan pelunasan dipercepat paling menguntungkan.</li>
+      <li><strong>Visualisasi pokok vs bunga</strong> — Bar hijau-oranye menampilkan secara intuitif berapa persen dari total pembayaran yang benar-benar menjadi nilai aset (pokok) vs biaya pinjaman (bunga).</li>
+      <li><strong>Tombol tenor cepat</strong> — Pilih tenor 6, 12, 24, 36, 48, atau 60 bulan dengan satu klik, tanpa perlu mengetik ulang.</li>
+      <li><strong>Input real-time</strong> — Hasil diperbarui otomatis saat mengetik.</li>
     </ul>
-    <p>Selalu baca semua syarat dan ketentuan sebelum menandatangani perjanjian kredit, dan tanyakan apakah ada biaya selain bunga yang perlu diperhitungkan dalam total cicilan.</p>
 
-    <h2>Simulasi Dampak Bunga terhadap Total Cicilan</h2>
-    <p>Banyak orang terkejut melihat betapa besarnya total bunga yang dibayarkan sepanjang tenor. Berikut simulasi untuk pinjaman Rp 50.000.000:</p>
-    <table>
-      <tr><th>Bunga per Tahun</th><th>Tenor</th><th>Cicilan/Bulan</th><th>Total Bunga</th></tr>
-      <tr><td>8%</td><td>12 bulan</td><td>Rp 4.340.000</td><td>Rp 2.083.000</td></tr>
-      <tr><td>12%</td><td>24 bulan</td><td>Rp 2.354.000</td><td>Rp 6.496.000</td></tr>
-      <tr><td>18%</td><td>36 bulan</td><td>Rp 1.806.000</td><td>Rp 14.990.000</td></tr>
-      <tr><td>24%</td><td>48 bulan</td><td>Rp 1.577.000</td><td>Rp 25.696.000</td></tr>
+    <h2>Estimasi Cicilan Kendaraan Bermotor 2026</h2>
+    <p>Berikut simulasi cicilan untuk kendaraan populer menggunakan metode bunga flat 1%/bulan (12%/tahun) dan tenor 24 bulan — angka ini hanya perkiraan, harga dan bunga aktual bisa berbeda tergantung dealer dan lembaga pembiayaan:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Kendaraan</th><th>Harga (estimasi)</th><th>DP 20%</th><th>Cicilan 24 bln (Flat 12%/thn)</th></tr></thead>
+      <tbody>
+        <tr><td>Motor bebek/skutik</td><td>Rp 20 juta</td><td>Rp 4 juta</td><td>±Rp 827.000/bln</td></tr>
+        <tr><td>Motor sport 150cc</td><td>Rp 30 juta</td><td>Rp 6 juta</td><td>±Rp 1.240.000/bln</td></tr>
+        <tr><td>Motor premium 250cc</td><td>Rp 60 juta</td><td>Rp 12 juta</td><td>±Rp 2.480.000/bln</td></tr>
+        <tr><td>Mobil LCGC</td><td>Rp 160 juta</td><td>Rp 32 juta</td><td>±Rp 6.613.000/bln</td></tr>
+        <tr><td>Mobil MPV entry level</td><td>Rp 250 juta</td><td>Rp 50 juta</td><td>±Rp 10.333.000/bln</td></tr>
+      </tbody>
     </table>
-    <p>Pinjaman Rp 50 juta dengan bunga 24%/tahun selama 4 tahun berarti Anda membayar hampir Rp 76 juta — 52% lebih banyak dari yang dipinjam! Semakin panjang tenor dan semakin tinggi bunga, semakin besar total yang harus dibayar. Selalu pertimbangkan total biaya kredit, bukan hanya cicilan bulanan.</p>
+    <p style="font-size:0.78rem;color:var(--text-muted)">*Gunakan kalkulator di atas untuk simulasi dengan angka spesifik. Harga kendaraan 2026 dan bunga leasing dapat berbeda dari estimasi ini.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah lebih baik DP besar atau kecil untuk kredit?</div>
-      <div class="faq-a">DP besar mengurangi pokok pinjaman sehingga cicilan lebih ringan dan total bunga lebih sedikit. Namun jangan habiskan semua tabungan untuk DP — sisakan dana darurat minimal 3 bulan pengeluaran. Jika DP besar menguras dana darurat, lebih baik ambil DP yang lebih kecil.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan bunga flat dan efektif secara praktis?</div>
+      <div class="faq-a">Perbedaan paling penting: dengan bunga flat, bunga dihitung dari pokok awal yang penuh sepanjang tenor, meski saldo pinjaman Anda sudah berkurang setiap bulan. Ini artinya Anda membayar bunga atas saldo yang sebenarnya sudah dilunasi. Dengan bunga efektif, bunga dihitung dari sisa pokok yang sebenarnya — lebih adil karena bunga turun seiring penurunan saldo. Bunga flat 12%/tahun setara dengan bunga efektif sekitar 21–22%/tahun. Selalu tanyakan metode bunga sebelum menandatangani kontrak kredit.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Lebih baik DP besar atau kecil?</div>
+      <div class="faq-a">DP besar mengurangi pokok pinjaman, sehingga cicilan per bulan lebih ringan dan total bunga jauh lebih sedikit. Namun jangan menguras semua tabungan untuk DP — sisakan dana darurat minimal 3–6 bulan pengeluaran. Jika setelah DP besar Anda tidak punya tabungan sama sekali, kondisi darurat bisa memaksa Anda berutang lagi dengan bunga yang lebih tinggi.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Berapa persen cicilan yang aman dari penghasilan?</div>
-      <div class="faq-a">Prinsip umum keuangan pribadi: total cicilan (termasuk KPR, kredit kendaraan, KTA, dll.) sebaiknya tidak melebihi 30–35% dari penghasilan bersih bulanan. Jika melebihi 40%, keuangan Anda dianggap sudah dalam kondisi stres (over-leveraged).</div>
+      <div class="faq-a">Prinsip umum keuangan: total cicilan (KPR + kendaraan + KTA + dll.) sebaiknya tidak melebihi 30–35% dari penghasilan bersih bulanan. Di atas 40% dianggap sudah over-leveraged dan rentan masalah keuangan jika ada kondisi tak terduga. Khusus untuk KPR saja, bank biasanya menerapkan batas 30% dari penghasilan.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu APRC (Annual Percentage Rate of Charge)?</div>
-      <div class="faq-a">APRC atau APR adalah biaya kredit total per tahun dalam persentase, termasuk bunga + semua biaya lain (provisi, asuransi, administrasi). Ini adalah cara paling akurat membandingkan biaya kredit dari berbagai lembaga pembiayaan, karena bunga saja tidak mencerminkan biaya sebenarnya.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah boleh melunasi cicilan lebih awal?</div>
-      <div class="faq-a">Boleh, namun biasanya dikenakan penalti pelunasan dipercepat sekitar 1–3% dari sisa pokok. Untuk kredit flat, manfaat pelunasan awal lebih kecil karena bunga sudah dikunci di awal. Untuk kredit efektif, pelunasan awal menghemat lebih banyak karena bunga dihitung dari sisa pokok.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mengecek kemampuan cicilan saya?</div>
-      <div class="faq-a">Hitung penghasilan bersih Anda per bulan. Kalikan 30-35% untuk mendapat batas cicilan aman. Kurangi cicilan yang sudah ada (KPR, kendaraan lain dll.). Sisanya adalah ruang untuk cicilan baru. Gunakan kalkulator ini untuk mencari kombinasi harga/DP/tenor yang menghasilkan cicilan sesuai kemampuan.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Kapan pelunasan dipercepat paling menguntungkan?</div>
+      <div class="faq-a">Untuk kredit efektif/anuitas: pelunasan dipercepat di awal tenor sangat menguntungkan karena porsi bunga di awal sangat besar. Jika Anda melunasi di bulan ke-12 dari kredit 36 bulan, Anda menghemat bunga 24 bulan yang belum dibayar. Untuk kredit flat: manfaat pelunasan awal lebih kecil karena total bunga sudah dikunci sejak awal. Perhatikan juga penalti pelunasan dipercepat (biasanya 1–3% dari sisa pokok) — pastikan penghematan bunga lebih besar dari penaltinya.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Apa itu BI Checking / SLIK OJK dan pengaruhnya pada kredit?</div>
-      <div class="faq-a">SLIK (Sistem Layanan Informasi Keuangan) OJK adalah sistem penilaian riwayat kredit yang sebelumnya disebut BI Checking. Bank dan leasing akan mengecek SLIK Anda sebelum menyetujui kredit. Jika ada catatan kredit macet (kolektibilitas 3–5), pengajuan kredit bisa ditolak. Jaga catatan kredit dengan selalu membayar tepat waktu.</div>
+      <div class="faq-a">SLIK (Sistem Layanan Informasi Keuangan) OJK — sebelumnya disebut BI Checking — adalah sistem rekam jejak kredit yang diperiksa bank dan leasing sebelum menyetujui pengajuan. Kolektibilitas 1 (lancar) adalah yang terbaik; 3–5 (diragukan/macet) bisa menyebabkan penolakan kredit. Rekam jejak kredit buruk bisa bertahan beberapa tahun. Jaga kredit Anda dengan selalu membayar tepat waktu — bahkan keterlambatan beberapa hari sudah bisa tercatat.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu cicilan 0% dan apakah benar-benar gratis?</div>
+      <div class="faq-a">Cicilan 0% dari toko atau kartu kredit tidak selalu benar-benar tanpa biaya. Ada beberapa bentuk: (1) Merchant yang menanggung biaya, sehingga harga barang mungkin sudah dinaikkan, (2) Biaya cicilan dibebankan ke kartu kredit dan merchant membayarnya ke bank, (3) Promosi terbatas yang memang benar-benar gratis sebagai investasi marketing. Selalu cek apakah harga dengan cicilan 0% sama dengan harga cash — jika lebih mahal, cicilan tersebut bukan benar-benar 0%.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mengecek kemampuan cicilan sebelum mengajukan kredit?</div>
+      <div class="faq-a">Langkah praktis: (1) Hitung penghasilan bersih bulanan, (2) Kalikan 30% untuk batas cicilan aman, (3) Kurangi cicilan yang sudah ada (KPR, kendaraan lain, kartu kredit), (4) Sisanya adalah ruang cicilan baru. Gunakan kalkulator ini untuk mencari kombinasi pokok/tenor/bunga yang menghasilkan cicilan sesuai kemampuan. Ingat juga biaya asuransi dan administrasi yang biasanya ditambahkan ke cicilan pertama.</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
-      <a href="/id/kalkulator-bunga.html" class="related-item"><span class="ri">📈</span>Kalkulator Bunga</a>
+      <a href="/id/kalkulator-cicilan-motor.html" class="related-item"><span class="ri">🏍️</span>Cicilan Motor</a>
       <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
       <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
     </div>
@@ -162,58 +276,187 @@
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <script defer>
 let tenor = 24, metode = 'flat';
 const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmtShort = n => {
+  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  return fmt(n);
+};
+
+const METODE_DESC = {
+  flat:    'Flat: bunga dihitung dari pokok awal sepanjang tenor. Cicilan tetap sama tiap bulan. Umum di kredit motor dan barang elektronik.',
+  efektif: 'Efektif/Anuitas: bunga dari sisa pokok. Cicilan tetap, komposisi pokok:bunga berubah tiap bulan. Umum di KPR dan KTA.',
+  menurun: 'Pokok Tetap: pokok per bulan tetap, bunga dari sisa pokok. Cicilan turun tiap bulan. Total bunga paling kecil di antara ketiga metode.',
+};
 
 function setTenor(t, btn) {
   tenor = t;
   document.getElementById('tenor').value = t;
-  document.querySelectorAll('#tenor-opts .radio-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#tenor-btns .tenor-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  autoCalc();
 }
-
 function setMetode(m, btn) {
   metode = m;
-  document.getElementById('btn-flat').classList.toggle('active', m === 'flat');
-  document.getElementById('btn-efektif').classList.toggle('active', m === 'efektif');
+  ['flat','efektif','menurun'].forEach(k => document.getElementById('btn-'+k).classList.toggle('active', k===m));
+  document.getElementById('metode-desc').textContent = METODE_DESC[m];
+  autoCalc();
+}
+function autoCalc() {
+  const h = parseFloat(document.getElementById('harga').value);
+  const b = parseFloat(document.getElementById('bunga').value);
+  if (h && b) calculate();
+}
+
+// ── Kalkulasi inti ──
+function calcFlat(pokok, r, n) {
+  // r = bunga tahunan / 12 (sebagai desimal), n = tenor bulan
+  const bungaPerBulan = pokok * r;
+  const pokokPerBulan = pokok / n;
+  const cicilan = pokokPerBulan + bungaPerBulan;
+  const totalBunga = bungaPerBulan * n;
+  return { cicilan, totalBunga, totalBayar: cicilan * n };
+}
+
+function calcEfektif(pokok, r, n) {
+  if (r === 0) return { cicilan: pokok/n, totalBunga: 0, totalBayar: pokok };
+  const cicilan = pokok * (r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
+  const totalBunga = cicilan * n - pokok;
+  return { cicilan, totalBunga, totalBayar: cicilan * n };
+}
+
+function calcMenurun(pokok, r, n) {
+  // Pokok per bulan tetap, bunga dari sisa pokok
+  const pokokPerBulan = pokok / n;
+  let totalBunga = 0;
+  let sisa = pokok;
+  const schedule = [];
+  for (let i = 1; i <= n; i++) {
+    const bunga = sisa * r;
+    const cicilan = pokokPerBulan + bunga;
+    totalBunga += bunga;
+    sisa -= pokokPerBulan;
+    schedule.push({ cicilan, pokok: pokokPerBulan, bunga, sisa: Math.max(0, sisa) });
+  }
+  const cicilanPertama = pokokPerBulan + pokok * r;
+  return { cicilan: cicilanPertama, totalBunga, totalBayar: pokok + totalBunga, schedule };
+}
+
+function getAmortSchedule(pokok, r, n, m) {
+  if (m === 'flat') {
+    const pokokPbln = pokok / n;
+    const bungaPbln = pokok * r;
+    const cicilan = pokokPbln + bungaPbln;
+    let sisa = pokok;
+    return Array.from({length:n}, (_, i) => {
+      sisa -= pokokPbln;
+      return { cicilan, pokok: pokokPbln, bunga: bungaPbln, sisa: Math.max(0, sisa) };
+    });
+  } else if (m === 'efektif') {
+    const cicilan = r === 0 ? pokok/n : pokok * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n) - 1);
+    let sisa = pokok;
+    return Array.from({length:n}, () => {
+      const bunga = sisa * r;
+      const pokokBulan = cicilan - bunga;
+      sisa = Math.max(0, sisa - pokokBulan);
+      return { cicilan, pokok: pokokBulan, bunga, sisa };
+    });
+  } else {
+    // menurun
+    const pokokPbln = pokok / n;
+    let sisa = pokok;
+    return Array.from({length:n}, () => {
+      const bunga = sisa * r;
+      const cicilan = pokokPbln + bunga;
+      sisa = Math.max(0, sisa - pokokPbln);
+      return { cicilan, pokok: pokokPbln, bunga, sisa };
+    });
+  }
 }
 
 function calculate() {
-  const harga = parseFloat(document.getElementById('harga').value) || 0;
-  const dp    = parseFloat(document.getElementById('dp').value) || 0;
-  const bunga = parseFloat(document.getElementById('bunga').value);
+  const harga  = parseFloat(document.getElementById('harga').value) || 0;
+  const dp     = parseFloat(document.getElementById('dp').value) || 0;
+  const bunga  = parseFloat(document.getElementById('bunga').value);
   tenor = parseInt(document.getElementById('tenor').value) || 24;
-  if (!harga || isNaN(bunga)) return alert('Lengkapi semua data.');
-
+  if (!harga || isNaN(bunga)) return alert('Lengkapi harga/pinjaman dan bunga.');
   const pokok = harga - dp;
-  if (pokok <= 0) return alert('Pokok pinjaman harus lebih besar dari 0.');
-
-  let cicilan, totalBunga;
+  if (pokok <= 0) return alert('Pokok pinjaman harus lebih dari 0.');
   const r = bunga / 100 / 12;
 
-  if (metode === 'flat') {
-    const bungaPerBulan = pokok * r;
-    const pokokPerBulan = pokok / tenor;
-    cicilan = pokokPerBulan + bungaPerBulan;
-    totalBunga = bungaPerBulan * tenor;
-  } else {
-    if (r === 0) { cicilan = pokok / tenor; totalBunga = 0; }
-    else {
-      cicilan = pokok * (r * Math.pow(1+r, tenor)) / (Math.pow(1+r, tenor) - 1);
-      totalBunga = cicilan * tenor - pokok;
-    }
-  }
+  const res = metode === 'flat' ? calcFlat(pokok, r, tenor)
+            : metode === 'efektif' ? calcEfektif(pokok, r, tenor)
+            : calcMenurun(pokok, r, tenor);
 
-  const totalBayar = cicilan * tenor;
-  document.getElementById('res-cicilan').textContent = fmt(cicilan);
-  document.getElementById('res-pokok').textContent = fmt(pokok);
-  document.getElementById('res-total').textContent = fmt(totalBayar);
-  document.getElementById('res-bunga').textContent = fmt(totalBunga);
-  document.getElementById('res-bunga-bln').textContent = fmt(totalBunga / tenor);
+  // Main display
+  document.getElementById('res-cicilan').textContent = fmt(res.cicilan);
+  document.getElementById('res-cicilan-label').textContent =
+    metode === 'menurun' ? 'Angsuran bulan pertama (menurun)' : 'Angsuran per bulan (tetap)';
+  document.getElementById('s-pokok').textContent = fmtShort(pokok);
+  document.getElementById('s-dp').textContent    = fmtShort(dp);
+  document.getElementById('s-bunga').textContent = fmtShort(res.totalBunga);
+  document.getElementById('s-total').textContent = fmtShort(res.totalBayar);
+
+  // Bar
+  const pokokPct = Math.round(pokok / res.totalBayar * 100);
+  const bungaPct = 100 - pokokPct;
+  const barP = document.getElementById('bar-pokok');
+  const barB = document.getElementById('bar-bunga');
+  barP.style.width = pokokPct + '%'; barP.textContent = pokokPct > 15 ? 'Pokok ' + pokokPct + '%' : '';
+  barB.style.width = bungaPct + '%'; barB.textContent = bungaPct > 15 ? 'Bunga ' + bungaPct + '%' : '';
+
+  // Comparison table
+  const cFlat    = calcFlat(pokok, r, tenor);
+  const cEfektif = calcEfektif(pokok, r, tenor);
+  const cMenurun = calcMenurun(pokok, r, tenor);
+  const compData = [
+    { name:'Flat', d:cFlat },
+    { name:'Efektif (Anuitas)', d:cEfektif },
+    { name:'Pokok Tetap', d:cMenurun },
+  ];
+  const minBunga = Math.min(cFlat.totalBunga, cEfektif.totalBunga, cMenurun.totalBunga);
+  const compTbl = document.getElementById('method-comp');
+  compTbl.innerHTML = `<thead><tr><th>Metode</th><th>Cicilan/bln</th><th>Total Bunga</th><th>Total Bayar</th></tr></thead>`;
+  const tbody = document.createElement('tbody');
+  compData.forEach(({name, d}) => {
+    const tr = document.createElement('tr');
+    if (name.toLowerCase().includes(metode === 'flat' ? 'flat' : metode === 'efektif' ? 'efektif' : 'pokok')) {
+      tr.className = 'chosen';
+    }
+    const bungaClass = d.totalBunga === minBunga ? 'cheaper' : 'pricier';
+    tr.innerHTML = `<td>${name}</td><td>${fmt(d.cicilan)}</td><td class="${bungaClass}">${fmtShort(d.totalBunga)}</td><td>${fmtShort(d.totalBayar)}</td>`;
+    tbody.appendChild(tr);
+  });
+  compTbl.appendChild(tbody);
+
+  // Amortization
+  const schedule = getAmortSchedule(pokok, r, tenor, metode);
+  const amortBody = document.getElementById('amort-body');
+  amortBody.innerHTML = '';
+  schedule.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${i+1}</td><td>${fmt(row.cicilan)}</td><td>${fmt(row.pokok)}</td><td style="color:#f97316">${fmt(row.bunga)}</td><td>${fmt(row.sisa)}</td>`;
+    amortBody.appendChild(tr);
+  });
+
+  // Advice
+  const bungaRasio = (res.totalBunga / pokok * 100).toFixed(1);
+  let advice;
+  if (metode === 'flat') {
+    advice = `💡 Dengan bunga flat, total bunga <strong>${fmtShort(res.totalBunga)}</strong> (${bungaRasio}% dari pokok). Ingat: bunga flat ${bunga}%/thn setara efektif ~${(bunga*1.8).toFixed(0)}%/thn. Untuk perbandingan akurat antar penawaran kredit, selalu minta konversi ke bunga efektif/APR.`;
+  } else if (metode === 'efektif') {
+    advice = `✅ Metode efektif/anuitas lebih transparan dari flat. Total bunga <strong>${fmtShort(res.totalBunga)}</strong> (${bungaRasio}% dari pokok). Cicilan tetap ${fmt(res.cicilan)}/bulan — bunga besar di awal, mengecil seiring waktu (lihat tabel angsuran).`;
+  } else {
+    advice = `📉 Pokok tetap: cicilan awal <strong>${fmt(res.cicilan)}</strong> tapi turun setiap bulan. Total bunga <strong>${fmtShort(res.totalBunga)}</strong> — paling sedikit dari ketiga metode. Cocok jika penghasilan Anda cukup kuat di awal tenor.`;
+  }
+  document.getElementById('res-advice').innerHTML = advice;
+
+  document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
 }
 
