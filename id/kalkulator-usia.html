@@ -3,15 +3,60 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Usia Online — Hitung Umur Tepat Anda | NovaCalcs</title>
-<meta name="description" content="Hitung usia Anda secara tepat dalam tahun, bulan, hari, jam, dan menit. Masukkan tanggal lahir dan langsung ketahui umur lengkap Anda sekarang."/>
-<meta name="keywords" content="kalkulator usia, hitung umur, kalkulator umur, berapa usia saya, hitung usia dari tanggal lahir"/>
+<title>Kalkulator Usia — Berapa Tahun, Hari & Detik Usia Anda? | NovaCalcs</title>
+<meta name="description" content="Hitung usia tepat Anda dalam tahun, bulan, hari, jam, dan detik. Ketahui hari kelahiran, zodiak, statistik hidup unik, dan seberapa banyak usia Anda telah terlewati."/>
+<meta name="keywords" content="kalkulator usia, hitung umur, berapa umur saya, hari lahir, zodiak, kalkulator tanggal lahir, statistik usia"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-usia.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-usia.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Main age display */
+.age-big { text-align:center; padding:16px 0 8px; }
+.age-big .age-num { font-size:3.5rem; font-weight:700; color:var(--mint); line-height:1; }
+.age-big .age-sub { font-size:0.85rem; color:var(--text-secondary); margin-top:4px; }
+
+/* Life progress bar */
+.life-progress { margin:14px 0 4px; }
+.life-progress-label { display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-secondary); margin-bottom:5px; }
+.life-track { height:14px; background:var(--bg-input); border-radius:7px; overflow:hidden; position:relative; }
+.life-fill { height:100%; background:linear-gradient(90deg, var(--mint) 0%, #00a492 100%); border-radius:7px; transition:width 0.8s ease; }
+.life-fill-rest { position:absolute; right:0; top:0; height:100%; background:rgba(255,255,255,0.04); }
+
+/* Breakdown grid */
+.age-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:12px 0; }
+.age-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:12px; text-align:center; border:1px solid var(--border); }
+.age-card .ac-num { font-size:1.3rem; font-weight:700; color:var(--text-primary); }
+.age-card .ac-label { font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
+
+/* Fun facts */
+.fun-facts { margin-top:12px; }
+.fun-facts-title { font-size:0.75rem; color:var(--text-secondary); font-weight:600; margin-bottom:8px; }
+.fun-fact-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--border); font-size:0.8rem; }
+.fun-fact-row:last-child { border-bottom:none; }
+.fun-fact-val { font-weight:700; color:var(--mint); text-align:right; max-width:55%; }
+
+/* Info pills */
+.info-pills { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0; }
+.info-pill { padding:5px 12px; border-radius:20px; font-size:0.75rem; font-weight:600; background:var(--mint-dim); color:var(--mint); border:1px solid rgba(0,201,177,0.2); }
+
+/* Birthday countdown */
+.bday-box { background:var(--bg-input); border-radius:var(--radius-sm); padding:14px; margin-top:12px; text-align:center; border:1px solid var(--border); }
+.bday-days { font-size:2rem; font-weight:700; color:var(--mint); }
+.bday-label { font-size:0.78rem; color:var(--text-secondary); margin-top:2px; }
+
+/* Content styles */
+.life-stage-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:16px 0; }
+.life-stage-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; }
+.ls-age { font-size:0.72rem; color:var(--mint); font-weight:700; margin-bottom:4px; }
+.ls-name { font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
+.ls-desc { font-size:0.75rem; color:var(--text-secondary); line-height:1.5; }
+</style>
 </head>
 <body>
 
@@ -30,7 +75,7 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">🎂 Kalkulator Usia</div>
-      <div class="calc-subtitle">Hitung umur tepat Anda hingga hari ini</div>
+      <div class="calc-subtitle">Hitung usia tepat & fakta unik tentang hidup Anda</div>
 
       <div class="field">
         <label>Tanggal Lahir</label>
@@ -41,131 +86,162 @@
         <input type="date" id="target"/>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Usia Saya</button>
+      <button class="calc-btn" onclick="calculate()">🎂 Hitung Usia Saya</button>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-years">—</div>
-          <div class="result-unit">tahun</div>
-          <div class="result-label" id="res-sub"></div>
+      <div class="result-box" id="result" style="display:none">
+
+        <!-- Main age display -->
+        <div class="age-big">
+          <div class="age-num" id="res-years">—</div>
+          <div class="age-sub" id="res-sub">tahun, — bulan — hari</div>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Total dalam bulan</span><span class="rval" id="res-months">—</span></div>
-          <div class="result-row"><span class="rkey">Total dalam minggu</span><span class="rval" id="res-weeks">—</span></div>
-          <div class="result-row"><span class="rkey">Total dalam hari</span><span class="rval" id="res-days">—</span></div>
-          <div class="result-row"><span class="rkey">Total dalam jam</span><span class="rval" id="res-hours">—</span></div>
-          <div class="result-row"><span class="rkey">Hari ulang tahun berikutnya</span><span class="rval" id="res-next">—</span></div>
+
+        <!-- Info pills -->
+        <div class="info-pills" id="info-pills"></div>
+
+        <!-- Life progress -->
+        <div class="life-progress">
+          <div class="life-progress-label">
+            <span>Lahir</span>
+            <span id="life-pct-label">—% hidup telah terlewati (est. 72 th)</span>
+            <span>72 th</span>
+          </div>
+          <div class="life-track">
+            <div class="life-fill" id="life-fill" style="width:0%"></div>
+          </div>
         </div>
+
+        <!-- Breakdown grid -->
+        <div class="age-grid">
+          <div class="age-card"><div class="ac-num" id="res-months">—</div><div class="ac-label">Bulan</div></div>
+          <div class="age-card"><div class="ac-num" id="res-weeks">—</div><div class="ac-label">Minggu</div></div>
+          <div class="age-card"><div class="ac-num" id="res-days">—</div><div class="ac-label">Hari</div></div>
+          <div class="age-card"><div class="ac-num" id="res-hours">—</div><div class="ac-label">Jam</div></div>
+        </div>
+
+        <!-- Fun facts / life stats -->
+        <div class="fun-facts">
+          <div class="fun-facts-title">📊 Statistik Hidup Anda (estimasi)</div>
+          <div class="fun-fact-row"><span>❤️ Detak jantung</span><span class="fun-fact-val" id="stat-heartbeat">—</span></div>
+          <div class="fun-fact-row"><span>🫁 Napas yang diambil</span><span class="fun-fact-val" id="stat-breath">—</span></div>
+          <div class="fun-fact-row"><span>😴 Waktu tidur</span><span class="fun-fact-val" id="stat-sleep">—</span></div>
+          <div class="fun-fact-row"><span>🍽️ Kali makan</span><span class="fun-fact-val" id="stat-meals">—</span></div>
+          <div class="fun-fact-row"><span>💧 Air yang diminum</span><span class="fun-fact-val" id="stat-water">—</span></div>
+        </div>
+
+        <!-- Birthday countdown -->
+        <div class="bday-box" id="bday-box">
+          <div class="bday-days" id="res-next">—</div>
+          <div class="bday-label" id="bday-label">hari menuju ulang tahun berikutnya</div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Usia — Hitung Umur Tepat dari Tanggal Lahir</h1>
-    <p class="page-desc">Hitung usia Anda secara lengkap dan akurat. Tidak hanya dalam tahun, tapi juga dalam bulan, minggu, hari, dan jam. Masukkan tanggal lahir Anda dan hasil langsung tampil.</p>
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Usia — Hitung Umur Lengkap dari Tanggal Lahir</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Lebih dari sekadar menghitung tahun — ketahui usia Anda dalam hari, jam, detak jantung, zodiak, hari kelahiran, dan seberapa jauh perjalanan hidup Anda sudah berlangsung.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Cara Menghitung Usia dengan Tepat</h2>
-    <p>Menghitung usia terdengar sederhana, tetapi perhitungan yang tepat perlu memperhitungkan tahun kabisat, perbedaan jumlah hari di setiap bulan, dan tanggal referensi yang digunakan. Kalkulator usia kami menangani semua ini secara otomatis.</p>
-    <p>Misalnya, seseorang yang lahir pada 1 Maret 2000 dan menghitung usianya pada 28 Februari 2025 — apakah sudah berulang tahun ke-25? Jawabannya belum, dan kalkulator kami akan memberikan hasil yang akurat untuk kasus seperti ini.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li>Masukkan <strong>tanggal lahir</strong> Anda pada kolom pertama</li>
-      <li>Kolom kedua sudah terisi otomatis dengan <strong>tanggal hari ini</strong></li>
-      <li>Anda bisa mengubah tanggal target untuk menghitung usia di masa lalu atau masa depan</li>
-      <li>Klik <strong>"Hitung Usia Saya"</strong> untuk melihat hasil lengkap</li>
-    </ol>
-
-    <h2>Kegunaan Kalkulator Usia</h2>
+    <h2>Cara Menghitung Usia dengan Akurat</h2>
+    <p>Menghitung usia terdengar sederhana, tetapi ada beberapa kerumitan yang sering diabaikan. Kalkulator ini menangani semua situasi khusus secara otomatis:</p>
     <ul>
-      <li>Memverifikasi usia untuk dokumen resmi (KTP, SIM, paspor)</li>
-      <li>Menghitung usia untuk keperluan medis atau asuransi</li>
-      <li>Mengetahui berapa hari lagi ulang tahun Anda</li>
-      <li>Menghitung usia bayi dalam bulan dan minggu</li>
-      <li>Keperluan pendaftaran sekolah atau pekerjaan</li>
+      <li><strong>Tahun kabisat</strong> — Tahun dengan 366 hari (ada 29 Februari) terjadi setiap 4 tahun, kecuali tahun abad yang tidak habis dibagi 400. Orang lahir 29 Februari berulang tahun "resmi" pada 28 Februari atau 1 Maret di tahun biasa.</li>
+      <li><strong>Perbedaan jumlah hari per bulan</strong> — Januari 31 hari, Februari 28/29, April 30, dst. Perhitungan hari sisa di antara bulan perlu memperhitungkan ini.</li>
+      <li><strong>Zona waktu</strong> — Kalkulator menggunakan tanggal lokal sesuai perangkat Anda, bukan UTC.</li>
     </ul>
+    <p>Contoh situasi khusus: Seseorang lahir 31 Januari 2000 — berapa usianya pada 28 Februari 2025? Jawabannya: 25 tahun 0 bulan 28 hari (bukan 25 tahun 1 bulan, karena Februari tidak memiliki 31 hari).</p>
 
-    <h2>Tahun Kabisat dan Pengaruhnya pada Perhitungan Usia</h2>
-    <p>Tahun kabisat terjadi setiap 4 tahun sekali (kecuali tahun yang habis dibagi 100 tetapi tidak habis dibagi 400). Tahun kabisat memiliki 366 hari karena ada tanggal 29 Februari. Bagi yang lahir pada 29 Februari, ulang tahun "resmi" mereka biasanya dirayakan pada 28 Februari atau 1 Maret di tahun biasa.</p>
-
-    <h2>Batas Usia Penting Menurut Hukum Indonesia</h2>
-    <p>Usia seseorang menentukan berbagai hak dan kewajiban hukum di Indonesia. Berikut batas usia yang paling sering menjadi acuan:</p>
-    <table>
-      <tr><th>Usia</th><th>Hak/Kewajiban</th><th>Dasar Hukum</th></tr>
-      <tr><td>7 tahun</td><td>Wajib sekolah dasar</td><td>UU No. 20/2003</td></tr>
-      <tr><td>17 tahun</td><td>Hak membuat KTP, SIM C</td><td>UU No. 23/2006</td></tr>
-      <tr><td>17 tahun</td><td>Usia minimum menikah (pria & wanita)</td><td>UU No. 16/2019</td></tr>
-      <tr><td>18 tahun</td><td>Hak pilih dalam pemilu, SIM A</td><td>UU No. 7/2017</td></tr>
-      <tr><td>21 tahun</td><td>Cakap hukum penuh, bisa buat perjanjian</td><td>KUHPerdata</td></tr>
-      <tr><td>17–35 tahun</td><td>Usia pendaftaran TNI/Polri</td><td>Perpres terkait</td></tr>
-      <tr><td>58 tahun</td><td>Usia pensiun PNS/ASN</td><td>UU No. 5/2014</td></tr>
-      <tr><td>57–65 tahun</td><td>Usia pensiun BPJS Ketenagakerjaan</td><td>PP No. 45/2015</td></tr>
-    </table>
-
-    <h2>Tonggak Usia Penting dalam Kehidupan</h2>
-    <p>Selain aspek hukum, ada beberapa tonggak usia yang perlu diperhatikan dari sisi kesehatan dan keuangan:</p>
-    <ul>
-      <li><strong>25 tahun</strong> — Otak manusia mencapai perkembangan penuh (prefrontal cortex matang). Waktu terbaik untuk memulai investasi jangka panjang.</li>
-      <li><strong>30 tahun</strong> — Metabolisme mulai melambat. Penting untuk menjaga pola makan dan rutin berolahraga.</li>
-      <li><strong>35 tahun</strong> — Untuk wanita, risiko kehamilan mulai meningkat. Skrining kesehatan berkala mulai dianjurkan.</li>
-      <li><strong>40 tahun</strong> — Dianjurkan cek kolesterol, gula darah, dan tekanan darah secara rutin setiap tahun.</li>
-      <li><strong>45–50 tahun</strong> — Periode menopause (wanita). Risiko penyakit jantung meningkat pada kedua jenis kelamin.</li>
-      <li><strong>50 tahun</strong> — Skrining kanker usus besar dianjurkan. BPJS menanggung beberapa skrining ini.</li>
-    </ul>
-
-    <h2>Cara Hitung Usia untuk Pendaftaran PPDB Sekolah</h2>
-    <p>Penerimaan Peserta Didik Baru (PPDB) di Indonesia menggunakan batas usia yang ketat. Berikut ketentuan umum:</p>
-    <ul>
-      <li><strong>SD</strong> — Minimal 6 tahun pada tanggal 1 Juli tahun ajaran baru (diutamakan 7 tahun)</li>
-      <li><strong>SMP</strong> — Maksimal 15 tahun pada tanggal 1 Juli tahun ajaran baru</li>
-      <li><strong>SMA/SMK</strong> — Maksimal 21 tahun pada tanggal 1 Juli tahun ajaran baru</li>
-    </ul>
-    <p>Kalkulator usia ini bisa membantu Anda menghitung apakah anak memenuhi syarat usia PPDB dengan mengatur tanggal target ke 1 Juli tahun ajaran yang dituju.</p>
-
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung usia untuk keperluan asuransi?</div>
-      <div class="faq-a">Perusahaan asuransi umumnya menggunakan "usia ulang tahun terdekat" (age nearest birthday) atau "usia ulang tahun terakhir" (age last birthday). Misalnya, jika Anda berusia 30 tahun 7 bulan: metode pertama menghitung sebagai 31 tahun, metode kedua sebagai 30 tahun. Perbedaan ini memengaruhi besaran premi. Selalu tanyakan ke agen asuransi metode mana yang mereka gunakan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada perbedaan usia biologis dan usia kronologis?</div>
-      <div class="faq-a">Ya. Usia kronologis adalah jumlah tahun yang telah berlalu sejak lahir (yang dihitung kalkulator ini). Usia biologis mencerminkan kondisi fisik dan kesehatan tubuh Anda, yang bisa lebih muda atau lebih tua dari usia kronologis tergantung gaya hidup, genetik, dan kondisi kesehatan. Seseorang yang aktif berolahraga dan menjaga pola makan bisa memiliki usia biologis yang lebih muda dari usia kronologisnya.</div>
+    <h2>Tahapan Kehidupan Berdasarkan Usia</h2>
+    <p>Memahami fase hidup Anda bisa membantu menetapkan prioritas dan tujuan yang lebih bermakna:</p>
+    <div class="life-stage-grid">
+      <div class="life-stage-card">
+        <div class="ls-age">0–17 tahun</div>
+        <div class="ls-name">Masa Pertumbuhan</div>
+        <div class="ls-desc">Fondasi fisik, mental, dan sosial terbentuk. Pendidikan dan pola asuh sangat menentukan masa depan.</div>
+      </div>
+      <div class="life-stage-card">
+        <div class="ls-age">18–35 tahun</div>
+        <div class="ls-name">Dewasa Muda</div>
+        <div class="ls-desc">Puncak energi dan adaptabilitas. Waktu terbaik membangun karier, hubungan, dan kebiasaan sehat jangka panjang.</div>
+      </div>
+      <div class="life-stage-card">
+        <div class="ls-age">36–55 tahun</div>
+        <div class="ls-name">Dewasa Madya</div>
+        <div class="ls-desc">Puncak produktivitas dan penghasilan. Mulai perhatikan kesehatan preventif — pemeriksaan rutin jadi semakin penting.</div>
+      </div>
+      <div class="life-stage-card">
+        <div class="ls-age">56+ tahun</div>
+        <div class="ls-name">Dewasa Lanjut</div>
+        <div class="ls-desc">Fase kebijaksanaan dan warisan. Kualitas hidup, aktivitas sosial, dan kesehatan menjadi fokus utama.</div>
+      </div>
     </div>
 
-    
+    <h2>Fakta Menarik tentang Waktu dan Usia</h2>
+    <ul>
+      <li>Jantung manusia berdetak sekitar <strong>100.000 kali per hari</strong>, atau sekitar 2,5 miliar kali sepanjang hidup rata-rata 72 tahun.</li>
+      <li>Manusia mengambil napas <strong>15–20 kali per menit</strong>, atau sekitar 8 juta kali per tahun.</li>
+      <li>Rata-rata manusia menghabiskan <strong>sepertiga hidupnya untuk tidur</strong> — sekitar 24 tahun dari 72 tahun kehidupan.</li>
+      <li>Orang Indonesia rata-rata makan <strong>3 kali sehari</strong>, berarti sekitar 78.840 kali makan sepanjang hidup 72 tahun.</li>
+      <li>Dalam 1 tahun terdapat <strong>365 hari, 8.760 jam, 525.600 menit</strong> — setiap menitnya berharga dan tidak bisa diputar ulang.</li>
+    </ul>
+
+    <h2>Fitur Kalkulator Usia NovaCalcs</h2>
+    <p>Berbeda dari kalkulator usia biasa yang hanya menampilkan tahun, kalkulator ini hadir dengan sejumlah fitur tambahan yang membuat hasilnya jauh lebih bermakna:</p>
+    <ul>
+      <li><strong>Usia lengkap dalam 6 satuan</strong> — Tahun, bulan, minggu, hari, dan jam — semua ditampilkan sekaligus dalam satu hasil yang rapi.</li>
+      <li><strong>Bar progres kehidupan</strong> — Visualisasi seberapa besar persentase hidup Anda yang sudah terlewati, berdasarkan estimasi harapan hidup rata-rata orang Indonesia (72 tahun, data BPS).</li>
+      <li><strong>Statistik hidup unik</strong> — Estimasi berapa kali jantung Anda telah berdetak, berapa kali Anda telah bernapas, berapa jam Anda tidur, berapa kali makan, dan berapa liter air yang telah diminum sepanjang hidup Anda.</li>
+      <li><strong>Hari kelahiran & zodiak</strong> — Ketahui Anda lahir di hari apa (Senin, Selasa, dst.) dan zodiak berdasarkan tanggal lahir.</li>
+      <li><strong>Generasi</strong> — Kalkulator otomatis menentukan apakah Anda termasuk Baby Boomer, Generasi X, Milenial, Gen Z, atau Alpha.</li>
+      <li><strong>Hitung mundur ulang tahun</strong> — Berapa hari lagi menuju ulang tahun berikutnya, lengkap dengan keterangan ulang tahun ke berapa.</li>
+    </ul>
+
+    <h2>Kegunaan Praktis Kalkulator Usia</h2>
+    <ul>
+      <li><strong>Keperluan administrasi</strong> — Verifikasi usia untuk KTP, SIM, paspor, BPJS, atau dokumen hukum lainnya.</li>
+      <li><strong>Keperluan medis</strong> — Dokter dan asuransi sering membutuhkan usia yang tepat untuk menentukan dosis, premi, atau kelayakan program kesehatan.</li>
+      <li><strong>Perkembangan bayi</strong> — Memantau tumbuh kembang bayi 0–24 bulan dalam satuan minggu sesuai buku KIA Kemenkes.</li>
+      <li><strong>Pendaftaran sekolah</strong> — Cek syarat usia masuk SD (6 tahun per 1 Juli) atau pendaftaran beasiswa yang mensyaratkan batas usia tertentu.</li>
+      <li><strong>Perencanaan pensiun</strong> — Ketahui berapa tahun tersisa menuju usia pensiun dan rencanakan keuangan Anda.</li>
+    </ul>
+
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Mengapa hasil usia berbeda dengan yang saya hitung sendiri?</div>
-      <div class="faq-a">Perbedaan bisa terjadi karena perhitungan yang tidak memperhitungkan tahun kabisat, atau karena menggunakan cara hitung yang berbeda (misal, apakah bulan lahir sudah lewat atau belum hari ini). Kalkulator kami menggunakan metode yang sama dengan yang digunakan di dokumen resmi.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Mengapa hasil usia bisa berbeda dari yang saya hitung sendiri?</div>
+      <div class="faq-a">Perbedaan paling umum terjadi karena: (1) Tidak memperhitungkan apakah ulang tahun bulan ini sudah lewat atau belum di bulan berjalan, (2) Perbedaan cara menghitung sisa hari di bulan dengan jumlah hari berbeda, (3) Kelupaan tahun kabisat. Kalkulator ini menggunakan algoritma yang sama dengan sistem pencatatan sipil Indonesia.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bisa tidak menghitung usia bayi dalam minggu?</div>
-      <div class="faq-a">Bisa! Masukkan tanggal lahir bayi, dan kalkulator akan menampilkan usia dalam minggu dan hari. Ini sangat berguna untuk memantau perkembangan bayi di bulan-bulan pertama.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah kalkulator ini bisa menghitung usia bayi dalam minggu?</div>
+      <div class="faq-a">Bisa. Masukkan tanggal lahir bayi dan kalkulator akan otomatis menampilkan usia dalam minggu. Ini sesuai dengan format yang digunakan di buku KIA (Kesehatan Ibu dan Anak) Kemenkes. Dokter anak juga sering bertanya "berapa minggu usia bayi?" untuk memantau perkembangan di 2 tahun pertama.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mengetahui berapa hari lagi ulang tahun saya?</div>
-      <div class="faq-a">Kalkulator kami secara otomatis menampilkan jumlah hari menuju ulang tahun Anda berikutnya di bagian hasil perhitungan.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apa zodiak/bintang saya dan apakah berpengaruh pada kepribadian?</div>
+      <div class="faq-a">Zodiak adalah sistem pembagian periode tahun berdasarkan posisi matahari dalam astronomi kuno. Dari sudut pandang ilmiah, tidak ada bukti yang mendukung pengaruh zodiak pada kepribadian. Namun secara budaya, banyak orang menggunakannya sebagai kerangka introspeksi diri. Kalkulator ini menampilkan zodiak Anda sebagai informasi menarik, bukan sebagai prediksi ilmiah.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah kalkulator ini bisa digunakan untuk menghitung usia orang yang sudah meninggal?</div>
-      <div class="faq-a">Ya. Ubah kolom "Hitung sampai tanggal" ke tanggal wafat, dan kalkulator akan menghitung usia pada tanggal tersebut.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah bisa menghitung usia untuk tanggal di masa depan?</div>
+      <div class="faq-a">Ya. Ubah kolom "Hitung sampai tanggal" ke tanggal masa depan. Ini berguna untuk merencanakan event seperti "berapa usia saya saat menikah tahun depan?" atau "apakah saya memenuhi syarat usia 30 tahun untuk mendaftar program beasiswa ini pada bulan Juli?"</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada perbedaan cara hitung usia di Indonesia dengan negara lain?</div>
-      <div class="faq-a">Secara umum tidak ada perbedaan. Namun di beberapa budaya Asia Timur (Tiongkok, Korea), ada sistem hitungan usia tradisional di mana bayi dianggap berusia 1 tahun saat lahir. Kalkulator kami menggunakan sistem Gregorian internasional yang digunakan di Indonesia.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa usia rata-rata harapan hidup orang Indonesia?</div>
+      <div class="faq-a">Berdasarkan data BPS, harapan hidup rata-rata penduduk Indonesia adalah sekitar 71,7 tahun (data 2022). Perempuan cenderung hidup lebih lama (73,8 tahun) dibandingkan laki-laki (69,6 tahun). Angka ini terus meningkat — pada 1971 harapan hidup hanya 47,7 tahun. Faktor peningkatan: akses kesehatan lebih baik, penurunan kematian bayi, dan program kesehatan nasional.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bisakah saya menghitung usia di masa depan?</div>
-      <div class="faq-a">Ya! Ubah tanggal target ke tanggal di masa depan untuk mengetahui berapa usia Anda pada tanggal tersebut.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apa arti lahir pada hari tertentu dalam kepercayaan Jawa?</div>
+      <div class="faq-a">Dalam tradisi Jawa, hari kelahiran (weton) — kombinasi hari Masehi dan hari pasaran Jawa (Legi, Pahing, Pon, Wage, Kliwon) — dianggap memiliki makna tertentu. Kalkulator ini menampilkan hari kelahiran dalam kalender Masehi. Untuk perhitungan weton lengkap, Anda membutuhkan kalender Jawa yang mempertimbangkan hari pasaran secara terpisah.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Kenapa ada perbedaan cara hitung usia di Korea dan Indonesia?</div>
+      <div class="faq-a">Korea secara tradisional menggunakan sistem "Korean age" di mana bayi dianggap berusia 1 tahun saat lahir, dan semua orang bertambah 1 tahun setiap 1 Januari (bukan pada ulang tahun). Jadi orang Korea bisa 1–2 tahun lebih "tua" menurut sistem ini. Mulai 2023, Korea Selatan resmi beralih ke sistem internasional. Indonesia menggunakan sistem internasional (Gregorian) — usia dihitung dari 0 saat lahir dan bertambah 1 setiap ulang tahun.</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/selisih-tanggal.html" class="related-item"><span class="ri">📆</span>Selisih Tanggal</a>
-      <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kalkulator Kehamilan</a>
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
       <a href="/id/hari-kerja.html" class="related-item"><span class="ri">📋</span>Hari Kerja</a>
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kalkulator Kehamilan</a>
     </div>
   </div>
 </main>
@@ -176,7 +252,24 @@
 </footer>
 
 <script defer>
-// Set default dates
+const DAYS_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+function getZodiak(m, d) {
+  if ((m===1&&d>=20)||(m===2&&d<=18)) return {sign:'♒ Aquarius', date:'20 Jan – 18 Feb'};
+  if ((m===2&&d>=19)||(m===3&&d<=20)) return {sign:'♓ Pisces', date:'19 Feb – 20 Mar'};
+  if ((m===3&&d>=21)||(m===4&&d<=19)) return {sign:'♈ Aries', date:'21 Mar – 19 Apr'};
+  if ((m===4&&d>=20)||(m===5&&d<=20)) return {sign:'♉ Taurus', date:'20 Apr – 20 Mei'};
+  if ((m===5&&d>=21)||(m===6&&d<=20)) return {sign:'♊ Gemini', date:'21 Mei – 20 Jun'};
+  if ((m===6&&d>=21)||(m===7&&d<=22)) return {sign:'♋ Cancer', date:'21 Jun – 22 Jul'};
+  if ((m===7&&d>=23)||(m===8&&d<=22)) return {sign:'♌ Leo', date:'23 Jul – 22 Agu'};
+  if ((m===8&&d>=23)||(m===9&&d<=22)) return {sign:'♍ Virgo', date:'23 Agu – 22 Sep'};
+  if ((m===9&&d>=23)||(m===10&&d<=22)) return {sign:'♎ Libra', date:'23 Sep – 22 Okt'};
+  if ((m===10&&d>=23)||(m===11&&d<=21)) return {sign:'♏ Scorpio', date:'23 Okt – 21 Nov'};
+  if ((m===11&&d>=22)||(m===12&&d<=21)) return {sign:'♐ Sagitarius', date:'22 Nov – 21 Des'};
+  return {sign:'♑ Capricorn', date:'22 Des – 19 Jan'};
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('target').value = today;
@@ -184,9 +277,11 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function calculate() {
-  const dob = new Date(document.getElementById('dob').value);
-  const target = new Date(document.getElementById('target').value);
-  if (!document.getElementById('dob').value) return alert('Masukkan tanggal lahir Anda.');
+  const dobVal = document.getElementById('dob').value;
+  const targetVal = document.getElementById('target').value;
+  if (!dobVal) return alert('Masukkan tanggal lahir Anda.');
+  const dob = new Date(dobVal);
+  const target = new Date(targetVal);
   if (dob > target) return alert('Tanggal lahir tidak boleh lebih dari tanggal target.');
 
   // Exact age
@@ -203,19 +298,66 @@ function calculate() {
   const totalMonths = years * 12 + months;
   const totalHours = totalDays * 24;
 
+  document.getElementById('res-years').textContent = years;
+  document.getElementById('res-sub').textContent = `${months} bulan ${days} hari`;
+  document.getElementById('res-months').textContent = totalMonths.toLocaleString('id-ID');
+  document.getElementById('res-weeks').textContent = totalWeeks.toLocaleString('id-ID');
+  document.getElementById('res-days').textContent = totalDays.toLocaleString('id-ID');
+  document.getElementById('res-hours').textContent = totalHours.toLocaleString('id-ID');
+
+  // Life progress bar (based on 72 year expectancy for Indonesia)
+  const lifePct = Math.min((years / 72) * 100, 100).toFixed(1);
+  document.getElementById('life-fill').style.width = lifePct + '%';
+  document.getElementById('life-pct-label').textContent = lifePct + '% hidup telah terlewati (est. 72 th)';
+
   // Next birthday
   const nextBday = new Date(target.getFullYear(), dob.getMonth(), dob.getDate());
   if (nextBday <= target) nextBday.setFullYear(nextBday.getFullYear() + 1);
   const daysToNext = Math.ceil((nextBday - target) / 86400000);
+  const bdayEl = document.getElementById('res-next');
+  const bdayLabel = document.getElementById('bday-label');
+  if (daysToNext === 365 || daysToNext === 366) {
+    bdayEl.textContent = '🎉 Hari ini!';
+    bdayLabel.textContent = 'Selamat ulang tahun! 🎂';
+  } else {
+    bdayEl.textContent = daysToNext;
+    bdayLabel.textContent = `hari menuju ulang tahun ke-${years + 1} (${dob.getDate()} ${MONTHS_ID[dob.getMonth()]})`;
+  }
 
-  document.getElementById('res-years').textContent = years;
-  document.getElementById('res-sub').textContent = months + ' bulan ' + days + ' hari';
-  document.getElementById('res-months').textContent = totalMonths.toLocaleString('id-ID') + ' bulan';
-  document.getElementById('res-weeks').textContent = totalWeeks.toLocaleString('id-ID') + ' minggu';
-  document.getElementById('res-days').textContent = totalDays.toLocaleString('id-ID') + ' hari';
-  document.getElementById('res-hours').textContent = totalHours.toLocaleString('id-ID') + ' jam';
-  document.getElementById('res-next').textContent = daysToNext === 365 ? 'Hari ini! 🎉' : daysToNext + ' hari lagi';
+  // Fun stats
+  const hb = Math.round(totalDays * 24 * 60 * 72); // 72 bpm
+  const br = Math.round(totalDays * 24 * 60 * 16); // 16 breaths/min
+  const sleepH = Math.round(totalDays * 8);
+  const sleepY = (sleepH / 8760).toFixed(1);
+  const meals = Math.round(totalDays * 3);
+  const waterL = Math.round(totalDays * 2);
+
+  document.getElementById('stat-heartbeat').textContent = hb.toLocaleString('id-ID') + ' kali';
+  document.getElementById('stat-breath').textContent = br.toLocaleString('id-ID') + ' kali';
+  document.getElementById('stat-sleep').textContent = sleepH.toLocaleString('id-ID') + ' jam (~' + sleepY + ' tahun)';
+  document.getElementById('stat-meals').textContent = meals.toLocaleString('id-ID') + ' kali';
+  document.getElementById('stat-water').textContent = waterL.toLocaleString('id-ID') + ' liter';
+
+  // Info pills (zodiak, hari lahir)
+  const dayName = DAYS_ID[dob.getDay()];
+  const zodiak = getZodiak(dob.getMonth() + 1, dob.getDate());
+  const genLabel = getGeneration(dob.getFullYear());
+  document.getElementById('info-pills').innerHTML =
+    `<div class="info-pill">📅 Lahir: ${dayName}, ${dob.getDate()} ${MONTHS_ID[dob.getMonth()]} ${dob.getFullYear()}</div>` +
+    `<div class="info-pill">${zodiak.sign}</div>` +
+    `<div class="info-pill">👥 ${genLabel}</div>`;
+
+  document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
+}
+
+function getGeneration(year) {
+  if (year < 1946) return 'Generasi Silent';
+  if (year < 1965) return 'Baby Boomer';
+  if (year < 1980) return 'Generasi X';
+  if (year < 1997) return 'Milenial';
+  if (year < 2013) return 'Generasi Z';
+  return 'Generasi Alpha';
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
