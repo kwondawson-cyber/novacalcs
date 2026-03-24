@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Tabungan Haji 2026 — Hitung Setoran Awal & Estimasi Keberangkatan | NovaCalcs</title>
-<meta name="description" content="Hitung berapa lama menabung untuk setoran awal haji, estimasi biaya haji 2026, dan berapa tahun antrian keberangkatan di daerah Anda."/>
-<meta name="keywords" content="kalkulator tabungan haji, biaya haji 2026, setoran awal haji, antrian haji, BPIH 2026, daftar haji, estimasi berangkat haji"/>
+<title>Kalkulator Tabungan Haji 2026 — Setoran Awal, Antrian & Estimasi Berangkat | NovaCalcs</title>
+<meta name="description" content="Hitung berapa lama nabung untuk setoran awal haji Rp 25 juta, estimasi tahun keberangkatan berdasarkan antrian provinsi, dan perkiraan biaya pelunasan BPIH saat berangkat."/>
+<meta name="keywords" content="kalkulator tabungan haji 2026, biaya haji 2026, setoran awal haji 25 juta, antrian haji provinsi, BPIH 2026, estimasi berangkat haji, daftar haji"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tabungan-haji.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-tabungan-haji.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,8 +13,58 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Tabungan Haji","url":"https://novacalcs.com/id/kalkulator-tabungan-haji.html","description":"Kalkulator tabungan haji 2026 — setoran awal, antrian, dan estimasi keberangkatan","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Progress bar menuju setoran awal */
+.haji-progress-wrap { margin:14px 0 8px; }
+.hp-label { display:flex; justify-content:space-between; font-size:.72rem; color:var(--text-secondary); margin-bottom:5px; }
+.hp-track { height:16px; background:var(--bg-input); border-radius:8px; overflow:hidden; }
+.hp-fill  { height:100%; background:var(--mint); border-radius:8px; transition:width .7s ease; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#001a17; }
+
+/* Big countdown */
+.haji-main { text-align:center; padding:16px 0 8px; }
+.haji-num  { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
+.haji-label{ font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Stats */
+.haji-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.hs-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.hs-card .hc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.hs-card .hc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.hs-card.green .hc-val { color:var(--mint); }
+.hs-card.warn  .hc-val { color:#fbbf24; }
+
+/* Timeline milestones */
+.timeline { margin-top:14px; position:relative; padding-left:24px; }
+.timeline::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:2px; background:var(--border); }
+.tl-item { position:relative; margin-bottom:14px; }
+.tl-dot  { position:absolute; left:-20px; top:2px; width:14px; height:14px; border-radius:50%; border:2px solid var(--border); background:var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:.55rem; }
+.tl-dot.done   { background:var(--mint); border-color:var(--mint); }
+.tl-dot.active { background:#fbbf24; border-color:#fbbf24; }
+.tl-dot.future { background:var(--bg-input); }
+.tl-year  { font-size:.68rem; color:var(--text-muted); margin-bottom:2px; }
+.tl-event { font-size:.82rem; font-weight:600; color:var(--text-primary); }
+.tl-sub   { font-size:.72rem; color:var(--text-secondary); }
+
+/* Savings plan cards */
+.plan-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+.plan-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.plan-card .pgc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.plan-card .pgc-val   { font-size:.85rem; font-weight:700; color:var(--mint); }
+.plan-card .pgc-sub   { font-size:.65rem; color:var(--text-muted); margin-top:2px; }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
+</style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -25,170 +75,310 @@
     </nav>
   </div>
 </header>
+
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🕋 Kalkulator Tabungan Haji</div>
-      <div class="calc-subtitle">Rencanakan perjalanan ibadah haji Anda sejak sekarang</div>
+      <div class="calc-title">🕋 Kalkulator Tabungan Haji 2026</div>
+      <div class="calc-subtitle">Setoran awal · Antrian · Timeline keberangkatan</div>
 
-      <div class="field"><label>Tabungan Haji yang Sudah Dimiliki (Rp)</label><input type="number" id="current-saving" placeholder="Contoh: 5000000" min="0" value="0"/></div>
-      <div class="field"><label>Kemampuan Menabung per Bulan (Rp)</label><input type="number" id="monthly-saving" placeholder="Contoh: 1000000" min="0"/></div>
-      <div class="field">
-        <label>Jenis Haji</label>
-        <select id="haji-type">
-          <option value="reguler" selected>Haji Reguler (BPIH 2025: ~Rp 55,4 juta)</option>
-          <option value="plus">Haji Plus / ONH Plus (~Rp 150–200 juta)</option>
-          <option value="furoda">Haji Furoda / Mujamalah (Rp 250–400 juta+)</option>
+      <div class="field"><label>Tabungan Haji yang Sudah Dimiliki (Rp)</label>
+        <input type="number" id="current-saving" value="0" min="0" placeholder="0 = belum punya" oninput="autoCalc()"/>
+      </div>
+      <div class="field"><label>Kemampuan Menabung per Bulan (Rp)</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+          <div class="radio-btn" onclick="setSaving(300000,this)" style="font-size:.72rem">Rp 300rb</div>
+          <div class="radio-btn" onclick="setSaving(500000,this)" style="font-size:.72rem">Rp 500rb</div>
+          <div class="radio-btn" onclick="setSaving(1000000,this)" style="font-size:.72rem">Rp 1 jt</div>
+          <div class="radio-btn" onclick="setSaving(2000000,this)" style="font-size:.72rem">Rp 2 jt</div>
+        </div>
+        <input type="number" id="monthly-saving" placeholder="Contoh: 1.000.000" min="0" oninput="autoCalc()"/>
+      </div>
+      <div class="field"><label>Jenis Haji</label>
+        <select id="haji-type" onchange="autoCalc()">
+          <option value="reguler">Haji Reguler — setoran awal Rp 25 juta</option>
+          <option value="plus">Haji Plus / ONH Plus — ~Rp 150–200 juta</option>
+          <option value="furoda">Haji Furoda / Mujamalah — Rp 250–400 juta+</option>
         </select>
       </div>
-      <div class="field"><label>Estimasi Antrian di Provinsi Anda (tahun)</label><input type="number" id="waiting-years" placeholder="Contoh: 25" min="0" max="100" value="25"/>
-        <small style="color:#aaa">Cek antrian terbaru di haji.kemenag.go.id | Rata-rata nasional ~20–40 tahun</small>
+      <div class="field">
+        <label>Estimasi Antrian Provinsi Anda (tahun)</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+          <div class="radio-btn" onclick="setAntrian(10,this)" style="font-size:.72rem">10 thn</div>
+          <div class="radio-btn" onclick="setAntrian(20,this)" style="font-size:.72rem">20 thn</div>
+          <div class="radio-btn active" onclick="setAntrian(25,this)" style="font-size:.72rem">25 thn</div>
+          <div class="radio-btn" onclick="setAntrian(35,this)" style="font-size:.72rem">35 thn</div>
+          <div class="radio-btn" onclick="setAntrian(45,this)" style="font-size:.72rem">45 thn</div>
+        </div>
+        <input type="number" id="waiting-years" value="25" min="0" max="100" placeholder="Contoh: 25" oninput="autoCalc()"/>
+        <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Cek antrian terkini: <strong>haji.kemenag.go.id</strong> · Rata-rata nasional ~20–45 tahun</p>
       </div>
-      <div class="field"><label>Usia Anda Saat Ini (tahun)</label><input type="number" id="age" placeholder="Contoh: 35" min="15" max="80"/></div>
+      <div class="field"><label>Usia Anda Saat Ini (tahun)</label>
+        <input type="number" id="age" placeholder="Contoh: 35" min="15" max="80" oninput="autoCalc()"/>
+      </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Rencana Haji</button>
+      <button class="calc-btn" onclick="calculate()">🕋 Hitung Rencana Haji</button>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-months">—</div>
-          <div class="result-label">Bulan Lagi Mencapai Setoran Awal</div>
-          <div class="result-badge" id="res-badge"></div>
+      <div class="result-box" id="result" style="display:none">
+
+        <!-- Progress bar setoran awal -->
+        <div class="haji-progress-wrap">
+          <div class="hp-label">
+            <span>Progress menuju setoran awal</span>
+            <span id="hp-pct-label" style="color:var(--mint);font-weight:700">—%</span>
+          </div>
+          <div class="hp-track"><div class="hp-fill" id="hp-fill" style="width:0%">—</div></div>
+          <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-muted);margin-top:3px">
+            <span id="hp-current-label">—</span><span id="hp-target-label">—</span>
+          </div>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Setoran awal yang dibutuhkan</span><span class="rval" id="res-setoran">—</span></div>
-          <div class="result-row"><span class="rkey">Sisa yang perlu dikumpulkan</span><span class="rval" id="res-sisa-setoran">—</span></div>
-          <div class="result-row"><span class="rkey">Estimasi daftar bisa di</span><span class="rval" id="res-daftar">—</span></div>
-          <div class="result-row"><span class="rkey">Estimasi berangkat (+ antrian)</span><span class="rval" id="res-berangkat">—</span></div>
-          <div class="result-row"><span class="rkey">Usia saat berangkat (estimasi)</span><span class="rval" id="res-usia">—</span></div>
-          <div class="result-row"><span class="rkey">Pelunasan BPIH (estimasi, +inflasi 3%)</span><span class="rval" id="res-pelunasan">—</span></div>
+
+        <!-- Main countdown -->
+        <div class="haji-main">
+          <div class="haji-num" id="res-months">—</div>
+          <div class="haji-label" id="res-months-label">Bulan lagi mencapai setoran awal</div>
         </div>
+
+        <!-- Stats -->
+        <div class="haji-stats">
+          <div class="hs-card"><div class="hc-label">Setoran awal dibutuhkan</div><div class="hc-val" id="s-setoran">—</div></div>
+          <div class="hs-card green"><div class="hc-label">Sisa yang perlu dikumpulkan</div><div class="hc-val" id="s-sisa">—</div></div>
+          <div class="hs-card"><div class="hc-label">Estimasi daftar (dapat nomor porsi)</div><div class="hc-val" id="s-daftar">—</div></div>
+          <div class="hs-card warn"><div class="hc-label">Estimasi berangkat</div><div class="hc-val" id="s-berangkat">—</div></div>
+        </div>
+
+        <!-- Savings acceleration plans -->
+        <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">💡 Simulasi Akselerasi Setoran</div>
+        <div class="plan-grid" id="plan-grid"></div>
+
+        <!-- Timeline -->
+        <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:14px 0 6px;">🗓️ Timeline Perjalanan Haji Anda</div>
+        <div class="timeline" id="timeline"></div>
+
+        <!-- Advice -->
+        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Tabungan Haji 2026 — Rencana Setoran, Antrian, dan Estimasi Keberangkatan</h1>
-    <p class="page-desc">Ibadah haji adalah impian jutaan Muslim Indonesia. Dengan antrian yang bisa mencapai puluhan tahun, perencanaan keuangan haji harus dimulai sedini mungkin. Kalkulator ini membantu Anda merencanakan tabungan haji secara realistis.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Tabungan Haji 2026 — Setoran Awal, Antrian & Estimasi Keberangkatan</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Rencanakan perjalanan ibadah haji Anda dengan kalkulator yang menghitung berapa lama menabung untuk setoran awal Rp 25 juta, kapan bisa mendaftar, dan estimasi tahun keberangkatan berdasarkan antrian provinsi.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Biaya Haji Indonesia 2025</h2>
-    <p>Berdasarkan Keputusan Presiden RI, BPIH (Biaya Penyelenggaraan Ibadah Haji) Reguler 2025 ditetapkan dengan Bipih (biaya yang ditanggung jemaah) sebesar <strong>Rp 55.431.750</strong> per jemaah. Sisa biaya ditanggung dari manfaat pengelolaan dana setoran awal oleh BPIH. Untuk mendaftar dan mendapatkan nomor porsi, jemaah wajib menyetorkan <strong>setoran awal Rp 25.000.000</strong> ke rekening BPS-BPIH (bank yang ditunjuk Kemenag).</p>
-    <p>Dana setoran awal yang disimpan dikelola dan mendapat manfaat (bagi hasil) dari investasi BPIH, sehingga nilainya terus bertumbuh selama masa tunggu. Saat tahun keberangkatan tiba, jemaah membayar pelunasan (Bipih dikurangi yang sudah dibayar di setoran awal beserta manfaatnya).</p>
-
-    <h2>Cara Menggunakan Kalkulator Tabungan Haji</h2>
-    <ol>
-      <li>Masukkan <strong>tabungan haji yang sudah dimiliki</strong> saat ini</li>
-      <li>Masukkan <strong>kemampuan menabung per bulan</strong></li>
-      <li>Pilih <strong>jenis haji</strong> yang diinginkan</li>
-      <li>Masukkan <strong>estimasi antrian</strong> di provinsi Anda (cek di haji.kemenag.go.id)</li>
-      <li>Masukkan <strong>usia Anda</strong> untuk estimasi usia saat berangkat</li>
-      <li>Klik <strong>"Hitung Rencana Haji"</strong></li>
-    </ol>
-
-    <h2>Antrian Haji Reguler per Provinsi (Estimasi 2024)</h2>
-    <table>
-      <tr><th>Provinsi</th><th>Estimasi Antrian</th></tr>
-      <tr><td>Sulawesi Selatan</td><td>~45–50 tahun</td></tr>
-      <tr><td>Kalimantan Selatan</td><td>~40–45 tahun</td></tr>
-      <tr><td>Jawa Barat</td><td>~25–35 tahun</td></tr>
-      <tr><td>Jawa Tengah</td><td>~25–30 tahun</td></tr>
-      <tr><td>Jawa Timur</td><td>~25–35 tahun</td></tr>
-      <tr><td>DKI Jakarta</td><td>~15–25 tahun</td></tr>
-      <tr><td>Kalimantan Utara / Papua</td><td>~5–10 tahun</td></tr>
+    <h2>Biaya Haji Reguler Indonesia 2026</h2>
+    <p>Biaya haji terdiri dari dua komponen utama:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Komponen</th><th>Jumlah</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Setoran Awal</strong></td><td>Rp 25.000.000</td><td>Dibayar saat mendaftar untuk mendapat nomor porsi. Dikelola BPIH dan mendapat bagi hasil.</td></tr>
+        <tr><td><strong>Bipih (biaya jemaah)</strong></td><td>~Rp 55,4 juta</td><td>Total biaya yang ditanggung jemaah. Pelunasan dibayarkan mendekati tahun keberangkatan.</td></tr>
+        <tr><td>Subsidi dari BPIH</td><td>~Rp 40–50 juta</td><td>Ditanggung dari hasil pengelolaan dana haji nasional (BPIH)</td></tr>
+        <tr><td><strong>Haji Plus (ONH+)</strong></td><td>Rp 150–200 juta</td><td>Layanan premium, antrian 5–7 tahun</td></tr>
+        <tr><td><strong>Haji Furoda</strong></td><td>Rp 250–400 juta+</td><td>Visa mujamalah, tanpa antrian resmi</td></tr>
+      </tbody>
     </table>
-    <p style="margin-top:0.5rem"><em>Antrian dapat berubah setiap tahun. Cek status terkini di <strong>haji.kemenag.go.id</strong> dengan memasukkan nomor porsi Anda.</em></p>
+    <p style="font-size:.78rem;color:var(--text-muted)">*Bipih ditetapkan setiap tahun oleh pemerintah dan berubah mengikuti inflasi dan nilai tukar. Angka di atas berdasarkan penetapan 2025 yang diperkirakan berlaku serupa di 2026. Setoran awal Rp 25 juta berlaku sejak 2020 dan tidak berubah.</p>
 
-    <h2>Perbedaan Haji Reguler, Haji Khusus (Plus), dan Umrah</h2>
-    <table>
-      <tr><th>Aspek</th><th>Haji Reguler</th><th>Haji Khusus (Plus)</th><th>Umrah</th></tr>
-      <tr><td>Biaya 2025</td><td>~Rp 55–60 juta</td><td>~USD 8.000–15.000</td><td>Rp 25–50 juta</td></tr>
-      <tr><td>Antrian</th><td>10–45 tahun (tergantung provinsi)</td><td>5–9 tahun</td><td>Tidak ada antrian</td></tr>
-      <tr><td>Kuota</td><td>~200.000 orang/tahun</td><td>~17.000 orang/tahun</td><td>Tidak dibatasi</td></tr>
-      <tr><td>Penyelenggara</td><td>Kemenag RI</td><td>PIHK (swasta berizin)</td><td>Agen perjalanan</td></tr>
-      <tr><td>Fasilitas</td><td>Standar pemerintah</td><td>Hotel bintang 4–5, eksklusif</td><td>Bervariasi</td></tr>
+    <h2>Antrian Haji Reguler per Provinsi 2026</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Provinsi</th><th>Estimasi Antrian</th><th>Catatan</th></tr></thead>
+      <tbody>
+        <tr><td>Sulawesi Selatan</td><td>~45–50 tahun</td><td>Antrian terpanjang di Indonesia</td></tr>
+        <tr><td>Kalimantan Selatan</td><td>~40–45 tahun</td><td>Permintaan sangat tinggi</td></tr>
+        <tr><td>Jawa Timur</td><td>~28–35 tahun</td><td></td></tr>
+        <tr><td>Jawa Barat</td><td>~25–35 tahun</td><td></td></tr>
+        <tr><td>Jawa Tengah</td><td>~25–30 tahun</td><td></td></tr>
+        <tr><td>DKI Jakarta</td><td>~15–25 tahun</td><td></td></tr>
+        <tr><td>Sumatera Utara / Riau</td><td>~20–30 tahun</td><td></td></tr>
+        <tr><td>NTT / Maluku / Papua</td><td>~5–15 tahun</td><td>Antrian lebih pendek</td></tr>
+        <tr><td>Kalimantan Utara</td><td>~5–10 tahun</td><td>Antrian terpendek</td></tr>
+      </tbody>
     </table>
-    <p>Setoran awal pendaftaran haji reguler sebesar <strong>Rp 25 juta</strong> dilakukan di Bank Penerima Setoran (BPS-BPIH) resmi seperti BRI Syariah, BSI, BNI Syariah, dll. Dana ini akan dikelola di rekening Bipih dan diinvestasikan hingga keberangkatan.</p>
+    <p style="font-size:.78rem;color:var(--text-muted)">*Antrian berubah setiap tahun. Cek status antrian terkini dan nomor porsi di <strong>haji.kemenag.go.id</strong>.</p>
 
-    <h2>Tabungan Haji Syariah: Pilihan Terbaik Menabung untuk Haji</h2>
-    <p>Untuk mempersiapkan dana haji, tabungan haji syariah adalah produk yang paling sesuai. Keunggulannya:</p>
+    <h2>Fitur Kalkulator Tabungan Haji NovaCalcs</h2>
     <ul>
-      <li><strong>Dana terlindungi</strong> — Tidak bisa diambil sembarangan, hanya untuk tujuan haji</li>
-      <li><strong>Bebas biaya administrasi</strong> — Banyak bank syariah menawarkan tabungan haji tanpa potongan bulanan</li>
-      <li><strong>Bagi hasil kompetitif</strong> — Umumnya 2–4% per tahun, lebih baik dari tabungan biasa</li>
-      <li><strong>Terhubung langsung ke SISKOHAT</strong> — Saat saldo mencapai Rp 25 juta, otomatis terdaftar di Sistem Komputerisasi Haji Terpadu Kemenag</li>
-    </ul>
-    <p>Produk tabungan haji tersedia di BSI (Bank Syariah Indonesia), BRI Syariah, Bank Muamalat, dan hampir semua bank syariah di Indonesia.</p>
-
-    <h2>Tips Mempersingkat Masa Tunggu Haji</h2>
-    <ul>
-      <li><strong>Daftar seawal mungkin</strong> — Semakin muda mendaftar, semakin pendek masa tunggu efektif karena antrian bergerak berdasarkan urutan daftar</li>
-      <li><strong>Pilih provinsi dengan antrian lebih pendek</strong> — Kuota berbeda per provinsi. Daftar di provinsi domisili resmi (sesuai KTP)</li>
-      <li><strong>Pertimbangkan haji khusus</strong> — Jika kondisi finansial memungkinkan, antrian jauh lebih pendek (5–9 tahun)</li>
-      <li><strong>Umrah sebagai alternatif sementara</strong> — Sambil menunggu antrian haji reguler, umrah bisa menjadi ibadah pengganti yang lebih cepat dilaksanakan</li>
+      <li><strong>Progress bar setoran awal</strong> — Visualisasikan seberapa jauh tabungan Anda dari target Rp 25 juta. Bar hijau bergerak seiring masukan yang diisi.</li>
+      <li><strong>Simulasi akselerasi</strong> — Secara otomatis menampilkan 4 skenario tabungan: nabung Rp 500rb, 1 jt, 2 jt, dan 3 jt per bulan — sehingga Anda bisa melihat berapa bulan lebih cepat mencapai setoran awal jika menaikkan jumlah tabungan.</li>
+      <li><strong>Timeline visual</strong> — Grafik garis waktu dari sekarang hingga keberangkatan: mulai menabung → capai setoran awal → daftar → antrian → berangkat haji. Membantu memahami rentang waktu yang realistis.</li>
+      <li><strong>Estimasi pelunasan BPIH</strong> — Biaya pelunasan saat berangkat diestimasi menggunakan inflasi 3,5%/tahun dari Bipih 2026, sehingga Anda bisa mempersiapkan dana pelunasan jauh-jauh hari.</li>
+      <li><strong>Preset antrian provinsi</strong> — Tombol cepat untuk antrian 10, 20, 25, 35, dan 45 tahun sesuai estimasi provinsi umum.</li>
+      <li><strong>Usia saat berangkat</strong> — Masukkan usia sekarang dan kalkulator menampilkan estimasi usia saat berangkat haji.</li>
     </ul>
 
-    
+    <h2>Cara Mempersiapkan Tabungan Haji Sejak Dini</h2>
+    <p>Dengan antrian haji reguler rata-rata 20–45 tahun, semakin awal mendaftar semakin baik. Berikut langkah-langkah yang direkomendasikan:</p>
+    <ul>
+      <li><strong>Buka rekening tabungan haji di bank syariah</strong> — Tersedia di BSI, BRI Syariah, Mandiri Syariah, BTN Syariah, Muamalat, dan berbagai bank daerah. Sebagian besar menawarkan fitur autodebet cicilan bulanan.</li>
+      <li><strong>Segera setorkan Rp 25 juta untuk dapat nomor porsi</strong> — Semakin cepat mendapat nomor porsi, semakin awal posisi antrian. Dana setoran awal dikelola BPIH dan mendapat bagi hasil yang dikreditkan ke rekening Anda.</li>
+      <li><strong>Lanjutkan menabung untuk pelunasan</strong> — Setelah mendapat nomor porsi, lanjutkan menabung untuk biaya pelunasan yang akan ditagihkan mendekati tahun keberangkatan.</li>
+      <li><strong>Pantau perkembangan antrian</strong> — Cek estimasi keberangkatan secara berkala di haji.kemenag.go.id menggunakan nomor porsi Anda.</li>
+    </ul>
+
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa setoran awal untuk mendaftar haji?</div><div class="faq-a">Setoran awal untuk mendapatkan nomor porsi haji reguler adalah <strong>Rp 25.000.000</strong>. Setoran ini bisa dilakukan di bank-bank yang ditunjuk sebagai BPS-BPIH (Bank Penerima Setoran BPIH) seperti BRI Syariah/BSI, BNI Syariah, Mandiri Syariah, BTN Syariah, Muamalat, dan beberapa bank daerah. Setelah setoran, Anda mendapat bukti setoran dan nomor porsi untuk memantau antrian.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya haji reguler, haji plus, dan haji furoda?</div><div class="faq-a">Haji Reguler diorganisir pemerintah (Kemenag), biaya paling terjangkau ~Rp 55 juta, namun antrian bisa 20–50 tahun. Haji Plus (ONH Plus) diorganisir travel penyelenggara haji khusus berizin Kemenag, biaya Rp 150–200 juta, antrian 5–7 tahun. Haji Furoda/Mujamalah menggunakan visa mujamalah (undangan pemerintah Saudi), biaya sangat tinggi Rp 250–400 juta+, bisa berangkat tanpa antrian tapi legalitasnya perlu dicermati.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah uang setoran awal bisa ditarik kembali?</div><div class="faq-a">Ya, setoran awal bisa ditarik dengan konsekuensi kehilangan nomor porsi. Jemaah bisa mengambil kembali dana setoran awal beserta manfaatnya kapan saja jika memutuskan membatalkan keberangkatan atau belum mampu melunasi. Dana dikelola oleh BPIH dan mendapat bagi hasil yang dikreditkan ke rekening tabungan haji.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah ada batas usia untuk daftar haji?</div><div class="faq-a">Tidak ada batas usia minimum untuk mendaftar porsi haji. Namun untuk keberangkatan, jemaah harus berusia minimal 12 tahun. Dengan antrian yang panjang, mendaftar sejak usia muda (bahkan anak-anak) bisa berarti berangkat di usia produktif. Untuk kesehatan dan keselamatan, ada pemeriksaan kesehatan menjelang keberangkatan — jemaah dengan kondisi kesehatan berat bisa ditunda atau digantikan mahram.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika belum mampu Rp 25 juta sekarang?</div><div class="faq-a">Mulai menabung di tabungan haji bank syariah yang terintegrasi dengan sistem SISKOHAT (Sistem Informasi dan Komputerisasi Haji Terpadu). Beberapa bank menawarkan fitur autodebet cicilan tabungan haji bulanan. Setelah saldo mencapai Rp 25 juta, setoran awal dapat langsung dilakukan dan nomor porsi diterbitkan. Lebih cepat mulai menabung, lebih cepat mendapat nomor porsi dan lebih awal masuk antrian.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah BPIH setiap tahun berubah?</div><div class="faq-a">Ya, BPIH ditetapkan setiap tahun oleh pemerintah (Presiden/Kemenag) dan umumnya meningkat seiring inflasi dan perubahan nilai tukar rupiah terhadap riyal Saudi. Kenaikan rata-rata BPIH sekitar 3–8% per tahun dalam beberapa tahun terakhir. Itulah mengapa dalam kalkulator ini, pelunasan BPIH diestimasi dengan mempertimbangkan inflasi, meski nilai sesungguhnya baru diketahui mendekati tahun keberangkatan.</div></div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa setoran awal untuk mendaftar haji 2026?</div>
+      <div class="faq-a">Setoran awal haji reguler adalah <strong>Rp 25.000.000</strong> per jemaah — tidak berubah sejak 2020. Setoran ini dibayarkan ke BPS-BPIH (Bank Penerima Setoran BPIH) yang ditunjuk Kemenag: BSI, BRI, BNI, Mandiri (divisi syariah), BTN Syariah, Muamalat, dan bank daerah tertentu. Setelah setoran, Anda mendapat bukti setoran dan nomor porsi untuk memantau posisi antrian.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan haji reguler, plus, dan furoda?</div>
+      <div class="faq-a">Haji Reguler diselenggarakan pemerintah (Kemenag), biaya paling terjangkau ~Rp 55 juta, namun antrian 15–50 tahun tergantung provinsi. Haji Plus (ONH Plus) diselenggarakan travel berizin Kemenag dengan fasilitas lebih baik, biaya Rp 150–200 juta, antrian 5–7 tahun. Haji Furoda menggunakan visa mujamalah (undangan pemerintah Saudi), bisa berangkat tanpa antrian resmi, namun biaya sangat tinggi (Rp 250–400 juta+) dan legalitas/keamanannya harus diteliti sebelum mendaftar.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah uang setoran awal bisa diambil kembali?</div>
+      <div class="faq-a">Ya, setoran awal bisa ditarik kapan saja dengan konsekuensi kehilangan nomor porsi. Dana pokok dikembalikan bersama bagi hasil yang telah dikreditkan. Jika suatu saat kondisi keuangan berubah dan ingin membatalkan rencana haji, Anda bisa mengajukan pembatalan ke BPS-BPIH atau Kemenag setempat.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada batas usia untuk mendaftar haji?</div>
+      <div class="faq-a">Tidak ada batas usia minimum untuk mendaftar nomor porsi. Namun untuk keberangkatan, jemaah harus berusia minimal 12 tahun. Mendaftarkan anak sejak kecil sangat dianjurkan mengingat panjangnya antrian — anak yang didaftarkan hari ini mungkin baru berangkat saat usia dewasa. Perlu dicatat bahwa jemaah berusia lanjut (>75 tahun) diatur khusus dan bisa menggunakan hak prioritas dalam kondisi tertentu.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa estimasi biaya haji saat tahun keberangkatan?</div>
+      <div class="faq-a">Bipih (biaya yang ditanggung jemaah) pada 2026 sekitar Rp 55,4 juta. Karena biaya ini naik setiap tahun rata-rata 3–7% mengikuti inflasi dan nilai tukar rupiah-riyal, jemaah yang baru berangkat 20–30 tahun lagi perlu mempersiapkan dana yang lebih besar. Kalkulator ini menggunakan asumsi inflasi 3,5%/tahun sebagai estimasi konservatif. Namun setoran awal yang dikelola BPIH juga bertumbuh dengan bagi hasil, sehingga tidak perlu menyiapkan selisih penuh dari kantong sendiri.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara cek antrian haji dan nomor porsi?</div>
+      <div class="faq-a">Cara cek antrian: (1) Kunjungi <strong>haji.kemenag.go.id</strong>, pilih menu "Estimasi Keberangkatan", masukkan nomor porsi Anda. (2) Bisa juga melalui aplikasi Pusaka (Kemenag) di smartphone. Antrian diperbarui berkala mengikuti kuota haji Indonesia yang ditetapkan Arab Saudi setiap tahun. Kuota haji Indonesia sekitar 221.000 jemaah per tahun (2024–2026).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah tabungan haji mendapat bagi hasil?</div>
+      <div class="faq-a">Ya. Dana setoran awal yang disimpan di BPS-BPIH dikelola oleh BPIH (Badan Pengelola Keuangan Haji) dan mendapat manfaat (bagi hasil/imbal investasi) yang dikreditkan ke rekening tabungan haji Anda secara berkala. Bagi hasil ini membantu meringankan biaya pelunasan saat tahun keberangkatan. Nilai bagi hasil bervariasi tergantung hasil pengelolaan dana haji nasional.</div>
+    </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
-      <a href="/id/kalkulator-zakat-penghasilan.html" class="related-item"><span class="ri">🌙</span>Zakat Penghasilan</a>
       <a href="/id/kalkulator-zakat.html" class="related-item"><span class="ri">🌙</span>Kalkulator Zakat</a>
       <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
-      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
+      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Inflasi</a>
+      <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Investasi</a>
     </div>
   </div>
 </main>
+
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
+
 <script defer>
-const BPIH = { reguler: 55431750, plus: 175000000, furoda: 300000000 };
-const SETORAN_AWAL = { reguler: 25000000, plus: 50000000, furoda: 100000000 };
-function fmt(n){ return 'Rp '+Math.round(n).toLocaleString('id-ID'); }
-function calculate(){
-  const currentSaving = parseFloat(document.getElementById('current-saving').value)||0;
-  const monthlySaving = parseFloat(document.getElementById('monthly-saving').value)||0;
-  const hajiType = document.getElementById('haji-type').value;
-  const waitingYears = parseInt(document.getElementById('waiting-years').value)||25;
-  const age = parseInt(document.getElementById('age').value)||0;
-  if(!monthlySaving||monthlySaving<=0) return alert('Masukkan kemampuan menabung per bulan.');
-  const setoranAwal = SETORAN_AWAL[hajiType];
-  const bpih = BPIH[hajiType];
-  const sisaSetoran = Math.max(0, setoranAwal - currentSaving);
-  const monthsToSetoran = sisaSetoran > 0 ? Math.ceil(sisaSetoran / monthlySaving) : 0;
-  const yearsToSetoran = monthsToSetoran / 12;
-  const currentYear = 2026;
-  const daftarYear = currentYear + Math.ceil(yearsToSetoran);
-  const berangkatYear = daftarYear + waitingYears;
-  const ageBerangkat = age > 0 ? age + Math.ceil(yearsToSetoran) + waitingYears : null;
-  const totalWaitYears = Math.ceil(yearsToSetoran) + waitingYears;
-  const pelunasanEstimasi = bpih * Math.pow(1.04, totalWaitYears); // 4% inflasi/tahun
-  let badgeText, badgeClass;
-  if(monthsToSetoran === 0){ badgeText='✅ Siap Daftar Sekarang'; badgeClass='badge-normal'; }
-  else if(monthsToSetoran <= 24){ badgeText='🎯 Dalam 2 Tahun'; badgeClass='badge-normal'; }
-  else { badgeText='📅 Perlu Perencanaan Panjang'; badgeClass='badge-overweight'; }
-  document.getElementById('res-months').textContent = monthsToSetoran === 0 ? 'Sudah cukup!' : monthsToSetoran+' bulan ('+yearsToSetoran.toFixed(1).replace('.',',')+' tahun)';
-  const badge = document.getElementById('res-badge');
-  badge.textContent = badgeText; badge.className = 'result-badge '+badgeClass;
-  document.getElementById('res-setoran').textContent = fmt(setoranAwal);
-  document.getElementById('res-sisa-setoran').textContent = sisaSetoran > 0 ? fmt(sisaSetoran) : 'Sudah terpenuhi ✓';
-  document.getElementById('res-daftar').textContent = 'Tahun '+daftarYear;
-  document.getElementById('res-berangkat').textContent = 'Estimasi tahun '+berangkatYear;
-  document.getElementById('res-usia').textContent = ageBerangkat ? ageBerangkat+' tahun' : 'Isi usia untuk menghitung';
-  document.getElementById('res-pelunasan').textContent = fmt(pelunasanEstimasi)+' (estimasi)';
+const BPIH       = { reguler:55431750,  plus:175000000, furoda:300000000 };
+const SETORAN    = { reguler:25000000,  plus:50000000,  furoda:100000000 };
+const INFLASI    = 0.035; // 3,5% per tahun — konsisten antara UI dan JS
+
+const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmtM = n => {
+  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  return fmt(n);
+};
+
+function setSaving(v, btn) {
+  document.getElementById('monthly-saving').value = v;
+  btn.closest('.field').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc();
+}
+function setAntrian(v, btn) {
+  document.getElementById('waiting-years').value = v;
+  btn.closest('.field').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc();
+}
+function autoCalc() {
+  const m = document.getElementById('monthly-saving').value;
+  if (m) calculate();
+}
+
+function calculate() {
+  const currentSaving  = parseFloat(document.getElementById('current-saving').value) || 0;
+  const monthlySaving  = parseFloat(document.getElementById('monthly-saving').value) || 0;
+  const hajiType       = document.getElementById('haji-type').value;
+  const waitingYears   = parseInt(document.getElementById('waiting-years').value) || 25;
+  const age            = parseInt(document.getElementById('age').value) || 0;
+  if (!monthlySaving || monthlySaving <= 0) return;
+
+  const setoranAwal    = SETORAN[hajiType];
+  const bpih           = BPIH[hajiType];
+  const sisaSetoran    = Math.max(0, setoranAwal - currentSaving);
+  const monthsNeeded   = sisaSetoran > 0 ? Math.ceil(sisaSetoran / monthlySaving) : 0;
+  const yearsNeeded    = monthsNeeded / 12;
+  const CURRENT_YEAR   = 2026;
+  const daftarYear     = CURRENT_YEAR + Math.ceil(yearsNeeded);
+  const berangkatYear  = daftarYear + waitingYears;
+  const ageBerangkat   = age > 0 ? age + Math.ceil(yearsNeeded) + waitingYears : null;
+  const totalWaitYrs   = Math.ceil(yearsNeeded) + waitingYears;
+  const pelunasanEst   = bpih * Math.pow(1 + INFLASI, totalWaitYrs);
+
+  // Progress bar
+  const pct = Math.min(100, Math.round(currentSaving / setoranAwal * 100));
+  document.getElementById('hp-fill').style.width    = pct + '%';
+  document.getElementById('hp-fill').textContent    = pct > 12 ? pct + '%' : '';
+  document.getElementById('hp-pct-label').textContent = pct + '%';
+  document.getElementById('hp-current-label').textContent = 'Tabungan saat ini: ' + fmtM(currentSaving);
+  document.getElementById('hp-target-label').textContent  = 'Target: ' + fmtM(setoranAwal);
+
+  // Main
+  if (monthsNeeded === 0) {
+    document.getElementById('res-months').textContent = '✅ Siap Daftar!';
+    document.getElementById('res-months-label').textContent = 'Tabungan sudah mencukupi setoran awal';
+  } else {
+    document.getElementById('res-months').textContent = monthsNeeded + ' bulan';
+    document.getElementById('res-months-label').textContent = `(${yearsNeeded.toFixed(1).replace('.',',')} tahun) lagi mencapai setoran awal`;
+  }
+
+  // Stats
+  document.getElementById('s-setoran').textContent   = fmt(setoranAwal);
+  document.getElementById('s-sisa').textContent      = sisaSetoran > 0 ? fmt(sisaSetoran) : '✅ Sudah terpenuhi';
+  document.getElementById('s-daftar').textContent    = 'Tahun ' + daftarYear;
+  document.getElementById('s-berangkat').textContent = 'Estimasi tahun ' + berangkatYear + (ageBerangkat ? ` (usia ${ageBerangkat} thn)` : '');
+
+  // Savings acceleration plans
+  const planGrid = document.getElementById('plan-grid');
+  const plans = [500000, 1000000, 2000000, 3000000];
+  planGrid.innerHTML = plans.map(p => {
+    const bulanP = sisaSetoran > 0 ? Math.ceil(sisaSetoran / p) : 0;
+    const lebihCepat = bulanP > 0 ? Math.max(0, monthsNeeded - bulanP) : 0;
+    return `<div class="plan-card">
+      <div class="pgc-label">Nabung ${fmtM(p)}/bln</div>
+      <div class="pgc-val">${bulanP === 0 ? 'Siap!' : bulanP + ' bulan'}</div>
+      <div class="pgc-sub">${lebihCepat > 0 ? `${lebihCepat} bln lebih cepat` : (bulanP === 0 ? 'Sudah cukup' : 'Sama')}</div>
+    </div>`;
+  }).join('');
+
+  // Timeline
+  const tlEl = document.getElementById('timeline');
+  const tlItems = [
+    { year: CURRENT_YEAR, event: 'Mulai menabung', sub: `Target setoran awal ${fmt(setoranAwal)}`, status: 'active' },
+    { year: daftarYear, event: 'Daftar & dapat nomor porsi', sub: `Setor ${fmt(setoranAwal)} ke BPS-BPIH`, status: 'future' },
+    { year: daftarYear + Math.floor(waitingYears * 0.5), event: 'Pelunasan BPIH dibuka', sub: 'Pelunasan biasanya 1–2 tahun sebelum berangkat', status: 'future' },
+    { year: berangkatYear, event: '🕋 Berangkat Haji', sub: `Estimasi biaya pelunasan: ${fmtM(pelunasanEst)} (inflasi ${(INFLASI*100).toFixed(1)}%/thn)` + (ageBerangkat ? ` · Usia ${ageBerangkat} tahun` : ''), status: 'future' },
+  ];
+  tlEl.innerHTML = tlItems.map(item => `
+    <div class="tl-item">
+      <div class="tl-dot ${item.status}"></div>
+      <div class="tl-year">${item.year}</div>
+      <div class="tl-event">${item.event}</div>
+      <div class="tl-sub">${item.sub}</div>
+    </div>`).join('');
+
+  // Advice
+  let advice;
+  if (monthsNeeded === 0) {
+    advice = `✅ <strong>Tabungan Anda sudah cukup untuk mendaftar!</strong> Segera kunjungi BPS-BPIH terdekat (BSI, BRI, BNI, Mandiri, BTN Syariah) untuk melakukan setoran awal dan mendapatkan nomor porsi. Semakin cepat mendaftar, semakin awal posisi antrian Anda.`;
+  } else if (monthsNeeded <= 12) {
+    advice = `🎯 Anda hanya butuh <strong>${monthsNeeded} bulan lagi</strong> untuk mencapai setoran awal! Pertimbangkan untuk menaikkan jumlah tabungan sementara agar bisa mendaftar lebih cepat. Jika bisa nabung ${fmtM(Math.ceil(sisaSetoran/6))}/bulan, bisa daftar dalam 6 bulan.`;
+  } else {
+    advice = `📅 Dengan tabungan <strong>${fmt(monthlySaving)}/bulan</strong>, Anda diestimasi bisa mendaftar di tahun <strong>${daftarYear}</strong> dan berangkat sekitar tahun <strong>${berangkatYear}</strong>. Estimasi biaya pelunasan saat berangkat: <strong>${fmtM(pelunasanEst)}</strong> (asumsi inflasi ${(INFLASI*100).toFixed(1)}%/tahun). Mulai juga menabung untuk pelunasan setelah mendapat nomor porsi.`;
+  }
+  document.getElementById('res-advice').innerHTML = advice;
+
+  document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
 }
-function toggleFaq(el){ el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); });
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
 </script>
 </body>
 </html>
