@@ -3,28 +3,88 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Investasi — Simulasi Bunga Majemuk & Reksa Dana | NovaCalcs</title>
-<meta name="description" content="Simulasikan pertumbuhan investasi Anda dengan kalkulator bunga majemuk. Hitung hasil investasi reksa dana, deposito, atau saham berdasarkan modal awal, setoran rutin, dan return tahunan."/>
-<meta name="keywords" content="kalkulator investasi, bunga majemuk, simulasi reksa dana, return investasi, kalkulator tabungan investasi"/>
+<title>Kalkulator Investasi 2026 — Simulasi Bunga Majemuk, DCA & Target | NovaCalcs</title>
+<meta name="description" content="Simulasi pertumbuhan investasi jangka panjang dengan bunga majemuk. Hitung DCA bulanan, bandingkan instrumen investasi, dan cari tahu setoran yang dibutuhkan untuk mencapai target finansial Anda."/>
+<meta name="keywords" content="kalkulator investasi, simulasi bunga majemuk, DCA investasi, reksa dana saham, return investasi 2026, target investasi, compound interest Indonesia"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-investasi.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-investasi.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Investasi","url":"https://novacalcs.com/id/kalkulator-investasi.html","description":"Simulasi investasi jangka panjang dengan DCA, inflasi, dan target finansial","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.inv-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-.inv-preset { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer; transition: all 0.15s; }
-.inv-preset:hover, .inv-preset.on { background: var(--mint-dim); color: var(--mint); border-color: rgba(0,201,177,0.35); }
-.growth-bars { margin-top: 12px; }
-.g-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 11px; }
-.g-year { min-width: 40px; color: var(--text-muted); }
-.g-track { flex: 1; height: 8px; background: var(--bg-input); border-radius: 4px; overflow: hidden; }
-.g-fill { height: 100%; border-radius: 4px; background: var(--mint); transition: width 0.5s ease; }
-.g-val { min-width: 80px; text-align: right; font-weight: 600; color: var(--mint); }
+/* Tabs */
+.inv-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.inv-tab { flex:1; padding:8px 8px; font-size:0.75rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
+.inv-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
+.inv-panel { display:none; }
+.inv-panel.active { display:block; }
+
+/* Preset chips */
+.presets { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.preset-chip { padding:4px 10px; border-radius:6px; font-size:.72rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all .15s; }
+.preset-chip:hover,.preset-chip.on { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,.35); }
+
+/* Big result */
+.inv-main { text-align:center; padding:16px 0 8px; }
+.inv-nilai { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
+.inv-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Setor vs return bar */
+.inv-bar-wrap { margin:12px 0 6px; }
+.inv-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
+.inv-bar-setor  { background:#60a5fa; transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#0c1a2e; }
+.inv-bar-return { background:var(--mint); transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:700; color:#001a17; }
+.inv-legend { display:flex; gap:14px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
+.inv-legend span::before { content:'●'; margin-right:4px; }
+.leg-b::before { color:#60a5fa; } .leg-m::before { color:var(--mint); }
+
+/* Stats grid */
+.inv-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.is-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.is-card .ic-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.is-card .ic-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.is-card.green .ic-val { color:var(--mint); }
+.is-card.blue  .ic-val { color:#60a5fa; }
+
+/* Milestone table */
+.milestone-wrap { max-height:220px; overflow-y:auto; margin-top:10px; border:1px solid var(--border); border-radius:var(--radius-sm); }
+.milestone-wrap table { width:100%; font-size:.76rem; border-collapse:collapse; }
+.milestone-wrap th { position:sticky; top:0; background:var(--bg-card); padding:6px 10px; color:var(--text-secondary); text-align:right; border-bottom:1px solid var(--border); font-weight:600; z-index:1; }
+.milestone-wrap th:first-child { text-align:left; }
+.milestone-wrap td { padding:5px 10px; text-align:right; border-bottom:1px solid rgba(255,255,255,.03); }
+.milestone-wrap td:first-child { text-align:left; color:var(--text-secondary); }
+
+/* Instrument cards */
+.instrument-grid { display:grid; gap:8px; margin-top:12px; }
+.inst-card { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; }
+.inst-card .inst-name { font-size:.78rem; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
+.inst-card .inst-return { font-size:1.1rem; font-weight:700; color:var(--mint); }
+.inst-card .inst-final { font-size:.72rem; color:var(--text-secondary); margin-top:3px; }
+.inst-card .inst-risk  { display:inline-block; font-size:.65rem; padding:2px 7px; border-radius:10px; margin-top:4px; }
+.risk-low    { background:rgba(74,222,128,.15);  color:#4ade80; }
+.risk-medium { background:rgba(251,191,36,.15);  color:#fbbf24; }
+.risk-high   { background:rgba(248,113,113,.15); color:#f87171; }
+
+/* Goal box */
+.goal-result-box { background:var(--mint-dim); border:1px solid rgba(0,201,177,.25); border-radius:var(--radius-sm); padding:14px; }
+.grb-num   { font-size:1.6rem; font-weight:700; color:var(--mint); margin-bottom:4px; }
+.grb-row   { display:flex; justify-content:space-between; padding:4px 0; font-size:.82rem; border-bottom:1px solid rgba(0,201,177,.1); }
+.grb-row:last-child { border-bottom:none; }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
 </style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -39,224 +99,417 @@
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">📈 Kalkulator Investasi</div>
-      <div class="calc-subtitle">Simulasi pertumbuhan investasi jangka panjang</div>
+      <div class="calc-title">📈 Kalkulator Investasi 2026</div>
+      <div class="calc-subtitle">Simulasi DCA · Bandingkan instrumen · Rencanakan target</div>
 
-      <div class="field"><label>Modal Awal (Rp)</label><input type="number" id="modal" placeholder="Contoh: 10000000" oninput="calculate()"/></div>
-      <div class="field"><label>Setoran Rutin per Bulan (Rp)</label><input type="number" id="setoran" value="0" placeholder="0 = tidak ada setoran rutin" oninput="calculate()"/></div>
-      <div class="field">
-        <label>Return per tahun (%)</label>
-        <div class="inv-presets">
-          <div class="inv-preset" onclick="setReturn(5,this)">Deposito 5%</div>
-          <div class="inv-preset" onclick="setReturn(7,this)">Obligasi 7%</div>
-          <div class="inv-preset on" onclick="setReturn(12,this)">Reksa Dana 12%</div>
-          <div class="inv-preset" onclick="setReturn(15,this)">Saham 15%</div>
-        </div>
-        <input type="number" id="return-rate" value="12" step="0.1" oninput="calculate()"/>
-      </div>
-      <div class="field"><label>Jangka Waktu (tahun)</label>
-        <div class="radio-group" id="tahun-opts">
-          <div class="radio-btn" onclick="setTahun(5,this)">5 th</div>
-          <div class="radio-btn" onclick="setTahun(10,this)">10 th</div>
-          <div class="radio-btn active" onclick="setTahun(20,this)">20 th</div>
-          <div class="radio-btn" onclick="setTahun(30,this)">30 th</div>
-        </div>
+      <div class="inv-tabs">
+        <div class="inv-tab active" onclick="switchTab(0,this)">📈 Simulasi</div>
+        <div class="inv-tab" onclick="switchTab(1,this)">⚖️ Bandingkan</div>
+        <div class="inv-tab" onclick="switchTab(2,this)">🎯 Target</div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Simulasikan Investasi</button>
+      <!-- TAB 0: Simulasi utama -->
+      <div class="inv-panel active" id="ip0">
+        <div class="field"><label>Modal Awal (Rp)</label>
+          <input type="number" id="modal" placeholder="Contoh: 10.000.000" oninput="autoCalc0()"/>
+        </div>
+        <div class="field"><label>Setoran Rutin per Bulan (Rp)</label>
+          <div class="presets">
+            <div class="preset-chip" onclick="setChip('setoran',0,this)">Tanpa setoran</div>
+            <div class="preset-chip" onclick="setChip('setoran',500000,this)">Rp 500rb</div>
+            <div class="preset-chip" onclick="setChip('setoran',1000000,this)">Rp 1 jt</div>
+            <div class="preset-chip" onclick="setChip('setoran',2000000,this)">Rp 2 jt</div>
+          </div>
+          <input type="number" id="setoran" value="0" placeholder="0 = tidak ada setoran rutin" oninput="autoCalc0()"/>
+        </div>
+        <div class="field">
+          <label>Return per Tahun (%)</label>
+          <div class="presets">
+            <div class="preset-chip" onclick="setChip('return-rate',5,this)">Deposito 5%</div>
+            <div class="preset-chip" onclick="setChip('return-rate',7,this)">Obligasi 7%</div>
+            <div class="preset-chip on" onclick="setChip('return-rate',12,this)">Reksa Dana 12%</div>
+            <div class="preset-chip" onclick="setChip('return-rate',15,this)">Saham 15%</div>
+          </div>
+          <input type="number" id="return-rate" value="12" step="0.1" oninput="autoCalc0()"/>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="th0-btns">
+            <div class="radio-btn" onclick="setTh('th0',5,this)">5</div>
+            <div class="radio-btn" onclick="setTh('th0',10,this)">10</div>
+            <div class="radio-btn active" onclick="setTh('th0',20,this)">20</div>
+            <div class="radio-btn" onclick="setTh('th0',30,this)">30</div>
+          </div>
+        </div>
+        <div class="field" style="display:flex;gap:10px;align-items:center">
+          <label style="min-width:fit-content;margin-bottom:0">Sesuaikan Inflasi</label>
+          <input type="checkbox" id="inflasi-check" onchange="autoCalc0()" style="width:16px;height:16px;accent-color:var(--mint)"/>
+          <span style="font-size:.72rem;color:var(--text-muted)">Tunjukkan nilai riil (dikurangi inflasi ~3,5%/thn)</span>
+        </div>
+        <button class="calc-btn" onclick="calcSimulasi()">📈 Simulasikan Investasi</button>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-akhir">—</div>
-          <div class="result-label">Nilai akhir investasi</div>
-        </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Total modal disetor</span><span class="rval" id="res-setor">—</span></div>
-          <div class="result-row"><span class="rkey">Keuntungan (return)</span><span class="rval" id="res-untung" style="color:var(--mint)">—</span></div>
-          <div class="result-row"><span class="rkey">Pertumbuhan total</span><span class="rval" id="res-growth">—</span></div>
-        </div>
-        <div class="growth-bars" id="growth-bars" style="display:none">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:8px">Proyeksi per Tahun</div>
-          <div id="bar-container"></div>
+        <div class="result-box" id="inv-res0" style="display:none">
+          <div class="inv-main">
+            <div class="inv-nilai" id="i0-nilai">—</div>
+            <div class="inv-label" id="i0-label">Nilai akhir investasi</div>
+          </div>
+          <div class="inv-bar-wrap">
+            <div class="inv-bar-track">
+              <div class="inv-bar-setor"  id="i0-bar-s" style="width:50%">Modal</div>
+              <div class="inv-bar-return" id="i0-bar-r" style="width:50%">Return</div>
+            </div>
+            <div class="inv-legend"><span class="leg-b">Total modal disetor</span><span class="leg-m">Keuntungan (return)</span></div>
+          </div>
+          <div class="inv-stats">
+            <div class="is-card blue"><div class="ic-label">Total modal disetor</div><div class="ic-val" id="i0-setor">—</div></div>
+            <div class="is-card green"><div class="ic-label">Keuntungan bersih</div><div class="ic-val" id="i0-untung">—</div></div>
+            <div class="is-card"><div class="ic-label">Pertumbuhan total</div><div class="ic-val" id="i0-growth">—</div></div>
+            <div class="is-card"><div class="ic-label">Nilai riil (inflasi 3,5%)</div><div class="ic-val" id="i0-riil">—</div></div>
+          </div>
+          <!-- Milestone table -->
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px">📋 Proyeksi Nilai per Tahun</div>
+          <div class="milestone-wrap">
+            <table>
+              <thead><tr><th>Tahun</th><th>Nilai Nominal</th><th>Total Disetor</th><th style="color:var(--mint)">Keuntungan</th></tr></thead>
+              <tbody id="i0-milestones"></tbody>
+            </table>
+          </div>
+          <div id="i0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
       </div>
+
+      <!-- TAB 1: Bandingkan instrumen -->
+      <div class="inv-panel" id="ip1">
+        <div class="field"><label>Modal Awal (Rp)</label>
+          <input type="number" id="c-modal" placeholder="Contoh: 10.000.000" oninput="calcCompare()"/>
+        </div>
+        <div class="field"><label>Setoran Rutin per Bulan (Rp)</label>
+          <input type="number" id="c-setoran" value="0" placeholder="0 = lump sum saja" oninput="calcCompare()"/>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="tc-btns">
+            <div class="radio-btn" onclick="setTh('tc',5,this)">5</div>
+            <div class="radio-btn active" onclick="setTh('tc',10,this)">10</div>
+            <div class="radio-btn" onclick="setTh('tc',20,this)">20</div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcCompare()">⚖️ Bandingkan Sekarang</button>
+        <div id="compare-result" style="display:none">
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px">Hasil perbandingan per instrumen</div>
+          <div class="instrument-grid" id="inst-grid"></div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Target (reverse) -->
+      <div class="inv-panel" id="ip2">
+        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
+          Tentukan target finansial Anda dan kalkulator menghitung berapa yang perlu diinvestasikan setiap bulan.
+        </div>
+        <div class="field"><label>Target Nilai Investasi (Rp)</label>
+          <div class="presets">
+            <div class="preset-chip" onclick="setChip('g-target',100000000,this)">Rp 100 jt</div>
+            <div class="preset-chip" onclick="setChip('g-target',500000000,this)">Rp 500 jt</div>
+            <div class="preset-chip" onclick="setChip('g-target',1000000000,this)">Rp 1 M</div>
+            <div class="preset-chip" onclick="setChip('g-target',5000000000,this)">Rp 5 M</div>
+          </div>
+          <input type="number" id="g-target" placeholder="Contoh: 1.000.000.000" oninput="autoCalc2()"/>
+        </div>
+        <div class="field"><label>Modal Awal yang Sudah Ada (Rp)</label>
+          <input type="number" id="g-awal" value="0" oninput="autoCalc2()"/>
+        </div>
+        <div class="field">
+          <label>Return per Tahun (%)</label>
+          <div class="presets">
+            <div class="preset-chip" onclick="setChip('g-rate',7,this)">7%</div>
+            <div class="preset-chip on" onclick="setChip('g-rate',12,this)">12%</div>
+            <div class="preset-chip" onclick="setChip('g-rate',15,this)">15%</div>
+          </div>
+          <input type="number" id="g-rate" value="12" step="0.1" oninput="autoCalc2()"/>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="tg-btns">
+            <div class="radio-btn" onclick="setTh('tg',5,this)">5</div>
+            <div class="radio-btn" onclick="setTh('tg',10,this)">10</div>
+            <div class="radio-btn active" onclick="setTh('tg',20,this)">20</div>
+            <div class="radio-btn" onclick="setTh('tg',30,this)">30</div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcGoal()">🎯 Hitung Setoran yang Dibutuhkan</button>
+        <div class="result-box" id="inv-res2" style="display:none">
+          <div class="goal-result-box">
+            <div class="grb-num" id="g-setoran-out">—</div>
+            <div style="font-size:.72rem;color:var(--mint)">setoran per bulan yang diperlukan</div>
+            <div style="margin-top:12px">
+              <div class="grb-row"><span>Target investasi</span><span style="font-weight:700" id="g-target-out">—</span></div>
+              <div class="grb-row"><span>Modal awal</span><span style="font-weight:700" id="g-awal-out">—</span></div>
+              <div class="grb-row"><span>Total yang Anda setor</span><span style="font-weight:700" id="g-total-setor">—</span></div>
+              <div class="grb-row"><span>Kontribusi return/bunga</span><span style="font-weight:700;color:var(--mint)" id="g-kontrib">—</span></div>
+              <div class="grb-row"><span>Estimasi lama mencapai target</span><span style="font-weight:700" id="g-lama">—</span></div>
+            </div>
+          </div>
+          <div id="g-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Investasi — Simulasi Bunga Majemuk & Reksa Dana</h1>
-    <p class="page-desc">Lihat bagaimana investasi Anda bisa tumbuh seiring waktu. Kalkulator ini menunjukkan kekuatan bunga majemuk (compound interest) untuk modal awal, setoran rutin, dan berbagai tingkat return investasi.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Investasi 2026 — Simulasi Bunga Majemuk, DCA & Target Finansial</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Lihat potensi pertumbuhan investasi Anda dalam jangka panjang. Hitung DCA bulanan, bandingkan 6 instrumen investasi sekaligus, dan rencanakan berapa yang harus diinvestasikan untuk mencapai target finansial.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Kekuatan Bunga Majemuk</h2>
-    <p>Bunga majemuk adalah proses di mana return investasi diinvestasikan kembali sehingga menghasilkan return di atas return sebelumnya. Ini sering disebut "bunga berbunga" — dan inilah yang membuat investasi jangka panjang sangat powerful.</p>
-    <p><strong>Contoh kekuatan bunga majemuk:</strong> Investasi Rp 10 juta dengan return 12%/tahun selama 30 tahun tanpa tambahan = Rp 299 juta. Hanya dari Rp 10 juta!</p>
-
-    <h2>Perbandingan Return Berbagai Instrumen Investasi (Indonesia)</h2>
-    <table>
-      <tr><th>Instrumen</th><th>Return Rata-rata/Tahun</th><th>Risiko</th></tr>
-      <tr><td>Deposito bank</td><td>4–6%</td><td>Sangat rendah</td></tr>
-      <tr><td>Obligasi negara (ORI/SBR)</td><td>6–8%</td><td>Rendah</td></tr>
-      <tr><td>Reksa dana pasar uang</td><td>4–6%</td><td>Sangat rendah</td></tr>
-      <tr><td>Reksa dana pendapatan tetap</td><td>6–9%</td><td>Rendah-sedang</td></tr>
-      <tr><td>Reksa dana campuran</td><td>8–12%</td><td>Sedang</td></tr>
-      <tr><td>Reksa dana saham</td><td>10–15%</td><td>Tinggi</td></tr>
-      <tr><td>Saham langsung</td><td>Bervariasi</td><td>Tinggi</td></tr>
+    <h2>Kekuatan Bunga Majemuk — Mengapa Mulai Lebih Awal Sangat Penting</h2>
+    <p>Bunga majemuk (compound interest) adalah proses di mana return investasi terus diinvestasikan ulang sehingga menghasilkan return atas return sebelumnya. Inilah fondasi dari semua strategi investasi jangka panjang:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Skenario</th><th>Modal</th><th>Return</th><th>Nilai setelah 20 thn</th><th>Keuntungan</th></tr></thead>
+      <tbody>
+        <tr><td>Lump sum saja</td><td>Rp 10 juta</td><td>12%/tahun</td><td>Rp 96,5 juta</td><td>+865%</td></tr>
+        <tr><td>DCA Rp 500rb/bln (tanpa modal awal)</td><td>Rp 120 juta total</td><td>12%/tahun</td><td>Rp 494 juta</td><td>+312%</td></tr>
+        <tr><td>Lump sum + DCA Rp 500rb/bln</td><td>Rp 130 juta total</td><td>12%/tahun</td><td>Rp 590 juta</td><td>+354%</td></tr>
+      </tbody>
     </table>
+    <p>Kunci bunga majemuk: <strong>waktu dan konsistensi</strong>. Mulai 5 tahun lebih awal bisa menghasilkan perbedaan ratusan juta rupiah di akhir periode.</p>
 
-    <h2>Tips Investasi untuk Pemula di Indonesia</h2>
+    <h2>Fitur Kalkulator Investasi NovaCalcs</h2>
     <ul>
-      <li>Mulai lebih awal — waktu adalah aset terbesar dalam investasi jangka panjang</li>
-      <li>Investasi rutin tiap bulan (dollar cost averaging) mengurangi risiko timing</li>
-      <li>Sesuaikan risiko dengan jangka waktu: investasi ≥ 5 tahun boleh lebih agresif</li>
-      <li>Diversifikasi — jangan taruh semua telur dalam satu keranjang</li>
-      <li>Mulai dari produk yang dikenal: reksa dana pasar uang di Bibit, Bareksa, atau bank</li>
-      <li>Return di masa lalu tidak menjamin return di masa depan</li>
+      <li><strong>Mode Simulasi</strong> — Hitung nilai investasi dari modal awal dan/atau setoran bulanan (DCA). Tersedia tombol toggle inflasi: tampilkan nilai nominal atau nilai riil setelah dikurangi inflasi 3,5%/tahun agar bisa menilai daya beli sesungguhnya.</li>
+      <li><strong>Tabel proyeksi per tahun</strong> — Lihat detail nilai investasi, total yang telah disetor, dan keuntungan kumulatif untuk setiap tahun hingga akhir periode investasi.</li>
+      <li><strong>Mode Bandingkan</strong> — Masukkan modal dan setoran sekali, langsung tampil perbandingan hasil untuk 6 instrumen sekaligus (deposito, obligasi, reksa dana pasar uang, campuran, saham, dan IHSG historis) dalam kartu yang mudah dibaca.</li>
+      <li><strong>Mode Target (Reverse)</strong> — Tentukan nominal target (Rp 1 miliar, Rp 5 miliar, dll.) dan jangka waktu, kalkulator menghitung setoran bulanan minimal yang diperlukan dengan asumsi return yang dipilih.</li>
+      <li><strong>Preset instrumen</strong> — Tombol cepat untuk return historis deposito 5%, obligasi 7%, reksa dana 12%, dan saham 15%.</li>
     </ul>
 
-    <h2>Panduan Investasi Berdasarkan Usia di Indonesia</h2>
-    <p>Profil risiko investasi idealnya disesuaikan dengan usia dan horizon waktu. Aturan umum yang sering digunakan adalah <strong>"100 dikurangi usia"</strong> sebagai persentase porsi saham dalam portofolio:</p>
-    <table>
-      <tr><th>Usia</th><th>Porsi Saham/Reksadana Saham</th><th>Porsi Obligasi/Deposito</th><th>Profil</th></tr>
-      <tr><td>20–30 tahun</td><td>70–80%</td><td>20–30%</td><td>Agresif</td></tr>
-      <tr><td>30–40 tahun</td><td>60–70%</td><td>30–40%</td><td>Moderat-Agresif</td></tr>
-      <tr><td>40–50 tahun</td><td>40–60%</td><td>40–60%</td><td>Moderat</td></tr>
-      <tr><td>50–60 tahun</td><td>20–40%</td><td>60–80%</td><td>Konservatif-Moderat</td></tr>
-      <tr><td>60+ tahun</td><td>10–20%</td><td>80–90%</td><td>Konservatif</td></tr>
+    <h2>Perbandingan Return Instrumen Investasi Indonesia 2026</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Instrumen</th><th>Return Rata-rata/Tahun</th><th>Risiko</th><th>Cocok untuk</th></tr></thead>
+      <tbody>
+        <tr><td>Deposito / Tabungan</td><td>4–6%</td><td>Sangat rendah</td><td>Dana darurat, jangka &lt;1 tahun</td></tr>
+        <tr><td>Obligasi negara (ORI/SBR)</td><td>6–7,5%</td><td>Sangat rendah</td><td>Jangka 2–3 tahun, modal min Rp 1 jt</td></tr>
+        <tr><td>Reksa dana pasar uang</td><td>4–6%</td><td>Sangat rendah</td><td>Dana darurat, fleksibel dicairkan</td></tr>
+        <tr><td>Reksa dana pendapatan tetap</td><td>6–9%</td><td>Rendah–sedang</td><td>Jangka 2–5 tahun</td></tr>
+        <tr><td>Reksa dana saham / campuran</td><td>10–15%</td><td>Tinggi</td><td>Jangka panjang ≥5 tahun</td></tr>
+        <tr><td>Saham langsung (IHSG historis)</td><td>12–15%</td><td>Tinggi</td><td>Jangka panjang, butuh analisis</td></tr>
+      </tbody>
     </table>
+    <p style="font-size:.78rem;color:var(--text-muted)">*Return historis tidak menjamin return masa depan. Semakin tinggi potensi return, semakin tinggi risiko fluktuasi jangka pendek.</p>
 
-    <h2>Instrumen Investasi Populer di Indonesia: Untung-Ruginya</h2>
+    <h2>Dollar Cost Averaging (DCA) — Strategi Investasi Rutin</h2>
+    <p>DCA adalah strategi berinvestasi dengan nominal tetap setiap bulan, terlepas dari kondisi pasar. Misalnya: investasi Rp 500.000 ke reksa dana saham setiap tanggal 1, apapun yang terjadi di pasar. Keunggulan DCA:</p>
     <ul>
-      <li><strong>Deposito bank</strong> — Aman (dijamin LPS hingga Rp 2 miliar), return 4–6%/tahun, likuiditas rendah (ada penalti jika dicairkan sebelum jatuh tempo)</li>
-      <li><strong>Obligasi Negara (ORI/SBR/Sukuk)</strong> — Dijamin negara, return 6–7%/tahun, cocok untuk investor konservatif. Tersedia di bank dan aplikasi fintech</li>
-      <li><strong>Reksadana</strong> — Dikelola manajer investasi, bisa mulai dari Rp 10.000, pilihan dari pasar uang (rendah risiko) hingga saham (tinggi risiko)</li>
-      <li><strong>Saham</strong> — Potensi return tertinggi jangka panjang, tapi butuh pengetahuan dan tahan volatilitas. IHSG rata-rata return ~10–12%/tahun dalam 10 tahun terakhir</li>
-      <li><strong>Emas</strong> — Pelindung nilai (hedge) dari inflasi, likuid, bisa mulai dari 0,01 gram via aplikasi. Return jangka panjang ~8–10%/tahun</li>
-      <li><strong>Properti</strong> — Return gabungan sewa + apresiasi nilai, tapi butuh modal besar dan likuiditas sangat rendah</li>
+      <li>Menghilangkan risiko "salah timing" — saat harga turun Anda otomatis beli lebih banyak unit</li>
+      <li>Membangun disiplin keuangan — investasi jadi kebiasaan seperti bayar tagihan</li>
+      <li>Cocok untuk investor dengan penghasilan bulanan tetap</li>
+      <li>Return DCA jangka panjang (10–20 tahun) sering mengalahkan investor yang mencoba timing pasar</li>
     </ul>
+    <p>Kalkulator ini mensimulasikan DCA dengan asumsi setoran setiap awal bulan dan kompounding bulanan.</p>
 
-    <h2>Kesalahan Investasi yang Sering Dilakukan Pemula</h2>
-    <ul>
-      <li>Investasi sebelum punya dana darurat (minimal 3–6 bulan pengeluaran)</li>
-      <li>Ikut-ikutan tren tanpa memahami produk investasinya (FOMO)</li>
-      <li>Menarik investasi saat pasar turun dan merugi (justru waktu terbaik untuk menambah)</li>
-      <li>Tidak diversifikasi — menaruh semua dana di satu instrumen</li>
-      <li>Menggunakan uang panas (uang yang dibutuhkan dalam waktu dekat) untuk investasi jangka panjang</li>
-    </ul>
+    <h2>Dampak Inflasi pada Investasi</h2>
+    <p>Return investasi yang terlihat besar bisa menyusut saat disesuaikan dengan inflasi. Contoh: return 12%/tahun dikurangi inflasi 3,5%/tahun = return riil sekitar 8,2%. Nilai riil penting untuk menilai apakah investasi Anda benar-benar meningkatkan daya beli, bukan sekadar nominal. Kalkulator ini menyediakan toggle inflasi untuk membantu memahami nilai sesungguhnya.</p>
 
-    <h2>Dollar Cost Averaging (DCA): Strategi Investasi Rutin untuk Pemula</h2>
-    <p>DCA adalah strategi berinvestasi dengan jumlah tetap secara rutin, tanpa memperdulikan kondisi pasar. Contoh: investasi Rp 500.000/bulan ke reksa dana saham selama 10 tahun, tanpa peduli pasar sedang naik atau turun. Keunggulan DCA:</p>
-    <ul>
-      <li>Mengurangi risiko timing pasar — tidak perlu menebak kapan harga terendah</li>
-      <li>Membangun disiplin investasi jangka panjang secara otomatis</li>
-      <li>Saat harga turun, uang yang sama membeli lebih banyak unit (menguntungkan)</li>
-      <li>Cocok untuk karyawan yang berinvestasi dari gaji bulanan</li>
-    </ul>
-    <p>Platform reksa dana seperti Bibit, Bareksa, dan IPOT memungkinkan DCA otomatis dengan nominal mulai Rp 10.000/bulan — sangat terjangkau untuk memulai kebiasaan investasi.</p>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Berapa modal minimum untuk mulai investasi reksa dana?</div>
-      <div class="faq-a">Reksa dana di Indonesia bisa dimulai dari Rp 10.000 di beberapa platform digital seperti Bibit dan Bareksa. Bank konvensional umumnya mulai dari Rp 100.000–Rp 500.000. Tidak ada alasan untuk menunggu — semakin cepat mulai, semakin besar manfaat compounding-nya.</div>
+      <div class="faq-a">Reksa dana di Indonesia bisa dimulai dari Rp 10.000 di platform digital seperti Bibit, Bareksa, dan beberapa aplikasi bank. Tidak ada alasan menunggu modal besar — lebih penting memulai lebih awal karena kekuatan bunga majemuk sangat bergantung pada lamanya waktu investasi. Mulai dengan nominal kecil dan tingkatkan seiring kenaikan penghasilan.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Apakah return 12% per tahun realistis untuk reksa dana?</div>
-      <div class="faq-a">Return 12%/tahun adalah angka rata-rata historis untuk reksa dana saham Indonesia dalam jangka panjang (10+ tahun). Namun ini tidak dijamin — dalam jangka pendek bisa negatif. Reksa dana pasar uang lebih rendah (4–6%) tapi lebih stabil. Pilih sesuai toleransi risiko dan jangka waktu Anda.</div>
+      <div class="faq-a">Return 12%/tahun adalah estimasi rata-rata historis untuk reksa dana saham Indonesia dalam jangka 10+ tahun. Namun ini tidak dijamin — dalam jangka pendek bisa negatif secara signifikan (mis. krisis 2008: −50%, COVID 2020: −25%). Reksa dana pasar uang jauh lebih stabil (4–6%) namun returnnya lebih kecil. Sesuaikan pilihan instrumen dengan toleransi risiko dan jangka waktu Anda.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Apakah keuntungan reksa dana dikenakan pajak?</div>
-      <div class="faq-a">Untuk reksa dana, keuntungan dari penjualan (capital gain) saat ini tidak dikenakan pajak di Indonesia — ini adalah keuntungan tersendiri dibanding deposito yang bunganya dipotong pajak 20%. Namun regulasi bisa berubah, selalu cek ketentuan terkini.</div>
+      <div class="faq-a">Untuk reksa dana, capital gain (keuntungan dari penjualan) saat ini tidak dikenakan pajak di Indonesia — keunggulan dibanding deposito yang bunganya dipotong 20%. Namun dividen dari reksa dana saham tertentu bisa dikenakan pajak. Regulasi perpajakan investasi dapat berubah — selalu cek peraturan terkini di OJK atau konsultasikan dengan manajer investasi.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Mana yang lebih baik: investasi sekaligus atau cicilan (DCA)?</div>
-      <div class="faq-a">Secara teoritis, investasi sekaligus (lump sum) lebih optimal jika timing-nya tepat. Namun bagi kebanyakan investor pemula, Dollar Cost Averaging (DCA) — investasi rutin setiap bulan dengan jumlah tetap — lebih realistis dan mengurangi risiko timing. Kalkulator ini mendukung simulasi keduanya.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Mana yang lebih baik: investasi sekaligus atau rutin (DCA)?</div>
+      <div class="faq-a">Secara teoritis, lump sum (investasi sekaligus) lebih optimal jika timing-nya tepat. Namun bagi investor individu yang tidak bisa memprediksi pasar, DCA lebih realistis dan psikologis lebih aman. Penelitian menunjukkan bahwa dalam jangka panjang (10+ tahun), perbedaan return antara lump sum dan DCA cenderung mengecil. Yang terpenting adalah konsistensi dan jangka waktu, bukan cara masuknya.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik untuk mulai investasi?</div>
-      <div class="faq-a">Jawabannya sederhana: sekarang. Atau 10 tahun yang lalu. Kekuatan bunga majemuk bekerja paling baik dengan waktu yang panjang. Menunggu "kondisi pasar yang tepat" justru sering merugikan karena kehilangan waktu yang berharga. Pastikan Anda sudah punya dana darurat 3–6 bulan sebelum mulai investasi.</div>
+      <div class="faq-a">Jawabannya: sekarang, bukan saat kondisi pasar "sempurna". Menunggu timing yang tepat justru sering membuat seseorang tidak pernah mulai. Pastikan Anda sudah memiliki: (1) dana darurat minimal 3–6 bulan pengeluaran, (2) tidak ada utang berbunga tinggi, (3) pemahaman dasar tentang produk yang dipilih. Setelah itu, mulai dengan jumlah yang nyaman dan tingkatkan secara konsisten.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu IHSG dan bagaimana pengaruhnya pada investasi saham?</div>
-      <div class="faq-a">IHSG (Indeks Harga Saham Gabungan) adalah indikator kinerja seluruh saham di BEI (Bursa Efek Indonesia). Return reksa dana saham umumnya mengikuti pergerakan IHSG dalam jangka panjang. IHSG secara historis tumbuh rata-rata 12–15% per tahun selama 10+ tahun meski dengan fluktuasi besar jangka pendek.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung berapa yang harus diinvestasikan untuk pensiun?</div>
+      <div class="faq-a">Langkah dasarnya: (1) Estimasi biaya hidup bulanan saat pensiun dalam nilai sekarang, (2) Kalikan dengan 12 × jumlah tahun pensiun untuk mendapat total kebutuhan, (3) Sesuaikan dengan inflasi untuk nilai di masa depan, (4) Gunakan Tab "Target" di kalkulator ini untuk menghitung setoran bulanan. Aturan umum: untuk bisa menarik 4% per tahun dari portofolio secara berkelanjutan, Anda butuh 25× pengeluaran tahunan (rule of 25).</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
+      <a href="/id/kalkulator-roi.html" class="related-item"><span class="ri">💹</span>Kalkulator ROI</a>
+      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Inflasi</a>
       <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
-      <a href="/id/kalkulator-cicilan.html" class="related-item"><span class="ri">💳</span>Kalkulator Cicilan</a>
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
     </div>
   </div>
 </main>
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <script defer>
-let tahun = 20;
-const fmt = n => {
-  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(1) + ' M';
-  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
-  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmtM = n => {
+  if (n >= 1e12) return 'Rp ' + (n/1e12).toFixed(2) + ' T';
+  if (n >= 1e9)  return 'Rp ' + (n/1e9).toFixed(2) + ' M';
+  if (n >= 1e6)  return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  return fmt(n);
 };
-const fmtFull = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
 
-function setReturn(r, btn) {
-  document.getElementById('return-rate').value = r;
-  document.querySelectorAll('.inv-preset').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  calculate();
-}
+const th = { th0:20, tc:10, tg:20 };
 
-function setTahun(t, btn) {
-  tahun = t;
-  document.querySelectorAll('#tahun-opts .radio-btn').forEach(b => b.classList.remove('active'));
+const INSTRUMENTS = [
+  { name:'Deposito Bank',         icon:'🏦', ret:5,  risk:'Sangat Rendah', riskClass:'risk-low'    },
+  { name:'Obligasi Negara',       icon:'📜', ret:7,  risk:'Rendah',        riskClass:'risk-low'    },
+  { name:'Reksa Dana Pasar Uang', icon:'💵', ret:5.5,risk:'Sangat Rendah', riskClass:'risk-low'    },
+  { name:'Reksa Dana Campuran',   icon:'📊', ret:10, risk:'Sedang',        riskClass:'risk-medium' },
+  { name:'Reksa Dana Saham',      icon:'📈', ret:12, risk:'Tinggi',        riskClass:'risk-high'   },
+  { name:'Saham (IHSG historis)', icon:'🏛️', ret:14, risk:'Tinggi',        riskClass:'risk-high'   },
+];
+
+function switchTab(idx, btn) {
+  document.querySelectorAll('.inv-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.inv-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  calculate();
+  document.getElementById('ip' + idx).classList.add('active');
+}
+function setChip(id, v, btn) {
+  document.getElementById(id).value = v;
+  btn.closest('.field').querySelectorAll('.preset-chip').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  autoCalc0(); autoCalc2();
+}
+function setTh(key, v, btn) {
+  th[key] = v;
+  document.querySelectorAll('#' + key + '-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc0(); calcCompare(); autoCalc2();
 }
 
-function calculate() {
-  const modal = parseFloat(document.getElementById('modal').value) || 0;
-  const setoran = parseFloat(document.getElementById('setoran').value) || 0;
-  const rate = parseFloat(document.getElementById('return-rate').value) || 0;
+/* ── Shared DCA calc ── */
+function dcaCalc(modal, setoran, rateYear, tahunN) {
+  const r = rateYear / 100 / 12;
+  const n = tahunN * 12;
+  let v = modal;
+  const milestones = [];
+  for (let m = 1; m <= n; m++) {
+    v = v * (1 + r) + setoran;
+    if (m % 12 === 0) milestones.push(v);
+  }
+  return milestones;
+}
+
+/* ── TAB 0 ── */
+function autoCalc0() {
+  if (document.getElementById('modal').value || document.getElementById('setoran').value > 0) calcSimulasi();
+}
+function calcSimulasi() {
+  const modal    = parseFloat(document.getElementById('modal').value) || 0;
+  const setoran  = parseFloat(document.getElementById('setoran').value) || 0;
+  const rate     = parseFloat(document.getElementById('return-rate').value) || 12;
+  const inflasi  = document.getElementById('inflasi-check').checked ? 3.5 : 0;
+  const t        = th.th0;
   if (!modal && !setoran) return;
 
-  const r = rate / 100 / 12;
-  const n = tahun * 12;
-  let nilai = modal;
-  const milestones = [];
-
-  for (let m = 1; m <= n; m++) {
-    nilai = nilai * (1 + r) + setoran;
-    if (m % 12 === 0) milestones.push(nilai);
-  }
-
+  const milestones = dcaCalc(modal, setoran, rate, t);
+  const n          = t * 12;
+  const hasil      = milestones[milestones.length - 1];
   const totalSetor = modal + setoran * n;
-  const hasil = milestones[milestones.length - 1] || nilai;
-  const untung = hasil - totalSetor;
-  const growth = totalSetor > 0 ? ((hasil / totalSetor - 1) * 100).toFixed(1) : 0;
+  const untung     = hasil - totalSetor;
+  const growth     = totalSetor > 0 ? ((hasil / totalSetor - 1) * 100).toFixed(1) : 0;
+  const hasilRiil  = hasil / Math.pow(1 + inflasi / 100, t);
 
-  document.getElementById('res-akhir').textContent = fmtFull(hasil);
-  document.getElementById('res-setor').textContent = fmtFull(totalSetor);
-  document.getElementById('res-untung').textContent = '+' + fmtFull(untung);
-  document.getElementById('res-growth').textContent = '+' + growth + '%';
+  document.getElementById('i0-nilai').textContent = fmtM(hasil);
+  document.getElementById('i0-label').textContent = inflasi > 0 ? 'Nilai nominal (sebelum inflasi)' : 'Nilai akhir investasi';
+  document.getElementById('i0-setor').textContent  = fmtM(totalSetor);
+  document.getElementById('i0-untung').textContent = '+' + fmtM(untung);
+  document.getElementById('i0-growth').textContent = '+' + growth + '%';
+  document.getElementById('i0-riil').textContent   = inflasi > 0 ? fmtM(hasilRiil) + ' (−' + inflasi + '%/thn)' : '—';
 
-  // Growth bars
-  const maxVal = Math.max(...milestones);
-  const container = document.getElementById('bar-container');
-  container.innerHTML = milestones.map((v, i) => `
-    <div class="g-row">
-      <span class="g-year">Thn ${i+1}</span>
-      <div class="g-track"><div class="g-fill" style="width:${(v/maxVal*100).toFixed(1)}%"></div></div>
-      <span class="g-val">${fmt(v)}</span>
-    </div>`).join('');
-  document.getElementById('growth-bars').style.display = '';
-  document.getElementById('result').classList.add('show');
+  const setPct = Math.round(totalSetor / hasil * 100);
+  const retPct = 100 - setPct;
+  document.getElementById('i0-bar-s').style.width = setPct + '%';
+  document.getElementById('i0-bar-s').textContent = setPct > 15 ? 'Modal ' + setPct + '%' : '';
+  document.getElementById('i0-bar-r').style.width = retPct + '%';
+  document.getElementById('i0-bar-r').textContent = retPct > 10 ? 'Return ' + retPct + '%' : '';
+
+  // Milestone table
+  const tbody = document.getElementById('i0-milestones');
+  tbody.innerHTML = milestones.map((v, i) => {
+    const yr   = i + 1;
+    const setor = modal + setoran * yr * 12;
+    const g    = v - setor;
+    return `<tr><td>Tahun ${yr}</td><td>${fmtM(v)}</td><td>${fmtM(setor)}</td><td style="color:var(--mint)">${g > 0 ? '+' : ''}${fmtM(g)}</td></tr>`;
+  }).join('');
+
+  document.getElementById('i0-advice').innerHTML =
+    `📈 Dengan return ${rate}%/tahun selama ${t} tahun, total modal <strong>${fmtM(totalSetor)}</strong> tumbuh menjadi <strong>${fmtM(hasil)}</strong>. Return berkontribusi <strong>${fmtM(untung)}</strong> (+${growth}% dari modal). ${inflasi > 0 ? `Nilai riil setelah inflasi ${inflasi}%/tahun: <strong>${fmtM(hasilRiil)}</strong>.` : 'Aktifkan toggle inflasi untuk melihat nilai riil.'} `;
+
+  document.getElementById('inv-res0').style.display = 'block';
+  document.getElementById('inv-res0').classList.add('show');
+}
+
+/* ── TAB 1 ── */
+function calcCompare() {
+  const modal   = parseFloat(document.getElementById('c-modal').value) || 0;
+  const setoran = parseFloat(document.getElementById('c-setoran').value) || 0;
+  const t       = th.tc;
+  if (!modal && !setoran) return;
+
+  const grid = document.getElementById('inst-grid');
+  grid.innerHTML = INSTRUMENTS.map(inst => {
+    const ms     = dcaCalc(modal, setoran, inst.ret, t);
+    const hasil  = ms[ms.length - 1];
+    const setor  = modal + setoran * t * 12;
+    const untung = hasil - setor;
+    return `<div class="inst-card">
+      <div class="inst-name">${inst.icon} ${inst.name}</div>
+      <div class="inst-return">${inst.ret}%/tahun</div>
+      <div class="inst-final">Nilai akhir: <strong>${fmtM(hasil)}</strong> · Return: <strong>+${fmtM(untung)}</strong></div>
+      <span class="inst-risk ${inst.riskClass}">Risiko ${inst.risk}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('compare-result').style.display = 'block';
+}
+
+/* ── TAB 2 ── */
+function autoCalc2() {
+  if (document.getElementById('g-target').value) calcGoal();
+}
+function calcGoal() {
+  const target = parseFloat(document.getElementById('g-target').value) || 0;
+  const awal   = parseFloat(document.getElementById('g-awal').value) || 0;
+  const rate   = parseFloat(document.getElementById('g-rate').value) || 12;
+  const t      = th.tg;
+  if (!target) return;
+
+  const r = rate / 100 / 12;
+  const n = t * 12;
+
+  // FV: target = awal*(1+r)^n + setoran*((1+r)^n - 1)/r
+  const fvAwal = awal * Math.pow(1 + r, n);
+  const sisa   = target - fvAwal;
+  const setoran = sisa > 0 ? sisa * r / (Math.pow(1 + r, n) - 1) : 0;
+  const totalSetor = awal + Math.max(0, setoran) * n;
+  const kontrib = target - totalSetor;
+
+  document.getElementById('g-setoran-out').textContent = setoran > 0 ? fmt(setoran) + '/bulan' : 'Tidak perlu setoran tambahan!';
+  document.getElementById('g-target-out').textContent  = fmtM(target);
+  document.getElementById('g-awal-out').textContent    = fmtM(awal);
+  document.getElementById('g-total-setor').textContent = fmtM(totalSetor);
+  document.getElementById('g-kontrib').textContent     = '+' + fmtM(Math.max(0, kontrib));
+  document.getElementById('g-lama').textContent        = t + ' tahun';
+
+  document.getElementById('g-advice').innerHTML = setoran > 0
+    ? `🎯 Untuk mencapai <strong>${fmtM(target)}</strong> dalam ${t} tahun dengan return ${rate}%, Anda perlu investasikan <strong>${fmt(setoran)}/bulan</strong>. Total yang benar-benar Anda keluarkan: <strong>${fmtM(totalSetor)}</strong> — return pasar menanggung sisanya (<strong>${fmtM(Math.max(0,kontrib))}</strong>).`
+    : `✅ Dengan modal awal <strong>${fmtM(awal)}</strong> dan return ${rate}%/tahun, target <strong>${fmtM(target)}</strong> bisa tercapai dalam ${t} tahun tanpa setoran tambahan!`;
+
+  document.getElementById('inv-res2').style.display = 'block';
+  document.getElementById('inv-res2').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }

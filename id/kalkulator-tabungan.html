@@ -3,29 +3,90 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Tabungan & Bunga — Simulasi Hasil Tabungan | NovaCalcs</title>
-<meta name="description" content="Simulasikan pertumbuhan tabungan Anda dengan kalkulator bunga majemuk dan sederhana. Hitung hasil deposito, tabungan bank, atau rekening berbunga berdasarkan modal dan bunga."/>
-<meta name="keywords" content="kalkulator tabungan, kalkulator bunga, bunga deposito, simulasi tabungan, bunga majemuk, bunga bank"/>
+<title>Kalkulator Tabungan 2026 — Simulasi Bunga Deposito + Setoran Rutin | NovaCalcs</title>
+<meta name="description" content="Simulasi pertumbuhan tabungan dengan bunga majemuk atau sederhana. Hitung deposito, tabungan dengan setoran rutin bulanan, dan rencanakan target tabungan Anda. Gratis dan akurat."/>
+<meta name="keywords" content="kalkulator tabungan, simulasi deposito, bunga majemuk, setoran rutin bulanan, target tabungan, bunga bank 2026, kalkulator tabungan bulanan"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tabungan.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-tabungan.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Tabungan","url":"https://novacalcs.com/id/kalkulator-tabungan.html","description":"Simulasi tabungan dengan setoran rutin dan perencanaan target","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.growth-rows { margin-top: 12px; }
-.g-yr { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 12px; }
-.g-yr:last-child { border: none; }
-.g-yr .gy-label { min-width: 55px; color: var(--text-muted); }
-.g-yr .gy-track { flex: 1; height: 6px; background: var(--bg-card); border-radius: 3px; overflow: hidden; }
-.g-yr .gy-fill { height: 100%; border-radius: 3px; background: var(--mint); }
-.g-yr .gy-val { min-width: 80px; text-align: right; font-weight: 600; color: var(--mint); }
+/* Mode tabs */
+.tab-nav { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.tab-btn { flex:1; padding:8px 10px; font-size:0.78rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
+.tab-btn.active { color:var(--mint); border-bottom-color:var(--mint); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* Rate presets */
+.rate-presets { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.rate-btn { padding:4px 10px; border-radius:6px; font-size:0.72rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all .15s; }
+.rate-btn:hover,.rate-btn.on { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,.35); }
+
+/* Big nilai display */
+.tab-main { text-align:center; padding:16px 0 8px; }
+.tab-nilai { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
+.tab-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Pokok vs bunga bar */
+.split-bar-wrap { margin:12px 0 6px; }
+.split-bar-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:5px; display:flex; justify-content:space-between; }
+.split-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
+.split-bar-pokok { background:#60a5fa; transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#0c1a2e; }
+.split-bar-bunga { background:var(--mint); transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:700; color:#001a17; }
+.split-legend { display:flex; gap:14px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
+.split-legend span::before { content:'●'; margin-right:4px; }
+.leg-b::before { color:#60a5fa; } .leg-m::before { color:var(--mint); }
+
+/* Stats grid */
+.tab-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.ts-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.ts-card .tc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
+.ts-card .tc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
+.ts-card.green .tc-val { color:var(--mint); }
+.ts-card.red   .tc-val { color:#f87171; }
+
+/* Majemuk vs sederhana compare */
+.compare-pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0; }
+.cp-card { border-radius:var(--radius-md); padding:12px 14px; text-align:center; border:1px solid var(--border); }
+.cp-card.majemuk { background:rgba(0,201,177,.07); border-color:rgba(0,201,177,.3); }
+.cp-card.sederhana { background:rgba(96,165,250,.07); border-color:rgba(96,165,250,.3); }
+.cp-card .cc-label { font-size:.7rem; font-weight:700; margin-bottom:4px; }
+.cp-card.majemuk .cc-label { color:var(--mint); }
+.cp-card.sederhana .cc-label { color:#60a5fa; }
+.cp-card .cc-val { font-size:1.15rem; font-weight:700; color:var(--text-primary); }
+.cp-card .cc-sub { font-size:.68rem; color:var(--text-muted); margin-top:3px; }
+
+/* Growth rows */
+.growth-rows { margin-top:12px; }
+.g-yr { display:flex; align-items:center; gap:8px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,.03); font-size:.78rem; }
+.g-yr:last-child { border:none; }
+.gy-label { min-width:65px; color:var(--text-muted); font-size:.7rem; }
+.gy-track { flex:1; height:7px; background:var(--bg-card); border-radius:3px; overflow:hidden; }
+.gy-fill  { height:100%; border-radius:3px; background:var(--mint); transition:width .5s; }
+.gy-val   { min-width:90px; text-align:right; font-weight:600; color:var(--mint); font-size:.78rem; }
+
+/* Goal result */
+.goal-box { background:var(--mint-dim); border:1px solid rgba(0,201,177,.25); border-radius:var(--radius-sm); padding:14px; margin-top:10px; }
+.goal-box .gb-main { font-size:1.4rem; font-weight:700; color:var(--mint); margin-bottom:6px; }
+.goal-row { display:flex; justify-content:space-between; padding:4px 0; font-size:.82rem; border-bottom:1px solid rgba(0,201,177,.1); }
+.goal-row:last-child { border-bottom:none; }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
 </style>
-  <link rel="icon" href="/favicon.ico" sizes="any"/>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -40,136 +101,277 @@
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🏦 Kalkulator Tabungan</div>
-      <div class="calc-subtitle">Simulasi bunga tabungan dan deposito</div>
+      <div class="calc-title">🏦 Kalkulator Tabungan 2026</div>
+      <div class="calc-subtitle">Simulasi deposito · Setoran rutin · Rencanakan target</div>
 
-      <div class="field"><label>Saldo Awal (Rp)</label>
-        <input type="number" id="pokok" placeholder="Contoh: 10000000" oninput="calculate()"/>
-      </div>
-      <div class="field"><label>Bunga per tahun (%)</label>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
-          <div class="inv-preset" onclick="setRate(3.5,this)">BCA 3,5%</div>
-          <div class="inv-preset" onclick="setRate(4,this)">BRI 4%</div>
-          <div class="inv-preset" onclick="setRate(5,this)">Deposito 5%</div>
-          <div class="inv-preset" onclick="setRate(6,this)">ORI/SBR 6%</div>
-        </div>
-        <input type="number" id="rate" value="5" step="0.1" oninput="calculate()"/>
-      </div>
-      <div class="field"><label>Jangka Waktu (tahun)</label>
-        <div class="radio-group" id="yr-btns">
-          <div class="radio-btn" onclick="setYears(1,this)">1</div>
-          <div class="radio-btn" onclick="setYears(3,this)">3</div>
-          <div class="radio-btn active" onclick="setYears(5,this)">5</div>
-          <div class="radio-btn" onclick="setYears(10,this)">10</div>
-        </div>
-      </div>
-      <div class="field"><label>Jenis Bunga</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-majemuk" onclick="setJenis('majemuk',this)">Bunga Majemuk</div>
-          <div class="radio-btn" id="btn-sederhana" onclick="setJenis('sederhana',this)">Bunga Sederhana</div>
-        </div>
-      </div>
-      <div class="field"><label>Pajak Bunga (%)</label>
-        <input type="number" id="pajak" value="20" min="0" max="30" oninput="calculate()" placeholder="Deposito dikenakan pajak bunga 20%"/>
+      <div class="tab-nav">
+        <div class="tab-btn active" onclick="switchTab(0,this)">🏦 Simulasi</div>
+        <div class="tab-btn" onclick="switchTab(1,this)">📅 + Setoran Rutin</div>
+        <div class="tab-btn" onclick="switchTab(2,this)">🎯 Target</div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Tabungan</button>
+      <!-- TAB 0: Simulasi dasar -->
+      <div class="tab-panel active" id="tp0">
+        <div class="field"><label>Saldo Awal / Pokok (Rp)</label>
+          <input type="number" id="pokok" placeholder="Contoh: 10.000.000" oninput="autoCalc0()"/>
+        </div>
+        <div class="field">
+          <label>Suku Bunga per Tahun (%)</label>
+          <div class="rate-presets">
+            <div class="rate-btn" onclick="setRate('pokok',3.5,this)">Tabungan BCA 3,5%</div>
+            <div class="rate-btn" onclick="setRate('pokok',4.5,this)">Tabungan BRI 4,5%</div>
+            <div class="rate-btn" onclick="setRate('pokok',5.5,this)">Deposito 5,5%</div>
+            <div class="rate-btn" onclick="setRate('pokok',6.5,this)">ORI/SBR 6,5%</div>
+          </div>
+          <input type="number" id="rate0" value="5" step="0.1" oninput="autoCalc0()"/>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="yr0-btns">
+            <div class="radio-btn" onclick="setYr('yr0',1,this)">1</div>
+            <div class="radio-btn" onclick="setYr('yr0',3,this)">3</div>
+            <div class="radio-btn active" onclick="setYr('yr0',5,this)">5</div>
+            <div class="radio-btn" onclick="setYr('yr0',10,this)">10</div>
+            <div class="radio-btn" onclick="setYr('yr0',20,this)">20</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Jenis Bunga</label>
+          <div class="radio-group">
+            <div class="radio-btn active" id="btn-mj" onclick="setJenis('majemuk',this)">Bunga Majemuk</div>
+            <div class="radio-btn"        id="btn-sd" onclick="setJenis('sederhana',this)">Bunga Sederhana</div>
+          </div>
+        </div>
+        <div class="field"><label>Pajak Bunga (%)</label>
+          <input type="number" id="pajak0" value="20" min="0" max="30" oninput="autoCalc0()"/>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Deposito bank: 20% · ORI/SBR: 10% · Reksa Dana: 0%</p>
+        </div>
+        <button class="calc-btn" onclick="calcSimulasi()">🏦 Hitung Tabungan</button>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-akhir">—</div>
-          <div class="result-label">Nilai akhir (setelah pajak)</div>
+        <div class="result-box" id="res0" style="display:none">
+          <div class="tab-main">
+            <div class="tab-nilai" id="r0-nilai">—</div>
+            <div class="tab-label">Nilai akhir setelah pajak</div>
+          </div>
+          <div class="split-bar-wrap">
+            <div class="split-bar-title"><span>Komposisi nilai akhir</span><span id="r0-pct-bunga" style="color:var(--mint)">—% bunga bersih</span></div>
+            <div class="split-bar-track">
+              <div class="split-bar-pokok" id="r0-bar-pokok" style="width:70%">Pokok</div>
+              <div class="split-bar-bunga" id="r0-bar-bunga" style="width:30%">Bunga</div>
+            </div>
+            <div class="split-legend"><span class="leg-b">Modal awal</span><span class="leg-m">Bunga bersih</span></div>
+          </div>
+          <div class="tab-stats">
+            <div class="ts-card"><div class="tc-label">Modal awal</div><div class="tc-val" id="r0-pokok">—</div></div>
+            <div class="ts-card"><div class="tc-label">Total bunga kotor</div><div class="tc-val" id="r0-bruto">—</div></div>
+            <div class="ts-card red"><div class="tc-label">Pajak bunga</div><div class="tc-val" id="r0-pajak">—</div></div>
+            <div class="ts-card green"><div class="tc-label">Bunga bersih</div><div class="tc-val" id="r0-neto">—</div></div>
+          </div>
+          <!-- Majemuk vs sederhana comparison -->
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px;">⚖️ Majemuk vs Sederhana (bunga yang sama)</div>
+          <div class="compare-pair">
+            <div class="cp-card majemuk"><div class="cc-label">Bunga Majemuk ⭐</div><div class="cc-val" id="cmp-mj">—</div><div class="cc-sub">Lebih menguntungkan</div></div>
+            <div class="cp-card sederhana"><div class="cc-label">Bunga Sederhana</div><div class="cc-val" id="cmp-sd">—</div><div class="cc-sub" id="cmp-sd-sub">—</div></div>
+          </div>
+          <!-- Growth per year -->
+          <div class="growth-rows" id="r0-growth"></div>
+          <!-- Advice -->
+          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Pokok</span><span class="rval" id="res-pokok">—</span></div>
-          <div class="result-row"><span class="rkey">Total bunga kotor</span><span class="rval" id="res-bunga">—</span></div>
-          <div class="result-row"><span class="rkey">Pajak bunga (20%)</span><span class="rval" id="res-pajak" style="color:#f87171">—</span></div>
-          <div class="result-row"><span class="rkey">Bunga bersih</span><span class="rval" id="res-bunga-bersih" style="color:var(--mint)">—</span></div>
-        </div>
-        <div class="growth-rows" id="growth-rows" style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px"></div>
       </div>
+
+      <!-- TAB 1: Setoran rutin -->
+      <div class="tab-panel" id="tp1">
+        <div class="field"><label>Saldo Awal (Rp) — opsional</label>
+          <input type="number" id="p1-awal" value="0" placeholder="0 = mulai dari nol" oninput="autoCalc1()"/>
+        </div>
+        <div class="field"><label>Setoran Rutin per Bulan (Rp)</label>
+          <input type="number" id="p1-setoran" placeholder="Contoh: 500.000" oninput="autoCalc1()"/>
+          <div class="rate-presets" style="margin-top:6px">
+            <div class="rate-btn" onclick="setSetoran(300000,this)">Rp 300rb</div>
+            <div class="rate-btn" onclick="setSetoran(500000,this)">Rp 500rb</div>
+            <div class="rate-btn" onclick="setSetoran(1000000,this)">Rp 1 jt</div>
+            <div class="rate-btn" onclick="setSetoran(2000000,this)">Rp 2 jt</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Suku Bunga per Tahun (%)</label>
+          <div class="rate-presets">
+            <div class="rate-btn" onclick="setRate('p1-rate',4,this)">4%</div>
+            <div class="rate-btn" onclick="setRate('p1-rate',5,this)">5%</div>
+            <div class="rate-btn" onclick="setRate('p1-rate',6,this)">6%</div>
+            <div class="rate-btn" onclick="setRate('p1-rate',7,this)">7%</div>
+          </div>
+          <input type="number" id="p1-rate" value="5" step="0.1" oninput="autoCalc1()"/>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="yr1-btns">
+            <div class="radio-btn" onclick="setYr('yr1',1,this)">1</div>
+            <div class="radio-btn" onclick="setYr('yr1',3,this)">3</div>
+            <div class="radio-btn active" onclick="setYr('yr1',5,this)">5</div>
+            <div class="radio-btn" onclick="setYr('yr1',10,this)">10</div>
+            <div class="radio-btn" onclick="setYr('yr1',20,this)">20</div>
+          </div>
+        </div>
+        <div class="field"><label>Pajak Bunga (%)</label>
+          <input type="number" id="p1-pajak" value="20" min="0" max="30" oninput="autoCalc1()"/>
+        </div>
+        <button class="calc-btn" onclick="calcSetoran()">📅 Hitung dengan Setoran Rutin</button>
+        <div class="result-box" id="res1" style="display:none">
+          <div class="tab-main">
+            <div class="tab-nilai" id="r1-nilai">—</div>
+            <div class="tab-label">Nilai akhir (setelah pajak)</div>
+          </div>
+          <div class="tab-stats">
+            <div class="ts-card"><div class="tc-label">Total disetor</div><div class="tc-val" id="r1-setor">—</div></div>
+            <div class="ts-card green"><div class="tc-label">Bunga bersih</div><div class="tc-val" id="r1-bunga">—</div></div>
+          </div>
+          <div class="growth-rows" id="r1-growth"></div>
+          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Target (reverse) -->
+      <div class="tab-panel" id="tp2">
+        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
+          Ingin terkumpul sejumlah tertentu? Masukkan target dan kalkulator akan menghitung setoran rutin yang diperlukan.
+        </div>
+        <div class="field"><label>Target Tabungan (Rp)</label>
+          <div class="rate-presets">
+            <div class="rate-btn" onclick="setTarget(50000000,this)">Rp 50 jt</div>
+            <div class="rate-btn" onclick="setTarget(100000000,this)">Rp 100 jt</div>
+            <div class="rate-btn" onclick="setTarget(200000000,this)">Rp 200 jt</div>
+            <div class="rate-btn" onclick="setTarget(500000000,this)">Rp 500 jt</div>
+          </div>
+          <input type="number" id="p2-target" placeholder="Contoh: 100.000.000" oninput="autoCalc2()"/>
+        </div>
+        <div class="field"><label>Saldo Awal yang Sudah Ada (Rp)</label>
+          <input type="number" id="p2-awal" value="0" oninput="autoCalc2()"/>
+        </div>
+        <div class="field">
+          <label>Suku Bunga per Tahun (%)</label>
+          <input type="number" id="p2-rate" value="5" step="0.1" oninput="autoCalc2()"/>
+        </div>
+        <div class="field">
+          <label>Jangka Waktu (tahun)</label>
+          <div class="radio-group" id="yr2-btns">
+            <div class="radio-btn" onclick="setYr('yr2',1,this)">1</div>
+            <div class="radio-btn" onclick="setYr('yr2',3,this)">3</div>
+            <div class="radio-btn active" onclick="setYr('yr2',5,this)">5</div>
+            <div class="radio-btn" onclick="setYr('yr2',10,this)">10</div>
+            <div class="radio-btn" onclick="setYr('yr2',20,this)">20</div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcTarget()">🎯 Hitung Setoran yang Dibutuhkan</button>
+        <div class="result-box" id="res2" style="display:none">
+          <div class="goal-box">
+            <div class="gb-main" id="r2-setoran">—</div>
+            <div style="font-size:.72rem;color:var(--mint)">setoran per bulan yang diperlukan</div>
+            <div style="margin-top:12px">
+              <div class="goal-row"><span>Target tabungan</span><span style="font-weight:700" id="r2-target">—</span></div>
+              <div class="goal-row"><span>Saldo awal</span><span style="font-weight:700" id="r2-awal">—</span></div>
+              <div class="goal-row"><span>Jangka waktu</span><span style="font-weight:700" id="r2-waktu">—</span></div>
+              <div class="goal-row"><span>Total yang disetor sendiri</span><span style="font-weight:700" id="r2-total-setor">—</span></div>
+              <div class="goal-row"><span>Kontribusi bunga</span><span style="font-weight:700;color:var(--mint)" id="r2-kontrib-bunga">—</span></div>
+            </div>
+          </div>
+          <div id="r2-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-    <div class="seo-content">
-    <h1>Kalkulator Tabungan & Bunga — Simulasi Deposito dan Rekening Bank</h1>
-    <p class="page-desc">Simulasikan pertumbuhan tabungan Anda dengan bunga majemuk atau bunga sederhana. Hitung hasil deposito, tabungan bank, atau ORI/SBR setelah dipotong pajak bunga 20%. Proyeksi tahunan ditampilkan secara visual untuk membantu perencanaan keuangan jangka panjang.</p>
-
-    <div class="ad-slot">Advertisement</div>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Tabungan 2026 — Simulasi Deposito, Setoran Rutin & Target</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Simulasi pertumbuhan tabungan dengan bunga majemuk atau sederhana. Tersedia tiga mode: simulasi deposito, tabungan dengan setoran bulanan rutin, dan perencana target (reverse calculator).</p>
 
     <h2>Perbedaan Bunga Sederhana dan Bunga Majemuk</h2>
-    <p>Memahami perbedaan kedua jenis bunga ini sangat penting untuk mengelola tabungan dan investasi:</p>
+    <p>Memahami perbedaan ini adalah kunci untuk memilih produk simpanan yang tepat:</p>
     <ul>
-      <li><strong>Bunga Sederhana (Simple Interest):</strong> Bunga dihitung hanya dari pokok awal. Setiap periode menghasilkan bunga yang sama. Rumus: <em>Bunga = Pokok × Suku Bunga × Waktu</em>. Digunakan pada deposito yang bunganya tidak diinvestasikan kembali.</li>
-      <li><strong>Bunga Majemuk (Compound Interest):</strong> Bunga periode sebelumnya ditambahkan ke pokok, sehingga bunga berikutnya dihitung dari jumlah yang lebih besar. Pertumbuhan bersifat eksponensial. Rumus: <em>Nilai = Pokok × (1 + r)^t</em>. Berlaku jika bunga langsung masuk kembali ke rekening.</li>
+      <li><strong>Bunga Sederhana (Simple Interest)</strong> — Bunga selalu dihitung dari pokok awal yang tetap. Setiap tahun menghasilkan jumlah bunga yang sama. Rumus: Nilai akhir = Pokok × (1 + r × t). Digunakan pada deposito yang bunganya tidak diinvestasikan ulang.</li>
+      <li><strong>Bunga Majemuk (Compound Interest)</strong> — Bunga dari periode sebelumnya ditambahkan ke pokok, sehingga periode berikutnya menghasilkan bunga yang lebih besar. Pertumbuhan bersifat eksponensial. Rumus: Nilai akhir = Pokok × (1 + r)^t. Berlaku jika bunga dikreditkan dan diinvestasikan kembali.</li>
     </ul>
-    <p>Albert Einstein pernah menyebut bunga majemuk sebagai "keajaiban dunia kedelapan" — semakin lama Anda membiarkan uang berkembang, semakin dramatis pertumbuhannya. Kalkulator ini memungkinkan Anda membandingkan kedua metode secara langsung.</p>
-
-    <h2>Cara Menggunakan Kalkulator Tabungan</h2>
-    <ol>
-      <li>Masukkan <strong>saldo awal</strong> — modal yang akan Anda tabung atau depositokan</li>
-      <li>Pilih atau ketik <strong>suku bunga per tahun</strong> (gunakan preset bank untuk referensi cepat)</li>
-      <li>Pilih <strong>jangka waktu</strong> — 1, 3, 5, atau 10 tahun</li>
-      <li>Pilih <strong>jenis bunga</strong>: majemuk (bunga berbunga) atau sederhana (bunga flat)</li>
-      <li>Atur <strong>pajak bunga</strong> — default 20% untuk deposito bank umum di Indonesia</li>
-      <li>Klik <strong>"Hitung Tabungan"</strong></li>
-    </ol>
-    <p>Hasil menampilkan nilai akhir setelah pajak, rincian bunga kotor dan bersih, serta grafik proyeksi pertumbuhan per tahun.</p>
-
-    <h2>Suku Bunga Deposito dan Tabungan di Indonesia 2026</h2>
-    <p>Berikut gambaran umum suku bunga produk simpanan di Indonesia (dapat berubah, cek langsung ke bank):</p>
-    <table>
-      <tr><th>Produk / Bank</th><th>Bunga per Tahun</th><th>Pajak Bunga</th><th>Catatan</th></tr>
-      <tr><td>Tabungan BCA</td><td>2–3,5%</td><td>20%</td><td>Tergantung saldo</td></tr>
-      <tr><td>Tabungan BRI / BNI / Mandiri</td><td>2–4%</td><td>20%</td><td>Tergantung tier saldo</td></tr>
-      <tr><td>Deposito bank umum</td><td>4–6%</td><td>20%</td><td>Tenor 1–12 bulan</td></tr>
-      <tr><td>ORI / SBR (Obligasi Negara)</td><td>5,9–7,5%</td><td>10%</td><td>Pajak lebih rendah</td></tr>
-      <tr><td>Reksa Dana Pasar Uang</td><td>4–6%</td><td>0%</td><td>Tidak ada pajak bunga</td></tr>
-      <tr><td>Bank Digital (Jago, Blu, dll)</td><td>4–7%</td><td>20%</td><td>Sering ada promo bunga tinggi</td></tr>
-    </table>
-    <p>*Bunga dan ketentuan berubah mengikuti kebijakan Bank Indonesia dan masing-masing bank. Selalu konfirmasi ke bank terkait.</p>
-
-    <h2>Perbandingan: Deposito vs Reksa Dana Pasar Uang</h2>
-    <p>Dua instrumen paling populer untuk dana darurat dan tabungan jangka pendek:</p>
-    <table>
-      <tr><th>Aspek</th><th>Deposito</th><th>Reksa Dana Pasar Uang</th></tr>
-      <tr><td>Imbal hasil</td><td>Tetap (sudah pasti)</td><td>Mengikuti pasar (biasanya mirip deposito)</td></tr>
-      <tr><td>Pajak</td><td>20% dari bunga</td><td>0% (tidak kena pajak bunga)</td></tr>
-      <tr><td>Likuiditas</td><td>Terkunci (ada penalti jika cair lebih awal)</td><td>Bisa cair kapan saja (T+1 atau T+2)</td></tr>
-      <tr><td>Jaminan</td><td>Dijamin LPS hingga Rp 2 miliar</td><td>Tidak dijamin LPS, dijamin NAB (nilai aset bersih)</td></tr>
-      <tr><td>Modal minimum</td><td>Rp 1 juta – Rp 8 juta (tergantung bank)</td><td>Mulai Rp 10.000 (via aplikasi investasi)</td></tr>
-      <tr><td>Cocok untuk</td><td>Dana yang tidak butuh dicairkan cepat</td><td>Dana darurat, tabungan fleksibel</td></tr>
-    </table>
-
-    <h2>Simulasi Pertumbuhan Tabungan: Mulai Cepat vs Menunda</h2>
-    <p>Contoh dua orang yang menabung Rp 10.000.000 dengan bunga 5% per tahun (bunga majemuk, setelah pajak 20% = efektif 4%):</p>
+    <p>Contoh perbedaannya: Rp 10 juta, bunga 5%/tahun selama 10 tahun:</p>
     <ul>
-      <li><strong>Andi mulai menabung sekarang</strong> → setelah 10 tahun: Rp 10 juta × (1,04)^10 = <strong>Rp 14,8 juta</strong></li>
-      <li><strong>Budi menunda 5 tahun</strong> → hanya punya 5 tahun: Rp 10 juta × (1,04)^5 = <strong>Rp 12,2 juta</strong></li>
-      <li>Perbedaan: Rp 2,6 juta — hanya karena menunda 5 tahun!</li>
+      <li>Bunga sederhana: Rp 10 juta + (Rp 500.000 × 10) = <strong>Rp 15.000.000</strong></li>
+      <li>Bunga majemuk: Rp 10 juta × (1,05)^10 = <strong>Rp 16.288.946</strong></li>
     </ul>
-    <p>Kunci bunga majemuk adalah <strong>waktu</strong>. Semakin awal mulai, semakin besar manfaatnya. Menabung Rp 500.000/bulan mulai usia 25 tahun jauh lebih menguntungkan daripada menabung Rp 1.000.000/bulan mulai usia 35 tahun.</p>
+    <p>Selisih Rp 1,3 juta lebih — dan semakin lama jangka waktu, semakin besar perbedaannya.</p>
+
+    <h2>Fitur Kalkulator Tabungan NovaCalcs</h2>
+    <ul>
+      <li><strong>Mode Simulasi</strong> — Hitung pertumbuhan deposito atau tabungan dari modal awal. Pilih bunga majemuk atau sederhana, atur pajak bunga (20% untuk deposito, 10% untuk ORI/SBR, 0% untuk reksa dana). Tampilan langsung membandingkan keduanya.</li>
+      <li><strong>Mode Setoran Rutin</strong> — Simulasikan tabungan dengan kontribusi bulanan. Berguna untuk menghitung hasil nabung Rp 300.000–2.000.000 per bulan selama beberapa tahun ke depan, dengan bunga majemuk bulanan.</li>
+      <li><strong>Mode Target (Reverse)</strong> — Masukkan target nominal yang ingin dicapai, jangka waktu, dan bunga yang tersedia — kalkulator menghitung berapa setoran per bulan yang dibutuhkan. Ideal untuk merencanakan dana pendidikan, DP rumah, atau liburan.</li>
+      <li><strong>Perbandingan majemuk vs sederhana otomatis</strong> — Setiap hasil simulasi menampilkan kedua nilai berdampingan agar Anda bisa langsung melihat seberapa besar keuntungan bunga majemuk.</li>
+      <li><strong>Proyeksi tahunan visual</strong> — Bar chart per tahun menampilkan pertumbuhan nilai tabungan dari tahun ke tahun secara intuitif.</li>
+    </ul>
+
+    <h2>Suku Bunga Produk Simpanan Indonesia 2026</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Produk</th><th>Bunga/Tahun</th><th>Pajak Bunga</th><th>Likuiditas</th></tr></thead>
+      <tbody>
+        <tr><td>Tabungan BCA / BRI / BNI / Mandiri</td><td>2–4%</td><td>20%</td><td>Kapan saja</td></tr>
+        <tr><td>Deposito bank umum</td><td>4–6%</td><td>20%</td><td>Terkunci (penalti jika cair awal)</td></tr>
+        <tr><td>ORI / SBR (Obligasi Negara Ritel)</td><td>6–7,5%</td><td>10%</td><td>Terbatas (early redemption)</td></tr>
+        <tr><td>Reksa Dana Pasar Uang</td><td>4–6%</td><td>0%</td><td>T+1 atau T+2</td></tr>
+        <tr><td>Bank Digital (Jago, Blu, SeaBank)</td><td>4–7%</td><td>20%</td><td>Kapan saja (beberapa ada lock)</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.78rem;color:var(--text-muted)">*Bunga bersifat indikatif dan berubah mengikuti BI Rate serta kebijakan masing-masing bank. Selalu konfirmasi ke bank terkait.</p>
+
+    <h2>Perbandingan Deposito vs Reksa Dana Pasar Uang</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Aspek</th><th>Deposito Bank</th><th>Reksa Dana Pasar Uang</th></tr></thead>
+      <tbody>
+        <tr><td>Imbal hasil</td><td>Tetap (pasti)</td><td>Mengikuti pasar (~setara deposito)</td></tr>
+        <tr><td>Pajak bunga</td><td>20% dari bunga</td><td>0% (tidak kena pajak)</td></tr>
+        <tr><td>Likuiditas</td><td>Terkunci, penalti jika cair awal</td><td>Cair kapan saja (T+1 atau T+2)</td></tr>
+        <tr><td>Jaminan</td><td>LPS hingga Rp 2 miliar/bank</td><td>Tidak dijamin LPS</td></tr>
+        <tr><td>Modal minimum</td><td>Rp 100.000 – Rp 8 juta</td><td>Mulai Rp 10.000 (via aplikasi)</td></tr>
+        <tr><td>Cocok untuk</td><td>Dana yang tidak butuh dicairkan cepat</td><td>Dana darurat, tabungan fleksibel</td></tr>
+      </tbody>
+    </table>
 
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah bunga deposito dikenakan pajak di Indonesia?</div>
-    <div class="faq-a">Ya. Bunga deposito dan tabungan dikenakan Pajak Penghasilan (PPh) Final sebesar 20% dari bunga bruto untuk saldo di atas Rp 7,5 juta. Saldo di bawah Rp 7,5 juta dibebaskan dari pajak bunga. Pajak ini langsung dipotong oleh bank sebelum bunga dikreditkan ke rekening Anda — Anda tidak perlu melaporkan secara terpisah.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Lebih baik deposito atau reksa dana pasar uang?</div>
-    <div class="faq-a">Keduanya relatif aman dengan imbal hasil mirip. Deposito lebih pasti (bunga tetap, dijamin LPS hingga Rp 2 miliar per nasabah per bank) namun tidak fleksibel — ada penalti jika dicairkan sebelum jatuh tempo. Reksa dana pasar uang tidak dijamin LPS namun lebih likuid (bisa cair T+1 atau T+2), tidak kena pajak bunga, dan modal awal lebih rendah. Untuk dana darurat, reksa dana pasar uang lebih cocok. Untuk dana yang tidak akan disentuh, deposito menawarkan kepastian lebih tinggi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa saldo minimal untuk membuka deposito?</div>
-    <div class="faq-a">Saldo minimal bervariasi per bank: BCA mulai Rp 8 juta, BRI dan Mandiri mulai Rp 1 juta, beberapa bank digital (seperti Jago, Blu) mulai dari Rp 100.000. Tenor umumnya 1, 3, 6, atau 12 bulan. Bunga lebih tinggi untuk tenor lebih panjang dan nominal lebih besar. Cek ketentuan terkini langsung ke bank karena sering berubah.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu LPS dan bagaimana melindungi tabungan saya?</div>
-    <div class="faq-a">LPS (Lembaga Penjamin Simpanan) menjamin simpanan nasabah hingga <strong>Rp 2 miliar per nasabah per bank</strong> jika bank tersebut dilikuidasi. Syarat: saldo ≤ Rp 2 miliar, bunga ≤ tingkat bunga penjaminan LPS yang berlaku (cek di lps.go.id), dan nasabah tidak terlibat tindakan yang merugikan bank. Jika Anda punya tabungan lebih dari Rp 2 miliar, sebaiknya disebar ke beberapa bank berbeda.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah boleh mencairkan deposito sebelum jatuh tempo?</div>
-    <div class="faq-a">Boleh, namun biasanya dikenakan penalti berupa kehilangan sebagian atau seluruh bunga yang sudah berjalan. Beberapa bank juga mengenakan biaya administrasi. Misalnya deposito 12 bulan yang dicairkan di bulan ke-3 mungkin tidak mendapat bunga sama sekali. Karena itu, jangan menaruh dana darurat di deposito — gunakan reksa dana pasar uang atau tabungan biasa yang bisa diakses kapan saja.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu ORI dan SBR, dan apakah lebih menguntungkan dari deposito?</div>
-    <div class="faq-a">ORI (Obligasi Ritel Indonesia) dan SBR (Savings Bond Ritel) adalah surat utang negara yang bisa dibeli masyarakat umum, biasanya dengan modal minimum Rp 1 juta. Keunggulannya: bunga lebih tinggi dari deposito (sekitar 5,9–7,5%), pajak bunga hanya 10% (vs 20% deposito), dan 100% dijamin negara. Kelemahannya: periode tertentu (biasanya 2–3 tahun), tidak bisa dicairkan kapan saja (ada periode early redemption terbatas). Diterbitkan secara berkala — pantau pengumuman Kemenkeu untuk jadwal penjualan.</div></div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah bunga tabungan dikenakan pajak di Indonesia?</div>
+      <div class="faq-a">Ya, bunga tabungan dan deposito dikenakan PPh Final 20% untuk saldo di atas Rp 7,5 juta. Saldo di bawah Rp 7,5 juta dibebaskan dari pajak bunga. Untuk ORI dan SBR, pajak bunga hanya 10%. Reksa dana pasar uang tidak dikenakan pajak bunga — salah satu keunggulannya dibanding deposito. Pajak dipotong langsung oleh bank sebelum bunga dikreditkan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Lebih baik deposito atau reksa dana pasar uang?</div>
+      <div class="faq-a">Bergantung kebutuhan. Deposito lebih pasti (bunga tetap, dijamin LPS hingga Rp 2 miliar per bank) namun tidak fleksibel — ada penalti jika dicairkan sebelum jatuh tempo. Reksa dana pasar uang tidak dijamin LPS namun lebih likuid, bebas pajak bunga, dan modal awal lebih kecil. Untuk dana darurat, reksa dana pasar uang lebih cocok karena bisa dicairkan kapan saja. Untuk dana yang tidak akan disentuh 3–12 bulan, deposito memberi kepastian lebih tinggi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara kerja bunga majemuk bulanan?</div>
+      <div class="faq-a">Bunga majemuk bulanan artinya bunga dikompound setiap bulan, bukan tahunan. Rumusnya: Nilai = Pokok × (1 + r/12)^(12×t), di mana r adalah bunga tahunan. Ini menghasilkan nilai akhir yang sedikit lebih besar dibanding majemuk tahunan karena frekuensi kompounding lebih sering. Sebagian besar reksa dana pasar uang dan tabungan bank menggunakan kompounding harian atau bulanan, sehingga hasilnya lebih baik dari simulasi tahunan sederhana.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu LPS dan bagaimana melindungi tabungan?</div>
+      <div class="faq-a">LPS (Lembaga Penjamin Simpanan) menjamin simpanan nasabah hingga Rp 2 miliar per nasabah per bank jika bank dilikuidasi. Syaratnya: bunga yang diterima tidak melebihi tingkat bunga penjaminan LPS (cek di lps.go.id) dan nasabah tidak terlibat fraud. Jika Anda punya tabungan lebih dari Rp 2 miliar, sebaiknya disebar ke beberapa bank berbeda untuk mendapat perlindungan penuh.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah bisa mencairkan deposito sebelum jatuh tempo?</div>
+      <div class="faq-a">Bisa, namun biasanya dikenakan penalti berupa kehilangan sebagian atau seluruh bunga berjalan. Beberapa bank juga mengenakan biaya administrasi. Deposito yang dicairkan di bulan ke-2 dari tenor 12 bulan mungkin tidak mendapat bunga sama sekali. Oleh karena itu, jangan simpan dana darurat di deposito — gunakan reksa dana pasar uang atau tabungan reguler yang lebih fleksibel.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa itu ORI dan SBR, dan bagaimana cara membelinya?</div>
+      <div class="faq-a">ORI (Obligasi Ritel Indonesia) dan SBR (Savings Bond Ritel) adalah surat utang pemerintah yang dijual langsung ke masyarakat. Keunggulan: bunga lebih tinggi dari deposito, pajak bunga hanya 10%, dan 100% dijamin negara. Modal minimum Rp 1 juta, maksimum Rp 5 miliar. Bisa dibeli melalui mitra distribusi resmi: BCA, Mandiri, BRI, BNI, OCBC, Bibit, Bareksa, dan platform lainnya yang ditunjuk Kemenkeu. Diterbitkan beberapa kali setahun — pantau pengumuman di kemenkeu.go.id.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa besar setoran bulanan untuk menabung Rp 100 juta dalam 5 tahun?</div>
+      <div class="faq-a">Dengan bunga 5%/tahun (reksa dana pasar uang atau deposito roll), dan tanpa saldo awal: menggunakan rumus anuitas Future Value, setoran per bulan yang dibutuhkan sekitar Rp 1.470.000–1.500.000/bulan. Jika punya saldo awal Rp 20 juta, setoran turun menjadi sekitar Rp 1.100.000/bulan. Gunakan Tab "Target" di kalkulator ini untuk simulasi dengan angka spesifik.</div>
+    </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Investasi</a>
+      <a href="/id/kalkulator-tabungan-haji.html" class="related-item"><span class="ri">🕌</span>Tabungan Haji</a>
       <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
-      <a href="/id/kalkulator-cicilan.html" class="related-item"><span class="ri">💳</span>Kalkulator Cicilan</a>
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
+      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Inflasi</a>
     </div>
   </div>
 </main>
@@ -180,72 +382,210 @@
 </footer>
 
 <script defer>
-let years = 5, jenis = 'majemuk';
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
 const fmtM = n => {
   if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
   if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(2) + ' jt';
   return fmt(n);
 };
 
-function setRate(r, btn) {
-  document.getElementById('rate').value = r;
-  document.querySelectorAll('.inv-preset').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  calculate();
-}
-function setYears(y, btn) {
-  years = y;
-  document.querySelectorAll('#yr-btns .radio-btn').forEach(b => b.classList.remove('active'));
+/* ── State ── */
+const yr = { yr0:5, yr1:5, yr2:5 };
+let jenis = 'majemuk';
+
+/* ── Helpers ── */
+function switchTab(idx, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  calculate();
+  document.getElementById('tp' + idx).classList.add('active');
+}
+function setRate(id, v, btn) {
+  document.getElementById(id).value = v;
+  btn.closest('.field').querySelectorAll('.rate-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  autoCalc0(); autoCalc1(); autoCalc2();
+}
+function setSetoran(v, btn) {
+  document.getElementById('p1-setoran').value = v;
+  btn.closest('.field').querySelectorAll('.rate-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  autoCalc1();
+}
+function setTarget(v, btn) {
+  document.getElementById('p2-target').value = v;
+  btn.closest('.field').querySelectorAll('.rate-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  autoCalc2();
+}
+function setYr(key, v, btn) {
+  yr[key] = v;
+  document.querySelectorAll('#' + key + '-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc0(); autoCalc1(); autoCalc2();
 }
 function setJenis(j, btn) {
   jenis = j;
-  document.getElementById('btn-majemuk').classList.toggle('active', j==='majemuk');
-  document.getElementById('btn-sederhana').classList.toggle('active', j==='sederhana');
-  calculate();
+  document.getElementById('btn-mj').classList.toggle('active', j === 'majemuk');
+  document.getElementById('btn-sd').classList.toggle('active', j === 'sederhana');
+  autoCalc0();
 }
 
-function calculate() {
+/* ── Growth bar renderer ── */
+function renderGrowth(containerId, dataArr) {
+  const maxV = Math.max(...dataArr.map(d => d.v));
+  document.getElementById(containerId).innerHTML =
+    '<div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin:12px 0 8px">Proyeksi Tahunan</div>' +
+    dataArr.map(d => `<div class="g-yr">
+      <span class="gy-label">Tahun ${d.y}</span>
+      <div class="gy-track"><div class="gy-fill" style="width:${(d.v/maxV*100).toFixed(1)}%"></div></div>
+      <span class="gy-val">${fmtM(d.v)}</span>
+    </div>`).join('');
+}
+
+/* ── TAB 0 ── */
+function autoCalc0() { if (document.getElementById('pokok').value) calcSimulasi(); }
+function calcSimulasi() {
   const pokok = parseFloat(document.getElementById('pokok').value) || 0;
-  const rate = parseFloat(document.getElementById('rate').value) / 100;
-  const pajakRate = parseFloat(document.getElementById('pajak').value) / 100;
+  const r     = parseFloat(document.getElementById('rate0').value) / 100;
+  const pajR  = parseFloat(document.getElementById('pajak0').value) / 100;
+  const t     = yr.yr0;
   if (!pokok) return;
 
-  const growthData = [];
-  for (let y = 1; y <= years; y++) {
-    let nilai;
-    if (jenis === 'majemuk') nilai = pokok * Math.pow(1 + rate, y);
-    else nilai = pokok * (1 + rate * y);
-    const bungaKotor = nilai - pokok;
-    const pajakBunga = bungaKotor * pajakRate;
-    const nilaiBersih = pokok + bungaKotor - pajakBunga;
-    growthData.push({ y, nilai, nilaiBersih });
+  // Hitung keduanya
+  const nilaiMj = pokok * Math.pow(1 + r, t);
+  const nilaiSd = pokok * (1 + r * t);
+  const bungaMjKotor = nilaiMj - pokok;
+  const bungaSdKotor = nilaiSd - pokok;
+  const pajMj = bungaMjKotor * pajR;
+  const pajSd = bungaSdKotor * pajR;
+  const bersMj = pokok + bungaMjKotor - pajMj;
+  const bersSd = pokok + bungaSdKotor - pajSd;
+
+  // Pilih sesuai jenis aktif
+  const nilai   = jenis === 'majemuk' ? bersMj : bersSd;
+  const bKotor  = jenis === 'majemuk' ? bungaMjKotor : bungaSdKotor;
+  const pj      = jenis === 'majemuk' ? pajMj : pajSd;
+  const bNeto   = bKotor - pj;
+
+  document.getElementById('r0-nilai').textContent = fmt(nilai);
+  const bungaPct = Math.round(bNeto / nilai * 100);
+  document.getElementById('r0-pct-bunga').textContent = bungaPct + '% bunga bersih';
+  document.getElementById('r0-bar-pokok').style.width = (100 - bungaPct) + '%';
+  document.getElementById('r0-bar-pokok').textContent = (100-bungaPct) > 15 ? 'Pokok' : '';
+  document.getElementById('r0-bar-bunga').style.width = bungaPct + '%';
+  document.getElementById('r0-bar-bunga').textContent = bungaPct > 10 ? 'Bunga' : '';
+  document.getElementById('r0-pokok').textContent  = fmtM(pokok);
+  document.getElementById('r0-bruto').textContent  = fmtM(bKotor);
+  document.getElementById('r0-pajak').textContent  = '−' + fmtM(pj);
+  document.getElementById('r0-neto').textContent   = '+' + fmtM(bNeto);
+
+  // Compare cards
+  document.getElementById('cmp-mj').textContent   = fmt(bersMj);
+  document.getElementById('cmp-sd').textContent   = fmt(bersSd);
+  const diff = bersMj - bersSd;
+  document.getElementById('cmp-sd-sub').textContent = `Selisih: +${fmtM(diff)} lebih kecil`;
+
+  // Growth bars
+  const gd = [];
+  for (let y = 1; y <= t; y++) {
+    const nMj = pokok * Math.pow(1+r,y);
+    const nSd = pokok * (1+r*y);
+    const v = jenis === 'majemuk' ? nMj - (nMj - pokok) * pajR : nSd - (nSd - pokok) * pajR;
+    gd.push({ y, v });
+  }
+  renderGrowth('r0-growth', gd);
+
+  // Advice
+  const effRate = (bNeto / pokok / t * 100).toFixed(2);
+  document.getElementById('r0-advice').innerHTML =
+    `💡 Dengan bunga ${(r*100).toFixed(1)}%/tahun selama ${t} tahun, modal <strong>${fmtM(pokok)}</strong> tumbuh menjadi <strong>${fmt(nilai)}</strong> (return bersih ~${effRate}%/tahun setelah pajak). ${jenis === 'sederhana' ? `Jika beralih ke bunga majemuk, hasilnya menjadi <strong>${fmt(bersMj)}</strong> (+${fmtM(bersMj - bersSd)}).` : `Bunga majemuk memberikan keuntungan ${fmtM(diff)} lebih besar dibanding bunga sederhana.`}`;
+
+  document.getElementById('res0').style.display = 'block';
+  document.getElementById('res0').classList.add('show');
+}
+
+/* ── TAB 1 ── */
+function autoCalc1() {
+  const s = document.getElementById('p1-setoran').value;
+  if (s) calcSetoran();
+}
+function calcSetoran() {
+  const awal    = parseFloat(document.getElementById('p1-awal').value) || 0;
+  const setoran = parseFloat(document.getElementById('p1-setoran').value) || 0;
+  const rYear   = parseFloat(document.getElementById('p1-rate').value) / 100;
+  const pajR    = parseFloat(document.getElementById('p1-pajak').value) / 100;
+  const t       = yr.yr1;
+  if (!setoran) return;
+
+  const r = rYear / 12; // kompounding bulanan
+  const n = t * 12;
+  let nilai = awal;
+  const milestones = [];
+  let totalBungaKotor = 0;
+
+  for (let m = 1; m <= n; m++) {
+    const bunga = nilai * r;
+    totalBungaKotor += bunga;
+    nilai = nilai + bunga + setoran;
+    if (m % 12 === 0) milestones.push(nilai - totalBungaKotor * pajR);
   }
 
-  const last = growthData[growthData.length - 1];
-  const bungaKotor = last.nilai - pokok;
-  const pajakBunga = bungaKotor * pajakRate;
-  const bungaBersih = bungaKotor - pajakBunga;
+  const totalSetor    = awal + setoran * n;
+  const bungaBersih   = nilai - totalSetor - totalBungaKotor * pajR;
+  const nilaiBersih   = totalSetor + bungaBersih;
 
-  document.getElementById('res-akhir').textContent = fmt(last.nilaiBersih);
-  document.getElementById('res-pokok').textContent = fmt(pokok);
-  document.getElementById('res-bunga').textContent = fmt(bungaKotor);
-  document.getElementById('res-pajak').textContent = '− ' + fmt(pajakBunga);
-  document.getElementById('res-bunga-bersih').textContent = '+' + fmt(bungaBersih);
+  document.getElementById('r1-nilai').textContent = fmt(nilaiBersih);
+  document.getElementById('r1-setor').textContent = fmtM(totalSetor);
+  document.getElementById('r1-bunga').textContent = '+' + fmtM(Math.max(0, bungaBersih));
 
-  const maxVal = growthData[growthData.length-1].nilaiBersih;
-  document.getElementById('growth-rows').innerHTML =
-    '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:8px">Proyeksi Tahunan</div>' +
-    growthData.map(d => `
-      <div class="g-yr">
-        <span class="gy-label">Tahun ${d.y}</span>
-        <div class="gy-track"><div class="gy-fill" style="width:${(d.nilaiBersih/maxVal*100).toFixed(1)}%"></div></div>
-        <span class="gy-val">${fmtM(d.nilaiBersih)}</span>
-      </div>`).join('');
+  const gd = milestones.map((v, i) => ({ y: i+1, v }));
+  renderGrowth('r1-growth', gd);
 
-  document.getElementById('result').classList.add('show');
+  document.getElementById('r1-advice').innerHTML =
+    `📅 Dengan setoran <strong>${fmt(setoran)}/bulan</strong> selama <strong>${t} tahun</strong>, total yang Anda setor adalah <strong>${fmtM(totalSetor)}</strong>. Bunga majemuk menambahkan <strong>${fmtM(Math.max(0,bungaBersih))}</strong> (bersih setelah pajak), sehingga total akhir <strong>${fmt(nilaiBersih)}</strong>.`;
+
+  document.getElementById('res1').style.display = 'block';
+  document.getElementById('res1').classList.add('show');
+}
+
+/* ── TAB 2 ── */
+function autoCalc2() {
+  if (document.getElementById('p2-target').value) calcTarget();
+}
+function calcTarget() {
+  const target = parseFloat(document.getElementById('p2-target').value) || 0;
+  const awal   = parseFloat(document.getElementById('p2-awal').value) || 0;
+  const rYear  = parseFloat(document.getElementById('p2-rate').value) / 100;
+  const t      = yr.yr2;
+  if (!target) return;
+
+  const r = rYear / 12;
+  const n = t * 12;
+
+  // FV formula: target = awal*(1+r)^n + setoran*((1+r)^n - 1)/r
+  const fvAwal = awal * Math.pow(1 + r, n);
+  const sisa   = target - fvAwal;
+  const setoran = sisa > 0
+    ? sisa * r / (Math.pow(1+r, n) - 1)
+    : 0;
+
+  const totalSetor   = awal + Math.max(0, setoran) * n;
+  const kontribBunga = target - totalSetor;
+
+  document.getElementById('r2-setoran').textContent     = setoran > 0 ? fmt(setoran) + '/bulan' : 'Saldo awal sudah cukup!';
+  document.getElementById('r2-target').textContent      = fmtM(target);
+  document.getElementById('r2-awal').textContent        = fmtM(awal);
+  document.getElementById('r2-waktu').textContent       = t + ' tahun (' + n + ' bulan)';
+  document.getElementById('r2-total-setor').textContent = fmtM(totalSetor);
+  document.getElementById('r2-kontrib-bunga').textContent = '+' + fmtM(Math.max(0, kontribBunga));
+
+  document.getElementById('r2-advice').innerHTML = setoran > 0
+    ? `🎯 Untuk mencapai target <strong>${fmtM(target)}</strong> dalam ${t} tahun dengan bunga ${(rYear*100).toFixed(1)}%/tahun, Anda perlu menabung <strong>${fmt(setoran)}/bulan</strong>. Dari total ini, bunga berkontribusi <strong>${fmtM(Math.max(0,kontribBunga))}</strong> — artinya uang Anda yang benar-benar keluar hanya <strong>${fmtM(totalSetor)}</strong>.`
+    : `✅ Dengan saldo awal <strong>${fmtM(awal)}</strong> dan bunga ${(rYear*100).toFixed(1)}%/tahun, target <strong>${fmtM(target)}</strong> bisa tercapai dalam ${t} tahun tanpa setoran tambahan!`;
+
+  document.getElementById('res2').style.display = 'block';
+  document.getElementById('res2').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
