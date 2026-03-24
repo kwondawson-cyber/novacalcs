@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Cicilan Motor 2026 — Simulasi Angsuran Kredit Motor | NovaCalcs</title>
-<meta name="description" content="Simulasi cicilan kredit motor bulanan secara gratis. Hitung angsuran, total bunga, dan total bayar berdasarkan harga motor, DP, tenor, dan bunga leasing."/>
-<meta name="keywords" content="kalkulator cicilan motor, simulasi kredit motor, angsuran motor, cicilan FIF, kredit motor baru, hitung cicilan sepeda motor"/>
+<title>Kalkulator Cicilan Motor 2026 — Simulasi Kredit + Tabel Tenor | NovaCalcs</title>
+<meta name="description" content="Simulasi cicilan kredit motor 2026 lengkap. Pilih merek motor, atur DP dan tenor, bandingkan total bayar untuk 5 tenor sekaligus, dan cek kemampuan bayar dari gaji Anda."/>
+<meta name="keywords" content="kalkulator cicilan motor 2026, simulasi kredit motor, angsuran motor Honda Yamaha, cicilan FIF Adira, DP motor, hitung cicilan sepeda motor"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-cicilan-motor.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-cicilan-motor.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,8 +13,75 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Cicilan Motor","url":"https://novacalcs.com/id/kalkulator-cicilan-motor.html","description":"Simulasi cicilan motor dengan perbandingan tenor dan kemampuan bayar","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Brand presets */
+.brand-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:12px; }
+.brand-btn { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px 6px; text-align:center; cursor:pointer; transition:all 0.15s; }
+.brand-btn:hover,.brand-btn.active { background:var(--mint-dim); border-color:rgba(0,201,177,0.35); }
+.brand-btn .bb-name { font-size:0.72rem; font-weight:700; color:var(--text-primary); }
+.brand-btn .bb-price { font-size:0.65rem; color:var(--mint); margin-top:2px; }
+
+/* Big angsuran display */
+.motor-main { text-align:center; padding:16px 0 8px; }
+.motor-num { font-size:2.4rem; font-weight:700; color:var(--mint); line-height:1; }
+.motor-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
+
+/* Pokok vs bunga bar */
+.motor-bar-wrap { margin:12px 0 6px; }
+.motor-bar-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:5px; }
+.motor-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
+.motor-bar-dp     { background:#60a5fa; height:100%; display:flex; align-items:center; padding-left:6px; font-size:0.6rem; font-weight:700; color:#0c1a2e; transition:width 0.6s; }
+.motor-bar-pokok  { background:#4ade80; height:100%; display:flex; align-items:center; padding-left:6px; font-size:0.6rem; font-weight:700; color:#064e3b; transition:width 0.6s; }
+.motor-bar-bunga  { background:#f97316; height:100%; display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:700; color:#431407; transition:width 0.6s; }
+.motor-bar-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:5px; font-size:0.72rem; color:var(--text-secondary); }
+.motor-bar-legend span::before { content:'●'; margin-right:4px; }
+.leg-b::before { color:#60a5fa; } .leg-g::before { color:#4ade80; } .leg-o::before { color:#f97316; }
+
+/* Stats grid */
+.motor-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+.ms-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
+.ms-card .mc-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
+.ms-card .mc-val { font-size:0.9rem; font-weight:700; color:var(--text-primary); }
+.ms-card.green .mc-val { color:var(--mint); }
+.ms-card.orange .mc-val { color:#f97316; }
+
+/* Tenor comparison */
+.tenor-comp { width:100%; border-collapse:collapse; font-size:0.78rem; margin-top:10px; }
+.tenor-comp th { background:var(--bg-input); color:var(--text-secondary); padding:7px 10px; text-align:right; font-weight:600; }
+.tenor-comp th:first-child { text-align:left; }
+.tenor-comp td { padding:7px 10px; border-bottom:1px solid var(--border); text-align:right; }
+.tenor-comp td:first-child { text-align:left; font-weight:600; color:var(--text-secondary); }
+.tenor-comp tr.chosen td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
+.tenor-comp tr:last-child td { border-bottom:none; }
+.tenor-comp .pricier { color:#f97316; }
+
+/* Kemampuan box */
+.kemampuan-box { background:var(--bg-input); border-radius:var(--radius-sm); padding:12px 14px; margin-top:10px; border:1px solid var(--border); }
+.kemampuan-box .kb-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:8px; }
+.krow { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border); font-size:0.82rem; }
+.krow:last-child { border-bottom:none; }
+.krow-val { font-weight:700; }
+.krow-val.ok  { color:var(--mint); }
+.krow-val.warn{ color:#fbbf24; }
+.krow-val.bad { color:#f87171; }
+
+/* DP slider */
+.dp-display { text-align:center; font-size:0.85rem; color:var(--text-secondary); margin-top:4px; }
+.dp-display span { color:var(--mint); font-weight:700; }
+
+/* Ref table */
+.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.ref-table tr:last-child td { border-bottom:none; }
+</style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -25,132 +92,194 @@
     </nav>
   </div>
 </header>
+
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🏍️ Kalkulator Cicilan Motor</div>
-      <div class="calc-subtitle">Simulasi angsuran kredit motor bulanan Anda</div>
+      <div class="calc-title">🏍️ Kalkulator Cicilan Motor 2026</div>
+      <div class="calc-subtitle">Simulasi angsuran + perbandingan tenor + cek kemampuan bayar</div>
 
-      <div class="field"><label>Harga Motor OTR (Rp)</label><input type="number" id="price" placeholder="Contoh: 20000000" min="0"/></div>
-      <div class="field">
-        <label>Uang Muka / DP (%)</label>
-        <select id="dp-pct">
-          <option value="10">10%</option>
-          <option value="15">15%</option>
-          <option value="20" selected>20%</option>
-          <option value="25">25%</option>
-          <option value="30">30%</option>
-          <option value="50">50%</option>
-        </select>
+      <!-- Brand presets -->
+      <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:6px;">Motor Populer (klik untuk isi otomatis)</div>
+      <div class="brand-grid">
+        <div class="brand-btn" onclick="setMotor(17500000,'Honda Beat 110')"><div class="bb-name">🏍️ Honda Beat</div><div class="bb-price">~Rp 17,5 jt</div></div>
+        <div class="brand-btn" onclick="setMotor(23500000,'Honda Vario 125')"><div class="bb-name">🏍️ Honda Vario 125</div><div class="bb-price">~Rp 23,5 jt</div></div>
+        <div class="brand-btn" onclick="setMotor(24000000,'Honda Scoopy')"><div class="bb-name">🛵 Honda Scoopy</div><div class="bb-price">~Rp 24 jt</div></div>
+        <div class="brand-btn" onclick="setMotor(32000000,'Yamaha NMAX 155')"><div class="bb-name">🏍️ Yamaha NMAX</div><div class="bb-price">~Rp 32 jt</div></div>
+        <div class="brand-btn" onclick="setMotor(31000000,'Yamaha Aerox 155')"><div class="bb-name">🏍️ Yamaha Aerox</div><div class="bb-price">~Rp 31 jt</div></div>
+        <div class="brand-btn" onclick="setMotor(30000000,'Honda CB150R')"><div class="bb-name">🏍️ Honda CB150R</div><div class="bb-price">~Rp 30 jt</div></div>
       </div>
-      <div class="field">
-        <label>Tenor (bulan)</label>
-        <select id="tenor">
-          <option value="12">12 bulan (1 tahun)</option>
-          <option value="18">18 bulan</option>
-          <option value="24" selected>24 bulan (2 tahun)</option>
-          <option value="30">30 bulan</option>
-          <option value="36">36 bulan (3 tahun)</option>
-          <option value="48">48 bulan (4 tahun)</option>
-        </select>
+
+      <div class="field"><label>Harga Motor OTR (Rp)</label>
+        <input type="number" id="price" placeholder="Atau masukkan harga manual" oninput="autoCalc()"/>
       </div>
+
+      <div class="field">
+        <label>Uang Muka / DP — <span id="dp-pct-label">20%</span> = <span id="dp-rp-label" style="color:var(--mint)">—</span></label>
+        <input type="range" id="dp-range" min="10" max="60" value="20" oninput="syncDP(this.value)" style="width:100%;accent-color:var(--mint)"/>
+        <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-muted)"><span>Min 10%</span><span>60%</span></div>
+      </div>
+
+      <div class="field">
+        <label>Tenor</label>
+        <div class="radio-group" id="tenor-btns" style="flex-wrap:wrap">
+          <div class="radio-btn" onclick="setTenor(12,this)">12 bln</div>
+          <div class="radio-btn" onclick="setTenor(18,this)">18 bln</div>
+          <div class="radio-btn active" onclick="setTenor(24,this)">24 bln</div>
+          <div class="radio-btn" onclick="setTenor(36,this)">36 bln</div>
+          <div class="radio-btn" onclick="setTenor(48,this)">48 bln</div>
+        </div>
+      </div>
+
       <div class="field">
         <label>Bunga Flat per Tahun (%)</label>
-        <input type="number" id="rate" value="15" min="0" max="50" step="0.1"/>
-        <small style="color:#aaa">Rata-rata leasing Indonesia ~12–18%/tahun flat</small>
+        <input type="number" id="rate" value="15" min="0" max="50" step="0.1" oninput="autoCalc()"/>
+        <p style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">Rata-rata leasing Indonesia ~12–18%/tahun flat. Tanyakan ke dealer/leasing untuk bunga aktual.</p>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Cicilan</button>
+      <div class="field">
+        <label>Gaji bersih per bulan (opsional — untuk cek kemampuan bayar)</label>
+        <input type="number" id="gaji" placeholder="Contoh: 5.000.000" oninput="autoCalc()"/>
+      </div>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-angsuran">—</div>
-          <div class="result-label">Cicilan per Bulan</div>
+      <button class="calc-btn" onclick="calculate()">🏍️ Simulasi Cicilan Motor</button>
+
+      <div class="result-box" id="result" style="display:none">
+
+        <!-- Main angsuran -->
+        <div class="motor-main">
+          <div class="motor-num" id="res-angsuran">—</div>
+          <div class="motor-label">Cicilan per bulan (bunga flat)</div>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Uang muka (DP)</span><span class="rval" id="res-dp">—</span></div>
-          <div class="result-row"><span class="rkey">Pokok pinjaman</span><span class="rval" id="res-pokok">—</span></div>
-          <div class="result-row"><span class="rkey">Total bunga</span><span class="rval" id="res-bunga">—</span></div>
-          <div class="result-row"><span class="rkey">Total yang dibayar</span><span class="rval" id="res-total">—</span></div>
-          <div class="result-row"><span class="rkey">Biaya bunga (%harga)</span><span class="rval" id="res-biaya-pct">—</span></div>
+
+        <!-- Total cost bar (DP + Pokok + Bunga) -->
+        <div class="motor-bar-wrap">
+          <div class="motor-bar-title">Komposisi Total Pengeluaran</div>
+          <div class="motor-bar-track">
+            <div class="motor-bar-dp"    id="bar-dp"    style="width:20%">DP</div>
+            <div class="motor-bar-pokok" id="bar-pokok" style="width:55%">Pokok</div>
+            <div class="motor-bar-bunga" id="bar-bunga" style="width:25%">Bunga</div>
+          </div>
+          <div class="motor-bar-legend">
+            <span class="leg-b">Uang muka (DP)</span>
+            <span class="leg-g">Pokok pinjaman</span>
+            <span class="leg-o">Total bunga</span>
+          </div>
         </div>
+
+        <!-- Stats -->
+        <div class="motor-stats">
+          <div class="ms-card"><div class="mc-label">Uang muka (DP)</div><div class="mc-val" id="s-dp">—</div></div>
+          <div class="ms-card"><div class="mc-label">Pokok pinjaman</div><div class="mc-val" id="s-pokok">—</div></div>
+          <div class="ms-card orange"><div class="mc-label">Total bunga</div><div class="mc-val" id="s-bunga">—</div></div>
+          <div class="ms-card"><div class="mc-label">Total bayar (DP+pokok+bunga)</div><div class="mc-val" id="s-total">—</div></div>
+        </div>
+
+        <!-- Kemampuan bayar -->
+        <div class="kemampuan-box" id="kemampuan-box" style="display:none">
+          <div class="kb-title">💰 Analisis Kemampuan Bayar</div>
+          <div class="krow"><span>Gaji bersih</span><span class="krow-val" id="k-gaji">—</span></div>
+          <div class="krow"><span>Cicilan motor</span><span class="krow-val" id="k-cicilan">—</span></div>
+          <div class="krow"><span>Rasio cicilan/gaji</span><span class="krow-val" id="k-ratio">—</span></div>
+          <div class="krow"><span>Status</span><span class="krow-val" id="k-status">—</span></div>
+        </div>
+
+        <!-- Tenor comparison -->
+        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">📊 Perbandingan 5 Pilihan Tenor</div>
+        <table class="tenor-comp" id="tenor-comp"></table>
+
+        <!-- Advice -->
+        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Cicilan Motor — Simulasi Angsuran Kredit Sepeda Motor 2026</h1>
-    <p class="page-desc">Indonesia adalah salah satu pasar sepeda motor terbesar di dunia dengan penjualan lebih dari 6 juta unit per tahun. Sebagian besar pembelian dilakukan secara kredit. Kalkulator ini membantu Anda merencanakan cicilan motor dengan tepat sebelum mengajukan kredit.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Cicilan Motor 2026 — Simulasi Angsuran Kredit Sepeda Motor</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Simulasi cicilan kredit motor 2026 lengkap. Pilih merek motor populer, atur DP dengan slider, bandingkan 5 pilihan tenor sekaligus, dan cek apakah cicilan sesuai kemampuan gaji Anda.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Cara Menghitung Cicilan Motor Kredit</h2>
-    <p>Leasing motor di Indonesia umumnya menggunakan sistem <strong>bunga flat</strong>, bukan bunga efektif. Ini berarti bunga dihitung dari pokok pinjaman awal setiap bulan, bukan dari sisa pokok. Rumusnya:</p>
-    <table>
-      <tr><th>Komponen</th><th>Rumus</th></tr>
-      <tr><td>Pokok Pinjaman</td><td>Harga OTR − Uang Muka (DP)</td></tr>
-      <tr><td>Total Bunga</td><td>Pokok × Bunga Flat (%) × Tenor (tahun)</td></tr>
-      <tr><td>Angsuran Bulanan</td><td>(Pokok + Total Bunga) ÷ Tenor (bulan)</td></tr>
+    <h2>Cara Menghitung Cicilan Motor Kredit (Bunga Flat)</h2>
+    <p>Leasing motor di Indonesia umumnya menggunakan sistem <strong>bunga flat</strong>. Berbeda dengan bunga efektif (anuitas seperti KPR), bunga flat dihitung dari pokok awal penuh sepanjang tenor — bukan dari sisa pokok. Ini yang membuat bunga flat terasa lebih mahal secara total:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Komponen</th><th>Rumus</th></tr></thead>
+      <tbody>
+        <tr><td>Pokok Pinjaman</td><td>Harga OTR − Uang Muka (DP)</td></tr>
+        <tr><td>Total Bunga (flat)</td><td>Pokok × (Bunga%/100) × (Tenor ÷ 12)</td></tr>
+        <tr><td>Angsuran Bulanan</td><td>(Pokok + Total Bunga) ÷ Tenor</td></tr>
+      </tbody>
     </table>
-    <p style="margin-top:0.75rem"><strong>Contoh:</strong> Motor Rp 20.000.000, DP 20% (Rp 4.000.000), tenor 24 bulan, bunga 15%/tahun flat:<br/>
-    Pokok = Rp 16.000.000 · Total bunga = Rp 16.000.000 × 15% × 2 = Rp 4.800.000 · Angsuran = (16.000.000 + 4.800.000) ÷ 24 = <strong>Rp 866.667/bulan</strong></p>
+    <p><strong>Contoh:</strong> Motor Rp 20 juta, DP 20% (Rp 4 juta), bunga 15%/tahun flat, tenor 24 bulan → Pokok = Rp 16 juta · Total bunga = 16 juta × 15% × 2 = Rp 4.800.000 · Angsuran = (16 juta + 4,8 juta) ÷ 24 = <strong>Rp 866.667/bulan</strong></p>
 
-    <h2>Cara Menggunakan Kalkulator Cicilan Motor</h2>
-    <ol>
-      <li>Masukkan <strong>harga motor OTR</strong> (On The Road) sesuai daftar harga dealer</li>
-      <li>Pilih <strong>persentase DP</strong> yang ingin Anda bayarkan di awal</li>
-      <li>Pilih <strong>tenor</strong> cicilan yang diinginkan</li>
-      <li>Masukkan <strong>bunga flat per tahun</strong> dari leasing (tanya dealer atau cek website leasing)</li>
-      <li>Klik <strong>"Hitung Cicilan"</strong></li>
-    </ol>
-
-    <h2>Tabel Referensi Harga Motor Populer 2026</h2>
-    <table>
-      <tr><th>Motor</th><th>Tipe</th><th>Harga OTR (estimasi)</th></tr>
-      <tr><td>Honda Beat 110</td><td>Matic</td><td>Rp 17–19 juta</td></tr>
-      <tr><td>Honda Vario 125</td><td>Matic</td><td>Rp 22–25 juta</td></tr>
-      <tr><td>Yamaha NMAX 155</td><td>Matic</td><td>Rp 33–38 juta</td></tr>
-      <tr><td>Honda Scoopy</td><td>Matic</td><td>Rp 22–25 juta</td></tr>
-      <tr><td>Yamaha Aerox 155</td><td>Matic</td><td>Rp 30–35 juta</td></tr>
-      <tr><td>Honda CB150R</td><td>Sport</td><td>Rp 29–33 juta</td></tr>
-    </table>
-    <p style="margin-top:0.5rem"><em>Harga bersifat estimasi dan dapat berbeda antar kota. Selalu konfirmasi harga OTR terkini ke dealer resmi.</em></p>
-
-    <h2>Perbandingan Leasing Motor Populer di Indonesia</h2>
-    <p>Beberapa perusahaan leasing motor terkemuka di Indonesia antara lain <strong>FIF (Federal International Finance)</strong> — afiliasi Honda, <strong>Adira Finance</strong> — afiliasi Astra, <strong>WOM Finance</strong> — afiliasi Yamaha, dan <strong>Mandiri Tunas Finance</strong>. Bunga flat umumnya berkisar 12–18% per tahun tergantung tenor, DP, dan profil kredit Anda. Semakin besar DP dan semakin pendek tenor, umumnya bunga yang ditawarkan lebih rendah.</p>
-
-    <h2>Tips Sebelum Kredit Motor</h2>
-    <p>Selalu hitung <strong>total yang dibayar</strong>, bukan hanya angsuran bulanan. Motor Rp 20 juta dengan cicilan 4 tahun bisa membuat Anda membayar total Rp 30 juta atau lebih. Pastikan angsuran tidak melebihi <strong>30% penghasilan bulanan</strong> agar tidak memberatkan keuangan. Pertimbangkan membeli motor bekas cash daripada motor baru kredit jika anggaran terbatas — secara finansial jauh lebih efisien.
-
-    <h2>Motor Listrik vs Motor Bensin: Perbandingan Biaya Total Kepemilikan</h2>
-    <p>Saat mempertimbangkan kredit motor, jangan hanya hitung cicilan — perhatikan juga biaya operasional jangka panjang:</p>
-    <table>
-      <tr><th>Aspek</th><th>Motor Listrik (Honda EM1)</th><th>Motor Bensin (Honda Beat)</th></tr>
-      <tr><td>Harga OTR Jakarta</td><td>~Rp 30 juta</td><td>~Rp 18 juta</td></tr>
-      <tr><td>Biaya listrik/km</td><td>Rp 50–100/km</td><td>—</td></tr>
-      <tr><td>Biaya BBM/km</td><td>—</td><td>Rp 300–400/km</td></tr>
-      <tr><td>Servis berkala</td><td>Lebih murah (tanpa oli mesin)</td><td>Standar</td></tr>
-      <tr><td>Pajak kendaraan</td><td>Diskon hingga 90%</td><td>Normal</td></tr>
-      <tr><td>Break-even vs bensin</td><td>~3–4 tahun penggunaan harian</td><td>—</td></tr>
-    </table>
-    <p>Untuk penggunaan >40 km/hari, motor listrik mulai lebih ekonomis setelah 3–4 tahun meski harga belinya lebih mahal.</p>
-
-    <h2>Cara Menghindari Jebakan Kredit Motor</h2>
+    <h2>Fitur Kalkulator Cicilan Motor NovaCalcs</h2>
     <ul>
-      <li><strong>Hindari DP rendah ekstrem</strong> — Cicilan dengan DP 0% atau 5% sangat menggiurkan tapi total bunga yang dibayar bisa mencapai 30–40% dari harga motor</li>
-      <li><strong>Hitung total harga kredit, bukan cicilan bulanan</strong> — Cicilan Rp 500.000/bulan selama 48 bulan = Rp 24 juta, jauh lebih mahal dari harga motor Rp 18 juta</li>
-      <li><strong>Tanya biaya fidusia dan asuransi</strong> — Biaya fidusia (jaminan motor), asuransi TLO, dan biaya administrasi bisa menambah Rp 1–3 juta dari total biaya kredit</li>
-      <li><strong>Pertimbangkan beli tunai bekas</strong> — Motor bekas berkondisi baik usia 1–3 tahun bisa menghemat 20–40% dari harga baru dengan kualitas masih bagus</li>
+      <li><strong>Preset motor populer</strong> — Klik salah satu dari 6 motor terlaris Indonesia (Honda Beat, Vario, Scoopy, NMAX, Aerox, CB150R) untuk mengisi harga otomatis. Harga berdasarkan estimasi OTR 2026.</li>
+      <li><strong>Slider DP interaktif</strong> — Geser slider dari 10% hingga 60% dan lihat nominal DP serta cicilan berubah secara real-time. Memudahkan menemukan titik optimal DP vs angsuran bulanan.</li>
+      <li><strong>Perbandingan 5 tenor sekaligus</strong> — Tabel otomatis menampilkan cicilan, total bunga, dan total bayar untuk tenor 12, 18, 24, 36, dan 48 bulan — baris tenor pilihan Anda disorot agar mudah dibandingkan.</li>
+      <li><strong>Visualisasi 3 komponen biaya</strong> — Bar berwarna menampilkan proporsi DP (biru), pokok pinjaman (hijau), dan total bunga (oranye) dari keseluruhan uang yang Anda keluarkan untuk motor ini.</li>
+      <li><strong>Analisis kemampuan bayar</strong> — Masukkan gaji bersih dan kalkulator otomatis menghitung rasio cicilan terhadap gaji serta memberi status aman/perhatian/berat.</li>
+      <li><strong>Saran personal</strong> — Setiap hasil dilengkapi tips relevan berdasarkan tenor dan rasio bunga yang terpilih.</li>
     </ul>
 
-    
+    <h2>Harga Motor Populer 2026 (Estimasi OTR Jakarta)</h2>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Motor</th><th>Tipe</th><th>Harga OTR (est.)</th><th>Segmen</th></tr></thead>
+      <tbody>
+        <tr><td>Honda Beat 110</td><td>Matic</td><td>Rp 17–19 juta</td><td>Entry, paling laris</td></tr>
+        <tr><td>Honda Scoopy</td><td>Matic retro</td><td>Rp 22–25 juta</td><td>Remaja, perempuan</td></tr>
+        <tr><td>Honda Vario 125</td><td>Matic sport</td><td>Rp 22–26 juta</td><td>Komuter premium</td></tr>
+        <tr><td>Yamaha Mio M3</td><td>Matic</td><td>Rp 17–19 juta</td><td>Entry Yamaha</td></tr>
+        <tr><td>Yamaha Aerox 155</td><td>Maxi matic</td><td>Rp 29–33 juta</td><td>Remaja sport</td></tr>
+        <tr><td>Yamaha NMAX 155</td><td>Maxi matic</td><td>Rp 31–36 juta</td><td>Komuter premium</td></tr>
+        <tr><td>Honda ADV 160</td><td>Adventure matic</td><td>Rp 36–40 juta</td><td>Adventure</td></tr>
+        <tr><td>Honda CB150R</td><td>Sport naked</td><td>Rp 28–33 juta</td><td>Sport entry</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem;color:var(--text-muted)">*Harga bersifat estimasi dan dapat berbeda antar kota dan dealer. Selalu konfirmasi harga OTR terkini ke dealer resmi setempat.</p>
+
+    <h2>Perbandingan Leasing Motor Utama di Indonesia 2026</h2>
+    <p>Beberapa perusahaan pembiayaan motor terkemuka yang beroperasi di Indonesia:</p>
+    <table class="ref-table" style="margin:12px 0">
+      <thead><tr><th>Leasing</th><th>Afiliasi</th><th>Bunga Flat (est.)</th><th>Catatan</th></tr></thead>
+      <tbody>
+        <tr><td>FIF (Federal International Finance)</td><td>Honda / Astra</td><td>12–18%/tahun</td><td>Paling luas jaringannya</td></tr>
+        <tr><td>Adira Finance</td><td>Danamon/Astra</td><td>13–18%/tahun</td><td>Multi-brand</td></tr>
+        <tr><td>WOM Finance</td><td>Yamaha / Maybank</td><td>12–17%/tahun</td><td>Fokus Yamaha</td></tr>
+        <tr><td>Mandiri Tunas Finance</td><td>Bank Mandiri/Astra</td><td>12–17%/tahun</td><td>Nasabah Mandiri advantage</td></tr>
+        <tr><td>BCA Finance</td><td>BCA</td><td>11–16%/tahun</td><td>Bunga relatif kompetitif</td></tr>
+      </tbody>
+    </table>
+    <p>Bunga aktual tergantung pada profil kredit Anda, besar DP, tenor, dan promo yang sedang berjalan. Selalu minta ilustrasi kredit lengkap (termasuk biaya asuransi, administrasi, dan total yang dibayar) sebelum menandatangani kontrak.</p>
+
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa DP minimum kredit motor?</div><div class="faq-a">Berdasarkan Peraturan OJK, DP minimum kredit kendaraan bermotor roda dua adalah 10% dari harga. Namun banyak leasing menawarkan promo DP 0% untuk tipe tertentu, meski total cicilan dan bunga menjadi lebih besar. Semakin besar DP yang Anda berikan, semakin kecil angsuran dan total bunga yang harus dibayar.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya bunga flat dan bunga efektif?</div><div class="faq-a">Bunga flat dihitung dari pokok pinjaman awal sepanjang tenor — paling umum di leasing motor. Bunga efektif dihitung dari sisa pokok setiap bulan (seperti KPR), sehingga angsuran menurun atau lebih merata bebannya. Bunga flat 15% per tahun setara dengan bunga efektif sekitar 27–30% per tahun. Selalu tanyakan "bunga efektif"-nya saat membandingkan produk kredit.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bolehkah melunasi kredit motor lebih cepat?</div><div class="faq-a">Boleh, namun biasanya ada biaya penalti pelunasan dipercepat yang bervariasi antar leasing, umumnya 1–5% dari sisa pokok. Pada sistem bunga flat, melunasi lebih cepat tidak serta-merta menghemat bunga secara proporsional karena bunga sudah dihitung dari awal. Tanyakan dulu kebijakan pelunasan ke leasing sebelum memutuskan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa syarat pengajuan kredit motor?</div><div class="faq-a">Umumnya: KTP, KK, slip gaji atau bukti penghasilan (3 bulan terakhir), rekening koran, NPWP (untuk kredit tertentu), dan dokumen agunan. Beberapa leasing juga mempertimbangkan skor SLIK OJK (BI Checking). Pastikan tidak ada kredit macet sebelumnya agar pengajuan lebih mudah disetujui.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Motor baru kredit vs motor bekas cash — mana lebih hemat?</div><div class="faq-a">Secara finansial, motor bekas cash hampir selalu lebih hemat. Motor bekas 2–3 tahun dengan kondisi baik bisa 30–40% lebih murah dari harga baru, dan Anda tidak menanggung bunga leasing. Kelemahannya: tidak ada garansi resmi, perlu cek kondisi lebih teliti, dan pilihan terbatas. Jika memerlukan garansi dan ingin motor tertentu, kredit motor baru bisa menjadi pilihan — asalkan direncanakan dengan baik.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa tenor cicilan motor yang ideal?</div><div class="faq-a">Tenor 24–36 bulan umumnya memberikan keseimbangan antara angsuran yang terjangkau dan total bunga yang tidak terlalu besar. Tenor panjang (48 bulan) memang menurunkan angsuran bulanan, tetapi total bunga yang dibayar jauh lebih besar. Sebagai patokan: pilih tenor terpendek yang angsurannya masih ≤30% penghasilan Anda.</div></div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa DP minimum kredit motor 2026?</div>
+      <div class="faq-a">Berdasarkan POJK (Peraturan OJK), DP minimum kredit kendaraan bermotor roda dua adalah 10% dari harga OTR. Namun banyak dealer menawarkan promo DP 0% untuk tipe tertentu, biasanya dengan kompensasi bunga lebih tinggi atau tenor lebih panjang. Semakin besar DP yang diberikan, semakin kecil pokok pinjaman dan total bunga yang harus dibayar.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa bedanya bunga flat dan bunga efektif pada kredit motor?</div>
+      <div class="faq-a">Bunga flat dihitung dari pokok pinjaman awal (penuh) sepanjang tenor — meski saldo Anda terus berkurang setiap bulan. Bunga efektif dihitung dari sisa saldo setiap bulan — lebih adil tapi jarang digunakan leasing motor. Bunga flat 15%/tahun secara ekonomi setara dengan bunga efektif sekitar 27–30%/tahun dalam hal total biaya. Saat membandingkan penawaran leasing, selalu minta konversi ke bunga efektif/APR untuk perbandingan yang adil.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Tenor mana yang paling hemat untuk kredit motor?</div>
+      <div class="faq-a">Tenor lebih pendek selalu menghasilkan total bunga lebih kecil karena bunga flat dihitung dari lamanya tenor. Contoh: Pokok Rp 16 juta, bunga 15%/tahun — tenor 24 bulan total bunga Rp 4,8 juta; tenor 36 bulan total bunga Rp 7,2 juta; tenor 48 bulan total bunga Rp 9,6 juta. Pilih tenor terpendek yang cicilannya masih ≤30% gaji Anda. Gunakan tabel perbandingan tenor di kalkulator ini untuk visualisasi langsung.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Motor baru kredit vs motor bekas cash — mana lebih hemat?</div>
+      <div class="faq-a">Secara finansial murni, motor bekas berkualitas baik hampir selalu lebih hemat. Motor bekas 2–3 tahun bisa 25–40% lebih murah dari harga baru, dan Anda tidak menanggung bunga leasing yang bisa mencapai 30–50% dari harga motor selama tenor penuh. Kelemahannya: tidak ada garansi resmi, perlu lebih teliti saat pemeriksaan, dan pilihan terbatas. Untuk kebutuhan jangka panjang dengan anggaran terbatas, motor bekas cash bisa menjadi pilihan yang jauh lebih efisien secara finansial.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apa saja biaya tambahan selain cicilan yang harus disiapkan?</div>
+      <div class="faq-a">Selain angsuran bulanan, pastikan memperhitungkan: (1) Biaya administrasi kredit (Rp 100–500 ribu tergantung leasing), (2) Premi asuransi jiwa dan asuransi kendaraan — biasanya dibebankan di cicilan pertama atau disebar selama tenor, (3) BPKB (Buku Pemilik Kendaraan Bermotor) diserahkan setelah lunas, (4) Biaya STNK tahunan dan pajak kendaraan, (5) Biaya service rutin dan suku cadang. Total biaya kepemilikan motor dalam 3 tahun bisa 1,5–2× harga belinya.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah kredit motor bisa dipercepat pelunasannya?</div>
+      <div class="faq-a">Ya, sebagian besar leasing memperbolehkan pelunasan dipercepat. Namun pada sistem bunga flat, bunga sudah dihitung dan "dikunci" di awal, sehingga manfaat pelunasan awal tidak seproporsional dengan kredit efektif. Beberapa leasing juga mengenakan denda pelunasan dipercepat sekitar 1–5% dari sisa pokok. Tanyakan kebijakan pelunasan dipercepat dan hitungan penghematannya sebelum memutuskan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Berapa persen cicilan yang aman dari gaji?</div>
+      <div class="faq-a">Prinsip umum perencanaan keuangan: total cicilan (termasuk motor, KPR, KTA, dan cicilan lainnya) sebaiknya tidak melebihi 30–35% dari gaji bersih bulanan. Khusus untuk cicilan motor saja, idealnya di bawah 20% gaji bersih agar masih ada ruang untuk kebutuhan lain. Di atas 40% total cicilan dianggap over-leveraged dan berisiko saat ada pengeluaran tak terduga.</div>
+    </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -161,34 +290,139 @@
     </div>
   </div>
 </main>
+
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
+
 <script defer>
-function fmt(n){ return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
-function calculate(){
+let tenor = 24;
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const fmtShort = n => {
+  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  return fmt(n);
+};
+
+function setMotor(price, name) {
+  document.getElementById('price').value = price;
+  document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  syncDP(document.getElementById('dp-range').value);
+  autoCalc();
+}
+
+function syncDP(v) {
+  document.getElementById('dp-pct-label').textContent = v + '%';
+  const price = parseFloat(document.getElementById('price').value) || 0;
+  document.getElementById('dp-rp-label').textContent = price ? fmtShort(price * v / 100) : '—';
+  autoCalc();
+}
+
+function setTenor(t, btn) {
+  tenor = t;
+  document.querySelectorAll('#tenor-btns .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoCalc();
+}
+
+function autoCalc() {
   const price = parseFloat(document.getElementById('price').value);
-  const dpPct = parseFloat(document.getElementById('dp-pct').value)/100;
-  const tenor = parseInt(document.getElementById('tenor').value);
-  const rateYear = parseFloat(document.getElementById('rate').value)/100;
-  if(!price || price<=0) return alert('Masukkan harga motor yang valid.');
-  const dp = price * dpPct;
+  const rate  = parseFloat(document.getElementById('rate').value);
+  if (price > 0 && rate >= 0) calculate();
+}
+
+function calcFlat(pokok, rateYear, tenorBln) {
+  const totalBunga = pokok * (rateYear / 100) * (tenorBln / 12);
+  const angsuran   = (pokok + totalBunga) / tenorBln;
+  return { angsuran, totalBunga, totalBayar: pokok + totalBunga };
+}
+
+function calculate() {
+  const price  = parseFloat(document.getElementById('price').value) || 0;
+  const dpPct  = parseFloat(document.getElementById('dp-range').value) || 20;
+  const rate   = parseFloat(document.getElementById('rate').value) || 15;
+  const gaji   = parseFloat(document.getElementById('gaji').value) || 0;
+  if (!price || price <= 0) return;
+
+  const dp    = price * dpPct / 100;
   const pokok = price - dp;
-  const totalBunga = pokok * rateYear * (tenor/12);
-  const angsuran = (pokok + totalBunga) / tenor;
-  const total = dp + pokok + totalBunga;
-  const biayaPct = ((totalBunga / price)*100).toFixed(1);
-  document.getElementById('res-angsuran').textContent = fmt(angsuran)+'/bln';
-  document.getElementById('res-dp').textContent = fmt(dp);
-  document.getElementById('res-pokok').textContent = fmt(pokok);
-  document.getElementById('res-bunga').textContent = fmt(totalBunga);
-  document.getElementById('res-total').textContent = fmt(total);
-  document.getElementById('res-biaya-pct').textContent = biayaPct.replace('.',',')+' % dari harga motor';
+  const r     = calcFlat(pokok, rate, tenor);
+
+  // Update DP label
+  document.getElementById('dp-rp-label').textContent = fmtShort(dp);
+
+  // Main
+  document.getElementById('res-angsuran').textContent = fmt(r.angsuran) + '/bln';
+
+  // Bar (DP + Pokok + Bunga = harga + totalBunga)
+  const grandTotal = dp + r.totalBayar;
+  const dpPctBar    = Math.round(dp / grandTotal * 100);
+  const pokokPctBar = Math.round(pokok / grandTotal * 100);
+  const bungaPctBar = 100 - dpPctBar - pokokPctBar;
+  document.getElementById('bar-dp').style.width    = dpPctBar + '%';
+  document.getElementById('bar-dp').textContent    = dpPctBar > 8 ? 'DP ' + dpPctBar + '%' : '';
+  document.getElementById('bar-pokok').style.width = pokokPctBar + '%';
+  document.getElementById('bar-pokok').textContent = pokokPctBar > 10 ? 'Pokok ' + pokokPctBar + '%' : '';
+  document.getElementById('bar-bunga').style.width = bungaPctBar + '%';
+  document.getElementById('bar-bunga').textContent = bungaPctBar > 8 ? 'Bunga ' + bungaPctBar + '%' : '';
+
+  // Stats
+  document.getElementById('s-dp').textContent    = fmtShort(dp);
+  document.getElementById('s-pokok').textContent = fmtShort(pokok);
+  document.getElementById('s-bunga').textContent = fmtShort(r.totalBunga);
+  document.getElementById('s-total').textContent = fmtShort(dp + r.totalBayar);
+
+  // Kemampuan
+  const kemEl = document.getElementById('kemampuan-box');
+  if (gaji > 0) {
+    const ratio = r.angsuran / gaji * 100;
+    document.getElementById('k-gaji').textContent    = fmtShort(gaji);
+    document.getElementById('k-cicilan').textContent = fmt(r.angsuran);
+    document.getElementById('k-ratio').textContent   = ratio.toFixed(1) + '%';
+    const statusEl = document.getElementById('k-status');
+    if (ratio <= 20)      { statusEl.textContent = '✅ Sangat aman (≤20%)'; statusEl.className = 'krow-val ok'; }
+    else if (ratio <= 30) { statusEl.textContent = '✅ Aman (≤30%)';        statusEl.className = 'krow-val ok'; }
+    else if (ratio <= 40) { statusEl.textContent = '⚠️ Perlu perhatian (>30%)'; statusEl.className = 'krow-val warn'; }
+    else                  { statusEl.textContent = '❌ Terlalu berat (>40%)';   statusEl.className = 'krow-val bad'; }
+    kemEl.style.display = '';
+  } else {
+    kemEl.style.display = 'none';
+  }
+
+  // Tenor comparison
+  const tenors = [12, 18, 24, 36, 48];
+  const tblEl  = document.getElementById('tenor-comp');
+  tblEl.innerHTML = '<thead><tr><th>Tenor</th><th>Cicilan/bln</th><th>Total Bunga</th><th>Total Bayar</th></tr></thead>';
+  const tbody = document.createElement('tbody');
+  tenors.forEach(t => {
+    const c = calcFlat(pokok, rate, t);
+    const tr = document.createElement('tr');
+    if (t === tenor) tr.className = 'chosen';
+    tr.innerHTML = `<td>${t} bulan</td><td>${fmt(c.angsuran)}</td><td class="pricier">${fmtShort(c.totalBunga)}</td><td>${fmtShort(dp + c.totalBayar)}</td>`;
+    tbody.appendChild(tr);
+  });
+  tblEl.appendChild(tbody);
+
+  // Advice
+  const bungaRasio = (r.totalBunga / pokok * 100).toFixed(0);
+  let advice;
+  if (bungaRasio <= 15) {
+    advice = `✅ Total bunga <strong>${fmtShort(r.totalBunga)}</strong> (${bungaRasio}% dari pokok) — cukup efisien. Tenor ${tenor} bulan dengan DP ${dpPct}% adalah kombinasi yang baik.`;
+  } else if (bungaRasio <= 30) {
+    advice = `💡 Total bunga <strong>${fmtShort(r.totalBunga)}</strong> (${bungaRasio}% dari pokok). Pertimbangkan: (1) Naikkan DP untuk kurangi pokok, atau (2) Perkecil tenor untuk kurangi lamanya bunga berjalan.`;
+  } else {
+    advice = `⚠️ Total bunga <strong>${fmtShort(r.totalBunga)}</strong> (${bungaRasio}% dari pokok) — cukup besar. Dengan tenor ${tenor} bulan, Anda membayar motor ini seharga total <strong>${fmtShort(dp + r.totalBayar)}</strong>. Pertimbangkan menabung lebih lama untuk DP yang lebih besar, atau pilih tenor lebih pendek untuk menghemat bunga secara signifikan.`;
+  }
+  document.getElementById('res-advice').innerHTML = advice;
+
+  document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
 }
-function toggleFaq(el){ el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); });
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
 </script>
 </body>
 </html>
