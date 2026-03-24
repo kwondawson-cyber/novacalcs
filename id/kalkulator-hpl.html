@@ -3,25 +3,61 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator HPL — Hitung Hari Perkiraan Lahir Bayi Anda | NovaCalcs</title>
-<meta name="description" content="Hitung HPL (Hari Perkiraan Lahir) bayi Anda secara akurat berdasarkan HPHT menggunakan Rumus Naegele. Ketahui juga usia kehamilan dan tanggal penting setiap trimester."/>
-<meta name="keywords" content="kalkulator HPL, hari perkiraan lahir, HPHT, hitung HPL, due date calculator, rumus naegele"/>
+<title>Kalkulator HPL — Hitung Hari Perkiraan Lahir + Countdown | NovaCalcs</title>
+<meta name="description" content="Hitung HPL (Hari Perkiraan Lahir) bayi Anda secara akurat. Lihat countdown hari menuju persalinan, milestone kehamilan per minggu, dan checklist persiapan kelahiran."/>
+<meta name="keywords" content="kalkulator HPL, hari perkiraan lahir, HPHT, due date, hitung HPL, countdown melahirkan, milestone kehamilan, persiapan persalinan"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-hpl.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-hpl.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator HPL","url":"https://novacalcs.com/id/kalkulator-hpl.html","description":"Hitung HPL bayi dengan countdown, milestone, dan checklist persiapan","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.milestone-list { margin-top: 10px; }
-.milestone { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 12px; }
-.milestone:last-child { border: none; }
-.ms-date { min-width: 90px; font-weight: 600; color: var(--mint); }
-.ms-desc { color: var(--text-secondary); }
-.ms-badge { display: inline-flex; padding: 1px 7px; border-radius: 6px; font-size: 10px; font-weight: 700; background: var(--mint-dim); color: var(--mint); margin-left: 4px; }
+/* Countdown display */
+.countdown-box { text-align:center; padding:20px 0 12px; }
+.countdown-num { font-size:3.8rem; font-weight:700; color:var(--mint); line-height:1; }
+.countdown-unit { font-size:0.85rem; color:var(--text-secondary); margin-top:2px; }
+.countdown-date { font-size:1rem; font-weight:600; color:var(--text-primary); margin-top:8px; }
+
+/* Pregnancy progress bar */
+.preg-bar-wrap { margin:14px 0 6px; }
+.preg-bar-track { height:14px; border-radius:7px; background:var(--bg-input); overflow:hidden; }
+.preg-bar-fill { height:100%; border-radius:7px; background:linear-gradient(90deg,#60a5fa,#4ade80,#fbbf24); transition:width 0.8s ease; }
+.preg-bar-labels { display:flex; justify-content:space-between; margin-top:4px; font-size:0.68rem; color:var(--text-muted); }
+.preg-pct-label { text-align:center; font-size:0.78rem; color:var(--text-secondary); font-weight:600; margin-top:3px; }
+
+/* Stats row */
+.hpl-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:12px 0; }
+.hpl-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 8px; text-align:center; border:1px solid var(--border); }
+.hpl-stat .hs-num { font-size:1.1rem; font-weight:700; color:var(--mint); }
+.hpl-stat .hs-label { font-size:0.65rem; color:var(--text-muted); margin-top:2px; }
+
+/* Milestone timeline */
+.timeline { margin-top:12px; }
+.tl-item { display:flex; gap:10px; padding:8px 0; position:relative; }
+.tl-item:not(:last-child)::after { content:''; position:absolute; left:7px; top:24px; bottom:-8px; width:2px; background:var(--border); }
+.tl-dot { width:16px; height:16px; border-radius:50%; flex-shrink:0; margin-top:1px; border:2px solid var(--border); background:var(--bg-input); transition:all 0.3s; }
+.tl-dot.past { background:var(--mint); border-color:var(--mint); }
+.tl-dot.current { background:#fbbf24; border-color:#fbbf24; box-shadow:0 0 0 3px rgba(251,191,36,0.2); }
+.tl-dot.future { background:var(--bg-input); }
+.tl-content { flex:1; font-size:0.8rem; }
+.tl-date { font-weight:600; color:var(--text-secondary); font-size:0.72rem; }
+.tl-desc { color:var(--text-primary); margin-top:1px; }
+.tl-now-badge { display:inline-block; padding:1px 7px; border-radius:8px; font-size:0.65rem; font-weight:700; background:rgba(251,191,36,0.15); color:#fbbf24; margin-left:6px; }
+
+/* Checklist */
+.checklist { margin:12px 0; }
+.check-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.8rem; }
+.check-item:last-child { border-bottom:none; }
+.check-week { flex-shrink:0; font-size:0.68rem; font-weight:700; padding:2px 8px; border-radius:8px; background:var(--mint-dim); color:var(--mint); }
 </style>
 </head>
 <body>
+
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -37,156 +73,155 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">📅 Kalkulator HPL</div>
-      <div class="calc-subtitle">Hitung Hari Perkiraan Lahir (Due Date) bayi Anda</div>
+      <div class="calc-subtitle">Hitung tanggal lahir bayi + countdown & milestone</div>
 
       <div class="field">
         <label>Hari Pertama Haid Terakhir (HPHT)</label>
-        <input type="date" id="hpht"/>
+        <input type="date" id="hpht" oninput="autoCalc()"/>
       </div>
       <div class="field">
         <label>Panjang siklus haid (hari)</label>
-        <input type="number" id="cycle" value="28" min="20" max="45" placeholder="28"/>
+        <input type="number" id="cycle" value="28" min="20" max="45" oninput="autoCalc()"/>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung HPL Saya</button>
+      <button class="calc-btn" onclick="calculate()">📅 Hitung HPL Saya</button>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" style="font-size:1.6rem" id="res-hpl">—</div>
-          <div class="result-label">Hari Perkiraan Lahir (HPL)</div>
-          <div class="result-badge badge-normal" id="res-countdown"></div>
+      <div class="result-box" id="result" style="display:none">
+
+        <!-- Countdown -->
+        <div class="countdown-box">
+          <div class="countdown-num" id="res-countdown">—</div>
+          <div class="countdown-unit" id="res-countdown-label">hari menuju HPL</div>
+          <div class="countdown-date" id="res-hpl-date">—</div>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Usia kehamilan sekarang</span><span class="rval" id="res-current-age">—</span></div>
-          <div class="result-row"><span class="rkey">Trimester saat ini</span><span class="rval" id="res-trimester">—</span></div>
-          <div class="result-row"><span class="rkey">Konsepsi (perkiraan)</span><span class="rval" id="res-conception">—</span></div>
+
+        <!-- Pregnancy progress -->
+        <div class="preg-bar-wrap">
+          <div class="preg-bar-track">
+            <div class="preg-bar-fill" id="preg-fill" style="width:0%"></div>
+          </div>
+          <div class="preg-bar-labels"><span>HPHT</span><span id="preg-pct-label">—</span><span>HPL</span></div>
         </div>
-        <div class="milestone-list" id="milestones" style="display:none">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:6px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">Tanggal Penting Kehamilan</div>
-          <div id="milestone-items"></div>
+
+        <!-- Stats -->
+        <div class="hpl-stats">
+          <div class="hpl-stat"><div class="hs-num" id="s-weeks">—</div><div class="hs-label">Minggu kehamilan</div></div>
+          <div class="hpl-stat"><div class="hs-num" id="s-trimester">—</div><div class="hs-label">Trimester</div></div>
+          <div class="hpl-stat"><div class="hs-num" id="s-conception">—</div><div class="hs-label">Konsepsi (perkiraan)</div></div>
         </div>
+
+        <!-- Timeline milestones -->
+        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-top:12px;margin-bottom:6px;">📍 Timeline Kehamilan</div>
+        <div class="timeline" id="timeline"></div>
+
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator HPL — Hitung Hari Perkiraan Lahir Bayi</h1>
-    <p class="page-desc">Kalkulator HPL (Hari Perkiraan Lahir) kami menggunakan Rumus Naegele yang diakui secara medis untuk menghitung tanggal lahir bayi Anda, lengkap dengan tonggak penting kehamilan di setiap trimester.</p>
+  <!-- SEO CONTENT -->
+  <div class="content-area">
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator HPL — Hitung Hari Perkiraan Lahir Bayi</h1>
+    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung HPL (Hari Perkiraan Lahir) bayi Anda berdasarkan HPHT menggunakan Rumus Naegele. Dilengkapi countdown hari menuju persalinan, timeline milestone kehamilan, dan panduan persiapan kelahiran.</p>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Apa itu HPL?</h2>
-    <p>HPL (Hari Perkiraan Lahir) atau dalam bahasa Inggris dikenal sebagai <em>Expected Due Date (EDD)</em> atau <em>Due Date</em>, adalah tanggal perkiraan bayi Anda akan lahir. Kehamilan normal berlangsung sekitar 40 minggu (280 hari) dihitung dari HPHT.</p>
-    <p>Penting untuk diketahui bahwa HPL hanyalah <strong>perkiraan</strong>. Statistik menunjukkan hanya sekitar 4–5% bayi yang lahir tepat pada HPL. Sebagian besar bayi lahir dalam rentang 2 minggu sebelum atau sesudah HPL.</p>
+    <h2>Apa itu HPL dan Seberapa Akurat?</h2>
+    <p>HPL (Hari Perkiraan Lahir) — atau dalam bahasa Inggris dikenal sebagai <em>Expected Due Date (EDD)</em> — adalah tanggal perkiraan bayi akan lahir. Kehamilan normal berlangsung sekitar <strong>280 hari (40 minggu)</strong> dihitung dari HPHT, atau 266 hari dari perkiraan pembuahan.</p>
+    <p>Yang perlu dipahami: HPL adalah <em>perkiraan statistik</em>, bukan kepastian. Hanya sekitar 4–5% bayi yang lahir tepat pada HPL. Sebagian besar bayi (sekitar 70%) lahir dalam rentang 1 minggu sebelum atau sesudah HPL. Lahir antara minggu ke-37 hingga ke-42 masih dianggap normal (cukup bulan).</p>
 
     <h2>Cara Menghitung HPL dengan Rumus Naegele</h2>
-    <p>Rumus Naegele adalah metode standar yang dikembangkan oleh Franz Karl Naegele pada tahun 1812 dan masih digunakan hingga hari ini:</p>
+    <p>Rumus Naegele, dikembangkan oleh dokter kandungan Jerman Franz Karl Naegele pada 1812, adalah metode standar yang digunakan dokter dan bidan di seluruh dunia hingga hari ini:</p>
     <ul>
-      <li>Ambil tanggal HPHT</li>
-      <li>Tambahkan 7 hari</li>
-      <li>Kurangi 3 bulan</li>
-      <li>Tambahkan 1 tahun</li>
+      <li>Ambil tanggal HPHT → tambahkan <strong>7 hari</strong> → tambahkan <strong>9 bulan</strong></li>
+      <li>Atau lebih mudah: HPHT + <strong>280 hari</strong> (untuk siklus 28 hari standar)</li>
     </ul>
-    <p><strong>Contoh:</strong> HPHT = 15 Januari 2025<br/>+7 hari = 22 Januari → −3 bulan = 22 Oktober 2025 → HPL = <strong>22 Oktober 2025</strong></p>
+    <p><strong>Contoh:</strong> HPHT = 10 April 2025 → +7 hari = 17 April → +9 bulan = <strong>17 Januari 2026</strong></p>
+    <p>Kalkulator ini juga menyesuaikan siklus haid Anda. Jika siklus Anda 35 hari (ovulasi lebih lambat 7 hari), HPL digeser 7 hari ke depan untuk hasil yang lebih personal.</p>
 
-    <h2>Perkembangan Bayi Per Trimester</h2>
-    <table>
-      <tr><th>Trimester</th><th>Minggu</th><th>Perkembangan Bayi</th></tr>
-      <tr><td>Trimester 1</td><td>1–12</td><td>Jantung mulai berdetak (minggu 5–6), organ utama terbentuk, ukuran sebesar buah plum</td></tr>
-      <tr><td>Trimester 2</td><td>13–27</td><td>Bayi mulai bergerak (18–20 mgg), rambut halus tumbuh, bisa mendengar suara</td></tr>
-      <tr><td>Trimester 3</td><td>28–40</td><td>Berat bertambah cepat, paru-paru matang, kepala turun ke panggul jelang persalinan</td></tr>
+    <h2>Perbandingan Metode Penentuan HPL</h2>
+    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin:12px 0">
+      <thead><tr>
+        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Metode</th>
+        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Akurasi</th>
+        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Kapan Digunakan</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">HPHT + Rumus Naegele</td><td style="padding:8px 10px">±1–2 minggu</td><td style="padding:8px 10px">Awal kehamilan, saat HPHT diketahui</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">USG Trimester 1 (CRL)</td><td style="padding:8px 10px">±5–7 hari ✓ paling akurat</td><td style="padding:8px 10px">Minggu 7–13, mengukur panjang janin</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">USG Trimester 2 (BPD)</td><td style="padding:8px 10px">±2–3 minggu</td><td style="padding:8px 10px">Minggu 14–27, kurang akurat</td></tr>
+        <tr><td style="padding:8px 10px">USG Trimester 3</td><td style="padding:8px 10px">±3–4 minggu</td><td style="padding:8px 10px">Tidak direkomendasikan untuk HPL</td></tr>
+      </tbody>
     </table>
+    <p>Jika HPL dari HPHT dan USG trimester 1 berbeda lebih dari 7 hari, dokter umumnya menggunakan HPL dari USG sebagai acuan karena lebih akurat secara objektif.</p>
 
-    <h2>Perbedaan HPL dari Berbagai Metode</h2>
-    <p>Anda mungkin mendapat HPL yang sedikit berbeda dari berbagai sumber:</p>
+    <h2>Fitur Kalkulator HPL NovaCalcs</h2>
+    <p>Kalkulator HPL ini tidak sekadar menampilkan tanggal — ada beberapa fitur tambahan untuk membuat perjalanan kehamilan Anda lebih terencana:</p>
     <ul>
-      <li><strong>HPHT (Rumus Naegele)</strong> — Metode standar, akurat untuk siklus 28 hari</li>
-      <li><strong>USG trimester 1</strong> — Paling akurat (margin error ±5–7 hari), mengukur panjang janin langsung</li>
-      <li><strong>USG trimester 2</strong> — Kurang akurat (margin error ±2–3 minggu)</li>
-    </ul>
-    <p>Jika HPL dari HPHT dan USG berbeda lebih dari 1 minggu, dokter biasanya akan menggunakan HPL dari USG trimester pertama.</p>
-
-    <h2>Persiapan Menjelang Hari Perkiraan Lahir</h2>
-    <p>Mulai minggu ke-36, ibu hamil sebaiknya sudah mempersiapkan segala kebutuhan persalinan. Berikut daftar persiapan yang perlu dilakukan:</p>
-    <p><strong>Persiapan dokumen:</strong></p>
-    <ul>
-      <li>KTP ibu dan suami</li>
-      <li>Buku KIA (Kesehatan Ibu dan Anak)</li>
-      <li>Kartu BPJS Kesehatan (aktif)</li>
-      <li>Surat rujukan dari faskes tingkat 1 (jika menggunakan BPJS)</li>
-      <li>Buku nikah dan KK untuk keperluan akta lahir</li>
-    </ul>
-    <p><strong>Perlengkapan rumah sakit (tas siaga):</strong></p>
-    <ul>
-      <li>Pakaian ibu 3–4 stel (pilih yang mudah untuk menyusui)</li>
-      <li>Pembalut nifas dan pakaian dalam</li>
-      <li>Perlengkapan bayi: baju, bedong, popok, topi, kaos kaki</li>
-      <li>Charger HP, bantal pribadi, camilan sehat</li>
+      <li><strong>Countdown hari real-time</strong> — Tampilan besar berapa hari tersisa menuju HPL, diperbarui otomatis setiap kali Anda mengubah input.</li>
+      <li><strong>Progress bar kehamilan</strong> — Visualisasi seberapa jauh perjalanan 280 hari kehamilan Anda telah berlangsung, dalam bentuk bar gradasi warna trimester.</li>
+      <li><strong>Timeline milestone interaktif</strong> — 9 tonggak penting kehamilan (dari detak jantung pertama hingga HPL) ditampilkan dengan penanda mana yang sudah terlewati, sedang berlangsung, dan akan datang.</li>
+      <li><strong>Penyesuaian siklus otomatis</strong> — HPL dikoreksi berdasarkan panjang siklus aktual Anda untuk hasil yang lebih personal.</li>
+      <li><strong>Perkiraan tanggal konsepsi</strong> — Dihitung otomatis dari HPHT dan panjang siklus.</li>
     </ul>
 
-    <h2>Mengenali Tanda-tanda Persalinan</h2>
-    <p>Mengetahui tanda persalinan yang sesungguhnya penting agar Anda tidak panik atau sebaliknya terlambat ke rumah sakit. Berikut perbedaan <strong>kontraksi palsu (Braxton Hicks)</strong> vs <strong>kontraksi asli</strong>:</p>
-    <table>
-      <tr><th>Aspek</th><th>Braxton Hicks (Palsu)</th><th>Kontraksi Asli</th></tr>
-      <tr><td>Pola</td><td>Tidak teratur</td><td>Teratur, makin sering</td></tr>
-      <tr><td>Durasi</td><td>Singkat, bervariasi</td><td>Makin lama (30–70 detik)</td></tr>
-      <tr><td>Intensitas</td><td>Tidak makin kuat</td><td>Makin kuat seiring waktu</td></tr>
-      <tr><td>Lokasi</td><td>Depan perut saja</td><td>Punggung bawah menjalar ke depan</td></tr>
-      <tr><td>Respons istirahat</td><td>Berkurang saat istirahat</td><td>Tidak berhenti meski istirahat</td></tr>
-    </table>
-    <p><strong>Segera ke rumah sakit jika:</strong> kontraksi setiap 5 menit selama 1 jam, ketuban pecah (cairan keluar tiba-tiba), keluar darah lebih dari flek, atau gerakan bayi berkurang drastis.</p>
-
-    <h2>Hak Persalinan melalui BPJS Kesehatan</h2>
-    <p>Peserta BPJS Kesehatan aktif berhak mendapatkan layanan persalinan tanpa biaya tambahan, meliputi:</p>
-    <ul>
-      <li><strong>Persalinan normal</strong> — Ditanggung di fasilitas kesehatan tingkat 1 (bidan, puskesmas) tanpa rujukan</li>
-      <li><strong>Persalinan dengan penyulit atau caesar</strong> — Ditanggung di rumah sakit rujukan dengan surat rujukan dari faskes 1</li>
-      <li><strong>Rawat inap pasca persalinan</strong> — Kelas kamar sesuai jenis kepesertaan (kelas 1, 2, atau 3)</li>
-      <li><strong>Pemeriksaan bayi baru lahir</strong> — Termasuk skrining hipotiroid kongenital</li>
-    </ul>
-    <p>Pastikan BPJS Anda dalam status aktif (tidak menunggak iuran) sebelum HPL. Jika menunggak, segera lunasi agar hak layanan tidak terhambat saat persalinan.</p>
-
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu persalinan prematur dan apa risikonya?</div>
-      <div class="faq-a">Persalinan prematur adalah kelahiran sebelum minggu ke-37. Bayi prematur berisiko mengalami masalah pernapasan (paru-paru belum matang), gangguan suhu tubuh, dan komplikasi lainnya. Indonesia memiliki tingkat kelahiran prematur sekitar 14% — salah satu yang tertinggi di dunia. Faktor risiko termasuk usia ibu &lt;18 atau &gt;35 tahun, kehamilan kembar, infeksi, dan tekanan darah tinggi.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bolehkah melahirkan di bidan jika kondisi berisiko tinggi?</div>
-      <div class="faq-a">Tidak dianjurkan. Kondisi berisiko tinggi seperti preeklampsia, plasenta previa, bayi sungsang, kehamilan kembar, atau riwayat caesar sebelumnya memerlukan penanganan di rumah sakit dengan fasilitas lengkap. Bidan terlatih bisa mendeteksi risiko ini dan akan merujuk ke rumah sakit. Selalu ikuti rekomendasi tenaga medis yang menangani kehamilan Anda.</div>
+    <h2>Checklist Persiapan Menjelang HPL</h2>
+    <p>Agar kelahiran berjalan lancar, berikut persiapan yang disarankan berdasarkan tahapan kehamilan:</p>
+    <div class="checklist">
+      <div class="check-item"><span class="check-week">Minggu 28</span><div>Daftar kelas persiapan persalinan (senam hamil, kelas laktasi). Pertimbangkan donor darah darurat dan catat nomor kontak PMI.</div></div>
+      <div class="check-item"><span class="check-week">Minggu 32</span><div>Tentukan rumah sakit/klinik bersalin pilihan. Konfirmasi cakupan BPJS atau asuransi kesehatan untuk persalinan.</div></div>
+      <div class="check-item"><span class="check-week">Minggu 34</span><div>Siapkan dokumen persalinan: KTP, KK, buku KIA, kartu BPJS, buku tabungan. Buat salinan cadangan.</div></div>
+      <div class="check-item"><span class="check-week">Minggu 36</span><div>Kemas tas persalinan: pakaian ibu dan bayi, perlengkapan mandi, makanan ringan, pengisi daya HP, dan dokumen penting.</div></div>
+      <div class="check-item"><span class="check-week">Minggu 37</span><div>Pastikan ada yang siap mengantar kapanpun. Kenali rute ke rumah sakit dan estimasi waktu tempuh saat macet.</div></div>
+      <div class="check-item"><span class="check-week">Minggu 38–40</span><div>Pantau tanda persalinan aktif: kontraksi teratur tiap 5 menit, ketuban pecah, atau keluar lendir bercampur darah (bloody show). Segera ke RS jika terjadi.</div></div>
     </div>
 
-    
+    <h2>Perkembangan Janin Per Trimester</h2>
+    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin:12px 0">
+      <thead><tr>
+        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Trimester</th>
+        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Minggu</th>
+        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Perkembangan Utama</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Trimester 1</td><td style="padding:8px 10px">1–12</td><td style="padding:8px 10px">Jantung berdetak (mgg 5–6), semua organ vital terbentuk, ukuran seperti biji rambutan saat aterm trimester 1</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Trimester 2</td><td style="padding:8px 10px">13–27</td><td style="padding:8px 10px">Gerakan pertama terasa (mgg 16–20), rambut halus tumbuh, pendengaran berkembang, kelamin terlihat di USG</td></tr>
+        <tr><td style="padding:8px 10px">Trimester 3</td><td style="padding:8px 10px">28–40</td><td style="padding:8px 10px">Berat bertambah cepat, paru-paru matang, kepala turun ke panggul, persiapan akhir persalinan</td></tr>
+      </tbody>
+    </table>
+
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika bayi tidak lahir pada HPL?</div>
-      <div class="faq-a">Ini sangat normal. Hanya ~5% bayi lahir tepat pada HPL. Bayi yang lahir antara minggu 37–42 masih dianggap cukup bulan. Jika kehamilan melewati 41–42 minggu (post-term), dokter akan mempertimbangkan induksi persalinan.</div>
+      <div class="faq-a">Ini sangat normal dan terjadi pada lebih dari 95% kehamilan. Bayi yang lahir antara minggu ke-37 hingga ke-42 masih dianggap cukup bulan (aterm). Jika kehamilan melewati 41 minggu, dokter akan mempertimbangkan pemantauan lebih ketat. Jika melewati 42 minggu (post-term), induksi persalinan biasanya direkomendasikan karena risiko janin meningkat setelah plasenta mulai menua.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kapan harus mulai kontrol kehamilan pertama kali?</div>
-      <div class="faq-a">Idealnya segera setelah tahu hamil, sekitar 6–8 minggu kehamilan. Kunjungan pertama ke bidan atau dokter kandungan penting untuk konfirmasi kehamilan, penentuan HPL akurat melalui USG, dan pemeriksaan kesehatan dasar (tekanan darah, golongan darah, dll.).</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Kapan harus melakukan pemeriksaan kehamilan pertama kali?</div>
+      <div class="faq-a">Idealnya segera setelah tahu hamil, sekitar usia kehamilan 6–8 minggu. Pemeriksaan pertama penting untuk: konfirmasi kehamilan dan HPL melalui USG, pemeriksaan kesehatan dasar (golongan darah, HbSAg, HIV, tekanan darah), serta mulai suplemen asam folat dan zat besi. Jangan tunda hingga bulan ketiga — trimester pertama adalah periode paling kritis perkembangan janin.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Berapa kali USG yang direkomendasikan selama kehamilan?</div>
-      <div class="faq-a">Panduan minimal: USG pertama di trimester 1 (6–12 minggu) untuk konfirmasi kehamilan dan HPL, USG kedua di minggu 18–20 untuk pemeriksaan anomali (morfologi janin), dan USG ketiga di trimester 3 untuk memantau pertumbuhan dan posisi bayi. Dokter mungkin merekomendasikan USG lebih sering jika ada kondisi tertentu.</div>
+      <div class="faq-a">Panduan Kemenkes RI (ANC 6 kontak) mencakup minimal: USG pertama di trimester 1 (mgg 8–12) untuk konfirmasi dan HPL, USG kedua di mgg 18–20 untuk pemeriksaan anatomi janin (anomali scan), dan USG di trimester 3 untuk memantau pertumbuhan dan posisi bayi. Frekuensi bisa lebih banyak jika ada faktor risiko seperti hipertensi, diabetes, atau kehamilan kembar.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah HPL untuk kehamilan kembar berbeda?</div>
-      <div class="faq-a">Rumus dasar HPL sama, namun kehamilan kembar (gemeli) umumnya lahir lebih awal — rata-rata minggu ke-36–37 (kembar dua) atau ke-32–34 (kembar tiga). Dokter biasanya merencanakan persalinan lebih awal untuk kehamilan kembar karena risiko yang lebih tinggi mendekati HPL.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah HPL kehamilan kembar berbeda?</div>
+      <div class="faq-a">Rumus HPL sama, namun kehamilan kembar (gemeli) secara medis direncanakan lahir lebih awal karena risiko komplikasi meningkat mendekati 40 minggu. Standar umum: kembar dua (dichorionic) sekitar minggu ke-38, kembar dua (monochorionic) sekitar minggu ke-36–37, kembar tiga sekitar minggu ke-34–35. Dokter kandungan akan menentukan waktu persalinan yang optimal berdasarkan kondisi ibu dan janin.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa yang harus dipersiapkan menjelang HPL?</div>
-      <div class="faq-a">Mulai persiapkan dari minggu ke-36: tas perlengkapan rumah sakit, dokumen (KTP, kartu BPJS, buku KIA), hubungi rumah sakit pilihan, dan pastikan ada yang siap mengantar kapanpun. Kenali tanda-tanda persalinan: kontraksi teratur setiap 5 menit, ketuban pecah, atau keluar lendir bercampur darah.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">Apa tanda-tanda persalinan yang harus segera ke rumah sakit?</div>
+      <div class="faq-a">Segera ke rumah sakit jika mengalami: (1) kontraksi teratur setiap 5 menit selama minimal 1 jam, (2) ketuban pecah — baik mengalir deras maupun menetes pelan-pelan, (3) keluar lendir bercampur darah (bloody show) disertai kontraksi, (4) gerakan janin berkurang drastis, atau (5) nyeri kepala hebat, penglihatan kabur, atau bengkak mendadak (tanda preeklamsia). Jangan menunggu sampai kontraksi sangat menyakitkan — lebih baik tiba lebih awal.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Apakah persalinan caesar menanggalkan HPL?</div>
+      <div class="faq-a">Untuk persalinan caesar terencana (elektif), jadwal operasi biasanya ditetapkan antara minggu ke-38–39 — tidak perlu menunggu HPL. Ini karena paru-paru janin umumnya sudah matang sempurna di usia tersebut, dan menunggu terlalu lama meningkatkan risiko komplikasi. HPL tetap dihitung dengan cara yang sama; yang berbeda adalah keputusan klinis kapan operasi dijadwalkan.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Apakah BPJS menanggung biaya persalinan?</div>
-      <div class="faq-a">Ya, BPJS Kesehatan menanggung biaya persalinan normal di fasilitas kesehatan tingkat 1 (puskesmas, klinik) dan persalinan dengan penyulit atau operasi caesar di rumah sakit rujukan. Peserta harus terdaftar aktif dan mengikuti prosedur rujukan yang berlaku.</div>
+      <div class="faq-a">Ya, BPJS Kesehatan menanggung biaya persalinan normal di fasilitas kesehatan tingkat pertama (puskesmas, klinik bersalin mitra BPJS) dan persalinan dengan komplikasi atau operasi caesar di rumah sakit rujukan. Peserta harus terdaftar aktif minimal 14 hari sebelum persalinan dan mengikuti prosedur rujukan berjenjang. Persalinan normal di bidan atau puskesmas umumnya tanpa biaya tambahan.</div>
     </div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kalkulator Kehamilan</a>
       <a href="/id/kalkulator-masa-subur.html" class="related-item"><span class="ri">🌸</span>Masa Subur</a>
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/kalkulator-berat-bayi.html" class="related-item"><span class="ri">👶</span>Berat Badan Bayi</a>
       <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
     </div>
   </div>
@@ -198,74 +233,102 @@
 </footer>
 
 <script defer>
+const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const DAYS_ID   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+const fmtDate = d => `${DAYS_ID[d.getDay()]}, ${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
+const fmtShort = d => `${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
+
+const MILESTONES = [
+  { week:5,  icon:'❤️', desc:'Jantung janin mulai berdetak' },
+  { week:8,  icon:'🔬', desc:'USG pertama ideal — konfirmasi kehamilan & HPL' },
+  { week:12, icon:'✅', desc:'Akhir Trimester 1 — risiko keguguran turun drastis' },
+  { week:16, icon:'🦶', desc:'Gerakan pertama janin mulai bisa dirasakan' },
+  { week:20, icon:'📋', desc:'USG anomali (morfologi) — pemeriksaan anatomi lengkap' },
+  { week:28, icon:'🧠', desc:'Awal Trimester 3 — otak berkembang pesat' },
+  { week:36, icon:'👜', desc:'Siapkan tas persalinan & dokumen penting' },
+  { week:37, icon:'🟢', desc:'Kehamilan aterm — bayi siap lahir kapanpun' },
+  { week:40, icon:'🍼', desc:'HPL — Hari Perkiraan Lahir' },
+];
+
 window.addEventListener('DOMContentLoaded', () => {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('hpht').max = today;
 });
 
+function autoCalc() {
+  const v = document.getElementById('hpht').value;
+  if (v) calculate();
+}
+
 function calculate() {
   const hphtVal = document.getElementById('hpht').value;
   if (!hphtVal) return alert('Masukkan tanggal HPHT Anda.');
   const cycle = parseInt(document.getElementById('cycle').value) || 28;
+  const adj = cycle - 28;
 
   const hpht = new Date(hphtVal);
-  const adjustment = cycle - 28;
-  const hpl = new Date(hpht);
-  hpl.setDate(hpl.getDate() + 280 + adjustment);
+  const hpl  = new Date(hpht); hpl.setDate(hpl.getDate() + 280 + adj);
+  const conception = new Date(hpht); conception.setDate(conception.getDate() + 14 + adj);
 
   const today = new Date(); today.setHours(0,0,0,0);
   const diffDays = Math.floor((today - hpht) / 86400000);
-  const weeksPreg = Math.floor(diffDays / 7);
-  const daysPreg = diffDays % 7;
+  const weeks = Math.floor(diffDays / 7);
   const remaining = Math.ceil((hpl - today) / 86400000);
 
-  let trimester;
-  if (weeksPreg < 13) trimester = '🟡 Trimester 1';
-  else if (weeksPreg < 28) trimester = '🟢 Trimester 2';
-  else trimester = '🔵 Trimester 3';
+  // Countdown display
+  const cdEl = document.getElementById('res-countdown');
+  const cdLabel = document.getElementById('res-countdown-label');
+  if (remaining > 0) {
+    cdEl.textContent = remaining;
+    cdLabel.textContent = 'hari menuju HPL';
+    cdEl.style.color = 'var(--mint)';
+  } else if (remaining === 0) {
+    cdEl.textContent = '🎉';
+    cdLabel.textContent = 'Hari ini adalah HPL!';
+  } else {
+    cdEl.textContent = Math.abs(remaining);
+    cdLabel.textContent = 'hari setelah HPL';
+    cdEl.style.color = '#fbbf24';
+  }
+  document.getElementById('res-hpl-date').textContent = fmtDate(hpl);
 
-  const conception = new Date(hpht);
-  conception.setDate(conception.getDate() + 14 + adjustment);
+  // Progress bar
+  const pct = Math.min(Math.max(diffDays / 280 * 100, 0), 100);
+  document.getElementById('preg-fill').style.width = pct + '%';
+  document.getElementById('preg-pct-label').textContent = pct.toFixed(0) + '% selesai';
 
-  const fmt = d => d.toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-  const fmtShort = d => d.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+  // Stats
+  document.getElementById('s-weeks').textContent = weeks + ' mgg';
+  let trim;
+  if (weeks < 13) trim = '1';
+  else if (weeks < 28) trim = '2';
+  else trim = '3';
+  document.getElementById('s-trimester').textContent = 'T' + trim;
+  document.getElementById('s-conception').textContent = fmtShort(conception);
 
-  document.getElementById('res-hpl').textContent = fmtShort(hpl);
-  document.getElementById('res-countdown').textContent = remaining > 0 ? remaining + ' hari lagi 🍼' : remaining === 0 ? 'Hari ini adalah HPL! 🎉' : 'Sudah melewati HPL ' + Math.abs(remaining) + ' hari';
-  document.getElementById('res-current-age').textContent = weeksPreg + ' minggu ' + daysPreg + ' hari';
-  document.getElementById('res-trimester').textContent = trimester;
-  document.getElementById('res-conception').textContent = fmtShort(conception);
-
-  // Milestones
-  const milestones = [
-    { week: 6, desc: 'Detak jantung mulai terdeteksi via USG' },
-    { week: 8, desc: 'USG pertama ideal dilakukan' },
-    { week: 12, desc: 'Akhir Trimester 1 — Risiko keguguran menurun' },
-    { week: 18, desc: 'USG morfologi (anomali scan) dapat dilakukan' },
-    { week: 20, desc: 'Bayi mulai aktif bergerak terasa' },
-    { week: 28, desc: 'Awal Trimester 3' },
-    { week: 36, desc: 'Siapkan perlengkapan persalinan' },
-    { week: 37, desc: 'Kehamilan dianggap cukup bulan (aterm)' },
-    { week: 40, desc: 'HPL — Hari Perkiraan Lahir' },
-  ];
-
-  const container = document.getElementById('milestone-items');
-  container.innerHTML = milestones.map(m => {
-    const d = new Date(hpht);
-    d.setDate(d.getDate() + m.week * 7);
-    const isPast = d <= today;
-    const isCurrent = weeksPreg === m.week;
-    return `<div class="milestone">
-      <span class="ms-date">${fmtShort(d)}</span>
-      <span class="ms-desc">Minggu ${m.week}: ${m.desc}${isCurrent ? '<span class="ms-badge">Sekarang</span>' : ''}${isPast && !isCurrent ? ' ✓' : ''}</span>
+  // Timeline
+  const tl = document.getElementById('timeline');
+  tl.innerHTML = MILESTONES.map(m => {
+    const d = new Date(hpht); d.setDate(d.getDate() + m.week * 7 + adj);
+    const isPast = d < today;
+    const isCurrent = Math.abs(weeks - m.week) <= 1 && !isPast;
+    const dotClass = isPast ? 'past' : isCurrent ? 'current' : 'future';
+    return `<div class="tl-item">
+      <div class="tl-dot ${dotClass}"></div>
+      <div class="tl-content">
+        <div class="tl-date">${fmtShort(d)} · Minggu ${m.week}</div>
+        <div class="tl-desc">${m.icon} ${m.desc}${isCurrent ? '<span class="tl-now-badge">Sekarang</span>' : ''}${isPast ? ' <span style="color:var(--mint)">✓</span>' : ''}</div>
+      </div>
     </div>`;
   }).join('');
 
-  document.getElementById('milestones').style.display = '';
+  document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
 </script>
 </body>
 </html>
