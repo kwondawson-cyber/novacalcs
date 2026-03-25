@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator PPN 12% 2026 — Hitung Pajak Pertambahan Nilai Terbaru | NovaCalcs</title>
-<meta name="description" content="Hitung PPN 12% yang berlaku per 1 Januari 2025. Konversi harga sebelum dan sesudah PPN, serta bandingkan selisih dengan tarif PPN 11% sebelumnya."/>
-<meta name="keywords" content="kalkulator PPN 12%, hitung PPN 12 persen, pajak pertambahan nilai 2025, PPN naik 12%, harga setelah PPN, kalkulator pajak"/>
+<meta name="description" content="Hitung PPN 12% yang berlaku sejak 1 Januari 2025. Tambah atau ekstrak PPN, hitung tagihan multi item, dan bandingkan tarif PPN 10%, 11%, dan 12%."/>
+<meta name="keywords" content="kalkulator PPN 12%, hitung PPN 12 persen, pajak pertambahan nilai 2026, harga setelah PPN, kalkulator pajak, multi item PPN"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ppn-12.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-ppn-12.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,6 +13,25 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.item-row{display:grid;grid-template-columns:1fr 120px 36px;gap:6px;align-items:center;margin-bottom:7px}
+.item-row input{width:100%}
+.del-btn{background:#ff4d4d22;border:1px solid #ff4d4d44;color:#ff7777;border-radius:6px;cursor:pointer;font-size:1.1rem;padding:6px}
+.add-item-btn{background:transparent;border:1px dashed #00C9B1;color:#00C9B1;border-radius:8px;padding:8px;width:100%;cursor:pointer;font-size:.88rem;margin-bottom:.75rem;font-family:inherit}
+.cmp-col{background:rgba(255,255,255,.04);border-radius:8px;padding:.6rem;text-align:center}
+.cmp-col .cmp-rate{font-size:.75rem;color:#8fa3b1;margin-bottom:.2rem}
+.cmp-col .cmp-val{font-size:.95rem;font-weight:700}
+.cmp-col.active-rate{border:1px solid rgba(0,201,177,.3);background:rgba(0,201,177,.07)}
+.ppn-bar{height:8px;border-radius:4px;background:rgba(255,255,255,.07);margin:.3rem 0;overflow:hidden}
+.ppn-fill{height:100%;border-radius:4px;transition:width .4s}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -29,102 +48,144 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">🧾 Kalkulator PPN 12%</div>
-      <div class="calc-subtitle">Hitung harga sebelum/sesudah PPN dan selisih kenaikan</div>
-      <div class="field">
-        <label>Mode Perhitungan</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-tambah" onclick="setMode('tambah')">Tambah PPN (harga belum termasuk PPN)</div>
-          <div class="radio-btn" id="btn-ekstrak" onclick="setMode('ekstrak')">Ekstrak PPN (harga sudah termasuk PPN)</div>
+      <div class="calc-subtitle">Tambah/ekstrak PPN, multi item, dan perbandingan tarif</div>
+
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-single',this)">🧮 Hitung PPN</button>
+        <button class="tab-btn" onclick="showTab('tab-multi',this)">🛒 Multi Item</button>
+        <button class="tab-btn" onclick="showTab('tab-banding',this)">📊 Perbandingan</button>
+      </div>
+
+      <!-- TAB 1: SINGLE -->
+      <div id="tab-single" class="tab-pane active">
+        <div class="field">
+          <label>Mode Perhitungan</label>
+          <div class="radio-group">
+            <div class="radio-btn active" id="btn-tambah" onclick="setMode('tambah')">Tambah PPN (harga belum termasuk PPN)</div>
+            <div class="radio-btn" id="btn-ekstrak" onclick="setMode('ekstrak')">Ekstrak PPN (harga sudah termasuk PPN)</div>
+          </div>
+        </div>
+        <div class="field">
+          <label id="price-label">Harga Belum Termasuk PPN (Rp)</label>
+          <input type="number" id="price" placeholder="Contoh: 1000000" min="0" oninput="calculate()"/>
+        </div>
+        <div class="field">
+          <label>Tarif PPN</label>
+          <select id="ppn-rate" onchange="calculate()">
+            <option value="12" selected>12% (berlaku sejak 1 Jan 2025)</option>
+            <option value="11">11% (berlaku Apr 2022 – Des 2024)</option>
+            <option value="10">10% (sebelum Apr 2022)</option>
+          </select>
+        </div>
+        <button class="calc-btn" onclick="calculate()">Hitung PPN</button>
+
+        <div class="result-panel" id="result">
+          <div class="result-main">
+            <div class="result-value" id="res-total">—</div>
+            <div class="result-label" id="res-label">Harga Termasuk PPN</div>
+          </div>
+          <div class="ppn-bar"><div class="ppn-fill" id="ppn-fill" style="width:0%;background:#00C9B1"></div></div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Harga dasar (DPP)</span><span class="rval" id="res-dpp">—</span></div>
+            <div class="result-row"><span class="rkey">Nilai PPN</span><span class="rval" id="res-ppn">—</span></div>
+            <div class="result-row"><span class="rkey">Selisih vs PPN 11%</span><span class="rval" id="res-selisih">—</span></div>
+            <div class="result-row"><span class="rkey">Selisih vs PPN 10%</span><span class="rval" id="res-selisih10">—</span></div>
+          </div>
         </div>
       </div>
-      <div class="field"><label id="price-label">Harga Belum Termasuk PPN (Rp)</label><input type="number" id="price" placeholder="Contoh: 1000000" min="0"/></div>
-      <div class="field">
-        <label>Tarif PPN</label>
-        <select id="ppn-rate">
-          <option value="12" selected>12% (berlaku 1 Jan 2025)</option>
-          <option value="11">11% (berlaku Apr 2022 – Des 2024)</option>
-          <option value="10">10% (sebelum Apr 2022)</option>
-        </select>
-      </div>
-      <button class="calc-btn" onclick="calculate()">Hitung PPN</button>
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-total">—</div>
-          <div class="result-label" id="res-label">Harga Termasuk PPN</div>
+
+      <!-- TAB 2: MULTI ITEM -->
+      <div id="tab-multi" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Hitung total PPN dari beberapa item sekaligus. Cocok untuk membuat faktur atau estimasi tagihan.</p>
+        <div class="field">
+          <label>Tarif PPN</label>
+          <select id="multi-rate">
+            <option value="12" selected>12% (berlaku sejak 1 Jan 2025)</option>
+            <option value="11">11%</option>
+            <option value="10">10%</option>
+          </select>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Harga dasar (DPP)</span><span class="rval" id="res-dpp">—</span></div>
-          <div class="result-row"><span class="rkey">Nilai PPN</span><span class="rval" id="res-ppn">—</span></div>
-          <div class="result-row"><span class="rkey">Selisih vs PPN 11%</span><span class="rval" id="res-selisih">—</span></div>
-          <div class="result-row"><span class="rkey">Selisih vs PPN 10%</span><span class="rval" id="res-selisih10">—</span></div>
+        <div id="multi-items">
+          <div style="display:grid;grid-template-columns:1fr 120px 36px;gap:6px;font-size:.73rem;color:#6b7c8d;margin-bottom:4px">
+            <span>Nama Item / Produk</span><span>Harga (Rp)</span><span></span>
+          </div>
+        </div>
+        <button class="add-item-btn" onclick="addMultiItem()">+ Tambah Item</button>
+        <button class="calc-btn" onclick="calcMulti()">Hitung Total</button>
+
+        <div id="multi-result" style="display:none;margin-top:1rem">
+          <div id="multi-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.6rem;line-height:1.5;background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2)"></div>
+          <div class="result-rows" id="multi-rows"></div>
         </div>
       </div>
+
+      <!-- TAB 3: PERBANDINGAN -->
+      <div id="tab-banding" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Bandingkan dampak tiga tarif PPN terhadap harga yang sama.</p>
+        <div class="field">
+          <label>Harga Dasar (DPP) — Rp</label>
+          <input type="number" id="cmp-price" placeholder="Contoh: 1000000" min="0" oninput="calcBanding()"/>
+        </div>
+        <button class="calc-btn" onclick="calcBanding()">Bandingkan</button>
+
+        <div id="cmp-result" style="display:none;margin-top:1rem">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:.75rem" id="cmp-cols"></div>
+          <div id="cmp-rows" class="result-rows"></div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="seo-content">
+
+  <div class="content-area">
     <h1>Kalkulator PPN 12% — Hitung Pajak Pertambahan Nilai 2025 dan 2026</h1>
-    <p class="page-desc">PPN Indonesia resmi naik dari 11% menjadi 12% per 1 Januari 2025 sesuai amanat UU HPP No. 7 Tahun 2021. Kalkulator ini membantu Anda menghitung harga sebelum dan sesudah PPN 12%, serta memahami dampak kenaikan tarif.</p>
+    <p class="page-desc">PPN Indonesia resmi naik dari 11% menjadi 12% per 1 Januari 2025 sesuai amanat UU HPP No. 7 Tahun 2021. Kalkulator ini membantu menghitung harga sebelum dan sesudah PPN, menghitung total PPN dari banyak item sekaligus, dan membandingkan dampak perubahan tarif.</p>
+
     <div class="ad-slot">Advertisement</div>
+
     <h2>Sejarah Kenaikan Tarif PPN Indonesia</h2>
-    <p>PPN (Pajak Pertambahan Nilai) Indonesia telah mengalami beberapa perubahan tarif. Tarif 10% berlaku sejak UU PPN 1984 hingga April 2022. Kemudian naik menjadi 11% per 1 April 2022 sesuai UU HPP. Terakhir, menjadi <strong>12% per 1 Januari 2025</strong> sesuai UU HPP No. 7 Tahun 2021 Pasal 7 ayat (1). Kenaikan ini sempat menuai perdebatan luas karena dinilai memberatkan di tengah tekanan daya beli masyarakat.</p>
-    <h2>Barang dan Jasa yang Dikenakan / Tidak Dikenakan PPN 12%</h2>
-    <table>
-      <tr><th>Dikenakan PPN 12%</th><th>Bebas PPN / Dikecualikan</th></tr>
-      <tr><td>Barang elektronik, pakaian, furnitur</td><td>Bahan pokok (beras, jagung, kedelai, dll.)</td></tr>
-      <tr><td>Restoran, kafe, makanan siap saji</td><td>Sayuran dan buah segar</td></tr>
-      <tr><td>Jasa konstruksi mewah</td><td>Daging, ikan, telur, susu</td></tr>
-      <tr><td>Barang mewah (PPnBM terpisah)</td><td>Jasa pendidikan dan kesehatan</td></tr>
-      <tr><td>Platform digital, langganan streaming</td><td>Jasa keuangan dan asuransi</td></tr>
-    </table>
-    <p style="margin-top:0.5rem"><em>Daftar ini bersifat umum. Untuk kepastian hukum, rujuk PMK dan peraturan DJP terkait pengecualian PPN.</em></p>
-    <h2>Cara Menggunakan Kalkulator PPN 12%</h2>
+    <p>Tarif 10% berlaku sejak UU PPN 1984 hingga Maret 2022. Kemudian naik menjadi 11% per 1 April 2022 sesuai UU HPP. Terakhir, naik menjadi <strong>12% per 1 Januari 2025</strong> sesuai UU HPP No. 7 Tahun 2021 Pasal 7 ayat (1) — dan tarif ini masih berlaku hingga 2026. Kenaikan ini sempat menuai perdebatan luas karena dinilai memberatkan daya beli masyarakat.</p>
+
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
     <ol>
-      <li>Pilih mode: <strong>tambah PPN</strong> (menghitung harga jual dari harga pokok) atau <strong>ekstrak PPN</strong> (memisahkan PPN dari harga yang sudah termasuk PPN)</li>
-      <li>Masukkan <strong>harga</strong></li>
-      <li>Pilih <strong>tarif PPN</strong> yang berlaku</li>
-      <li>Klik <strong>"Hitung PPN"</strong></li>
+      <li><strong>Tab Hitung PPN:</strong> Pilih mode tambah PPN (dari harga belum termasuk PPN) atau ekstrak PPN (dari harga yang sudah termasuk PPN). Hasil langsung muncul saat mengetik.</li>
+      <li><strong>Tab Multi Item:</strong> Masukkan beberapa item sekaligus untuk mendapatkan total DPP, total PPN, dan total tagihan — cocok untuk membuat estimasi invoice atau belanja.</li>
+      <li><strong>Tab Perbandingan:</strong> Masukkan satu harga dasar dan lihat perbedaan total bayar antara tarif PPN 10%, 11%, dan 12% secara berdampingan.</li>
     </ol>
+
     <h2>Rumus PPN</h2>
     <table>
       <tr><th>Kondisi</th><th>Rumus</th></tr>
-      <tr><td>Harga belum termasuk PPN</td><td>PPN = Harga × 12% | Total = Harga × 1,12</td></tr>
-      <tr><td>Harga sudah termasuk PPN</td><td>DPP = Harga ÷ 1,12 | PPN = Harga − DPP</td></tr>
+      <tr><td>Harga belum termasuk PPN</td><td>PPN = DPP × 12% | Total = DPP × 1,12</td></tr>
+      <tr><td>Harga sudah termasuk PPN</td><td>DPP = Total ÷ 1,12 | PPN = Total − DPP</td></tr>
     </table>
-    <h2>Dampak PPN 12% terhadap Harga Barang dan Daya Beli</h2>
-    <p>Kenaikan PPN dari 11% menjadi 12% secara matematis menambah beban sebesar <strong>0,9% dari harga sebelum pajak</strong> (bukan 1%, karena dasar perhitungan berbeda). Namun dampak nyata di lapangan bisa terasa lebih besar karena faktor psikologis dan pass-through pricing oleh pedagang. Contoh konkret untuk barang seharga Rp 1.000.000:</p>
+
+    <h2>Barang dan Jasa yang Dikenakan / Tidak Dikenakan PPN 12%</h2>
     <table>
-      <tr><th>Komponen</th><th>PPN 11%</th><th>PPN 12%</th><th>Selisih</th></tr>
-      <tr><td>Harga barang (DPP)</td><td>Rp 1.000.000</td><td>Rp 1.000.000</td><td>—</td></tr>
-      <tr><td>PPN</td><td>Rp 110.000</td><td>Rp 120.000</td><td>+Rp 10.000</td></tr>
-      <tr><td>Total bayar</td><td>Rp 1.110.000</td><td>Rp 1.120.000</td><td>+0,9%</td></tr>
+      <tr><th>Dikenakan PPN 12%</th><th>Bebas PPN / Dikecualikan</th></tr>
+      <tr><td>Barang elektronik, pakaian, furnitur</td><td>Bahan pokok (beras, jagung, kedelai)</td></tr>
+      <tr><td>Restoran, kafe, makanan siap saji</td><td>Sayuran dan buah segar</td></tr>
+      <tr><td>Platform digital, streaming</td><td>Daging, ikan, telur, susu</td></tr>
+      <tr><td>Jasa konstruksi non-sederhana</td><td>Jasa pendidikan dan kesehatan</td></tr>
+      <tr><td>Barang mewah (+ PPnBM terpisah)</td><td>Jasa keuangan dan asuransi</td></tr>
     </table>
 
-    <h2>Barang Mewah yang Dikenakan PPN 12% (Kelas Premium)</h2>
-    <p>Penerapan PPN 12% difokuskan pada barang dan jasa yang dikonsumsi kelompok menengah atas. Kategori yang terdampak antara lain:</p>
-    <ul>
-      <li>Bahan makanan premium: beras kualitas premium, buah impor pilihan, daging wagyu/premium</li>
-      <li>Jasa pendidikan premium (sekolah internasional berbiaya tinggi)</li>
-      <li>Jasa kesehatan premium (rumah sakit VIP)</li>
-      <li>Listrik untuk pelanggan dengan daya 3.500 VA ke atas</li>
-    </ul>
-    <p>Sementara itu, kebutuhan pokok masyarakat seperti beras medium, sayuran, ikan, daging biasa, telur, dan susu tetap dibebaskan dari PPN.</p>
+    <h2>Dampak PPN 12% terhadap Harga Barang</h2>
+    <p>Kenaikan dari 11% ke 12% secara matematis menambah beban sekitar 0,9% dari harga sebelum pajak. Contoh untuk barang seharga Rp 1.000.000: PPN 11% = Rp 110.000 (total Rp 1.110.000); PPN 12% = Rp 120.000 (total Rp 1.120.000) — selisih Rp 10.000 per barang. Dampak yang terasa lebih besar di kehidupan nyata karena efek psikologis dan pass-through pricing oleh pedagang.</p>
 
-    <h2>Tips untuk Konsumen Menghadapi Perubahan PPN</h2>
-    <ul>
-      <li><strong>Cek struk pembelian</strong> — Pastikan PPN yang dicantumkan di struk sudah sesuai ketentuan berlaku</li>
-      <li><strong>Manfaatkan barang non-PPN</strong> — Perbanyak belanja di pasar tradisional dan warung untuk produk pokok yang bebas PPN</li>
-      <li><strong>Periksa invoice B2B</strong> — Untuk bisnis, pastikan vendor sudah mengupdate rate PPN di faktur pajak mereka</li>
-      <li><strong>Update software akuntansi</strong> — Jika menggunakan software keuangan/POS, pastikan tarif PPN sudah diperbarui</li>
-    </ul>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Sejak kapan PPN 12% berlaku?</div><div class="faq-a">PPN 12% berlaku resmi per 1 Januari 2025 sesuai Pasal 7 ayat (1) UU HPP No. 7 Tahun 2021. Kenaikan ini sudah diamanatkan sejak UU HPP disahkan tahun 2021, namun sempat menuai polemik besar menjelang implementasinya. Pemerintah menegaskan tetap berlaku untuk sebagian besar barang dan jasa, kecuali barang kebutuhan pokok yang tetap bebas PPN.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah semua harga di toko sudah mencakup PPN 12%?</div><div class="faq-a">Tidak selalu. Nota penjualan atau struk belanja sebaiknya mencantumkan apakah harga sudah termasuk PPN atau belum. Di supermarket dan minimarket, harga rak biasanya sudah termasuk PPN. Di transaksi B2B (bisnis ke bisnis), harga sering dinyatakan belum termasuk PPN dan PKP (Pengusaha Kena Pajak) wajib menerbitkan faktur pajak.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Siapa yang wajib memungut dan menyetor PPN?</div><div class="faq-a">PKP (Pengusaha Kena Pajak) — yaitu pengusaha yang omzetnya melebihi Rp 4,8 miliar per tahun — wajib dikukuhkan sebagai PKP dan memungut PPN atas penyerahan BKP/JKP. PKP juga wajib menerbitkan faktur pajak elektronik (e-Faktur) dan melaporkan SPT Masa PPN setiap bulan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa dampak kenaikan PPN 11% ke 12%?</div><div class="faq-a">Dampak langsung: kenaikan harga barang dan jasa kena PPN sebesar ~0,9% (dari 1,11 menjadi 1,12 × harga pokok). Contoh: barang Rp 10.000.000 — dengan PPN 11% harganya Rp 11.100.000, dengan PPN 12% menjadi Rp 11.200.000 (selisih Rp 100.000). Dampak makro: berpotensi menekan daya beli, terutama kelas menengah. Pemerintah memberikan berbagai insentif sebagai kompensasi untuk barang tertentu.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah PPN bisa dikreditkan?</div><div class="faq-a">Ya, bagi PKP. PPN yang dibayar saat membeli (Pajak Masukan) bisa dikreditkan dengan PPN yang dipungut saat menjual (Pajak Keluaran). Jika Pajak Masukan lebih besar dari Pajak Keluaran, PKP bisa mengajukan restitusi (pengembalian kelebihan bayar PPN). Bagi konsumen akhir (non-PKP), PPN tidak bisa dikreditkan — menjadi beban biaya definitif.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana menghitung PPN jika sudah ada diskon?</div><div class="faq-a">PPN dihitung dari DPP (Dasar Pengenaan Pajak), yaitu harga setelah diskon. Contoh: harga Rp 1.000.000 diskon 10% = Rp 900.000. PPN 12% = Rp 900.000 × 12% = Rp 108.000. Total bayar = Rp 1.008.000. Diskon mengurangi DPP, sehingga PPN juga ikut berkurang.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Sejak kapan PPN 12% berlaku?</div>
+    <div class="faq-a">PPN 12% berlaku resmi per 1 Januari 2025 sesuai Pasal 7 ayat (1) UU HPP No. 7 Tahun 2021 dan masih berlaku hingga saat ini (2026). Tarif ini menggantikan PPN 11% yang berlaku sejak April 2022.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah semua harga di toko sudah mencakup PPN 12%?</div>
+    <div class="faq-a">Tidak selalu. Di supermarket dan minimarket, harga rak biasanya sudah termasuk PPN. Dalam transaksi B2B, harga sering dinyatakan belum termasuk PPN dan PKP wajib menerbitkan faktur pajak elektronik (e-Faktur).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Siapa yang wajib memungut dan menyetor PPN?</div>
+    <div class="faq-a">PKP (Pengusaha Kena Pajak) — pengusaha dengan omzet melebihi Rp 4,8 miliar per tahun — wajib dikukuhkan sebagai PKP, memungut PPN, menerbitkan e-Faktur, dan melaporkan SPT Masa PPN setiap bulan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu DPP dalam konteks PPN?</div>
+    <div class="faq-a">DPP (Dasar Pengenaan Pajak) adalah nilai yang menjadi dasar perhitungan PPN — yaitu harga jual barang atau jasa sebelum ditambah PPN. PPN = DPP × tarif (12%). Jika harga sudah termasuk PPN, DPP = harga ÷ 1,12.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana menghitung PPN jika sudah ada diskon?</div>
+    <div class="faq-a">PPN dihitung dari DPP setelah diskon. Contoh: harga Rp 1.000.000 diskon 10% = DPP Rp 900.000. PPN 12% = Rp 900.000 × 12% = Rp 108.000. Total = Rp 1.008.000. Diskon mengurangi DPP sehingga PPN juga ikut berkurang.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah PPN bisa dikreditkan?</div>
+    <div class="faq-a">Ya, bagi PKP. PPN yang dibayar saat membeli (Pajak Masukan) bisa dikreditkan dengan PPN yang dipungut saat menjual (Pajak Keluaran). Jika Pajak Masukan lebih besar, PKP bisa mengajukan restitusi. Bagi konsumen akhir (non-PKP), PPN menjadi beban biaya definitif.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -140,42 +201,110 @@
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 <script defer>
-let mode = 'tambah';
-function setMode(m){
+let mode = 'tambah', multiCount = 0;
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function setMode(m) {
   mode = m;
   document.getElementById('btn-tambah').classList.toggle('active', m==='tambah');
   document.getElementById('btn-ekstrak').classList.toggle('active', m==='ekstrak');
-  document.getElementById('price-label').textContent = m==='tambah' ? 'Harga Belum Termasuk PPN (Rp)' : 'Harga Sudah Termasuk PPN (Rp)';
+  document.getElementById('price-label').textContent = m==='tambah'
+    ? 'Harga Belum Termasuk PPN (Rp)' : 'Harga Sudah Termasuk PPN (Rp)';
+  calculate();
 }
-function fmt(n){ return 'Rp '+Math.round(n).toLocaleString('id-ID'); }
-function calculate(){
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+// TAB 1
+function calculate() {
   const price = parseFloat(document.getElementById('price').value);
-  const rate = parseFloat(document.getElementById('ppn-rate').value)/100;
-  if(!price||price<=0) return alert('Masukkan harga yang valid.');
+  const rate  = parseFloat(document.getElementById('ppn-rate').value)/100;
+  if (!price||price<=0) return;
   let dpp, ppnVal, total;
-  if(mode==='tambah'){
-    dpp = price;
-    ppnVal = price * rate;
-    total = price + ppnVal;
-  } else {
-    total = price;
-    dpp = price / (1 + rate);
-    ppnVal = price - dpp;
-  }
-  const ppn11 = dpp * 0.11;
-  const ppn10 = dpp * 0.10;
-  const selisih11 = ppnVal - ppn11;
-  const selisih10 = ppnVal - ppn10;
-  document.getElementById('res-total').textContent = fmt(mode==='tambah'?total:dpp);
-  document.getElementById('res-label').textContent = mode==='tambah'?'Harga Termasuk PPN':'Harga Sebelum PPN (DPP)';
-  document.getElementById('res-dpp').textContent = fmt(dpp);
-  document.getElementById('res-ppn').textContent = fmt(ppnVal);
-  document.getElementById('res-selisih').textContent = (selisih11>=0?'+':'')+fmt(selisih11)+' vs PPN 11%';
-  document.getElementById('res-selisih10').textContent = (selisih10>=0?'+':'')+fmt(selisih10)+' vs PPN 10%';
+  if (mode==='tambah') { dpp=price; ppnVal=price*rate; total=price+ppnVal; }
+  else { total=price; dpp=price/(1+rate); ppnVal=price-dpp; }
+
+  const ppn11=dpp*0.11, ppn10=dpp*0.10;
+  const sel11=ppnVal-ppn11, sel10=ppnVal-ppn10;
+
+  document.getElementById('res-total').textContent    = fmt(mode==='tambah'?total:dpp);
+  document.getElementById('res-label').textContent    = mode==='tambah'?'Harga Termasuk PPN':'Harga Sebelum PPN (DPP)';
+  document.getElementById('res-dpp').textContent      = fmt(dpp);
+  document.getElementById('res-ppn').textContent      = fmt(ppnVal);
+  document.getElementById('res-selisih').textContent  = (sel11>=0?'+':'')+fmt(sel11)+' dibanding PPN 11%';
+  document.getElementById('res-selisih10').textContent= (sel10>=0?'+':'')+fmt(sel10)+' dibanding PPN 10%';
+  const pct = ppnVal/(dpp+ppnVal)*100;
+  document.getElementById('ppn-fill').style.width = pct.toFixed(1)+'%';
   document.getElementById('result').classList.add('show');
 }
-function toggleFaq(el){ el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); });
+
+// TAB 2
+function addMultiItem() {
+  multiCount++;
+  const div = document.createElement('div');
+  div.className='item-row'; div.id='mi-'+multiCount;
+  div.innerHTML=`<input type="text" placeholder="Item ${multiCount}" class="mi-name" style="font-size:.82rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <input type="number" placeholder="Harga" class="mi-price" min="0" style="font-size:.82rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <button class="del-btn" onclick="document.getElementById('mi-${multiCount}').remove()">×</button>`;
+  document.getElementById('multi-items').appendChild(div);
+}
+
+function calcMulti() {
+  const rate   = parseFloat(document.getElementById('multi-rate').value)/100;
+  const names  = document.querySelectorAll('.mi-name');
+  const prices = document.querySelectorAll('.mi-price');
+  if (!names.length) { alert('Tambahkan setidaknya satu item.'); return; }
+  let totalDPP = 0, rows = '';
+  names.forEach((el,i) => {
+    const p = parseFloat(prices[i].value)||0;
+    const ppn = p*rate;
+    const name = el.value||'Item '+(i+1);
+    totalDPP += p;
+    rows += `<div class="result-row"><span class="rkey">${name}</span><span class="rval">${fmt(p)} + PPN ${fmt(ppn)}</span></div>`;
+  });
+  const totalPPN = totalDPP * rate;
+  const grandTotal = totalDPP + totalPPN;
+  document.getElementById('multi-summary').innerHTML =
+    `Subtotal (DPP): <strong>${fmt(totalDPP)}</strong><br>
+     Total PPN (${Math.round(rate*100)}%): <strong>${fmt(totalPPN)}</strong><br>
+     Total Tagihan: <strong style="color:#00C9B1;font-size:1.05rem">${fmt(grandTotal)}</strong>`;
+  document.getElementById('multi-rows').innerHTML = rows;
+  document.getElementById('multi-result').style.display = 'block';
+}
+
+// TAB 3
+function calcBanding() {
+  const dpp = parseFloat(document.getElementById('cmp-price').value);
+  if (!dpp||dpp<=0) return;
+  const rates = [{r:0.10,label:'PPN 10%',note:'sebelum Apr 2022'},{r:0.11,label:'PPN 11%',note:'Apr 2022 – Des 2024'},{r:0.12,label:'PPN 12%',note:'sejak 1 Jan 2025',active:true}];
+  const cols = rates.map(({r,label,note,active}) => {
+    const ppnVal=dpp*r, total=dpp+ppnVal;
+    return `<div class="cmp-col ${active?'active-rate':''}">
+      <div class="cmp-rate">${label}<br><span style="font-size:.68rem;color:#6b7c8d">${note}</span></div>
+      <div class="cmp-val" style="color:${active?'#00C9B1':'#c0cdd8'}">${fmt(total)}</div>
+      <div style="font-size:.72rem;color:#8fa3b1;margin-top:.2rem">PPN: ${fmt(ppnVal)}</div>
+    </div>`;
+  }).join('');
+  const ppn12=dpp*0.12, ppn11=dpp*0.11, ppn10=dpp*0.10;
+  const rows = `
+    <div class="result-row"><span class="rkey">Harga dasar (DPP)</span><span class="rval">${fmt(dpp)}</span></div>
+    <div class="result-row"><span class="rkey">Selisih PPN 12% vs 11%</span><span class="rval">+${fmt(ppn12-ppn11)} per transaksi</span></div>
+    <div class="result-row"><span class="rkey">Selisih PPN 12% vs 10%</span><span class="rval">+${fmt(ppn12-ppn10)} per transaksi</span></div>
+    <div class="result-row"><span class="rkey">Kenaikan % vs PPN 11%</span><span class="rval">+${((dpp*1.12/dpp*1.11-1)*100).toFixed(2).replace('.',',')}% total bayar</span></div>`;
+  document.getElementById('cmp-cols').innerHTML = cols;
+  document.getElementById('cmp-rows').innerHTML = rows;
+  document.getElementById('cmp-result').style.display = 'block';
+}
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.addEventListener('keydown', e => { if(e.key==='Enter') calculate(); });
+
+// Default items
+for (let i=0;i<3;i++) addMultiItem();
 </script>
 </body>
 </html>

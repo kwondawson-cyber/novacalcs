@@ -4,14 +4,38 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Selisih Tanggal — Hitung Jarak Antara Dua Tanggal | NovaCalcs</title>
-<meta name="description" content="Hitung selisih antara dua tanggal dalam hari, minggu, bulan, dan tahun. Cocok untuk menghitung masa kontrak, deadline, atau jarak antar kejadian penting."/>
-<meta name="keywords" content="kalkulator selisih tanggal, hitung jarak tanggal, berapa hari antara dua tanggal, selisih hari bulan tahun"/>
+<meta name="description" content="Hitung selisih antara dua tanggal dalam hari, minggu, bulan, dan tahun. Cek D-Day hitung mundur ke acara penting, atau hitung tanggal +N hari dari sekarang."/>
+<meta name="keywords" content="kalkulator selisih tanggal, hitung jarak tanggal, berapa hari antara dua tanggal, d-day hitung mundur, tanggal berapa 30 hari lagi"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/selisih-tanggal.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/selisih-tanggal.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.75rem}
+.preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.5rem .5rem;cursor:pointer;font-size:.77rem;color:#c0cdd8;text-align:left;transition:all .2s;font-family:inherit}
+.preset-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.35);color:#00C9B1}
+.preset-btn strong{display:block;font-size:.83rem;color:#fff;margin-bottom:.1rem}
+.dday-card{background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.2);border-radius:12px;padding:1rem;text-align:center;margin-bottom:.6rem}
+.dday-num{font-size:2.5rem;font-weight:700;color:#00C9B1;line-height:1.1}
+.dday-label{font-size:.82rem;color:#8fa3b1;margin-top:.25rem}
+.dday-sub{font-size:.78rem;color:#6b7c8d;margin-top:.2rem}
+.progress-wrap{margin:.6rem 0}
+.progress-bar{height:8px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#00C9B1,#3b82f6);border-radius:4px;transition:width .5s}
+.dday-preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.75rem}
+.dday-preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.45rem .5rem;cursor:pointer;font-size:.75rem;color:#c0cdd8;text-align:center;transition:all .2s;font-family:inherit}
+.dday-preset-btn:hover{background:rgba(0,201,177,.1);border-color:rgba(0,201,177,.3);color:#00C9B1}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -24,97 +48,119 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
       <div class="calc-title">📆 Selisih Tanggal</div>
-      <div class="calc-subtitle">Hitung jarak antara dua tanggal</div>
+      <div class="calc-subtitle">Selisih tanggal, D-Day hitung mundur, dan tambah hari</div>
 
-      <div class="field"><label>Tanggal Mulai</label><div id="start-picker"></div></div>
-      <div class="field"><label>Tanggal Akhir</label><div id="end-picker"></div></div>
-
-      <div class="field"><label>Tambahkan / Kurangi Hari</label>
-        <div style="display:flex;gap:8px;align-items:center">
-          <input type="number" id="add-days" placeholder="Contoh: 30 atau -7" style="flex:1"/>
-          <button onclick="addDaysToStart()" style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text-secondary);cursor:pointer;font-size:12px;white-space:nowrap">Hitung Tanggal</button>
-        </div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Masukkan jumlah hari dari tanggal mulai (negatif = mundur)</div>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-selisih',this)">📅 Selisih</button>
+        <button class="tab-btn" onclick="showTab('tab-dday',this)">⏳ D-Day</button>
+        <button class="tab-btn" onclick="showTab('tab-tambah',this)">➕ Tambah Hari</button>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Selisih</button>
+      <!-- TAB 1: SELISIH -->
+      <div id="tab-selisih" class="tab-pane active">
+        <div style="font-size:.78rem;color:#8fa3b1;margin-bottom:.4rem;font-weight:600">⚡ Preset Cepat</div>
+        <div class="preset-grid" id="preset-selisih"></div>
 
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-days">—</div>
-          <div class="result-unit">hari</div>
-          <div class="result-label" id="res-dir"></div>
-        </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Dalam minggu</span><span class="rval" id="res-weeks">—</span></div>
-          <div class="result-row"><span class="rkey">Dalam bulan (perkiraan)</span><span class="rval" id="res-months">—</span></div>
-          <div class="result-row"><span class="rkey">Dalam tahun (perkiraan)</span><span class="rval" id="res-years">—</span></div>
+        <div class="field"><label>Tanggal Mulai</label><div id="start-picker"></div></div>
+        <div class="field"><label>Tanggal Akhir</label><div id="end-picker"></div></div>
+        <button class="calc-btn" onclick="calculate()">Hitung Selisih</button>
+
+        <div class="result-panel" id="result">
+          <div class="result-main">
+            <div class="result-value" id="res-days">—</div>
+            <div class="result-unit">hari</div>
+            <div class="result-label" id="res-dir"></div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Dalam minggu</span><span class="rval" id="res-weeks">—</span></div>
+            <div class="result-row"><span class="rkey">Dalam bulan (rata-rata)</span><span class="rval" id="res-months">—</span></div>
+            <div class="result-row"><span class="rkey">Dalam tahun (rata-rata)</span><span class="rval" id="res-years">—</span></div>
+            <div class="result-row"><span class="rkey">Format lengkap</span><span class="rval" id="res-full">—</span></div>
+          </div>
         </div>
       </div>
 
-      <div class="result-panel" id="result-add" style="margin-top:12px">
-        <div class="result-main">
-          <div class="result-value" style="font-size:1.4rem" id="res-add-date">—</div>
-          <div class="result-label" id="res-add-label"></div>
+      <!-- TAB 2: D-DAY -->
+      <div id="tab-dday" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.6rem">Hitung mundur ke hari spesial Anda, atau cek sudah berapa hari sejak suatu tanggal.</p>
+
+        <div style="font-size:.78rem;color:#8fa3b1;margin-bottom:.35rem;font-weight:600">🎯 Preset Acara</div>
+        <div class="dday-preset-grid" id="dday-presets"></div>
+
+        <div class="field"><label>Nama Acara / Event</label>
+          <input type="text" id="dday-name" placeholder="Contoh: Wisuda, Pernikahan, Deadline..."/>
+        </div>
+        <div class="field"><label>Tanggal Target</label><div id="dday-picker"></div></div>
+        <button class="calc-btn" onclick="calcDDay()">Hitung D-Day</button>
+
+        <div id="dday-result" style="display:none;margin-top:1rem">
+          <div class="dday-card" id="dday-card">
+            <div class="dday-num" id="dday-num">—</div>
+            <div class="dday-label" id="dday-label">—</div>
+            <div class="dday-sub" id="dday-sub">—</div>
+          </div>
+          <div class="progress-wrap" id="progress-wrap" style="display:none">
+            <div style="font-size:.73rem;color:#6b7c8d;margin-bottom:.2rem" id="progress-label">—</div>
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+          </div>
         </div>
       </div>
+
+      <!-- TAB 3: TAMBAH HARI -->
+      <div id="tab-tambah" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Cari tahu tanggal berapa setelah menambah atau mengurangi sejumlah hari dari tanggal tertentu.</p>
+        <div class="field"><label>Tanggal Awal</label><div id="add-picker"></div></div>
+        <div class="field"><label>Jumlah Hari (positif = maju, negatif = mundur)</label>
+          <input type="number" id="add-days" placeholder="Contoh: 30 atau -7"/>
+        </div>
+        <div style="font-size:.78rem;color:#8fa3b1;margin-bottom:.4rem;font-weight:600">⚡ Preset Umum</div>
+        <div class="preset-grid" id="preset-tambah"></div>
+        <button class="calc-btn" onclick="calcTambah()">Hitung Tanggal</button>
+
+        <div class="result-panel" id="res-tambah">
+          <div class="result-main">
+            <div class="result-value" style="font-size:1.3rem" id="res-add-date">—</div>
+            <div class="result-label" id="res-add-label"></div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Hari dalam minggu</span><span class="rval" id="res-add-day">—</span></div>
+            <div class="result-row"><span class="rkey">Dari tanggal awal</span><span class="rval" id="res-add-from">—</span></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
+  <div class="content-area">
     <h1>Kalkulator Selisih Tanggal — Hitung Jarak Antara Dua Tanggal</h1>
-    <p class="page-desc">Hitung selisih antara dua tanggal dalam hari, minggu, bulan, dan tahun secara akurat. Tersedia juga fitur menambah atau mengurangi hari dari tanggal tertentu untuk mengetahui tanggal hasil perhitungan.</p>
+    <p class="page-desc">Hitung selisih antara dua tanggal dalam hari, minggu, bulan, dan tahun secara akurat, dengan memperhitungkan tahun kabisat. Tersedia juga D-Day hitung mundur ke acara penting dan kalkulator tambah/kurang hari.</p>
 
     <div class="ad-slot">Advertisement</div>
 
-    <h2>Apa itu Kalkulator Selisih Tanggal?</h2>
-    <p>Kalkulator selisih tanggal adalah alat untuk menghitung jarak waktu antara dua tanggal berbeda secara tepat, dengan mempertimbangkan perbedaan jumlah hari di setiap bulan dan tahun kabisat. Berbeda dari menghitung hari secara kasar (misalnya mengalikan bulan × 30), kalkulator ini menghitung hari kalender yang sesungguhnya.</p>
-    <p>Selain menghitung selisih, kalkulator ini juga memiliki fitur <strong>"Tambah/Kurangi Hari"</strong> — masukkan jumlah hari dan tanggal awal untuk mendapatkan tanggal hasil kalkulasi, lengkap dengan nama harinya. Sangat berguna untuk menghitung tenggat waktu, jatuh tempo, atau perencanaan kegiatan.</p>
-
     <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <p><strong>Untuk menghitung selisih dua tanggal:</strong></p>
     <ol>
-      <li>Masukkan <strong>Tanggal Mulai</strong> menggunakan dropdown tanggal, bulan, dan tahun</li>
-      <li>Masukkan <strong>Tanggal Akhir</strong> — secara default sudah terisi dengan hari ini</li>
-      <li>Klik <strong>"Hitung Selisih"</strong></li>
-      <li>Hasilnya menampilkan selisih dalam hari, minggu (desimal), bulan (perkiraan), dan tahun (desimal)</li>
-    </ol>
-    <p><strong>Untuk menghitung tanggal + N hari:</strong></p>
-    <ol>
-      <li>Pastikan Tanggal Mulai sudah diisi</li>
-      <li>Masukkan jumlah hari di kolom "Tambahkan / Kurangi Hari" (angka negatif untuk mundur)</li>
-      <li>Klik <strong>"Hitung Tanggal"</strong></li>
-      <li>Hasilnya menampilkan tanggal lengkap beserta nama hari</li>
+      <li><strong>Tab Selisih:</strong> Masukkan tanggal mulai dan akhir, atau pilih preset cepat (minggu ini, bulan ini, dll.). Hasilnya menampilkan selisih dalam hari, minggu, bulan, dan format hari-bulan-tahun lengkap.</li>
+      <li><strong>Tab D-Day:</strong> Masukkan nama acara dan tanggal target, dan lihat hitung mundur atau hitung maju dari hari ini. Tersedia preset acara umum seperti akhir tahun, Lebaran, dan hari ulang tahun.</li>
+      <li><strong>Tab Tambah Hari:</strong> Pilih tanggal awal dan masukkan jumlah hari (positif untuk maju, negatif untuk mundur) untuk menemukan tanggal hasil perhitungan. Cocok untuk menghitung jatuh tempo, tenggat waktu, dan masa garansi.</li>
     </ol>
 
-    <h2>Kegunaan Utama Kalkulator Selisih Tanggal</h2>
-    <p>Berikut adalah situasi-situasi nyata di mana kalkulator ini sangat berguna:</p>
-    <ul>
-      <li><strong>Kontrak kerja dan sewa:</strong> Hitung berapa hari tersisa dalam kontrak, atau tentukan tanggal berakhirnya kontrak 1 tahun dari tanggal mulai</li>
-      <li><strong>Deadline dan proyek:</strong> Hitung berapa hari tersisa menuju deadline, atau cari tahu tanggal "30 hari dari sekarang"</li>
-      <li><strong>Garansi produk:</strong> Tentukan tanggal akhir garansi — misalnya garansi 2 tahun dari tanggal pembelian</li>
-      <li><strong>Keuangan:</strong> Hitung jatuh tempo tagihan, cicilan, atau investasi</li>
-      <li><strong>Kehamilan:</strong> Pantau usia kehamilan dalam hari dan minggu</li>
-      <li><strong>Perencanaan acara:</strong> Hitung D-day pernikahan, ulang tahun, atau acara penting lainnya</li>
-    </ul>
+    <h2>Kegunaan Kalkulator Selisih Tanggal</h2>
+    <p>Kalkulator ini berguna untuk berbagai situasi nyata: menghitung sisa hari kontrak kerja atau sewa, mencari tahu tanggal jatuh tempo 30/60/90 hari ke depan, menghitung masa garansi produk, memantau usia kehamilan dalam minggu, menghitung masa kerja untuk keperluan pesangon, dan merencanakan D-Day untuk acara penting seperti pernikahan atau wisuda.</p>
 
     <h2>Cara Kerja Tahun Kabisat dalam Perhitungan</h2>
-    <p>Kalkulator ini secara otomatis memperhitungkan tahun kabisat untuk akurasi penuh. Aturan tahun kabisat:</p>
-    <ul>
-      <li>Tahun habis dibagi 4 → <strong>kabisat</strong> (misal: 2024, 2028)</li>
-      <li>Tahun habis dibagi 100 → <strong>bukan kabisat</strong> (misal: 1900)</li>
-      <li>Tahun habis dibagi 400 → <strong>kabisat</strong> (misal: 2000, 2400)</li>
-    </ul>
-    <p>Tahun kabisat memiliki 366 hari (ada 29 Februari). Tanpa memperhitungkan tahun kabisat, perhitungan jarak tanggal yang melewati bulan Februari di tahun kabisat bisa meleset 1 hari.</p>
+    <p>Kalkulator ini secara otomatis memperhitungkan tahun kabisat. Aturannya: tahun habis dibagi 4 adalah kabisat (misal 2024, 2028), kecuali tahun abad yang harus habis dibagi 400. Jadi 2000 adalah kabisat, 1900 bukan. Tahun kabisat memiliki 366 hari dengan 29 Februari. Tanpa memperhitungkan kabisat, perhitungan yang melewati Februari di tahun kabisat bisa meleset 1 hari.</p>
+
+    <h2>Hari Kerja vs Hari Kalender</h2>
+    <p>Banyak perjanjian membedakan "hari kalender" (semua hari termasuk Sabtu, Minggu, dan hari libur) dengan "hari kerja" (Senin–Jumat, tidak termasuk hari libur nasional). Kalkulator Selisih Tanggal ini menghitung hari kalender. Untuk kebutuhan hari kerja, gunakan Kalkulator Hari Kerja kami yang tersedia terpisah.</p>
 
     <h2>Jumlah Hari di Setiap Bulan</h2>
     <table>
-      <tr><th>Bulan</th><th>Jumlah Hari</th><th>Bulan</th><th>Jumlah Hari</th></tr>
+      <tr><th>Bulan</th><th>Hari</th><th>Bulan</th><th>Hari</th></tr>
       <tr><td>Januari</td><td>31</td><td>Juli</td><td>31</td></tr>
       <tr><td>Februari</td><td>28 (kabisat: 29)</td><td>Agustus</td><td>31</td></tr>
       <tr><td>Maret</td><td>31</td><td>September</td><td>30</td></tr>
@@ -123,49 +169,22 @@
       <tr><td>Juni</td><td>30</td><td>Desember</td><td>31</td></tr>
     </table>
 
-    <h2>Penghitungan Selisih Tanggal dalam Hukum dan Administrasi Indonesia</h2>
-    <p>Selisih tanggal memiliki implikasi hukum dan administratif yang serius di Indonesia. Berikut konteks di mana perhitungan ini penting:</p>
-    <ul>
-      <li><strong>Masa kerja karyawan</strong> — Menentukan besaran pesangon, uang penghargaan masa kerja, dan hak cuti. Selisih hari yang tepat krusial dalam sengketa ketenagakerjaan</li>
-      <li><strong>Masa berlaku perjanjian</strong> — Kontrak PKWT (Perjanjian Kerja Waktu Tertentu) maksimal 5 tahun total. Kelebihan 1 hari saja bisa mengubah status jadi PKWTT (karyawan tetap)</li>
-      <li><strong>Kadaluarsa utang (daluwarsa)</strong> — KUHPerdata mengatur bahwa beberapa jenis utang kedaluwarsa setelah 30 tahun jika tidak pernah ditagih</li>
-      <li><strong>Masa percobaan karyawan baru</strong> — Maksimal 3 bulan. Harus dihitung tepat untuk menghindari masalah hukum</li>
-      <li><strong>Batas waktu PPDB sekolah</strong> — Usia anak pada 1 Juli tahun ajaran dihitung tepat dalam hari</li>
-    </ul>
+    <h2>Selisih Tanggal dalam Konteks Hukum dan Administrasi Indonesia</h2>
+    <p>Selisih tanggal memiliki implikasi hukum yang penting: masa kerja karyawan menentukan besaran pesangon dan hak cuti; kontrak PKWT maksimal 5 tahun total (kelebihan 1 hari bisa mengubah status menjadi karyawan tetap); masa percobaan karyawan baru maksimal 3 bulan; dan usia anak pada 1 Juli tahun ajaran dihitung tepat untuk PPDB. Perhitungan yang tepat sangat krusial dalam situasi-situasi ini.</p>
 
-    <h2>Hari Kerja vs Hari Kalender: Perbedaan yang Sering Tertukar</h2>
-    <p>Banyak perjanjian dan regulasi membedakan antara "hari kalender" dan "hari kerja". Ini penting untuk dipahami:</p>
-    <table>
-      <tr><th>Istilah</th><th>Definisi</th><th>Contoh Penggunaan</th></tr>
-      <tr><td>Hari kalender</td><td>Semua hari, termasuk Sabtu, Minggu, dan hari libur</td><td>Masa berlaku SIM/STNK, tenor pinjaman</td></tr>
-      <tr><td>Hari kerja</td><td>Senin–Jumat, tidak termasuk hari libur nasional</td><td>SLA layanan, pengiriman dokumen ke instansi</td></tr>
-      <tr><td>Hari bursa</td><td>Hari perdagangan saham aktif (Senin–Jumat kecuali libur BEI)</td><td>Penyelesaian transaksi saham T+2</td></tr>
-    </table>
-    <p>Contoh praktis: "Pembayaran dalam 7 hari kerja" yang diterima Senin 10 Maret berarti jatuh tempo Selasa 18 Maret (mengabaikan Sabtu–Minggu), bukan Senin 17 Maret.</p>
-
-    <h2>Tanggal Penting yang Sering Dihitung Selisihnya</h2>
-    <ul>
-      <li><strong>Tanggal lahir → sekarang</strong> = usia dalam hari (gunakan kalkulator usia untuk lebih detail)</li>
-      <li><strong>HPHT → sekarang</strong> = usia kehamilan dalam hari/minggu (gunakan kalkulator kehamilan)</li>
-      <li><strong>Tanggal masuk kerja → sekarang</strong> = masa kerja untuk menghitung pesangon</li>
-      <li><strong>Tanggal jatuh tempo → sekarang</strong> = berapa hari telat atau sisa waktu</li>
-      <li><strong>Tanggal pembelian → sekarang</strong> = apakah masih dalam masa garansi</li>
-    </ul>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung tanggal berakhirnya kontrak?</div>
-    <div class="faq-a">Masukkan tanggal mulai kontrak di kolom "Tanggal Mulai". Lalu masukkan durasi kontrak di kolom "Tambahkan Hari" — misalnya 365 untuk kontrak 1 tahun, atau 730 untuk 2 tahun. Klik "Hitung Tanggal" dan Anda akan mendapatkan tanggal berakhirnya kontrak beserta nama hari. Perhatikan: untuk kontrak 1 tahun, gunakan 365 hari (atau 366 jika melewati tahun kabisat).</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa hari dalam 1 bulan yang digunakan untuk perhitungan?</div>
-    <div class="faq-a">Kalkulator ini menghitung hari kalender yang tepat, bukan menggunakan asumsi 30 hari/bulan. Setiap bulan dihitung sesuai jumlah hari aslinya: Januari 31, Februari 28 atau 29, dst. Itulah mengapa hasilnya lebih akurat dari menghitung manual dengan perkiraan "1 bulan = 30 hari".</div></div>
+    <div class="faq-a">Gunakan Tab Tambah Hari. Masukkan tanggal mulai kontrak, lalu masukkan durasi — misalnya 365 untuk kontrak 1 tahun, atau 730 untuk 2 tahun. Klik "Hitung Tanggal" dan hasilnya menampilkan tanggal berakhirnya kontrak beserta nama hari.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah tanggal mulai dihitung dalam selisih?</div>
-    <div class="faq-a">Tidak. Kalkulator menghitung selisih murni antar tanggal. Dari 1 Januari ke 2 Januari = 1 hari. Dari 1 Januari ke 1 Januari = 0 hari. Ini sesuai dengan konvensi yang digunakan dalam konteks hukum dan keuangan (day count convention). Jika ingin menghitung "inklusif" (menghitung hari pertama), tambahkan 1 ke hasil.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana menghitung tanggal 90 hari ke depan dari hari ini?</div>
-    <div class="faq-a">Isi kolom "Tanggal Mulai" dengan hari ini (sudah terisi otomatis). Masukkan 90 di kolom "Tambahkan / Kurangi Hari". Klik "Hitung Tanggal". Hasilnya langsung menampilkan tanggal tepat 90 hari ke depan. Untuk mundur ke belakang, masukkan nilai negatif (misal: −30).</div></div>
+    <div class="faq-a">Tidak. Dari 1 Januari ke 2 Januari = 1 hari. Dari 1 Januari ke 1 Januari = 0 hari. Ini sesuai konvensi yang digunakan dalam konteks hukum dan keuangan. Jika ingin menghitung inklusif (hari pertama dihitung), tambahkan 1 ke hasil.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana menghitung tanggal 90 hari ke depan?</div>
+    <div class="faq-a">Gunakan Tab Tambah Hari. Tanggal awal sudah terisi hari ini secara default. Masukkan 90 di kolom "Jumlah Hari" dan klik "Hitung Tanggal". Untuk mundur ke belakang, masukkan nilai negatif (misal: −30).</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa hari dalam 1 tahun?</div>
-    <div class="faq-a">Tahun biasa = <strong>365 hari</strong>. Tahun kabisat = <strong>366 hari</strong>. Rata-rata = 365,2425 hari per tahun (perhitungan kalender Gregorian). Itulah mengapa setiap 4 tahun ada tahun kabisat untuk mengkompensasi ¼ hari yang terakumulasi setiap tahunnya.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan hari kalender dan hari kerja?</div>
-    <div class="faq-a">Hari kalender menghitung semua hari termasuk Sabtu, Minggu, dan hari libur nasional. Hari kerja hanya menghitung Senin–Jumat (tidak termasuk akhir pekan). Untuk deadline bisnis atau SLA yang dihitung dalam "hari kerja", gunakan Kalkulator Hari Kerja yang tersedia di situs ini.</div></div>
+    <div class="faq-a">Tahun biasa = 365 hari. Tahun kabisat = 366 hari. Rata-rata 365,2425 hari per tahun (kalender Gregorian). Kabisat terjadi setiap 4 tahun untuk mengkompensasi ¼ hari yang terakumulasi setiap tahunnya.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya hari kalender dan hari kerja?</div>
+    <div class="faq-a">Hari kalender menghitung semua hari termasuk Sabtu, Minggu, dan libur nasional. Hari kerja hanya Senin–Jumat (tidak termasuk akhir pekan dan libur nasional). Kalkulator ini menghitung hari kalender.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Untuk apa D-Day biasanya digunakan?</div>
+    <div class="faq-a">D-Day (day countdown) digunakan untuk menghitung mundur ke acara penting: hari wisuda, pernikahan, ulang tahun, deadline tugas/proyek, hari pertama masuk kerja baru, pengumuman ujian, atau tanggal penerbangan. Bisa juga digunakan "ke belakang" — berapa hari sejak suatu kejadian penting.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -176,17 +195,23 @@
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
 const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const DAYS = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const DAYS   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-function dpHTML(id, defaultToday) {
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Date picker helpers
+function dpHTML(id) {
   const yr = new Date().getFullYear();
   const opts = MONTHS.map((m,i) => `<option value="${i+1}">${m}</option>`).join('');
   return `<div class="date-picker">
@@ -205,49 +230,158 @@ function dpGet(id) {
   const m = parseInt(document.getElementById(id+'-m').value);
   const y = parseInt(document.getElementById(id+'-y').value);
   if (!d||!m||!y) return null;
-  const dt = new Date(y,m-1,d);
+  const dt = new Date(y, m-1, d);
   return dt.getDate()===d ? dt : null;
 }
 function fmtDate(d) {
   return DAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
 }
+function today() { const t = new Date(); t.setHours(0,0,0,0); return t; }
 
+// Build pickers
 window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('start-picker').innerHTML = dpHTML('start');
-  document.getElementById('end-picker').innerHTML = dpHTML('end');
-  const today = new Date();
-  dpSet('end', today);
-  const yesterday = new Date(today); yesterday.setDate(today.getDate()-7);
-  dpSet('start', yesterday);
+  document.getElementById('start-picker').innerHTML  = dpHTML('start');
+  document.getElementById('end-picker').innerHTML    = dpHTML('end');
+  document.getElementById('dday-picker').innerHTML   = dpHTML('dday');
+  document.getElementById('add-picker').innerHTML    = dpHTML('add');
+
+  const t = today();
+  const weekAgo = new Date(t); weekAgo.setDate(t.getDate()-7);
+  dpSet('start', weekAgo);
+  dpSet('end', t);
+  dpSet('add', t);
+
+  renderSelisihPresets();
+  renderDdayPresets();
+  renderTambahPresets();
 });
+
+// Tab 1: Selisih
+function renderSelisihPresets() {
+  const t = today();
+  const presets = [
+    { label:'Hari ini vs 1 minggu lalu', fn: () => { const s=new Date(t); s.setDate(t.getDate()-7); dpSet('start',s); dpSet('end',t); calculate(); } },
+    { label:'Hari ini vs 1 bulan lalu',  fn: () => { const s=new Date(t); s.setMonth(t.getMonth()-1); dpSet('start',s); dpSet('end',t); calculate(); } },
+    { label:'Hari ini vs awal tahun',    fn: () => { dpSet('start',new Date(t.getFullYear(),0,1)); dpSet('end',t); calculate(); } },
+    { label:'Hari ini vs akhir tahun',   fn: () => { dpSet('start',t); dpSet('end',new Date(t.getFullYear(),11,31)); calculate(); } },
+  ];
+  document.getElementById('preset-selisih').innerHTML = presets.map((p,i) =>
+    `<button class="preset-btn" onclick="selisihPreset(${i})"><strong>${p.label}</strong>Klik untuk lihat</button>`
+  ).join('');
+  window._selisihPresets = presets;
+}
+function selisihPreset(i) { window._selisihPresets[i].fn(); }
 
 function calculate() {
   const s = dpGet('start'), e = dpGet('end');
-  if (!s||!e) return alert('Masukkan tanggal yang valid.');
-  const diff = e - s;
-  const totalDays = Math.round(diff / 86400000);
-  const absDays = Math.abs(totalDays);
-  const dir = totalDays >= 0 ? 'Selisih (ke depan)' : 'Selisih (ke belakang)';
+  if (!s||!e) { alert('Masukkan tanggal yang valid.'); return; }
+  const diff     = e - s;
+  const totalDays= Math.round(diff / 86400000);
+  const abs      = Math.abs(totalDays);
+  const dir      = totalDays > 0 ? '(ke depan)' : totalDays < 0 ? '(ke belakang)' : '(hari yang sama)';
 
-  document.getElementById('res-days').textContent = absDays.toLocaleString('id-ID');
-  document.getElementById('res-dir').textContent = dir;
-  document.getElementById('res-weeks').textContent = (absDays / 7).toFixed(2) + ' minggu';
-  document.getElementById('res-months').textContent = (absDays / 30.44).toFixed(2) + ' bulan';
-  document.getElementById('res-years').textContent = (absDays / 365.25).toFixed(3) + ' tahun';
+  const yrs  = Math.floor(abs / 365);
+  const rems = abs % 365;
+  const mos  = Math.floor(rems / 30);
+  const ds   = rems % 30;
+  const fullStr = yrs > 0 ? `${yrs} tahun ${mos} bulan ${ds} hari` : mos > 0 ? `${mos} bulan ${ds} hari` : `${ds} hari`;
+
+  document.getElementById('res-days').textContent   = abs.toLocaleString('id-ID');
+  document.getElementById('res-dir').textContent    = dir;
+  document.getElementById('res-weeks').textContent  = (abs/7).toFixed(2).replace('.',',') + ' minggu';
+  document.getElementById('res-months').textContent = (abs/30.44).toFixed(2).replace('.',',') + ' bulan';
+  document.getElementById('res-years').textContent  = (abs/365.25).toFixed(3).replace('.',',') + ' tahun';
+  document.getElementById('res-full').textContent   = fullStr;
   document.getElementById('result').classList.add('show');
 }
 
-function addDaysToStart() {
-  const s = dpGet('start');
-  const n = parseInt(document.getElementById('add-days').value);
-  if (!s) return alert('Masukkan tanggal mulai terlebih dahulu.');
-  if (isNaN(n)) return alert('Masukkan jumlah hari yang valid.');
+// Tab 2: D-Day
+function renderDdayPresets() {
+  const t = today();
+  const yr = t.getFullYear();
+  const presets = [
+    { label:'🎊 Akhir Tahun', date: new Date(yr,11,31) },
+    { label:'🎉 Hari Kemerdekaan', date: new Date(yr,7,17) },
+    { label:'🎓 Wisuda (Juli)', date: new Date(yr,6,15) },
+    { label:'✈️ Libur Akhir Tahun', date: new Date(yr,11,20) },
+  ];
+  document.getElementById('dday-presets').innerHTML = presets.map((p,i) =>
+    `<button class="dday-preset-btn" onclick="ddayPreset(${i})">${p.label}</button>`
+  ).join('');
+  window._ddayPresets = presets;
+}
+function ddayPreset(i) {
+  const p = window._ddayPresets[i];
+  document.getElementById('dday-name').value = p.label.replace(/^.\s/,'');
+  dpSet('dday', p.date);
+  calcDDay();
+}
+
+function calcDDay() {
+  const target = dpGet('dday');
+  const name   = document.getElementById('dday-name').value || 'Acara';
+  if (!target) { alert('Masukkan tanggal target.'); return; }
+  const t    = today();
+  const diff = Math.round((target - t) / 86400000);
+  const abs  = Math.abs(diff);
+
+  let numText, labelText, subText, color;
+  if (diff === 0) {
+    numText = 'HARI INI!'; labelText = name + ' — Hari H!'; subText = fmtDate(target); color = '#00C9B1';
+  } else if (diff > 0) {
+    numText = 'D−' + diff.toLocaleString('id-ID'); labelText = abs + ' hari lagi menuju ' + name; subText = fmtDate(target); color = '#3b82f6';
+    // progress: show % of year elapsed toward the event
+    const startOfYear = new Date(t.getFullYear(),0,1);
+    const totalRange  = Math.round((target - startOfYear) / 86400000);
+    const elapsed     = Math.round((t - startOfYear) / 86400000);
+    const pct         = totalRange > 0 ? Math.min(elapsed/totalRange*100,100) : 0;
+    document.getElementById('progress-fill').style.width = pct.toFixed(1) + '%';
+    document.getElementById('progress-label').textContent = `Sudah ${elapsed} hari dari ${totalRange} hari total (${pct.toFixed(0)}% perjalanan)`;
+    document.getElementById('progress-wrap').style.display = '';
+  } else {
+    numText = 'D+' + abs.toLocaleString('id-ID'); labelText = name + ' sudah berlalu ' + abs + ' hari lalu'; subText = fmtDate(target); color = '#8b5cf6';
+    document.getElementById('progress-wrap').style.display = 'none';
+  }
+
+  document.getElementById('dday-num').textContent   = numText;
+  document.getElementById('dday-num').style.color   = color;
+  document.getElementById('dday-label').textContent = labelText;
+  document.getElementById('dday-sub').textContent   = subText;
+  document.getElementById('dday-result').style.display = 'block';
+}
+
+// Tab 3: Tambah Hari
+function renderTambahPresets() {
+  const presets = [
+    { label:'+7 hari (1 minggu)',   days: 7 },
+    { label:'+30 hari (1 bulan)',   days: 30 },
+    { label:'+90 hari (3 bulan)',   days: 90 },
+    { label:'+365 hari (1 tahun)', days: 365 },
+    { label:'−30 hari (1 bln lalu)',days: -30 },
+    { label:'−7 hari (1 mgg lalu)',days: -7 },
+  ];
+  document.getElementById('preset-tambah').innerHTML = presets.map((p,i) =>
+    `<button class="preset-btn" onclick="tambahPreset(${i})"><strong>${p.label}</strong>dari tanggal awal</button>`
+  ).join('');
+  window._tambahPresets = presets;
+}
+function tambahPreset(i) {
+  document.getElementById('add-days').value = window._tambahPresets[i].days;
+  calcTambah();
+}
+
+function calcTambah() {
+  const s   = dpGet('add');
+  const n   = parseInt(document.getElementById('add-days').value);
+  if (!s) { alert('Masukkan tanggal awal.'); return; }
+  if (isNaN(n)) { alert('Masukkan jumlah hari yang valid.'); return; }
   const result = new Date(s);
   result.setDate(result.getDate() + n);
-  document.getElementById('res-add-date').textContent = fmtDate(result);
-  document.getElementById('res-add-label').textContent =
-    (n>=0?'+ '+n+' hari dari ':'− '+Math.abs(n)+' hari dari ') + fmtDate(s);
-  document.getElementById('result-add').classList.add('show');
+  document.getElementById('res-add-date').textContent = result.getDate() + ' ' + MONTHS[result.getMonth()] + ' ' + result.getFullYear();
+  document.getElementById('res-add-label').textContent = (n>=0 ? '+ '+n : '− '+Math.abs(n)) + ' hari dari tanggal awal';
+  document.getElementById('res-add-day').textContent   = DAYS[result.getDay()];
+  document.getElementById('res-add-from').textContent  = fmtDate(s);
+  document.getElementById('res-tambah').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
