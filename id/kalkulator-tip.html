@@ -3,18 +3,37 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Tip & Bagi Tagihan Restoran | NovaCalcs</title>
-<meta name="description" content="Hitung tip dan bagi tagihan restoran dengan mudah. Masukkan total tagihan, persen tip, dan jumlah orang untuk mengetahui berapa yang harus dibayar per orang."/>
-<meta name="keywords" content="kalkulator tip, bagi tagihan restoran, hitung tip, dutch pay, patungan makan, service charge"/>
+<title>Kalkulator Tip & Bagi Tagihan Restoran 2026 | NovaCalcs</title>
+<meta name="description" content="Hitung tip dan bagi tagihan restoran dengan mudah. Split merata, split per item pesanan, atau cek panduan tip di berbagai negara saat traveling."/>
+<meta name="keywords" content="kalkulator tip, bagi tagihan restoran, hitung tip, dutch pay, patungan makan, service charge, split bill per item"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tip.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-tip.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
-  <link rel="icon" href="/favicon.ico" sizes="any"/>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.item-row{display:grid;grid-template-columns:1fr 90px 80px 36px;gap:6px;align-items:center;margin-bottom:7px;font-size:.83rem}
+.item-row input{width:100%}
+.del-btn{background:#ff4d4d22;border:1px solid #ff4d4d44;color:#ff7777;border-radius:6px;cursor:pointer;font-size:1.1rem;padding:6px}
+.add-item-btn{background:transparent;border:1px dashed #00C9B1;color:#00C9B1;border-radius:8px;padding:8px;width:100%;cursor:pointer;font-size:.88rem;margin-bottom:.75rem;font-family:inherit}
+.person-result{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.75rem;margin:.4rem 0}
+.person-result h4{margin:0 0 .25rem;font-size:.88rem;color:#00C9B1}
+.person-result p{margin:0;font-size:.82rem;color:#8fa3b1}
+.country-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.75rem;margin:.35rem 0}
+.country-card .cc-name{font-size:.85rem;font-weight:600;color:#fff;margin-bottom:.2rem}
+.country-card .cc-tip{font-size:.8rem;color:#00C9B1;font-weight:600}
+.country-card .cc-note{font-size:.75rem;color:#6b7c8d;margin-top:.15rem}
+.tip-level{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -27,176 +46,279 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🍽️ Kalkulator Tip & Bagi Tagihan</div>
-      <div class="calc-subtitle">Hitung tip dan bagi tagihan restoran dengan mudah</div>
+      <div class="calc-title">🍽️ Kalkulator Tip &amp; Bagi Tagihan</div>
+      <div class="calc-subtitle">Split merata, per item, atau cek panduan tip internasional</div>
 
-      <div class="field"><label>Total Tagihan (Rp)</label>
-        <input type="number" id="bill" placeholder="Contoh: 350000" oninput="calculate()"/>
-      </div>
-      <div class="field"><label>Tip / Tambahan (%)</label>
-        <div class="disc-presets" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
-          <div class="inv-preset" onclick="setTip(0,this)">0%</div>
-          <div class="inv-preset on" onclick="setTip(10,this)">10%</div>
-          <div class="inv-preset" onclick="setTip(15,this)">15%</div>
-          <div class="inv-preset" onclick="setTip(20,this)">20%</div>
-        </div>
-        <input type="number" id="tip" value="10" min="0" max="100" oninput="calculate()"/>
-      </div>
-      <div class="field"><label>Jumlah Orang</label>
-        <div class="slider-row">
-          <label style="min-width:0">Orang</label>
-          <input type="range" id="people-range" min="1" max="20" value="2" oninput="syncPeople(this.value)"/>
-          <span class="slider-val" id="people-val">2 orang</span>
-        </div>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-merata',this)">👥 Split Merata</button>
+        <button class="tab-btn" onclick="showTab('tab-item',this)">🧾 Per Item</button>
+        <button class="tab-btn" onclick="showTab('tab-intl',this)">🌍 Tip Internasional</button>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung Tagihan</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-per-orang">—</div>
-          <div class="result-label">Per orang (termasuk tip)</div>
+      <!-- TAB 1: SPLIT MERATA -->
+      <div id="tab-merata" class="tab-pane active">
+        <div class="field"><label>Total Tagihan (Rp)</label>
+          <input type="number" id="bill" placeholder="Contoh: 350000" oninput="calcMerata()"/>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Tagihan asli</span><span class="rval" id="res-bill">—</span></div>
-          <div class="result-row"><span class="rkey">Tip (<span id="tip-pct">10</span>%)</span><span class="rval" id="res-tip">—</span></div>
-          <div class="result-row"><span class="rkey">Total dengan tip</span><span class="rval" id="res-total">—</span></div>
-          <div class="result-row"><span class="rkey">Per orang (hanya tagihan)</span><span class="rval" id="res-per-no-tip">—</span></div>
-          <div class="result-row"><span class="rkey">Per orang (termasuk tip)</span><span class="rval" id="res-per-with-tip" style="color:var(--mint)">—</span></div>
+        <div class="field"><label>Tip / Tambahan (%)</label>
+          <div class="disc-presets" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+            <div class="inv-preset on" onclick="setTip(0,this)">0%</div>
+            <div class="inv-preset" onclick="setTip(10,this)">10%</div>
+            <div class="inv-preset" onclick="setTip(15,this)">15%</div>
+            <div class="inv-preset" onclick="setTip(20,this)">20%</div>
+          </div>
+          <input type="number" id="tip" value="0" min="0" max="100" oninput="calcMerata()"/>
+        </div>
+        <div class="field"><label>Jumlah Orang</label>
+          <div class="slider-row">
+            <label style="min-width:0">Orang</label>
+            <input type="range" id="people-range" min="1" max="20" value="2" oninput="syncPeople(this.value)"/>
+            <span class="slider-val" id="people-val">2 orang</span>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcMerata()">Hitung</button>
+
+        <div class="result-panel" id="res-merata">
+          <div class="result-main">
+            <div class="result-value" id="res-per-orang">—</div>
+            <div class="result-label">Per orang (termasuk tip)</div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Tagihan asli</span><span class="rval" id="res-bill-m">—</span></div>
+            <div class="result-row"><span class="rkey">Tip (<span id="tip-pct">0</span>%)</span><span class="rval" id="res-tip-m">—</span></div>
+            <div class="result-row"><span class="rkey">Total dengan tip</span><span class="rval" id="res-total-m">—</span></div>
+            <div class="result-row"><span class="rkey">Per orang (tanpa tip)</span><span class="rval" id="res-notip-m">—</span></div>
+            <div class="result-row"><span class="rkey">Per orang (dengan tip)</span><span class="rval" id="res-withtip-m" style="color:#00C9B1">—</span></div>
+          </div>
         </div>
       </div>
+
+      <!-- TAB 2: SPLIT PER ITEM -->
+      <div id="tab-item" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Hitung tagihan masing-masing orang berdasarkan item yang dipesan. Tip dan service charge dibagi merata.</p>
+        <div style="display:grid;grid-template-columns:1fr 80px;gap:.5rem;margin-bottom:.75rem">
+          <div class="field" style="margin:0"><label style="font-size:.75rem">Service Charge (%)</label><input type="number" id="svc-charge" placeholder="10" min="0" max="50" value="10"/></div>
+          <div class="field" style="margin:0"><label style="font-size:.75rem">PPN (%)</label><input type="number" id="ppn-rate" placeholder="11" min="0" max="30" value="11"/></div>
+        </div>
+        <div id="item-rows">
+          <div style="display:grid;grid-template-columns:1fr 90px 80px 36px;gap:6px;font-size:.73rem;color:#6b7c8d;margin-bottom:4px">
+            <span>Item / Menu</span><span>Harga (Rp)</span><span>Siapa?</span><span></span>
+          </div>
+        </div>
+        <button class="add-item-btn" onclick="addItem()">+ Tambah Item</button>
+        <button class="calc-btn" onclick="calcPerItem()">Hitung Per Orang</button>
+        <div id="res-item" style="display:none;margin-top:1rem">
+          <div id="item-summary" style="border-radius:10px;padding:.75rem;font-size:.85rem;margin-bottom:.6rem;background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2)"></div>
+          <div id="person-results"></div>
+        </div>
+      </div>
+
+      <!-- TAB 3: TIP INTERNASIONAL -->
+      <div id="tab-intl" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Panduan tip di berbagai negara yang sering dikunjungi wisatawan Indonesia.</p>
+        <div class="field">
+          <label>Filter negara</label>
+          <div class="radio-group" style="flex-wrap:wrap">
+            <div class="radio-btn active" id="fi-all" onclick="filterCountry('all',this)">Semua</div>
+            <div class="radio-btn" id="fi-asia" onclick="filterCountry('asia',this)">Asia</div>
+            <div class="radio-btn" id="fi-barat" onclick="filterCountry('barat',this)">Barat</div>
+          </div>
+        </div>
+        <div id="country-cards"></div>
+      </div>
+
     </div>
   </div>
 
-    <div class="seo-content">
-    <h1>Kalkulator Tip & Bagi Tagihan Restoran — Hitung Tip dan Dutch Pay</h1>
-    <p class="page-desc">Hitung tip restoran dan bagi tagihan secara adil dengan mudah. Masukkan total tagihan, pilih persentase tip, dan tentukan berapa orang — langsung tahu berapa yang harus dibayar masing-masing orang.</p>
+  <div class="content-area">
+    <h1>Kalkulator Tip &amp; Bagi Tagihan Restoran — Hitung Tip dan Dutch Pay</h1>
+    <p class="page-desc">Hitung tip restoran dan bagi tagihan secara adil. Tersedia tiga mode: split merata untuk kelompok, split per item pesanan untuk tagihan yang berbeda, dan panduan tip internasional saat bepergian ke luar negeri.</p>
 
     <div class="ad-slot">Advertisement</div>
 
-    <h2>Apa itu Tip dan Kapan Memberikannya?</h2>
-    <p>Tip (atau gratuity) adalah pemberian uang sukarela kepada pelayan atau staf layanan sebagai bentuk apresiasi atas pelayanan yang diberikan. Di berbagai negara, norma pemberian tip sangat berbeda — dari wajib hingga tidak lazin sama sekali.</p>
-    <p>Di Indonesia, tip bersifat <strong>opsional dan sukarela</strong>. Berbeda dengan Amerika Serikat di mana tip 15–20% hampir dianggap wajib karena pelayan mengandalkan tip sebagai bagian besar dari pendapatan mereka. Di Indonesia, sebagian besar restoran menengah ke atas sudah menambahkan <em>service charge</em> 5–10% secara otomatis di tagihan.</p>
+    <h2>Apa itu Tip dan Kapan Memberikannya di Indonesia?</h2>
+    <p>Tip adalah pemberian uang sukarela kepada pelayan atau staf layanan sebagai bentuk apresiasi. Di Indonesia, tip bersifat <strong>opsional dan sukarela</strong>. Sebagian besar restoran menengah ke atas sudah menambahkan <em>service charge</em> 5–10% secara otomatis di tagihan — yang berarti Anda tidak perlu memberi tip tambahan kecuali ingin mengapresiasi pelayan secara personal.</p>
 
-    <h2>Cara Menggunakan Kalkulator Tip Ini</h2>
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
     <ol>
-      <li>Masukkan <strong>total tagihan</strong> dalam Rupiah (angka sebelum tip)</li>
-      <li>Pilih <strong>persentase tip</strong> menggunakan tombol preset (0%, 10%, 15%, 20%) atau ketik langsung</li>
-      <li>Geser <strong>slider jumlah orang</strong> sesuai berapa orang yang makan bersama</li>
-      <li>Klik <strong>"Hitung Tagihan"</strong></li>
-      <li>Lihat rincian: tagihan asli, jumlah tip, total, dan <strong>bagian per orang dengan dan tanpa tip</strong></li>
+      <li><strong>Tab Split Merata:</strong> Masukkan total tagihan, pilih persentase tip, dan tentukan jumlah orang. Cocok untuk makan bersama dengan menu yang tidak terlalu berbeda harganya.</li>
+      <li><strong>Tab Per Item:</strong> Tambahkan setiap item menu beserta nama siapa yang memesan. Kalkulator menghitung tagihan masing-masing orang secara individual, dengan service charge dan PPN dibagi merata.</li>
+      <li><strong>Tab Tip Internasional:</strong> Cek panduan tip di berbagai negara sebelum bepergian — aturan tip sangat berbeda antar budaya.</li>
     </ol>
-    <p>Kalkulator ini menggunakan metode <em>split merata</em> (dibagi rata) — cocok untuk makan bersama teman atau keluarga di mana pesanan tidak terlalu berbeda nilainya.</p>
-
-    <h2>Panduan Tip yang Lazim Digunakan</h2>
-    <table>
-      <tr><th>Kualitas Layanan</th><th>Tip yang Wajar (Indonesia)</th><th>Tip di Amerika Serikat</th></tr>
-      <tr><td>Tidak memuaskan</td><td>0% (tidak perlu)</td><td>10% (minimal)</td></tr>
-      <tr><td>Standar / cukup</td><td>0–5%</td><td>15%</td></tr>
-      <tr><td>Baik</td><td>5–10%</td><td>18–20%</td></tr>
-      <tr><td>Sangat memuaskan</td><td>10–15%</td><td>20–25%</td></tr>
-      <tr><td>Luar biasa / spesial</td><td>15%+</td><td>25%+</td></tr>
-    </table>
 
     <h2>Perbedaan Tip, Service Charge, dan PPN di Restoran Indonesia</h2>
-    <p>Banyak orang bingung dengan berbagai komponen biaya di tagihan restoran. Berikut penjelasannya:</p>
-    <ul>
-      <li><strong>Harga makanan:</strong> Harga yang tertera di menu (sebelum pajak dan service charge)</li>
-      <li><strong>Service charge (5–10%):</strong> Biaya layanan yang wajib dibayar, masuk ke kas restoran — tidak langsung ke pelayan. Dicantumkan di struk.</li>
-      <li><strong>PPN 11%:</strong> Pajak pertambahan nilai yang wajib dipungut restoran PKP (Pengusaha Kena Pajak). Dicantumkan di struk.</li>
-      <li><strong>Tip (opsional):</strong> Pemberian sukarela langsung ke pelayan sebagai apresiasi pribadi. Tidak masuk ke kas restoran.</li>
-    </ul>
-    <p>⚠️ Perhatian: jika tagihan sudah mencantumkan service charge 10%, Anda tidak perlu menambah tip lagi kecuali ingin mengapresiasi pelayan secara personal.</p>
+    <table>
+      <tr><th>Komponen</th><th>Sifat</th><th>Siapa yang Menerima</th><th>Tercantum di Struk?</th></tr>
+      <tr><td>Harga makanan</td><td>Wajib</td><td>Restoran</td><td>Ya</td></tr>
+      <tr><td>Service charge (5–10%)</td><td>Wajib (jika ada)</td><td>Kas restoran (distribusi ke karyawan tergantung kebijakan)</td><td>Ya</td></tr>
+      <tr><td>PPN 11%</td><td>Wajib (restoran PKP)</td><td>Pemerintah</td><td>Ya</td></tr>
+      <tr><td>Tip</td><td>Sukarela</td><td>Langsung ke pelayan</td><td>Tidak</td></tr>
+    </table>
+    <p>Perhatian: jika tagihan sudah mencantumkan service charge 10%, Anda tidak berkewajiban memberi tip tambahan kecuali ingin mengapresiasi pelayan secara personal.</p>
 
-    <h2>Contoh Perhitungan</h2>
-    <p>Makan bersama 4 orang, total tagihan <strong>Rp 320.000</strong> (sebelum service charge dan PPN):</p>
-    <ul>
-      <li>Service charge 10%: Rp 32.000 → total Rp 352.000</li>
-      <li>PPN 11%: Rp 35.200 → total Rp 387.200</li>
-      <li>Bayar per orang: Rp 387.200 ÷ 4 = <strong>Rp 96.800</strong></li>
-      <li>Jika tambah tip 10% dari total: +Rp 38.720 ÷ 4 = Rp 9.680/orang tambahan</li>
-    </ul>
-    <p>Kalkulator ini menghitung tip dari total tagihan yang Anda masukkan. Pastikan Anda memasukkan angka tagihan akhir (setelah atau sebelum tax, sesuai kebutuhan).</p>
+    <h2>Metode Bagi Tagihan yang Adil</h2>
+    <p>Ada dua pendekatan umum: <strong>split merata</strong> (bagi total dengan jumlah orang) — cocok jika pesanan tidak terlalu berbeda harganya dan untuk menghindari kecanggungan sosial. <strong>Pay what you ordered</strong> (setiap orang bayar sesuai pesanannya, ditambah porsi tax dan service charge merata) — lebih adil tapi membutuhkan perhitungan lebih detail. Gunakan Tab Per Item di atas untuk menghitung otomatis.</p>
 
-    <h2>Etika Makan Bersama dan Bagi Tagihan di Indonesia</h2>
-    <ul>
-      <li><strong>Diskusi di awal:</strong> Sebelum memesan, sepakati apakah akan split merata atau bayar masing-masing</li>
-      <li><strong>Satu orang bayar dulu:</strong> Untuk kelompok besar, lebih praktis satu orang bayar tunai/kartu lalu yang lain transfer via GoPay, OVO, DANA, atau m-banking</li>
-      <li><strong>Siapkan uang kecil:</strong> Jika ingin memberi tip tunai langsung ke pelayan, siapkan uang pecahan Rp 5.000–20.000</li>
-      <li><strong>Tip via aplikasi:</strong> Beberapa aplikasi delivery dan restoran kini menyediakan opsi tip digital — lebih mudah dan tidak perlu uang tunai</li>
-    </ul>
+    <h2>Etika Makan Bersama di Indonesia</h2>
+    <p>Diskusikan metode pembagian tagihan di awal sebelum memesan. Untuk kelompok besar, lebih praktis satu orang membayar terlebih dahulu lalu yang lain transfer via GoPay, OVO, DANA, atau transfer bank. Jika ingin memberi tip tunai langsung ke pelayan, siapkan uang pecahan Rp 5.000–20.000. Beberapa restoran kini menyediakan opsi tip digital di mesin kasir atau aplikasi.</p>
 
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah service charge sama dengan tip?</div>
-    <div class="faq-a">Tidak. Service charge adalah biaya layanan wajib yang tercantum di struk dan masuk ke kas restoran — distribusinya ke karyawan tergantung kebijakan manajemen. Tip adalah pemberian sukarela langsung dari tamu ke pelayan sebagai apresiasi personal dan tidak masuk ke kas. Jika tagihan sudah ada service charge 10%, Anda tidak berkewajiban memberi tip tambahan.</div></div>
+    <div class="faq-a">Tidak. Service charge adalah biaya layanan wajib yang tercantum di struk dan masuk ke kas restoran — distribusinya ke karyawan tergantung kebijakan manajemen. Tip adalah pemberian sukarela langsung dari tamu ke pelayan dan tidak masuk ke kas. Jika tagihan sudah ada service charge 10%, Anda tidak berkewajiban memberi tip tambahan.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara paling adil membagi tagihan jika pesanan berbeda nilai?</div>
-    <div class="faq-a">Ada dua metode umum: (1) <strong>Split merata</strong> — bagi total dengan jumlah orang, berlaku jika selisih pesanan tidak terlalu besar. (2) <strong>Pay what you ordered</strong> — setiap orang bayar sesuai yang dipesan ditambah porsi tax dan service charge secara merata. Metode kedua lebih adil tapi membutuhkan perhitungan lebih detail. Kalkulator ini menggunakan split merata.</div></div>
+    <div class="faq-a">Cara paling adil adalah setiap orang membayar sesuai yang dipesan (pay what you ordered), ditambah porsi service charge dan pajak secara merata. Gunakan Tab Per Item di kalkulator ini — masukkan setiap item dan siapa yang memesannya, lalu kalkulator menghitung otomatis tagihan per orang.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Di restoran fine dining, apakah wajib memberi tip?</div>
-    <div class="faq-a">Di Indonesia tidak wajib, karena restoran fine dining umumnya sudah mengenakan service charge 10% di tagihan. Namun jika pelayanannya benar-benar luar biasa — seperti sommelier yang sangat membantu, pelayan yang menemani lebih dari 2 jam, atau acara spesial — tip tambahan 5–10% langsung ke pelayan adalah apresiasi yang sangat dihargai.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa tip yang wajar untuk ojol atau kurir?</div>
-    <div class="faq-a">Tidak ada standar resmi, namun sebagai panduan umum: Rp 2.000–5.000 untuk jarak dekat dan pesanan ringan; Rp 5.000–10.000 untuk jarak jauh, pesanan berat, atau cuaca buruk. Tip via aplikasi (fitur "beri tip" di Gojek/Grab) lebih mudah dan langsung masuk ke saldo driver. Di hari hujan atau saat terjebak macam, tip sangat diapresiasi driver.</div></div>
+    <div class="faq-a">Di Indonesia tidak wajib, karena restoran fine dining umumnya sudah mengenakan service charge 10%. Namun jika pelayanannya luar biasa, tip tambahan 5–10% langsung ke pelayan adalah apresiasi yang sangat dihargai dan bukan kewajiban.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa tip yang wajar untuk driver ojol atau kurir?</div>
+    <div class="faq-a">Tidak ada standar resmi, namun sebagai panduan: Rp 2.000–5.000 untuk jarak dekat dan pesanan ringan; Rp 5.000–10.000 untuk jarak jauh, pesanan berat, atau cuaca buruk. Tip via fitur aplikasi (Gojek/Grab) lebih mudah dan langsung masuk ke saldo driver. Di hari hujan atau macam, tip sangat diapresiasi.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Di negara mana tip tidak boleh diberikan?</div>
-    <div class="faq-a">Jepang adalah contoh paling terkenal — memberi tip dianggap tidak sopan dan bahkan bisa menyinggung, karena pelayanan prima dianggap sudah merupakan kewajiban profesional (omotenashi). Di beberapa negara Eropa seperti Swedia dan Finlandia, tip sudah termasuk dalam harga. Di Singapura, service charge biasanya sudah termasuk. Selalu riset etika tipping sebelum bepergian ke luar negeri.</div></div>
+    <div class="faq-a">Jepang adalah contoh paling terkenal — memberi tip dianggap tidak sopan karena pelayanan prima sudah dianggap kewajiban profesional (omotenashi). Di beberapa negara Eropa seperti Swedia dan Finlandia, tip sudah termasuk dalam harga. Selalu riset etika tipping sebelum bepergian ke luar negeri.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah tip dihitung dari harga sebelum atau sesudah pajak?</div>
-    <div class="faq-a">Tidak ada aturan baku di Indonesia. Di Amerika Serikat, tip umumnya dihitung dari harga sebelum pajak (pre-tax). Di Indonesia, karena tip bersifat opsional, yang paling praktis adalah membulatkan total tagihan akhir ke atas, atau menghitung persentase dari total yang Anda bayar. Kalkulator ini menghitung tip dari angka yang Anda masukkan — sesuaikan apakah itu sebelum atau sesudah pajak.</div></div>
+    <div class="faq-a">Tidak ada aturan baku di Indonesia. Di Amerika Serikat, tip umumnya dihitung dari harga sebelum pajak (pre-tax). Di Indonesia, karena tip bersifat opsional, yang paling praktis adalah membulatkan total tagihan akhir ke atas, atau menghitung persentase dari total yang Anda bayar. Kalkulator ini menghitung tip dari angka yang Anda masukkan.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
-      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
+      <a href="/id/kalkulator-split-bill.html" class="related-item"><span class="ri">🧾</span>Split Bill Detail</a>
       <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
       <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
       <a href="/id/konversi-mata-uang.html" class="related-item"><span class="ri">💱</span>Konversi Mata Uang</a>
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+
+// TAB 1: SPLIT MERATA
 function setTip(v, btn) {
   document.getElementById('tip').value = v;
   document.getElementById('tip-pct').textContent = v;
   document.querySelectorAll('.inv-preset').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-  calculate();
+  calcMerata();
 }
-
 function syncPeople(v) {
   document.getElementById('people-val').textContent = v + ' orang';
-  calculate();
+  calcMerata();
 }
-
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-
-function calculate() {
+function calcMerata() {
   const bill = parseFloat(document.getElementById('bill').value) || 0;
   const tipPct = parseFloat(document.getElementById('tip').value) || 0;
   const people = parseInt(document.getElementById('people-range').value) || 1;
   if (!bill) return;
-
-  const tipAmt = bill * (tipPct / 100);
-  const total = bill + tipAmt;
-  const perNoTip = bill / people;
-  const perWithTip = total / people;
-
-  document.getElementById('tip-pct').textContent = tipPct;
-  document.getElementById('res-per-orang').textContent = fmt(perWithTip);
-  document.getElementById('res-bill').textContent = fmt(bill);
-  document.getElementById('res-tip').textContent = fmt(tipAmt);
-  document.getElementById('res-total').textContent = fmt(total);
-  document.getElementById('res-per-no-tip').textContent = fmt(perNoTip);
-  document.getElementById('res-per-with-tip').textContent = fmt(perWithTip);
-  document.getElementById('result').classList.add('show');
+  const tipAmt = bill * tipPct / 100;
+  const total  = bill + tipAmt;
+  document.getElementById('tip-pct').textContent   = tipPct;
+  document.getElementById('res-per-orang').textContent = fmt(total / people);
+  document.getElementById('res-bill-m').textContent    = fmt(bill);
+  document.getElementById('res-tip-m').textContent     = fmt(tipAmt);
+  document.getElementById('res-total-m').textContent   = fmt(total);
+  document.getElementById('res-notip-m').textContent   = fmt(bill / people);
+  document.getElementById('res-withtip-m').textContent = fmt(total / people);
+  document.getElementById('res-merata').classList.add('show');
 }
 
+// TAB 2: PER ITEM
+let itemCount = 0;
+function addItem() {
+  itemCount++;
+  const div = document.createElement('div');
+  div.className = 'item-row'; div.id = 'item-' + itemCount;
+  div.innerHTML = `<input type="text" placeholder="Menu ${itemCount}" class="item-name" style="font-size:.82rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .4rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <input type="number" placeholder="Harga" class="item-price" min="0" style="font-size:.82rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .4rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <input type="text" placeholder="Siapa?" class="item-person" style="font-size:.82rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .4rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <button class="del-btn" onclick="document.getElementById('item-${itemCount}').remove()">×</button>`;
+  document.getElementById('item-rows').appendChild(div);
+}
+
+function calcPerItem() {
+  const svc  = parseFloat(document.getElementById('svc-charge').value) / 100 || 0;
+  const ppn  = parseFloat(document.getElementById('ppn-rate').value) / 100 || 0;
+  const names = document.querySelectorAll('.item-name');
+  const prices= document.querySelectorAll('.item-price');
+  const persons= document.querySelectorAll('.item-person');
+  if (!names.length) { alert('Tambahkan setidaknya satu item.'); return; }
+
+  const personMap = {};
+  let totalBase = 0;
+  names.forEach((el, i) => {
+    const price = parseFloat(prices[i].value) || 0;
+    const person = persons[i].value.trim() || 'Orang ' + (i+1);
+    if (!personMap[person]) personMap[person] = 0;
+    personMap[person] += price;
+    totalBase += price;
+  });
+
+  const totalWithTax = totalBase * (1 + svc) * (1 + ppn);
+  const taxFactor = totalBase > 0 ? totalWithTax / totalBase : 1;
+
+  document.getElementById('item-summary').innerHTML =
+    `Subtotal: <strong>${fmt(totalBase)}</strong> → Setelah service charge (${Math.round(svc*100)}%) &amp; PPN (${Math.round(ppn*100)}%): <strong style="color:#00C9B1">${fmt(totalWithTax)}</strong>`;
+
+  const colors = ['#00C9B1','#3b82f6','#8b5cf6','#f59e0b','#ef4444','#10b981'];
+  let html = '';
+  Object.entries(personMap).forEach(([name, sub], i) => {
+    const final = sub * taxFactor;
+    html += `<div class="person-result">
+      <h4><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${colors[i%colors.length]};margin-right:5px;vertical-align:middle"></span>${name}</h4>
+      <p>Pesanan: ${fmt(sub)} → <strong style="color:${colors[i%colors.length]};font-size:.95rem">Total: ${fmt(final)}</strong></p>
+    </div>`;
+  });
+  document.getElementById('person-results').innerHTML = html;
+  document.getElementById('res-item').style.display = 'block';
+}
+
+// TAB 3: TIP INTERNASIONAL
+const COUNTRIES = [
+  {name:'🇮🇩 Indonesia', tip:'0–10%', note:'Opsional. Service charge 10% biasanya sudah ada di struk.', level:'low', region:'asia'},
+  {name:'🇯🇵 Jepang', tip:'❌ Jangan memberi tip', note:'Dianggap tidak sopan. Omotenashi — pelayanan tulus tanpa harapan imbalan.', level:'none', region:'asia'},
+  {name:'🇸🇬 Singapura', tip:'0% (sudah termasuk)', note:'Service charge 10% + GST 9% sudah dalam tagihan. Tip tambahan tidak perlu.', level:'low', region:'asia'},
+  {name:'🇰🇷 Korea Selatan', tip:'0–5%', note:'Tidak wajib. Di restoran tradisional, tip tidak lazim. Kafe dan restoran modern mulai menerima.', level:'low', region:'asia'},
+  {name:'🇹🇭 Thailand', tip:'20–50 THB', note:'Tip nominal (bukan persen) lebih umum. Rp 10.000–25.000 per tagihan sudah diapresiasi.', level:'low', region:'asia'},
+  {name:'🇦🇺 Australia', tip:'0–10%', note:'Tidak wajib tapi diapresiasi. Biasanya dibulatkan tagihan atau 5–10% untuk layanan sangat baik.', level:'med', region:'barat'},
+  {name:'🇺🇸 Amerika Serikat', tip:'15–25%', note:'Hampir wajib. Pelayan mengandalkan tip sebagai bagian besar pendapatan. Minimum 15% untuk layanan standar.', level:'high', region:'barat'},
+  {name:'🇬🇧 Inggris', tip:'10–12,5%', note:'Biasanya sudah termasuk sebagai "optional service charge". Cek struk sebelum menambah tip.', level:'med', region:'barat'},
+  {name:'🇪🇺 Eropa Barat (umum)', tip:'5–10% atau bulatkan', note:'Bervariasi per negara. Umumnya bulatkan tagihan ke atas atau tambahkan sekitar 10%.', level:'med', region:'barat'},
+  {name:'🇦🇪 Uni Emirat Arab', tip:'10–15%', note:'Service charge biasanya sudah termasuk. Tip tambahan umum di restoran fine dining.', level:'med', region:'asia'},
+  {name:'🇨🇳 China (daratan)', tip:'0%', note:'Tidak lazim di kebanyakan restoran. Di hotel berbintang dan restoran internasional mulai lebih diterima.', level:'none', region:'asia'},
+  {name:'🇲🇾 Malaysia', tip:'0–10%', note:'Serupa Indonesia. Service charge 6–10% umumnya sudah di tagihan. Tip opsional untuk layanan luar biasa.', level:'low', region:'asia'},
+];
+
+let currentFilter = 'all';
+function renderCountries() {
+  const data = currentFilter === 'all' ? COUNTRIES : COUNTRIES.filter(c => c.region === currentFilter);
+  const colors = {none:'#6b7c8d', low:'#f59e0b', med:'#3b82f6', high:'#ef4444'};
+  document.getElementById('country-cards').innerHTML = data.map(c =>
+    `<div class="country-card">
+      <div class="cc-name">${c.name}</div>
+      <div class="cc-tip"><span class="tip-level" style="background:${colors[c.level]}"></span>${c.tip}</div>
+      <div class="cc-note">${c.note}</div>
+    </div>`
+  ).join('');
+}
+function filterCountry(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('#tab-intl .radio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCountries();
+}
+renderCountries();
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+// Add default items
+for (let i=0;i<3;i++) addItem();
 </script>
 </body>
 </html>

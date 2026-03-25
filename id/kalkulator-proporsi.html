@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Proporsi & Perbandingan 2026 — Hitung Rasio dan Skala Online | NovaCalcs</title>
-<meta name="description" content="Hitung proporsi, perbandingan, skala peta, dan nilai ke-4 dari tiga bilangan yang diketahui. Cocok untuk matematika, resep masak, dan konversi skala."/>
-<meta name="keywords" content="kalkulator proporsi, kalkulator perbandingan, hitung rasio, skala peta, aturan tiga, nilai ke empat"/>
+<meta name="description" content="Hitung proporsi dan perbandingan: cari nilai tidak diketahui (a/b=c/d), skalakan resep masak, dan bagi sesuatu secara proporsional berdasarkan rasio tertentu."/>
+<meta name="keywords" content="kalkulator proporsi, kalkulator perbandingan, hitung rasio, skala peta, skala resep, bagi proporsional, aturan tiga"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-proporsi.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-proporsi.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,15 +13,29 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.proportion-grid { display:grid; grid-template-columns:1fr 20px 1fr; gap:8px; align-items:center; margin-bottom:8px; }
-.proportion-sep { text-align:center; font-size:1.2rem; color:var(--accent,#00C9B1); font-weight:700; }
-.proportion-row { display:grid; grid-template-columns:1fr 20px 1fr; gap:8px; align-items:center; }
-.equals-sign { text-align:center; font-size:1.5rem; font-weight:700; color:var(--accent,#00C9B1); margin:8px 0; }
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.proportion-row{display:grid;grid-template-columns:1fr 20px 1fr;gap:8px;align-items:center}
+.proportion-sep{text-align:center;font-size:1.2rem;color:#00C9B1;font-weight:700}
+.equals-sign{text-align:center;font-size:1.5rem;font-weight:700;color:#00C9B1;margin:8px 0}
+.ingredient-row{display:grid;grid-template-columns:1fr 100px 36px;gap:8px;align-items:center;margin-bottom:8px}
+.ingredient-row input{width:100%}
+.del-btn{background:#ff4d4d22;border:1px solid #ff4d4d44;color:#ff7777;border-radius:6px;cursor:pointer;font-size:1.1rem;padding:6px}
+.add-btn{background:transparent;border:1px dashed #00C9B1;color:#00C9B1;border-radius:8px;padding:8px;width:100%;cursor:pointer;font-size:.88rem;margin-bottom:.75rem;font-family:inherit}
+.recipe-result{background:rgba(0,201,177,.05);border:1px solid rgba(0,201,177,.15);border-radius:10px;padding:.75rem;margin-top:.75rem;display:none}
+.recipe-row{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.recipe-row:last-child{border-bottom:none}
+.part-row{display:grid;grid-template-columns:1fr 60px 36px;gap:8px;align-items:center;margin-bottom:8px}
+.part-bar{height:12px;border-radius:6px;background:#00C9B1;transition:width .4s}
 </style>
 </head>
 <body>
-
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -32,101 +46,143 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">⚖️ Kalkulator Proporsi & Perbandingan</div>
-      <div class="calc-subtitle">Cari nilai yang tidak diketahui dalam proporsi a/b = c/d</div>
+      <div class="calc-title">⚖️ Kalkulator Proporsi &amp; Perbandingan</div>
+      <div class="calc-subtitle">Proporsi, skala resep, dan pembagian proporsional</div>
 
-      <div class="field">
-        <label>Mode</label>
-        <select id="mode" onchange="updateMode()">
-          <option value="missing">Cari Nilai yang Tidak Diketahui (a/b = c/d)</option>
-          <option value="simplify">Sederhanakan Perbandingan (a : b)</option>
-          <option value="scale">Skala / Konversi (dari skala peta dll.)</option>
-        </select>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-proporsi',this)">⚖️ Proporsi</button>
+        <button class="tab-btn" onclick="showTab('tab-resep',this)">🍳 Skala Resep</button>
+        <button class="tab-btn" onclick="showTab('tab-bagi',this)">🍰 Bagi Proporsional</button>
       </div>
 
-      <div id="mode-missing">
-        <p style="font-size:0.85rem;color:#aaa;margin-bottom:12px">Masukkan 3 nilai, biarkan 1 kosong untuk dicari (tandai dengan "?")</p>
-        <div class="proportion-row">
-          <div class="field" style="margin:0"><label>A</label><input type="number" id="pa" placeholder="A" step="any"/></div>
-          <div class="proportion-sep">/</div>
-          <div class="field" style="margin:0"><label>B</label><input type="number" id="pb" placeholder="B" step="any"/></div>
+      <!-- TAB 1: PROPORSI -->
+      <div id="tab-proporsi" class="tab-pane active">
+        <div class="field">
+          <label>Mode</label>
+          <select id="mode" onchange="updateMode()">
+            <option value="missing">Cari Nilai yang Tidak Diketahui (a/b = c/d)</option>
+            <option value="simplify">Sederhanakan Perbandingan (a : b)</option>
+            <option value="scale">Skala / Konversi (peta, gambar teknik)</option>
+          </select>
         </div>
-        <div class="equals-sign">=</div>
-        <div class="proportion-row">
-          <div class="field" style="margin:0"><label>C</label><input type="number" id="pc" placeholder="C" step="any"/></div>
-          <div class="proportion-sep">/</div>
-          <div class="field" style="margin:0"><label>D</label><input type="number" id="pd" placeholder="D — kosongkan untuk dicari" step="any"/></div>
+
+        <div id="mode-missing">
+          <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.6rem">Masukkan 3 nilai, biarkan 1 kosong untuk dicari.</p>
+          <div class="proportion-row">
+            <div class="field" style="margin:0"><label>A</label><input type="number" id="pa" placeholder="A" step="any"/></div>
+            <div class="proportion-sep">/</div>
+            <div class="field" style="margin:0"><label>B</label><input type="number" id="pb" placeholder="B" step="any"/></div>
+          </div>
+          <div class="equals-sign">=</div>
+          <div class="proportion-row">
+            <div class="field" style="margin:0"><label>C</label><input type="number" id="pc" placeholder="C" step="any"/></div>
+            <div class="proportion-sep">/</div>
+            <div class="field" style="margin:0"><label>D</label><input type="number" id="pd" placeholder="D — kosongkan untuk dicari" step="any"/></div>
+          </div>
+        </div>
+
+        <div id="mode-simplify" style="display:none">
+          <div class="proportion-row" style="margin-top:.5rem">
+            <div class="field" style="margin:0"><label>Nilai A</label><input type="number" id="sa" placeholder="Contoh: 24" step="any"/></div>
+            <div class="proportion-sep">:</div>
+            <div class="field" style="margin:0"><label>Nilai B</label><input type="number" id="sb" placeholder="Contoh: 36" step="any"/></div>
+          </div>
+        </div>
+
+        <div id="mode-scale" style="display:none">
+          <div class="field"><label>Nilai di peta / gambar (cm)</label><input type="number" id="scale-map" placeholder="Contoh: 5" step="any"/></div>
+          <div class="field"><label>Skala (1 : ___)</label><input type="number" id="scale-ratio" placeholder="Contoh: 500000" step="any"/></div>
+        </div>
+
+        <button class="calc-btn" onclick="calculate()">Hitung</button>
+        <div class="result-panel" id="result">
+          <div class="result-main">
+            <div class="result-value" id="res-val">—</div>
+            <div class="result-label" id="res-label">Hasil</div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Persamaan</span><span class="rval" id="res-eq">—</span></div>
+            <div class="result-row"><span class="rkey">Keterangan</span><span class="rval" id="res-note">—</span></div>
+          </div>
         </div>
       </div>
 
-      <div id="mode-simplify" style="display:none">
-        <div class="proportion-row">
-          <div class="field" style="margin:0"><label>Nilai A</label><input type="number" id="sa" placeholder="Contoh: 12" step="any"/></div>
-          <div class="proportion-sep">:</div>
-          <div class="field" style="margin:0"><label>Nilai B</label><input type="number" id="sb" placeholder="Contoh: 8" step="any"/></div>
+      <!-- TAB 2: SKALA RESEP -->
+      <div id="tab-resep" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Skala resep masakan dari satu porsi ke porsi lain secara proporsional.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem">
+          <div class="field" style="margin:0"><label>Porsi Asli</label><input type="number" id="r-from" placeholder="Contoh: 4" min="0.1" step="any" value="4"/></div>
+          <div class="field" style="margin:0"><label>Porsi yang Diinginkan</label><input type="number" id="r-to" placeholder="Contoh: 7" min="0.1" step="any" value="7"/></div>
+        </div>
+        <div id="ingredients">
+          <div style="display:grid;grid-template-columns:1fr 100px 36px;gap:8px;font-size:.75rem;color:#6b7c8d;margin-bottom:4px">
+            <span>Nama Bahan</span><span>Jumlah Asli</span><span></span>
+          </div>
+        </div>
+        <button class="add-btn" onclick="addIngredient()">+ Tambah Bahan</button>
+        <button class="calc-btn" onclick="scaleRecipe()">Skala Resep</button>
+        <div class="recipe-result" id="recipe-result">
+          <div style="font-size:.82rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem" id="recipe-header"></div>
+          <div id="recipe-rows"></div>
         </div>
       </div>
 
-      <div id="mode-scale" style="display:none">
-        <div class="field"><label>Nilai di skala / peta</label><input type="number" id="scale-map" placeholder="Contoh: 5 (cm di peta)" step="any"/></div>
-        <div class="field"><label>Skala (1 : ?)</label><input type="number" id="scale-ratio" placeholder="Contoh: 500000" step="any"/></div>
+      <!-- TAB 3: BAGI PROPORSIONAL -->
+      <div id="tab-bagi" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Bagi suatu jumlah secara proporsional berdasarkan rasio masing-masing bagian.</p>
+        <div class="field"><label>Total yang Dibagi (Rp, unit, dll.)</label>
+          <input type="number" id="total" placeholder="Contoh: 1200000" min="0" step="any"/>
+        </div>
+        <div id="parts">
+          <div style="display:grid;grid-template-columns:1fr 60px 36px;gap:8px;font-size:.75rem;color:#6b7c8d;margin-bottom:4px">
+            <span>Nama / Label</span><span>Rasio</span><span></span>
+          </div>
+        </div>
+        <button class="add-btn" onclick="addPart()">+ Tambah Bagian</button>
+        <button class="calc-btn" onclick="calculateBagi()">Hitung Pembagian</button>
+        <div id="bagi-result" style="display:none;margin-top:.75rem">
+          <div id="bagi-rows"></div>
+        </div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-val">—</div>
-          <div class="result-label" id="res-label">Hasil</div>
-        </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Persamaan</span><span class="rval" id="res-eq">—</span></div>
-          <div class="result-row"><span class="rkey">Keterangan</span><span class="rval" id="res-note">—</span></div>
-        </div>
-      </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Proporsi & Perbandingan — Hitung Rasio, Skala, dan Nilai Tidak Diketahui</h1>
-    <p class="page-desc">Kalkulator proporsi ini membantu Anda menyelesaikan masalah perbandingan senilai, menyederhanakan rasio, dan menghitung konversi skala peta. Berguna untuk matematika, memasak, konstruksi, dan banyak lagi.</p>
+  <div class="content-area">
+    <h1>Kalkulator Proporsi &amp; Perbandingan — Hitung Rasio, Skala, dan Nilai Tidak Diketahui</h1>
+    <p class="page-desc">Kalkulator proporsi ini membantu menyelesaikan masalah perbandingan senilai, menskalakan resep masakan ke porsi berbeda, dan membagi sesuatu secara proporsional. Berguna untuk matematika, memasak, konstruksi, dan bisnis.</p>
 
     <div class="ad-slot">Advertisement</div>
 
     <h2>Apa itu Proporsi?</h2>
-    <p>Proporsi adalah pernyataan bahwa dua perbandingan (rasio) adalah sama. Dinyatakan sebagai a/b = c/d, yang dibaca "a berbanding b sama dengan c berbanding d". Dalam kehidupan sehari-hari, proporsi muncul dalam berbagai situasi: mengkonversi resep masak untuk porsi berbeda, menghitung jarak dari peta, mencari nilai tidak diketahui dalam soal matematika, dan banyak lagi.</p>
-    <p>Untuk mencari nilai yang tidak diketahui, gunakan aturan perkalian silang: jika a/b = c/d, maka a × d = b × c. Dari sini, nilai yang tidak diketahui dapat dihitung.</p>
+    <p>Proporsi adalah pernyataan bahwa dua perbandingan (rasio) adalah sama: a/b = c/d, yang dibaca "a berbanding b sama dengan c berbanding d". Untuk mencari nilai yang tidak diketahui, gunakan aturan perkalian silang: jika a/b = c/d, maka a × d = b × c.</p>
 
     <h2>Cara Menggunakan Kalkulator Ini</h2>
     <ol>
-      <li>Pilih <strong>mode</strong> yang sesuai dengan kebutuhan Anda</li>
-      <li><strong>Mode Proporsi</strong>: Masukkan 3 nilai (A, B, C), biarkan D kosong untuk dicari. Atau kosongkan nilai mana saja.</li>
-      <li><strong>Mode Sederhanakan</strong>: Masukkan dua angka A dan B untuk mendapatkan perbandingan paling sederhana</li>
-      <li><strong>Mode Skala</strong>: Masukkan nilai di peta/gambar dan skala untuk mendapat nilai nyata</li>
-      <li>Klik <strong>"Hitung"</strong></li>
+      <li><strong>Tab Proporsi:</strong> Pilih mode (cari nilai tak diketahui, sederhanakan perbandingan, atau konversi skala). Masukkan nilai yang diketahui dan kosongkan yang ingin dicari.</li>
+      <li><strong>Tab Skala Resep:</strong> Masukkan porsi asli dan porsi yang diinginkan, tambahkan semua bahan beserta jumlahnya. Kalkulator otomatis mengalikan setiap bahan dengan faktor skala.</li>
+      <li><strong>Tab Bagi Proporsional:</strong> Masukkan total yang ingin dibagi dan rasio setiap bagian. Cocok untuk bagi keuntungan kemitraan, warisan, atau alokasi anggaran.</li>
     </ol>
 
     <h2>Rumus Proporsi</h2>
     <table>
-      <tr><th>Mencari</th><th>Rumus</th></tr>
+      <tr><th>Mencari</th><th>Rumus (dari a/b = c/d)</th></tr>
       <tr><td>Nilai D</td><td>D = (B × C) ÷ A</td></tr>
-      <tr><td>Nilai A</td><td>A = (B × C) ÷ D</td></tr>
-      <tr><td>Nilai B</td><td>B = (A × D) ÷ C</td></tr>
       <tr><td>Nilai C</td><td>C = (A × D) ÷ B</td></tr>
+      <tr><td>Nilai B</td><td>B = (A × D) ÷ C</td></tr>
+      <tr><td>Nilai A</td><td>A = (B × C) ÷ D</td></tr>
     </table>
-    <p style="margin-top:0.75rem">Prinsip dasar: dalam proporsi a/b = c/d, berlaku <strong>a × d = b × c</strong> (perkalian silang).</p>
 
     <h2>Contoh Penerapan Proporsi dalam Kehidupan Nyata</h2>
-    <p><strong>Resep masak:</strong> Resep untuk 4 orang membutuhkan 300 gram tepung. Untuk 7 orang butuh berapa? 300/4 = x/7 → x = (300 × 7) ÷ 4 = 525 gram.</p>
-    <p><strong>Skala peta:</strong> Peta berskala 1:500.000. Jarak di peta 3 cm. Jarak nyata = 3 × 500.000 = 1.500.000 cm = 15 km.</p>
-    <p><strong>Konversi mata uang:</strong> Jika 1 USD = Rp 15.900, berapa Rp untuk 25 USD? 1/15.900 = 25/x → x = 25 × 15.900 = Rp 397.500.</p>
+    <p><strong>Resep masak:</strong> Resep untuk 4 orang membutuhkan 300 gram tepung. Untuk 7 orang: 300/4 = x/7 → x = (300 × 7) ÷ 4 = <strong>525 gram</strong>.</p>
+    <p><strong>Skala peta:</strong> Peta berskala 1:500.000, jarak di peta 3 cm. Jarak nyata = 3 × 500.000 = 1.500.000 cm = <strong>15 km</strong>.</p>
+    <p><strong>Pembagian keuntungan:</strong> Modal A Rp 30 juta, modal B Rp 20 juta, laba Rp 25 juta. A mendapat 25 × (30/50) = <strong>Rp 15 juta</strong>, B mendapat <strong>Rp 10 juta</strong>.</p>
 
-    <h2>Proporsi dalam Masak-Memasak dan Resep</h2>
-    <p>Salah satu penggunaan proporsi paling praktis sehari-hari adalah untuk menyesuaikan resep masakan. Jika resep kue untuk 8 porsi ingin dijadikan 5 porsi, semua bahan harus dikali 5/8 = 0,625:</p>
+    <h2>Proporsi dalam Masak-Memasak</h2>
+    <p>Salah satu penggunaan proporsi paling praktis sehari-hari adalah menyesuaikan resep. Jika resep untuk 8 porsi ingin dijadikan 5 porsi, semua bahan dikalikan faktor 5/8 = 0,625. Gunakan Tab Skala Resep di atas untuk menghitung otomatis tanpa perlu menghitung tiap bahan secara manual.</p>
     <table>
       <tr><th>Bahan</th><th>Resep Asli (8 porsi)</th><th>Disesuaikan (5 porsi)</th></tr>
       <tr><td>Tepung terigu</td><td>400 gram</td><td>250 gram</td></tr>
@@ -135,130 +191,184 @@
       <tr><td>Mentega</td><td>160 gram</td><td>100 gram</td></tr>
     </table>
 
-    <h2>Proporsi dalam Pekerjaan dan Bisnis</h2>
-    <p>Proporsi digunakan dalam berbagai konteks profesional:</p>
-    <ul>
-      <li><strong>Pembagian keuntungan kemitraan</strong> — Jika A modal Rp 30 juta dan B modal Rp 20 juta, laba Rp 25 juta dibagi proporsional: A = 25 × (30/50) = Rp 15 juta, B = Rp 10 juta</li>
-      <li><strong>Scaling desain</strong> — Mengubah ukuran desain dari A4 ke A3 sambil mempertahankan proporsi (skala 1:√2)</li>
-      <li><strong>Konversi satuan dalam produksi</strong> — 1 kg bahan menghasilkan 2,5 liter produk. Untuk 7 kg bahan: 7 × 2,5 = 17,5 liter</li>
-      <li><strong>Alokasi anggaran</strong> — Jika alokasi marketing 20% dari omzet, maka untuk omzet Rp 450 juta: 0,2 × 450 = Rp 90 juta</li>
-    </ul>
+    <h2>Perbandingan Senilai vs Berbalik Nilai</h2>
+    <p>Perbandingan senilai: semakin besar satu nilai, semakin besar nilai lain (contoh: lebih banyak barang = harga lebih mahal). Perbandingan berbalik nilai: semakin besar satu nilai, semakin kecil nilai lain (contoh: lebih banyak pekerja = pekerjaan selesai lebih cepat). Kalkulator ini menghitung perbandingan senilai. Untuk berbalik nilai: x = (a × b) ÷ c.</p>
 
-    <h2>Proporsi vs Persentase: Apa Bedanya?</h2>
-    <p>Keduanya sering digunakan bergantian, tapi ada perbedaan konseptual:</p>
-    <ul>
-      <li><strong>Proporsi</strong> — Menyatakan hubungan antara dua besaran (bisa berupa rasio, pecahan, atau perbandingan). Contoh: proporsi air dan beras 2:1</li>
-      <li><strong>Persentase</strong> — Proporsi yang dinyatakan per 100. Contoh: 2/5 = 40%. Persentase adalah bentuk khusus dari proporsi.</li>
-    </ul>
-    <p>Dalam matematika, dua rasio yang membentuk proporsi ditulis: a/b = c/d. Operasi silang berlaku: a × d = b × c. Ini adalah dasar dari semua soal proporsi yang digunakan di matematika SMP dan SMA.</p>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa bedanya perbandingan senilai dan berbalik nilai?</div>
-      <div class="faq-a">Perbandingan senilai: semakin besar satu nilai, semakin besar nilai lain (contoh: lebih banyak barang = lebih mahal). Perbandingan berbalik nilai: semakin besar satu nilai, semakin kecil nilai lain (contoh: lebih banyak pekerja = pekerjaan selesai lebih cepat). Kalkulator ini menghitung perbandingan senilai. Untuk berbalik nilai, gunakan rumus x = (a × b) ÷ c.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menyederhanakan perbandingan 24 : 36?</div>
-      <div class="faq-a">Cari FPB (Faktor Persekutuan Terbesar) dari 24 dan 36. FPB(24,36) = 12. Bagi kedua angka dengan 12: 24÷12 = 2 dan 36÷12 = 3. Jadi 24:36 = 2:3 dalam bentuk paling sederhana.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu skala peta 1:50.000?</div>
-      <div class="faq-a">Skala 1:50.000 berarti 1 cm di peta mewakili 50.000 cm (= 500 m = 0,5 km) di lapangan. Jadi jika dua titik di peta berjarak 4 cm, jarak sebenarnya adalah 4 × 500 m = 2 km.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana proporsi digunakan dalam memasak?</div>
-      <div class="faq-a">Proporsi sangat berguna saat menyesuaikan ukuran resep. Jika resep untuk 4 orang menggunakan 200 ml santan, untuk 10 orang tinggal hitung: 200/4 = x/10 → x = 500 ml. Semua bahan dapat dihitung dengan cara yang sama menggunakan proporsi yang sama.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu perbandingan emas (golden ratio)?</div>
-      <div class="faq-a">Perbandingan emas (φ ≈ 1,618) adalah rasio di mana a/b = (a+b)/a. Rasio ini muncul secara alami di alam (spiral kerang, susunan biji bunga), seni, dan arsitektur. Banyak desainer dan seniman menggunakannya untuk menciptakan komposisi yang secara estetik menarik karena dianggap paling "harmonis" secara visual.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung perbandingan campuran?</div>
-      <div class="faq-a">Untuk membagi sesuatu dalam perbandingan a:b:c, total bagian = a+b+c. Masing-masing mendapat: bagian pertama = total × a/(a+b+c), dst. Contoh: bagi Rp 1.200.000 dalam perbandingan 2:3:4. Total = 9. Bagian: Rp 1.200.000 × 2/9 = Rp 266.667; × 3/9 = Rp 400.000; × 4/9 = Rp 533.333.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya perbandingan senilai dan berbalik nilai?</div>
+    <div class="faq-a">Perbandingan senilai: semakin besar satu nilai, semakin besar nilai lain — seperti lebih banyak barang = lebih mahal. Perbandingan berbalik nilai: semakin besar satu nilai, semakin kecil nilai lain — seperti lebih banyak pekerja = pekerjaan selesai lebih cepat. Kalkulator ini menghitung perbandingan senilai. Untuk berbalik nilai, gunakan rumus x = (a × b) ÷ c.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menyederhanakan perbandingan 24 : 36?</div>
+    <div class="faq-a">Cari FPB dari 24 dan 36. FPB(24, 36) = 12. Bagi keduanya dengan 12: 24÷12 = 2 dan 36÷12 = 3. Jadi 24:36 = 2:3 dalam bentuk paling sederhana.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu skala peta 1:50.000?</div>
+    <div class="faq-a">Skala 1:50.000 berarti 1 cm di peta mewakili 50.000 cm (= 500 m) di lapangan. Jika dua titik di peta berjarak 4 cm, jarak sebenarnya adalah 4 × 500 m = 2 km.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara membagi keuntungan secara proporsional?</div>
+    <div class="faq-a">Jika modal A, B, C berturut-turut 3:2:1, total bagian = 6. Dari laba Rp 1.200.000: A mendapat 1.200.000 × 3/6 = Rp 600.000; B mendapat × 2/6 = Rp 400.000; C mendapat × 1/6 = Rp 200.000. Gunakan Tab Bagi Proporsional di atas untuk menghitung otomatis.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu perbandingan emas (golden ratio)?</div>
+    <div class="faq-a">Perbandingan emas (φ ≈ 1,618) adalah rasio di mana a/b = (a+b)/a. Rasio ini muncul di alam (spiral kerang, susunan biji bunga), seni, dan arsitektur. Banyak desainer menggunakannya untuk komposisi yang dianggap paling "harmonis" secara visual.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung perbandingan campuran tiga bagian?</div>
+    <div class="faq-a">Untuk membagi dalam perbandingan a:b:c, total bagian = a+b+c. Masing-masing mendapat: bagian pertama = total × a/(a+b+c), dan seterusnya. Contoh: bagi Rp 1.200.000 dalam rasio 2:3:4. Total = 9 bagian. Masing-masing: Rp 266.667; Rp 400.000; Rp 533.333. Gunakan Tab Bagi Proporsional untuk menghitung otomatis.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
-      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
-      <a href="/id/kalkulator-pangkat.html" class="related-item"><span class="ri">🔢</span>Pangkat & Akar</a>
+      <a href="/id/kalkulator-pangkat.html" class="related-item"><span class="ri">🔢</span>Pangkat &amp; Akar</a>
       <a href="/id/konversi-mata-uang.html" class="related-item"><span class="ri">💱</span>Konversi Mata Uang</a>
+      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata</a>
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
+let ingCount = 0, partCount = 0;
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
 function updateMode() {
   const m = document.getElementById('mode').value;
-  document.getElementById('mode-missing').style.display = m === 'missing' ? '' : 'none';
-  document.getElementById('mode-simplify').style.display = m === 'simplify' ? '' : 'none';
-  document.getElementById('mode-scale').style.display = m === 'scale' ? '' : 'none';
+  document.getElementById('mode-missing').style.display  = m==='missing'  ? '' : 'none';
+  document.getElementById('mode-simplify').style.display = m==='simplify' ? '' : 'none';
+  document.getElementById('mode-scale').style.display    = m==='scale'    ? '' : 'none';
 }
-
 function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+function fmt(n) {
+  if (Number.isInteger(n)) return n.toLocaleString('id-ID');
+  return parseFloat(n.toPrecision(6)).toLocaleString('id-ID', {maximumFractionDigits:4}).replace(/\.?0+$/,'');
+}
 
 function calculate() {
   const m = document.getElementById('mode').value;
   if (m === 'missing') {
-    const vals = [
-      parseFloat(document.getElementById('pa').value),
-      parseFloat(document.getElementById('pb').value),
-      parseFloat(document.getElementById('pc').value),
-      parseFloat(document.getElementById('pd').value)
-    ];
+    const vals = ['pa','pb','pc','pd'].map(id => parseFloat(document.getElementById(id).value));
     const missing = vals.findIndex(isNaN);
-    const known = vals.filter(v => !isNaN(v));
-    if (known.length !== 3) return alert('Masukkan tepat 3 nilai (biarkan 1 kosong untuk dicari).');
-
-    let result, eq;
+    if (vals.filter(v => !isNaN(v)).length !== 3) { alert('Masukkan tepat 3 nilai (biarkan 1 kosong untuk dicari).'); return; }
     const [a,b,c,d] = vals;
-    if (missing === 0) { result = (b*c)/d; eq = `x/${b} = ${c}/${d} → x = ${result.toFixed(6).replace(/\.?0+$/, '').replace('.',',')}`; }
-    else if (missing === 1) { result = (a*d)/c; eq = `${a}/x = ${c}/${d} → x = ${result.toFixed(6).replace(/\.?0+$/, '').replace('.',',')}`; }
-    else if (missing === 2) { result = (a*d)/b; eq = `${a}/${b} = x/${d} → x = ${result.toFixed(6).replace(/\.?0+$/, '').replace('.',',')}`; }
-    else { result = (b*c)/a; eq = `${a}/${b} = ${c}/x → x = ${result.toFixed(6).replace(/\.?0+$/, '').replace('.',',')}`; }
-
-    const display = Number.isInteger(result) ? result.toLocaleString('id-ID') : result.toFixed(6).replace(/\.?0+$/, '').replace('.', ',');
-    document.getElementById('res-val').textContent = display;
+    let result, eq;
+    if (missing===0){ result=(b*c)/d; eq=`x/${b} = ${c}/${d} → x = ${fmt(result)}`; }
+    else if(missing===1){ result=(a*d)/c; eq=`${a}/x = ${c}/${d} → x = ${fmt(result)}`; }
+    else if(missing===2){ result=(a*d)/b; eq=`${a}/${b} = x/${d} → x = ${fmt(result)}`; }
+    else { result=(b*c)/a; eq=`${a}/${b} = ${c}/x → x = ${fmt(result)}`; }
+    document.getElementById('res-val').textContent   = fmt(result);
     document.getElementById('res-label').textContent = 'Nilai yang Dicari';
-    document.getElementById('res-eq').textContent = eq;
-    document.getElementById('res-note').textContent = 'Dihitung dengan perkalian silang';
+    document.getElementById('res-eq').textContent    = eq;
+    document.getElementById('res-note').textContent  = 'Dihitung dengan perkalian silang: a × d = b × c';
   } else if (m === 'simplify') {
-    const a = parseFloat(document.getElementById('sa').value);
-    const b = parseFloat(document.getElementById('sb').value);
-    if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) return alert('Masukkan dua bilangan positif.');
+    const a = parseFloat(document.getElementById('sa').value), b = parseFloat(document.getElementById('sb').value);
+    if (isNaN(a)||isNaN(b)||a<=0||b<=0) { alert('Masukkan dua bilangan positif.'); return; }
     const g = gcd(Math.round(a), Math.round(b));
     const ra = Math.round(a)/g, rb = Math.round(b)/g;
-    document.getElementById('res-val').textContent = ra + ' : ' + rb;
+    document.getElementById('res-val').textContent   = ra + ' : ' + rb;
     document.getElementById('res-label').textContent = 'Perbandingan Paling Sederhana';
-    document.getElementById('res-eq').textContent = `${a} : ${b} = ${ra} : ${rb}`;
-    document.getElementById('res-note').textContent = `FPB = ${g}`;
+    document.getElementById('res-eq').textContent    = `${a} : ${b} = ${ra} : ${rb}`;
+    document.getElementById('res-note').textContent  = `FPB = ${g} | Faktor penyederhanaan: ÷${g}`;
   } else {
     const mapVal = parseFloat(document.getElementById('scale-map').value);
-    const scaleRatio = parseFloat(document.getElementById('scale-ratio').value);
-    if (isNaN(mapVal) || isNaN(scaleRatio)) return alert('Masukkan nilai peta dan skala.');
-    const real = mapVal * scaleRatio;
-    const realKm = real / 100000;
-    document.getElementById('res-val').textContent = real.toLocaleString('id-ID') + ' cm';
+    const ratio  = parseFloat(document.getElementById('scale-ratio').value);
+    if (isNaN(mapVal)||isNaN(ratio)) { alert('Masukkan nilai peta dan skala.'); return; }
+    const real = mapVal * ratio;
+    document.getElementById('res-val').textContent   = real.toLocaleString('id-ID') + ' cm';
     document.getElementById('res-label').textContent = 'Jarak / Ukuran Nyata';
-    document.getElementById('res-eq').textContent = `${mapVal} cm × ${scaleRatio.toLocaleString('id-ID')} = ${real.toLocaleString('id-ID')} cm`;
-    document.getElementById('res-note').textContent = `= ${realKm.toFixed(3).replace('.',',')} km`;
+    document.getElementById('res-eq').textContent    = `${mapVal} cm × ${ratio.toLocaleString('id-ID')} = ${real.toLocaleString('id-ID')} cm`;
+    document.getElementById('res-note').textContent  = `= ${(real/100).toFixed(2).replace('.',',')} m | = ${(real/100000).toFixed(4).replace('.',',')} km`;
   }
   document.getElementById('result').classList.add('show');
 }
 
+// Tab 2: Resep
+function addIngredient() {
+  ingCount++;
+  const div = document.createElement('div');
+  div.className = 'ingredient-row'; div.id = 'ing-' + ingCount;
+  div.innerHTML = `<input type="text" placeholder="Bahan ${ingCount}" class="ing-name" style="font-size:.83rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <input type="text" placeholder="Jumlah + satuan" class="ing-qty" style="font-size:.83rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <button class="del-btn" onclick="document.getElementById('ing-${ingCount}').remove()">×</button>`;
+  document.getElementById('ingredients').appendChild(div);
+}
+
+function scaleRecipe() {
+  const from   = parseFloat(document.getElementById('r-from').value);
+  const to     = parseFloat(document.getElementById('r-to').value);
+  if (!from||!to||from<=0||to<=0) { alert('Masukkan porsi asli dan porsi yang diinginkan.'); return; }
+  const factor = to / from;
+  const names  = document.querySelectorAll('.ing-name');
+  const qtys   = document.querySelectorAll('.ing-qty');
+  if (!names.length) { alert('Tambahkan setidaknya satu bahan.'); return; }
+  document.getElementById('recipe-header').innerHTML =
+    `Faktor skala: <strong style="color:#00C9B1">${factor.toFixed(3).replace(/\.?0+$/,'').replace('.',',')}×</strong> (dari ${from} → ${to} porsi)`;
+  let html = '';
+  names.forEach((el, i) => {
+    const name = el.value || 'Bahan ' + (i+1);
+    const qty  = qtys[i].value;
+    const num  = parseFloat(qty);
+    let scaled;
+    if (!isNaN(num)) {
+      const unit = qty.replace(/[\d.,\s]/g, '').trim();
+      scaled = `${(num * factor).toFixed(2).replace(/\.?0+$/,'').replace('.',',')}${unit ? ' ' + unit : ''}`;
+    } else {
+      scaled = qty + ' (×' + factor.toFixed(2).replace('.',',') + ')';
+    }
+    html += `<div class="recipe-row"><span>${name}</span><span style="color:#8fa3b1">${qty}</span><span style="color:#00C9B1;font-weight:600">→ ${scaled}</span></div>`;
+  });
+  document.getElementById('recipe-rows').innerHTML = html;
+  document.getElementById('recipe-result').style.display = 'block';
+}
+
+// Tab 3: Bagi Proporsional
+function addPart() {
+  partCount++;
+  const div = document.createElement('div');
+  div.className = 'part-row'; div.id = 'part-' + partCount;
+  div.innerHTML = `<input type="text" placeholder="Nama ${partCount}" class="part-name" style="font-size:.83rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <input type="number" placeholder="Rasio" class="part-ratio" min="0" step="any" style="font-size:.83rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
+    <button class="del-btn" onclick="document.getElementById('part-${partCount}').remove()">×</button>`;
+  document.getElementById('parts').appendChild(div);
+}
+
+function calculateBagi() {
+  const total  = parseFloat(document.getElementById('total').value);
+  if (!total||total<=0) { alert('Masukkan total yang ingin dibagi.'); return; }
+  const names  = document.querySelectorAll('.part-name');
+  const ratios = document.querySelectorAll('.part-ratio');
+  const parts  = [];
+  names.forEach((el, i) => {
+    const r = parseFloat(ratios[i].value);
+    if (!isNaN(r) && r > 0) parts.push({name: el.value || 'Bagian '+(i+1), ratio: r});
+  });
+  if (parts.length < 2) { alert('Tambahkan minimal 2 bagian dengan rasio valid.'); return; }
+  const totalRatio = parts.reduce((s,p) => s + p.ratio, 0);
+  const isRp = total >= 1000;
+  const colors = ['#00C9B1','#3b82f6','#8b5cf6','#f59e0b','#ef4444','#10b981'];
+  let html = '';
+  parts.forEach((p, i) => {
+    const share = total * p.ratio / totalRatio;
+    const pct   = (p.ratio / totalRatio * 100).toFixed(1);
+    html += `<div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.83rem;margin-bottom:.2rem">
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${colors[i%colors.length]};margin-right:5px;vertical-align:middle"></span>${p.name} (rasio ${p.ratio})</span>
+        <span style="color:${colors[i%colors.length]};font-weight:600">${isRp?'Rp ':''}<strong>${share.toLocaleString('id-ID',{maximumFractionDigits:2})}</strong> (${pct}%)</span>
+      </div>
+      <div style="height:8px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${colors[i%colors.length]};border-radius:4px;transition:width .4s"></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('bagi-rows').innerHTML = html +
+    `<div style="font-size:.78rem;color:#6b7c8d;margin-top:.4rem;text-align:right">Total rasio: ${totalRatio} bagian</div>`;
+  document.getElementById('bagi-result').style.display = 'block';
+}
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if (e.key==='Enter') calculate(); });
+
+// Default rows
+for (let i=0;i<3;i++) addIngredient();
+for (let i=0;i<3;i++) addPart();
 </script>
 </body>
 </html>

@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Pangkat & Akar 2026 — Hitung Perpangkatan dan Akar Online | NovaCalcs</title>
-<meta name="description" content="Hitung perpangkatan (x^n), akar kuadrat, akar pangkat tiga, dan akar ke-n secara online gratis. Dilengkapi penjelasan langkah demi langkah."/>
-<meta name="keywords" content="kalkulator pangkat, kalkulator akar, perpangkatan, akar kuadrat, akar pangkat tiga, hitung pangkat, akar ke-n"/>
+<meta name="description" content="Hitung perpangkatan (xⁿ), akar kuadrat, akar pangkat tiga, logaritma secara online. Lengkap dengan tabel referensi pangkat 1–20 dan kalkulator notasi ilmiah."/>
+<meta name="keywords" content="kalkulator pangkat, kalkulator akar, perpangkatan, akar kuadrat, akar pangkat tiga, logaritma, notasi ilmiah"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pangkat.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-pangkat.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,65 +13,129 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.ref-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.ref-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.4rem .5rem;text-align:center;font-size:.75rem}
+.ref-table td{padding:.35rem .5rem;border-bottom:1px solid rgba(255,255,255,.04);text-align:center}
+.ref-table tr:hover td{background:rgba(255,255,255,.03)}
+.ref-table .highlight{color:#00C9B1;font-weight:600}
+.compound-bar{height:8px;background:rgba(0,201,177,.15);border-radius:4px;margin:.2rem 0;overflow:hidden}
+.compound-fill{height:100%;background:#00C9B1;border-radius:4px;transition:width .4s}
+.sci-result{background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.15);border-radius:10px;padding:.85rem;margin-top:.75rem;font-size:.88rem;line-height:1.6;display:none}
+</style>
 </head>
 <body>
-
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
     <nav class="breadcrumb">
       <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
       <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Pangkat & Akar</span>
+      <span>Kalkulator Pangkat &amp; Akar</span>
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
-      <div class="calc-title">🔢 Kalkulator Pangkat & Akar</div>
-      <div class="calc-subtitle">Perpangkatan, akar kuadrat, akar pangkat tiga, dan lebih</div>
+      <div class="calc-title">🔢 Kalkulator Pangkat &amp; Akar</div>
+      <div class="calc-subtitle">Perpangkatan, akar, logaritma &amp; notasi ilmiah</div>
 
-      <div class="field">
-        <label>Jenis Perhitungan</label>
-        <select id="op-type" onchange="updateUI()">
-          <option value="power">Perpangkatan (xⁿ)</option>
-          <option value="sqrt">Akar Kuadrat (√x)</option>
-          <option value="cbrt">Akar Pangkat Tiga (∛x)</option>
-          <option value="nroot">Akar ke-n (ⁿ√x)</option>
-          <option value="exp">Eksponen (eˣ)</option>
-          <option value="log10">Logaritma (log₁₀)</option>
-          <option value="ln">Logaritma Natural (ln)</option>
-        </select>
-      </div>
-      <div class="field">
-        <label id="base-label">Bilangan Pokok (x)</label>
-        <input type="number" id="base" placeholder="Masukkan angka" step="any"/>
-      </div>
-      <div class="field" id="exp-field">
-        <label id="exp-label">Eksponen / Pangkat (n)</label>
-        <input type="number" id="exponent" placeholder="Masukkan pangkat" step="any"/>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-hitung',this)">🧮 Hitung</button>
+        <button class="tab-btn" onclick="showTab('tab-tabel',this)">📋 Tabel Referensi</button>
+        <button class="tab-btn" onclick="showTab('tab-notasi',this)">🔬 Notasi Ilmiah</button>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">Hitung</button>
-
-      <div class="result-panel" id="result">
-        <div class="result-main">
-          <div class="result-value" id="res-val">—</div>
-          <div class="result-label" id="res-label">Hasil</div>
+      <!-- TAB 1: HITUNG -->
+      <div id="tab-hitung" class="tab-pane active">
+        <div class="field">
+          <label>Jenis Perhitungan</label>
+          <select id="op-type" onchange="updateUI()">
+            <option value="power">Perpangkatan (xⁿ)</option>
+            <option value="sqrt">Akar Kuadrat (√x)</option>
+            <option value="cbrt">Akar Pangkat Tiga (∛x)</option>
+            <option value="nroot">Akar ke-n (ⁿ√x)</option>
+            <option value="exp">Eksponen (eˣ)</option>
+            <option value="log10">Logaritma (log₁₀)</option>
+            <option value="ln">Logaritma Natural (ln)</option>
+          </select>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Operasi</span><span class="rval" id="res-op">—</span></div>
-          <div class="result-row"><span class="rkey">Notasi matematis</span><span class="rval" id="res-notation">—</span></div>
+        <div class="field">
+          <label id="base-label">Bilangan Pokok (x)</label>
+          <input type="number" id="base" placeholder="Masukkan angka" step="any"/>
+        </div>
+        <div class="field" id="exp-field">
+          <label id="exp-label">Pangkat (n)</label>
+          <input type="number" id="exponent" placeholder="Masukkan pangkat" step="any"/>
+        </div>
+        <button class="calc-btn" onclick="calculate()">Hitung</button>
+
+        <div class="result-panel" id="result">
+          <div class="result-main">
+            <div class="result-value" id="res-val">—</div>
+            <div class="result-label" id="res-label">Hasil</div>
+          </div>
+          <div class="result-rows">
+            <div class="result-row"><span class="rkey">Operasi</span><span class="rval" id="res-op">—</span></div>
+            <div class="result-row"><span class="rkey">Notasi matematis</span><span class="rval" id="res-notation">—</span></div>
+            <div class="result-row"><span class="rkey">Notasi ilmiah</span><span class="rval" id="res-sci">—</span></div>
+          </div>
+        </div>
+
+        <!-- Compound interest visual (only for power) -->
+        <div id="compound-section" style="display:none;margin-top:.75rem;padding:.75rem;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+          <div style="font-size:.78rem;color:#8fa3b1;margin-bottom:.5rem">💰 Contoh Bunga Majemuk (investasi Rp 10 juta × <span id="cmp-factor">—</span>× = <span id="cmp-result">—</span>)</div>
+          <div id="cmp-bars"></div>
         </div>
       </div>
+
+      <!-- TAB 2: TABEL REFERENSI -->
+      <div id="tab-tabel" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.6rem">Tabel pangkat dan akar dari 1 sampai 20 untuk referensi cepat.</p>
+        <table class="ref-table">
+          <thead><tr><th>n</th><th>n²</th><th>n³</th><th>√n</th><th>∛n</th></tr></thead>
+          <tbody id="ref-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- TAB 3: NOTASI ILMIAH -->
+      <div id="tab-notasi" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Konversi bilangan biasa ke notasi ilmiah (a × 10ⁿ) atau sebaliknya.</p>
+        <div class="field">
+          <label>Mode</label>
+          <div class="radio-group">
+            <div class="radio-btn active" id="btn-to-sci" onclick="setSciMode('to')">Angka → Notasi Ilmiah</div>
+            <div class="radio-btn" id="btn-from-sci" onclick="setSciMode('from')">Notasi Ilmiah → Angka</div>
+          </div>
+        </div>
+        <div id="sci-to">
+          <div class="field"><label>Bilangan</label><input type="number" id="sci-number" placeholder="Contoh: 299800000" step="any"/></div>
+        </div>
+        <div id="sci-from" style="display:none">
+          <div style="display:grid;grid-template-columns:1fr auto 80px;gap:.5rem;align-items:end">
+            <div class="field" style="margin:0"><label>Koefisien (a)</label><input type="number" id="sci-a" placeholder="Contoh: 2,998" step="any"/></div>
+            <div style="padding-bottom:.8rem;color:#00C9B1;font-weight:700">× 10^</div>
+            <div class="field" style="margin:0"><label>Pangkat</label><input type="number" id="sci-exp" placeholder="8" step="1"/></div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcSci()">Konversi</button>
+        <div class="sci-result" id="sci-result"></div>
+      </div>
+
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Kalkulator Pangkat & Akar — Perpangkatan, Akar Kuadrat, Logaritma Online</h1>
-    <p class="page-desc">Kalkulator pangkat dan akar ini mendukung berbagai operasi matematika: perpangkatan (xⁿ), akar kuadrat (√x), akar pangkat tiga (∛x), akar ke-n, eksponen, dan logaritma. Cocok untuk pelajar dan mahasiswa.</p>
+  <div class="content-area">
+    <h1>Kalkulator Pangkat &amp; Akar — Perpangkatan, Akar Kuadrat, Logaritma Online</h1>
+    <p class="page-desc">Kalkulator pangkat dan akar mendukung berbagai operasi matematika: perpangkatan (xⁿ), akar kuadrat (√x), akar pangkat tiga (∛x), akar ke-n, eksponen, dan logaritma. Lengkap dengan tabel referensi dan kalkulator notasi ilmiah.</p>
 
     <div class="ad-slot">Advertisement</div>
 
@@ -89,10 +153,9 @@
 
     <h2>Cara Menggunakan Kalkulator Ini</h2>
     <ol>
-      <li>Pilih <strong>jenis operasi</strong> dari dropdown</li>
-      <li>Masukkan <strong>bilangan pokok (x)</strong></li>
-      <li>Untuk perpangkatan dan akar ke-n, masukkan juga nilai <strong>pangkat/n</strong></li>
-      <li>Klik <strong>"Hitung"</strong> untuk melihat hasil</li>
+      <li><strong>Tab Hitung:</strong> Pilih jenis operasi, masukkan bilangan dan pangkat (jika diperlukan), lalu klik Hitung. Untuk perpangkatan, tersedia juga visualisasi bunga majemuk sebagai contoh aplikasi nyata.</li>
+      <li><strong>Tab Tabel Referensi:</strong> Lihat tabel pangkat (n², n³) dan akar (√n, ∛n) dari 1 sampai 20 secara sekaligus tanpa perlu menghitung satu per satu.</li>
+      <li><strong>Tab Notasi Ilmiah:</strong> Konversi bilangan sangat besar atau sangat kecil ke format notasi ilmiah (a × 10ⁿ) atau sebaliknya.</li>
     </ol>
 
     <h2>Sifat-sifat Penting Perpangkatan</h2>
@@ -106,187 +169,176 @@
       <tr><td>Pangkat pecahan</td><td>x^(1/n) = ⁿ√x</td><td>8^(1/3) = ∛8 = 2</td></tr>
     </table>
 
-    <h2>Tabel Pangkat Angka 1–10</h2>
-    <table>
-      <tr><th>n</th><th>n²</th><th>n³</th><th>n⁴</th><th>√n</th></tr>
-      <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1,000</td></tr>
-      <tr><td>2</td><td>4</td><td>8</td><td>16</td><td>1,414</td></tr>
-      <tr><td>3</td><td>9</td><td>27</td><td>81</td><td>1,732</td></tr>
-      <tr><td>4</td><td>16</td><td>64</td><td>256</td><td>2,000</td></tr>
-      <tr><td>5</td><td>25</td><td>125</td><td>625</td><td>2,236</td></tr>
-      <tr><td>6</td><td>36</td><td>216</td><td>1.296</td><td>2,449</td></tr>
-      <tr><td>7</td><td>49</td><td>343</td><td>2.401</td><td>2,646</td></tr>
-      <tr><td>8</td><td>64</td><td>512</td><td>4.096</td><td>2,828</td></tr>
-      <tr><td>9</td><td>81</td><td>729</td><td>6.561</td><td>3,000</td></tr>
-      <tr><td>10</td><td>100</td><td>1.000</td><td>10.000</td><td>3,162</td></tr>
-    </table>
-
     <h2>Perpangkatan dalam Kehidupan Nyata</h2>
-    <p>Perpangkatan bukan hanya soal matematika — ia muncul di banyak situasi nyata yang kita hadapi setiap hari:</p>
-    <ul>
-      <li><strong>Bunga majemuk</strong> — Investasi Rp 10 juta dengan bunga 10%/tahun selama 10 tahun: 10.000.000 × 1,1¹⁰ = Rp 25.937.425. Kekuatan pangkat dalam compounding inilah yang membuat investasi dini sangat berharga.</li>
-      <li><strong>Pertumbuhan populasi</strong> — Jika populasi tumbuh 2%/tahun, setelah 35 tahun populasinya menjadi 1,02³⁵ ≈ 2× lipat. Ini "Hukum 72" — bagi 72 dengan persentase pertumbuhan untuk estimasi waktu penggandaan.</li>
-      <li><strong>Penyusutan nilai barang</strong> — Laptop seharga Rp 15 juta menyusut 30%/tahun: Tahun ke-3 nilainya 15.000.000 × 0,7³ = Rp 5.145.000.</li>
-      <li><strong>Luas dan volume</strong> — Menghitung luas tanah persegi (sisi²) atau volume bak air (panjang × lebar × tinggi) melibatkan perpangkatan.</li>
-    </ul>
-
-    <h2>Kaidah Perpangkatan yang Paling Sering Dipakai</h2>
-    <table>
-      <tr><th>Kaidah</th><th>Rumus</th><th>Contoh</th></tr>
-      <tr><td>Perkalian pangkat sama</td><td>aᵐ × aⁿ = aᵐ⁺ⁿ</td><td>2³ × 2⁴ = 2⁷ = 128</td></tr>
-      <tr><td>Pembagian pangkat sama</td><td>aᵐ ÷ aⁿ = aᵐ⁻ⁿ</td><td>3⁵ ÷ 3² = 3³ = 27</td></tr>
-      <tr><td>Pangkat dari pangkat</td><td>(aᵐ)ⁿ = aᵐˣⁿ</td><td>(2³)² = 2⁶ = 64</td></tr>
-      <tr><td>Pangkat nol</td><td>a⁰ = 1</td><td>100⁰ = 1</td></tr>
-      <tr><td>Pangkat negatif</td><td>a⁻ⁿ = 1/aⁿ</td><td>2⁻³ = 1/8 = 0,125</td></tr>
-      <tr><td>Pangkat pecahan</td><td>a^(1/n) = ⁿ√a</td><td>8^(1/3) = ∛8 = 2</td></tr>
-    </table>
+    <p>Perpangkatan muncul di banyak situasi nyata sehari-hari. Bunga majemuk investasi: Rp 10 juta dengan bunga 10%/tahun selama 10 tahun menghasilkan 10.000.000 × 1,1¹⁰ = Rp 25.937.425 — inilah kekuatan compounding. Pertumbuhan populasi: dengan pertumbuhan 2%/tahun, setelah 35 tahun populasinya menjadi 1,02³⁵ ≈ 2 kali lipat (Aturan 72: bagi 72 dengan persentase pertumbuhan untuk estimasi waktu penggandaan). Penyusutan nilai barang: laptop Rp 15 juta menyusut 30%/tahun, di tahun ke-3 nilainya 15.000.000 × 0,7³ = Rp 5.145.000.</p>
 
     <h2>Logaritma: Kebalikan dari Perpangkatan</h2>
-    <p>Logaritma adalah operasi kebalikan dari perpangkatan. Jika 2³ = 8, maka log₂(8) = 3. Dalam kehidupan nyata, logaritma digunakan untuk:</p>
-    <ul>
-      <li>Skala Richter gempa bumi (logaritmik base 10) — gempa 7 SR 10× lebih kuat dari 6 SR</li>
-      <li>Desibel (dB) pengukuran suara — skala logaritmik</li>
-      <li>pH larutan asam-basa — negatif logaritma konsentrasi ion H⁺</li>
-      <li>Menghitung berapa tahun untuk mencapai target investasi</li>
-    </ul>
+    <p>Logaritma adalah operasi kebalikan dari perpangkatan. Jika 2³ = 8, maka log₂(8) = 3. Logaritma digunakan dalam skala Richter gempa bumi (setiap kenaikan 1 SR = 10× lebih kuat), desibel pengukuran suara (skala logaritmik), pH larutan asam-basa, dan menghitung berapa tahun untuk mencapai target investasi.</p>
 
     <h2>Notasi Ilmiah: Cara Menulis Bilangan Sangat Besar atau Kecil</h2>
-    <p>Notasi ilmiah menggunakan perpangkatan 10 untuk menyederhanakan bilangan ekstrem yang sering muncul dalam sains dan teknologi:</p>
-    <ul>
-      <li>Kecepatan cahaya: 300.000.000 m/s = <strong>3 × 10⁸ m/s</strong></li>
-      <li>Jarak Bumi ke Matahari: 150.000.000 km = <strong>1,5 × 10⁸ km</strong></li>
-      <li>Ukuran sel darah merah: 0,000007 m = <strong>7 × 10⁻⁶ m</strong></li>
-      <li>Kapasitas RAM 8 GB: 8.589.934.592 byte = <strong>8 × 2³⁰ byte ≈ 8,59 × 10⁹ byte</strong></li>
-      <li>Pendapatan negara Indonesia (APBN 2025): ~Rp 2.996 triliun = <strong>2,996 × 10¹⁵ rupiah</strong></li>
-    </ul>
-    <p>Kalkulator ilmiah (scientific calculator) menggunakan tombol "EXP" atau "×10ˣ" untuk memasukkan notasi ilmiah. Di spreadsheet Excel/Google Sheets, notasi ilmiah ditulis dengan "E": 3E8 = 3 × 10⁸.</p>
+    <p>Notasi ilmiah menggunakan perpangkatan 10 untuk menyederhanakan bilangan ekstrem. Beberapa contoh: kecepatan cahaya 300.000.000 m/s = <strong>3 × 10⁸ m/s</strong>; jarak Bumi ke Matahari = <strong>1,5 × 10⁸ km</strong>; ukuran sel darah merah = <strong>7 × 10⁻⁶ m</strong>; kapasitas RAM 8 GB = <strong>≈8,59 × 10⁹ byte</strong>; APBN Indonesia 2026 sekitar Rp 3.000 triliun = <strong>3 × 10¹⁵ rupiah</strong>.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa bedanya akar kuadrat dan akar pangkat dua?</div>
-      <div class="faq-a">Keduanya sama. Akar kuadrat (√x) dan akar pangkat dua (²√x) adalah istilah yang identik, yaitu mencari bilangan yang jika dikuadratkan menghasilkan x. Contoh: √25 = 5 karena 5² = 25.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah akar dari bilangan negatif ada hasilnya?</div>
-      <div class="faq-a">Dalam sistem bilangan real, akar kuadrat dari bilangan negatif tidak terdefinisi. Namun dalam matematika lanjutan, hasilnya berupa bilangan imajiner (i), di mana i = √(−1). Contoh: √(−4) = 2i. Kalkulator ini hanya menghitung dalam domain bilangan real.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapakah nilai 0⁰?</div>
-      <div class="faq-a">Nilai 0⁰ adalah topik yang kontroversial dalam matematika. Dalam banyak konteks (terutama kombinatorika dan aljabar), 0⁰ didefinisikan sebagai 1 karena alasan kepraktisan. Namun dalam analisis, 0⁰ dianggap indeterminate (tak tentu). Kebanyakan kalkulator dan software matematika mendefinisikan 0⁰ = 1.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana menghitung pangkat negatif?</div>
-      <div class="faq-a">Pangkat negatif berarti kebalikan dari pangkat positif. Rumusnya: x⁻ⁿ = 1/xⁿ. Contoh: 2⁻³ = 1/2³ = 1/8 = 0,125. Jadi pangkat negatif tidak menghasilkan bilangan negatif, melainkan pecahan antara 0 dan 1 (untuk bilangan dasar > 1).</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu logaritma dan kapan digunakan?</div>
-      <div class="faq-a">Logaritma adalah operasi kebalikan dari perpangkatan. log₁₀(1000) = 3 karena 10³ = 1000. Logaritma banyak digunakan dalam ilmu sains (skala pH, skala Richter gempa bumi), teknik (desibel dalam akustik), komputer (kompleksitas algoritma), dan keuangan (perhitungan bunga majemuk).</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan log dan ln?</div>
-      <div class="faq-a">Log (logaritma biasa atau log₁₀) menggunakan basis 10, sedangkan ln (logaritma natural) menggunakan basis e (sekitar 2,71828). Ln banyak digunakan dalam kalkulus, fisika, dan ekonomi karena e adalah bilangan yang memiliki sifat turunan yang paling sederhana. Di Indonesia, "log" dalam pelajaran SMA biasanya mengacu pada log₁₀.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya akar kuadrat dan akar pangkat dua?</div>
+    <div class="faq-a">Keduanya sama. Akar kuadrat (√x) dan akar pangkat dua (²√x) adalah istilah identik — mencari bilangan yang jika dikuadratkan menghasilkan x. Contoh: √25 = 5 karena 5² = 25.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah akar dari bilangan negatif ada hasilnya?</div>
+    <div class="faq-a">Dalam sistem bilangan real, akar kuadrat dari bilangan negatif tidak terdefinisi. Dalam matematika lanjutan, hasilnya berupa bilangan imajiner (i), di mana i = √(−1). Contoh: √(−4) = 2i. Kalkulator ini hanya menghitung dalam domain bilangan real.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapakah nilai 0⁰?</div>
+    <div class="faq-a">Nilai 0⁰ adalah topik yang kontroversial. Dalam banyak konteks (terutama kombinatorika), 0⁰ didefinisikan sebagai 1 karena alasan kepraktisan. Dalam analisis matematika, 0⁰ dianggap indeterminate (tak tentu). Kebanyakan kalkulator dan software mendefinisikan 0⁰ = 1.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana menghitung pangkat negatif?</div>
+    <div class="faq-a">Pangkat negatif berarti kebalikan dari pangkat positif: x⁻ⁿ = 1/xⁿ. Contoh: 2⁻³ = 1/2³ = 1/8 = 0,125. Pangkat negatif tidak menghasilkan bilangan negatif, melainkan pecahan antara 0 dan 1 (untuk bilangan dasar lebih dari 1).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan log dan ln?</div>
+    <div class="faq-a">Log (log₁₀) menggunakan basis 10, sedangkan ln (logaritma natural) menggunakan basis e (≈2,71828). Ln banyak digunakan dalam kalkulus, fisika, dan ekonomi. Di pelajaran SMA Indonesia, "log" biasanya mengacu pada log₁₀.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu Aturan 72 dalam investasi?</div>
+    <div class="faq-a">Aturan 72 adalah cara cepat mengestimasi waktu untuk menggandakan investasi: bagi 72 dengan tingkat return tahunan. Contoh: investasi dengan return 8%/tahun → 72 ÷ 8 = 9 tahun untuk 2× lipat. Dengan return 12%/tahun → 72 ÷ 12 = 6 tahun. Ini perkiraan dari rumus bunga majemuk 2 = (1+r)^t sehingga t = ln(2)/ln(1+r) ≈ 0,72/r.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-proporsi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator Proporsi</a>
       <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
-      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata & Statistik</a>
-      <a href="/id/kalkulator-ipk.html" class="related-item"><span class="ri">🎓</span>Kalkulator IPK</a>
+      <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Investasi</a>
+      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📈</span>Rata-rata &amp; Statistik</a>
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
 function updateUI() {
   const op = document.getElementById('op-type').value;
-  const expField = document.getElementById('exp-field');
-  const baseLabel = document.getElementById('base-label');
-  const expLabel = document.getElementById('exp-label');
-
-  if (op === 'power') {
-    expField.style.display = '';
-    baseLabel.textContent = 'Bilangan Pokok (x)';
-    expLabel.textContent = 'Pangkat (n) — hitung xⁿ';
-  } else if (op === 'nroot') {
-    expField.style.display = '';
-    baseLabel.textContent = 'Bilangan (x)';
-    expLabel.textContent = 'Akar ke-n (masukkan n) — hitung ⁿ√x';
-  } else {
-    expField.style.display = 'none';
-    if (op === 'sqrt') baseLabel.textContent = 'Bilangan (x) — hitung √x';
-    else if (op === 'cbrt') baseLabel.textContent = 'Bilangan (x) — hitung ∛x';
-    else if (op === 'exp') baseLabel.textContent = 'Eksponen (x) — hitung eˣ';
-    else if (op === 'log10') baseLabel.textContent = 'Bilangan (x) — hitung log₁₀(x)';
-    else if (op === 'ln') baseLabel.textContent = 'Bilangan (x) — hitung ln(x)';
+  const ef = document.getElementById('exp-field');
+  const bl = document.getElementById('base-label');
+  const el = document.getElementById('exp-label');
+  const cmp = document.getElementById('compound-section');
+  if (op === 'power') { ef.style.display=''; bl.textContent='Bilangan Pokok (x)'; el.textContent='Pangkat (n) — hitung xⁿ'; cmp.style.display=''; }
+  else if (op === 'nroot') { ef.style.display=''; bl.textContent='Bilangan (x)'; el.textContent='Akar ke-n (masukkan n)'; cmp.style.display='none'; }
+  else { ef.style.display='none'; cmp.style.display='none';
+    const labels={sqrt:'Bilangan (x) — hitung √x',cbrt:'Bilangan (x) — hitung ∛x',exp:'Eksponen (x) — hitung eˣ',log10:'Bilangan (x) — hitung log₁₀(x)',ln:'Bilangan (x) — hitung ln(x)'};
+    bl.textContent = labels[op] || 'Bilangan (x)';
   }
 }
 
+function fmtNum(n) {
+  if (!isFinite(n)) return 'Tak terdefinisi';
+  if (Number.isInteger(n) && Math.abs(n) < 1e15) return n.toLocaleString('id-ID');
+  return parseFloat(n.toPrecision(8)).toLocaleString('id-ID', {maximumFractionDigits:8}).replace(/\.?0+$/, '');
+}
+function toSci(n) {
+  if (n === 0) return '0';
+  const e = Math.floor(Math.log10(Math.abs(n)));
+  const a = n / Math.pow(10, e);
+  return a.toFixed(4).replace(/\.?0+$/, '').replace('.', ',') + ' × 10^' + e;
+}
+
 function calculate() {
-  const op = document.getElementById('op-type').value;
+  const op   = document.getElementById('op-type').value;
   const base = parseFloat(document.getElementById('base').value);
-  const exp = parseFloat(document.getElementById('exponent').value);
-
-  if (isNaN(base)) return alert('Masukkan bilangan yang valid.');
-
+  const exp  = parseFloat(document.getElementById('exponent').value);
+  if (isNaN(base)) { alert('Masukkan bilangan yang valid.'); return; }
   let result, opText, notation;
 
   if (op === 'power') {
-    if (isNaN(exp)) return alert('Masukkan nilai pangkat.');
-    result = Math.pow(base, exp);
-    opText = `${base} pangkat ${exp}`;
-    notation = `${base}^${exp}`;
+    if (isNaN(exp)) { alert('Masukkan nilai pangkat.'); return; }
+    result = Math.pow(base, exp); opText = `${base} pangkat ${exp}`; notation = `${base}^${exp}`;
+    // Compound interest visual
+    if (base > 0 && exp > 0 && exp <= 50) {
+      const initial = 10000000;
+      let barsHtml = '';
+      for (let i = 1; i <= Math.min(exp, 20); i++) {
+        const val = initial * Math.pow(base, i);
+        const pct = Math.min(val / (initial * result) * 100, 100);
+        barsHtml += `<div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.2rem;font-size:.72rem">
+          <div style="width:30px;color:#6b7c8d;text-align:right">×${i}</div>
+          <div style="flex:1"><div class="compound-bar"><div class="compound-fill" style="width:${pct}%"></div></div></div>
+          <div style="width:80px;color:#8fa3b1;text-align:right">${(val/1e6).toFixed(1).replace('.',',')} jt</div>
+        </div>`;
+      }
+      document.getElementById('cmp-bars').innerHTML = barsHtml;
+      document.getElementById('cmp-factor').textContent = fmtNum(result) + '×';
+      document.getElementById('cmp-result').textContent = 'Rp ' + fmtNum(initial * result);
+      document.getElementById('compound-section').style.display = '';
+    }
   } else if (op === 'sqrt') {
-    if (base < 0) return alert('Akar kuadrat dari bilangan negatif tidak terdefinisi dalam bilangan real.');
-    result = Math.sqrt(base);
-    opText = `Akar kuadrat dari ${base}`;
-    notation = `√${base}`;
+    if (base < 0) { alert('Akar kuadrat dari bilangan negatif tidak terdefinisi dalam bilangan real.'); return; }
+    result = Math.sqrt(base); opText = `Akar kuadrat dari ${base}`; notation = `√${base}`;
   } else if (op === 'cbrt') {
-    result = Math.cbrt(base);
-    opText = `Akar pangkat tiga dari ${base}`;
-    notation = `∛${base}`;
+    result = Math.cbrt(base); opText = `Akar pangkat tiga dari ${base}`; notation = `∛${base}`;
   } else if (op === 'nroot') {
-    if (isNaN(exp) || exp === 0) return alert('Masukkan nilai n yang valid (bukan 0).');
-    if (base < 0 && exp % 2 === 0) return alert('Akar genap dari bilangan negatif tidak terdefinisi dalam bilangan real.');
+    if (isNaN(exp) || exp === 0) { alert('Masukkan nilai n yang valid (bukan 0).'); return; }
     result = Math.pow(Math.abs(base), 1/exp) * (base < 0 ? -1 : 1);
-    opText = `Akar ke-${exp} dari ${base}`;
-    notation = `${exp}√${base}`;
+    opText = `Akar ke-${exp} dari ${base}`; notation = `${exp}√${base}`;
   } else if (op === 'exp') {
-    result = Math.exp(base);
-    opText = `e pangkat ${base}`;
-    notation = `e^${base}`;
+    result = Math.exp(base); opText = `e pangkat ${base}`; notation = `e^${base}`;
   } else if (op === 'log10') {
-    if (base <= 0) return alert('Logaritma hanya terdefinisi untuk bilangan positif.');
-    result = Math.log10(base);
-    opText = `log₁₀ dari ${base}`;
-    notation = `log₁₀(${base})`;
+    if (base <= 0) { alert('Logaritma hanya terdefinisi untuk bilangan positif.'); return; }
+    result = Math.log10(base); opText = `log₁₀ dari ${base}`; notation = `log₁₀(${base})`;
   } else if (op === 'ln') {
-    if (base <= 0) return alert('Logaritma hanya terdefinisi untuk bilangan positif.');
-    result = Math.log(base);
-    opText = `ln dari ${base}`;
-    notation = `ln(${base})`;
+    if (base <= 0) { alert('Logaritma hanya terdefinisi untuk bilangan positif.'); return; }
+    result = Math.log(base); opText = `ln dari ${base}`; notation = `ln(${base})`;
   }
 
-  const formatted = Number.isInteger(result) ? result.toLocaleString('id-ID') : result.toFixed(8).replace(/\.?0+$/, '').replace('.', ',');
-
-  document.getElementById('res-val').textContent = formatted;
-  document.getElementById('res-op').textContent = opText;
-  document.getElementById('res-notation').textContent = notation + ' = ' + formatted;
+  document.getElementById('res-val').textContent      = fmtNum(result);
+  document.getElementById('res-label').textContent    = 'Hasil';
+  document.getElementById('res-op').textContent       = opText;
+  document.getElementById('res-notation').textContent = notation + ' = ' + fmtNum(result);
+  document.getElementById('res-sci').textContent      = Math.abs(result) > 1e6 || (Math.abs(result) < 0.001 && result !== 0) ? toSci(result) : '—';
   document.getElementById('result').classList.add('show');
+}
+
+// Tabel referensi
+function buildRefTable() {
+  let html = '';
+  for (let n = 1; n <= 20; n++) {
+    const sq = n*n, cu = n*n*n, sqr = Math.sqrt(n).toFixed(3), cbr = Math.cbrt(n).toFixed(3);
+    const hl = n <= 10 ? 'highlight' : '';
+    html += `<tr class="${hl}"><td>${n}</td><td>${sq.toLocaleString('id-ID')}</td><td>${cu.toLocaleString('id-ID')}</td><td>${sqr.replace('.',',')}</td><td>${cbr.replace('.',',')}</td></tr>`;
+  }
+  document.getElementById('ref-tbody').innerHTML = html;
+}
+buildRefTable();
+
+// Notasi ilmiah
+let sciMode = 'to';
+function setSciMode(m) {
+  sciMode = m;
+  document.getElementById('btn-to-sci').classList.toggle('active', m==='to');
+  document.getElementById('btn-from-sci').classList.toggle('active', m==='from');
+  document.getElementById('sci-to').style.display = m==='to' ? '' : 'none';
+  document.getElementById('sci-from').style.display = m==='from' ? '' : 'none';
+}
+function calcSci() {
+  const r = document.getElementById('sci-result');
+  if (sciMode === 'to') {
+    const n = parseFloat(document.getElementById('sci-number').value);
+    if (isNaN(n)) { alert('Masukkan bilangan yang valid.'); return; }
+    if (n === 0) { r.innerHTML = '0 = 0 × 10⁰'; r.style.display='block'; return; }
+    const e = Math.floor(Math.log10(Math.abs(n)));
+    const a = n / Math.pow(10, e);
+    r.innerHTML = `<strong>${n.toLocaleString('id-ID')}</strong> dalam notasi ilmiah:<br>
+      <strong style="color:#00C9B1;font-size:1.05rem">${a.toFixed(4).replace(/\.?0+$/,'').replace('.',',')} × 10^${e}</strong><br>
+      Koefisien: ${a.toFixed(6).replace(/\.?0+$/,'').replace('.',',')} | Pangkat: ${e}`;
+  } else {
+    const a = parseFloat(document.getElementById('sci-a').value);
+    const e = parseInt(document.getElementById('sci-exp').value);
+    if (isNaN(a)||isNaN(e)) { alert('Masukkan koefisien dan pangkat yang valid.'); return; }
+    const result = a * Math.pow(10, e);
+    r.innerHTML = `<strong>${a.toString().replace('.',',')} × 10^${e}</strong> = <strong style="color:#00C9B1;font-size:1.05rem">${result.toLocaleString('id-ID', {maximumFractionDigits:10})}</strong>`;
+  }
+  r.style.display = 'block';
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
 document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+updateUI();
 </script>
 </body>
 </html>
