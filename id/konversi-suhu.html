@@ -4,28 +4,40 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Konversi Suhu — Celsius ke Fahrenheit, Kelvin & Reamur | NovaCalcs</title>
-<meta name="description" content="Konversi suhu Celsius ke Fahrenheit, Kelvin, dan Reamur secara instan. Masukkan nilai suhu dan langsung lihat semua konversi sekaligus."/>
-<meta name="keywords" content="konversi suhu, celsius ke fahrenheit, fahrenheit ke celsius, kelvin, rumus konversi suhu"/>
+<meta name="description" content="Konversi suhu Celsius ke Fahrenheit, Kelvin, dan Reamur secara instan. Lengkap dengan termometer visual, preset suhu umum, dan konteks suhu sehari-hari."/>
+<meta name="keywords" content="konversi suhu, celsius ke fahrenheit, fahrenheit ke celsius, kelvin, reamur, rumus konversi suhu"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-suhu.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/konversi-suhu.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.temp-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 14px; }
-.temp-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-.temp-card.active-card { border-color: rgba(0,201,177,0.4); background: var(--mint-dim); }
-.tc-unit { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 4px; }
-.tc-val { font-size: 1.4rem; font-weight: 700; color: var(--mint); }
-.tc-full { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-.scale-bar { margin: 16px 0 8px; height: 12px; border-radius: 6px; background: linear-gradient(to right, #60a5fa, #34d399, #fbbf24, #f87171); position: relative; }
-.scale-marker { position: absolute; top: -20px; width: 2px; background: var(--text-primary); height: 52px; border-radius: 1px; transform: translateX(-50%); }
-.scale-label { position: absolute; top: -22px; font-size: 10px; color: var(--text-primary); transform: translateX(-50%); white-space: nowrap; }
+.temp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.temp-card{background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:14px}
+.temp-card.active-card{border-color:rgba(0,201,177,.4);background:rgba(0,201,177,.07)}
+.tc-unit{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:4px}
+.tc-val{font-size:1.4rem;font-weight:700;color:#00C9B1}
+.tc-full{font-size:11px;color:var(--text-secondary);margin-top:2px}
+
+/* Thermometer scale bar */
+.thermo-wrap{margin:16px 0 4px;padding:0 2px}
+.thermo-bar{height:14px;border-radius:7px;background:linear-gradient(to right,#60a5fa 0%,#34d399 30%,#fbbf24 55%,#f97316 75%,#ef4444 100%);position:relative}
+.thermo-marker{position:absolute;top:-6px;bottom:-6px;width:3px;border-radius:2px;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.4);transform:translateX(-50%);transition:left .3s}
+.thermo-labels{display:flex;justify-content:space-between;font-size:.65rem;color:#6b7c8d;margin-top:4px}
+
+/* Preset buttons */
+.preset-temps{display:flex;flex-wrap:wrap;gap:5px;margin:12px 0 4px}
+.preset-t-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .55rem;cursor:pointer;font-size:.73rem;color:#c0cdd8;font-family:inherit;transition:all .2s;white-space:nowrap}
+.preset-t-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.3);color:#00C9B1}
+
+/* Context card */
+.context-card{margin-top:10px;background:rgba(255,255,255,.04);border-radius:8px;padding:.55rem .7rem;font-size:.8rem;color:#8fa3b1;border-left:3px solid #00C9B1;line-height:1.5}
 </style>
-  <link rel="icon" href="/favicon.ico" sizes="any"/>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 </head>
 <body>
 <header class="site-header">
@@ -38,7 +50,6 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
@@ -47,85 +58,64 @@
 
       <div class="field"><label>Satuan Asal</label>
         <div class="radio-group">
-          <div class="radio-btn active" id="btn-c" onclick="setUnit('C',this)">°C</div>
-          <div class="radio-btn" id="btn-f" onclick="setUnit('F',this)">°F</div>
-          <div class="radio-btn" id="btn-k" onclick="setUnit('K',this)">K</div>
-          <div class="radio-btn" id="btn-r" onclick="setUnit('R',this)">°R</div>
+          <div class="radio-btn active" id="btn-C" onclick="setUnit('C',this)">°C</div>
+          <div class="radio-btn" id="btn-F" onclick="setUnit('F',this)">°F</div>
+          <div class="radio-btn" id="btn-K" onclick="setUnit('K',this)">K</div>
+          <div class="radio-btn" id="btn-R" onclick="setUnit('R',this)">°R</div>
         </div>
       </div>
       <div class="field"><label id="input-label">Suhu dalam °C</label>
         <input type="number" id="suhu" placeholder="Masukkan nilai suhu" step="0.1" oninput="convert()"/>
       </div>
 
+      <!-- Preset suhu umum -->
+      <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.3rem">⚡ Preset Suhu Umum (klik langsung):</div>
+      <div class="preset-temps" id="presets"></div>
+
       <button class="calc-btn" onclick="convert()">Konversi Sekarang</button>
 
       <div class="result-panel show" id="result">
-        <div class="temp-grid">
-          <div class="temp-card" id="card-C">
-            <div class="tc-unit">Celsius</div>
-            <div class="tc-val" id="val-C">—</div>
-            <div class="tc-full">°C (Celcius)</div>
+        <!-- Thermometer scale -->
+        <div class="thermo-wrap">
+          <div class="thermo-bar">
+            <div class="thermo-marker" id="thermo-marker" style="left:50%"></div>
           </div>
-          <div class="temp-card" id="card-F">
-            <div class="tc-unit">Fahrenheit</div>
-            <div class="tc-val" id="val-F">—</div>
-            <div class="tc-full">°F (Fahrenheit)</div>
-          </div>
-          <div class="temp-card" id="card-K">
-            <div class="tc-unit">Kelvin</div>
-            <div class="tc-val" id="val-K">—</div>
-            <div class="tc-full">K (Kelvin)</div>
-          </div>
-          <div class="temp-card" id="card-R">
-            <div class="tc-unit">Reamur</div>
-            <div class="tc-val" id="val-R">—</div>
-            <div class="tc-full">°R (Reamur)</div>
+          <div class="thermo-labels">
+            <span>−40°C</span><span>0°C (beku)</span><span>37°C (tubuh)</span><span>100°C (didih)</span>
           </div>
         </div>
-        <div style="margin-top:14px;font-size:11px;color:var(--text-secondary)" id="context-note"></div>
+
+        <div class="temp-grid">
+          <div class="temp-card" id="card-C"><div class="tc-unit">Celsius</div><div class="tc-val" id="val-C">—</div><div class="tc-full">°C</div></div>
+          <div class="temp-card" id="card-F"><div class="tc-unit">Fahrenheit</div><div class="tc-val" id="val-F">—</div><div class="tc-full">°F</div></div>
+          <div class="temp-card" id="card-K"><div class="tc-unit">Kelvin</div><div class="tc-val" id="val-K">—</div><div class="tc-full">K</div></div>
+          <div class="temp-card" id="card-R"><div class="tc-unit">Reamur</div><div class="tc-val" id="val-R">—</div><div class="tc-full">°R</div></div>
+        </div>
+        <div class="context-card" id="context-note" style="display:none"></div>
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Konversi Suhu Online — Celsius, Fahrenheit, Kelvin & Reamur</h1>
-    <p class="page-desc">Konversi suhu antar empat satuan sekaligus: Celsius (°C), Fahrenheit (°F), Kelvin (K), dan Reamur (°R). Cukup masukkan nilai dan pilih satuan asal — semua hasil langsung tampil bersamaan tanpa perlu hitung manual.</p>
+  <div class="content-area">
+    <h1>Konversi Suhu Online — Celsius, Fahrenheit, Kelvin &amp; Reamur</h1>
+    <p class="page-desc">Konversi suhu antar empat satuan sekaligus: Celsius (°C), Fahrenheit (°F), Kelvin (K), dan Reamur (°R). Cukup masukkan nilai dan pilih satuan asal — semua hasil langsung tampil. Dilengkapi termometer visual dan preset suhu umum.</p>
 
     <div class="ad-slot">Advertisement</div>
 
     <h2>Apa itu Satuan Suhu dan Perbedaannya?</h2>
-    <p>Suhu adalah ukuran tingkat panas atau dingin suatu benda. Ada empat skala suhu utama yang digunakan di seluruh dunia, masing-masing dengan titik referensi berbeda:</p>
-    <ul>
-      <li><strong>Celsius (°C)</strong> — Standar internasional yang digunakan hampir di seluruh dunia termasuk Indonesia. Dikembangkan oleh Anders Celsius (1742). Titik beku air = 0°C, titik didih = 100°C.</li>
-      <li><strong>Fahrenheit (°F)</strong> — Digunakan di Amerika Serikat dan beberapa negara lain. Dikembangkan oleh Daniel Gabriel Fahrenheit (1724). Titik beku air = 32°F, titik didih = 212°F.</li>
-      <li><strong>Kelvin (K)</strong> — Satuan SI untuk suhu, digunakan dalam ilmu pengetahuan. Dimulai dari nol absolut (−273,15°C), yaitu suhu terendah yang bisa dicapai secara teoritis. Tidak menggunakan simbol derajat (°).</li>
-      <li><strong>Reamur (°R)</strong> — Skala historis yang dikembangkan René Antoine Ferchault de Réaumur (1730). Titik beku = 0°R, titik didih = 80°R. Masih dipelajari di sekolah sebagai bagian kurikulum fisika.</li>
-    </ul>
-
-    <h2>Cara Menggunakan Kalkulator Konversi Suhu</h2>
-    <p>Kalkulator ini dirancang semudah mungkin. Ikuti langkah berikut:</p>
-    <ol>
-      <li>Pilih <strong>satuan asal</strong> menggunakan tombol di bagian atas: °C, °F, K, atau °R</li>
-      <li>Masukkan <strong>nilai suhu</strong> pada kolom input — boleh angka negatif dan desimal</li>
-      <li>Klik <strong>"Konversi Sekarang"</strong> atau nilai langsung berubah saat Anda mengetik</li>
-      <li>Lihat hasil konversi ke semua satuan lain sekaligus di bawahnya</li>
-      <li>Kartu satuan asal Anda akan ditandai dengan warna mint sebagai referensi</li>
-    </ol>
-    <p>Kalkulator juga menampilkan <strong>keterangan konteks</strong> seperti "❄️ Di bawah titik beku" atau "☀️ Hangat — cuaca khas Indonesia" untuk membantu Anda memahami nilai suhu tersebut secara intuitif.</p>
+    <p>Ada empat skala suhu utama yang digunakan di seluruh dunia: <strong>Celsius (°C)</strong> adalah standar internasional yang digunakan hampir di seluruh dunia termasuk Indonesia — titik beku air 0°C, titik didih 100°C. <strong>Fahrenheit (°F)</strong> digunakan di Amerika Serikat — titik beku air 32°F, titik didih 212°F. <strong>Kelvin (K)</strong> adalah satuan SI untuk suhu dalam ilmu pengetahuan, dimulai dari nol absolut (−273,15°C). <strong>Reamur (°R)</strong> adalah skala historis yang masih diajarkan di sekolah Indonesia — titik beku 0°R, titik didih 80°R.</p>
 
     <h2>Rumus Konversi Suhu Lengkap</h2>
-    <p>Berikut rumus matematika lengkap untuk konversi antar semua satuan suhu:</p>
     <table>
-      <tr><th>Dari</th><th>Ke Fahrenheit (°F)</th><th>Ke Kelvin (K)</th><th>Ke Reamur (°R)</th></tr>
+      <tr><th>Dari</th><th>Ke °F</th><th>Ke K</th><th>Ke °R</th></tr>
       <tr><td>Celsius (°C)</td><td>°F = (°C × 9/5) + 32</td><td>K = °C + 273,15</td><td>°R = °C × 4/5</td></tr>
       <tr><td>Fahrenheit (°F)</td><td>—</td><td>K = (°F + 459,67) × 5/9</td><td>°R = (°F − 32) × 4/9</td></tr>
       <tr><td>Kelvin (K)</td><td>°F = (K × 9/5) − 459,67</td><td>—</td><td>°R = (K − 273,15) × 4/5</td></tr>
       <tr><td>Reamur (°R)</td><td>°F = (°R × 9/4) + 32</td><td>K = (°R × 5/4) + 273,15</td><td>—</td></tr>
     </table>
-    <p><strong>Cara mudah mengingat:</strong> Semua konversi selalu melalui Celsius sebagai "jembatan". Ubah ke Celsius dulu, lalu konversi ke satuan tujuan. Kalkulator kami menerapkan cara ini secara otomatis.</p>
+    <p>Cara mudah mengingat: ubah dulu ke Celsius sebagai "jembatan", lalu konversi ke satuan tujuan. Kalkulator ini menerapkan cara ini secara otomatis.</p>
 
     <h2>Tabel Referensi Suhu Sehari-hari</h2>
-    <p>Berikut adalah nilai suhu penting dalam kehidupan sehari-hari untuk membantu memahami konteks angka suhu:</p>
     <table>
       <tr><th>Kondisi</th><th>°C</th><th>°F</th><th>K</th><th>°R</th></tr>
       <tr><td>Nol absolut</td><td>−273,15</td><td>−459,67</td><td>0</td><td>−218,52</td></tr>
@@ -134,42 +124,35 @@
       <tr><td>Suhu nyaman tropis</td><td>25–27</td><td>77–81</td><td>298–300</td><td>20–22</td></tr>
       <tr><td>Suhu tubuh normal</td><td>36,5–37,5</td><td>97,7–99,5</td><td>310–311</td><td>29–30</td></tr>
       <tr><td>Suhu demam</td><td>≥ 38</td><td>≥ 100,4</td><td>≥ 311</td><td>≥ 30,4</td></tr>
+      <tr><td>Oven kue standar</td><td>175–180</td><td>347–356</td><td>448–453</td><td>140–144</td></tr>
       <tr><td>Titik didih air</td><td>100</td><td>212</td><td>373,15</td><td>80</td></tr>
     </table>
 
     <h2>Contoh Konversi Suhu yang Sering Dicari</h2>
-    <p>Ini adalah beberapa konversi suhu yang paling sering dibutuhkan dalam kehidupan sehari-hari:</p>
     <ul>
-      <li><strong>37°C ke Fahrenheit</strong> = (37 × 9/5) + 32 = 66,6 + 32 = <strong>98,6°F</strong> (suhu tubuh normal)</li>
-      <li><strong>100°F ke Celsius</strong> = (100 − 32) × 5/9 = 68 × 5/9 = <strong>37,8°C</strong> (sedikit demam)</li>
-      <li><strong>30°C ke Fahrenheit</strong> = (30 × 9/5) + 32 = 54 + 32 = <strong>86°F</strong> (cuaca panas tropis)</li>
-      <li><strong>0°C ke Kelvin</strong> = 0 + 273,15 = <strong>273,15 K</strong> (titik beku air)</li>
-      <li><strong>−40°C ke Fahrenheit</strong> = (−40 × 9/5) + 32 = −72 + 32 = <strong>−40°F</strong> (titik di mana C = F)</li>
+      <li><strong>37°C ke Fahrenheit</strong> = (37 × 9/5) + 32 = <strong>98,6°F</strong> (suhu tubuh normal)</li>
+      <li><strong>100°F ke Celsius</strong> = (100 − 32) × 5/9 = <strong>37,8°C</strong> (sedikit demam)</li>
+      <li><strong>30°C ke Fahrenheit</strong> = (30 × 9/5) + 32 = <strong>86°F</strong> (cuaca panas tropis)</li>
+      <li><strong>−40°C ke Fahrenheit</strong> = (−40 × 9/5) + 32 = <strong>−40°F</strong> (satu-satunya titik di mana C = F)</li>
+      <li><strong>Oven 350°F ke Celsius</strong> = (350 − 32) × 5/9 = <strong>176,7°C</strong> (suhu kue standar)</li>
     </ul>
 
     <h2>Penggunaan Satuan Suhu di Berbagai Bidang</h2>
-    <p>Setiap satuan suhu memiliki kegunaan spesifik di bidang tertentu:</p>
-    <ul>
-      <li><strong>Kesehatan</strong> — Celsius digunakan di Indonesia untuk suhu tubuh, ruangan, dan penyimpanan obat. Batas demam: 38°C. Lemari es: 2–8°C.</li>
-      <li><strong>Kuliner dan memasak</strong> — Suhu oven sering dinyatakan dalam Fahrenheit di resep internasional. Oven 350°F = 177°C (suhu kue standar).</li>
-      <li><strong>Ilmu pengetahuan</strong> — Kelvin digunakan dalam fisika, kimia, dan astrofisika. Suhu permukaan matahari ≈ 5.778 K (5.505°C).</li>
-      <li><strong>Industri</strong> — Peleburan baja berlangsung pada ±1.400°C (2.552°F). Nitrogen cair berada di −196°C (−321°F).</li>
-      <li><strong>Pendidikan</strong> — Reamur diajarkan di sekolah Indonesia sebagai bagian kurikulum fisika SMP.</li>
-    </ul>
+    <p>Setiap satuan suhu memiliki kegunaan spesifik: Celsius untuk kesehatan, cuaca, dan memasak di Indonesia. Fahrenheit untuk resep dari AS dan beberapa label produk impor. Kelvin untuk fisika, kimia, dan astrofisika — suhu permukaan matahari ≈ 5.778 K. Reamur untuk pelajaran fisika SMP di Indonesia.</p>
 
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa Indonesia menggunakan Celsius, bukan Fahrenheit?</div>
-    <div class="faq-a">Indonesia menggunakan sistem metrik internasional (SI), termasuk Celsius sebagai satuan suhu resmi. Celsius lebih intuitif secara ilmiah karena berbasis pada sifat fisik air: 0°C = titik beku, 100°C = titik didih pada tekanan atmosfer standar. Amerika Serikat adalah satu-satunya negara industri besar yang masih menggunakan Fahrenheit secara umum dalam kehidupan sehari-hari.</div></div>
+    <div class="faq-a">Indonesia menggunakan sistem metrik internasional (SI), termasuk Celsius sebagai satuan suhu resmi. Celsius lebih intuitif secara ilmiah karena berbasis pada sifat fisik air: 0°C = titik beku, 100°C = titik didih. Amerika Serikat adalah satu-satunya negara industri besar yang masih menggunakan Fahrenheit dalam kehidupan sehari-hari.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa suhu tubuh normal dan kapan dianggap demam?</div>
-    <div class="faq-a">Suhu tubuh normal manusia berkisar antara 36,5–37,5°C (97,7–99,5°F), tergantung waktu pengukuran, bagian tubuh, dan kondisi aktivitas. Demam dianggap jika suhu ≥ 38°C (100,4°F). Suhu tubuh biasanya lebih rendah di pagi hari dan meningkat sore hari. Pengukuran di ketiak (aksila) umumnya 0,3–0,5°C lebih rendah dari suhu rektal.</div></div>
+    <div class="faq-a">Suhu tubuh normal berkisar 36,5–37,5°C (97,7–99,5°F). Demam dianggap jika suhu ≥ 38°C (100,4°F). Suhu biasanya lebih rendah di pagi hari dan meningkat sore. Pengukuran di ketiak umumnya 0,3–0,5°C lebih rendah dari suhu rektal.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Di suhu berapa Celsius dan Fahrenheit menunjukkan angka yang sama?</div>
-    <div class="faq-a">Celsius dan Fahrenheit bertemu di satu titik: <strong>−40°</strong>. Artinya −40°C = −40°F. Ini bisa dibuktikan dengan rumus: jika °C = °F, maka x = (x × 9/5) + 32 → x − (9x/5) = 32 → −4x/5 = 32 → x = −40. Suhu −40° ini lebih dingin dari kutub bumi mana pun dalam kondisi normal.</div></div>
+    <div class="faq-a">Celsius dan Fahrenheit bertemu tepat di <strong>−40°</strong>. Artinya −40°C = −40°F. Suhu ini lebih dingin dari kutub bumi dalam kondisi normal dan merupakan satu-satunya titik pertemuan kedua skala ini.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Cara cepat mengira-ngira konversi suhu tanpa kalkulator?</div>
-    <div class="faq-a">Untuk <strong>°C ke °F</strong>: kalikan dua lalu tambah 30. Contoh: 25°C → (25×2)+30 = 80°F (tepat: 77°F). Untuk <strong>°F ke °C</strong>: kurangi 30 lalu bagi dua. Untuk <strong>°C ke K</strong>: tambah 273. Rumus perkiraan ini tidak presisi tetapi cukup untuk estimasi cepat sehari-hari.</div></div>
+    <div class="faq-a">°C ke °F: kalikan 2 lalu tambah 30 (perkiraan). Contoh: 25°C → (25×2)+30 = 80°F (tepat: 77°F). °F ke °C: kurangi 30 lalu bagi 2. °C ke K: tambah 273. Ini cukup untuk estimasi cepat sehari-hari.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa air mendidih di suhu berbeda di dataran tinggi?</div>
-    <div class="faq-a">Titik didih air 100°C berlaku pada tekanan atmosfer standar (1 atm = 101.325 Pa, setara dengan tekanan di permukaan laut). Di dataran tinggi seperti pegunungan, tekanan atmosfer lebih rendah, sehingga air mendidih pada suhu yang lebih rendah. Di ketinggian 2.000 m, air mendidih sekitar 93–94°C. Ini mempengaruhi waktu memasak — makanan membutuhkan waktu lebih lama untuk matang.</div></div>
+    <div class="faq-a">Titik didih 100°C berlaku pada tekanan atmosfer standar (1 atm). Di dataran tinggi, tekanan lebih rendah sehingga air mendidih lebih cepat — di ketinggian 2.000 m sekitar 93–94°C. Ini membuat makanan membutuhkan waktu lebih lama matang di pegunungan.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu nol absolut dan mengapa tidak bisa dicapai?</div>
-    <div class="faq-a">Nol absolut (0 K = −273,15°C) adalah suhu terendah yang bisa ada secara teoritis — titik di mana semua gerak termal molekul berhenti. Menurut hukum termodinamika ketiga, tidak ada sistem fisik yang dapat mencapai 0 K dalam proses dengan jumlah langkah terbatas. Ilmuwan telah mencapai suhu mendekati 0 K (seperti 0,000000001 K dalam eksperimen laboratorium), tetapi tidak pernah tepat nol.</div></div>
+    <div class="faq-a">Nol absolut (0 K = −273,15°C) adalah suhu terendah yang bisa ada secara teoritis — titik di mana semua gerak termal molekul berhenti. Menurut hukum termodinamika ketiga, tidak ada sistem yang bisa mencapai 0 K dalam langkah terbatas. Ilmuwan telah mencapai suhu mendekati 0 K (0,000000001 K), tapi tidak pernah tepat nol.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -180,23 +163,53 @@
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
 let unit = 'C';
+
+// Preset suhu umum — nilai dalam satuan asal (°C)
+const PRESETS = [
+  { label:'❄️ Beku', c:0 },
+  { label:'🧊 Kulkas', c:4 },
+  { label:'❄️ Freezer', c:-18 },
+  { label:'🌤️ Sejuk', c:22 },
+  { label:'☀️ Cuaca Jakarta', c:32 },
+  { label:'🤒 Demam', c:38 },
+  { label:'🩺 Suhu tubuh', c:37 },
+  { label:'🍳 Oven kue', c:175 },
+  { label:'💧 Titik didih', c:100 },
+  { label:'🌡️ 100°F', c: (100-32)*5/9 },
+];
+
+function buildPresets() {
+  document.getElementById('presets').innerHTML = PRESETS.map((p,i) =>
+    `<button class="preset-t-btn" onclick="usePreset(${i})">${p.label}</button>`
+  ).join('');
+}
+
+function usePreset(i) {
+  const c = PRESETS[i].c;
+  // Always show in °C from preset
+  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-C').classList.add('active');
+  unit = 'C';
+  document.getElementById('input-label').textContent = 'Suhu dalam °C';
+  document.getElementById('suhu').value = Math.round(c * 10) / 10;
+  convert();
+}
+
 function setUnit(u, btn) {
   unit = u;
   document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('input-label').textContent = 'Suhu dalam ' + (u==='K'?'Kelvin':'°'+u);
+  document.getElementById('input-label').textContent = 'Suhu dalam ' + (u==='K' ? 'Kelvin' : '°' + u);
   convert();
 }
 
-const r = n => Math.round(n * 100) / 100;
+const round2 = n => Math.round(n * 100) / 100;
 
 function toCelsius(v, u) {
   if (u==='C') return v;
@@ -205,35 +218,53 @@ function toCelsius(v, u) {
   if (u==='R') return v * 5/4;
 }
 
+function getContext(c) {
+  if (c <= -273.15) return '🔬 Nol absolut — suhu terendah yang mungkin secara teoritis (0 K)';
+  if (c < -50)  return '🥶 Lebih dingin dari kutub bumi — ekstrem';
+  if (c < 0)   return '❄️ Di bawah titik beku air — air membeku di suhu ini';
+  if (c < 10)  return '🧊 Sangat dingin — suhu kulkas/lemari pendingin biasa';
+  if (c < 20)  return '🧥 Dingin — AC paling dingin, suhu musim dingin tropis';
+  if (c < 28)  return '😊 Sejuk dan nyaman — ideal untuk produktivitas';
+  if (c < 35)  return '☀️ Hangat — cuaca khas Indonesia sehari-hari';
+  if (c < 38)  return '🥵 Sangat panas — ambang batas heat stress';
+  if (c < 40)  return '🌡️ Demam — segera istirahat dan pantau kondisi tubuh';
+  if (c < 60)  return '🔥 Sangat panas — berbahaya untuk kulit langsung';
+  if (c < 100) return '🍳 Panas tinggi — memasak, sterilisasi';
+  if (c === 100) return '💧 Titik didih air pada permukaan laut';
+  if (c < 200) return '🍕 Suhu oven rendah–sedang';
+  if (c < 300) return '🔥 Suhu oven tinggi — memanggang roti/pizza';
+  return '⚡ Suhu industri / saintifik';
+}
+
 function convert() {
   const raw = parseFloat(document.getElementById('suhu').value);
   if (isNaN(raw)) return;
   const c = toCelsius(raw, unit);
   const f = c * 9/5 + 32;
   const k = c + 273.15;
-  const re = c * 4/5;
+  const r = c * 4/5;
 
+  const vals = {C: c, F: f, K: k, R: r};
   ['C','F','K','R'].forEach(u => {
-    const val = u==='C'?c : u==='F'?f : u==='K'?k : re;
-    document.getElementById('val-'+u).textContent = r(val) + (u==='K'?'':' °'+u.replace('K',''));
-    const card = document.getElementById('card-'+u);
-    card.classList.toggle('active-card', u === unit);
+    document.getElementById('val-'+u).textContent =
+      round2(vals[u]).toLocaleString('id-ID', {maximumFractionDigits:4}) + (u==='K' ? ' K' : ' °' + u);
+    document.getElementById('card-'+u).classList.toggle('active-card', u===unit);
   });
-  document.getElementById('val-K').textContent = r(k) + ' K';
 
-  // Context note
-  let note = '';
-  if (c < 0) note = '❄️ Di bawah titik beku air';
-  else if (c < 15) note = '🧥 Dingin';
-  else if (c < 25) note = '😊 Sejuk dan nyaman';
-  else if (c < 35) note = '☀️ Hangat — cuaca khas Indonesia';
-  else if (c < 38) note = '🥵 Sangat panas';
-  else note = '🌡️ Suhu demam (di atas 38°C)';
-  document.getElementById('context-note').textContent = note;
+  // Thermometer scale bar: map -40°C to 110°C → 0% to 100%
+  const pct = Math.max(0, Math.min(100, (c + 40) / 150 * 100));
+  document.getElementById('thermo-marker').style.left = pct.toFixed(1) + '%';
+
+  // Context
+  const note = document.getElementById('context-note');
+  note.textContent = getContext(c);
+  note.style.display = '';
+
   document.getElementById('result').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+buildPresets();
 </script>
 </body>
 </html>

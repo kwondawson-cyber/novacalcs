@@ -4,22 +4,45 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Kebutuhan Air Harian — Berapa Liter Air yang Harus Diminum? | NovaCalcs</title>
-<meta name="description" content="Hitung kebutuhan air minum harian Anda berdasarkan berat badan, usia, dan tingkat aktivitas. Ketahui berapa gelas atau liter air yang sebaiknya diminum setiap hari."/>
-<meta name="keywords" content="kebutuhan air harian, berapa liter air per hari, kalkulator minum air, hidrasi harian, 8 gelas air"/>
+<meta name="description" content="Hitung kebutuhan air minum harian Anda berdasarkan berat badan, usia, dan aktivitas. Dapatkan jadwal minum yang dipersonalisasi dan indikator hidrasi."/>
+<meta name="keywords" content="kebutuhan air harian, berapa liter air per hari, kalkulator minum air, hidrasi harian, jadwal minum air"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kebutuhan-air.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kebutuhan-air.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
-.water-visual { display: flex; gap: 4px; flex-wrap: wrap; margin: 12px 0; }
-.glass { font-size: 1.5rem; filter: grayscale(1) opacity(0.3); transition: all 0.2s; }
-.glass.filled { filter: none; opacity: 1; }
+/* Glass visual */
+.water-visual{display:flex;gap:4px;flex-wrap:wrap;margin:10px 0}
+.glass{font-size:1.4rem;filter:grayscale(1) opacity(.25);transition:all .3s;cursor:pointer}
+.glass.filled{filter:none;opacity:1}
+.glass.filled:hover{transform:scale(1.15)}
+
+/* Hydration level bar */
+.hydration-bar{height:16px;border-radius:8px;background:rgba(255,255,255,.07);overflow:hidden;margin:.5rem 0}
+.hydration-fill{height:100%;border-radius:8px;transition:width .5s;background:linear-gradient(90deg,#3b82f6,#00C9B1)}
+.hydration-label{display:flex;justify-content:space-between;font-size:.7rem;color:#8fa3b1;margin-bottom:.15rem}
+
+/* Jadwal minum */
+.jadwal-wrap{margin-top:.5rem}
+.jadwal-row{display:flex;align-items:center;gap:.6rem;padding:.4rem .5rem;border-radius:7px;margin-bottom:.3rem;font-size:.8rem;transition:background .2s}
+.jadwal-row:hover{background:rgba(255,255,255,.04)}
+.jadwal-time{width:55px;font-weight:600;color:#00C9B1;flex-shrink:0}
+.jadwal-amount{width:50px;color:#8fa3b1;flex-shrink:0;text-align:right}
+.jadwal-note{color:#c0cdd8;flex:1}
+.jadwal-row.highlight{background:rgba(0,201,177,.07);border-left:2px solid #00C9B1}
+
+/* Stats grid */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px}
+.stat-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:.55rem;text-align:center}
+.stat-box .sbl{font-size:.65rem;color:#8fa3b1;margin-bottom:.15rem}
+.stat-box .sbv{font-size:.92rem;font-weight:700;color:#00C9B1}
 </style>
-  <link rel="icon" href="/favicon.ico" sizes="any"/>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 </head>
 <body>
 <header class="site-header">
@@ -32,7 +55,6 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
@@ -49,7 +71,7 @@
         <select id="activity" onchange="calculate()">
           <option value="1.0">Sangat santai (kerja di meja, minim gerak)</option>
           <option value="1.2" selected>Ringan (jalan kaki biasa, aktivitas kantor)</option>
-          <option value="1.4">Sedang (olahraga 3x seminggu)</option>
+          <option value="1.4">Sedang (olahraga 3× seminggu)</option>
           <option value="1.6">Aktif (olahraga hampir setiap hari)</option>
           <option value="1.8">Sangat aktif (olahraga intensif setiap hari)</option>
         </select>
@@ -62,107 +84,89 @@
           <div class="radio-btn" id="btn-sakit" onclick="setCondition('sakit',this)">Demam/Sakit</div>
         </div>
       </div>
-
       <button class="calc-btn" onclick="calculate()">Hitung Kebutuhan Air</button>
 
       <div class="result-panel" id="result">
+        <!-- Main result -->
         <div class="result-main">
           <div class="result-value" id="res-liter">—</div>
           <div class="result-unit">liter / hari</div>
         </div>
-        <div class="water-visual" id="water-glasses"></div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Dalam gelas (250 ml)</span><span class="rval" id="res-glasses">—</span></div>
-          <div class="result-row"><span class="rkey">Dalam botol (600 ml)</span><span class="rval" id="res-bottles">—</span></div>
-          <div class="result-row"><span class="rkey">Kebutuhan dasar (tanpa aktivitas)</span><span class="rval" id="res-base">—</span></div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="stats-grid"></div>
+
+        <!-- Glass visual (clickable tracker) -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 2px;font-weight:600">
+          🥤 Tracker Minum Hari Ini — klik gelas yang sudah diminum:
         </div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:10px" id="res-note"></div>
+        <div class="water-visual" id="water-glasses"></div>
+        <div class="hydration-label"><span id="hyd-left">0 gelas diminum</span><span id="hyd-right">—</span></div>
+        <div class="hydration-bar"><div class="hydration-fill" id="hyd-fill" style="width:0%"></div></div>
+        <div style="font-size:.72rem;color:#6b7c8d;margin-bottom:.5rem" id="res-note"></div>
+
+        <!-- Jadwal minum -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">
+          🕐 Jadwal Minum yang Disarankan:
+        </div>
+        <div class="jadwal-wrap" id="jadwal-wrap"></div>
       </div>
     </div>
   </div>
 
-    <div class="seo-content">
+  <div class="content-area">
     <h1>Kalkulator Kebutuhan Air Harian — Berapa Liter Air yang Harus Diminum?</h1>
-    <p class="page-desc">Hitung kebutuhan air minum harian Anda secara personal berdasarkan berat badan, usia, dan tingkat aktivitas. Ketahui berapa gelas atau botol yang perlu diminum setiap hari — karena kebutuhan setiap orang berbeda, bukan selalu "8 gelas sehari".</p>
+    <p class="page-desc">Hitung kebutuhan air minum harian secara personal berdasarkan berat badan, usia, dan aktivitas. Ketahui berapa gelas yang perlu diminum dan dapatkan jadwal minum yang dipersonalisasi — karena kebutuhan setiap orang berbeda, bukan selalu "8 gelas sehari".</p>
 
     <div class="ad-slot">Advertisement</div>
 
     <h2>Mengapa Kebutuhan Air Setiap Orang Berbeda?</h2>
-    <p>Anjuran "8 gelas air sehari" (sekitar 2 liter) adalah pedoman umum yang sering disalahpahami. Kebutuhan air sebenarnya sangat bervariasi tergantung beberapa faktor utama:</p>
-    <ul>
-      <li><strong>Berat badan:</strong> Orang yang lebih berat membutuhkan lebih banyak air untuk metabolisme dan fungsi tubuh</li>
-      <li><strong>Aktivitas fisik:</strong> Olahraga intensif bisa meningkatkan kebutuhan air hingga 1–2 liter tambahan</li>
-      <li><strong>Iklim dan suhu:</strong> Di iklim tropis Indonesia yang panas, keringat lebih banyak keluar</li>
-      <li><strong>Usia:</strong> Bayi dan anak-anak membutuhkan lebih banyak air per kg berat badan; lansia sering kekurangan rasa haus</li>
-      <li><strong>Kondisi kesehatan:</strong> Hamil, menyusui, demam, dan diare meningkatkan kebutuhan cairan secara signifikan</li>
-    </ul>
-    <p>Formula dasar yang digunakan kalkulator ini: <strong>35 ml × berat badan (kg)</strong>, kemudian disesuaikan dengan faktor aktivitas dan kondisi khusus.</p>
+    <p>Anjuran "8 gelas air sehari" adalah pedoman umum yang sering disalahpahami. Kebutuhan air sebenarnya sangat bervariasi: orang bertubuh besar membutuhkan lebih banyak air untuk metabolisme; olahraga intensif meningkatkan kebutuhan hingga 1–2 liter ekstra; iklim tropis Indonesia yang panas menyebabkan keringat lebih banyak; kondisi hamil, menyusui, demam, dan diare meningkatkan kebutuhan cairan secara signifikan.</p>
+    <p>Formula yang digunakan kalkulator ini: <strong>35 ml × berat badan (kg)</strong>, disesuaikan dengan faktor aktivitas dan kondisi khusus. Anak-anak menggunakan 40 ml/kg, lansia di atas 65 tahun menggunakan 30 ml/kg.</p>
 
-    <h2>Cara Menggunakan Kalkulator Kebutuhan Air</h2>
+    <h2>Cara Menggunakan Kalkulator Ini</h2>
     <ol>
-      <li>Masukkan <strong>berat badan</strong> dalam kilogram</li>
-      <li>Masukkan <strong>usia</strong> dalam tahun — usia mempengaruhi kebutuhan dasar (anak lebih tinggi, lansia lebih rendah per kg)</li>
-      <li>Pilih <strong>tingkat aktivitas</strong> yang paling sesuai dengan rutinitas harian Anda</li>
-      <li>Pilih <strong>kondisi khusus</strong> jika berlaku: hamil (+300 ml), menyusui (+700 ml), atau demam/sakit (+500 ml)</li>
-      <li>Klik <strong>"Hitung Kebutuhan Air"</strong></li>
+      <li>Masukkan berat badan, usia, pilih tingkat aktivitas dan kondisi khusus</li>
+      <li>Hasil menampilkan kebutuhan dalam liter, gelas (250 ml), dan botol (600 ml)</li>
+      <li><strong>Klik gelas 🥤 untuk menandai yang sudah diminum</strong> — tracker langsung menunjukkan persentase hidrasi hari ini</li>
+      <li>Lihat <strong>jadwal minum yang dipersonalisasi</strong> berdasarkan jumlah yang harus diminum</li>
     </ol>
-    <p>Hasilnya ditampilkan dalam liter, gelas (250 ml), dan botol (600 ml) agar mudah diaplikasikan sehari-hari. Visualisasi gelas air membantu Anda mengira-ngira sudah berapa yang diminum hari ini.</p>
 
     <h2>Panduan Tingkat Aktivitas</h2>
     <table>
-      <tr><th>Level Aktivitas</th><th>Deskripsi</th><th>Contoh</th></tr>
-      <tr><td>Sangat santai (×1,0)</td><td>Hampir tidak ada gerak fisik</td><td>Kerja dari rumah, rebahan sepanjang hari</td></tr>
-      <tr><td>Ringan (×1,2)</td><td>Aktivitas ringan sehari-hari</td><td>Jalan kaki ke kantor, pekerjaan kantor biasa</td></tr>
-      <tr><td>Sedang (×1,4)</td><td>Olahraga beberapa kali seminggu</td><td>Gym 3x/minggu, jogging pagi</td></tr>
-      <tr><td>Aktif (×1,6)</td><td>Olahraga hampir setiap hari</td><td>Latihan rutin 5–6x/minggu</td></tr>
-      <tr><td>Sangat aktif (×1,8)</td><td>Latihan intensif setiap hari</td><td>Atlet, pekerja fisik berat, konstruksi</td></tr>
+      <tr><th>Level</th><th>Deskripsi</th><th>Contoh</th></tr>
+      <tr><td>Sangat santai (×1,0)</td><td>Hampir tidak ada gerak fisik</td><td>WFH, rebahan sepanjang hari</td></tr>
+      <tr><td>Ringan (×1,2)</td><td>Aktivitas ringan sehari-hari</td><td>Jalan ke kantor, pekerjaan meja</td></tr>
+      <tr><td>Sedang (×1,4)</td><td>Olahraga beberapa kali seminggu</td><td>Gym 3×/minggu, jogging pagi</td></tr>
+      <tr><td>Aktif (×1,6)</td><td>Olahraga hampir setiap hari</td><td>Latihan rutin 5–6×/minggu</td></tr>
+      <tr><td>Sangat aktif (×1,8)</td><td>Latihan intensif setiap hari</td><td>Atlet, pekerja fisik berat</td></tr>
     </table>
 
     <h2>Tanda-tanda Tubuh Kekurangan Air (Dehidrasi)</h2>
-    <p>Kenali tanda-tanda dehidrasi sebelum rasa haus muncul — pada saat Anda merasa haus, sebenarnya tubuh sudah dalam kondisi dehidrasi ringan:</p>
-    <ul>
-      <li>🟡 <strong>Urine berwarna kuning gelap</strong> — target urine kuning muda atau hampir bening</li>
-      <li>💤 <strong>Mudah lelah dan mengantuk</strong> tanpa sebab jelas</li>
-      <li>🧠 <strong>Sulit berkonsentrasi</strong> dan sakit kepala ringan</li>
-      <li>👄 <strong>Mulut dan bibir kering</strong></li>
-      <li>🚽 <strong>Jarang buang air kecil</strong> (kurang dari 4–6 kali sehari)</li>
-      <li>😵 <strong>Pusing saat berdiri tiba-tiba</strong> (hipotensi ortostatik)</li>
-    </ul>
-    <p>Dehidrasi ringan (kehilangan 1–2% cairan tubuh) sudah bisa menurunkan performa kognitif dan fisik. Dehidrasi berat (>5%) memerlukan penanganan medis segera.</p>
-
-    <h2>Tips Praktis Memenuhi Kebutuhan Air Harian</h2>
-    <ul>
-      <li><strong>Mulai pagi dengan air:</strong> Minum 1–2 gelas air segera setelah bangun tidur untuk menghidrasi tubuh setelah tidur 7–8 jam</li>
-      <li><strong>Bawa botol minum:</strong> Botol 600 ml yang selalu terisi memudahkan tracking — target habiskan 3–4 botol sehari untuk kebanyakan orang</li>
-      <li><strong>Minum sebelum makan:</strong> Satu gelas air 30 menit sebelum makan membantu pencernaan dan memberikan rasa kenyang lebih cepat</li>
-      <li><strong>Pasang pengingat:</strong> Gunakan alarm atau aplikasi pengingat minum setiap 1–2 jam, terutama saat bekerja di depan komputer</li>
-      <li><strong>Cek warna urine:</strong> Cara termudah — urine kuning muda = cukup air, kuning pekat = perlu minum lebih banyak</li>
-      <li><strong>Makan buah tinggi air:</strong> Semangka (92% air), mentimun (96%), jeruk, dan selada berkontribusi pada asupan cairan harian</li>
-    </ul>
+    <p>Saat merasa haus, tubuh sudah dalam kondisi dehidrasi ringan. Kenali tanda-tanda lebih awal: urine berwarna kuning gelap (target kuning muda), mudah lelah dan mengantuk tanpa sebab, sulit berkonsentrasi dan sakit kepala ringan, mulut dan bibir kering, jarang buang air kecil (kurang dari 4–6 kali sehari), dan pusing saat berdiri tiba-tiba.</p>
 
     <h2>Kebutuhan Air dalam Kondisi Khusus</h2>
     <table>
-      <tr><th>Kondisi</th><th>Tambahan Kebutuhan</th><th>Alasan</th></tr>
-      <tr><td>Kehamilan</td><td>+300 ml/hari</td><td>Mendukung pertumbuhan janin, plasenta, dan cairan amnion</td></tr>
-      <tr><td>Menyusui</td><td>+700 ml/hari</td><td>ASI mengandung 87% air; produksi ASI ±750 ml/hari</td></tr>
-      <tr><td>Demam</td><td>+500 ml/hari</td><td>Setiap kenaikan 1°C suhu tubuh meningkatkan kebutuhan cairan ~150 ml</td></tr>
-      <tr><td>Diare/Muntah</td><td>+500–1.000 ml</td><td>Kehilangan cairan dan elektrolit cepat — pertimbangkan oralit</td></tr>
-      <tr><td>Aktivitas di luar ruangan (terik)</td><td>+500–1.000 ml</td><td>Keringat berlebih di cuaca panas tropis Indonesia</td></tr>
+      <tr><th>Kondisi</th><th>Tambahan</th><th>Alasan</th></tr>
+      <tr><td>Kehamilan</td><td>+300 ml/hari</td><td>Mendukung pertumbuhan janin, plasenta, cairan amnion</td></tr>
+      <tr><td>Menyusui</td><td>+700 ml/hari</td><td>ASI mengandung 87% air; produksi ±750 ml/hari</td></tr>
+      <tr><td>Demam</td><td>+500 ml/hari</td><td>Setiap kenaikan 1°C meningkatkan kebutuhan ~150 ml</td></tr>
+      <tr><td>Cuaca terik di luar</td><td>+500–1.000 ml</td><td>Keringat berlebih di iklim tropis Indonesia</td></tr>
     </table>
 
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah kopi, teh, dan minuman lain dihitung sebagai asupan air?</div>
-    <div class="faq-a">Secara teknis ya — minuman apa pun mengandung air. Namun kopi dan teh mengandung kafein yang bersifat diuretik ringan (meningkatkan produksi urine). Untuk setiap cangkir kopi, sebagian peneliti menyarankan menggantinya dengan segelas air tambahan. Minuman manis dan soda tidak direkomendasikan sebagai pengganti air karena kandungan gula tinggi. Air putih tetap yang terbaik untuk hidrasi.</div></div>
+    <div class="faq-a">Secara teknis ya — minuman apa pun mengandung air. Namun kopi dan teh mengandung kafein yang bersifat diuretik ringan. Untuk setiap cangkir kopi, tambahkan segelas air ekstra sebagai kompensasi. Air putih tetap yang terbaik untuk hidrasi.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah minum terlalu banyak air berbahaya?</div>
-    <div class="faq-a">Ya, kondisi ini disebut hiponatremia (kadar natrium darah terlalu rendah akibat minum air terlalu banyak). Gejalanya: mual, sakit kepala, kebingungan, hingga kejang. Kondisi ini sangat jarang pada orang sehat dalam aktivitas normal — biasanya hanya terjadi pada atlet yang minum air dalam jumlah besar saat olahraga ekstrem tanpa elektrolit. Untuk orang dewasa sehat, minum hingga 4 liter per hari umumnya masih aman.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa kebutuhan air saat hamil dan menyusui?</div>
-    <div class="faq-a">Ibu hamil membutuhkan sekitar 300 ml lebih banyak dari biasanya — total sekitar 2,3–2,5 liter/hari. Ibu menyusui membutuhkan tambahan 700 ml — total sekitar 3–3,5 liter/hari — karena ASI mengandung sekitar 87% air dan diproduksi rata-rata 750–800 ml per hari. Kekurangan cairan pada ibu menyusui dapat mempengaruhi volume dan kualitas ASI.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa di Indonesia kita perlu minum lebih banyak?</div>
-    <div class="faq-a">Indonesia beriklim tropis dengan suhu rata-rata 25–35°C sepanjang tahun. Dalam cuaca panas, tubuh mengeluarkan keringat lebih banyak untuk menjaga suhu — bahkan saat duduk diam bisa berkeringat. Ditambah aktivitas di luar ruangan, orang Indonesia umumnya membutuhkan 10–20% lebih banyak air dibanding standar negara beriklim sedang. Di hari sangat panas atau saat banyak beraktivitas di luar, tambahkan 500–1.000 ml dari kebutuhan dasar.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Waktu terbaik untuk minum air agar paling bermanfaat?</div>
-    <div class="faq-a">Beberapa waktu optimal: (1) Segera bangun tidur — 1–2 gelas untuk rehidrasi setelah puasa tidur. (2) 30 menit sebelum makan — membantu pencernaan dan kontrol porsi. (3) Sebelum, selama, dan setelah olahraga — cegah dehidrasi performa. (4) Sore hari saat energi menurun — dehidrasi ringan sering disalahartikan sebagai rasa lapar atau lelah. Hindari minum terlalu banyak tepat sebelum tidur agar tidak sering terbangun untuk ke kamar mandi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah air mineral kemasan lebih baik dari air rebusan?</div>
-    <div class="faq-a">Keduanya aman untuk diminum jika standar kualitasnya terpenuhi. Air mineral kemasan mengandung mineral alami (kalsium, magnesium, natrium) yang bermanfaat. Air rebusan dari sumber yang bersih dan dimasak hingga mendidih (100°C selama 1 menit) juga aman dan ekonomis. Jika kualitas air keran di daerah Anda kurang terjamin, air mineral kemasan atau air isi ulang yang terjamin kualitasnya adalah pilihan lebih aman.</div></div>
+    <div class="faq-a">Ya, kondisi ini disebut hiponatremia (kadar natrium darah terlalu rendah). Sangat jarang pada orang sehat dalam aktivitas normal — biasanya hanya terjadi pada atlet yang minum air dalam jumlah besar saat olahraga ekstrem tanpa elektrolit. Untuk orang dewasa sehat, hingga 4 liter per hari umumnya masih aman.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Waktu terbaik untuk minum air?</div>
+    <div class="faq-a">Segera bangun tidur (1–2 gelas untuk rehidrasi), 30 menit sebelum makan (membantu pencernaan dan kontrol porsi), sebelum/selama/setelah olahraga, dan sore hari saat energi menurun. Hindari minum terlalu banyak tepat sebelum tidur agar tidak sering terbangun.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa di Indonesia perlu minum lebih banyak?</div>
+    <div class="faq-a">Indonesia beriklim tropis dengan suhu rata-rata 25–35°C sepanjang tahun. Dalam cuaca panas, tubuh mengeluarkan keringat lebih banyak bahkan saat duduk diam. Orang Indonesia umumnya membutuhkan 10–20% lebih banyak air dibanding standar negara beriklim sedang.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa kebutuhan air untuk ibu hamil dan menyusui?</div>
+    <div class="faq-a">Ibu hamil membutuhkan +300 ml dari kebutuhan normal (~2,3–2,5 L/hari). Ibu menyusui membutuhkan +700 ml (~3–3,5 L/hari) karena ASI mengandung sekitar 87% air. Kekurangan cairan pada ibu menyusui dapat mempengaruhi volume dan kualitas ASI.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Cara mudah memenuhi kebutuhan air harian?</div>
+    <div class="faq-a">Bawa botol 600 ml dan targetkan habiskan 3–4 botol sehari. Minum 1–2 gelas segera bangun tidur. Pasang alarm pengingat minum setiap 1–2 jam. Makan buah tinggi air seperti semangka (92%), mentimun (96%), dan jeruk. Cek warna urine — kuning muda berarti sudah cukup terhidrasi.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -173,14 +177,15 @@
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
 let condition = 'normal';
+let filledGlasses = 0;
+let totalGlasses  = 0;
+
 function setCondition(c, btn) {
   condition = c;
   document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
@@ -189,41 +194,101 @@ function setCondition(c, btn) {
 }
 
 function calculate() {
-  const weight = parseFloat(document.getElementById('weight').value);
-  const age = parseFloat(document.getElementById('age').value);
+  const weight   = parseFloat(document.getElementById('weight').value);
+  const age      = parseFloat(document.getElementById('age').value);
   const activity = parseFloat(document.getElementById('activity').value);
   if (!weight) return;
 
-  // Base: 35 ml per kg
   let base = weight * 35;
-  // Age adjustment
   if (age && age < 18) base = weight * 40;
   else if (age && age > 65) base = weight * 30;
-  // Activity multiplier
+
   let total = base * activity;
-  // Condition adjustments
   let note = '';
-  if (condition === 'hamil') { total += 300; note = '🤰 Ditambah 300 ml untuk kehamilan'; }
-  if (condition === 'menyusui') { total += 700; note = '🤱 Ditambah 700 ml untuk menyusui'; }
-  if (condition === 'sakit') { total += 500; note = '🌡️ Ditambah 500 ml saat demam/sakit'; }
+  if (condition === 'hamil')    { total += 300; note = '🤰 Ditambah 300 ml untuk kehamilan (total ASI & cairan janin)'; }
+  if (condition === 'menyusui') { total += 700; note = '🤱 Ditambah 700 ml untuk menyusui (ASI 87% air)'; }
+  if (condition === 'sakit')    { total += 500; note = '🌡️ Ditambah 500 ml saat demam/sakit'; }
 
-  const liters = Math.round(total) / 1000;
-  const glasses = Math.ceil(liters * 1000 / 250);
-  const bottles = (liters / 0.6).toFixed(1);
-  const baseLiters = (Math.round(base) / 1000).toFixed(1);
+  const ml       = Math.round(total);
+  const liters   = (ml / 1000).toFixed(1);
+  const glasses  = Math.ceil(ml / 250);
+  const bottles  = (ml / 600).toFixed(1);
+  totalGlasses   = glasses;
+  filledGlasses  = 0;
 
-  document.getElementById('res-liter').textContent = liters.toFixed(1);
-  document.getElementById('res-glasses').textContent = glasses + ' gelas';
-  document.getElementById('res-bottles').textContent = bottles + ' botol';
-  document.getElementById('res-base').textContent = baseLiters + ' liter';
+  document.getElementById('res-liter').textContent = liters;
+
+  // Stats grid
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-box"><div class="sbl">Liter / hari</div><div class="sbv">${liters} L</div></div>
+    <div class="stat-box"><div class="sbl">Gelas (250 mL)</div><div class="sbv">${glasses} gelas</div></div>
+    <div class="stat-box"><div class="sbl">Botol (600 mL)</div><div class="sbv">${bottles} botol</div></div>`;
+
   document.getElementById('res-note').textContent = note;
 
-  // Visual glasses
-  const glassCount = Math.min(glasses, 16);
+  // Render clickable glasses
+  const glassCount = Math.min(glasses, 20);
   document.getElementById('water-glasses').innerHTML =
-    Array.from({length: glassCount}, (_, i) => `<span class="glass filled">🥤</span>`).join('');
+    Array.from({length: glassCount}, (_, i) =>
+      `<span class="glass" id="g${i}" onclick="toggleGlass(${i}, ${glassCount})" title="Gelas ke-${i+1}">🥤</span>`
+    ).join('');
+  updateHydration(0, glassCount);
+
+  // Generate jadwal minum
+  buildJadwal(ml, glasses);
 
   document.getElementById('result').classList.add('show');
+}
+
+function toggleGlass(idx, total) {
+  // Fill up to clicked glass
+  const current = document.querySelectorAll('.glass.filled').length;
+  const newFilled = (idx + 1 === current) ? idx : idx + 1;
+  for (let i = 0; i < total; i++) {
+    const g = document.getElementById('g' + i);
+    if (g) g.classList.toggle('filled', i < newFilled);
+  }
+  filledGlasses = newFilled;
+  updateHydration(newFilled, total);
+}
+
+function updateHydration(filled, total) {
+  const pct = total > 0 ? Math.round(filled / total * 100) : 0;
+  document.getElementById('hyd-fill').style.width = pct + '%';
+  document.getElementById('hyd-left').textContent = filled + ' dari ' + total + ' gelas';
+  document.getElementById('hyd-right').textContent = pct + '% terhidrasi';
+}
+
+function buildJadwal(totalMl, glassCount) {
+  // Distribute drinking times throughout the day
+  const slots = [
+    { time:'06:00', label:'Bangun tidur', note:'1–2 gelas untuk rehidrasi setelah tidur', glasses:2, highlight:true },
+    { time:'08:00', label:'Pagi hari', note:'Sebelum/saat sarapan', glasses:1 },
+    { time:'10:00', label:'Tengah pagi', note:'Jaga fokus saat bekerja', glasses:1 },
+    { time:'12:00', label:'Sebelum makan siang', note:'30 menit sebelum makan untuk pencernaan', glasses:1, highlight:true },
+    { time:'14:00', label:'Siang hari', note:'Atasi rasa ngantuk sore', glasses:1 },
+    { time:'15:30', label:'Sore hari', note:'Energi mulai menurun — minum air', glasses:1 },
+    { time:'17:00', label:'Sebelum/setelah olahraga', note:'Jika berolahraga sore', glasses:1 },
+    { time:'19:00', label:'Sebelum makan malam', note:'30 menit sebelum makan malam', glasses:1, highlight:true },
+    { time:'21:00', label:'Malam hari', note:'Batas akhir minum banyak sebelum tidur', glasses:1 },
+  ];
+
+  // Scale to actual glass count
+  const totalSlotGlasses = slots.reduce((s,sl) => s + sl.glasses, 0);
+  const factor = glassCount / totalSlotGlasses;
+
+  let html = '';
+  slots.forEach(sl => {
+    const scaled = Math.max(1, Math.round(sl.glasses * factor));
+    const ml     = scaled * 250;
+    html += `<div class="jadwal-row ${sl.highlight ? 'highlight' : ''}">
+      <span class="jadwal-time">${sl.time}</span>
+      <span class="jadwal-note">${sl.label} — ${sl.note}</span>
+      <span class="jadwal-amount">${ml} mL</span>
+    </div>`;
+  });
+
+  document.getElementById('jadwal-wrap').innerHTML = html;
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }

@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Berat Badan Kehamilan 2026 — Panduan Kenaikan BB Ibu Hamil | NovaCalcs</title>
-<meta name="description" content="Hitung rekomendasi kenaikan berat badan selama kehamilan berdasarkan BMI awal dan panduan WHO. Pantau kesehatan ibu dan janin trimester per trimester."/>
+<meta name="description" content="Hitung rekomendasi kenaikan berat badan selama kehamilan berdasarkan BMI awal dan panduan IOM/WHO. Visualisasi trimester dan status kenaikan BB saat ini."/>
 <meta name="keywords" content="kalkulator berat badan kehamilan, kenaikan BB ibu hamil, berat badan hamil, panduan kehamilan, BB ideal hamil"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kehamilan-bb.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kehamilan-bb.html"/>
@@ -13,9 +13,39 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+/* Progress timeline */
+.preg-timeline{margin:1rem 0 .25rem;position:relative}
+.preg-bar-bg{height:12px;border-radius:6px;background:rgba(255,255,255,.07);position:relative;overflow:visible}
+.preg-bar-range{position:absolute;top:0;height:100%;border-radius:6px;background:rgba(0,201,177,.2);border:1px solid rgba(0,201,177,.3)}
+.preg-bar-fill{position:absolute;top:0;height:100%;border-radius:6px;background:#00C9B1;transition:width .5s}
+.preg-bar-marker{position:absolute;top:-4px;width:4px;height:20px;border-radius:2px;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.4);transform:translateX(-50%);transition:left .4s}
+.preg-labels{display:flex;justify-content:space-between;font-size:.65rem;color:#6b7c8d;margin-top:4px}
+.trim-label{text-align:center;font-size:.7rem;color:#6b7c8d;margin-top:.15rem}
+
+/* Weight gain indicator */
+.gain-indicator{margin:12px 0 4px}
+.gain-scale{display:flex;height:16px;border-radius:8px;overflow:hidden}
+.gain-seg{flex:1;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700}
+.gain-pointer{position:relative;margin-top:3px;height:12px}
+.gain-arrow{position:absolute;top:0;transform:translateX(-50%);font-size:.8rem;transition:left .4s}
+
+/* Status cards */
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.status-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem;text-align:center}
+.status-card .sc-label{font-size:.7rem;color:#8fa3b1;margin-bottom:.2rem}
+.status-card .sc-val{font-size:.95rem;font-weight:700;color:#00C9B1}
+
+/* Trimester breakdown */
+.trim-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:.5rem}
+.trim-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.35rem .5rem;font-size:.75rem;text-align:left}
+.trim-table td{padding:.35rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
+</style>
 </head>
 <body>
-
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -26,148 +56,121 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
       <div class="calc-title">🤰 Panduan Berat Badan Kehamilan</div>
       <div class="calc-subtitle">Rekomendasi kenaikan BB berdasarkan kondisi awal Anda</div>
 
-      <div class="field">
-        <label>Tinggi Badan (cm)</label>
+      <div class="field"><label>Tinggi Badan (cm)</label>
         <input type="number" id="height" placeholder="Contoh: 158" min="140" max="200"/>
       </div>
-      <div class="field">
-        <label>Berat Badan Sebelum Hamil (kg)</label>
+      <div class="field"><label>Berat Badan Sebelum Hamil (kg)</label>
         <input type="number" id="weight-pre" placeholder="Contoh: 55" min="30" max="150" step="0.1"/>
       </div>
-      <div class="field">
-        <label>Berat Badan Saat Ini (kg) <small>— opsional</small></label>
+      <div class="field"><label>Berat Badan Saat Ini (kg) <small>— opsional</small></label>
         <input type="number" id="weight-now" placeholder="Contoh: 62" min="30" max="180" step="0.1"/>
       </div>
-      <div class="field">
-        <label>Usia Kehamilan (minggu)</label>
+      <div class="field"><label>Usia Kehamilan (minggu)</label>
         <input type="number" id="week" placeholder="Contoh: 20" min="1" max="42"/>
       </div>
-      <div class="field">
-        <label>Jumlah Janin</label>
+      <div class="field"><label>Jumlah Janin</label>
         <div class="radio-group">
           <div class="radio-btn active" id="btn-single" onclick="selectTwins(false)">Tunggal</div>
           <div class="radio-btn" id="btn-twins" onclick="selectTwins(true)">Kembar</div>
         </div>
       </div>
-
       <button class="calc-btn" onclick="calculate()">Lihat Panduan BB</button>
 
       <div class="result-panel" id="result">
+        <!-- BMI badge -->
         <div class="result-main">
           <div class="result-value" id="res-bmi">—</div>
           <div class="result-label">BMI Sebelum Hamil</div>
           <div class="result-badge" id="res-badge"></div>
         </div>
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Total kenaikan BB yang dianjurkan</span><span class="rval" id="res-total">—</span></div>
-          <div class="result-row"><span class="rkey">Kenaikan per minggu (trimester 2&3)</span><span class="rval" id="res-weekly">—</span></div>
-          <div class="result-row"><span class="rkey">Target BB saat ini (minggu ke-<span id="res-week-label">?</span>)</span><span class="rval" id="res-target">—</span></div>
-          <div class="result-row"><span class="rkey">Status kenaikan BB saat ini</span><span class="rval" id="res-status">—</span></div>
+
+        <!-- Pregnancy progress bar -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 0;font-weight:600">📍 Posisi Kehamilan</div>
+        <div class="preg-timeline">
+          <div class="preg-bar-bg">
+            <div class="preg-bar-fill" id="preg-fill" style="width:0%"></div>
+            <div class="preg-bar-marker" id="preg-marker" style="left:0%"></div>
+          </div>
+          <div class="preg-labels"><span>Minggu 1</span><span>T1 (s/d 13)</span><span>T2 (s/d 27)</span><span>T3 (s/d 40)</span></div>
         </div>
+
+        <!-- Weight gain visual -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 2px;font-weight:600">⚖️ Status Kenaikan BB Saat Ini</div>
+        <div class="gain-indicator" id="gain-indicator" style="display:none">
+          <div class="gain-scale">
+            <div class="gain-seg" style="background:rgba(59,130,246,.3);color:#93c5fd">Kurang</div>
+            <div class="gain-seg" style="background:rgba(0,201,177,.25);color:#00C9B1">Ideal ✓</div>
+            <div class="gain-seg" style="background:rgba(245,158,11,.3);color:#fcd34d">Lebih</div>
+          </div>
+          <div class="gain-pointer"><div class="gain-arrow" id="gain-arrow" style="left:50%">▲</div></div>
+          <div style="font-size:.72rem;color:#8fa3b1;margin-top:.3rem;text-align:center" id="gain-desc"></div>
+        </div>
+
+        <!-- Status cards -->
+        <div class="status-grid" id="status-cards"></div>
+
+        <!-- Per-trimester breakdown -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:12px 0 4px;font-weight:600">📋 Panduan Kenaikan BB Per Trimester</div>
+        <table class="trim-table" id="trim-table">
+          <thead><tr><th>Trimester</th><th>Minggu</th><th>Kenaikan BB</th><th>Catatan</th></tr></thead>
+          <tbody id="trim-tbody"></tbody>
+        </table>
       </div>
     </div>
   </div>
 
-  <div class="seo-content">
+  <div class="content-area">
     <h1>Kalkulator Berat Badan Kehamilan — Panduan Kenaikan BB Ibu Hamil Trimester 1, 2, 3</h1>
-    <p class="page-desc">Kenaikan berat badan yang tepat selama kehamilan sangat penting untuk kesehatan ibu dan perkembangan janin. Kalkulator ini memberikan panduan berbasis rekomendasi resmi Institute of Medicine (IOM) dan WHO.</p>
+    <p class="page-desc">Kenaikan berat badan yang tepat selama kehamilan sangat penting untuk kesehatan ibu dan perkembangan janin. Kalkulator ini memberikan panduan berdasarkan rekomendasi Institute of Medicine (IOM) 2009 dan WHO, disesuaikan dengan BMI awal Anda.</p>
 
     <div class="ad-slot">Advertisement</div>
 
     <h2>Mengapa Kenaikan BB Selama Hamil Harus Dipantau?</h2>
-    <p>Kenaikan berat badan yang terlalu sedikit selama kehamilan dapat menyebabkan bayi lahir dengan berat lahir rendah (BBLR), kelahiran prematur, dan gangguan perkembangan. Sebaliknya, kenaikan yang berlebihan meningkatkan risiko diabetes gestasional, preeklampsia, kelahiran cesar, dan obesitas pada ibu setelah melahirkan.</p>
-    <p>Jumlah yang tepat bergantung pada kondisi tubuh ibu sebelum hamil, khususnya nilai BMI. Seorang ibu dengan BMI normal, kurus, atau gemuk memiliki rekomendasi kenaikan BB yang berbeda-beda.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li>Masukkan <strong>tinggi badan</strong> Anda dalam cm</li>
-      <li>Masukkan <strong>berat badan sebelum hamil</strong> (atau awal trimester 1)</li>
-      <li>Masukkan <strong>berat badan saat ini</strong> (opsional, untuk menilai status)</li>
-      <li>Masukkan <strong>usia kehamilan</strong> saat ini dalam minggu</li>
-      <li>Pilih apakah kehamilan <strong>tunggal atau kembar</strong></li>
-      <li>Klik <strong>"Lihat Panduan BB"</strong></li>
-    </ol>
+    <p>Kenaikan terlalu sedikit dapat menyebabkan bayi lahir dengan berat rendah (BBLR), kelahiran prematur, dan gangguan perkembangan. Sebaliknya, kenaikan berlebihan meningkatkan risiko diabetes gestasional, preeklampsia, kelahiran caesar, dan obesitas pasca melahirkan. Jumlah yang tepat bergantung pada BMI ibu sebelum hamil.</p>
 
     <h2>Panduan Kenaikan BB Berdasarkan BMI Pra-Kehamilan (IOM 2009)</h2>
     <table>
-      <tr><th>Kategori BMI</th><th>BMI Pra-Hamil</th><th>Kenaikan Total (hamil tunggal)</th><th>Kenaikan/Minggu (Trim. 2–3)</th></tr>
+      <tr><th>Kategori BMI</th><th>BMI</th><th>Kenaikan Total (tunggal)</th><th>Kenaikan/Minggu (T2–T3)</th></tr>
       <tr><td>Kekurangan BB</td><td>&lt; 18,5</td><td>12,5 – 18 kg</td><td>0,44 – 0,58 kg</td></tr>
       <tr><td>Normal</td><td>18,5 – 24,9</td><td>11,5 – 16 kg</td><td>0,35 – 0,50 kg</td></tr>
       <tr><td>Kelebihan BB</td><td>25,0 – 29,9</td><td>7 – 11,5 kg</td><td>0,23 – 0,33 kg</td></tr>
       <tr><td>Obesitas</td><td>≥ 30,0</td><td>5 – 9 kg</td><td>0,17 – 0,27 kg</td></tr>
     </table>
-    <p style="margin-top:0.75rem">Untuk <strong>kehamilan kembar (twins)</strong>, panduan IOM 2009 menetapkan total kenaikan BB berbeda berdasarkan BMI: Normal BMI 17–25 kg, Overweight 14–23 kg, Obese 11–19 kg. Kenaikan yang lebih besar diperlukan karena pertumbuhan dua janin sekaligus.</p>
+    <p>Untuk <strong>kehamilan kembar</strong>, rekomendasi IOM 2009: BMI normal 17–25 kg, kelebihan BB 14–23 kg, obesitas 11–19 kg. Kenaikan lebih besar diperlukan karena pertumbuhan dua janin.</p>
 
-    <h2>Distribusi Kenaikan BB per Trimester</h2>
+    <h2>Distribusi Kenaikan BB Per Trimester</h2>
     <table>
-      <tr><th>Trimester</th><th>Minggu</th><th>Kenaikan BB Rata-rata</th></tr>
-      <tr><td>Trimester 1</td><td>1 – 13</td><td>0,5 – 2 kg total</td></tr>
-      <tr><td>Trimester 2</td><td>14 – 27</td><td>~0,4 kg/minggu</td></tr>
-      <tr><td>Trimester 3</td><td>28 – 40</td><td>~0,4 kg/minggu</td></tr>
-    </table>
-    <p style="margin-top:0.75rem">Kenaikan BB terbesar terjadi di trimester 2 dan 3. Di trimester 1, mual dan muntah sering menyebabkan kenaikan minimal bahkan penurunan sementara, yang umumnya normal.</p>
-
-    <h2>Risiko Kenaikan BB yang Terlalu Sedikit atau Terlalu Banyak</h2>
-    <p>Kenaikan berat badan selama kehamilan perlu dijaga dalam rentang yang tepat — terlalu sedikit maupun terlalu banyak sama-sama berisiko:</p>
-    <table>
-      <tr><th>Kondisi</th><th>Risiko bagi Ibu</th><th>Risiko bagi Bayi</th></tr>
-      <tr><td>BB naik terlalu sedikit</td><td>Anemia, kelelahan kronis, gangguan ASI</td><td>BBLR (&lt;2,5 kg), prematur, stunting</td></tr>
-      <tr><td>BB naik berlebihan</td><td>Preeklampsia, diabetes gestasional, nyeri punggung parah, caesar</td><td>Makrosomia (&gt;4 kg), obesitas di kemudian hari</td></tr>
-      <tr><td>BB naik ideal</td><td>Kehamilan dan persalinan lebih lancar</td><td>Berat lahir normal, pertumbuhan optimal</td></tr>
+      <tr><th>Trimester</th><th>Minggu</th><th>Kenaikan BB Rata-rata</th><th>Catatan</th></tr>
+      <tr><td>Trimester 1</td><td>1–13</td><td>0,5 – 2 kg total</td><td>Mual sering sebabkan kenaikan minimal</td></tr>
+      <tr><td>Trimester 2</td><td>14–27</td><td>~0,4 kg/minggu</td><td>Nafsu makan meningkat, janin tumbuh pesat</td></tr>
+      <tr><td>Trimester 3</td><td>28–40</td><td>~0,4 kg/minggu</td><td>Janin paling pesat bertambah berat</td></tr>
     </table>
 
-    <h2>Strategi Makan Sehat Selama Kehamilan</h2>
-    <p>Kehamilan bukan berarti "makan untuk dua orang" — kebutuhan kalori tambahan lebih kecil dari yang diperkirakan banyak orang:</p>
-    <ul>
-      <li><strong>Trimester 1</strong> — Tidak perlu tambahan kalori ekstra (karena bayi masih sangat kecil). Fokus pada kualitas: asam folat, zat besi, dan protein. Untuk yang mual, makan dalam porsi kecil tapi sering</li>
-      <li><strong>Trimester 2</strong> — Tambahan +340 kkal/hari dari porsi sebelum hamil. Setara dengan 1 butir telur + 1 pisang + 1 gelas susu</li>
-      <li><strong>Trimester 3</strong> — Tambahan +450 kkal/hari. Janin tumbuh pesat di periode ini, kebutuhan protein meningkat</li>
-    </ul>
-    <p>Prioritaskan <strong>kualitas nutrisi</strong> daripada jumlah kalori. "Makan untuk dua orang" bukan berarti porsi dua kali lipat, tapi memilih makanan yang lebih padat nutrisi.</p>
+    <h2>Terdiri dari Apa Saja Kenaikan BB Kehamilan?</h2>
+    <p>Kenaikan BB total sekitar 11–16 kg untuk BMI normal terdiri dari: bayi ±3,5 kg, plasenta ±0,7 kg, cairan ketuban ±0,9 kg, pembesaran rahim ±1 kg, pembesaran payudara ±0,9 kg, penambahan volume darah ±1,5 kg, cairan tubuh ekstra ±2 kg, dan cadangan lemak menyusui ±2 kg.</p>
 
-    <h2>Olahraga Aman Selama Kehamilan untuk Menjaga BB</h2>
-    <p>Aktivitas fisik selama kehamilan membantu menjaga kenaikan berat badan tetap optimal dan mempersiapkan fisik untuk persalinan:</p>
-    <ul>
-      <li><strong>Senam hamil</strong> — Tersedia di puskesmas, bidan, dan klinik kebidanan. Dirancang khusus untuk keamanan ibu hamil</li>
-      <li><strong>Jalan kaki</strong> — 30 menit/hari, olahraga paling aman dan mudah dilakukan di semua trimester</li>
-      <li><strong>Renang dan aqua aerobik</strong> — Air menopang berat badan, sangat nyaman di trimester 3 ketika perut sudah besar</li>
-      <li><strong>Yoga prenatal</strong> — Membantu relaksasi, mengurangi nyeri punggung, dan mempersiapkan mental untuk persalinan</li>
-    </ul>
-    <p>Hindari olahraga berbaring terlentang setelah 20 minggu (menekan vena cava), olahraga kontak, dan aktivitas dengan risiko jatuh tinggi.</p>
+    <h2>Kebutuhan Kalori Tambahan Per Trimester</h2>
+    <p>Kehamilan bukan berarti "makan untuk dua orang". Kebutuhan kalori tambahan jauh lebih kecil: Trimester 1 tidak perlu tambahan kalori ekstra. Trimester 2 tambah +340 kkal/hari (setara 1 butir telur + 1 pisang + 1 gelas susu). Trimester 3 tambah +450 kkal/hari karena janin tumbuh sangat pesat.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah normal jika BB turun di trimester 1?</div>
-      <div class="faq-a">Ya, sangat normal. Morning sickness (mual muntah) yang umum terjadi di trimester 1 sering menyebabkan penurunan nafsu makan dan bahkan penurunan BB sementara. Selama penurunan tidak lebih dari 5% dari BB sebelum hamil dan kondisi membaik setelah trimester 1, ini tidak berbahaya. Konsultasikan dengan dokter jika mual sangat parah (hiperemesis gravidarum).</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Terdiri dari apa saja kenaikan BB selama hamil?</div>
-      <div class="faq-a">Kenaikan BB total sekitar 11–16 kg (untuk BB normal) terdiri dari: bayi ±3,5 kg, plasenta ±0,7 kg, cairan ketuban ±0,9 kg, pembesaran rahim ±1 kg, pembesaran payudara ±0,9 kg, penambahan volume darah ±1,5 kg, cairan tubuh ekstra ±2 kg, dan cadangan lemak untuk menyusui ±2 kg.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah diet ketat aman dilakukan saat hamil?</div>
-      <div class="faq-a">Tidak. Diet ketat yang membatasi kalori secara drastis sangat berbahaya selama kehamilan dan bisa mengganggu perkembangan janin. Fokus pada kualitas makanan, bukan pembatasan kalori. Pilih makanan bergizi tinggi seperti sayuran, protein hewani dan nabati, dan batasi makanan ultra-proses. Konsultasikan dengan dokter atau ahli gizi jika Anda khawatir dengan kenaikan BB.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa tambahan kalori yang dibutuhkan saat hamil?</div>
-      <div class="faq-a">Trimester 1: tidak perlu tambahan kalori. Trimester 2: tambah sekitar 340 kkal/hari. Trimester 3: tambah sekitar 450 kkal/hari. Ini setara dengan 1–2 porsi makanan bergizi tambahan per hari, bukan "makan untuk dua orang" seperti yang sering disalahpahami.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah olahraga aman saat hamil?</div>
-      <div class="faq-a">Ya, olahraga sedang umumnya sangat aman dan bahkan dianjurkan selama kehamilan normal. Jalan kaki, renang, yoga prenatal, dan senam hamil adalah pilihan yang baik. Olahraga membantu mengontrol kenaikan BB, mengurangi nyeri punggung, meningkatkan kualitas tidur, dan mempersiapkan tubuh untuk persalinan. Hindari olahraga kontak fisik, berbaring telentang terlalu lama, dan olahraga ekstrem setelah trimester 1.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika kenaikan BB melebihi rekomendasi?</div>
-      <div class="faq-a">Jika kenaikan BB melebihi panduan, konsultasikan dengan dokter kandungan atau bidan Anda. Mereka akan menilai apakah kenaikan tersebut berasal dari retensi cairan, pertumbuhan janin yang lebih besar, atau asupan kalori berlebih. Perubahan pola makan dengan panduan ahli gizi bisa membantu mengontrol kenaikan BB tanpa membahayakan janin.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah normal jika BB turun di trimester 1?</div>
+    <div class="faq-a">Ya, sangat normal. Morning sickness di trimester 1 sering menyebabkan penurunan nafsu makan. Selama penurunan tidak lebih dari 5% dari BB sebelum hamil dan membaik setelah trimester 1, ini tidak berbahaya. Konsultasikan ke dokter jika mual sangat parah (hiperemesis gravidarum).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah diet ketat aman dilakukan saat hamil?</div>
+    <div class="faq-a">Tidak. Diet ketat yang membatasi kalori secara drastis sangat berbahaya selama kehamilan dan bisa mengganggu perkembangan janin. Fokus pada kualitas makanan, bukan pembatasan kalori. Konsultasikan dengan dokter atau ahli gizi jika khawatir dengan kenaikan BB.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa tambahan kalori yang dibutuhkan saat hamil?</div>
+    <div class="faq-a">Trimester 1: tidak perlu tambahan. Trimester 2: +340 kkal/hari. Trimester 3: +450 kkal/hari. Ini setara 1–2 porsi makanan bergizi tambahan per hari — bukan "makan untuk dua orang".</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah olahraga aman saat hamil?</div>
+    <div class="faq-a">Ya, olahraga sedang sangat dianjurkan selama kehamilan normal. Jalan kaki, renang, yoga prenatal, dan senam hamil adalah pilihan terbaik. Hindari olahraga kontak fisik, berbaring telentang terlalu lama setelah 20 minggu, dan olahraga ekstrem.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika kenaikan BB melebihi rekomendasi?</div>
+    <div class="faq-a">Konsultasikan dengan dokter kandungan atau bidan. Mereka akan menilai apakah kenaikan berasal dari retensi cairan, pertumbuhan janin yang lebih besar, atau asupan berlebih. Perubahan pola makan dengan panduan ahli gizi bisa membantu tanpa membahayakan janin.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kapan harus khawatir dengan kenaikan BB kehamilan?</div>
+    <div class="faq-a">Konsultasikan ke dokter jika kenaikan BB sangat cepat (>1 kg/minggu di trimester 3) yang bisa menandakan retensi cairan atau preeklampsia; jika tidak ada kenaikan BB sama sekali selama beberapa minggu di trimester 2–3; atau jika BB turun lebih dari 5% di trimester 1 akibat muntah berat.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -178,16 +181,10 @@
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
 let isTwins = false;
 
@@ -198,78 +195,90 @@ function selectTwins(val) {
 }
 
 function calculate() {
-  const height = parseFloat(document.getElementById('height').value);
+  const height    = parseFloat(document.getElementById('height').value);
   const weightPre = parseFloat(document.getElementById('weight-pre').value);
   const weightNow = parseFloat(document.getElementById('weight-now').value) || null;
-  const week = parseInt(document.getElementById('week').value);
+  const week      = parseInt(document.getElementById('week').value);
 
-  if (!height || !weightPre || !week || height < 140 || weightPre < 30 || week < 1 || week > 42) {
+  if (!height||!weightPre||!week||height<140||weightPre<30||week<1||week>42)
     return alert('Pastikan semua data wajib diisi dengan benar.');
-  }
 
-  const heightM = height / 100;
-  const bmi = weightPre / (heightM * heightM);
-  const bmiRound = Math.round(bmi * 10) / 10;
+  const bmi      = weightPre / Math.pow(height/100, 2);
+  const bmiRound = Math.round(bmi*10)/10;
 
+  // Ranges by BMI
   let minGain, maxGain, weeklyMin, weeklyMax, bmiCat, badgeClass;
-  if (bmi < 18.5) {
-    minGain = 12.5; maxGain = 18; weeklyMin = 0.44; weeklyMax = 0.58; bmiCat = 'Kekurangan BB'; badgeClass = 'badge-underweight';
-  } else if (bmi < 25) {
-    minGain = 11.5; maxGain = 16; weeklyMin = 0.35; weeklyMax = 0.50; bmiCat = 'BB Normal'; badgeClass = 'badge-normal';
-  } else if (bmi < 30) {
-    minGain = 7; maxGain = 11.5; weeklyMin = 0.23; weeklyMax = 0.33; bmiCat = 'Kelebihan BB'; badgeClass = 'badge-overweight';
-  } else {
-    minGain = 5; maxGain = 9; weeklyMin = 0.17; weeklyMax = 0.27; bmiCat = 'Obesitas'; badgeClass = 'badge-obese';
-  }
+  if (bmi < 18.5)      { minGain=12.5; maxGain=18;   weeklyMin=0.44; weeklyMax=0.58; bmiCat='Kekurangan BB'; badgeClass='badge-underweight'; }
+  else if (bmi < 25)   { minGain=11.5; maxGain=16;   weeklyMin=0.35; weeklyMax=0.50; bmiCat='BB Normal';     badgeClass='badge-normal'; }
+  else if (bmi < 30)   { minGain=7;    maxGain=11.5; weeklyMin=0.23; weeklyMax=0.33; bmiCat='Kelebihan BB';  badgeClass='badge-overweight'; }
+  else                 { minGain=5;    maxGain=9;    weeklyMin=0.17; weeklyMax=0.27; bmiCat='Obesitas';      badgeClass='badge-obese'; }
 
   if (isTwins) {
-    // IOM 2009 rekomendasi kehamilan kembar berdasarkan BMI:
-    // Underweight: 23-28 kg total -> tidak cukup data, gunakan +10 kg
-    // Normal: 17-25 kg total
-    // Overweight: 14-23 kg total
-    // Obese: 11-19 kg total
-    if (bmi < 18.5)       { minGain = 23; maxGain = 28; }
-    else if (bmi < 25)    { minGain = 17; maxGain = 25; }
-    else if (bmi < 30)    { minGain = 14; maxGain = 23; }
-    else                  { minGain = 11; maxGain = 19; }
-    weeklyMin = 0.6; weeklyMax = 0.7; // estimasi umum kehamilan kembar
+    if (bmi < 18.5)    { minGain=23; maxGain=28; }
+    else if (bmi < 25) { minGain=17; maxGain=25; }
+    else if (bmi < 30) { minGain=14; maxGain=23; }
+    else               { minGain=11; maxGain=19; }
+    weeklyMin=0.6; weeklyMax=0.7;
   }
 
   // Expected gain at current week
-  let expectedMin, expectedMax;
-  if (week <= 13) {
-    expectedMin = 0.5; expectedMax = 2.0;
-  } else {
-    const weeksAfter1st = week - 13;
-    expectedMin = 0.5 + weeksAfter1st * weeklyMin;
-    expectedMax = 2.0 + weeksAfter1st * weeklyMax;
-  }
+  let expMin, expMax;
+  if (week <= 13) { expMin=0.5; expMax=2.0; }
+  else { const w=week-13; expMin=0.5+w*weeklyMin; expMax=2.0+w*weeklyMax; }
 
+  // BMI display
   document.getElementById('res-bmi').textContent = bmiRound.toString().replace('.', ',');
   const badge = document.getElementById('res-badge');
-  badge.textContent = bmiCat;
-  badge.className = 'result-badge ' + badgeClass;
-  document.getElementById('res-total').textContent = minGain + ' – ' + maxGain + ' kg';
-  document.getElementById('res-weekly').textContent = weeklyMin.toString().replace('.', ',') + ' – ' + weeklyMax.toString().replace('.', ',') + ' kg/minggu';
-  document.getElementById('res-week-label').textContent = week;
-  document.getElementById('res-target').textContent = (weightPre + expectedMin).toFixed(1) + ' – ' + (weightPre + expectedMax).toFixed(1) + ' kg';
+  badge.textContent = bmiCat; badge.className = 'result-badge ' + badgeClass;
 
+  // Pregnancy progress bar (week 1–40)
+  const pct = Math.min(week/40*100, 100).toFixed(1);
+  document.getElementById('preg-fill').style.width   = pct + '%';
+  document.getElementById('preg-marker').style.left  = pct + '%';
+
+  // Weight gain indicator
   if (weightNow) {
     const actualGain = weightNow - weightPre;
-    let status;
-    if (actualGain < expectedMin - 1) status = '⬇️ Kenaikan BB kurang dari target';
-    else if (actualGain > expectedMax + 1) status = '⬆️ Kenaikan BB melebihi target';
-    else status = '✅ Kenaikan BB dalam rentang normal';
-    document.getElementById('res-status').textContent = status;
-  } else {
-    document.getElementById('res-status').textContent = 'Isi berat badan saat ini untuk menilai';
+    const rangeSize  = expMax - expMin;
+    const midRange   = (expMin + expMax) / 2;
+    // 0% = far left (kurang), 33% = ideal start, 67% = ideal end, 100% = far right (lebih)
+    let arrowPct;
+    if (actualGain <= expMin) arrowPct = Math.max(0, 33 * actualGain / expMin);
+    else if (actualGain <= expMax) arrowPct = 33 + (actualGain - expMin) / rangeSize * 34;
+    else arrowPct = Math.min(100, 67 + (actualGain - expMax) / rangeSize * 33);
+
+    document.getElementById('gain-arrow').style.left = arrowPct.toFixed(0) + '%';
+    document.getElementById('gain-indicator').style.display = '';
+    let desc, color;
+    if (actualGain < expMin - 1) { desc = `⬇️ Kenaikan BB kurang — perlu tambah ${(expMin - actualGain).toFixed(1).replace('.',',')} kg lagi untuk mencapai batas bawah`; color='#93c5fd'; }
+    else if (actualGain > expMax + 1) { desc = `⬆️ Kenaikan BB melebihi target sebesar ${(actualGain - expMax).toFixed(1).replace('.',',')} kg`; color='#fcd34d'; }
+    else { desc = `✅ Kenaikan BB ${actualGain.toFixed(1).replace('.',',')} kg — dalam rentang ideal`; color='#00C9B1'; }
+    const descEl = document.getElementById('gain-desc');
+    descEl.textContent = desc; descEl.style.color = color;
   }
+
+  // Status cards
+  const targetMin = (weightPre + expMin).toFixed(1);
+  const targetMax = (weightPre + expMax).toFixed(1);
+  document.getElementById('status-cards').innerHTML = `
+    <div class="status-card"><div class="sc-label">Total kenaikan dianjurkan</div><div class="sc-val">${minGain} – ${maxGain} kg</div></div>
+    <div class="status-card"><div class="sc-label">Kenaikan/minggu (T2–T3)</div><div class="sc-val">${weeklyMin.toString().replace('.',',')} – ${weeklyMax.toString().replace('.',',')} kg</div></div>
+    <div class="status-card"><div class="sc-label">Target BB minggu ke-${week}</div><div class="sc-val">${targetMin} – ${targetMax} kg</div></div>
+    <div class="status-card"><div class="sc-label">Sisa minggu (estimasi)</div><div class="sc-val">${Math.max(0, 40-week)} minggu</div></div>`;
+
+  // Trimester breakdown
+  const t2GainMin = (weeklyMin*14).toFixed(1), t2GainMax = (weeklyMax*14).toFixed(1);
+  const t3GainMin = (weeklyMin*13).toFixed(1), t3GainMax = (weeklyMax*13).toFixed(1);
+  document.getElementById('trim-tbody').innerHTML = `
+    <tr><td>Trimester 1 (T1)</td><td>1–13</td><td>0,5 – 2 kg total</td><td>Mual normal, kenaikan minimal</td></tr>
+    <tr><td>Trimester 2 (T2)</td><td>14–27</td><td>${weeklyMin.toString().replace('.',',')}–${weeklyMax.toString().replace('.',',')} kg/mgg (total ~${t2GainMin}–${t2GainMax} kg)</td><td>Nafsu makan meningkat</td></tr>
+    <tr><td>Trimester 3 (T3)</td><td>28–40</td><td>${weeklyMin.toString().replace('.',',')}–${weeklyMax.toString().replace('.',',')} kg/mgg (total ~${t3GainMin}–${t3GainMax} kg)</td><td>Janin paling pesat bertumbuh</td></tr>`;
 
   document.getElementById('result').classList.add('show');
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if(e.key==='Enter') calculate(); });
 </script>
 </body>
 </html>
