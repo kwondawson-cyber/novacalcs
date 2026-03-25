@@ -56,6 +56,9 @@
 .ls-age { font-size:0.72rem; color:var(--mint); font-weight:700; margin-bottom:4px; }
 .ls-name { font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
 .ls-desc { font-size:0.75rem; color:var(--text-secondary); line-height:1.5; }
+.date-picker{display:grid;grid-template-columns:60px 1fr 80px;gap:6px}
+.dp-day,.dp-year{border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.95rem;width:100%}
+.dp-month{border:1px solid var(--border);border-radius:8px;padding:9px 8px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.9rem;width:100%}
 </style>
 </head>
 <body>
@@ -79,11 +82,31 @@
 
       <div class="field">
         <label>Tanggal Lahir</label>
-        <input type="date" id="dob" max=""/>
+        <div class="date-picker">
+          <input type="number" class="dp-day" id="dob-d" placeholder="Tgl" min="1" max="31"/>
+          <select class="dp-month" id="dob-m"><option value="">Bulan</option>
+            <option value="1">Januari</option><option value="2">Februari</option>
+            <option value="3">Maret</option><option value="4">April</option>
+            <option value="5">Mei</option><option value="6">Juni</option>
+            <option value="7">Juli</option><option value="8">Agustus</option>
+            <option value="9">September</option><option value="10">Oktober</option>
+            <option value="11">November</option><option value="12">Desember</option></select>
+          <input type="number" class="dp-year" id="dob-y" placeholder="Tahun" min="1900" max="2100"/>
+        </div>
       </div>
       <div class="field">
         <label>Hitung sampai tanggal</label>
-        <input type="date" id="target"/>
+        <div class="date-picker">
+          <input type="number" class="dp-day" id="target-d" placeholder="Tgl" min="1" max="31"/>
+          <select class="dp-month" id="target-m"><option value="">Bulan</option>
+            <option value="1">Januari</option><option value="2">Februari</option>
+            <option value="3">Maret</option><option value="4">April</option>
+            <option value="5">Mei</option><option value="6">Juni</option>
+            <option value="7">Juli</option><option value="8">Agustus</option>
+            <option value="9">September</option><option value="10">Oktober</option>
+            <option value="11">November</option><option value="12">Desember</option></select>
+          <input type="number" class="dp-year" id="target-y" placeholder="Tahun" min="1900" max="2100"/>
+        </div>
       </div>
 
       <button class="calc-btn" onclick="calculate()">🎂 Hitung Usia Saya</button>
@@ -248,7 +271,7 @@
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <script defer>
@@ -272,16 +295,27 @@ function getZodiak(m, d) {
 
 window.addEventListener('DOMContentLoaded', () => {
   const today = new Date().toISOString().split('T')[0];
-  document.getElementById('target').value = today;
-  document.getElementById('dob').max = today;
+  dpSetToday('target');
 });
 
+function dpGet(id) {
+  const d = parseInt(document.getElementById(id+'-d').value);
+  const m = parseInt(document.getElementById(id+'-m').value);
+  const y = parseInt(document.getElementById(id+'-y').value);
+  if (!d||!m||!y||y<1900||y>2100) return null;
+  const dt = new Date(y, m-1, d);
+  return dt.getDate()===d ? dt : null;
+}
+function dpSetToday(id) {
+  const t = new Date();
+  document.getElementById(id+'-d').value = t.getDate();
+  document.getElementById(id+'-m').value = t.getMonth()+1;
+  document.getElementById(id+'-y').value = t.getFullYear();
+}
 function calculate() {
-  const dobVal = document.getElementById('dob').value;
-  const targetVal = document.getElementById('target').value;
-  if (!dobVal) return alert('Masukkan tanggal lahir Anda.');
-  const dob = new Date(dobVal);
-  const target = new Date(targetVal);
+  const dob = dpGet('dob');
+  const target = dpGet('target');
+  if (!dob) return alert('Masukkan tanggal lahir yang lengkap.');
   if (dob > target) return alert('Tanggal lahir tidak boleh lebih dari tanggal target.');
 
   // Exact age
