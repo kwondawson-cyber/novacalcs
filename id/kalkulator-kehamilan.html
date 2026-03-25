@@ -61,6 +61,9 @@
 .dev-table td { padding:8px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
 .dev-table tr:last-child td { border-bottom:none; }
 .dev-week { font-weight:700; color:var(--mint); white-space:nowrap; }
+.date-picker{display:grid;grid-template-columns:60px 1fr 80px;gap:6px}
+.dp-day,.dp-year{border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.95rem;width:100%}
+.dp-month{border:1px solid var(--border);border-radius:8px;padding:9px 8px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.9rem;width:100%}
 </style>
 </head>
 <body>
@@ -94,7 +97,19 @@
       <div id="field-hpht">
         <div class="field">
           <label>Hari Pertama Haid Terakhir (HPHT)</label>
-          <input type="date" id="hpht-date" oninput="autoCalc()"/>
+          <div class="date-picker">
+          <input type="number" class="dp-day" id="hpht-date-d" placeholder="Tgl" min="1" max="31" oninput="autoCalc()"/>
+          <select class="dp-month" id="hpht-date-m" onchange="autoCalc()">
+            <option value="">Bulan</option>
+            <option value="1">Januari</option><option value="2">Februari</option>
+            <option value="3">Maret</option><option value="4">April</option>
+            <option value="5">Mei</option><option value="6">Juni</option>
+            <option value="7">Juli</option><option value="8">Agustus</option>
+            <option value="9">September</option><option value="10">Oktober</option>
+            <option value="11">November</option><option value="12">Desember</option>
+          </select>
+          <input type="number" class="dp-year" id="hpht-date-y" placeholder="Tahun" min="1900" max="2100" oninput="autoCalc()"/>
+        </div>
         </div>
         <div class="field">
           <label>Siklus haid rata-rata (hari)</label>
@@ -104,13 +119,37 @@
       <div id="field-konsepsi" style="display:none">
         <div class="field">
           <label>Tanggal Perkiraan Konsepsi</label>
-          <input type="date" id="konsepsi-date" oninput="autoCalc()"/>
+          <div class="date-picker">
+          <input type="number" class="dp-day" id="konsepsi-date-d" placeholder="Tgl" min="1" max="31" oninput="autoCalc()"/>
+          <select class="dp-month" id="konsepsi-date-m" onchange="autoCalc()">
+            <option value="">Bulan</option>
+            <option value="1">Januari</option><option value="2">Februari</option>
+            <option value="3">Maret</option><option value="4">April</option>
+            <option value="5">Mei</option><option value="6">Juni</option>
+            <option value="7">Juli</option><option value="8">Agustus</option>
+            <option value="9">September</option><option value="10">Oktober</option>
+            <option value="11">November</option><option value="12">Desember</option>
+          </select>
+          <input type="number" class="dp-year" id="konsepsi-date-y" placeholder="Tahun" min="1900" max="2100" oninput="autoCalc()"/>
+        </div>
         </div>
       </div>
       <div id="field-usg" style="display:none">
         <div class="field">
           <label>Tanggal USG dilakukan</label>
-          <input type="date" id="usg-date" oninput="autoCalc()"/>
+          <div class="date-picker">
+          <input type="number" class="dp-day" id="usg-date-d" placeholder="Tgl" min="1" max="31" oninput="autoCalc()"/>
+          <select class="dp-month" id="usg-date-m" onchange="autoCalc()">
+            <option value="">Bulan</option>
+            <option value="1">Januari</option><option value="2">Februari</option>
+            <option value="3">Maret</option><option value="4">April</option>
+            <option value="5">Mei</option><option value="6">Juni</option>
+            <option value="7">Juli</option><option value="8">Agustus</option>
+            <option value="9">September</option><option value="10">Oktober</option>
+            <option value="11">November</option><option value="12">Desember</option>
+          </select>
+          <input type="number" class="dp-year" id="usg-date-y" placeholder="Tahun" min="1900" max="2100" oninput="autoCalc()"/>
+        </div>
         </div>
         <div class="field">
           <label>Usia kandungan saat USG (minggu)</label>
@@ -270,7 +309,7 @@
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <style>
@@ -342,11 +381,6 @@ const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agu
 const fmt = d => `${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
 
 window.addEventListener('DOMContentLoaded', () => {
-  const today = new Date().toISOString().split('T')[0];
-  ['hpht-date','konsepsi-date','usg-date'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.max = today;
-  });
 });
 
 function setMethod(m, btn) {
@@ -362,23 +396,31 @@ function autoCalc() {
   try { calculate(); } catch(e) {}
 }
 
+function dpGetDate(id) {
+  const d = parseInt(document.getElementById(id+'-d').value);
+  const m = parseInt(document.getElementById(id+'-m').value);
+  const y = parseInt(document.getElementById(id+'-y').value);
+  if (!d||!m||!y||y<1900||y>2100) return null;
+  const dt = new Date(y, m-1, d);
+  return dt.getDate()===d ? dt : null;
+}
 function calculate() {
   const today = new Date(); today.setHours(0,0,0,0);
   let lmp;
 
   if (method === 'hpht') {
-    const d = document.getElementById('hpht-date').value;
+    const d = dpGetDate('hpht-date');
     if (!d) return;
     const cycle = parseInt(document.getElementById('cycle').value) || 28;
     lmp = new Date(d);
     lmp.setDate(lmp.getDate() - (28 - cycle));
   } else if (method === 'konsepsi') {
-    const d = document.getElementById('konsepsi-date').value;
+    const d = dpGetDate('konsepsi-date');
     if (!d) return;
     lmp = new Date(d);
     lmp.setDate(lmp.getDate() - 14);
   } else {
-    const d = document.getElementById('usg-date').value;
+    const d = dpGetDate('usg-date');
     const w = parseFloat(document.getElementById('usg-weeks').value);
     if (!d || !w) return;
     lmp = new Date(d);
