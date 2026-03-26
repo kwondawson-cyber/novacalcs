@@ -65,6 +65,26 @@
 .annual-row:last-child { border-bottom:none; font-weight:700; }
 .av-plus { color:var(--mint); font-weight:700; }
 .av-minus { color:#f87171; font-weight:700; }
+
+/* Tab navigation */
+.gb-tab-nav{display:flex;gap:4px;margin-bottom:1.1rem}
+.gb-tab-btn{flex:1;padding:.5rem .3rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:inherit;transition:all .2s}
+.gb-tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.gb-tab-pane{display:none}.gb-tab-pane.active{display:block}
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+
+/* Raise simulator */
+.raise-result{background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.85rem;margin-top:10px}
+.raise-main{font-size:1.5rem;font-weight:700;color:var(--mint);text-align:center}
+.raise-sub{font-size:.8rem;color:#8fa3b1;text-align:center;margin-top:.2rem}
+.bank-btn{padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s}.bank-btn:hover,.bank-btn.active{background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35)}
+.tenor-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:8px}.tenor-table th{background:var(--bg-input);color:var(--text-secondary);padding:6px 10px;text-align:right;font-weight:600}.tenor-table th:first-child{text-align:left}.tenor-table td{padding:6px 10px;border-bottom:1px solid var(--border);text-align:right}.tenor-table td:first-child{text-align:left;font-weight:600;color:var(--text-secondary)}.tenor-table tr.active-tenor td{background:var(--mint-dim);color:var(--mint);font-weight:700}.tenor-table tr:last-child td{border-bottom:none}
 </style>
 </head>
 <body>
@@ -84,8 +104,15 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">💵 Kalkulator Gaji Bersih</div>
-      <div class="calc-subtitle">Slip gaji + take-home pay + proyeksi tahunan</div>
+      <div class="calc-subtitle">Slip gaji · Reverse hitung · Simulasi kenaikan</div>
 
+      <div class="gb-tab-nav">
+        <button class="gb-tab-btn active" onclick="showGbTab('gb-sim',this)">💵 Hitung Gaji</button>
+        <button class="gb-tab-btn" onclick="showGbTab('gb-reverse',this)">🎯 Gaji Impian</button>
+        <button class="gb-tab-btn" onclick="showGbTab('gb-raise',this)">📈 Simulasi Naik</button>
+      </div>
+
+      <div id="gb-sim" class="gb-tab-pane active">
       <div class="field"><label>Gaji Pokok (Rp/bulan)</label>
         <input type="number" id="gaji" placeholder="Contoh: 8.000.000" oninput="liveCalc()"/>
       </div>
@@ -180,8 +207,100 @@
 
         <!-- Advice -->
         <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
+        <div style="font-size:.75rem;color:#8fa3b1;margin:12px 0 4px;font-weight:600">💡 Langkah Selanjutnya:</div>
+        <div class="action-grid" id="action-cards"></div>
+      </div><!-- end result-box -->
+      </div><!-- end gb-sim tab -->
+
+      <!-- TAB 2: REVERSE - Gaji Impian -->
+      <div id="gb-reverse" class="gb-tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Ingin take-home pay Rp X per bulan? Hitung berapa gaji gross yang harus Anda negosiasikan.</p>
+        <div class="field"><label>Target Take-home Pay (Rp/bulan)</label>
+          <input type="number" id="rv-target" placeholder="Contoh: 9.000.000" oninput="calcReverse()"/>
+        </div>
+        <div class="field"><label>Status PTKP</label>
+          <select id="rv-ptkp" onchange="calcReverse()">
+            <option value="A|54000000">TK/0 — Lajang (Rp 54 jt)</option>
+            <option value="A|58500000">TK/1 / K/0 — (Rp 58,5 jt)</option>
+            <option value="B|63000000">TK/2 / K/1 — (Rp 63 jt)</option>
+            <option value="B|67500000">TK/3 / K/2 — (Rp 67,5 jt)</option>
+            <option value="C|72000000">K/3 — (Rp 72 jt)</option>
+          </select>
+        </div>
+        <div class="field"><label>Termasuk potongan BPJS?</label>
+          <div class="radio-group">
+            <div class="radio-btn active" id="rv-bpjs-ya" onclick="setRvBpjs(true,this)">Ya</div>
+            <div class="radio-btn" id="rv-bpjs-tdk" onclick="setRvBpjs(false,this)">Tidak</div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcReverse()">🎯 Hitung Gaji yang Harus Diminta</button>
+        <div class="raise-result" id="rv-result" style="display:none">
+          <div style="font-size:.75rem;color:#8fa3b1;text-align:center;margin-bottom:.3rem">Gaji gross yang harus Anda minta</div>
+          <div class="raise-main" id="rv-gross">—</div>
+          <div class="raise-sub" id="rv-sub">—</div>
+          <div class="result-rows" style="margin-top:.75rem">
+            <div class="result-row"><span>Take-home target</span><span id="rv-th-show">—</span></div>
+            <div class="result-row"><span>PPh 21 (estimasi)</span><span id="rv-pph-show" style="color:#f87171">—</span></div>
+            <div class="result-row"><span>BPJS karyawan</span><span id="rv-bpjs-show" style="color:#fbbf24">—</span></div>
+            <div class="result-row"><span>Total potongan</span><span id="rv-pot-show" style="color:#f87171;font-weight:700">—</span></div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border-radius:8px;padding:.7rem;margin-top:.75rem;font-size:.78rem;color:#c0cdd8;line-height:1.6" id="rv-advice"></div>
+        </div>
       </div>
-    </div>
+
+      <!-- TAB 3: SIMULASI KENAIKAN GAJI -->
+      <div id="gb-raise" class="gb-tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Jika gaji naik, berapa tambahan take-home yang benar-benar Anda terima setelah pajak?</p>
+        <div class="field"><label>Gaji Saat Ini (Rp/bulan)</label>
+          <input type="number" id="rs-gaji-now" placeholder="Contoh: 8.000.000" oninput="calcRaise()"/>
+        </div>
+        <div class="field"><label>Kenaikan Gaji</label>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.5rem" id="raise-pct-btns">
+            <button class="bank-btn" onclick="setRaisePct(5,this)">+5%</button>
+            <button class="bank-btn" onclick="setRaisePct(10,this)">+10%</button>
+            <button class="bank-btn" onclick="setRaisePct(15,this)">+15%</button>
+            <button class="bank-btn" onclick="setRaisePct(20,this)">+20%</button>
+            <button class="bank-btn" onclick="setRaisePct(0,this)">Manual</button>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="number" id="rs-raise-pct" value="10" step="1" min="1" oninput="calcRaise()" style="flex:1"/>
+            <span style="font-size:.75rem;color:#8fa3b1">% kenaikan</span>
+            <span style="font-size:.75rem;color:#8fa3b1">atau</span>
+            <input type="number" id="rs-raise-rp" placeholder="Nominal Rp" oninput="calcRaiseRp()" style="flex:1.5"/>
+          </div>
+        </div>
+        <div class="field"><label>Status PTKP</label>
+          <select id="rs-ptkp" onchange="calcRaise()">
+            <option value="A|54000000">TK/0 — Lajang</option>
+            <option value="A|58500000">TK/1 / K/0</option>
+            <option value="B|63000000">TK/2 / K/1</option>
+            <option value="B|67500000">TK/3 / K/2</option>
+            <option value="C|72000000">K/3</option>
+          </select>
+        </div>
+        <button class="calc-btn" onclick="calcRaise()">📈 Hitung Tambahan Take-home</button>
+        <div id="rs-result" style="display:none">
+          <div class="raise-result">
+            <div style="font-size:.75rem;color:#8fa3b1;text-align:center;margin-bottom:.3rem">Tambahan take-home per bulan</div>
+            <div class="raise-main" id="rs-tambahan">—</div>
+            <div class="raise-sub" id="rs-tambahan-sub">—</div>
+          </div>
+          <div class="result-rows" style="margin-top:.5rem">
+            <div class="result-row"><span>Gaji bruto sekarang</span><span id="rs-now">—</span></div>
+            <div class="result-row"><span>Gaji bruto setelah naik</span><span id="rs-new" style="color:var(--mint)">—</span></div>
+            <div class="result-row"><span>Take-home sekarang</span><span id="rs-th-now">—</span></div>
+            <div class="result-row"><span>Take-home setelah naik</span><span id="rs-th-new" style="color:var(--mint);font-weight:700">—</span></div>
+            <div class="result-row"><span>Tambahan PPh 21</span><span id="rs-pph-extra" style="color:#f87171">—</span></div>
+            <div class="result-row"><span>% kenaikan bruto</span><span id="rs-bruto-pct">—</span></div>
+            <div class="result-row"><span>% kenaikan take-home efektif</span><span id="rs-th-pct">—</span></div>
+          </div>
+          <!-- Scenario table: different raise %  -->
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">📊 Perbandingan skenario kenaikan:</div>
+          <table class="tenor-table" id="rs-scenario-table"></table>
+        </div>
+      </div>
+
+    </div><!-- end calc-widget -->
   </div>
 
   <!-- SEO CONTENT -->
@@ -277,7 +396,7 @@
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <script defer>
@@ -396,8 +515,160 @@ function liveCalc() {
   }
   document.getElementById('res-advice').innerHTML = advice;
 
+  // Action cards
+  buildActionCards(bruto, pph, takehome, terRate, includeBpjs);
+
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
+}
+
+function buildActionCards(bruto, pph, takehome, terRate, inclBpjs) {
+  const pct = (bruto-takehome)/bruto*100;
+  let cards;
+  if (pph === 0) {
+    cards = [
+      {icon:'✅',title:'Bebas PPh — manfaatkan',desc:'Gaji Anda belum kena pajak. Simpan di deposito atau reksa dana untuk optimalkan sisa gaji.'},
+      {icon:'📋',title:'Aktifkan NPWP sekarang',desc:'Bahkan tanpa pajak, NPWP aktif wajib. Tanpa NPWP, tarif PPh akan naik 20% saat gaji melewati PTKP.'},
+      {icon:'💰',title:'Sisihkan 20% untuk tabungan',desc:'Dengan potongan rendah, ini waktu ideal membangun dana darurat 3–6 bulan pengeluaran.'},
+      {icon:'📈',title:'Cek BPJS sudah terdaftar',desc:'Pastikan perusahaan mendaftarkan Anda ke BPJS Kes dan Ketenagakerjaan — ini hak Anda.'},
+    ];
+  } else if (terRate <= 0.05) {
+    cards = [
+      {icon:'💍',title:'Update status pernikahan',desc:'Jika sudah menikah/punya anak, lapor ke HRD segera. PTKP naik = PPh berkurang tiap bulan.'},
+      {icon:'🏠',title:'Pertimbangkan cicilan KPR',desc:'Dengan gaji di level ini, cicilan KPR 30% ≈ ' + 'Rp '+Math.round(takehome*0.3).toLocaleString('id-ID') + '/bln. Cek kemampuan beli di kalkulator KPR.'},
+      {icon:'📊',title:'Mulai investasi reksa dana',desc:'Investasi Rp 500rb–1jt/bln di reksa dana pasar uang atau obligasi negara (ORI/SBR).'},
+      {icon:'📋',title:'Cek slip gaji Desember',desc:'Bulan Desember ada rekonsiliasi PPh tahunan — bisa lebih besar atau lebih kecil dari bulan biasa.'},
+    ];
+  } else {
+    cards = [
+      {icon:'🎓',title:'Manfaatkan tunjangan natura',desc:'Negosiasikan sebagian tunjangan dalam bentuk fasilitas (makan kantor, kendaraan dinas) — tidak kena PPh.'},
+      {icon:'💼',title:'Pahami gross-up vs gross',desc:'Jika perusahaan menawarkan "pajak ditanggung perusahaan", ini setara tambahan penghasilan bebas pajak.'},
+      {icon:'📑',title:'Lapor SPT tepat waktu',desc:'Dengan penghasilan di level ini, pastikan melaporkan SPT Tahunan sebelum 31 Maret tiap tahun.'},
+      {icon:'💰',title:'Simulasi kenaikan gaji',desc:'Buka tab "Simulasi Naik" untuk melihat berapa take-home efektif jika negosiasi naik 10–20%.'},
+    ];
+  }
+  const el = document.getElementById('action-cards');
+  if (el) {
+    el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+  }
+}
+
+
+function showGbTab(id, btn) {
+  document.querySelectorAll('.gb-tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.gb-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── REVERSE CALCULATOR ──
+let rvIncBpjs = true;
+function setRvBpjs(v,btn){
+  rvIncBpjs=v;
+  document.querySelectorAll('#rv-bpjs-ya,#rv-bpjs-tdk').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  calcReverse();
+}
+
+function calcReverse() {
+  const target = parseFloat(document.getElementById('rv-target').value)||0;
+  if (!target) return;
+  const kat = document.getElementById('rv-ptkp').value.split('|')[0];
+
+  // Binary search for gross that yields target take-home
+  let lo=target, hi=target*3, gross=target*1.2;
+  for(let i=0;i<60;i++){
+    const r=getTER(gross,kat);
+    const pph=Math.round(gross*r);
+    const bpjs=rvIncBpjs?Math.round(Math.min(gross,12000000)*0.01)+Math.round(gross*0.02)+Math.round(Math.min(gross,9559600)*0.01):0;
+    const th=gross-pph-bpjs;
+    if(Math.abs(th-target)<100) break;
+    if(th>target) hi=gross; else lo=gross;
+    gross=(lo+hi)/2;
+  }
+  gross=Math.ceil(gross/1000)*1000;
+  const r=getTER(gross,kat);
+  const pph=Math.round(gross*r);
+  const bpjs=rvIncBpjs?Math.round(Math.min(gross,12000000)*0.01)+Math.round(gross*0.02)+Math.round(Math.min(gross,9559600)*0.01):0;
+  const pot=pph+bpjs;
+  const fmt2=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
+
+  document.getElementById('rv-gross').textContent=fmt2(gross);
+  document.getElementById('rv-sub').textContent='≈ '+fmt2(gross/12)+' jika dibagi per bulan dalam negosiasi tahunan';
+  document.getElementById('rv-th-show').textContent=fmt2(target);
+  document.getElementById('rv-pph-show').textContent='−'+fmt2(pph)+' (TER '+((r*100).toFixed(2))+'%)';
+  document.getElementById('rv-bpjs-show').textContent=rvIncBpjs?'−'+fmt2(bpjs):'Tidak disertakan';
+  document.getElementById('rv-pot-show').textContent='−'+fmt2(pot);
+
+  const selisih=gross-target;
+  document.getElementById('rv-advice').innerHTML=
+    `💡 Saat negosiasi gaji, minta minimal <strong>${fmt2(gross)}/bulan (gross)</strong>. ` +
+    `Dari angka ini, <strong>${fmt2(pot)}</strong> akan dipotong, sehingga take-home ≈ <strong>${fmt2(target)}</strong>. ` +
+    `Jika perusahaan menolak, tawaran tunjangan natura (tidak kena PPh) bisa menjadi alternatif untuk menaikkan take-home efektif.`;
+
+  document.getElementById('rv-result').style.display='';
+}
+
+// ── RAISE SIMULATOR ──
+let raisePct = 10;
+function setRaisePct(pct, btn) {
+  document.querySelectorAll('#raise-pct-btns .bank-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  raisePct=pct;
+  if(pct>0){document.getElementById('rs-raise-pct').value=pct;calcRaise();}
+}
+function calcRaiseRp() {
+  const gajiNow=parseFloat(document.getElementById('rs-gaji-now').value)||0;
+  const rpRaise=parseFloat(document.getElementById('rs-raise-rp').value)||0;
+  if(gajiNow&&rpRaise){
+    raisePct=rpRaise/gajiNow*100;
+    document.getElementById('rs-raise-pct').value=raisePct.toFixed(1);
+    calcRaise();
+  }
+}
+function calcRaise() {
+  const gajiNow=parseFloat(document.getElementById('rs-gaji-now').value)||0;
+  const pct=parseFloat(document.getElementById('rs-raise-pct').value)||raisePct;
+  if(!gajiNow) return;
+  const kat=document.getElementById('rs-ptkp').value.split('|')[0];
+  const fmt2=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
+
+  function calcTH(g){
+    const r=getTER(g,kat);
+    const pph=Math.round(g*r);
+    const bpjs=Math.round(Math.min(g,12000000)*0.01)+Math.round(g*0.02)+Math.round(Math.min(g,9559600)*0.01);
+    return{th:g-pph-bpjs,pph,bpjs};
+  }
+  const now=calcTH(gajiNow);
+  const newGross=gajiNow*(1+pct/100);
+  const nw=calcTH(newGross);
+  const extraTH=nw.th-now.th;
+  const extraPPH=nw.pph-now.pph;
+  const thPctGain=extraTH/now.th*100;
+
+  document.getElementById('rs-tambahan').textContent=fmt2(extraTH)+'/bulan';
+  document.getElementById('rs-tambahan-sub').textContent=fmt2(extraTH*12)+'/tahun · Efektif naik '+thPctGain.toFixed(1)+'% (dari naik gross '+pct.toFixed(1)+'%)';
+  document.getElementById('rs-now').textContent=fmt2(gajiNow);
+  document.getElementById('rs-new').textContent=fmt2(newGross);
+  document.getElementById('rs-th-now').textContent=fmt2(now.th);
+  document.getElementById('rs-th-new').textContent=fmt2(nw.th);
+  document.getElementById('rs-pph-extra').textContent='+'+fmt2(extraPPH)+' lebih besar';
+  document.getElementById('rs-bruto-pct').textContent=pct.toFixed(1)+'%';
+  document.getElementById('rs-th-pct').textContent=thPctGain.toFixed(1)+'% (lebih kecil dari kenaikan bruto)';
+
+  // Scenario table
+  const scenarios=[5,10,15,20,25];
+  let tbl='<thead><tr><th>Kenaikan</th><th>Bruto Baru</th><th>Take-home Baru</th><th>+Tambahan/bln</th></tr></thead><tbody>';
+  scenarios.forEach(sc=>{
+    const g2=gajiNow*(1+sc/100);
+    const n2=calcTH(g2);
+    const ex=n2.th-now.th;
+    const active=Math.abs(sc-pct)<0.5;
+    tbl+=`<tr${active?' class="active-tenor"':''}><td>+${sc}%</td><td>${fmt2(g2)}</td><td>${fmt2(n2.th)}</td><td style="color:var(--mint)">+${fmt2(ex)}</td></tr>`;
+  });
+  tbl+='</tbody>';
+  document.getElementById('rs-scenario-table').innerHTML=tbl;
+  document.getElementById('rs-result').style.display='';
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }

@@ -71,6 +71,21 @@
 .ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
 .ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
 .ref-table tr:last-child td { border-bottom:none; }
+
+/* Preset buttons */
+.ppn-preset-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
+.ppn-pre-btn{padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s}
+.ppn-pre-btn:hover,.ppn-pre-btn.active{background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35)}
+
+/* Free PPN cards */
+.free-ppn-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.free-ppn-card{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:8px;padding:.6rem .7rem}
+.fpc-icon{font-size:1rem;margin-bottom:.15rem}
+.fpc-name{font-size:.75rem;font-weight:700;color:#4ade80}
+.fpc-desc{font-size:.68rem;color:#8fa3b1;line-height:1.4}
+
+/* Copy button */
+.copy-ppn-btn{width:100%;padding:.45rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#c0cdd8;font-size:.78rem;cursor:pointer;font-family:inherit;margin-top:8px}
 </style>
 </head>
 <body>
@@ -110,6 +125,15 @@
           </div>
           <p style="font-size:0.7rem;color:var(--text-muted);margin-top:4px">11% = barang/jasa umum (PMK 131/2024). 12% = barang mewah (PPnBM).</p>
         </div>
+        <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.35rem;font-weight:600">Preset harga umum:</div>
+        <div class="ppn-preset-row">
+          <button class="ppn-pre-btn" onclick="applyPPN(50000,'t0')">Rp 50rb</button>
+          <button class="ppn-pre-btn" onclick="applyPPN(100000,'t0')">Rp 100rb</button>
+          <button class="ppn-pre-btn" onclick="applyPPN(500000,'t0')">Rp 500rb</button>
+          <button class="ppn-pre-btn" onclick="applyPPN(1000000,'t0')">Rp 1 jt</button>
+          <button class="ppn-pre-btn" onclick="applyPPN(5000000,'t0')">Rp 5 jt</button>
+          <button class="ppn-pre-btn" onclick="applyPPN(10000000,'t0')">Rp 10 jt</button>
+        </div>
         <div class="field">
           <label>Harga sebelum PPN (DPP) — Rp</label>
           <input type="number" id="t0-harga" placeholder="Contoh: 1.000.000" oninput="calcTambah()"/>
@@ -137,6 +161,15 @@
             <div class="ppn-stat"><div class="ps-label">Tarif yang berlaku</div><div class="ps-val" id="r0-tarif">—</div></div>
           </div>
         </div>
+        <!-- Free PPN quick ref -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:12px 0 4px;font-weight:600">✅ Barang/Jasa Bebas PPN (tidak dikenakan PPN):</div>
+        <div class="free-ppn-grid">
+          <div class="free-ppn-card"><div class="fpc-icon">🛒</div><div class="fpc-name">Kebutuhan Pokok</div><div class="fpc-desc">Beras, jagung, kedelai, garam, daging, telur, susu, buah & sayur segar</div></div>
+          <div class="free-ppn-card"><div class="fpc-icon">🏥</div><div class="fpc-name">Jasa Kesehatan</div><div class="fpc-desc">RS, klinik, puskesmas, dokter, bidan, apotek (pelayanan)</div></div>
+          <div class="free-ppn-card"><div class="fpc-icon">🎓</div><div class="fpc-name">Jasa Pendidikan</div><div class="fpc-desc">SD–SMA, perguruan tinggi, pesantren yang memenuhi syarat</div></div>
+          <div class="free-ppn-card"><div class="fpc-icon">🚌</div><div class="fpc-name">Angkutan Umum</div><div class="fpc-desc">Bus kota, KRL, MRT, TransJakarta, angkutan laut umum</div></div>
+        </div>
+        <button class="copy-ppn-btn" onclick="copyPPNResult()">📋 Salin Hasil Perhitungan</button>
       </div>
 
       <!-- TAB 1: Ekstrak PPN -->
@@ -448,6 +481,26 @@ function calcMulti() {
 window.addEventListener('DOMContentLoaded', () => {
   addItem(); addItem(); addItem();
 });
+
+
+function applyPPN(val, tab) {
+  document.querySelectorAll('.ppn-pre-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(tab==='t0'){document.getElementById('t0-harga').value=val;calcTambah();}
+  else if(tab==='t1'){document.getElementById('t1-harga').value=val;calcEkstrak();}
+  else if(tab==='t2'){document.getElementById('t2-harga').value=val;calcBanding();}
+}
+
+function copyPPNResult() {
+  const ppn=document.getElementById('r0-ppn2').textContent;
+  const total=document.getElementById('r0-total').textContent;
+  const sebelum=document.getElementById('r0-sebelum').textContent;
+  const tarif=document.getElementById('r0-tarif').textContent;
+  const text=`🧾 Perhitungan PPN\nHarga sebelum PPN: ${sebelum}\nNilai PPN (${tarif}): ${ppn}\nTotal bayar: ${total}\n\nNovaCalcs.com`;
+  navigator.clipboard?.writeText(text).then(()=>alert('Disalin! 📋')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Disalin! 📋');
+  });
+}
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
 document.addEventListener('keydown', e => { if (e.key === 'Enter') { calcTambah(); calcEkstrak(); calcBanding(); calcMulti(); } });

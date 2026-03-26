@@ -73,6 +73,18 @@
 .ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
 .ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
 .ref-table tr:last-child td { border-bottom:none; }
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+
+/* Savings simulator box */
+.savings-box{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:.8rem;margin-top:10px}
+.savings-main{font-size:1.4rem;font-weight:700;color:#4ade80;text-align:center}
+.savings-sub{font-size:.75rem;color:#8fa3b1;text-align:center;margin-top:.2rem}
 </style>
 </head>
 <body>
@@ -157,6 +169,8 @@
             <div class="bst-card orange"><div class="bc-label">Jika macet (−30% eff.)</div><div class="bc-val" id="r0-macet">—</div></div>
           </div>
           <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips Hemat BBM untuk Anda:</div>
+          <div class="action-grid" id="r0-action-cards"></div>
         </div>
       </div>
 
@@ -207,6 +221,22 @@
             </div>
           </div>
           <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+          <!-- Savings simulator: ganti kendaraan -->
+          <div id="r1-savings-sim" style="display:none;margin-top:10px">
+            <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">⚡ Simulasi: Jika ganti kendaraan lebih hemat</div>
+            <div style="display:flex;gap:6px;align-items:center;margin-bottom:.5rem">
+              <span style="font-size:.72rem;color:#8fa3b1">Jika efisiensi naik ke</span>
+              <input type="number" id="sim-new-eff" placeholder="km/L" style="width:70px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg-input);color:var(--text-primary);font-size:.82rem" oninput="calcSavingsSim()"/>
+              <span style="font-size:.72rem;color:#8fa3b1">km/L</span>
+            </div>
+            <div class="savings-box" id="savings-result">
+              <div style="font-size:.72rem;color:#6b7c8d;text-align:center;margin-bottom:.2rem">Hemat per bulan</div>
+              <div class="savings-main" id="savings-main">—</div>
+              <div class="savings-sub" id="savings-sub">—</div>
+            </div>
+          </div>
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips Penghematan BBM:</div>
+          <div class="action-grid" id="r1-action-cards"></div>
         </div>
       </div>
 
@@ -382,6 +412,52 @@ const RUTES = {
   '1100':{ nama:'Jakarta – Bali', dist:1100 },
   '240':{ nama:'Bandung – Cirebon', dist:240 },
 };
+
+
+// ── ACTION CARDS ──
+function buildBBMActionCards(containerId, costPerKm, pctIncome, monthly) {
+  const fmt2=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
+  let cards;
+  if (pctIncome > 0 && pctIncome > 20) {
+    cards = [
+      {icon:'🚌',title:'Pertimbangkan transportasi umum',desc:'Biaya BBM Anda melebihi 20% penghasilan. KRL/MRT/TransJakarta bisa hemat signifikan.'},
+      {icon:'🏍️',title:'Pertimbangkan motor vs mobil',desc:'Motor 125cc butuh ~'+fmt2(costPerKm*10)+'/10km vs mobil. Bisa hemat 3–5× per km untuk rute harian.'},
+      {icon:'🛣️',title:'Optimalkan rute harian',desc:'Rute menghindari macet parah bisa hemat BBM 20–30%. Coba Google Maps dengan hindari tol.'},
+      {icon:'⚡',title:'Cek motor/mobil listrik',desc:'Biaya energi motor listrik ~Rp 2.000–4.000/100km vs bensin '+fmt2(costPerKm*100)+'/100km. Payback 2–4 tahun.'},
+    ];
+  } else if (pctIncome > 0 && pctIncome <= 10) {
+    cards = [
+      {icon:'✅',title:'Proporsi BBM sehat',desc:'Pengeluaran BBM Anda di bawah 10% penghasilan — sudah efisien.'},
+      {icon:'🔧',title:'Servis rutin hemat BBM',desc:'Ganti filter udara & busi tepat waktu bisa tingkatkan efisiensi 5–10%.'},
+      {icon:'💨',title:'Cek tekanan ban',desc:'Ban kurang angin 10 psi bisa boros BBM 3–5%. Cek setiap 2 minggu.'},
+      {icon:'🚦',title:'Teknik berkendara hemat',desc:'Akselerasi halus & kecepatan konstan 60–80 km/jam bisa hemat BBM hingga 20%.'},
+    ];
+  } else {
+    cards = [
+      {icon:'🔧',title:'Servis kendaraan rutin',desc:'Filter udara kotor bisa turunkan efisiensi 10%. Servis tiap 5.000 km untuk konsumsi optimal.'},
+      {icon:'💨',title:'Tekanan ban optimal',desc:'Ban kempes 10 psi meningkatkan konsumsi 3–5%. Cek dan pompa setiap dua minggu.'},
+      {icon:'🚦',title:'Hindari akselerasi mendadak',desc:'Akselerasi & pengereman mendadak boros BBM 30%. Kecepatan konstan 60–80 km/jam paling hemat.'},
+      {icon:'❄️',title:'Kurangi AC saat bisa',desc:'AC menambah beban 10–20%. Di jalan macet lambat, coba buka jendela untuk hemat BBM.'},
+    ];
+  }
+  const el = document.getElementById(containerId);
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+}
+
+// ── SAVINGS SIMULATOR ──
+let _lastBulananData = {};
+function calcSavingsSim() {
+  const {price, effNow, dailyKm, hari} = _lastBulananData;
+  if (!price || !effNow) return;
+  const newEff = parseFloat(document.getElementById('sim-new-eff').value)||0;
+  if (!newEff || newEff <= effNow) return;
+  const costNow = price / effNow * dailyKm * hari;
+  const costNew = price / newEff * dailyKm * hari;
+  const save = costNow - costNew;
+  const saveYear = save * 12;
+  document.getElementById('savings-main').textContent = 'Rp '+Math.round(save).toLocaleString('id-ID')+'/bulan';
+  document.getElementById('savings-sub').textContent = 'Rp '+Math.round(saveYear).toLocaleString('id-ID')+'/tahun · Efisiensi naik '+effNow+'→'+newEff+' km/L';
+}
 
 function switchTab(idx, btn) {
   document.querySelectorAll('.bbm-tab').forEach(b => b.classList.remove('active'));
