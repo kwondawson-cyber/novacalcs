@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Tensi Darah — Cek Hipertensi & Tekanan Darah | NovaCalcs</title>
-<meta name="description" content="Cek tekanan darah sistolik/diastolik Anda — normal, hipertensi stadium 1, 2, atau krisis. Berdasarkan standar ACC/AHA 2017."/>
+<meta name="description" content="Cek tekanan darah sistolik/diastolik Anda — normal, hipertensi stadium 1, 2, atau krisis. Lengkap dengan indikator visual, rencana aksi personal, dan catatan riwayat pengukuran."/>
 <meta name="keywords" content="kalkulator tensi, tekanan darah normal, hipertensi, cek tensi darah, sistolik diastolik, tekanan darah tinggi, cara baca tensi"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tensi.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-tensi.html"/>
@@ -13,51 +13,83 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Tensi Darah","url":"https://novacalcs.com/id/kalkulator-tensi.html","description":"Cek tekanan darah normal, rendah, atau hipertensi","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<style>
+/* Gauge bar */
+.bp-gauge-wrap { margin:6px 0 10px }
+.bp-gauge-label { display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-secondary);margin-bottom:3px }
+.bp-gauge-track { height:12px;border-radius:6px;background:linear-gradient(to right,#60a5fa 0%,#4ade80 20%,#86efac 35%,#fbbf24 52%,#f97316 70%,#f87171 100%);position:relative }
+.bp-gauge-needle { position:absolute;top:-4px;bottom:-4px;width:4px;border-radius:2px;background:#fff;box-shadow:0 0 5px rgba(0,0,0,.5);transform:translateX(-50%);transition:left .5s }
+.bp-gauge-ticks { display:flex;justify-content:space-between;font-size:.6rem;color:var(--text-muted);margin-top:3px }
+
+/* Action plan cards */
+.action-grid { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px }
+.action-card { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem }
+.ac-icon { font-size:1.1rem;margin-bottom:.2rem }
+.ac-title { font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem }
+.ac-desc { font-size:.7rem;color:#8fa3b1;line-height:1.4 }
+
+/* Reading history */
+.history-wrap { margin-top:10px }
+.history-row { display:flex;align-items:center;gap:8px;padding:.4rem .5rem;border-radius:7px;font-size:.78rem;margin-bottom:4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05) }
+.history-bp { font-weight:700;width:70px;flex-shrink:0 }
+.history-badge { font-size:.65rem;padding:.1rem .4rem;border-radius:10px;font-weight:600 }
+.history-time { font-size:.65rem;color:var(--text-muted);margin-left:auto }
+.del-btn { background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.9rem;padding:0 2px }
+
+/* Risk indicators */
+.risk-grid { display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:10px 0 4px }
+.risk-card { background:rgba(255,255,255,.04);border-radius:8px;padding:.5rem;text-align:center }
+.risk-card .rc-label { font-size:.65rem;color:var(--text-muted);margin-bottom:.2rem }
+.risk-card .rc-val { font-size:.85rem;font-weight:700 }
+
+.ref-table { width:100%;border-collapse:collapse;font-size:.8rem }
+.ref-table th { background:var(--bg-input);color:var(--text-secondary);padding:8px 10px;text-align:left;font-weight:600 }
+.ref-table td { padding:8px 10px;border-bottom:1px solid var(--border) }
+.result-note { margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.8rem;color:var(--text-secondary);line-height:1.5 }
+</style>
 </head>
 <body>
-
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
     <nav class="breadcrumb">
-      <a href="/id/">Beranda</a>
-      <span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a>
-      <span class="breadcrumb-sep">›</span>
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
       <span>Kalkulator Tensi</span>
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
-
-  <!-- CALCULATOR WIDGET -->
   <div>
     <div class="calc-widget">
       <div class="calc-title">🩺 Kalkulator Tensi Darah</div>
       <div class="calc-subtitle">Masukkan angka tensi dan cek statusnya</div>
 
-      <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px">
         <div class="field" style="flex:1;margin-bottom:0">
           <label>Sistolik (angka atas) <span style="color:var(--mint)">mmHg</span></label>
-          <input type="number" id="systolic" placeholder="Contoh: 120" min="50" max="280" style="font-size:1.4rem;font-weight:700;text-align:center;padding:14px;"/>
+          <input type="number" id="systolic" placeholder="Contoh: 120" min="50" max="280"
+            style="font-size:1.4rem;font-weight:700;text-align:center;padding:14px" oninput="autoCalc()"/>
         </div>
-        <div style="font-size:2rem;color:var(--text-muted);margin-top:20px;">/</div>
+        <div style="font-size:2rem;color:var(--text-muted);margin-top:20px">/</div>
         <div class="field" style="flex:1;margin-bottom:0">
           <label>Diastolik (angka bawah) <span style="color:var(--mint)">mmHg</span></label>
-          <input type="number" id="diastolic" placeholder="Contoh: 80" min="30" max="180" style="font-size:1.4rem;font-weight:700;text-align:center;padding:14px;"/>
+          <input type="number" id="diastolic" placeholder="Contoh: 80" min="30" max="180"
+            style="font-size:1.4rem;font-weight:700;text-align:center;padding:14px" oninput="autoCalc()"/>
         </div>
       </div>
 
       <div class="field">
         <label>Denyut Nadi (opsional) <span style="color:var(--text-muted);font-weight:400">bpm</span></label>
-        <input type="number" id="pulse" placeholder="Contoh: 72" min="30" max="200"/>
+        <input type="number" id="pulse" placeholder="Contoh: 72" min="30" max="200" oninput="autoCalc()"/>
       </div>
-
       <div class="field">
         <label>Kelompok</label>
-        <select id="age-group">
+        <select id="age-group" onchange="autoCalc()">
           <option value="adult">Dewasa (18–64 tahun)</option>
           <option value="elderly">Lansia (65 tahun ke atas)</option>
           <option value="pregnant">Ibu hamil</option>
@@ -67,25 +99,62 @@
       <button class="calc-btn" onclick="calculate()">🩺 Cek Tensi Saya</button>
 
       <div class="result-box" id="result">
+
+        <!-- Main display -->
         <div class="result-main">
           <span class="result-label">Tekanan Darah Anda</span>
-          <span class="result-value" id="res-display" style="font-size:1.8rem;">—</span>
+          <span class="result-value" id="res-display" style="font-size:1.8rem">—</span>
           <span class="result-unit">mmHg</span>
         </div>
         <div class="result-badge" id="res-badge"></div>
-        <div class="result-details">
+
+        <!-- Dual gauge bars -->
+        <div class="bp-gauge-wrap" style="margin-top:12px">
+          <div class="bp-gauge-label"><span>Sistolik</span><span id="sys-val-lbl">—</span></div>
+          <div class="bp-gauge-track"><div class="bp-gauge-needle" id="needle-sys" style="left:0"></div></div>
+          <div class="bp-gauge-ticks"><span>90</span><span>120</span><span>130</span><span>140</span><span>180</span><span>220</span></div>
+        </div>
+        <div class="bp-gauge-wrap">
+          <div class="bp-gauge-label"><span>Diastolik</span><span id="dia-val-lbl">—</span></div>
+          <div class="bp-gauge-track"><div class="bp-gauge-needle" id="needle-dia" style="left:0"></div></div>
+          <div class="bp-gauge-ticks"><span>60</span><span>80</span><span>85</span><span>90</span><span>120</span><span>140</span></div>
+        </div>
+
+        <!-- Risk indicators -->
+        <div class="risk-grid">
+          <div class="risk-card"><div class="rc-label">Risiko Jantung</div><div class="rc-val" id="risk-heart">—</div></div>
+          <div class="risk-card"><div class="rc-label">Risiko Stroke</div><div class="rc-val" id="risk-stroke">—</div></div>
+          <div class="risk-card"><div class="rc-label">Denyut Nadi</div><div class="rc-val" id="risk-pulse">—</div></div>
+        </div>
+
+        <div class="result-rows">
           <div class="result-row"><span>Sistolik</span><span id="res-sys">—</span></div>
           <div class="result-row"><span>Diastolik</span><span id="res-dia">—</span></div>
           <div class="result-row" id="pulse-row" style="display:none"><span>Denyut Nadi</span><span id="res-pulse">—</span></div>
           <div class="result-row"><span>Kategori</span><span id="res-cat">—</span></div>
         </div>
         <div class="result-note" id="res-note"></div>
+
+        <!-- Personalized action plan -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:12px 0 4px;font-weight:600">💡 Rencana Aksi untuk Anda:</div>
+        <div class="action-grid" id="action-grid"></div>
+
+        <!-- Save to log -->
+        <button onclick="saveReading()" style="width:100%;margin-top:10px;padding:.5rem;background:rgba(0,201,177,.1);border:1px solid rgba(0,201,177,.25);border-radius:8px;color:#00C9B1;font-size:.8rem;cursor:pointer;font-family:inherit">
+          📋 Simpan ke Catatan Pengukuran
+        </button>
+
+        <!-- Reading history -->
+        <div id="history-section" style="display:none;margin-top:10px">
+          <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:5px;font-weight:600">📊 Riwayat Pengukuran:</div>
+          <div id="history-list"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Tabel referensi -->
-    <div class="calc-widget" style="margin-top:16px;">
-      <div class="calc-subtitle" style="font-weight:700;color:var(--text-primary);font-size:0.9rem;margin-bottom:12px;">📊 Klasifikasi Tekanan Darah (ACC/AHA 2017)</div>
+    <!-- Reference table -->
+    <div class="calc-widget" style="margin-top:16px">
+      <div style="font-weight:700;color:var(--text-primary);font-size:.9rem;margin-bottom:12px">📊 Klasifikasi Tekanan Darah (ACC/AHA 2017)</div>
       <table class="ref-table">
         <thead><tr><th>Kategori</th><th>Sistolik</th><th>Diastolik</th></tr></thead>
         <tbody>
@@ -100,109 +169,55 @@
     </div>
   </div>
 
-  <!-- SEO CONTENT -->
   <div class="content-area">
+    <h1>Kalkulator Tensi Darah</h1>
+    <p class="page-desc">Interpretasi tekanan darah berdasarkan panduan ACC/AHA 2017 dan rekomendasi Perhimpunan Hipertensi Indonesia (InaSH). Dilengkapi indikator visual, rencana aksi personal, dan catatan riwayat pengukuran.</p>
 
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Tensi Darah</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Interpretasi tekanan darah berdasarkan panduan ACC/AHA 2017 dan rekomendasi Perhimpunan Hipertensi Indonesia (InaSH). Ketahui apakah tekanan darah Anda normal, perlu perhatian, atau memerlukan penanganan segera.</p>
+    <div class="ad-slot">Advertisement</div>
 
     <h2>Memahami Angka Tekanan Darah</h2>
-    <p>Tekanan darah diukur dalam dua angka yang dituliskan sebagai sistolik/diastolik, misalnya <strong>120/80 mmHg</strong>:</p>
-    <ul>
-      <li><strong>Sistolik (angka atas)</strong> — Tekanan dalam arteri saat jantung memompa darah. Ini adalah tekanan tertinggi dalam siklus jantung.</li>
-      <li><strong>Diastolik (angka bawah)</strong> — Tekanan dalam arteri saat jantung beristirahat di antara detak. Ini adalah tekanan terendah.</li>
-    </ul>
-    <p>Satuan yang digunakan adalah mmHg (milimeter air raksa). Alat pengukur tekanan darah disebut sphygmomanometer atau tensimeter.</p>
+    <p>Tekanan darah diukur dalam dua angka: <strong>sistolik</strong> (angka atas) adalah tekanan dalam arteri saat jantung memompa darah, dan <strong>diastolik</strong> (angka bawah) adalah tekanan saat jantung beristirahat di antara detak. Satuan yang digunakan adalah mmHg (milimeter air raksa).</p>
 
     <h2>Cara Menggunakan Kalkulator Ini</h2>
     <ol>
-      <li>Ukur tekanan darah Anda menggunakan tensimeter (sebaiknya duduk rileks 5 menit sebelum mengukur)</li>
-      <li>Masukkan angka <strong>sistolik</strong> (angka yang lebih besar/atas)</li>
-      <li>Masukkan angka <strong>diastolik</strong> (angka yang lebih kecil/bawah)</li>
-      <li>Masukkan <strong>denyut nadi</strong> jika tersedia (opsional)</li>
-      <li>Klik <strong>"Cek Tensi Saya"</strong> untuk melihat interpretasinya</li>
+      <li>Duduk rileks 5 menit sebelum mengukur, hindari kafein dan olahraga 30 menit sebelumnya</li>
+      <li>Masukkan angka sistolik (atas) dan diastolik (bawah) dari tensimeter</li>
+      <li>Lihat posisi nilai Anda di <strong>indikator gauge visual</strong> — langsung terlihat seberapa jauh dari batas normal</li>
+      <li>Baca <strong>Rencana Aksi</strong> yang disesuaikan dengan kategori hasil Anda</li>
+      <li>Klik <strong>"Simpan ke Catatan"</strong> untuk melacak riwayat pengukuran dari waktu ke waktu</li>
     </ol>
 
-    <h2>Faktor yang Mempengaruhi Tekanan Darah</h2>
-    <p>Tekanan darah berfluktuasi sepanjang hari dan dipengaruhi banyak faktor:</p>
-    <ul>
-      <li><strong>Aktivitas fisik</strong> — Olahraga sementara meningkatkan tekanan darah, lalu menurun setelahnya</li>
-      <li><strong>Stres dan emosi</strong> — Kecemasan dan marah dapat meningkatkan tekanan darah secara akut</li>
-      <li><strong>Asupan garam</strong> — Konsumsi natrium tinggi adalah faktor risiko utama hipertensi</li>
-      <li><strong>Kafein dan alkohol</strong> — Kedua zat ini dapat meningkatkan tekanan darah sementara</li>
-      <li><strong>Merokok</strong> — Nikotin menyebabkan penyempitan pembuluh darah</li>
-      <li><strong>Obesitas</strong> — Kelebihan berat badan memaksa jantung bekerja lebih keras</li>
-      <li><strong>Waktu pengukuran</strong> — Tekanan darah biasanya paling rendah pagi hari saat bangun tidur</li>
-    </ul>
-
     <h2>Tips Mengukur Tensi yang Akurat di Rumah</h2>
-    <p>Untuk mendapatkan hasil yang akurat saat menggunakan tensimeter di rumah:</p>
     <ul>
       <li>Hindari kafein, olahraga, dan merokok 30 menit sebelum pengukuran</li>
       <li>Duduk dengan punggung tegak dan kaki menyentuh lantai selama 5 menit</li>
       <li>Letakkan manset di lengan atas kiri, setinggi jantung</li>
       <li>Ukur 2–3 kali dengan jeda 1 menit, lalu ambil rata-ratanya</li>
-      <li>Ukur di waktu yang sama setiap hari untuk pemantauan yang konsisten</li>
+      <li>Ukur di waktu yang sama setiap hari — idealnya pagi sebelum makan dan malam sebelum tidur</li>
     </ul>
 
     <h2>Hipertensi di Indonesia: Fakta yang Perlu Diketahui</h2>
-    <p>Indonesia menghadapi krisis hipertensi yang serius. Data Riskesdas 2024 menunjukkan prevalensi hipertensi pada orang dewasa Indonesia mencapai <strong>34,1%</strong> — artinya 1 dari 3 orang dewasa Indonesia memiliki tekanan darah tinggi. Yang lebih mengkhawatirkan, hanya sekitar 50% yang mengetahui kondisinya, karena hipertensi sering tidak bergejala (silent killer).</p>
-    <p>Kelompok yang paling berisiko di Indonesia:</p>
-    <ul>
-      <li>Pria di atas 45 tahun dan wanita di atas 55 tahun</li>
-      <li>Mereka yang konsumsi garam tinggi (mie instan, kecap, makanan asin)</li>
-      <li>Perokok aktif</li>
-      <li>Penderita diabetes dan obesitas</li>
-      <li>Mereka dengan riwayat keluarga hipertensi</li>
-    </ul>
+    <p>Data Riskesdas 2018 menunjukkan prevalensi hipertensi pada orang dewasa Indonesia mencapai <strong>34,1%</strong> — 1 dari 3 orang dewasa. Yang lebih mengkhawatirkan, hanya sekitar 50% yang mengetahui kondisinya karena hipertensi sering tidak bergejala (silent killer). Kelompok paling berisiko: pria di atas 45 tahun, wanita di atas 55 tahun, perokok aktif, penderita diabetes dan obesitas, serta mereka dengan konsumsi garam tinggi.</p>
 
     <h2>Cara Menurunkan Tekanan Darah Secara Alami</h2>
-    <p>Perubahan gaya hidup dapat menurunkan tekanan darah sistolik 5–15 mmHg tanpa obat:</p>
-    <ul>
-      <li><strong>Kurangi garam (sodium)</strong> — Target &lt;2.300 mg sodium/hari (±1 sdt garam). Hati-hati dengan garam tersembunyi di kecap, saus, mi instan, dan makanan kemasan. Penurunan tekanan darah: 2–8 mmHg</li>
-      <li><strong>Diet DASH (Dietary Approaches to Stop Hypertension)</strong> — Perbanyak sayur, buah, biji-bijian, protein rendah lemak. Kurangi lemak jenuh dan gula. Penurunan: 8–14 mmHg</li>
-      <li><strong>Olahraga aerobik rutin</strong> — 30 menit jalan cepat atau bersepeda, 5× seminggu. Penurunan: 4–9 mmHg</li>
-      <li><strong>Batasi alkohol</strong> — Di Indonesia, minuman beralkohol selain mengganggu tekanan darah juga membawa risiko sosial dan hukum</li>
-      <li><strong>Kelola stres</strong> — Meditasi, pernapasan dalam, yoga, atau olahraga ringan. Stres kronik berkontribusi signifikan pada hipertensi</li>
-      <li><strong>Berhenti merokok</strong> — Nikotin langsung meningkatkan tekanan darah dan merusak pembuluh darah</li>
-    </ul>
+    <p>Perubahan gaya hidup dapat menurunkan tekanan darah sistolik 5–15 mmHg tanpa obat: kurangi garam (target &lt;2.300 mg sodium/hari), terapkan diet DASH (perbanyak sayur, buah, protein rendah lemak), olahraga aerobik 30 menit/hari 5×/minggu, kelola stres, dan berhenti merokok.</p>
 
     <h2>Obat Hipertensi yang Umum di Indonesia dan BPJS</h2>
-    <p>Jika perubahan gaya hidup tidak cukup, dokter akan meresepkan obat antihipertensi. Kabar baiknya, semua obat antihipertensi lini pertama ditanggung BPJS Kesehatan:</p>
-    <ul>
-      <li><strong>Amlodipine</strong> — CCB (calcium channel blocker), paling umum diresepkan, sekali sehari</li>
-      <li><strong>Captopril / Ramipril</strong> — ACE inhibitor, efektif terutama pada pasien diabetes</li>
-      <li><strong>Bisoprolol / Atenolol</strong> — Beta blocker, cocok untuk hipertensi disertai masalah jantung</li>
-      <li><strong>HCT (Hydrochlorothiazide)</strong> — Diuretik, membantu membuang kelebihan cairan dan sodium</li>
-    </ul>
-    <p>Jika sudah dapat resep obat hipertensi, <strong>jangan hentikan obat sendiri</strong> meskipun tekanan darah sudah normal. Obat menjaga tekanan tetap terkontrol dan harus dikonsumsi sesuai anjuran dokter.</p>
+    <p>Jika perubahan gaya hidup tidak cukup, dokter akan meresepkan obat antihipertensi. Semua obat lini pertama ditanggung BPJS Kesehatan: Amlodipine (CCB, paling umum), Captopril/Ramipril (ACE inhibitor, efektif untuk pasien diabetes), Bisoprolol/Atenolol (beta blocker), dan HCT (diuretik). Jangan hentikan obat sendiri meskipun tensi sudah normal.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa tekanan darah normal untuk orang Indonesia?</div>
-      <div class="faq-a">Tidak ada standar tekanan darah khusus berdasarkan etnis. Tekanan darah normal untuk semua orang dewasa adalah di bawah 120/80 mmHg. Namun, di Indonesia, prevalensi hipertensi cukup tinggi — berdasarkan Riskesdas 2018 mencapai 34,1% pada penduduk usia 18 tahun ke atas. Banyak yang tidak sadar karena hipertensi sering tanpa gejala.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Tekanan darah 130/80 apakah sudah termasuk hipertensi?</div>
-      <div class="faq-a">Menurut panduan ACC/AHA 2017 (yang diadopsi banyak negara), tekanan darah 130–139/80–89 mmHg sudah dikategorikan sebagai hipertensi stadium 1. Namun, panduan lama (JNC 7) masih menyebutnya "prehipertensi". Di Indonesia, InaSH menggunakan kriteria hipertensi ≥ 140/90 mmHg. Jika tensi Anda konsisten di angka ini, konsultasikan dengan dokter.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah tekanan darah 90/60 termasuk rendah?</div>
-      <div class="faq-a">Ya, tekanan darah di bawah 90/60 mmHg dikategorikan sebagai hipotensi (tekanan darah rendah). Jika disertai gejala seperti pusing, lemas, atau pingsan, perlu penanganan. Namun banyak orang dengan tekanan darah rendah tidak mengalami gejala dan kondisinya tidak berbahaya. Tekanan darah rendah justru mengurangi risiko penyakit jantung jika tidak ada gejala.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menurunkan tekanan darah tanpa obat?</div>
-      <div class="faq-a">Beberapa cara terbukti efektif: (1) Kurangi asupan garam — target &lt; 2.300 mg natrium/hari (sekitar 1 sendok teh garam); (2) Olahraga aerobik 30 menit/hari, 5 kali seminggu; (3) Diet DASH (kaya buah, sayur, produk susu rendah lemak, batasi lemak jenuh); (4) Turunkan berat badan jika overweight; (5) Batasi alkohol; (6) Kelola stres. Kombinasi ini bisa menurunkan tekanan darah 5–15 mmHg tanpa obat.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kenapa tekanan darah berbeda di tangan kiri dan kanan?</div>
-      <div class="faq-a">Perbedaan tekanan darah antara kedua lengan hingga 10 mmHg masih dianggap normal karena perbedaan anatomi pembuluh darah. Perbedaan lebih dari 10 mmHg perlu perhatian karena bisa mengindikasikan penyempitan arteri di satu sisi. Sebaiknya ukur tekanan darah di lengan yang memberikan angka lebih tinggi sebagai acuan. Biasanya ini adalah lengan non-dominan untuk sebagian orang.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah hipertensi bisa disembuhkan?</div>
-      <div class="faq-a">Hipertensi primer (essensial) yang paling umum umumnya tidak bisa "disembuhkan" tetapi bisa dikontrol dengan baik melalui perubahan gaya hidup dan/atau obat. Dengan kontrol yang baik, penderita hipertensi bisa hidup normal dan menghindari komplikasi seperti stroke, serangan jantung, dan gagal ginjal. Hipertensi sekunder (karena penyakit lain) bisa sembuh jika penyebabnya diatasi.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa tekanan darah normal untuk orang Indonesia?</div>
+    <div class="faq-a">Tidak ada standar khusus berdasarkan etnis. Tekanan darah normal untuk semua orang dewasa adalah di bawah 120/80 mmHg. Prevalensi hipertensi di Indonesia mencapai 34,1% berdasarkan Riskesdas 2018 — banyak yang tidak sadar karena hipertensi sering tanpa gejala.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Tekanan darah 130/80 apakah sudah termasuk hipertensi?</div>
+    <div class="faq-a">Menurut panduan ACC/AHA 2017, 130–139/80–89 mmHg sudah dikategorikan hipertensi stadium 1. Panduan InaSH Indonesia menggunakan kriteria ≥ 140/90 mmHg. Jika konsisten di angka ini, konsultasikan dengan dokter.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah tekanan darah 90/60 termasuk rendah?</div>
+    <div class="faq-a">Ya, di bawah 90/60 mmHg adalah hipotensi. Jika disertai pusing atau lemas, perlu penanganan. Banyak orang dengan tekanan darah rendah tidak bergejala dan kondisinya tidak berbahaya.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menurunkan tekanan darah tanpa obat?</div>
+    <div class="faq-a">Cara terbukti efektif: kurangi garam &lt;2.300 mg/hari, olahraga aerobik 30 menit/hari 5×/minggu, diet DASH, turunkan berat badan jika overweight, kelola stres. Kombinasi ini bisa menurunkan 5–15 mmHg tanpa obat.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kenapa tekanan darah berbeda di tangan kiri dan kanan?</div>
+    <div class="faq-a">Perbedaan hingga 10 mmHg masih normal karena perbedaan anatomi pembuluh darah. Perbedaan lebih dari 10 mmHg perlu perhatian. Ukur di lengan yang memberikan angka lebih tinggi sebagai acuan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah hipertensi bisa disembuhkan?</div>
+    <div class="faq-a">Hipertensi primer umumnya tidak bisa "disembuhkan" tetapi bisa dikontrol dengan baik. Dengan kontrol yang baik, penderita hipertensi bisa hidup normal dan menghindari komplikasi stroke, serangan jantung, dan gagal ginjal.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -212,71 +227,187 @@
       <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
     </div>
   </div>
-
 </main>
-
 <footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
-<style>
-.ref-table { width:100%; border-collapse:collapse; font-size:0.8rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.result-note { margin-top:12px; padding:10px 12px; background:var(--bg-input); border-radius:var(--radius-sm); font-size:0.8rem; color:var(--text-secondary); line-height:1.5; }
-</style>
-
 <script defer>
+// Action plans per category
+const ACTION_PLANS = {
+  hypo: [
+    {icon:'💧',title:'Perbanyak cairan',desc:'Minum 8–10 gelas air/hari. Dehidrasi adalah penyebab umum tekanan darah rendah.'},
+    {icon:'🧂',title:'Asupan garam wajar',desc:'Konsumsi garam cukup — berbeda dari hipertensi, hipotensi bisa terbantu sedikit garam.'},
+    {icon:'🧘',title:'Hindari berdiri tiba-tiba',desc:'Bangun perlahan dari duduk/berbaring untuk cegah pusing ortostatik.'},
+    {icon:'👨‍⚕️',title:'Konsultasi dokter',desc:'Jika disertai pusing, pingsan, atau jantung berdebar — segera konsultasikan.'},
+  ],
+  normal: [
+    {icon:'✅',title:'Pertahankan gaya hidup',desc:'Olahraga aerobik 150 menit/minggu dan diet seimbang adalah kunci.'},
+    {icon:'🥗',title:'Diet jantung sehat',desc:'Perbanyak sayur, buah, biji-bijian. Batasi garam, lemak jenuh, dan gula.'},
+    {icon:'🚭',title:'Jangan mulai merokok',desc:'Merokok adalah faktor risiko utama hipertensi dan penyakit jantung.'},
+    {icon:'📅',title:'Cek rutin setiap tahun',desc:'Tekanan darah normal bukan alasan untuk berhenti memantau.'},
+  ],
+  elevated: [
+    {icon:'🧂',title:'Kurangi garam sekarang',desc:'Target &lt; 2.300 mg sodium/hari. Waspada garam tersembunyi di kecap, mi instan, saus.'},
+    {icon:'🏃',title:'Mulai olahraga rutin',desc:'30 menit jalan cepat 5×/minggu bisa turunkan 4–9 mmHg sistolik.'},
+    {icon:'⚖️',title:'Turunkan berat badan',desc:'Setiap 1 kg turun bisa menurunkan tekanan darah ~1 mmHg.'},
+    {icon:'📊',title:'Ukur lebih sering',desc:'Pantau 2× sehari selama 1 minggu untuk data yang akurat sebelum ke dokter.'},
+  ],
+  ht1: [
+    {icon:'👨‍⚕️',title:'Konsultasi dokter',desc:'Hipertensi stadium 1 perlu evaluasi — dokter akan pertimbangkan perlu obat atau tidak.'},
+    {icon:'🧂',title:'Diet DASH ketat',desc:'Kurangi garam drastis, perbanyak kalium (pisang, bayam, kentang). Target turun 8–14 mmHg.'},
+    {icon:'🏋️',title:'Latihan fisik terstruktur',desc:'Kardio + latihan beban ringan 5×/minggu. Konsisten 3 bulan dan ukur ulang.'},
+    {icon:'😌',title:'Kelola stres aktif',desc:'Meditasi, yoga, atau pernapasan dalam 10 menit/hari terbukti efektif menurunkan tensi.'},
+  ],
+  ht2: [
+    {icon:'🚨',title:'Butuh penanganan medis',desc:'Hipertensi stadium 2 hampir pasti memerlukan obat. Segera jadwalkan dengan dokter.'},
+    {icon:'💊',title:'Patuh minum obat',desc:'Jika sudah dapat resep, jangan hentikan sendiri. Obat antihipertensi ditanggung BPJS.'},
+    {icon:'🚫',title:'Hindari pemicu segera',desc:'Berhenti merokok, kurangi alkohol, hindari kafein berlebih dan makanan sangat asin.'},
+    {icon:'📋',title:'Catat dan pantau harian',desc:'Ukur setiap pagi dan malam, catat hasilnya untuk dibawa ke dokter.'},
+  ],
+  crisis: [
+    {icon:'🏥',title:'SEGERA ke dokter/UGD',desc:'Krisis hipertensi (≥180/120) adalah kondisi darurat medis. Jangan tunda.'},
+    {icon:'⚠️',title:'Waspadai gejala darurat',desc:'Nyeri dada, sesak napas, sakit kepala parah, penglihatan kabur — segera ke UGD.'},
+    {icon:'🛑',title:'Jangan aktivitas berat',desc:'Istirahat total, hindari stres dan aktivitas fisik sampai tertangani.'},
+    {icon:'📞',title:'Hubungi 119 jika perlu',desc:'Jika tidak bisa bergerak atau gejala berat, hubungi ambulans 119.'},
+  ],
+};
+
+let readings = JSON.parse(localStorage.getItem('bp-readings') || '[]');
+let lastResult = null;
+
 function classify(sys, dia) {
-  if (sys < 90 || dia < 60) return { label:'Hipotensi (Tekanan Rendah)', cls:'badge-underweight', note:'Tekanan darah Anda berada di bawah normal. Jika disertai pusing atau lemas, segera hubungi dokter. Perbanyak asupan cairan dan garam dalam batas wajar.' };
-  if (sys < 120 && dia < 80)  return { label:'Normal ✓', cls:'badge-normal', note:'Tekanan darah Anda sangat baik. Pertahankan gaya hidup sehat: olahraga teratur, diet rendah garam, tidak merokok.' };
-  if (sys < 130 && dia < 80)  return { label:'Normal Tinggi', cls:'badge-normal', note:'Tekanan darah Anda sedikit di atas ideal. Perhatikan asupan garam, olahraga rutin, dan hindari stres berlebihan.' };
-  if (sys < 140 && dia < 90)  return { label:'Hipertensi Stadium 1', cls:'badge-overweight', note:'Tekanan darah Anda masuk kategori hipertensi stadium 1. Perubahan gaya hidup sangat dianjurkan. Konsultasikan dengan dokter untuk evaluasi lebih lanjut.' };
-  if (sys < 180 && dia < 120) return { label:'Hipertensi Stadium 2', cls:'badge-obese', note:'Hipertensi stadium 2 memerlukan penanganan medis. Segera konsultasikan dengan dokter — kemungkinan besar diperlukan obat antihipertensi.' };
-  return { label:'⚠️ Krisis Hipertensi', cls:'badge-obese', note:'PENTING: Tekanan darah sangat tinggi ini memerlukan penanganan medis SEGERA. Jika disertai nyeri dada, sesak, atau sakit kepala parah, pergi ke UGD rumah sakit terdekat.' };
+  if (sys < 90 || dia < 60) return {
+    label:'Hipotensi (Tekanan Rendah)', cls:'badge-underweight', plan:'hypo',
+    note:'Tekanan darah Anda berada di bawah normal. Jika disertai pusing atau lemas, segera hubungi dokter.',
+    heartRisk:'Rendah', strokeRisk:'Rendah'
+  };
+  if (sys < 120 && dia < 80) return {
+    label:'Normal ✓', cls:'badge-normal', plan:'normal',
+    note:'Tekanan darah Anda sangat baik. Pertahankan gaya hidup sehat: olahraga teratur, diet rendah garam, tidak merokok.',
+    heartRisk:'Rendah', strokeRisk:'Rendah'
+  };
+  if (sys < 130 && dia < 80) return {
+    label:'Normal Tinggi', cls:'badge-normal', plan:'elevated',
+    note:'Tekanan darah Anda sedikit di atas ideal. Perhatikan asupan garam dan olahraga rutin.',
+    heartRisk:'Sedang', strokeRisk:'Rendah'
+  };
+  if (sys < 140 || dia < 90) return {
+    label:'Hipertensi Stadium 1', cls:'badge-overweight', plan:'ht1',
+    note:'Tekanan darah Anda masuk kategori hipertensi stadium 1. Perubahan gaya hidup sangat dianjurkan. Konsultasikan dengan dokter.',
+    heartRisk:'Sedang ⚠️', strokeRisk:'Sedang ⚠️'
+  };
+  if (sys < 180 && dia < 120) return {
+    label:'Hipertensi Stadium 2', cls:'badge-obese', plan:'ht2',
+    note:'Hipertensi stadium 2 memerlukan penanganan medis. Segera konsultasikan dengan dokter.',
+    heartRisk:'Tinggi 🔴', strokeRisk:'Tinggi 🔴'
+  };
+  return {
+    label:'⚠️ Krisis Hipertensi', cls:'badge-obese', plan:'crisis',
+    note:'PENTING: Tekanan darah sangat tinggi — kondisi darurat medis. Jika disertai nyeri dada, sesak, atau sakit kepala parah, segera ke UGD.',
+    heartRisk:'Sangat Tinggi 🔴', strokeRisk:'Sangat Tinggi 🔴'
+  };
+}
+
+function autoCalc() {
+  const sys = parseInt(document.getElementById('systolic').value);
+  const dia = parseInt(document.getElementById('diastolic').value);
+  if (sys >= 50 && dia >= 30 && sys <= 280 && dia <= 180 && dia < sys) calculate();
 }
 
 function calculate() {
   const sys = parseInt(document.getElementById('systolic').value);
   const dia = parseInt(document.getElementById('diastolic').value);
   const pulse = parseInt(document.getElementById('pulse').value);
-
   if (!sys || !dia || sys < 50 || dia < 30 || sys > 280 || dia > 180) return alert('Masukkan nilai sistolik dan diastolik yang valid.');
   if (dia >= sys) return alert('Nilai diastolik tidak boleh lebih besar dari sistolik.');
 
   const r = classify(sys, dia);
+  lastResult = {sys, dia, pulse, label: r.label, cls: r.cls};
 
   document.getElementById('res-display').textContent = sys + '/' + dia;
   const badge = document.getElementById('res-badge');
-  badge.textContent = r.label;
-  badge.className = 'result-badge ' + r.cls;
+  badge.textContent = r.label; badge.className = 'result-badge ' + r.cls;
 
-  const sysNote = sys < 120 ? '(Normal)' : sys < 130 ? '(Normal Tinggi)' : sys < 140 ? '(Hipertensi Tk.1)' : sys < 180 ? '(Hipertensi Tk.2)' : '(Krisis)';
-  const diaNnote = dia < 80 ? '(Normal)' : dia < 90 ? '(Hipertensi Tk.1)' : dia < 120 ? '(Hipertensi Tk.2)' : '(Krisis)';
+  // Gauge needles
+  // Sistolik: scale 90–220, range 130px → map to %
+  const sysMin=90, sysMax=220;
+  const sysPct = Math.max(2, Math.min(98, (sys-sysMin)/(sysMax-sysMin)*100));
+  document.getElementById('needle-sys').style.left = sysPct.toFixed(1)+'%';
+  document.getElementById('sys-val-lbl').textContent = sys + ' mmHg';
 
-  document.getElementById('res-sys').textContent = sys + ' mmHg ' + sysNote;
-  document.getElementById('res-dia').textContent = dia + ' mmHg ' + diaNnote;
+  const diaMin=60, diaMax=140;
+  const diaPct = Math.max(2, Math.min(98, (dia-diaMin)/(diaMax-diaMin)*100));
+  document.getElementById('needle-dia').style.left = diaPct.toFixed(1)+'%';
+  document.getElementById('dia-val-lbl').textContent = dia + ' mmHg';
+
+  // Risk indicators
+  document.getElementById('risk-heart').textContent = r.heartRisk;
+  document.getElementById('risk-stroke').textContent = r.strokeRisk;
+
+  const sysNote = sys<120?'(Normal)':sys<130?'(Tinggi Normal)':sys<140?'(HT Tk.1)':sys<180?'(HT Tk.2)':'(Krisis)';
+  const diaNnote = dia<80?'(Normal)':dia<90?'(HT Tk.1)':dia<120?'(HT Tk.2)':'(Krisis)';
+  document.getElementById('res-sys').textContent = sys+' mmHg '+sysNote;
+  document.getElementById('res-dia').textContent = dia+' mmHg '+diaNnote;
   document.getElementById('res-cat').textContent = r.label;
   document.getElementById('res-note').textContent = r.note;
 
+  // Pulse
   if (!isNaN(pulse) && pulse > 0) {
-    const pulseNote = pulse < 60 ? '(Bradikardi)' : pulse <= 100 ? '(Normal)' : '(Takikardi)';
-    document.getElementById('res-pulse').textContent = pulse + ' bpm ' + pulseNote;
-    document.getElementById('pulse-row').style.display = '';
+    const pNote = pulse<60?'Bradikardi':pulse<=100?'Normal':'Takikardi';
+    document.getElementById('res-pulse').textContent = pulse+' bpm ('+pNote+')';
+    document.getElementById('risk-pulse').textContent = pulse<60?'Bradikardi ⚠️':pulse<=100?'Normal ✓':'Takikardi ⚠️';
+    document.getElementById('pulse-row').style.display='';
   } else {
-    document.getElementById('pulse-row').style.display = 'none';
+    document.getElementById('risk-pulse').textContent = '— (tidak diisi)';
+    document.getElementById('pulse-row').style.display='none';
   }
 
+  // Action plan
+  const plans = ACTION_PLANS[r.plan] || [];
+  document.getElementById('action-grid').innerHTML = plans.map(p =>
+    `<div class="action-card"><div class="ac-icon">${p.icon}</div><div class="ac-title">${p.title}</div><div class="ac-desc">${p.desc}</div></div>`
+  ).join('');
+
   document.getElementById('result').classList.add('show');
+  renderHistory();
+}
+
+function saveReading() {
+  if (!lastResult) return alert('Hitung terlebih dahulu.');
+  const {sys, dia, pulse, label} = lastResult;
+  const now = new Date();
+  const timeStr = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+' · '+(now.getDate()+'/'+(now.getMonth()+1));
+  readings.unshift({sys, dia, pulse, label, time: timeStr, id: Date.now()});
+  if (readings.length > 10) readings.pop();
+  localStorage.setItem('bp-readings', JSON.stringify(readings));
+  renderHistory();
+}
+
+function renderHistory() {
+  if (readings.length === 0) { document.getElementById('history-section').style.display='none'; return; }
+  document.getElementById('history-section').style.display='';
+  const cls = r => r.sys<90||r.dia<60?'badge-underweight':r.sys<120&&r.dia<80?'badge-normal':r.sys<140||r.dia<90?'badge-overweight':'badge-obese';
+  document.getElementById('history-list').innerHTML = readings.map(r =>
+    `<div class="history-row">
+      <span class="history-bp">${r.sys}/${r.dia}</span>
+      <span class="history-badge ${cls(r)}">${r.label.replace(' ✓','').replace('⚠️ ','')}</span>
+      ${r.pulse?`<span style="font-size:.7rem;color:#6b7c8d">${r.pulse}bpm</span>`:''}
+      <span class="history-time">${r.time}</span>
+      <button class="del-btn" onclick="deleteReading(${r.id})">×</button>
+    </div>`
+  ).join('');
+}
+
+function deleteReading(id) {
+  readings = readings.filter(r => r.id !== id);
+  localStorage.setItem('bp-readings', JSON.stringify(readings));
+  renderHistory();
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if (e.key==='Enter') calculate(); });
+window.addEventListener('DOMContentLoaded', renderHistory);
 </script>
 </body>
 </html>

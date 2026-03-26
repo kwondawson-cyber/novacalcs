@@ -4,77 +4,81 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator KPR 2026 — Simulasi Cicilan + Tabel Amortisasi | NovaCalcs</title>
-<meta name="description" content="Simulasi KPR 2026: cicilan bulanan, total bunga, perbandingan tenor, dan tabel angsuran lengkap. Hitung kemampuan beli rumah Anda sekarang — gratis dan akurat."/>
-<meta name="keywords" content="kalkulator KPR, simulasi KPR, cicilan rumah 2026, kredit rumah, angsuran KPR, tabel amortisasi, KPR bank, hitung cicilan rumah"/>
+<meta name="description" content="Simulasi KPR 2026: cicilan bulanan, total bunga, perbandingan tenor, tabel angsuran, berapa rumah yang bisa dibeli dari gaji, dan simulasi pelunasan dipercepat."/>
+<meta name="keywords" content="kalkulator KPR, simulasi KPR, cicilan rumah 2026, kredit rumah, angsuran KPR, tabel amortisasi, berapa rumah bisa dibeli"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kpr.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kpr.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator KPR","url":"https://novacalcs.com/id/kalkulator-kpr.html","description":"Simulasi KPR lengkap dengan tabel amortisasi dan perbandingan tenor","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator KPR","url":"https://novacalcs.com/id/kalkulator-kpr.html","description":"Simulasi KPR lengkap dengan tabel amortisasi dan perbandingan tenor","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
 <style>
-/* Big cicilan display */
-.kpr-main { text-align:center; padding:18px 0 10px; }
-.kpr-cicilan { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
-.kpr-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
+.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
+.tab-pane{display:none}.tab-pane.active{display:block}
 
-/* Principal vs interest bar */
-.kpr-bar-wrap { margin:14px 0 6px; }
-.kpr-bar-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:5px; }
-.kpr-bar-track { height:20px; border-radius:10px; overflow:hidden; display:flex; }
-.kpr-bar-pokok { background:#4ade80; transition:width 0.6s ease; display:flex; align-items:center; justify-content:center; font-size:0.62rem; font-weight:700; color:#064e3b; }
-.kpr-bar-bunga { background:#f97316; transition:width 0.6s ease; display:flex; align-items:center; justify-content:center; font-size:0.62rem; font-weight:700; color:#431407; }
-.kpr-bar-legend { display:flex; gap:14px; margin-top:5px; font-size:0.72rem; color:var(--text-secondary); }
-.kpr-bar-legend span::before { content:'●'; margin-right:4px; }
-.l-green::before { color:#4ade80; }
-.l-orange::before { color:#f97316; }
+.kpr-main{text-align:center;padding:18px 0 10px}
+.kpr-cicilan{font-size:2.2rem;font-weight:700;color:var(--mint);line-height:1}
+.kpr-label{font-size:.78rem;color:var(--text-secondary);margin-top:3px}
 
-/* Stats grid */
-.kpr-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:10px 0; }
-.kpr-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.kpr-stat .ks-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
-.kpr-stat .ks-val { font-size:0.92rem; font-weight:700; color:var(--text-primary); }
-.kpr-stat.highlight .ks-val { color:#f97316; }
+.kpr-bar-wrap{margin:14px 0 6px}
+.kpr-bar-title{font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:5px}
+.kpr-bar-track{height:20px;border-radius:10px;overflow:hidden;display:flex}
+.kpr-bar-pokok{background:#4ade80;transition:width .6s;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:#064e3b}
+.kpr-bar-bunga{background:#f97316;transition:width .6s;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:#431407}
+.kpr-bar-legend{display:flex;gap:14px;margin-top:5px;font-size:.72rem;color:var(--text-secondary)}
+.kpr-bar-legend span::before{content:'●';margin-right:4px}
+.l-green::before{color:#4ade80}.l-orange::before{color:#f97316}
 
-/* Tenor comparison table */
-.tenor-table { width:100%; border-collapse:collapse; font-size:0.78rem; margin-top:10px; }
-.tenor-table th { background:var(--bg-input); color:var(--text-secondary); padding:7px 10px; text-align:right; font-weight:600; }
-.tenor-table th:first-child { text-align:left; }
-.tenor-table td { padding:7px 10px; border-bottom:1px solid var(--border); text-align:right; }
-.tenor-table td:first-child { text-align:left; font-weight:600; color:var(--text-secondary); }
-.tenor-table tr.active-tenor td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
-.tenor-table tr:last-child td { border-bottom:none; }
+.kpr-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.kpr-stat{background:var(--bg-input);border-radius:var(--radius-sm);padding:10px 12px;border:1px solid var(--border)}
+.kpr-stat .ks-label{font-size:.68rem;color:var(--text-muted);margin-bottom:3px}
+.kpr-stat .ks-val{font-size:.92rem;font-weight:700;color:var(--text-primary)}
+.kpr-stat.highlight .ks-val{color:#f97316}
 
-/* Amortization */
-.amort-table { max-height:280px; overflow-y:auto; scrollbar-width:thin; margin-top:10px; border:1px solid var(--border); border-radius:var(--radius-sm); }
-.amort-table table { width:100%; font-size:0.75rem; border-collapse:collapse; }
-.amort-table th { position:sticky; top:0; background:var(--bg-card); padding:6px 10px; color:var(--text-secondary); text-align:right; border-bottom:1px solid var(--border); font-weight:600; z-index:1; }
-.amort-table th:first-child { text-align:left; }
-.amort-table td { padding:5px 10px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.02); }
-.amort-table td:first-child { text-align:left; color:var(--text-secondary); }
-.amort-table tr:hover td { background:var(--bg-input); }
+.tenor-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:10px}
+.tenor-table th{background:var(--bg-input);color:var(--text-secondary);padding:7px 10px;text-align:right;font-weight:600}
+.tenor-table th:first-child{text-align:left}
+.tenor-table td{padding:7px 10px;border-bottom:1px solid var(--border);text-align:right}
+.tenor-table td:first-child{text-align:left;font-weight:600;color:var(--text-secondary)}
+.tenor-table tr.active-tenor td{background:var(--mint-dim);color:var(--mint);font-weight:700}
 
-/* Bank presets */
-.bank-presets { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:8px; }
-.bank-btn { padding:4px 10px; border-radius:6px; font-size:0.72rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all 0.15s; }
-.bank-btn:hover,.bank-btn.active { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,0.35); }
+.amort-table{max-height:280px;overflow-y:auto;scrollbar-width:thin;margin-top:10px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.amort-table table{width:100%;font-size:.75rem;border-collapse:collapse}
+.amort-table th{position:sticky;top:0;background:var(--bg-card);padding:6px 10px;color:var(--text-secondary);text-align:right;border-bottom:1px solid var(--border);font-weight:600;z-index:1}
+.amort-table th:first-child{text-align:left}
+.amort-table td{padding:5px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,.02)}
+.amort-table td:first-child{text-align:left;color:var(--text-secondary)}
+.amort-table tr:hover td{background:var(--bg-input)}
 
-/* Kemampuan beli section */
-.afford-box { background:var(--bg-input); border-radius:var(--radius-sm); padding:12px 14px; margin-top:12px; border:1px solid var(--border); }
-.afford-box .ab-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:8px; }
-.afford-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border); font-size:0.8rem; }
-.afford-row:last-child { border-bottom:none; }
-.afford-val { font-weight:700; color:var(--mint); }
-.afford-val.warn { color:#fbbf24; }
-.afford-val.bad { color:#f87171; }
+.bank-presets{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.bank-btn{padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s}
+.bank-btn:hover,.bank-btn.active{background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35)}
+
+.afford-box{background:var(--bg-input);border-radius:var(--radius-sm);padding:12px 14px;margin-top:12px;border:1px solid var(--border)}
+.afford-box .ab-title{font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px}
+.afford-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:.8rem}
+.afford-row:last-child{border-bottom:none}
+.afford-val{font-weight:700;color:var(--mint)}
+.afford-val.warn{color:#fbbf24}.afford-val.bad{color:#f87171}
+
+/* Reverse calculator */
+.reverse-result{background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.85rem;margin-top:10px}
+.rv-main{font-size:1.6rem;font-weight:700;color:var(--mint);text-align:center;margin-bottom:.5rem}
+.rv-sub{font-size:.8rem;color:var(--text-secondary);text-align:center;margin-bottom:.75rem}
+
+/* Early repayment */
+.epay-saving{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:.85rem;margin-top:10px}
+.epay-saving-num{font-size:1.4rem;font-weight:700;color:#4ade80;text-align:center}
 </style>
 </head>
 <body>
-
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -85,191 +89,236 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
       <div class="calc-title">🏠 Kalkulator KPR</div>
-      <div class="calc-subtitle">Simulasi cicilan + perbandingan tenor + tabel angsuran</div>
+      <div class="calc-subtitle">Simulasi cicilan · Kemampuan beli · Pelunasan dipercepat</div>
 
-      <div class="field"><label>Harga Rumah (Rp)</label>
-        <input type="number" id="price" placeholder="Contoh: 500.000.000" oninput="autoCalc()"/>
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('tab-sim',this)">🏠 Simulasi</button>
+        <button class="tab-btn" onclick="showTab('tab-reverse',this)">💰 Berapa Rumahku?</button>
+        <button class="tab-btn" onclick="showTab('tab-early',this)">⚡ Lunasi Lebih Awal</button>
       </div>
 
-      <div class="field">
-        <label>Uang Muka / DP — <span id="dp-pct-label">20%</span> = <span id="dp-rp-label" style="color:var(--mint)">—</span></label>
-        <input type="range" id="dp-range" min="10" max="60" value="20" oninput="syncDP(this.value)" style="width:100%;accent-color:var(--mint)"/>
-        <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-muted)"><span>Min 10%</span><span>60%</span></div>
-      </div>
-
-      <div class="field">
-        <label>Suku Bunga KPR per tahun (%)</label>
-        <div class="bank-presets">
-          <div class="bank-btn" onclick="setRate(7.5,this)">BCA 7,5%</div>
-          <div class="bank-btn" onclick="setRate(7.75,this)">BRI 7,75%</div>
-          <div class="bank-btn active" onclick="setRate(8,this)">Mandiri 8%</div>
-          <div class="bank-btn" onclick="setRate(8.25,this)">BNI 8,25%</div>
-          <div class="bank-btn" onclick="setRate(9,this)">BTN 9%</div>
+      <!-- TAB 1: SIMULASI -->
+      <div id="tab-sim" class="tab-pane active">
+        <div class="field"><label>Harga Rumah (Rp)</label>
+          <input type="number" id="price" placeholder="Contoh: 500000000" oninput="autoCalc()"/>
         </div>
-        <input type="number" id="rate" value="8" step="0.1" min="1" max="30" oninput="autoCalc()"/>
-      </div>
-
-      <div class="field">
-        <label>Tenor (tahun)</label>
-        <div class="radio-group" id="tenor-btns">
-          <div class="radio-btn" onclick="setTenor(5,this)">5 th</div>
-          <div class="radio-btn" onclick="setTenor(10,this)">10 th</div>
-          <div class="radio-btn active" onclick="setTenor(15,this)">15 th</div>
-          <div class="radio-btn" onclick="setTenor(20,this)">20 th</div>
-          <div class="radio-btn" onclick="setTenor(30,this)">30 th</div>
+        <div class="field">
+          <label>Uang Muka / DP — <span id="dp-pct-label">20%</span> = <span id="dp-rp-label" style="color:var(--mint)">—</span></label>
+          <input type="range" id="dp-range" min="10" max="60" value="20" oninput="syncDP(this.value)" style="width:100%;accent-color:var(--mint)"/>
+          <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-muted)"><span>Min 10%</span><span>60%</span></div>
         </div>
-      </div>
-
-      <div class="field">
-        <label>Gaji bersih per bulan (opsional — untuk cek kemampuan)</label>
-        <input type="number" id="gaji" placeholder="Contoh: 15.000.000" oninput="autoCalc()"/>
-      </div>
-
-      <button class="calc-btn" onclick="calculate()">🏠 Simulasi KPR Saya</button>
-
-      <div class="result-box" id="result" style="display:none">
-
-        <!-- Main cicilan -->
-        <div class="kpr-main">
-          <div class="kpr-cicilan" id="res-monthly">—</div>
-          <div class="kpr-label">cicilan per bulan (anuitas tetap)</div>
-        </div>
-
-        <!-- Pokok vs bunga bar -->
-        <div class="kpr-bar-wrap">
-          <div class="kpr-bar-title">Komposisi Total Pembayaran</div>
-          <div class="kpr-bar-track">
-            <div class="kpr-bar-pokok" id="bar-pokok" style="width:60%">Pokok</div>
-            <div class="kpr-bar-bunga" id="bar-bunga" style="width:40%">Bunga</div>
+        <div class="field">
+          <label>Suku Bunga KPR per tahun (%)</label>
+          <div class="bank-presets">
+            <div class="bank-btn" onclick="setRate(7.5,this)">BCA 7,5%</div>
+            <div class="bank-btn" onclick="setRate(7.75,this)">BRI 7,75%</div>
+            <div class="bank-btn active" onclick="setRate(8,this)">Mandiri 8%</div>
+            <div class="bank-btn" onclick="setRate(8.25,this)">BNI 8,25%</div>
+            <div class="bank-btn" onclick="setRate(9,this)">BTN 9%</div>
           </div>
-          <div class="kpr-bar-legend">
-            <span class="l-green">Pokok pinjaman</span>
-            <span class="l-orange">Total bunga</span>
+          <input type="number" id="rate" value="8" step="0.1" min="1" max="30" oninput="autoCalc()"/>
+        </div>
+        <div class="field">
+          <label>Tenor (tahun)</label>
+          <div class="radio-group" id="tenor-btns">
+            <div class="radio-btn" onclick="setTenor(5,this)">5 th</div>
+            <div class="radio-btn" onclick="setTenor(10,this)">10 th</div>
+            <div class="radio-btn active" onclick="setTenor(15,this)">15 th</div>
+            <div class="radio-btn" onclick="setTenor(20,this)">20 th</div>
+            <div class="radio-btn" onclick="setTenor(30,this)">30 th</div>
           </div>
         </div>
-
-        <!-- Stats -->
-        <div class="kpr-stats">
-          <div class="kpr-stat"><div class="ks-label">Pokok pinjaman</div><div class="ks-val" id="res-principal">—</div></div>
-          <div class="kpr-stat"><div class="ks-label">Uang muka (DP)</div><div class="ks-val" id="res-dp">—</div></div>
-          <div class="kpr-stat highlight"><div class="ks-label">Total bunga</div><div class="ks-val" id="res-interest">—</div></div>
-          <div class="kpr-stat"><div class="ks-label">Total bayar (pokok+bunga)</div><div class="ks-val" id="res-total">—</div></div>
+        <div class="field">
+          <label>Gaji bersih per bulan (opsional)</label>
+          <input type="number" id="gaji" placeholder="Contoh: 15000000" oninput="autoCalc()"/>
         </div>
+        <button class="calc-btn" onclick="calculate()">🏠 Simulasi KPR Saya</button>
 
-        <!-- Kemampuan beli -->
-        <div class="afford-box" id="afford-box" style="display:none">
-          <div class="ab-title">💰 Analisis Kemampuan Beli</div>
-          <div class="afford-row"><span>Gaji bersih</span><span class="afford-val" id="af-gaji">—</span></div>
-          <div class="afford-row"><span>Cicilan KPR</span><span class="afford-val" id="af-cicilan">—</span></div>
-          <div class="afford-row"><span>Rasio cicilan/gaji</span><span class="afford-val" id="af-ratio">—</span></div>
-          <div class="afford-row"><span>Status</span><span class="afford-val" id="af-status">—</span></div>
+        <div class="result-box" id="result" style="display:none">
+          <div class="kpr-main">
+            <div class="kpr-cicilan" id="res-monthly">—</div>
+            <div class="kpr-label">cicilan per bulan (anuitas tetap)</div>
+          </div>
+          <div class="kpr-bar-wrap">
+            <div class="kpr-bar-title">Komposisi Total Pembayaran</div>
+            <div class="kpr-bar-track">
+              <div class="kpr-bar-pokok" id="bar-pokok" style="width:60%">Pokok</div>
+              <div class="kpr-bar-bunga" id="bar-bunga" style="width:40%">Bunga</div>
+            </div>
+            <div class="kpr-bar-legend"><span class="l-green">Pokok</span><span class="l-orange">Total bunga</span></div>
+          </div>
+          <div class="kpr-stats">
+            <div class="kpr-stat"><div class="ks-label">Pokok pinjaman</div><div class="ks-val" id="res-principal">—</div></div>
+            <div class="kpr-stat"><div class="ks-label">Uang muka (DP)</div><div class="ks-val" id="res-dp">—</div></div>
+            <div class="kpr-stat highlight"><div class="ks-label">Total bunga</div><div class="ks-val" id="res-interest">—</div></div>
+            <div class="kpr-stat"><div class="ks-label">Total bayar</div><div class="ks-val" id="res-total">—</div></div>
+          </div>
+          <div class="afford-box" id="afford-box" style="display:none">
+            <div class="ab-title">💰 Analisis Kemampuan Beli</div>
+            <div class="afford-row"><span>Gaji bersih</span><span class="afford-val" id="af-gaji">—</span></div>
+            <div class="afford-row"><span>Cicilan KPR</span><span class="afford-val" id="af-cicilan">—</span></div>
+            <div class="afford-row"><span>Rasio cicilan/gaji</span><span class="afford-val" id="af-ratio">—</span></div>
+            <div class="afford-row"><span>Status</span><span class="afford-val" id="af-status">—</span></div>
+            <div class="afford-row" id="af-max-row" style="display:none"><span>Harga rumah max utk gaji ini</span><span class="afford-val" id="af-max">—</span></div>
+          </div>
+          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:14px 0 4px">📊 Perbandingan Tenor</div>
+          <table class="tenor-table" id="tenor-comparison"></table>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 4px">
+            <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600">📋 Tabel Angsuran per Tahun</div>
+            <div style="font-size:.68rem;color:var(--text-muted)">Scroll untuk lihat semua</div>
+          </div>
+          <div class="amort-table">
+            <table>
+              <thead><tr><th>Tahun</th><th>Cicilan/bln</th><th>Total Pokok</th><th>Total Bunga</th><th>Sisa Pinjaman</th></tr></thead>
+              <tbody id="amort-body"></tbody>
+            </table>
+          </div>
         </div>
-
-        <!-- Tenor comparison -->
-        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:14px 0 4px;">📊 Perbandingan Tenor</div>
-        <table class="tenor-table" id="tenor-comparison"></table>
-
-        <!-- Amortization -->
-        <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 4px;">
-          <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;">📋 Tabel Angsuran Lengkap</div>
-          <div style="font-size:0.68rem;color:var(--text-muted)">Geser untuk melihat semua</div>
-        </div>
-        <div class="amort-table">
-          <table>
-            <thead><tr><th>Tahun</th><th>Cicilan/bln</th><th>Total Pokok</th><th>Total Bunga</th><th>Sisa Pinjaman</th></tr></thead>
-            <tbody id="amort-body"></tbody>
-          </table>
-        </div>
-
       </div>
+
+      <!-- TAB 2: REVERSE - Berapa rumah yang bisa dibeli -->
+      <div id="tab-reverse" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Dari gaji dan kemampuan cicilan Anda, berapa harga rumah maksimum yang bisa dijangkau?</p>
+        <div class="field"><label>Gaji bersih per bulan (Rp)</label>
+          <input type="number" id="rv-gaji" placeholder="Contoh: 10000000" oninput="calcReverse()"/>
+        </div>
+        <div class="field">
+          <label>Maksimal cicilan dari gaji — <span id="rv-pct-lbl">30%</span></label>
+          <input type="range" id="rv-pct" min="20" max="45" value="30" oninput="document.getElementById('rv-pct-lbl').textContent=this.value+'%';calcReverse()" style="width:100%;accent-color:var(--mint)"/>
+          <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-muted)"><span>20% (aman)</span><span>35% (ideal)</span><span>45% (berat)</span></div>
+        </div>
+        <div class="field">
+          <label>Suku Bunga (%/tahun)</label>
+          <input type="number" id="rv-rate" value="8" step="0.1" min="1" max="20" oninput="calcReverse()"/>
+        </div>
+        <div class="field">
+          <label>Tenor (tahun)</label>
+          <div class="radio-group" id="rv-tenor-btns">
+            <div class="radio-btn" onclick="setRvTenor(10,this)">10 th</div>
+            <div class="radio-btn active" onclick="setRvTenor(15,this)">15 th</div>
+            <div class="radio-btn" onclick="setRvTenor(20,this)">20 th</div>
+            <div class="radio-btn" onclick="setRvTenor(30,this)">30 th</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Uang Muka / DP (%)</label>
+          <input type="number" id="rv-dp" value="20" min="5" max="60" oninput="calcReverse()"/>
+        </div>
+        <button class="calc-btn" onclick="calcReverse()">💰 Hitung Kemampuan Beli</button>
+
+        <div id="rv-result" style="display:none">
+          <div class="reverse-result">
+            <div class="rv-main" id="rv-harga-max">—</div>
+            <div class="rv-sub">Harga rumah maksimum berdasarkan kemampuan Anda</div>
+          </div>
+          <div class="result-rows" style="margin-top:.5rem">
+            <div class="result-row"><span>Cicilan maksimum/bln</span><span id="rv-cicilan-max">—</span></div>
+            <div class="result-row"><span>DP yang harus disiapkan</span><span id="rv-dp-amount">—</span></div>
+            <div class="result-row"><span>Pokok KPR maksimum</span><span id="rv-pokok">—</span></div>
+            <div class="result-row"><span>Total bunga (estimasi)</span><span id="rv-bunga">—</span></div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border-radius:9px;padding:.75rem;margin-top:.75rem;font-size:.8rem;color:#c0cdd8;line-height:1.6" id="rv-advice"></div>
+
+          <!-- Scenario table: harga rumah vs DP vs cicilan -->
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">📊 Perbandingan Skenario DP:</div>
+          <table class="tenor-table" id="rv-scenario-table"></table>
+        </div>
+      </div>
+
+      <!-- TAB 3: PELUNASAN DIPERCEPAT -->
+      <div id="tab-early" class="tab-pane">
+        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Berapa yang bisa Anda hemat jika melunasi KPR lebih awal?</p>
+        <div class="field"><label>Pokok Pinjaman KPR (Rp)</label>
+          <input type="number" id="ep-principal" placeholder="Contoh: 400000000" oninput="calcEarly()"/>
+        </div>
+        <div class="field"><label>Suku Bunga (%/tahun)</label>
+          <input type="number" id="ep-rate" value="8" step="0.1" min="1" max="20" oninput="calcEarly()"/>
+        </div>
+        <div class="field"><label>Tenor Asli (tahun)</label>
+          <div class="radio-group" id="ep-tenor-btns">
+            <div class="radio-btn" onclick="setEpTenor(10,this)">10 th</div>
+            <div class="radio-btn active" onclick="setEpTenor(15,this)">15 th</div>
+            <div class="radio-btn" onclick="setEpTenor(20,this)">20 th</div>
+            <div class="radio-btn" onclick="setEpTenor(30,this)">30 th</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Tambahan Bayar per Bulan (Rp)</label>
+          <input type="number" id="ep-extra" placeholder="Contoh: 500000" oninput="calcEarly()"/>
+          <small style="color:#6b7c8d">Bayar lebih dari cicilan normal setiap bulan</small>
+        </div>
+        <button class="calc-btn" onclick="calcEarly()">⚡ Hitung Penghematan</button>
+
+        <div id="ep-result" style="display:none">
+          <div class="epay-saving">
+            <div style="font-size:.78rem;color:#6b7c8d;text-align:center;margin-bottom:.25rem">Total penghematan bunga</div>
+            <div class="epay-saving-num" id="ep-saving">—</div>
+          </div>
+          <div class="result-rows" style="margin-top:.5rem">
+            <div class="result-row"><span>Cicilan normal/bulan</span><span id="ep-monthly">—</span></div>
+            <div class="result-row"><span>Total bayar per bulan (dengan tambahan)</span><span id="ep-monthly-extra">—</span></div>
+            <div class="result-row"><span>Tenor asli</span><span id="ep-tenor-ori">—</span></div>
+            <div class="result-row"><span>Tenor setelah percepatan</span><span id="ep-tenor-new" style="color:#4ade80;font-weight:700">—</span></div>
+            <div class="result-row"><span>Selesai lebih cepat</span><span id="ep-faster" style="color:#4ade80">—</span></div>
+            <div class="result-row"><span>Total bunga (asli)</span><span id="ep-int-ori" style="color:#f97316">—</span></div>
+            <div class="result-row"><span>Total bunga (dipercepat)</span><span id="ep-int-new" style="color:#4ade80">—</span></div>
+          </div>
+
+          <!-- Extra payment scenarios -->
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">📊 Perbandingan Tambahan Bayar:</div>
+          <table class="tenor-table" id="ep-scenario-table"></table>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- SEO CONTENT -->
   <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator KPR — Simulasi Cicilan Kredit Rumah Lengkap</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Rencanakan pembelian rumah Anda dengan simulasi KPR yang komprehensif. Hitung cicilan bulanan, bandingkan berbagai tenor, lihat tabel angsuran tahun per tahun, dan cek apakah kemampuan finansial Anda sudah memadai.</p>
+    <h1>Kalkulator KPR — Simulasi Cicilan Kredit Rumah Lengkap</h1>
+    <p class="page-desc">Rencanakan KPR dengan simulasi komprehensif: hitung cicilan, cari tahu berapa harga rumah yang bisa dijangkau dari gaji Anda, dan lihat berapa yang bisa dihemat dengan melunasi lebih awal.</p>
+
+    <div class="ad-slot">Advertisement</div>
 
     <h2>Apa itu KPR dan Bagaimana Cara Kerjanya?</h2>
-    <p>KPR (Kredit Pemilikan Rumah) adalah fasilitas pinjaman dari bank yang memungkinkan Anda membeli rumah tanpa harus membayar lunas di muka. Mekanismenya sederhana: Anda menyiapkan uang muka (DP), kemudian bank membiayai sisa harga rumah yang dilunasi secara bertahap melalui cicilan bulanan selama periode tertentu (tenor) beserta bunganya.</p>
-    <p>KPR adalah instrumen keuangan terbesar yang akan diambil sebagian besar orang Indonesia dalam hidupnya. Memahami cara kerjanya dengan baik bisa menghemat puluhan hingga ratusan juta rupiah dalam jangka panjang — hanya dari pilihan tenor dan strategi pelunasan yang tepat.</p>
+    <p>KPR (Kredit Pemilikan Rumah) adalah pinjaman bank untuk membeli rumah dengan cara dicicil. Anda menyiapkan uang muka (DP), bank membiayai sisanya yang dilunasi dalam tenor tertentu beserta bunga. KPR adalah komitmen finansial terbesar bagi kebanyakan orang Indonesia — memahaminya dengan baik bisa menghemat ratusan juta rupiah.</p>
 
-    <h2>Rumus Cicilan KPR dan Cara Menghitungnya</h2>
-    <p>Mayoritas KPR di Indonesia menggunakan sistem <strong>anuitas</strong> — cicilan bulanan tetap sama sepanjang tenor. Di balik angka yang terlihat konstan, komposisi pokok dan bunga berubah setiap bulan:</p>
-    <ul>
-      <li>Di <strong>awal tenor</strong>: sebagian besar cicilan adalah bunga, sedikit yang mengurangi pokok pinjaman</li>
-      <li>Di <strong>akhir tenor</strong>: sebagian besar cicilan sudah mengurangi pokok, bunga semakin kecil</li>
-    </ul>
-    <p>Rumus anuitas: <strong>M = P × [r(1+r)ⁿ] ÷ [(1+r)ⁿ−1]</strong></p>
-    <p>Di mana M = cicilan bulanan, P = pokok pinjaman, r = bunga per bulan (bunga tahunan ÷ 12), n = total bulan (tenor × 12).</p>
-    <p><strong>Contoh:</strong> Pinjaman Rp 400 juta, bunga 8%/tahun, tenor 20 tahun → cicilan = Rp 3.347.468/bulan. Total bayar = Rp 803,4 juta — artinya Anda membayar bunga Rp 403 juta selama 20 tahun, hampir sama dengan pokok pinjaman!</p>
+    <h2>Cara Menggunakan Tiga Fitur Kalkulator Ini</h2>
+    <p><strong>Tab Simulasi</strong> — Masukkan harga rumah, DP, bunga, dan tenor untuk menghitung cicilan bulanan, perbandingan tenor sekaligus, dan tabel angsuran lengkap per tahun. <strong>Tab Berapa Rumahku?</strong> — Kebalikannya: dari gaji Anda, hitung berapa harga rumah maksimum yang bisa dijangkau beserta DP yang harus disiapkan. <strong>Tab Lunasi Lebih Awal</strong> — Simulasikan berapa banyak yang bisa dihemat jika membayar lebih dari cicilan normal setiap bulannya.</p>
 
-    <h2>Fitur Kalkulator KPR NovaCalcs</h2>
-    <p>Kalkulator ini dirancang untuk membantu pengambilan keputusan, bukan sekadar menampilkan satu angka:</p>
-    <ul>
-      <li><strong>Preset suku bunga bank besar</strong> — BCA, BRI, Mandiri, BNI, BTN dengan satu klik. Anda tetap bisa memasukkan bunga custom sesuai penawaran bank Anda.</li>
-      <li><strong>Slider DP interaktif</strong> — Geser slider DP dari 10% hingga 60% dan lihat cicilan berubah secara langsung. Berguna untuk menemukan titik optimal antara DP dan cicilan bulanan.</li>
-      <li><strong>Visualisasi pokok vs bunga</strong> — Bar warna memperlihatkan berapa besar porsi dari total pembayaran yang benar-benar menjadi nilai rumah (pokok) vs biaya pinjaman (bunga).</li>
-      <li><strong>Perbandingan 5 pilihan tenor sekaligus</strong> — Tabel otomatis menampilkan cicilan, total bunga, dan total bayar untuk tenor 5, 10, 15, 20, dan 30 tahun — baris aktif ditandai agar mudah dibandingkan.</li>
-      <li><strong>Tabel angsuran tahun per tahun (amortisasi lengkap)</strong> — Lihat detail setiap tahun: berapa angsuran, berapa yang mengurangi pokok, berapa yang menjadi bunga, dan berapa sisa pinjaman. Dapat di-scroll untuk tenor panjang.</li>
-      <li><strong>Analisis kemampuan beli</strong> — Masukkan gaji bersih Anda dan kalkulator otomatis menghitung rasio cicilan terhadap gaji, lengkap dengan indikator apakah KPR ini masuk akal secara finansial.</li>
-    </ul>
+    <h2>Rumus Cicilan KPR (Anuitas)</h2>
+    <p>Mayoritas KPR Indonesia menggunakan sistem anuitas — cicilan tetap sama setiap bulan tapi komposisi pokok:bunga berubah. Di awal tenor, sebagian besar cicilan adalah bunga. Di akhir tenor, sebagian besar sudah mengurangi pokok. Rumus: <strong>M = P × [r(1+r)ⁿ] ÷ [(1+r)ⁿ−1]</strong> (M = cicilan, P = pokok, r = bunga per bulan, n = total bulan).</p>
 
     <h2>Panduan Memilih Tenor dan DP yang Tepat</h2>
-    <p>Ini adalah keputusan terpenting dalam KPR — dan kalkulator perbandingan tenor di atas bisa memvisualisasikannya langsung untuk angka Anda:</p>
-    <ul>
-      <li><strong>Tenor lebih pendek</strong> = cicilan per bulan lebih besar, tapi total bunga jauh lebih sedikit. Pilih ini jika penghasilan Anda stabil dan Anda ingin meminimalkan total biaya kepemilikan rumah.</li>
-      <li><strong>Tenor lebih panjang</strong> = cicilan per bulan lebih ringan, tapi Anda membayar bunga lebih lama. Pilih ini jika cash flow bulanan lebih diprioritaskan, atau untuk menjaga likuiditas.</li>
-      <li><strong>DP lebih besar</strong> = pokok pinjaman lebih kecil, cicilan lebih ringan, total bunga lebih sedikit. Namun jangan habiskan semua tabungan — sisakan dana darurat minimal 3–6 bulan pengeluaran.</li>
-      <li><strong>Aturan praktis</strong>: cicilan KPR idealnya tidak melebihi <strong>30–35% dari gaji bersih</strong> bulanan Anda. Di atas 40%, beban keuangan menjadi berat terutama jika ada kondisi tak terduga.</li>
-    </ul>
+    <p>Tenor lebih pendek = cicilan lebih besar tapi total bunga jauh lebih sedikit. Tenor lebih panjang = cicilan lebih ringan tapi total biaya lebih besar. DP lebih besar = pokok lebih kecil, cicilan lebih ringan, total bunga lebih sedikit. Aturan praktis: cicilan KPR idealnya tidak melebihi 30–35% dari gaji bersih bulanan.</p>
 
-    <h2>Syarat Umum KPR di Indonesia</h2>
-    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin:12px 0">
-      <thead><tr><th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Persyaratan</th><th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Keterangan</th></tr></thead>
+    <h2>Syarat Umum KPR di Indonesia 2026</h2>
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem;margin:12px 0">
+      <thead><tr><th style="background:var(--bg-input);padding:8px 10px;text-align:left">Persyaratan</th><th style="background:var(--bg-input);padding:8px 10px;text-align:left">Keterangan</th></tr></thead>
       <tbody>
         <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Usia</td><td style="padding:8px 10px">Min. 21 tahun; maks. 55 th (karyawan) atau 65 th (wiraswasta) saat lunas</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Status pekerjaan</td><td style="padding:8px 10px">Karyawan tetap min. 2 tahun, atau wiraswasta min. 2 tahun usaha berjalan</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">DP minimum</td><td style="padding:8px 10px">Rumah pertama: min. 15–20% (sesuai aturan BI). Rumah kedua dan seterusnya: 25–30%</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Rasio cicilan</td><td style="padding:8px 10px">Umumnya maks. 30–40% dari penghasilan bersih per bulan</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Status pekerjaan</td><td style="padding:8px 10px">Karyawan tetap min. 2 tahun, atau wiraswasta min. 2 tahun</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">DP minimum</td><td style="padding:8px 10px">Rumah pertama: min. 15–20%. Rumah kedua+: 25–30%</td></tr>
         <tr><td style="padding:8px 10px">Dokumen utama</td><td style="padding:8px 10px">KTP, NPWP, slip gaji 3 bulan, rekening koran 3 bulan, SPT tahunan</td></tr>
       </tbody>
     </table>
 
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa penghasilan minimum untuk mengajukan KPR?</div>
-      <div class="faq-a">Tidak ada patokan gaji minimum yang berlaku universal — yang dinilai bank adalah kemampuan membayar cicilan. Aturan umumnya: cicilan tidak boleh melebihi 30–40% dari penghasilan bersih. Jadi jika cicilan KPR Anda Rp 3 juta/bulan, idealnya gaji bersih minimal Rp 7,5–10 juta. Gunakan fitur "Analisis Kemampuan Beli" di kalkulator ini untuk mengecek secara langsung.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Lebih hemat tenor pendek atau panjang?</div>
-      <div class="faq-a">Tenor pendek selalu lebih hemat dalam hal total uang yang dibayarkan, karena bunga berjalan lebih singkat. Contoh nyata: pinjaman Rp 400 juta, bunga 8% — tenor 15 tahun total bunga Rp 280 juta, tenor 30 tahun total bunga Rp 652 juta. Selisihnya Rp 370 juta! Namun cicilan tenor 15 tahun (~Rp 3,8 jt) hampir 2× lebih besar dari tenor 30 tahun (~Rp 2,9 jt). Pilih tenor terpendek yang cicilannya masih di bawah 35% gaji Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu bunga fixed dan floating pada KPR?</div>
-      <div class="faq-a">Bunga fixed: suku bunga tetap selama periode promosi tertentu, biasanya 1–5 tahun pertama. Memberikan kepastian cicilan di awal. Bunga floating: setelah periode fixed berakhir, bunga mengikuti kondisi pasar (biasanya dikaitkan dengan suku bunga BI atau biaya dana bank). Bisa naik atau turun. Di Indonesia, hampir semua KPR menggunakan sistem mixed: beberapa tahun pertama fixed, lalu floating. Simulasi kalkulator ini menggunakan bunga tetap — untuk bunga floating, hitung ulang setiap kali bunga berubah.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Biaya apa saja selain DP yang harus disiapkan saat KPR?</div>
-      <div class="faq-a">Selain DP, siapkan biaya-biaya berikut yang sering tidak disadari: (1) Biaya provisi bank: 0,5–1% dari nilai pinjaman, (2) Biaya administrasi KPR: Rp 500 ribu–Rp 2 juta, (3) Asuransi jiwa dan kebakaran: dibayar di muka, (4) Biaya notaris/PPAT: 0,5–1% dari nilai transaksi, (5) Bea Perolehan Hak atas Tanah dan Bangunan (BPHTB): 5% dari NJOP, (6) Biaya balik nama sertifikat. Total biaya tambahan ini bisa mencapai 5–10% dari harga rumah — jadi anggarkan di luar DP Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bolehkah melunasi KPR lebih awal (pelunasan dipercepat)?</div>
-      <div class="faq-a">Ya, hampir semua bank mengizinkan pelunasan dipercepat (baik sebagian maupun penuh). Namun umumnya dikenakan penalti 1–3% dari sisa pokok pinjaman, terutama jika dilakukan dalam 1–5 tahun pertama. Setelah periode penalti berakhir, melunasi lebih awal sangat menguntungkan — Anda menghemat seluruh bunga yang belum berjalan. Cek ketentuan spesifik di perjanjian kredit Anda sebelum merencanakan pelunasan dipercepat.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan KPR subsidi (FLPP) dan KPR komersial?</div>
-      <div class="faq-a">KPR subsidi (FLPP — Fasilitas Likuiditas Pembiayaan Perumahan) adalah program pemerintah untuk masyarakat berpenghasilan rendah (MBR) dengan bunga tetap 5% sepanjang tenor dan uang muka mulai 1%. Batasan harga rumah berkisar Rp 162–234 juta tergantung wilayah, dan ada batas penghasilan pemohon. KPR komersial tidak ada batasan harga dan penghasilan, namun bunga mengikuti pasar (7–11%). Jika memenuhi syarat, KPR subsidi jauh lebih menguntungkan karena bunga rendah dan tetap.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah lebih baik beli rumah cash atau KPR?</div>
-      <div class="faq-a">Dari sudut pandang murni finansial, jika return investasi uang Anda (misalnya di reksa dana atau saham) lebih besar dari bunga KPR (8–9%), lebih menguntungkan mengambil KPR dan menginvestasikan uang tunai yang ada. Namun ini mengandung risiko — investasi tidak selalu memberikan return positif. Pertimbangkan juga faktor psikologis (ketenangan bebas utang) dan kemampuan disiplin berinvestasi. Banyak perencana keuangan merekomendasikan KPR dengan cicilan moderat sambil tetap berinvestasi.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa penghasilan minimum untuk KPR?</div>
+    <div class="faq-a">Tidak ada patokan universal — yang dinilai bank adalah kemampuan membayar cicilan. Aturan umum: cicilan tidak boleh melebihi 30–40% penghasilan bersih. Gunakan Tab "Berapa Rumahku?" untuk menghitung berapa harga rumah yang sesuai gaji Anda.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Lebih hemat tenor pendek atau panjang?</div>
+    <div class="faq-a">Tenor pendek selalu lebih hemat total. Contoh: pinjaman Rp 400 juta, bunga 8% — tenor 15 tahun total bunga ~Rp 280 juta, tenor 30 tahun ~Rp 652 juta. Selisih Rp 370 juta! Pilih tenor terpendek yang cicilannya masih di bawah 35% gaji Anda.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah boleh melunasi KPR lebih awal?</div>
+    <div class="faq-a">Ya. Namun umumnya ada penalti 1–3% dari sisa pokok, terutama dalam 1–5 tahun pertama. Setelah periode penalti berakhir, pelunasan lebih awal sangat menguntungkan. Gunakan Tab "Lunasi Lebih Awal" untuk hitung penghematan yang bisa didapat.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu bunga fixed dan floating pada KPR?</div>
+    <div class="faq-a">Bunga fixed: tetap selama periode promosi (biasanya 1–5 tahun pertama). Bunga floating: setelah periode fixed, mengikuti kondisi pasar. Hampir semua KPR Indonesia menggunakan sistem campuran: beberapa tahun fixed, lalu floating. Simulasi kalkulator ini menggunakan bunga tetap.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Biaya apa saja selain DP yang harus disiapkan?</div>
+    <div class="faq-a">Provisi bank (0,5–1%), biaya administrasi, asuransi jiwa dan kebakaran, biaya notaris/PPAT (0,5–1%), BPHTB (5% dari NJOP), biaya balik nama. Total bisa mencapai 5–10% dari harga rumah — anggarkan di luar DP.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Lebih baik beli rumah cash atau KPR?</div>
+    <div class="faq-a">Jika return investasi Anda lebih besar dari bunga KPR, secara matematis KPR lebih menguntungkan — sisa dana diinvestasikan. Namun pertimbangkan juga ketenangan bebas utang dan kemampuan disiplin berinvestasi. Banyak perencana keuangan merekomendasikan KPR moderat sambil tetap berinvestasi.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -280,135 +329,242 @@
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
-let tenor = 15;
+let tenor = 15, rvTenor = 15, epTenor = 15;
+
 const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
 const fmtShort = n => {
-  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
-  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
+  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2).replace('.',',') + ' M';
+  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1).replace('.',',') + ' jt';
   return fmt(n);
 };
 
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
 function syncDP(v) {
-  document.getElementById('dp-pct-label').textContent = v + '%';
-  const price = parseFloat(document.getElementById('price').value) || 0;
-  document.getElementById('dp-rp-label').textContent = price ? fmtShort(price * v / 100) : '—';
+  document.getElementById('dp-pct-label').textContent = v+'%';
+  const price = parseFloat(document.getElementById('price').value)||0;
+  document.getElementById('dp-rp-label').textContent = price ? fmtShort(price*v/100) : '—';
   autoCalc();
 }
 function setRate(r, btn) {
   document.getElementById('rate').value = r;
-  document.querySelectorAll('.bank-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  autoCalc();
+  document.querySelectorAll('.bank-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); autoCalc();
 }
 function setTenor(t, btn) {
   tenor = t;
-  document.querySelectorAll('#tenor-btns .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  autoCalc();
+  document.querySelectorAll('#tenor-btns .radio-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); autoCalc();
 }
-function autoCalc() {
-  if (document.getElementById('price').value) calculate();
+function setRvTenor(t, btn) {
+  rvTenor = t;
+  document.querySelectorAll('#rv-tenor-btns .radio-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); calcReverse();
 }
+function setEpTenor(t, btn) {
+  epTenor = t;
+  document.querySelectorAll('#ep-tenor-btns .radio-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); calcEarly();
+}
+function autoCalc() { if (document.getElementById('price').value) calculate(); }
 
 function calcKPR(principal, annualRate, tenorYears) {
-  const r = annualRate / 12 / 100;
-  const n = tenorYears * 12;
-  if (r === 0) return { monthly: principal/n, total: principal, interest: 0 };
-  const monthly = principal * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n) - 1);
-  const total = monthly * n;
-  return { monthly, total, interest: total - principal };
+  const r = annualRate/12/100;
+  const n = tenorYears*12;
+  if (r===0) return {monthly:principal/n, total:principal, interest:0};
+  const monthly = principal*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+  return {monthly, total:monthly*n, interest:monthly*n-principal};
 }
 
 function calculate() {
   const price = parseFloat(document.getElementById('price').value);
-  const dpPct = parseFloat(document.getElementById('dp-range').value) || 20;
+  const dpPct = parseFloat(document.getElementById('dp-range').value)||20;
   const rate = parseFloat(document.getElementById('rate').value);
-  const gaji = parseFloat(document.getElementById('gaji').value) || 0;
-  if (!price || !rate) return alert('Lengkapi harga rumah dan suku bunga.');
+  const gaji = parseFloat(document.getElementById('gaji').value)||0;
+  if (!price||!rate) return;
 
-  const dp = price * dpPct / 100;
-  const principal = price - dp;
-  const { monthly, total, interest } = calcKPR(principal, rate, tenor);
+  const dp = price*dpPct/100;
+  const principal = price-dp;
+  const {monthly, total, interest} = calcKPR(principal, rate, tenor);
 
-  // DP label update
   document.getElementById('dp-rp-label').textContent = fmtShort(dp);
-
-  // Main display
   document.getElementById('res-monthly').textContent = fmt(monthly);
   document.getElementById('res-dp').textContent = fmtShort(dp);
   document.getElementById('res-principal').textContent = fmtShort(principal);
   document.getElementById('res-interest').textContent = fmtShort(interest);
   document.getElementById('res-total').textContent = fmtShort(total);
 
-  // Bar pokok vs bunga
-  const pokokPct = Math.round(principal / total * 100);
-  const bungaPct = 100 - pokokPct;
-  document.getElementById('bar-pokok').style.width = pokokPct + '%';
-  document.getElementById('bar-pokok').textContent = pokokPct > 15 ? 'Pokok ' + pokokPct + '%' : '';
-  document.getElementById('bar-bunga').style.width = bungaPct + '%';
-  document.getElementById('bar-bunga').textContent = bungaPct > 15 ? 'Bunga ' + bungaPct + '%' : '';
+  const pokokPct = Math.round(principal/total*100);
+  document.getElementById('bar-pokok').style.width = pokokPct+'%';
+  document.getElementById('bar-pokok').textContent = pokokPct>15?'Pokok '+pokokPct+'%':'';
+  document.getElementById('bar-bunga').style.width = (100-pokokPct)+'%';
+  document.getElementById('bar-bunga').textContent = (100-pokokPct)>15?'Bunga '+(100-pokokPct)+'%':'';
 
   // Kemampuan beli
   const affordBox = document.getElementById('afford-box');
-  if (gaji > 0) {
-    const ratio = monthly / gaji * 100;
+  if (gaji>0) {
+    const ratio = monthly/gaji*100;
     document.getElementById('af-gaji').textContent = fmtShort(gaji);
     document.getElementById('af-cicilan').textContent = fmt(monthly);
-    document.getElementById('af-ratio').textContent = ratio.toFixed(1) + '%';
-    const statusEl = document.getElementById('af-status');
-    if (ratio <= 30) { statusEl.textContent = '✅ Aman'; statusEl.className = 'afford-val'; }
-    else if (ratio <= 40) { statusEl.textContent = '⚠️ Perhatikan pengeluaran lain'; statusEl.className = 'afford-val warn'; }
-    else { statusEl.textContent = '❌ Terlalu berat (>40% gaji)'; statusEl.className = 'afford-val bad'; }
-    affordBox.style.display = '';
-  } else {
-    affordBox.style.display = 'none';
-  }
+    document.getElementById('af-ratio').textContent = ratio.toFixed(1)+'%';
+    const st = document.getElementById('af-status');
+    if (ratio<=30) { st.textContent='✅ Aman'; st.className='afford-val'; }
+    else if (ratio<=40) { st.textContent='⚠️ Perhatikan pengeluaran lain'; st.className='afford-val warn'; }
+    else { st.textContent='❌ Terlalu berat (>40% gaji)'; st.className='afford-val bad'; }
+    // Max affordable price
+    const maxMonthly = gaji*0.30;
+    const r = rate/12/100, n = tenor*12;
+    const maxPrincipal = maxMonthly*(Math.pow(1+r,n)-1)/(r*Math.pow(1+r,n));
+    const maxPrice = maxPrincipal/(1-dpPct/100);
+    document.getElementById('af-max').textContent = fmtShort(maxPrice)+' (dengan cicilan 30% gaji)';
+    document.getElementById('af-max-row').style.display='';
+    affordBox.style.display='';
+  } else { affordBox.style.display='none'; }
 
-  // Tenor comparison table
-  const tenors = [5, 10, 15, 20, 30];
+  // Tenor comparison
   const tbl = document.getElementById('tenor-comparison');
-  tbl.innerHTML = `<thead><tr><th>Tenor</th><th>Cicilan/bln</th><th>Total Bunga</th><th>Total Bayar</th></tr></thead>`;
+  tbl.innerHTML=`<thead><tr><th>Tenor</th><th>Cicilan/bln</th><th>Total Bunga</th><th>Total Bayar</th></tr></thead>`;
   const tbody = document.createElement('tbody');
-  tenors.forEach(t => {
+  [5,10,15,20,30].forEach(t => {
     const r = calcKPR(principal, rate, t);
     const tr = document.createElement('tr');
-    if (t === tenor) tr.className = 'active-tenor';
-    tr.innerHTML = `<td>${t} tahun</td><td>${fmt(r.monthly)}</td><td style="color:#f97316">${fmtShort(r.interest)}</td><td>${fmtShort(r.total)}</td>`;
+    if (t===tenor) tr.className='active-tenor';
+    tr.innerHTML=`<td>${t} tahun</td><td>${fmt(r.monthly)}</td><td style="color:#f97316">${fmtShort(r.interest)}</td><td>${fmtShort(r.total)}</td>`;
     tbody.appendChild(tr);
   });
   tbl.appendChild(tbody);
 
-  // Amortization full table
+  // Amortization
   const amortBody = document.getElementById('amort-body');
-  amortBody.innerHTML = '';
+  amortBody.innerHTML='';
   let balance = principal;
-  const r = rate / 12 / 100;
-  for (let y = 1; y <= tenor; y++) {
-    let yInterest = 0, yPrincipal = 0;
-    for (let m = 0; m < 12 && balance > 0; m++) {
-      const intPmt = balance * r;
-      const pplPmt = Math.min(monthly - intPmt, balance);
-      yInterest += intPmt; yPrincipal += pplPmt;
-      balance -= pplPmt;
+  const r = rate/12/100;
+  for (let y=1; y<=tenor; y++) {
+    let yInterest=0, yPrincipal=0;
+    for (let m=0; m<12&&balance>0; m++) {
+      const intPmt=balance*r, pplPmt=Math.min(monthly-intPmt,balance);
+      yInterest+=intPmt; yPrincipal+=pplPmt; balance-=pplPmt;
     }
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>Tahun ${y}</td><td>${fmt(monthly)}</td><td>${fmt(yPrincipal)}</td><td style="color:#f97316">${fmt(yInterest)}</td><td>${fmt(Math.max(0,balance))}</td>`;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>Tahun ${y}</td><td>${fmt(monthly)}</td><td>${fmt(yPrincipal)}</td><td style="color:#f97316">${fmt(yInterest)}</td><td>${fmt(Math.max(0,balance))}</td>`;
     amortBody.appendChild(tr);
   }
 
-  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').style.display='block';
   document.getElementById('result').classList.add('show');
 }
 
+// Reverse calculator
+function calcReverse() {
+  const gaji = parseFloat(document.getElementById('rv-gaji').value);
+  const pct = parseFloat(document.getElementById('rv-pct').value)/100;
+  const rate = parseFloat(document.getElementById('rv-rate').value);
+  const dp = parseFloat(document.getElementById('rv-dp').value)/100;
+  if (!gaji||!rate) return;
+
+  const maxMonthly = gaji*pct;
+  const r = rate/12/100, n = rvTenor*12;
+  const maxPrincipal = r===0 ? maxMonthly*n : maxMonthly*(Math.pow(1+r,n)-1)/(r*Math.pow(1+r,n));
+  const maxPrice = maxPrincipal/(1-dp);
+  const dpAmount = maxPrice*dp;
+  const {interest} = calcKPR(maxPrincipal, rate, rvTenor);
+
+  document.getElementById('rv-harga-max').textContent = fmtShort(maxPrice);
+  document.getElementById('rv-cicilan-max').textContent = fmt(maxMonthly)+'/bulan';
+  document.getElementById('rv-dp-amount').textContent = fmtShort(dpAmount);
+  document.getElementById('rv-pokok').textContent = fmtShort(maxPrincipal);
+  document.getElementById('rv-bunga').textContent = fmtShort(interest);
+
+  const ratioLabel = pct<=0.30?'✅ Aman':'⚠️ Agak berat — pastikan tidak ada cicilan lain';
+  document.getElementById('rv-advice').innerHTML =
+    `${ratioLabel} — dengan cicilan ${(pct*100).toFixed(0)}% dari gaji ${fmtShort(gaji)}, Anda bisa menjangkau rumah seharga <strong>${fmtShort(maxPrice)}</strong> dengan DP ${(dp*100).toFixed(0)}% (${fmtShort(dpAmount)}) dan tenor ${rvTenor} tahun.<br><br>` +
+    `💡 Ingin rumah lebih mahal? Naikkan DP, perpanjang tenor, atau tambah penghasilan.`;
+
+  // DP scenarios
+  const scTbl = document.getElementById('rv-scenario-table');
+  scTbl.innerHTML = `<thead><tr><th>DP</th><th>Harga Maks</th><th>DP Dibutuhkan</th><th>Cicilan/bln</th></tr></thead>`;
+  const scTbody = document.createElement('tbody');
+  [10,15,20,30,40].forEach(dpPct => {
+    const scPrincipal = r===0?maxMonthly*n:maxMonthly*(Math.pow(1+r,n)-1)/(r*Math.pow(1+r,n));
+    const scPrice = scPrincipal/(1-dpPct/100);
+    const tr = document.createElement('tr');
+    if (dpPct===dp*100) tr.className='active-tenor';
+    tr.innerHTML=`<td>${dpPct}%</td><td>${fmtShort(scPrice)}</td><td>${fmtShort(scPrice*dpPct/100)}</td><td>${fmt(maxMonthly)}</td>`;
+    scTbody.appendChild(tr);
+  });
+  scTbl.appendChild(scTbody);
+
+  document.getElementById('rv-result').style.display='block';
+}
+
+// Early repayment
+function calcEarly() {
+  const principal = parseFloat(document.getElementById('ep-principal').value);
+  const rate = parseFloat(document.getElementById('ep-rate').value);
+  const extra = parseFloat(document.getElementById('ep-extra').value)||0;
+  if (!principal||!rate) return;
+
+  const {monthly, interest:intOri} = calcKPR(principal, rate, epTenor);
+  document.getElementById('ep-monthly').textContent = fmt(monthly);
+  document.getElementById('ep-monthly-extra').textContent = fmt(monthly+extra);
+  document.getElementById('ep-tenor-ori').textContent = epTenor+' tahun';
+  document.getElementById('ep-int-ori').textContent = fmtShort(intOri);
+
+  // Simulate with extra payment
+  const r = rate/12/100;
+  let balance = principal, months = 0, intNew = 0;
+  const monthlyNew = monthly+extra;
+  while (balance>0 && months<epTenor*12*2) {
+    const intPmt = balance*r;
+    const pplPmt = Math.min(monthlyNew-intPmt, balance);
+    intNew += intPmt; balance -= pplPmt; months++;
+  }
+  const saving = intOri-intNew;
+  const fasterMonths = epTenor*12-months;
+  const fasterYears = Math.floor(fasterMonths/12);
+  const fasterMos = fasterMonths%12;
+  const newTenorYears = Math.floor(months/12);
+  const newTenorMos = months%12;
+
+  document.getElementById('ep-saving').textContent = fmtShort(saving);
+  document.getElementById('ep-tenor-new').textContent = `${newTenorYears} tahun ${newTenorMos>0?newTenorMos+' bulan':''}`;
+  document.getElementById('ep-faster').textContent = `${fasterYears>0?fasterYears+' tahun ':''} ${fasterMos>0?fasterMos+' bulan':''} lebih cepat`;
+  document.getElementById('ep-int-new').textContent = fmtShort(intNew);
+
+  // Scenarios for different extra amounts
+  const scenarios = [100000, 250000, 500000, 1000000, 2000000];
+  const scTbl = document.getElementById('ep-scenario-table');
+  scTbl.innerHTML = `<thead><tr><th>Tambahan/bln</th><th>Tenor Baru</th><th>Hemat Bunga</th><th>Lebih Cepat</th></tr></thead>`;
+  const scTbody = document.createElement('tbody');
+  scenarios.forEach(ex => {
+    let bal=principal, mos=0, intSc=0;
+    const mNew = monthly+ex;
+    while (bal>0&&mos<epTenor*12*2) {
+      const ip=bal*r, pp=Math.min(mNew-ip,bal);
+      intSc+=ip; bal-=pp; mos++;
+    }
+    const sv = intOri-intSc;
+    const ft = epTenor*12-mos;
+    const tr = document.createElement('tr');
+    if (ex===extra) tr.className='active-tenor';
+    tr.innerHTML=`<td>+${fmtShort(ex)}</td><td>${Math.floor(mos/12)} th ${mos%12>0?mos%12+' bln':''}</td><td style="color:#4ade80">${fmtShort(sv)}</td><td style="color:#4ade80">${Math.floor(ft/12)} th ${ft%12>0?ft%12+' bln':''}</td>`;
+    scTbody.appendChild(tr);
+  });
+  scTbl.appendChild(scTbody);
+  document.getElementById('ep-result').style.display='block';
+}
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if(e.key==='Enter') calculate(); });
 </script>
 </body>
 </html>
