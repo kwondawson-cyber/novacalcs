@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Konversi Luas 2026 — Ubah m², Hektar, Are, Acre, km² Online | NovaCalcs</title>
-<meta name="description" content="Konversi satuan luas secara instan: m², cm², km², hektar, are, acre, feet², yard². Cocok untuk properti, pertanian, dan keperluan teknik."/>
-<meta name="keywords" content="konversi luas, ubah meter persegi, hektar ke m2, acre ke hektar, are ke m2, satuan luas"/>
+<meta name="description" content="Konversi satuan luas instan: m², hektar, are, acre, tumbak, bahu. Lengkap dengan preset properti Indonesia dan perbandingan visual dengan landmark familiar."/>
+<meta name="keywords" content="konversi luas, ubah meter persegi, hektar ke m2, acre ke hektar, are ke m2, tumbak ke m2, satuan luas tanah"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-luas.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/konversi-luas.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,9 +13,34 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Konversi Luas","url":"https://novacalcs.com/id/konversi-luas.html","description":"Konversi satuan luas lengkap termasuk satuan tradisional Indonesia","applicationCategory":"UtilitiesApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<style>
+/* Preset categories */
+.preset-section { margin-bottom: 1rem }
+.preset-label { font-size:.72rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem }
+.preset-row { display:flex;flex-wrap:wrap;gap:5px }
+.preset-btn { padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s }
+.preset-btn:hover,.preset-btn.active { background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35) }
+
+/* Visual comparison bar */
+.compare-section { margin-top:14px }
+.compare-title { font-size:.72rem;color:#8fa3b1;font-weight:600;margin-bottom:.5rem }
+.compare-item { margin-bottom:8px }
+.compare-row { display:flex;align-items:center;gap:8px;font-size:.78rem }
+.compare-name { width:160px;flex-shrink:0;color:var(--text-secondary) }
+.compare-bar-track { flex:1;height:10px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden }
+.compare-bar-fill { height:100%;border-radius:5px;background:var(--mint);opacity:.7;transition:width .4s }
+.compare-ratio { font-size:.7rem;color:var(--mint);font-weight:700;width:70px;text-align:right;flex-shrink:0 }
+
+/* Result highlight for local units */
+.local-unit-row { background:rgba(0,201,177,.05);border:1px solid rgba(0,201,177,.15) !important;border-radius:8px }
+.local-unit-row .rkey { color:var(--mint) !important }
+</style>
 </head>
 <body>
-
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
@@ -26,12 +51,35 @@
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
   <div>
     <div class="calc-widget">
       <div class="calc-title">📐 Konversi Satuan Luas</div>
-      <div class="calc-subtitle">Konversi luas antar semua satuan secara instan</div>
+      <div class="calc-subtitle">Termasuk tumbak, bahu, rante &amp; preset properti Indonesia</div>
+
+      <!-- Preset properti Indonesia -->
+      <div class="preset-section">
+        <div class="preset-label">🏠 Preset Properti Populer Indonesia:</div>
+        <div class="preset-row">
+          <button class="preset-btn" onclick="applyPreset(21,'m2',this)">Rumah tipe 21</button>
+          <button class="preset-btn" onclick="applyPreset(36,'m2',this)">Rumah tipe 36</button>
+          <button class="preset-btn" onclick="applyPreset(45,'m2',this)">Rumah tipe 45</button>
+          <button class="preset-btn" onclick="applyPreset(72,'m2',this)">Rumah tipe 72</button>
+          <button class="preset-btn" onclick="applyPreset(100,'m2',this)">Kavling 100 m²</button>
+          <button class="preset-btn" onclick="applyPreset(200,'m2',this)">Kavling 200 m²</button>
+        </div>
+      </div>
+      <div class="preset-section">
+        <div class="preset-label">🌾 Preset Lahan Pertanian:</div>
+        <div class="preset-row">
+          <button class="preset-btn" onclick="applyPreset(0.25,'ha',this)">¼ ha (2.500 m²)</button>
+          <button class="preset-btn" onclick="applyPreset(0.5,'ha',this)">½ ha (5.000 m²)</button>
+          <button class="preset-btn" onclick="applyPreset(1,'ha',this)">1 hektar</button>
+          <button class="preset-btn" onclick="applyPreset(5,'ha',this)">5 hektar</button>
+          <button class="preset-btn" onclick="applyPreset(1,'bahu',this)">1 bahu (Jawa)</button>
+          <button class="preset-btn" onclick="applyPreset(10,'tumbak',this)">10 tumbak</button>
+        </div>
+      </div>
 
       <div class="field">
         <label>Nilai yang Ingin Dikonversi</label>
@@ -40,20 +88,27 @@
       <div class="field">
         <label>Dari Satuan</label>
         <select id="from-unit" onchange="convert()">
-          <optgroup label="Metrik">
+          <optgroup label="Satuan Umum Indonesia">
             <option value="m2">m² (meter persegi)</option>
+            <option value="ha">ha (hektar)</option>
+            <option value="are">are</option>
+          </optgroup>
+          <optgroup label="Satuan Tradisional Indonesia">
+            <option value="tumbak">tumbak / ubin (Jawa & Sunda) = 14,0625 m²</option>
+            <option value="bahu">bahu (Jawa) ≈ 7.096 m²</option>
+            <option value="rante">rante (Sumatera Utara) = 400 m²</option>
+          </optgroup>
+          <optgroup label="Metrik Lainnya">
             <option value="cm2">cm² (sentimeter persegi)</option>
             <option value="mm2">mm² (milimeter persegi)</option>
             <option value="km2">km² (kilometer persegi)</option>
-            <option value="ha">ha (hektar)</option>
-            <option value="are">are</option>
           </optgroup>
           <optgroup label="Imperial">
             <option value="ft2">ft² (kaki persegi)</option>
             <option value="in2">in² (inci persegi)</option>
             <option value="yd2">yd² (yard persegi)</option>
-            <option value="mi2">mi² (mil persegi)</option>
             <option value="acre">acre</option>
+            <option value="mi2">mi² (mil persegi)</option>
           </optgroup>
         </select>
       </div>
@@ -63,110 +118,70 @@
           <div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>
         </div>
       </div>
+
+      <!-- Visual comparison with Indonesian landmarks -->
+      <div class="compare-section" id="compare-section" style="display:none">
+        <div class="compare-title">📏 Luas ini setara dengan berapa kali...</div>
+        <div id="compare-bars"></div>
+      </div>
     </div>
   </div>
 
-  <div class="seo-content">
-    <h1>Konversi Satuan Luas — m², Hektar, Are, Acre, km² dan Lebih</h1>
-    <p class="page-desc">Kalkulator konversi luas yang lengkap untuk mengubah satuan luas metrik dan imperial secara instan. Sangat berguna untuk keperluan properti, pertanian, konstruksi, dan perencanaan tata ruang.</p>
+  <div class="content-area">
+    <h1>Konversi Satuan Luas — m², Hektar, Are, Tumbak, Acre</h1>
+    <p class="page-desc">Konversi satuan luas instan untuk semua kebutuhan — properti, pertanian, konstruksi, dan tata ruang. Dilengkapi satuan tradisional Indonesia (tumbak, bahu, rante), preset properti populer, dan perbandingan visual dengan referensi yang familiar.</p>
 
     <div class="ad-slot">Advertisement</div>
 
     <h2>Satuan Luas yang Umum Digunakan di Indonesia</h2>
-    <p>Di Indonesia, satuan luas yang paling sering digunakan dalam kehidupan sehari-hari adalah meter persegi (m²) untuk luas bangunan dan tanah perumahan, hektar (ha) untuk lahan pertanian dan kawasan, dan are untuk ukuran tanah di beberapa daerah. Dalam transaksi properti, istilah "kavling" dan "persil" sering digunakan, di mana ukurannya dinyatakan dalam m².</p>
-    <p>Sertifikat tanah di Indonesia umumnya mencantumkan luas dalam m², sementara data statistik pertanian menggunakan hektar. Perlu dicatat bahwa 1 hektar = 10.000 m², dan 1 are = 100 m².</p>
+    <p>Di Indonesia, satuan luas yang paling sering digunakan adalah <strong>meter persegi (m²)</strong> untuk luas bangunan dan tanah perumahan, <strong>hektar (ha)</strong> untuk lahan pertanian dan kawasan industri, dan <strong>are</strong> untuk ukuran tanah di beberapa daerah. Sertifikat tanah (SHM, SHGB) mencantumkan luas dalam m², sementara data statistik pertanian menggunakan hektar.</p>
 
-    <h2>Cara Menggunakan Konverter Luas Ini</h2>
-    <ol>
-      <li>Masukkan <strong>nilai luas</strong> yang ingin dikonversi</li>
-      <li>Pilih <strong>satuan asal</strong> dari dropdown</li>
-      <li>Hasil konversi ke semua satuan lainnya akan muncul <strong>secara otomatis</strong></li>
-    </ol>
-
-    <h2>Tabel Konversi Satuan Luas</h2>
-    <table>
-      <tr><th>Satuan</th><th>Setara dalam m²</th><th>Keterangan</th></tr>
-      <tr><td>1 mm²</td><td>0,000001 m²</td><td>Sangat kecil, untuk teknik presisi</td></tr>
-      <tr><td>1 cm²</td><td>0,0001 m²</td><td>Untuk area kecil</td></tr>
-      <tr><td>1 m²</td><td>1 m²</td><td>Satuan dasar SI</td></tr>
-      <tr><td>1 are</td><td>100 m²</td><td>10 m × 10 m</td></tr>
-      <tr><td>1 hektar (ha)</td><td>10.000 m²</td><td>100 m × 100 m</td></tr>
-      <tr><td>1 km²</td><td>1.000.000 m²</td><td>1 km × 1 km</td></tr>
-      <tr><td>1 in² (inci²)</td><td>0,000645 m²</td><td>Imperial</td></tr>
-      <tr><td>1 ft² (kaki²)</td><td>0,0929 m²</td><td>Imperial</td></tr>
-      <tr><td>1 yd² (yard²)</td><td>0,836 m²</td><td>Imperial</td></tr>
-      <tr><td>1 acre</td><td>4.046,86 m²</td><td>≈ 0,4 hektar</td></tr>
-      <tr><td>1 mi² (mil²)</td><td>2.589.988 m²</td><td>≈ 259 hektar</td></tr>
+    <h2>Satuan Luas Tradisional Indonesia</h2>
+    <p>Selain satuan metrik, Indonesia memiliki satuan luas tradisional yang masih digunakan dalam transaksi tanah di daerah tertentu — terutama di Jawa dan Sumatera:</p>
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem;margin:10px 0">
+      <thead><tr><th style="background:var(--bg-input);padding:8px 10px;text-align:left">Satuan</th><th style="background:var(--bg-input);padding:8px 10px;text-align:left">Setara m²</th><th style="background:var(--bg-input);padding:8px 10px;text-align:left">Daerah Penggunaan</th></tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">1 tumbak / ubin</td><td style="padding:8px 10px">14,0625 m²</td><td style="padding:8px 10px">Jawa, Sunda — transaksi tanah pedesaan</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">1 bahu</td><td style="padding:8px 10px">7.096 m²</td><td style="padding:8px 10px">Jawa — satuan lahan sawah</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">1 rante</td><td style="padding:8px 10px">400 m²</td><td style="padding:8px 10px">Sumatera Utara (Batak)</td></tr>
+        <tr><td style="padding:8px 10px">1 are (a)</td><td style="padding:8px 10px">100 m²</td><td style="padding:8px 10px">Nasional — sertifikat tanah</td></tr>
+      </tbody>
     </table>
 
-    <h2>Referensi Ukuran Luas yang Familiar</h2>
-    <table>
-      <tr><th>Contoh</th><th>Luas Kira-kira</th></tr>
-      <tr><td>Satu lembar A4</td><td>623 cm²</td></tr>
-      <tr><td>Lapangan bulu tangkis</td><td>81 m²</td></tr>
-      <tr><td>Rumah tipe 36</td><td>36 m²</td></tr>
-      <tr><td>Lapangan sepak bola</td><td>~7.000 m²</td></tr>
-      <tr><td>1 kavling tanah (umum)</td><td>100–200 m²</td></tr>
-      <tr><td>Pertanian skala kecil</td><td>0,5–2 hektar</td></tr>
-    </table>
-
-    <h2>Satuan Luas Tanah yang Umum di Indonesia</h2>
-    <p>Dunia properti dan pertanian Indonesia menggunakan berbagai satuan luas yang unik. Berikut konversi lengkapnya:</p>
-    <table>
-      <tr><th>Satuan</th><th>Setara m²</th><th>Konteks Penggunaan</th></tr>
-      <tr><td>1 are (a)</td><td>100 m²</td><td>Sertifikat tanah, ukuran kavling</td></tr>
-      <tr><td>1 hektar (ha)</td><td>10.000 m²</td><td>Lahan pertanian, perkebunan, hutan</td></tr>
-      <tr><td>1 depa (Jawa)</td><td>~2,5 m²</td><td>Satuan tradisional Jawa</td></tr>
-      <tr><td>1 tumbak/tombak (Jawa/Sunda)</td><td>14,0625 m²</td><td>Masih dipakai di transaksi tanah pedesaan Jawa</td></tr>
-      <tr><td>1 ubin</td><td>14,0625 m²</td><td>Sama dengan tumbak, umum di Jawa Barat</td></tr>
-      <tr><td>1 bahu (Jawa)</td><td>7.096 m²</td><td>Satuan lahan sawah tradisional</td></tr>
-      <tr><td>1 rante (Sumatera Utara)</td><td>~400 m²</td><td>Daerah Batak dan sekitarnya</td></tr>
+    <h2>Referensi Luas yang Familiar di Indonesia</h2>
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem;margin:10px 0">
+      <thead><tr><th style="background:var(--bg-input);padding:8px 10px;text-align:left">Referensi</th><th style="background:var(--bg-input);padding:8px 10px;text-align:left">Luas</th></tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">KTP ukuran standar</td><td style="padding:8px 10px">54 cm²</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Lapangan bulu tangkis</td><td style="padding:8px 10px">81 m²</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Rumah tipe 36 (standar KPR)</td><td style="padding:8px 10px">36 m²</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Lapangan futsal</td><td style="padding:8px 10px">~400 m²</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Lapangan sepak bola standar</td><td style="padding:8px 10px">~7.140 m²</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Kompleks GBK (Senayan)</td><td style="padding:8px 10px">~279 ha</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Pulau Madura</td><td style="padding:8px 10px">~5.290 km²</td></tr>
+        <tr><td style="padding:8px 10px">Luas Pulau Jawa</td><td style="padding:8px 10px">~128.297 km²</td></tr>
+      </tbody>
     </table>
 
     <h2>Cara Membaca Luas Tanah di Sertifikat</h2>
-    <p>Sertifikat tanah Indonesia mencantumkan luas dalam satuan <strong>m²</strong>. Namun iklan properti sering menyebut luas dalam satuan lain:</p>
-    <ul>
-      <li>"Tanah 200 m²" → Luas 200 meter persegi (10m × 20m)</li>
-      <li>"Kavling 2 are" → 200 m² (1 are = 100 m²)</li>
-      <li>"Lahan 0,5 ha" → 5.000 m² (setengah hektar)</li>
-      <li>"Lahan 500 tumbak" → 500 × 14,0625 = 7.031,25 m²</li>
-    </ul>
-    <p>Saat membeli tanah, selalu verifikasi luas di sertifikat asli. Luas yang tertera di sertifikat adalah yang legally binding, bukan angka di iklan.</p>
+    <p>Sertifikat tanah Indonesia mencantumkan luas dalam m². Namun iklan properti sering menyebut luas dalam satuan berbeda: "Tanah 200 m²" = luas 200 meter persegi; "Kavling 2 are" = 200 m²; "Lahan 0,5 ha" = 5.000 m²; "500 tumbak" = 500 × 14,0625 = 7.031 m². Saat membeli tanah, selalu verifikasi di sertifikat asli — itulah yang legally binding.</p>
 
-    <h2>Luas Tanah Minimum untuk KPR dan Sertifikat</h2>
-    <ul>
-      <li>Rumah subsidi FLPP — Luas bangunan minimum 21 m², luas tanah minimum 60 m²</li>
-      <li>Penerbitan SHM (Sertifikat Hak Milik) — Bisa untuk tanah berapapun luasnya, tidak ada minimum</li>
-      <li>IMB/PBG (Izin Mendirikan Bangunan) — Koefisien Dasar Bangunan (KDB) menentukan berapa persen luas tanah yang boleh dibangun (biasanya 40–60% untuk perumahan)</li>
-    </ul>
-    <p>Untuk investasi properti: lokasi dan aksesibilitas lebih menentukan nilai jual daripada luas semata. Tanah 100 m² di lokasi strategis bisa jauh lebih bernilai dari tanah 300 m² di daerah terpencil.</p>
+    <h2>Luas Minimum Rumah Subsidi dan KPR</h2>
+    <p>Program rumah subsidi FLPP mensyaratkan luas bangunan minimum 21 m² dan luas tanah minimum 60 m². Rumah layak huni menurut Kemenkes adalah minimal 7,2 m² per orang. Tipe 36 (36 m² bangunan) adalah standar minimum umum, sementara tipe 45, 60, 72 memberikan kenyamanan lebih untuk keluarga berkembang.</p>
 
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">1 hektar sama dengan berapa m²?</div>
-      <div class="faq-a">1 hektar (ha) = 10.000 m². Atau setara dengan persegi 100 m × 100 m. Hektar banyak digunakan untuk menyatakan luas lahan pertanian, hutan, dan kawasan perumahan atau industri berskala besar.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">1 are berapa m²?</div>
-      <div class="faq-a">1 are = 100 m². Are adalah satuan luas yang jarang digunakan secara resmi, tetapi masih sering muncul dalam dokumen tanah di beberapa daerah di Indonesia. 1 hektar = 100 are.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">1 acre berapa hektar?</div>
-      <div class="faq-a">1 acre ≈ 0,4047 hektar, atau 4.046,86 m². Acre adalah satuan luas yang digunakan di negara-negara berbahasa Inggris seperti AS, Inggris, Australia. Dalam konteks properti internasional, penting untuk mengetahui konversi ini.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Mengapa sertifikat tanah menggunakan m² bukan hektar?</div>
-      <div class="faq-a">Sertifikat tanah di Indonesia menggunakan m² karena luas tanah properti residensial umumnya terlalu kecil untuk dinyatakan dalam hektar (yang membutuhkan minimal 10.000 m²). Hektar lebih praktis untuk lahan pertanian, perkebunan, dan kawasan industri besar. BPN (Badan Pertanahan Nasional) menggunakan m² sebagai satuan standar dalam sertifikat.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa luas rumah yang ideal untuk keluarga di Indonesia?</div>
-      <div class="faq-a">Standar rumah layak huni menurut Kementerian PUPR adalah minimal 7,2 m² per orang. Untuk keluarga 4 orang, idealnya minimal 29 m², dengan rumah tipe 36 (luas bangunan 36 m²) sebagai standar minimum yang umum. Tipe 45, 60, dan 72 menawarkan kenyamanan lebih untuk keluarga berkembang.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa satuan luas yang digunakan di pertanian Indonesia?</div>
-      <div class="faq-a">Pertanian Indonesia menggunakan hektar (ha) sebagai satuan utama. Data statistik pertanian BPS, luas areal tanam, dan izin perkebunan semuanya dinyatakan dalam hektar. Untuk lahan kecil petani, kadang digunakan are atau bahu (satuan tradisional yang bervariasi antar daerah: 1 bahu ≈ 7.096 m² di Jawa Barat).</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 hektar sama dengan berapa m²?</div>
+    <div class="faq-a">1 hektar (ha) = 10.000 m², setara persegi 100 m × 100 m. Hektar digunakan untuk lahan pertanian, hutan, dan kawasan industri besar.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 tumbak berapa m²?</div>
+    <div class="faq-a">1 tumbak (juga disebut ubin) = 14,0625 m², setara persegi 3,75 m × 3,75 m. Satuan ini masih umum digunakan dalam transaksi tanah di pedesaan Jawa dan Sunda.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 are berapa m²?</div>
+    <div class="faq-a">1 are = 100 m². Are masih sering muncul dalam dokumen tanah di beberapa daerah Indonesia. 1 hektar = 100 are.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 acre berapa hektar?</div>
+    <div class="faq-a">1 acre ≈ 0,4047 hektar, atau 4.046,86 m². Acre digunakan di negara-negara berbahasa Inggris dan sering muncul dalam listing properti internasional.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa sertifikat tanah menggunakan m² bukan hektar?</div>
+    <div class="faq-a">Karena lahan perumahan umumnya terlalu kecil untuk hektar (min. 10.000 m²). BPN menggunakan m² sebagai satuan standar. Hektar lebih praktis untuk lahan pertanian dan perkebunan besar.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa satuan luas tanah yang digunakan untuk pertanian?</div>
+    <div class="faq-a">Pertanian Indonesia menggunakan hektar (ha) sebagai satuan utama dalam data BPS dan izin perkebunan. Untuk lahan kecil, petani juga menggunakan are atau satuan tradisional seperti bahu (~7.096 m² di Jawa Barat) dan tumbak.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
@@ -177,42 +192,120 @@
     </div>
   </div>
 </main>
-
 <footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
   <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
 <script defer>
 // All in m²
-const toM2 = { m2:1, cm2:1e-4, mm2:1e-6, km2:1e6, ha:1e4, are:100, ft2:0.092903, in2:6.4516e-4, yd2:0.836127, mi2:2589988.11, acre:4046.856 };
-const labels = { m2:'m²', cm2:'cm²', mm2:'mm²', km2:'km²', ha:'hektar (ha)', are:'are', ft2:'kaki² (ft²)', in2:'inci² (in²)', yd2:'yard² (yd²)', mi2:'mil² (mi²)', acre:'acre' };
+const toM2 = {
+  m2:1, cm2:1e-4, mm2:1e-6, km2:1e6, ha:1e4, are:100,
+  ft2:0.092903, in2:6.4516e-4, yd2:0.836127, mi2:2589988.11, acre:4046.856,
+  tumbak:14.0625, bahu:7096, rante:400
+};
+const labels = {
+  m2:'m² (meter persegi)', cm2:'cm²', mm2:'mm²', km2:'km²',
+  ha:'hektar (ha)', are:'are',
+  ft2:'kaki² (ft²)', in2:'inci² (in²)', yd2:'yard² (yd²)', mi2:'mil²', acre:'acre',
+  tumbak:'tumbak / ubin', bahu:'bahu (Jawa)', rante:'rante (Sumut)'
+};
+// Local/traditional units to highlight
+const localUnits = new Set(['tumbak','bahu','rante','are','ha']);
+
+// Indonesian landmarks for comparison (in m²)
+const LANDMARKS = [
+  { name:'Lapangan bulu tangkis', m2:81,     icon:'🏸' },
+  { name:'Rumah tipe 36',         m2:36,     icon:'🏠' },
+  { name:'Lapangan futsal',       m2:400,    icon:'⚽' },
+  { name:'Lapangan sepak bola',   m2:7140,   icon:'🏟️' },
+  { name:'Sawah 1 bahu (Jawa)',   m2:7096,   icon:'🌾' },
+  { name:'1 hektar',              m2:10000,  icon:'📏' },
+  { name:'GBK Senayan',           m2:2790000,icon:'🏛️' },
+];
 
 function fmt(n) {
   if (n === 0) return '0';
-  if (Math.abs(n) >= 0.001 && Math.abs(n) < 1e12) return n.toLocaleString('id-ID', {maximumSignificantDigits:6});
-  return n.toExponential(4).replace('.', ',');
+  if (Math.abs(n) >= 0.001 && Math.abs(n) < 1e13)
+    return n.toLocaleString('id-ID', {maximumSignificantDigits:6});
+  return n.toExponential(4).replace('.',',');
+}
+
+function applyPreset(val, unit, btn) {
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('input-val').value = val;
+  document.getElementById('from-unit').value = unit;
+  convert();
 }
 
 function convert() {
   const val = parseFloat(document.getElementById('input-val').value);
   const from = document.getElementById('from-unit').value;
-  if (isNaN(val)) { document.getElementById('result-rows').innerHTML = '<div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>'; return; }
+
+  if (isNaN(val)) {
+    document.getElementById('result-rows').innerHTML = '<div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>';
+    document.getElementById('compare-section').style.display = 'none';
+    return;
+  }
+
   const inM2 = val * toM2[from];
+
+  // Build result rows — local units highlighted, skip from-unit
   let html = '';
-  for (const [unit, factor] of Object.entries(toM2)) {
+  // Priority order: m2, ha, are, tumbak, bahu, rante, then others
+  const order = ['m2','ha','are','tumbak','bahu','rante','km2','cm2','mm2','acre','ft2','yd2','in2','mi2'];
+  for (const unit of order) {
     if (unit === from) continue;
-    const converted = inM2 / factor;
-    html += `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(converted)}</span></div>`;
+    const converted = inM2 / toM2[unit];
+    const isLocal = localUnits.has(unit);
+    html += `<div class="result-row${isLocal?' local-unit-row':''}"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(converted)}</span></div>`;
   }
   document.getElementById('result-rows').innerHTML = html;
+
+  // Comparison bars
+  buildComparison(inM2);
+}
+
+function buildComparison(m2) {
+  if (m2 <= 0 || !isFinite(m2)) { document.getElementById('compare-section').style.display='none'; return; }
+
+  // Select 3 most relevant landmarks (closest in order of magnitude)
+  const sorted = LANDMARKS
+    .map(l => ({...l, ratio: m2/l.m2}))
+    .sort((a,b) => Math.abs(Math.log10(a.ratio)) - Math.abs(Math.log10(b.ratio)));
+  const top3 = sorted.slice(0,3);
+
+  // Bar max = largest ratio among top3 (cap at 100 for visual)
+  let html = '';
+  for (const lm of top3) {
+    const ratio = lm.ratio;
+    let ratioStr, barPct;
+    if (ratio >= 1) {
+      ratioStr = ratio >= 1000 ? (ratio/1000).toFixed(1).replace('.',',')+'rb×' : ratio >= 100 ? Math.round(ratio)+'×' : ratio.toFixed(1).replace('.',',')+'×';
+      barPct = Math.min(100, ratio/top3[0].ratio*100);
+    } else {
+      ratioStr = '1/'+(1/ratio).toFixed(1).replace('.',',');
+      barPct = 20;
+    }
+    html += `<div class="compare-item">
+      <div class="compare-row">
+        <span class="compare-name">${lm.icon} ${lm.name}</span>
+        <div class="compare-bar-track"><div class="compare-bar-fill" style="width:${barPct.toFixed(0)}%"></div></div>
+        <span class="compare-ratio">${ratioStr}</span>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('compare-bars').innerHTML = html;
+  document.getElementById('compare-section').style.display = '';
 }
 
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+
+// Init
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('input-val').value = '';
+});
 </script>
 </body>
 </html>
