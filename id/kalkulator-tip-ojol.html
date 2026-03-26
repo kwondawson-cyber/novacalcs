@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Tip Ojol","url":"https://novacalcs.com/id/kalkulator-tip-ojol.html","description":"Hitung tip yang pantas untuk driver ojek online","applicationCategory":"UtilitiesApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
 </head>
 <body>
@@ -38,6 +41,29 @@
       <div class="calc-title">🛵 Kalkulator Tip Ojol</div>
       <div class="calc-subtitle">Hitung tip yang pantas untuk driver ojek online</div>
 
+      <!-- Quick scenario presets -->
+      <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">⚡ Skenario Cepat:</div>
+      <div class="scenario-grid">
+        <div class="scenario-card" onclick="applyScenario({svc:'food',total:50000,dist:3,rain:false,heavy:false,late:false,polite:false},this)">
+          <div class="sc-icon">🍱</div><div class="sc-name">Order makan</div><div class="sc-sub">Rp 50rb · 3km</div>
+        </div>
+        <div class="scenario-card" onclick="applyScenario({svc:'ride',total:20000,dist:5,rain:false,heavy:false,late:false,polite:false},this)">
+          <div class="sc-icon">🛵</div><div class="sc-name">Perjalanan kerja</div><div class="sc-sub">5km · cuaca normal</div>
+        </div>
+        <div class="scenario-card" onclick="applyScenario({svc:'ride',total:15000,dist:3,rain:true,heavy:false,late:false,polite:false},this)">
+          <div class="sc-icon">🌧️</div><div class="sc-name">Hujan deras</div><div class="sc-sub">3km · hujan</div>
+        </div>
+        <div class="scenario-card" onclick="applyScenario({svc:'food',total:150000,dist:5,rain:false,heavy:true,late:false,polite:true},this)">
+          <div class="sc-icon">🎂</div><div class="sc-name">Order besar + ramah</div><div class="sc-sub">Rp 150rb · berat</div>
+        </div>
+        <div class="scenario-card" onclick="applyScenario({svc:'ride',total:30000,dist:8,rain:false,heavy:false,late:true,polite:false},this)">
+          <div class="sc-icon">🌙</div><div class="sc-name">Dini hari</div><div class="sc-sub">8km · larut malam</div>
+        </div>
+        <div class="scenario-card" onclick="applyScenario({svc:'send',total:40000,dist:10,rain:false,heavy:true,late:false,polite:false},this)">
+          <div class="sc-icon">📦</div><div class="sc-name">Kirim paket berat</div><div class="sc-sub">GoSend · 10km</div>
+        </div>
+      </div>
+
       <div class="field">
         <label>Jenis Layanan</label>
         <div class="radio-group" style="flex-wrap:wrap;gap:6px;">
@@ -55,6 +81,18 @@
       <div class="field">
         <label>Jarak Tempuh (km)</label>
         <input type="number" id="distance" placeholder="Contoh: 5" min="0" step="0.5" oninput="autoCalc()"/>
+      </div>
+
+      <div class="field">
+        <label>Kualitas Pelayanan Driver</label>
+        <div class="star-row" id="tip-stars">
+          <span class="tip-star" onclick="setStars(1)">⭐</span>
+          <span class="tip-star" onclick="setStars(2)">⭐</span>
+          <span class="tip-star active" onclick="setStars(3)">⭐</span>
+          <span class="tip-star active" onclick="setStars(4)">⭐</span>
+          <span class="tip-star active" onclick="setStars(5)">⭐</span>
+        </div>
+        <div style="font-size:.72rem;color:#8fa3b1" id="star-label">Bagus — pelayanan standar yang memuaskan</div>
       </div>
 
       <div class="field">
@@ -89,6 +127,9 @@
           <div class="result-row"><span>Total dengan Tip</span><span id="res-total">—</span></div>
         </div>
         <div class="result-note" id="res-note"></div>
+        <button class="copy-btn" onclick="copyTipResult()">📋 Salin Hasil untuk WhatsApp</button>
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips untuk Anda:</div>
+        <div class="action-grid" id="tip-action-cards"></div>
       </div>
     </div>
 
@@ -210,14 +251,101 @@
     <a href="/id/tentang.html">Tentang</a>
     <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
   </div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <style>
+
+/* Preset scenario grid */
+.scenario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:.75rem}
+.scenario-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.55rem .65rem;cursor:pointer;transition:all .15s}
+.scenario-card:hover,.scenario-card.active{background:rgba(0,201,177,.1);border-color:rgba(0,201,177,.3)}
+.sc-icon{font-size:1rem;margin-bottom:.15rem}
+.sc-name{font-size:.72rem;font-weight:700;color:#fff}
+.sc-sub{font-size:.62rem;color:#8fa3b1}
+
+/* Star rating */
+.star-row{display:flex;gap:7px;margin:.4rem 0}
+.tip-star{font-size:1.4rem;cursor:pointer;opacity:.3;transition:all .15s}
+.tip-star.active{opacity:1}
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+
+/* Copy button */
+.copy-btn{width:100%;padding:.45rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#c0cdd8;font-size:.78rem;cursor:pointer;font-family:inherit;margin-top:8px}
+
 .result-note { margin-top:12px; padding:10px 12px; background:var(--bg-input); border-radius:var(--radius-sm); font-size:0.8rem; color:var(--text-secondary); line-height:1.5; }
 </style>
 
 <script defer>
+
+let tipStars = 3;
+const STAR_LABELS = ['','😕 Kurang memuaskan','😐 Biasa saja','😊 Bagus — pelayanan standar yang memuaskan','🌟 Sangat baik — layanan ekstra','🏆 Luar biasa — layak apresiasi lebih'];
+
+function setStars(n) {
+  tipStars = n;
+  document.querySelectorAll('.tip-star').forEach((s,i)=>s.classList.toggle('active',i<n));
+  document.getElementById('star-label').textContent = STAR_LABELS[n]||'';
+  autoCalc();
+}
+
+function applyScenario(cfg, card) {
+  document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('active'));
+  card.classList.add('active');
+  selectSvc(cfg.svc, document.getElementById('svc-'+cfg.svc));
+  document.getElementById('order-total').value = cfg.total||'';
+  document.getElementById('distance').value = cfg.dist||'';
+  document.getElementById('cond-rain').checked = cfg.rain;
+  document.getElementById('cond-heavy').checked = cfg.heavy;
+  document.getElementById('cond-late').checked = cfg.late;
+  document.getElementById('cond-polite').checked = cfg.polite;
+  autoCalc();
+}
+
+function copyTipResult() {
+  const tip = document.getElementById('res-mid').textContent;
+  const total = document.getElementById('res-total').textContent;
+  const svc = currentSvc==='food'?'🍱 GoFood/GrabFood':currentSvc==='send'?'📦 GoSend/GrabExpress':'🛵 Ojek Online';
+  let text = `🛵 Kalkulator Tip Ojol NovaCalcs\n${svc}\n\nTip yang disarankan: ${tip}\nTotal dengan tip: ${total}\n\n💡 Tip tidak dipotong platform — 100% ke driver!\nNovaCalcs.com`;
+  navigator.clipboard?.writeText(text).then(()=>alert('Disalin! 📋')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Disalin! 📋');
+  });
+}
+
+function buildTipActionCards(mid, svc, rain, late, dist) {
+  const fmt2 = n => 'Rp '+Math.round(n).toLocaleString('id-ID');
+  let cards;
+  if (rain || late) {
+    cards = [
+      {icon:'💝',title:'Kondisi berat = apresiasi lebih',desc:`Hujan atau dini hari membuat pekerjaan driver jauh lebih berat dan berbahaya. Tip ${fmt2(mid)} sangat berarti.`},
+      {icon:'⭐',title:'Beri bintang 5 juga',desc:'Rating tinggi membantu driver dapat lebih banyak order. Bintang 5 + tip = apresiasi terlengkap.'},
+      {icon:'💬',title:'Tinggalkan komentar positif',desc:'"Driver ramah dan cepat meski hujan" — komentar seperti ini sangat membantu reputasi driver.'},
+      {icon:'📱',title:'Tip via aplikasi lebih mudah',desc:'Tidak perlu siapkan uang tunai. Tip via Gojek/Grab langsung masuk ke dompet driver.'},
+    ];
+  } else if (tipStars >= 4) {
+    cards = [
+      {icon:'🌟',title:'Driver luar biasa!',desc:`Tip ${fmt2(mid)} adalah apresiasi yang pantas untuk pelayanan ${tipStars===5?'sempurna':'sangat baik'} yang Anda terima.`},
+      {icon:'📝',title:'Tulis review positif',desc:'Review spesifik membantu driver — sebutkan hal konkret yang membuat perjalanan menyenangkan.'},
+      {icon:'💳',title:'Simpan nomor driver favorit',desc:'Driver yang pelayanannya bagus bisa di-request lagi melalui fitur "Driver Favorit" di Gojek.'},
+      {icon:'🔄',title:'Jadikan kebiasaan',desc:'Memberi tip konsisten, meski kecil, lebih berarti daripada tip besar yang jarang-jarang.'},
+    ];
+  } else {
+    cards = [
+      {icon:'💰',title:'Tip kecil pun berarti',desc:`Dari tarif ${dist>5?dist+'km':'perjalanan ini'}, driver menerima sekitar 70-80%. Tip ${fmt2(mid)} menambah penghasilan nyata.`},
+      {icon:'⭐',title:'Rating bintang 5 itu gratis',desc:'Jika pelayanan memuaskan, selalu beri bintang 5. Rating tinggi = lebih banyak order untuk driver.'},
+      {icon:'📦',title:'Tulis alamat yang jelas',desc:'Lokasi yang jelas menghemat waktu driver dan mengurangi stres. Ini juga bentuk apresiasi tidak langsung.'},
+      {icon:'🤝',title:'Siap saat driver tiba',desc:'Menunggu lama merugikan driver karena waktu tunggu tidak selalu dibayar penuh oleh platform.'},
+    ];
+  }
+  const el = document.getElementById('tip-action-cards');
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+}
+
 let currentSvc = 'ride';
 
 function selectSvc(svc, btn) {
@@ -263,7 +391,9 @@ function calculate() {
   }
 
   // Bonus for conditions
-  let bonus = 0;
+  // Star rating bonus
+  const starBonus = tipStars >= 5 ? 3000 : tipStars >= 4 ? 1000 : 0;
+  let bonus = starBonus;
   if (rain) bonus += 5000;
   if (heavy) bonus += 3000;
   if (late) bonus += 3000;
@@ -286,6 +416,7 @@ function calculate() {
   if (polite) notes.push('😊 +Rp 2.000 karena layanan ekstra');
   document.getElementById('res-note').textContent = notes.length ? notes.join(' · ') : 'Tip ini 100% masuk ke driver tanpa potongan platform.';
 
+  buildTipActionCards(mid, currentSvc, rain, late, dist);
   document.getElementById('result').classList.add('show');
 }
 

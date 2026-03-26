@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Kalori Makanan Indonesia","url":"https://novacalcs.com/id/kalkulator-kalori-makanan-indonesia.html","description":"Hitung kalori makanan Indonesia favorit","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
 </head>
 <body>
@@ -36,7 +39,34 @@
   <div>
     <div class="calc-widget">
       <div class="calc-title">🍛 Kalori Makanan Indonesia</div>
-      <div class="calc-subtitle">Tambahkan menu dan hitung total kalori Anda hari ini</div>
+      <div class="calc-subtitle">Lacak kalori harian · Target pribadi · Simpan otomatis</div>
+
+      <!-- Daily target -->
+      <div class="cal-target-wrap">
+        <div class="ctr-row">
+          <span class="ctr-label">🎯 Target Kalori Harian</span>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="number" id="daily-target" value="2000" min="1000" max="4000" step="50"
+              style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;background:var(--bg-card);color:var(--text-primary);font-size:.82rem;text-align:center"
+              oninput="renderMeal()"/>
+            <span style="font-size:.72rem;color:#8fa3b1">kkal</span>
+          </div>
+        </div>
+        <div class="cal-progress-track"><div class="cal-progress-fill" id="cal-progress-fill" style="width:0%;background:#4ade80"></div></div>
+        <div class="cal-sub-row"><span id="cal-sub-eaten">0 kkal dimakan</span><span id="cal-sub-remain" style="color:var(--mint)">2.000 kkal tersisa</span></div>
+      </div>
+
+      <!-- Meal session tabs -->
+      <div style="font-size:.72rem;color:#8fa3b1;margin-bottom:.35rem;font-weight:600">Sesi Makan:</div>
+      <div class="meal-tabs">
+        <button class="meal-tab-btn active" id="mt-sarapan" onclick="setMealSession('sarapan',this)">🌅 Sarapan</button>
+        <button class="meal-tab-btn" id="mt-siang" onclick="setMealSession('siang',this)">☀️ Makan Siang</button>
+        <button class="meal-tab-btn" id="mt-malam" onclick="setMealSession('malam',this)">🌙 Makan Malam</button>
+        <button class="meal-tab-btn" id="mt-camilan" onclick="setMealSession('camilan',this)">🍿 Camilan</button>
+      </div>
+
+      <!-- Quick presets per session -->
+      <div id="session-presets" style="margin-bottom:.5rem"></div>
 
       <div class="field">
         <label>Cari atau Pilih Makanan</label>
@@ -59,12 +89,21 @@
       <!-- Daftar makanan yang ditambahkan -->
       <div id="meal-list" style="margin-bottom:16px;"></div>
 
-      <div id="total-box" style="display:none;background:var(--bg-input);border-radius:var(--radius-sm);padding:16px;text-align:center;">
-        <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:4px;">Total Kalori Hari Ini</div>
-        <div id="total-cal" style="font-size:2.4rem;font-weight:700;color:var(--mint);">0</div>
-        <div style="font-size:0.8rem;color:var(--text-secondary);">kkal</div>
-        <div id="total-gauge" style="margin-top:12px;"></div>
-        <button onclick="clearAll()" style="margin-top:12px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;text-decoration:underline;background:none;border:none;">Bersihkan semua</button>
+      <div id="total-box" style="display:none;background:var(--bg-input);border-radius:var(--radius-sm);padding:14px">
+        <div style="text-align:center">
+          <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:4px">Total Kalori Hari Ini</div>
+          <div id="total-cal" style="font-size:2.4rem;font-weight:700;color:var(--mint)">0</div>
+          <div style="font-size:.8rem;color:var(--text-secondary)">kkal</div>
+        </div>
+        <!-- Per session breakdown -->
+        <div id="session-breakdown" style="margin-top:10px"></div>
+        <!-- Macro estimate -->
+        <div style="font-size:.72rem;color:#8fa3b1;margin:8px 0 4px;font-weight:600">Estimasi Makronutrien:</div>
+        <div class="macro-grid" id="macro-grid"></div>
+        <!-- Action cards -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Saran untuk Anda:</div>
+        <div class="action-grid" id="cal-action-cards"></div>
+        <button onclick="clearAll()" style="margin-top:10px;font-size:.75rem;color:var(--text-muted);cursor:pointer;text-decoration:underline;background:none;border:none;width:100%">Bersihkan semua</button>
       </div>
     </div>
   </div>
@@ -199,7 +238,7 @@
     <a href="/id/tentang.html">Tentang</a>
     <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
   </div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <style>
@@ -217,9 +256,69 @@
 .meal-entry .del:hover { color:#f87171; }
 .gauge-bar { height:8px; background:var(--border); border-radius:4px; overflow:hidden; margin-bottom:4px; }
 .gauge-fill { height:100%; border-radius:4px; transition:width 0.4s; }
+
+/* Daily target + progress */
+.cal-target-wrap{background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:.75rem;margin-bottom:14px}
+.ctr-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.ctr-label{font-size:.75rem;color:#8fa3b1;font-weight:600}
+.ctr-val{font-size:.85rem;font-weight:700;color:var(--mint)}
+.cal-progress-track{height:12px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden}
+.cal-progress-fill{height:100%;border-radius:6px;transition:width .5s}
+.cal-sub-row{display:flex;justify-content:space-between;font-size:.7rem;color:#8fa3b1;margin-top:.3rem}
+
+/* Meal session tabs */
+.meal-tabs{display:flex;gap:4px;margin-bottom:.75rem}
+.meal-tab-btn{flex:1;padding:.4rem .3rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:7px;cursor:pointer;font-size:.72rem;font-family:inherit;transition:all .2s}
+.meal-tab-btn.active{background:var(--mint);color:#0d1b2a;font-weight:700}
+
+/* Quick preset buttons */
+.food-preset-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.6rem}
+.food-pre-btn{padding:4px 9px;border-radius:6px;font-size:.7rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s}
+.food-pre-btn:hover{background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35)}
+
+/* Macro summary */
+.macro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.macro-card{background:rgba(255,255,255,.04);border-radius:8px;padding:.5rem;text-align:center;border:1px solid rgba(255,255,255,.06)}
+.mc-val{font-size:.88rem;font-weight:700}
+.mc-lbl{font-size:.62rem;color:#8fa3b1;margin-top:.1rem}
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
 </style>
 
 <script defer>
+// Quick presets per meal session
+const SESSION_PRESETS = {
+  sarapan: ['Nasi putih','Telur ceplok','Bubur ayam','Indomie kuah','Es teh manis'],
+  siang:   ['Nasi goreng','Mie ayam','Bakso','Soto ayam','Nasi padang + lauk'],
+  malam:   ['Nasi putih','Ayam goreng','Rendang sapi','Tempe goreng','Gado-gado'],
+  camilan: ['Gorengan (bakwan)','Pisang ambon','Kacang tanah goreng','Es teh manis','Kerupuk udang'],
+};
+
+let currentSession = 'sarapan';
+function setMealSession(sess, btn) {
+  currentSession = sess;
+  document.querySelectorAll('.meal-tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSessionPresets();
+}
+function renderSessionPresets() {
+  const presets = SESSION_PRESETS[currentSession]||[];
+  document.getElementById('session-presets').innerHTML =
+    `<div class="food-preset-row">${presets.map(p=>`<button class="food-pre-btn" onclick="quickSelect('${p}')">${p}</button>`).join('')}</div>`;
+}
+function quickSelect(name) {
+  const f = FOODS.find(x=>x.name===name);
+  if (!f) return;
+  selectFood(FOODS.indexOf(f));
+  document.getElementById('portion-amount').value=1;
+  updatePortionCal();
+}
+
 const FOODS = [
   // Nasi & bubur
   {name:'Nasi putih', unit:'centong (100g)', cal:130}, {name:'Nasi merah', unit:'centong (100g)', cal:126},
@@ -321,14 +420,29 @@ function updatePortionCal() {
 function addFood() {
   if (!selectedFood) return;
   const amt = parseFloat(document.getElementById('portion-amount').value) || 1;
-  meal.push({ name: selectedFood.name, unit: selectedFood.unit, amt, cal: Math.round(selectedFood.cal * amt) });
+  // Rough macro estimates (per 100kcal): carb-heavy=70%carb, protein items=40%prot, fat items varies
+  const estCarb = Math.round(selectedFood.cal * amt * 0.55 / 4);
+  const estProt = Math.round(selectedFood.cal * amt * 0.15 / 4);
+  const estFat  = Math.round(selectedFood.cal * amt * 0.30 / 9);
+  meal.push({ name: selectedFood.name, unit: selectedFood.unit, amt, cal: Math.round(selectedFood.cal * amt),
+    session: currentSession, carb: estCarb, prot: estProt, fat: estFat });
+  saveMealToStorage();
   document.getElementById('food-search').value = '';
   selectedFood = null;
   updatePortionField();
   renderMeal();
 }
 
-function removeFood(i) { meal.splice(i, 1); renderMeal(); }
+function removeFood(i) { meal.splice(i, 1); saveMealToStorage(); renderMeal(); }
+
+const STORAGE_KEY = 'kalori-meal-' + new Date().toDateString();
+function saveMealToStorage() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(meal)); } catch(e){} }
+function loadMealFromStorage() {
+  try {
+    const d = localStorage.getItem(STORAGE_KEY);
+    if (d) meal = JSON.parse(d);
+  } catch(e) {}
+}
 
 function clearAll() { meal = []; renderMeal(); }
 
@@ -352,10 +466,73 @@ function renderMeal() {
   document.getElementById('total-gauge').innerHTML = `
     <div class="gauge-bar"><div class="gauge-fill" style="width:${pct}%;background:${color}"></div></div>
     <div style="font-size:0.75rem;color:var(--text-muted)">${pct}% dari referensi 2.000 kkal/hari</div>`;
+  const target = parseInt(document.getElementById('daily-target').value)||2000;
+  const pct = Math.min(100, Math.round(total/target*100));
+  const fillColor = pct<70?'#4ade80':pct<90?'#fbbf24':'#f87171';
+  document.getElementById('cal-progress-fill').style.width=pct+'%';
+  document.getElementById('cal-progress-fill').style.background=fillColor;
+  document.getElementById('cal-sub-eaten').textContent=total.toLocaleString('id-ID')+' kkal dimakan';
+  const remain = target-total;
+  document.getElementById('cal-sub-remain').textContent=remain>0?remain.toLocaleString('id-ID')+' kkal tersisa':'⚠️ Melebihi target '+Math.abs(remain).toLocaleString('id-ID')+' kkal';
+  document.getElementById('cal-sub-remain').style.color=remain>=0?'var(--mint)':'#f87171';
+
+  // Session breakdown
+  const sessions = {sarapan:'🌅 Sarapan',siang:'☀️ Makan Siang',malam:'🌙 Makan Malam',camilan:'🍿 Camilan'};
+  const sessTotal = {};
+  meal.forEach(m=>{sessTotal[m.session]=(sessTotal[m.session]||0)+m.cal;});
+  const sbHtml = Object.entries(sessions).filter(([k])=>sessTotal[k]).map(([k,v])=>`
+    <div style="display:flex;justify-content:space-between;font-size:.78rem;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+      <span style="color:#8fa3b1">${v}</span><span style="color:var(--mint);font-weight:600">${(sessTotal[k]||0).toLocaleString('id-ID')} kkal</span>
+    </div>`).join('');
+  if(sbHtml) document.getElementById('session-breakdown').innerHTML=sbHtml;
+
+  // Macros
+  const totCarb=meal.reduce((s,m)=>s+m.carb,0), totProt=meal.reduce((s,m)=>s+m.prot,0), totFat=meal.reduce((s,m)=>s+m.fat,0);
+  document.getElementById('macro-grid').innerHTML=`
+    <div class="macro-card"><div class="mc-val" style="color:#60a5fa">${totCarb}g</div><div class="mc-lbl">Karbohidrat</div></div>
+    <div class="macro-card"><div class="mc-val" style="color:#4ade80">${totProt}g</div><div class="mc-lbl">Protein</div></div>
+    <div class="macro-card"><div class="mc-val" style="color:#fbbf24">${totFat}g</div><div class="mc-lbl">Lemak</div></div>`;
+
+  // Action cards
+  buildCalActionCards(total, target, pct);
   document.getElementById('total-box').style.display='block';
 }
 
+function buildCalActionCards(total, target, pct) {
+  let cards;
+  if (pct < 50) {
+    cards = [
+      {icon:'🍳',title:'Masih banyak ruang',desc:`Baru ${pct}% dari target. Tambahkan lauk berprotein tinggi — telur, tempe, atau ayam — untuk mencukupi kebutuhan.`},
+      {icon:'💪',title:'Protein penting untuk otot',desc:'Target protein harian: 0,8–1,2g per kg berat badan. Tempe (100g) = 19g protein, telur 1 butir = 6g.'},
+      {icon:'🥗',title:'Perbanyak sayur',desc:'Sayur rendah kalori tapi tinggi serat — membuat kenyang lebih lama dan mendukung pencernaan sehat.'},
+      {icon:'💧',title:'Cukup minum air',desc:'Haus sering dikira lapar. Minum 200ml air sebelum makan bisa mengurangi asupan kalori 10–15%.'},
+    ];
+  } else if (pct <= 90) {
+    cards = [
+      {icon:'✅',title:'Asupan sudah baik',desc:`${pct}% dari target harian — zona ideal! Jaga pola ini dan prioritaskan makanan bergizi.`},
+      {icon:'🎯',title:'Sesuaikan dengan aktivitas',desc:'Hari olahraga intensif? Tambah 200–300 kkal. Hari istirahat? Kurangi 100–200 kkal dari target normal.'},
+      {icon:'⏰',title:'Jeda antar makan 3–4 jam',desc:'Makan dengan jeda teratur lebih baik untuk metabolisme dari pada makan banyak sekaligus.'},
+      {icon:'🍱',title:'Persiapkan makan malam',desc:'Masih ada ruang untuk makan malam. Pilih lauk bergizi — ikan bakar atau ayam kukus lebih baik dari gorengan.'},
+    ];
+  } else {
+    cards = [
+      {icon:'⚠️',title:'Mendekati/melewati target',desc:`${pct}% dari target. Kurangi camilan manis dan gorengan untuk sisa hari ini.`},
+      {icon:'🚶',title:'Tambah aktivitas fisik',desc:'Jalan kaki 30 menit membakar ~150 kkal. Naik tangga, bersepeda, atau berenang untuk membakar kelebihan kalori.'},
+      {icon:'🥦',title:'Pilih camilan rendah kalori',desc:'Buah segar, mentimun, atau air kelapa adalah pilihan cemilan dengan kalori jauh lebih rendah dari keripik.'},
+      {icon:'📊',title:'Evaluasi porsi',desc:'Sering melebihi target? Coba kurangi porsi nasi 20% dan ganti dengan sayuran. Caranya mudah tapi dampaknya besar.'},
+    ];
+  }
+  document.getElementById('cal-action-cards').innerHTML = cards.map(c=>
+    `<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`
+  ).join('');
+}
+
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+window.addEventListener('DOMContentLoaded', () => {
+  loadMealFromStorage();
+  renderSessionPresets();
+  if (meal.length) renderMeal();
+});
 </script>
 </body>
 </html>
