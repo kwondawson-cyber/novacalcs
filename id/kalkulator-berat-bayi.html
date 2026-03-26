@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Kalkulator Berat Badan Bayi — Pertumbuhan 0–60 Bulan (WHO) | NovaCalcs</title>
-<meta name="description" content="Pantau berat dan tinggi badan bayi 0–60 bulan sesuai standar WHO. Deteksi dini stunting, gizi kurang, dan gizi lebih dengan mudah."/>
+<meta name="description" content="Pantau berat dan tinggi badan bayi 0–60 bulan sesuai standar WHO. Lihat posisi pertumbuhan bayi di kurva WHO, deteksi stunting, dan dapatkan panduan gizi personal."/>
 <meta name="keywords" content="kalkulator berat badan bayi, pertumbuhan bayi normal, berat badan bayi sesuai usia, tinggi badan bayi, stunting, KMS bayi, WHO growth chart"/>
 <link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-berat-bayi.html"/>
 <link rel="canonical" href="https://novacalcs.com/id/kalkulator-berat-bayi.html"/>
@@ -13,30 +13,63 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Berat Badan Bayi","url":"https://novacalcs.com/id/kalkulator-berat-bayi.html","description":"Cek pertumbuhan berat dan tinggi badan bayi 0-60 bulan berdasarkan standar WHO","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
+<style>
+/* Z-score gauge */
+.zscore-wrap { margin:10px 0 6px }
+.zscore-label { display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-secondary);margin-bottom:4px }
+.zscore-track { height:14px;border-radius:7px;background:linear-gradient(to right,#f87171 0%,#fbbf24 20%,#4ade80 35%,#4ade80 65%,#fbbf24 80%,#f87171 100%);position:relative }
+.zscore-needle { position:absolute;top:-4px;bottom:-4px;width:4px;border-radius:2px;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.5);transform:translateX(-50%);transition:left .5s }
+.zscore-zones { display:flex;justify-content:space-between;font-size:.6rem;color:var(--text-muted);margin-top:3px }
+
+/* Growth milestone card */
+.milestone-card { background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin:10px 0 }
+.mc-title { font-size:.72rem;color:#8fa3b1;margin-bottom:.35rem;font-weight:600 }
+.mc-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px }
+.mc-item { text-align:center }
+.mc-val { font-size:1rem;font-weight:700;color:var(--mint) }
+.mc-lbl { font-size:.65rem;color:var(--text-muted) }
+
+/* Action cards */
+.action-grid { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px }
+.action-card { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem }
+.ac-icon { font-size:1.1rem;margin-bottom:.2rem }
+.ac-title { font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem }
+.ac-desc { font-size:.7rem;color:#8fa3b1;line-height:1.4 }
+
+/* History */
+.history-row { display:flex;align-items:center;gap:8px;padding:.4rem .5rem;border-radius:7px;font-size:.78rem;margin-bottom:4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05) }
+.history-age { font-weight:700;width:65px;flex-shrink:0;color:var(--mint) }
+.history-badge { font-size:.65rem;padding:.1rem .4rem;border-radius:10px;font-weight:600 }
+.history-time { font-size:.65rem;color:var(--text-muted);margin-left:auto }
+.del-btn { background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.9rem;padding:0 2px }
+
+.ref-table { width:100%;border-collapse:collapse;font-size:.8rem }
+.ref-table th { background:var(--bg-input);color:var(--text-secondary);padding:8px 10px;text-align:left;font-weight:600 }
+.ref-table td { padding:7px 10px;border-bottom:1px solid var(--border) }
+.status-row { display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border) }
+.status-row:last-child { border-bottom:none }
+</style>
 </head>
 <body>
-
 <header class="site-header">
   <div class="header-inner">
     <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
     <nav class="breadcrumb">
-      <a href="/id/">Beranda</a>
-      <span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a>
-      <span class="breadcrumb-sep">›</span>
+      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
+      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
       <span>Berat Badan Bayi</span>
     </nav>
   </div>
 </header>
-
 <main class="calc-page">
-
-  <!-- CALCULATOR WIDGET -->
   <div>
     <div class="calc-widget">
       <div class="calc-title">👶 Kalkulator Pertumbuhan Bayi</div>
-      <div class="calc-subtitle">Cek pertumbuhan bayi berdasarkan standar WHO</div>
+      <div class="calc-subtitle">Cek posisi pertumbuhan bayi di kurva WHO</div>
 
       <div class="field">
         <label>Jenis Kelamin</label>
@@ -45,293 +78,329 @@
           <div class="radio-btn" id="btn-girl" onclick="selectGender('girl')">👧 Perempuan</div>
         </div>
       </div>
-
       <div class="field">
         <label>Usia Bayi</label>
-        <div style="display:flex;gap:8px;">
-          <div style="flex:1;">
-            <select id="age-month" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-primary);font-size:0.938rem;">
-              <option value="">Bulan</option>
-            </select>
-          </div>
-        </div>
-        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Usia 0–60 bulan (0–5 tahun)</div>
+        <select id="age-month" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-primary);font-size:.938rem;" onchange="autoCalc()">
+          <option value="">Pilih usia...</option>
+        </select>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:4px">Usia 0–60 bulan (0–5 tahun)</div>
       </div>
-
       <div class="field">
         <label>Berat Badan Bayi (kg)</label>
-        <input type="number" id="baby-weight" placeholder="Contoh: 8,5" min="0.5" max="30" step="0.1"/>
+        <input type="number" id="baby-weight" placeholder="Contoh: 8.5" min="0.5" max="30" step="0.1" oninput="autoCalc()"/>
       </div>
-
       <div class="field">
         <label>Panjang/Tinggi Badan (cm) <span style="color:var(--text-muted);font-weight:400">(opsional)</span></label>
-        <input type="number" id="baby-height" placeholder="Contoh: 72" min="30" max="130"/>
+        <input type="number" id="baby-height" placeholder="Contoh: 72" min="30" max="130" oninput="autoCalc()"/>
       </div>
-
       <button class="calc-btn" onclick="calculate()">👶 Cek Pertumbuhan Bayi</button>
 
       <div class="result-box" id="result">
-        <div id="result-content"></div>
+        <!-- Status rows -->
+        <div id="result-status"></div>
+
+        <!-- Z-score gauge BB/U -->
+        <div id="gauge-section" style="display:none;margin-top:4px">
+          <div class="zscore-wrap">
+            <div class="zscore-label"><span>Status Berat Badan (BB/U)</span><span id="zscore-val">—</span></div>
+            <div class="zscore-track"><div class="zscore-needle" id="zscore-needle" style="left:50%"></div></div>
+            <div class="zscore-zones"><span style="color:#f87171">Gizi Buruk</span><span style="color:#fbbf24">Kurang</span><span style="color:#4ade80">Normal</span><span style="color:#fbbf24">Lebih</span><span style="color:#f87171">Obesitas</span></div>
+          </div>
+          <div class="zscore-wrap" id="ht-gauge-section" style="display:none">
+            <div class="zscore-label"><span>Status Tinggi Badan (TB/U)</span><span id="ht-zscore-val">—</span></div>
+            <div class="zscore-track"><div class="zscore-needle" id="ht-zscore-needle" style="left:50%"></div></div>
+            <div class="zscore-zones"><span style="color:#f87171">Sgt Pendek</span><span style="color:#fbbf24">Pendek</span><span style="color:#4ade80">Normal</span><span style="color:#4ade80">Tinggi</span></div>
+          </div>
+        </div>
+
+        <!-- Next milestone -->
+        <div class="milestone-card" id="milestone-card" style="display:none">
+          <div class="mc-title">🎯 Target Pertumbuhan Bulan Depan:</div>
+          <div class="mc-grid">
+            <div class="mc-item"><div class="mc-val" id="ms-weight">—</div><div class="mc-lbl">Berat normal (kg)</div></div>
+            <div class="mc-item"><div class="mc-val" id="ms-gain">—</div><div class="mc-lbl">Kenaikan ideal/bulan</div></div>
+          </div>
+        </div>
+
+        <!-- Action plan -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Panduan untuk Anda:</div>
+        <div class="action-grid" id="action-grid"></div>
+
+        <!-- Save button -->
+        <button onclick="saveRecord()" style="width:100%;margin-top:10px;padding:.5rem;background:rgba(0,201,177,.1);border:1px solid rgba(0,201,177,.25);border-radius:8px;color:#00C9B1;font-size:.8rem;cursor:pointer;font-family:inherit">
+          📋 Simpan ke Catatan Tumbuh Kembang
+        </button>
+
+        <!-- Growth history -->
+        <div id="history-section" style="display:none;margin-top:10px">
+          <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:5px;font-weight:600">📊 Riwayat Tumbuh Kembang:</div>
+          <div id="history-list"></div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- SEO CONTENT -->
   <div class="content-area">
+    <h1>Kalkulator Berat Badan Bayi</h1>
+    <p class="page-desc">Pantau pertumbuhan bayi dan balita berdasarkan standar WHO yang digunakan resmi oleh Kemenkes RI dalam buku KMS. Lihat posisi bayi Anda di kurva pertumbuhan WHO, kenali target bulan depan, dan dapatkan panduan gizi personal.</p>
 
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Berat Badan Bayi</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Pantau pertumbuhan bayi dan balita Anda berdasarkan standar pertumbuhan WHO (World Health Organization) yang digunakan secara resmi oleh Kemenkes RI dalam buku KMS (Kartu Menuju Sehat).</p>
+    <div class="ad-slot">Advertisement</div>
 
     <h2>Standar Pertumbuhan WHO untuk Bayi Indonesia</h2>
-    <p>Indonesia mengadopsi standar pertumbuhan WHO 2006 (WHO Child Growth Standards) sebagai acuan resmi dalam pemantauan pertumbuhan anak. Standar ini didasarkan pada data anak dari berbagai negara yang tumbuh dalam kondisi optimal (ASI eksklusif, tidak merokok, bebas penyakit).</p>
-    <p>Standar ini menggunakan <strong>Z-Score</strong> atau <strong>SD (Standar Deviasi)</strong> untuk mengklasifikasikan status gizi anak berdasarkan indikator:</p>
-    <ul>
-      <li><strong>BB/U</strong> — Berat Badan menurut Umur: mendeteksi gizi kurang/lebih</li>
-      <li><strong>TB/U atau PB/U</strong> — Tinggi/Panjang Badan menurut Umur: mendeteksi stunting</li>
-      <li><strong>BB/TB</strong> — Berat Badan menurut Tinggi/Panjang Badan: mendeteksi wasting/obesitas</li>
-    </ul>
+    <p>Indonesia mengadopsi standar WHO 2006 (WHO Child Growth Standards) sebagai acuan resmi. Standar ini menggunakan Z-Score untuk mengklasifikasikan status gizi berdasarkan tiga indikator: BB/U (Berat Badan menurut Umur) untuk deteksi gizi kurang/lebih, TB/U atau PB/U (Tinggi/Panjang Badan menurut Umur) untuk deteksi stunting, dan BB/TB untuk mendeteksi wasting atau obesitas.</p>
+
+    <h2>Cara Membaca Hasil Kalkulator Ini</h2>
+    <p>Setelah memasukkan data bayi, kalkulator menampilkan: (1) <strong>Posisi di kurva WHO</strong> — gauge bar menunjukkan di mana berat bayi Anda berada relatif terhadap standar WHO, dari gizi buruk hingga obesitas. (2) <strong>Target bulan depan</strong> — rentang berat ideal dan estimasi kenaikan yang sehat. (3) <strong>Panduan personal</strong> — tindakan spesifik sesuai status pertumbuhan. (4) Simpan catatan untuk melacak tren dari waktu ke waktu.</p>
 
     <h2>Berat Badan Normal Bayi Berdasarkan Usia</h2>
     <table class="ref-table">
       <thead><tr><th>Usia</th><th>BB Normal Laki-laki (kg)</th><th>BB Normal Perempuan (kg)</th><th>Panjang Normal (cm)</th></tr></thead>
       <tbody>
         <tr><td>Lahir</td><td>2,9 – 3,9</td><td>2,8 – 3,7</td><td>46 – 53</td></tr>
-        <tr><td>1 bulan</td><td>3,4 – 5,1</td><td>3,2 – 4,8</td><td>50 – 57</td></tr>
-        <tr><td>2 bulan</td><td>4,3 – 6,3</td><td>3,9 – 5,8</td><td>53 – 61</td></tr>
         <tr><td>3 bulan</td><td>5,0 – 7,2</td><td>4,5 – 6,6</td><td>56 – 64</td></tr>
         <tr><td>6 bulan</td><td>6,4 – 9,0</td><td>5,7 – 8,2</td><td>63 – 71</td></tr>
-        <tr><td>9 bulan</td><td>7,1 – 10,2</td><td>6,3 – 9,3</td><td>68 – 76</td></tr>
         <tr><td>12 bulan</td><td>7,7 – 11,0</td><td>6,9 – 10,1</td><td>71 – 80</td></tr>
         <tr><td>18 bulan</td><td>8,8 – 12,7</td><td>7,8 – 11,8</td><td>77 – 87</td></tr>
         <tr><td>24 bulan</td><td>9,7 – 14,3</td><td>8,7 – 13,2</td><td>82 – 93</td></tr>
         <tr><td>36 bulan</td><td>11,3 – 17,2</td><td>10,5 – 16,5</td><td>88 – 102</td></tr>
-        <tr><td>48 bulan</td><td>13,0 – 20,5</td><td>12,1 – 19,8</td><td>95 – 110</td></tr>
         <tr><td>60 bulan</td><td>14,5 – 23,5</td><td>13,7 – 22,9</td><td>100 – 116</td></tr>
       </tbody>
     </table>
-    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:6px;">*Rentang normal = -2 SD hingga +2 SD standar WHO. Sumber: WHO Child Growth Standards 2006 / Kemenkes RI.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li>Pilih <strong>jenis kelamin</strong> bayi (laki-laki atau perempuan)</li>
-      <li>Pilih <strong>usia bayi</strong> dalam bulan (0 = baru lahir, 60 = 5 tahun)</li>
-      <li>Masukkan <strong>berat badan</strong> terbaru dari timbangan</li>
-      <li>Masukkan <strong>panjang/tinggi badan</strong> (opsional, untuk deteksi stunting)</li>
-      <li>Klik <strong>"Cek Pertumbuhan Bayi"</strong> untuk melihat status gizi</li>
-    </ol>
 
     <h2>Mengenal Stunting dan Pencegahannya</h2>
-    <p>Stunting (gagal tumbuh) adalah kondisi di mana tinggi badan anak lebih pendek dari standar seusianya (TB/U &lt; -2 SD). Indonesia masih menghadapi masalah stunting — berdasarkan SSGI 2022, prevalensi stunting di Indonesia adalah 21,6%.</p>
-    <p>Penyebab utama stunting:</p>
-    <ul>
-      <li>Kekurangan gizi kronis sejak dalam kandungan (1.000 HPK — Hari Pertama Kehidupan)</li>
-      <li>ASI tidak eksklusif dan MPASI yang tidak bergizi</li>
-      <li>Infeksi berulang (diare, ISPA) yang mengganggu penyerapan gizi</li>
-      <li>Sanitasi buruk dan air minum tidak aman</li>
-    </ul>
-    <p>Pencegahan stunting dimulai sejak kehamilan: gizi ibu hamil, pemeriksaan rutin, ASI eksklusif 6 bulan, MPASI bergizi, dan imunisasi lengkap.</p>
+    <p>Stunting adalah kondisi tinggi badan anak lebih pendek dari standar seusianya (TB/U &lt; -2 SD) akibat kekurangan gizi kronis. Berdasarkan data 2023, prevalensi stunting Indonesia 21,5% — sekitar 1 dari 5 balita. Pencegahan dimulai sejak kehamilan: gizi ibu hamil, ASI eksklusif 6 bulan, MPASI bergizi, dan imunisasi lengkap.</p>
 
-    <h2>Cara Menimbang dan Memantau Berat Bayi yang Benar</h2>
-    <p>Pemantauan berat badan bayi secara rutin adalah salah satu cara terpenting mendeteksi masalah pertumbuhan sejak dini. Panduan praktis untuk orang tua:</p>
-    <ul>
-      <li><strong>Frekuensi penimbangan</strong> — 0–6 bulan: setiap bulan. 6–24 bulan: setiap 2 bulan. Di atas 2 tahun: setiap 3–6 bulan</li>
-      <li><strong>Waktu terbaik menimbang</strong> — Pagi hari sebelum makan, dengan baju minimal (tanpa popok jika memungkinkan), untuk konsistensi data</li>
-      <li><strong>Posyandu</strong> — Layanan penimbangan dan pemantauan tumbuh kembang gratis tersedia di setiap kelurahan, biasanya diadakan sekali sebulan. Manfaatkan fasilitas ini!</li>
-      <li><strong>Kurva pertumbuhan</strong> — Buku KIA memuat kurva pertumbuhan WHO. Minta bidan atau petugas posyandu untuk memplot berat badan di kurva tersebut setiap bulan</li>
-    </ul>
+    <h2>1.000 Hari Pertama Kehidupan</h2>
+    <p>Periode dari kehamilan hingga anak usia 2 tahun adalah waktu paling kritis untuk pertumbuhan optimal. Selama kehamilan: konsumsi tablet zat besi dan asam folat, makan bergizi, ANC rutin. Usia 0–6 bulan: ASI eksklusif tanpa tambahan apapun. Usia 6 bulan ke atas: mulai MPASI dari bahan lokal bergizi — telur, ikan, ayam, tahu, tempe, dan sayuran.</p>
 
-    <h2>Memahami Stunting: Masalah Gizi Kronis Indonesia</h2>
-    <p>Indonesia masih berjuang mengatasi stunting — kondisi di mana tinggi badan anak jauh di bawah rata-rata akibat kekurangan gizi kronis. Data 2023 menunjukkan prevalensi stunting Indonesia <strong>21,5%</strong>, artinya sekitar 1 dari 5 balita Indonesia mengalami stunting.</p>
-    <p>Perbedaan stunting dengan kurus (wasting):</p>
-    <ul>
-      <li><strong>Stunting</strong> — Tinggi badan rendah untuk usianya (pendek). Terjadi karena kekurangan gizi dalam jangka panjang, biasanya mulai dari kandungan hingga usia 2 tahun (1.000 hari pertama kehidupan)</li>
-      <li><strong>Wasting (kurus)</strong> — Berat badan rendah untuk tinggi badannya. Terjadi karena kekurangan gizi akut, sering disebabkan sakit atau kurang makan dalam waktu singkat</li>
-      <li><strong>Underweight</strong> — Berat badan rendah untuk usianya. Bisa kombinasi stunting dan wasting</li>
-    </ul>
-
-    <h2>1.000 Hari Pertama Kehidupan: Fondasi Pertumbuhan Optimal</h2>
-    <p>Periode 1.000 hari pertama (dari kehamilan hingga anak usia 2 tahun) adalah window of opportunity paling penting untuk pertumbuhan optimal. Yang perlu dilakukan:</p>
-    <ul>
-      <li><strong>Selama kehamilan</strong> — Konsumsi tablet zat besi dan asam folat, makan bergizi seimbang, rutin ANC minimal 6 kali</li>
-      <li><strong>0–6 bulan</strong> — ASI eksklusif tanpa tambahan makanan/minuman apapun termasuk air putih. ASI mengandung semua nutrisi yang dibutuhkan bayi</li>
-      <li><strong>6 bulan ke atas</strong> — Mulai MPASI (Makanan Pendamping ASI) bergizi dari bahan lokal: bubur dengan tambahan lauk telur, ikan, ayam, tahu, tempe, dan sayuran</li>
-      <li><strong>Vaksinasi lengkap</strong> — Penyakit infeksi berulang memperburuk status gizi. Pastikan imunisasi dasar lengkap sesuai jadwal Kemenkes</li>
-    </ul>
-
-    
     <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa berat badan bayi baru lahir yang normal?</div>
-      <div class="faq-a">Berat badan lahir normal adalah 2.500–4.000 gram. Bayi dengan berat lahir kurang dari 2.500 gram disebut BBLR (Berat Badan Lahir Rendah) dan memerlukan perawatan ekstra. Berat lahir di atas 4.000 gram (makrosomia) juga perlu pemantauan. Namun perlu diingat bahwa variasi genetik dan ukuran orang tua juga mempengaruhi berat lahir.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kapan berat bayi harusnya dua kali lipat dari lahir?</div>
-      <div class="faq-a">Secara umum: berat lahir bayi berlipat dua pada usia sekitar 4–5 bulan, tiga kali lipat pada usia 12 bulan, dan empat kali lipat pada usia 2 tahun. Ini adalah pedoman umum — variasi individual adalah normal selama pertumbuhan berada dalam grafik standar WHO. Yang terpenting adalah konsistensi kurva pertumbuhan, bukan angka absolut.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa yang harus dilakukan jika berat bayi tidak naik?</div>
-      <div class="faq-a">Jika berat bayi tidak naik dalam 2 kali timbang berturut-turut, atau berat badan turun, segera konsultasikan dengan dokter atau bidan. Kondisi ini disebut "tidak naik" (T) dalam KMS. Dokter akan mengevaluasi pola makan, kesehatan, dan faktor lainnya. Jangan tunda — masalah gizi yang ditangani lebih awal lebih mudah diperbaiki.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Seberapa sering harus menimbang bayi?</div>
-      <div class="faq-a">Kemenkes merekomendasikan penimbangan rutin di Posyandu setiap bulan untuk bayi 0–12 bulan, dan minimal setiap 3 bulan untuk anak 12–60 bulan. Penimbangan rutin penting untuk mendeteksi dini masalah pertumbuhan dan memantau efektivitas program gizi. Bawalah buku KMS setiap kali ke Posyandu.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah bayi ASI lebih cepat gemuk dari bayi sufor?</div>
-      <div class="faq-a">Pola pertumbuhan bayi ASI dan susu formula berbeda. Bayi ASI biasanya tumbuh lebih cepat di 3 bulan pertama, kemudian melambat setelah itu. Bayi sufor cenderung memiliki kenaikan berat yang lebih konsisten. Standar WHO justru dibuat berdasarkan data bayi ASI eksklusif, jadi grafik WHO sudah sesuai untuk bayi ASI. Pola pertumbuhan yang berbeda keduanya normal selama berada dalam rentang standar.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu MPASI dan kapan mulai diberikan?</div>
-      <div class="faq-a">MPASI (Makanan Pendamping ASI) adalah makanan atau minuman selain ASI yang diberikan kepada bayi untuk memenuhi kebutuhan gizi yang tidak lagi tercukupi oleh ASI saja. WHO dan Kemenkes merekomendasikan MPASI dimulai tepat pada usia 6 bulan, tidak lebih awal dan tidak terlambat. Sebelum 6 bulan, bayi cukup mendapat ASI eksklusif. Kesiapan bayi ditandai dengan kemampuan duduk tegak, ketertarikan pada makanan, dan hilangnya refleks mendorong makanan keluar.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa berat badan bayi baru lahir yang normal?</div>
+    <div class="faq-a">Berat lahir normal adalah 2.500–4.000 gram. Di bawah 2.500 gram (BBLR) memerlukan perawatan ekstra. Di atas 4.000 gram (makrosomia) juga perlu pemantauan. Variasi genetik dan ukuran orang tua turut mempengaruhi berat lahir.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kapan berat bayi harusnya dua kali lipat dari lahir?</div>
+    <div class="faq-a">Berat lahir berlipat dua sekitar usia 4–5 bulan, tiga kali lipat pada 12 bulan, dan empat kali lipat pada 2 tahun. Yang terpenting adalah konsistensi kurva pertumbuhan, bukan angka absolut.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa yang harus dilakukan jika berat bayi tidak naik?</div>
+    <div class="faq-a">Jika berat tidak naik dalam 2 timbangan berturut-turut atau berat turun, segera konsultasikan ke dokter/bidan. Kondisi ini disebut "T" (Tidak Naik) dalam KMS. Masalah gizi yang ditangani lebih awal lebih mudah diperbaiki.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Seberapa sering harus menimbang bayi?</div>
+    <div class="faq-a">Kemenkes merekomendasikan penimbangan setiap bulan untuk bayi 0–12 bulan, dan minimal setiap 3 bulan untuk anak 12–60 bulan di Posyandu. Bawalah buku KIA setiap kali ke Posyandu.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu MPASI dan kapan mulai diberikan?</div>
+    <div class="faq-a">MPASI dimulai tepat usia 6 bulan, tidak lebih awal dan tidak terlambat. Tanda kesiapan: bisa duduk tegak, tertarik pada makanan, hilangnya refleks mendorong makanan keluar. Sebelum 6 bulan, cukup ASI eksklusif.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah bayi ASI lebih cepat gemuk dari bayi sufor?</div>
+    <div class="faq-a">Bayi ASI biasanya tumbuh lebih cepat di 3 bulan pertama, kemudian melambat. Standar WHO dibuat berdasarkan data bayi ASI eksklusif, jadi sudah sesuai untuk bayi ASI. Keduanya normal selama dalam rentang standar.</div></div>
 
     <h2>Kalkulator Terkait</h2>
     <div class="related-grid">
       <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kalkulator Kehamilan</a>
-      <a href="/id/kalkulator-hpl.html" class="related-item"><span class="ri">📅</span>Kalkulator HPL</a>
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
+      <a href="/id/kalkulator-kehamilan-bb.html" class="related-item"><span class="ri">⚖️</span>BB Kehamilan</a>
+      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">📊</span>Kalkulator BMI</a>
       <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🔥</span>Kalkulator Kalori</a>
     </div>
   </div>
-
 </main>
-
 <footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
-
-<style>
-.ref-table { width:100%; border-collapse:collapse; font-size:0.8rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:7px 10px; border-bottom:1px solid var(--border); }
-.status-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); }
-.status-row:last-child { border-bottom:none; }
-</style>
-
 <script defer>
-// WHO growth standards median and ±2SD for BB/U (simplified key ages)
-// Data: [median, -2SD, +2SD] in kg for boys and girls by month
+// WHO BB/U data [median, -3SD, -2SD, -1SD, median, +1SD, +2SD, +3SD]
+// Simplified: [median, -2SD, +2SD] in kg
 const WHO_BB = {
-  boy: {
-    0:[3.3,2.1,4.4],1:[4.5,2.9,6.0],2:[5.6,3.8,7.1],3:[6.4,4.4,8.0],4:[7.0,4.9,8.7],5:[7.5,5.3,9.3],
-    6:[7.9,5.7,9.8],7:[8.3,6.0,10.2],8:[8.6,6.3,10.6],9:[8.9,6.6,10.9],10:[9.2,6.8,11.3],11:[9.4,7.0,11.6],
-    12:[9.6,7.1,11.9],15:[10.3,7.6,12.8],18:[10.9,8.1,13.7],21:[11.5,8.6,14.5],24:[12.2,9.0,15.3],
-    30:[13.3,9.9,16.9],36:[14.3,10.8,18.3],42:[15.3,11.6,19.6],48:[16.3,12.4,21.0],54:[17.3,13.1,22.4],60:[18.3,13.9,23.9]
-  },
-  girl: {
-    0:[3.2,2.0,4.2],1:[4.2,2.7,5.5],2:[5.1,3.4,6.6],3:[5.8,4.0,7.5],4:[6.4,4.4,8.2],5:[6.9,4.8,8.8],
-    6:[7.3,5.1,9.3],7:[7.6,5.4,9.7],8:[7.9,5.6,10.1],9:[8.2,5.8,10.4],10:[8.5,6.0,10.8],11:[8.7,6.2,11.1],
-    12:[8.9,6.3,11.5],15:[9.6,6.9,12.4],18:[10.2,7.4,13.2],21:[10.9,7.9,14.1],24:[11.5,8.3,14.8],
-    30:[12.8,9.3,16.5],36:[14.0,10.2,18.2],42:[15.0,11.1,19.7],48:[16.1,11.9,21.3],54:[17.2,12.7,22.8],60:[18.2,13.5,24.3]
-  }
+  boy:  {0:[3.3,2.1,4.4],1:[4.5,2.9,6.0],2:[5.6,3.8,7.1],3:[6.4,4.4,8.0],4:[7.0,4.9,8.7],5:[7.5,5.3,9.3],6:[7.9,5.7,9.8],7:[8.3,6.0,10.2],8:[8.6,6.3,10.6],9:[8.9,6.6,10.9],10:[9.2,6.8,11.3],11:[9.4,7.0,11.6],12:[9.6,7.1,11.9],15:[10.3,7.6,12.8],18:[10.9,8.1,13.7],21:[11.5,8.6,14.5],24:[12.2,9.0,15.3],30:[13.3,9.9,16.9],36:[14.3,10.8,18.3],42:[15.3,11.6,19.6],48:[16.3,12.4,21.0],54:[17.3,13.1,22.4],60:[18.3,13.9,23.9]},
+  girl: {0:[3.2,2.0,4.2],1:[4.2,2.7,5.5],2:[5.1,3.4,6.6],3:[5.8,4.0,7.5],4:[6.4,4.4,8.2],5:[6.9,4.8,8.8],6:[7.3,5.1,9.3],7:[7.6,5.4,9.7],8:[7.9,5.6,10.1],9:[8.2,5.8,10.4],10:[8.5,6.0,10.8],11:[8.7,6.2,11.1],12:[8.9,6.3,11.5],15:[9.6,6.9,12.4],18:[10.2,7.4,13.2],21:[10.9,7.9,14.1],24:[11.5,8.3,14.8],30:[12.8,9.3,16.5],36:[14.0,10.2,18.2],42:[15.0,11.1,19.7],48:[16.1,11.9,21.3],54:[17.2,12.7,22.8],60:[18.2,13.5,24.3]}
 };
-// Heights in cm: [median, -2SD, +2SD]
 const WHO_HT = {
-  boy: {
-    0:[49.9,46.3,53.4],3:[61.4,57.3,65.5],6:[67.6,63.3,71.9],9:[72.3,67.7,76.9],12:[75.7,70.6,80.9],
-    18:[82.3,76.9,87.7],24:[87.8,81.7,93.9],36:[96.1,89.2,103.0],48:[103.3,96.1,110.6],60:[110.0,102.2,117.8]
-  },
-  girl: {
-    0:[49.1,45.6,52.7],3:[59.8,56.0,63.8],6:[65.7,61.5,70.0],9:[70.1,65.6,74.7],12:[74.0,68.9,79.2],
-    18:[80.7,75.0,86.5],24:[86.4,80.0,92.9],36:[95.1,88.3,102.0],48:[102.7,95.6,110.0],60:[109.4,102.0,117.0]
-  }
+  boy:  {0:[49.9,46.3,53.4],3:[61.4,57.3,65.5],6:[67.6,63.3,71.9],9:[72.3,67.7,76.9],12:[75.7,70.6,80.9],18:[82.3,76.9,87.7],24:[87.8,81.7,93.9],36:[96.1,89.2,103.0],48:[103.3,96.1,110.6],60:[110.0,102.2,117.8]},
+  girl: {0:[49.1,45.6,52.7],3:[59.8,56.0,63.8],6:[65.7,61.5,70.0],9:[70.1,65.6,74.7],12:[74.0,68.9,79.2],18:[80.7,75.0,86.5],24:[86.4,80.0,92.9],36:[95.1,88.3,102.0],48:[102.7,95.6,110.0],60:[109.4,102.0,117.0]}
+};
+
+const ACTION_PLANS = {
+  normal: [
+    {icon:'✅',title:'Pertahankan pola makan',desc:'Teruskan ASI/MPASI bergizi. Variasi makanan dari semua kelompok: karbohidrat, protein, sayur, lemak sehat.'},
+    {icon:'🏃',title:'Stimulasi aktif',desc:'Bermain aktif, tummy time (untuk bayi), dan stimulasi motorik sesuai usia sangat penting untuk perkembangan.'},
+    {icon:'💉',title:'Imunisasi rutin',desc:'Pastikan jadwal imunisasi Kemenkes terpenuhi. Penyakit infeksi bisa mengganggu pertumbuhan.'},
+    {icon:'📅',title:'Pantau setiap bulan',desc:'Timbang rutin di Posyandu dan catat di buku KIA untuk memantau tren pertumbuhan.'},
+  ],
+  gizikurang: [
+    {icon:'🚨',title:'Konsultasi segera',desc:'Berat di bawah normal memerlukan evaluasi dokter atau ahli gizi anak — jangan tunggu timbangan berikutnya.'},
+    {icon:'🍳',title:'Tingkatkan asupan kalori',desc:'Tambah frekuensi makan, perkaya MPASI dengan tambahan minyak, telur, ikan, atau susu. Snack bergizi antara makan utama.'},
+    {icon:'💊',title:'Cek status gizi mikro',desc:'Kekurangan zat besi, seng, dan vitamin A sering menyertai gizi kurang. Dokter bisa meresepkan suplemen yang tepat.'},
+    {icon:'🏥',title:'Manfaatkan Posyandu/Puskesmas',desc:'Program PMT (Pemberian Makanan Tambahan) tersedia gratis di Posyandu untuk balita dengan gizi kurang.'},
+  ],
+  stunting: [
+    {icon:'🚨',title:'Segera ke dokter anak',desc:'Stunting (pendek untuk usia) perlu evaluasi medis. Semakin cepat ditangani, semakin besar peluang pemulihan.'},
+    {icon:'🥚',title:'Protein hewani tiap hari',desc:'Telur, ikan, ayam, daging merah kecil — riset membuktikan protein hewani harian efektif mengatasi stunting.'},
+    {icon:'🌿',title:'Perbaiki sanitasi',desc:'Stunting sering diperparah infeksi berulang dari sanitasi buruk. Cuci tangan pakai sabun, air bersih, toilet layak.'},
+    {icon:'📋',title:'Ikuti program pemerintah',desc:'Daftar ke program intervensi stunting di Puskesmas setempat. PMT pemulihan tersedia untuk balita stunting.'},
+  ],
+  gizelebih: [
+    {icon:'👨‍⚕️',title:'Konsultasi dokter anak',desc:'Gizi lebih pada bayi perlu evaluasi — bukan sekadar "bayi sehat". Dokter akan menilai apakah perlu intervensi.'},
+    {icon:'🥛',title:'Evaluasi pola makan',desc:'Hindari susu formula berlebihan. Jika masih ASI, teruskan — ASI tidak menyebabkan obesitas berlebihan.'},
+    {icon:'🚫',title:'Hindari makanan manis',desc:'Jus buah, biskuit manis, dan minuman manis tidak direkomendasikan untuk bayi di bawah 1 tahun.'},
+    {icon:'🏃',title:'Dorong aktivitas fisik',desc:'Tummy time, merangkak, dan bermain aktif membantu keseimbangan berat badan yang sehat.'},
+  ],
 };
 
 let currentGender = 'boy';
-
-function selectGender(g) {
-  currentGender = g;
-  document.getElementById('btn-boy').classList.toggle('active', g === 'boy');
-  document.getElementById('btn-girl').classList.toggle('active', g === 'girl');
-}
+let records = JSON.parse(localStorage.getItem('baby-growth') || '[]');
+let lastResult = null;
 
 // Populate month select
-(function() {
+(function(){
   const sel = document.getElementById('age-month');
-  for (let i = 0; i <= 60; i++) {
+  for (let i=0;i<=60;i++) {
     const opt = document.createElement('option');
     opt.value = i;
-    opt.textContent = i === 0 ? 'Baru lahir (0 bulan)' : i + ' bulan' + (i % 12 === 0 && i > 0 ? ' (' + (i/12) + ' tahun)' : '');
+    opt.textContent = i===0?'Baru lahir (0 bulan)':i+' bulan'+(i%12===0&&i>0?' ('+(i/12)+' tahun)':'');
     sel.appendChild(opt);
   }
 })();
 
+function selectGender(g) {
+  currentGender = g;
+  document.getElementById('btn-boy').classList.toggle('active', g==='boy');
+  document.getElementById('btn-girl').classList.toggle('active', g==='girl');
+  autoCalc();
+}
+
+function autoCalc() {
+  const age = document.getElementById('age-month').value;
+  const wt = document.getElementById('baby-weight').value;
+  if (age!=='' && wt) calculate();
+}
+
 function getNearest(data, age) {
   const keys = Object.keys(data).map(Number).sort((a,b)=>a-b);
   let nearest = keys[0];
-  for (const k of keys) { if (k <= age) nearest = k; }
+  for (const k of keys) { if (k<=age) nearest = k; }
   return data[nearest];
 }
 
-function zscore(val, ref) {
-  const [med, sd2lo, sd2hi] = ref;
-  const sdUnit = (sd2hi - sd2lo) / 4;
-  return (val - med) / sdUnit;
+function calcZ(val, lo, hi) {
+  const med = (lo+hi)/2;
+  const sd = (hi-lo)/4;
+  return (val-med)/sd;
 }
 
-function classify(z) {
-  if (z < -3) return {label:'Sangat Kurang (Gizi Buruk)', cls:'badge-obese', color:'#f87171'};
-  if (z < -2) return {label:'Kurang (Gizi Kurang)', cls:'badge-overweight', color:'#fbbf24'};
-  if (z <= 1)  return {label:'Normal ✓', cls:'badge-normal', color:'#4ade80'};
-  if (z <= 2)  return {label:'Berisiko Gizi Lebih', cls:'badge-overweight', color:'#fbbf24'};
-  return {label:'Gizi Lebih / Obesitas', cls:'badge-obese', color:'#f87171'};
+// Map z-score to gauge % (z: -3 to +3 → 0-100%)
+function zToPct(z) { return Math.max(3, Math.min(97, (z+3)/6*100)); }
+
+function classifyBB(z) {
+  if (z<-3) return {label:'Sangat Kurang (Gizi Buruk)',cls:'badge-obese',color:'#f87171',plan:'gizikurang'};
+  if (z<-2) return {label:'Kurang (Gizi Kurang)',cls:'badge-overweight',color:'#fbbf24',plan:'gizikurang'};
+  if (z<=1)  return {label:'Normal ✓',cls:'badge-normal',color:'#4ade80',plan:'normal'};
+  if (z<=2)  return {label:'Berisiko Gizi Lebih',cls:'badge-overweight',color:'#fbbf24',plan:'gizelebih'};
+  return {label:'Gizi Lebih / Obesitas',cls:'badge-obese',color:'#f87171',plan:'gizelebih'};
 }
-function classifyHt(z) {
-  if (z < -3) return {label:'Severely Stunted (Sangat Pendek)', color:'#f87171'};
-  if (z < -2) return {label:'Stunted (Pendek)', color:'#fbbf24'};
-  if (z <= 2)  return {label:'Normal ✓', color:'#4ade80'};
-  return {label:'Tinggi (di atas rata-rata)', color:'#4ade80'};
+function classifyHT(z) {
+  if (z<-3) return {label:'Sangat Pendek (Severely Stunted)',color:'#f87171',plan:'stunting'};
+  if (z<-2) return {label:'Pendek (Stunted)',color:'#fbbf24',plan:'stunting'};
+  if (z<=2)  return {label:'Normal ✓',color:'#4ade80',plan:'normal'};
+  return {label:'Tinggi di atas rata-rata',color:'#4ade80',plan:'normal'};
 }
 
 function calculate() {
   const age = parseInt(document.getElementById('age-month').value);
   const weight = parseFloat(document.getElementById('baby-weight').value);
   const height = parseFloat(document.getElementById('baby-height').value);
-  if (isNaN(age) || isNaN(weight) || weight <= 0) return alert('Pilih usia dan masukkan berat badan bayi.');
+  if (isNaN(age)||isNaN(weight)||weight<=0) return alert('Pilih usia dan masukkan berat badan bayi.');
 
-  const gData = WHO_BB[currentGender];
-  const ref = getNearest(gData, age);
+  const bbData = WHO_BB[currentGender];
+  const ref = getNearest(bbData, age);
   const [med, lo, hi] = ref;
-  const z = zscore(weight, ref);
-  const st = classify(z);
+  const z = calcZ(weight, lo, hi);
+  const st = classifyBB(z);
 
-  let html = `<div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">${age} bulan · ${currentGender === 'boy' ? '👦 Laki-laki' : '👧 Perempuan'}</div>`;
+  let plan = st.plan;
 
-  html += `<div class="status-row"><div><div style="font-size:0.85rem;color:var(--text-secondary)">Berat Badan</div><div style="font-size:0.75rem;color:var(--text-muted)">Rentang normal: ${lo}–${hi} kg</div></div>
+  // Status HTML
+  let statusHtml = `<div style="font-size:.85rem;color:var(--text-secondary);margin-bottom:10px">${age} bulan · ${currentGender==='boy'?'👦 Laki-laki':'👧 Perempuan'}</div>`;
+  statusHtml += `<div class="status-row">
+    <div><div style="font-size:.85rem;color:var(--text-secondary)">Berat Badan</div><div style="font-size:.75rem;color:var(--text-muted)">Normal: ${lo}–${hi} kg (median ${med} kg)</div></div>
     <div style="text-align:right"><div style="font-size:1.1rem;font-weight:700">${weight} kg</div>
-    <span style="font-size:0.75rem;padding:3px 8px;border-radius:20px;font-weight:600;background:${st.color}22;color:${st.color}">${st.label}</span></div></div>`;
+    <span style="font-size:.75rem;padding:3px 8px;border-radius:20px;font-weight:600;background:${st.color}22;color:${st.color}">${st.label}</span></div></div>`;
 
-  if (!isNaN(height) && height > 0) {
+  let htStatus = null;
+  if (!isNaN(height)&&height>0) {
     const htRef = getNearest(WHO_HT[currentGender], age);
     if (htRef) {
-      const [hmed, hlo, hhi] = htRef;
-      const hz = zscore(height, htRef);
-      const hst = classifyHt(hz);
-      html += `<div class="status-row"><div><div style="font-size:0.85rem;color:var(--text-secondary)">Panjang/Tinggi Badan</div><div style="font-size:0.75rem;color:var(--text-muted)">Rentang normal: ${hlo}–${hhi} cm</div></div>
+      const [hmed,hlo,hhi] = htRef;
+      const hz = calcZ(height, hlo, hhi);
+      htStatus = classifyHT(hz);
+      if (hz < -2) plan = 'stunting';
+      statusHtml += `<div class="status-row">
+        <div><div style="font-size:.85rem;color:var(--text-secondary)">Panjang/Tinggi Badan</div><div style="font-size:.75rem;color:var(--text-muted)">Normal: ${hlo}–${hhi} cm</div></div>
         <div style="text-align:right"><div style="font-size:1.1rem;font-weight:700">${height} cm</div>
-        <span style="font-size:0.75rem;padding:3px 8px;border-radius:20px;font-weight:600;background:${hst.color}22;color:${hst.color}">${hst.label}</span></div></div>`;
+        <span style="font-size:.75rem;padding:3px 8px;border-radius:20px;font-weight:600;background:${htStatus.color}22;color:${htStatus.color}">${htStatus.label}</span></div></div>`;
+      // Height gauge
+      document.getElementById('ht-zscore-needle').style.left = zToPct(hz).toFixed(1)+'%';
+      document.getElementById('ht-zscore-val').textContent = `Z-score: ${hz.toFixed(1)}`;
+      document.getElementById('ht-gauge-section').style.display = '';
     }
+  } else {
+    document.getElementById('ht-gauge-section').style.display='none';
   }
 
-  // Tip
-  const tip = z >= -2 && z <= 1 ? '✅ Pertumbuhan bayi Anda dalam rentang normal WHO. Pertahankan pemberian ASI/MPASI yang bergizi dan imunisasi rutin.'
-    : z < -2 ? '⚠️ Berat badan bayi di bawah normal. Segera konsultasikan dengan dokter atau ahli gizi anak untuk evaluasi dan tatalaksana.'
-    : '⚠️ Berat badan bayi di atas normal. Evaluasi pola makan dan konsultasikan dengan dokter anak.';
+  document.getElementById('result-status').innerHTML = statusHtml;
 
-  html += `<div style="margin-top:14px;padding:12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">${tip}</div>`;
-  html += `<div style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);">Referensi: WHO Child Growth Standards 2006 / Kemenkes RI</div>`;
+  // Gauge
+  document.getElementById('zscore-needle').style.left = zToPct(z).toFixed(1)+'%';
+  document.getElementById('zscore-val').textContent = `Z-score: ${z.toFixed(1)}`;
+  document.getElementById('gauge-section').style.display = '';
 
-  document.getElementById('result-content').innerHTML = html;
+  // Next milestone
+  const nextAge = age < 60 ? age+1 : 60;
+  const nextRef = getNearest(bbData, nextAge);
+  if (nextRef && age < 60) {
+    const gainLow = (nextRef[1]-lo).toFixed(2), gainHigh = (nextRef[2]-hi).toFixed(2);
+    const gainTypical = age<=3?'0.7–1.0 kg':age<=6?'0.5–0.7 kg':age<=12?'0.3–0.5 kg':'0.2–0.3 kg';
+    document.getElementById('ms-weight').textContent = `${nextRef[1]}–${nextRef[2]} kg`;
+    document.getElementById('ms-gain').textContent = gainTypical;
+    document.getElementById('milestone-card').style.display='';
+  } else {
+    document.getElementById('milestone-card').style.display='none';
+  }
+
+  // Action plan
+  document.getElementById('action-grid').innerHTML = (ACTION_PLANS[plan]||ACTION_PLANS.normal).map(p=>
+    `<div class="action-card"><div class="ac-icon">${p.icon}</div><div class="ac-title">${p.title}</div><div class="ac-desc">${p.desc}</div></div>`
+  ).join('');
+
+  lastResult = {age, weight, height:!isNaN(height)&&height>0?height:null, gender:currentGender, label:st.label, cls:st.cls};
   document.getElementById('result').classList.add('show');
+  renderHistory();
 }
 
+function saveRecord() {
+  if (!lastResult) return alert('Hitung terlebih dahulu.');
+  const {age, weight, height, gender, label, cls} = lastResult;
+  const now = new Date();
+  const dateStr = now.getDate()+'/'+(now.getMonth()+1)+'/'+now.getFullYear();
+  records.unshift({age, weight, height, gender, label, cls, date:dateStr, id:Date.now()});
+  if (records.length>15) records.pop();
+  localStorage.setItem('baby-growth', JSON.stringify(records));
+  renderHistory();
+}
+
+function renderHistory() {
+  if (records.length===0) { document.getElementById('history-section').style.display='none'; return; }
+  document.getElementById('history-section').style.display='';
+  document.getElementById('history-list').innerHTML = records.map(r=>
+    `<div class="history-row">
+      <span class="history-age">${r.age} bln</span>
+      <span style="font-size:.75rem;font-weight:600">${r.weight} kg${r.height?' / '+r.height+' cm':''}</span>
+      <span class="history-badge ${r.cls}">${r.label.replace(' ✓','')}</span>
+      <span class="history-time">${r.date}</span>
+      <button class="del-btn" onclick="deleteRecord(${r.id})">×</button>
+    </div>`
+  ).join('');
+}
+function deleteRecord(id) {
+  records = records.filter(r=>r.id!==id);
+  localStorage.setItem('baby-growth', JSON.stringify(records));
+  renderHistory();
+}
 function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', e => { if(e.key==='Enter') calculate(); });
+window.addEventListener('DOMContentLoaded', renderHistory);
 </script>
 </body>
 </html>
