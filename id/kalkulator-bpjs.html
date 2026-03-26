@@ -73,6 +73,19 @@
 .ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
 .ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
 .ref-table tr:last-child td { border-bottom:none; }
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+/* Naik kelas sim */
+.kelas-sim-box{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:.8rem;margin-top:10px}
+.kelas-sim-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.8rem}
+.kelas-sim-row:last-child{border-bottom:none}
+/* Tunggakan box */
+.tunggakan-box{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:.8rem;margin-top:10px}
 </style>
 </head>
 <body>
@@ -143,6 +156,33 @@
             <div class="bs-card"><div class="bc-label">Jumlah anggota</div><div class="bc-val" id="r0-anggota">—</div></div>
           </div>
           <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+
+          <!-- Naik/turun kelas simulator -->
+          <div id="r0-kelas-sim" style="display:none">
+            <div class="kelas-sim-box">
+              <div style="font-size:.75rem;color:#f0a800;font-weight:600;margin-bottom:.5rem">📊 Perbandingan semua kelas (per orang):</div>
+              <div id="r0-kelas-sim-rows"></div>
+            </div>
+          </div>
+
+          <!-- Tunggakan calculator -->
+          <div style="margin-top:12px">
+            <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">⚠️ Simulator Tunggakan:</div>
+            <div style="display:flex;gap:6px;align-items:center;margin-bottom:.4rem">
+              <span style="font-size:.72rem;color:#8fa3b1">Jika nunggak</span>
+              <input type="number" id="tg-bulan" placeholder="bln" min="1" max="12" style="width:55px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg-input);color:var(--text-primary);font-size:.82rem" oninput="calcTunggakan()"/>
+              <span style="font-size:.72rem;color:#8fa3b1">bulan dengan biaya rawat inap</span>
+              <input type="number" id="tg-biaya" placeholder="Rp" style="width:110px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg-input);color:var(--text-primary);font-size:.82rem" oninput="calcTunggakan()"/>
+            </div>
+            <div class="tunggakan-box" id="tg-result" style="display:none">
+              <div style="font-size:.75rem;color:#f87171;font-weight:600;margin-bottom:.4rem">Estimasi denda rawat inap:</div>
+              <div id="tg-rows"></div>
+            </div>
+          </div>
+
+          <!-- Action cards -->
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips untuk Anda:</div>
+          <div class="action-grid" id="r0-action-cards"></div>
         </div>
       </div>
 
@@ -173,6 +213,8 @@
             <div class="bs-card"><div class="bc-label">Total iuran (5%)</div><div class="bc-val" id="r1-total">—</div></div>
           </div>
           <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips untuk Anda:</div>
+          <div class="action-grid" id="r1-action-cards"></div>
         </div>
       </div>
 
@@ -311,6 +353,91 @@ const fmtM = n => {
   return fmt(n);
 };
 
+
+const IURAN = { 1:150000, 2:100000, 3:42000 };
+const KELAS_LABELS = {1:'Kelas 1 (1–2 TT)',2:'Kelas 2 (3–4 TT)',3:'Kelas 3 (bangsal)'};
+
+function buildBPJSActionCards(id, type, kelas, gaji) {
+  let cards;
+  if (type === 'mandiri') {
+    if (kelas === 3) {
+      cards = [
+        {icon:'💰',title:'Subsidi Rp 7.000/orang',desc:'Kelas 3 hanya bayar Rp 35.000/orang — pemerintah subsidi Rp 7.000. Pilihan paling terjangkau.'},
+        {icon:'📱',title:'Autodebet via Mobile JKN',desc:'Atur autodebet di aplikasi Mobile JKN atau bank untuk menghindari tunggakan dan denda.'},
+        {icon:'🆙',title:'Naik kelas kapan?',desc:'Bisa naik kelas setelah 12 bulan aktif. Ajukan via Mobile JKN atau kantor BPJS terdekat.'},
+        {icon:'🏥',title:'Daftar faskes terdekat',desc:'Pastikan faskes tingkat 1 (puskesmas/klinik) terdaftar di BPJS Anda untuk proses rujukan lancar.'},
+      ];
+    } else if (kelas === 2) {
+      cards = [
+        {icon:'⚖️',title:'Kelas 2 paling populer',desc:'Keseimbangan terbaik antara biaya dan fasilitas. Layanan medis sama dengan kelas lain.'},
+        {icon:'📱',title:'Mobile JKN untuk segalanya',desc:'Cek keaktifan, ubah faskes, lihat riwayat klaim — semua bisa di aplikasi Mobile JKN.'},
+        {icon:'🏥',title:'Gawat darurat tanpa rujukan',desc:'Kondisi darurat bisa langsung ke IGD manapun tanpa rujukan — cukup tunjukkan KTP/kartu BPJS.'},
+        {icon:'👨‍👩‍👧',title:'Daftarkan keluarga sekarang',desc:'Pasangan dan anak (maks 3) bisa didaftarkan via Mobile JKN atau kantor BPJS dengan membawa KK.'},
+      ];
+    } else {
+      cards = [
+        {icon:'🏆',title:'Kelas 1 — kamar paling privat',desc:'1–2 tempat tidur per kamar. Biaya lebih tinggi tapi kenyamanan terbaik dalam sistem BPJS.'},
+        {icon:'⚡',title:'Bandingkan dengan asuransi swasta',desc:'Dengan iuran kelas 1 Rp 150rb, pertimbangkan apakah asuransi swasta bisa memberi lebih banyak manfaat.'},
+        {icon:'📋',title:'Cek KRIS 2026',desc:'KRIS akan menyamakan standar kamar semua peserta. Pantau perkembangan di bpjs-kesehatan.go.id.'},
+        {icon:'📱',title:'Autodebet bank/e-wallet',desc:'Hindari lupa bayar — atur autodebet dari rekening atau GoPay/OVO di Mobile JKN.'},
+      ];
+  } else {
+    // karyawan
+    const gCap = Math.min(gaji || 8e6, 12e6);
+    if (gaji > 12e6) {
+      cards = [
+        {icon:'ℹ️',title:'Iuran sudah mencapai batas',desc:'Gaji Anda di atas Rp 12 juta — iuran dihitung maksimal dari Rp 12 juta. Tidak ada tambahan meski gaji lebih besar.'},
+        {icon:'💼',title:'Kontribusi perusahaan besar',desc:'Perusahaan menanggung 4% × Rp 12 juta = Rp 480.000/bulan untuk Anda. Ini benefit tersembunyi yang signifikan.'},
+        {icon:'🏥',title:'Manfaatkan fasilitas penuh',desc:'Dengan iuran tertinggi, pastikan Anda memanfaatkan faskes BPJS untuk perawatan rutin — penghematan besar jangka panjang.'},
+        {icon:'👨‍👩‍👧',title:'Keluarga ikut ditanggung',desc:'Pasangan dan anak otomatis terdaftar dalam BPJS karyawan. Pastikan data keluarga sudah dilaporkan ke HRD.'},
+      ];
+    } else {
+      cards = [
+        {icon:'💼',title:'1%:4% — Perusahaan tanggung lebih',desc:'Anda bayar 1%, perusahaan bayar 4%. Total manfaat BPJS setara iuran 5% dari gaji Anda.'},
+        {icon:'👨‍👩‍👧',title:'Daftarkan keluarga via HRD',desc:'Pasangan dan anak ikut terlindungi di BPJS karyawan — minta HRD untuk proses pendaftaran.'},
+        {icon:'🔄',title:'Pindah ke mandiri jika resign',desc:'Jika resign, segera daftarkan diri sebagai peserta mandiri dalam 30 hari agar tidak ada jeda perlindungan.'},
+        {icon:'📱',title:'Unduh Mobile JKN',desc:'Cek keaktifan BPJS, ubah faskes, cari RS terdekat — semua dalam satu aplikasi gratis.'},
+      ];
+    }
+  }
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+}
+
+function showKelasComparison(anggota) {
+  const rows = [1,2,3].map(k => {
+    const total = IURAN[k] * anggota;
+    const diff = total - (IURAN[kelas] * anggota);
+    const label = diff > 0 ? '+Rp '+Math.abs(diff).toLocaleString('id-ID') : diff < 0 ? '−Rp '+Math.abs(diff).toLocaleString('id-ID') : '← Anda sekarang';
+    return `<div class="kelas-sim-row">
+      <span style="color:${k===1?'#fbbf24':k===2?'var(--mint)':'#60a5fa'}">${KELAS_LABELS[k]}</span>
+      <span style="font-weight:700">Rp ${(IURAN[k]*anggota).toLocaleString('id-ID')}/bln</span>
+      <span style="font-size:.7rem;color:${diff>0?'#f87171':diff<0?'#4ade80':'#8fa3b1'}">${label}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('r0-kelas-sim-rows').innerHTML = rows;
+  document.getElementById('r0-kelas-sim').style.display = '';
+}
+
+function calcTunggakan() {
+  const bln = parseInt(document.getElementById('tg-bulan').value) || 0;
+  const biaya = parseFloat(document.getElementById('tg-biaya').value) || 0;
+  const el = document.getElementById('tg-result');
+  if (!bln || !biaya) { el.style.display='none'; return; }
+  const fmt2 = n => 'Rp '+Math.round(n).toLocaleString('id-ID');
+  // Denda: 5% × biaya rawat inap × bulan menunggak (maks 12 bln, maks Rp30jt)
+  const dendaPct = Math.min(bln, 12) * 0.05;
+  const denda = Math.min(biaya * dendaPct, 30000000);
+  const anggotaVal = parseInt(document.getElementById('anggota').value) || 1;
+  const tunggakanIuran = IURAN[kelas] * anggotaVal * bln;
+  document.getElementById('tg-rows').innerHTML = `
+    <div class="kelas-sim-row"><span>Iuran tertunggak (${bln} bln)</span><span style="color:#f87171;font-weight:700">${fmt2(tunggakanIuran)}</span></div>
+    <div class="kelas-sim-row"><span>Denda rawat inap (${(dendaPct*100).toFixed(0)}% × biaya)</span><span style="color:#f87171;font-weight:700">${fmt2(denda)}</span></div>
+    <div class="kelas-sim-row" style="font-weight:700"><span>Total yang harus dibayar</span><span style="color:#f87171">${fmt2(tunggakanIuran + denda)}</span></div>
+    <div style="font-size:.68rem;color:#8fa3b1;margin-top:.3rem">💡 Solusi: lunasi tunggakan → aktif lagi dalam 24 jam. Autodebet mencegah ini terjadi.</div>`;
+  el.style.display = '';
+}
+
 function switchTab(idx, btn) {
   document.querySelectorAll('.bpjs-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.bpjs-panel').forEach(p => p.classList.remove('active'));
@@ -351,6 +478,8 @@ function calcMandiri() {
     `🏥 Iuran kelas ${kelas} untuk ${anggota} orang: <strong>${fmt(total)}/bulan</strong> atau <strong>${fmtM(total*12)}/tahun</strong>. ${kelas === 3 ? 'Dari Rp 42.000, Anda hanya membayar Rp 35.000 — sisanya subsidi pemerintah Rp 7.000.' : kelas === 1 ? 'Kelas 1 memberikan kamar lebih privat dengan 1–2 tempat tidur.' : 'Kelas 2 adalah pilihan paling populer — keseimbangan antara biaya dan kenyamanan.'}`;
 
   document.getElementById('res0').style.display = 'block';
+  buildBPJSActionCards('r0-action-cards', 'mandiri', kelas, 0);
+  showKelasComparison(anggota);
   document.getElementById('res0').classList.add('show');
 }
 
@@ -375,6 +504,8 @@ function calcKaryawan() {
     : `💼 Dari gaji <strong>${fmt(gaji)}</strong>, BPJS dipotong <strong>${fmt(kary)}/bulan</strong> (1%). Perusahaan menambahkan <strong>${fmt(perus)}/bulan</strong> (4%) sehingga total iuran <strong>${fmt(total)}/bulan</strong>.`;
 
   document.getElementById('res1').style.display = 'block';
+  const gajiVal2 = parseFloat(document.getElementById('gaji-ppu').value)||0;
+  buildBPJSActionCards('r1-action-cards', 'karyawan', 0, gajiVal2);
   document.getElementById('res1').classList.add('show');
 }
 

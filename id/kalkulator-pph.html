@@ -53,6 +53,24 @@
 .tips-box .tip-row { display:flex; gap:10px; padding:6px 0; border-bottom:1px solid var(--border); font-size:0.8rem; }
 .tips-box .tip-row:last-child { border-bottom:none; }
 .tips-box .tip-icon { flex-shrink:0; }
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+/* PTKP sim */
+.ptkp-sim-box{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:.8rem;margin-top:10px}
+.ptkp-sim-main{font-size:1.3rem;font-weight:700;color:#4ade80;text-align:center}
+/* Scenario table */
+.tenor-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+.tenor-table th{background:var(--bg-input);color:var(--text-secondary);padding:6px 10px;text-align:right;font-weight:600}
+.tenor-table th:first-child{text-align:left}
+.tenor-table td{padding:6px 10px;border-bottom:1px solid var(--border);text-align:right}
+.tenor-table td:first-child{text-align:left;color:var(--text-secondary)}
+.tenor-table tr.active-tenor td{background:var(--mint-dim);color:var(--mint);font-weight:700}
+.tenor-table tr:last-child td{border-bottom:none}
 </style>
 </head>
 <body>
@@ -149,6 +167,34 @@
 
         <!-- Advice -->
         <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
+
+        <!-- PTKP savings simulator -->
+        <div style="margin-top:12px">
+          <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">💍 Simulasi: Jika status PTKP berubah</div>
+          <select id="sim-ptkp-new" onchange="calcPTKPSim()" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text-primary);font-size:.85rem;margin-bottom:.5rem">
+            <option value="">Pilih status baru...</option>
+            <option value="A|54000000">TK/0 — Lajang (sama)</option>
+            <option value="A|58500000">K/0 — Menikah (PTKP naik Rp 4,5 jt/thn)</option>
+            <option value="B|63000000">K/1 — Menikah + 1 anak</option>
+            <option value="B|67500000">K/2 — Menikah + 2 anak</option>
+            <option value="C|72000000">K/3 — Menikah + 3 anak</option>
+          </select>
+          <div class="ptkp-sim-box" id="ptkp-sim-result" style="display:none">
+            <div style="font-size:.72rem;color:#6b7c8d;text-align:center;margin-bottom:.2rem">PPh turun per bulan</div>
+            <div class="ptkp-sim-main" id="ptkp-sim-main">—</div>
+            <div style="font-size:.78rem;color:#8fa3b1;text-align:center;margin-top:.3rem" id="ptkp-sim-sub">—</div>
+          </div>
+        </div>
+
+        <!-- Scenario table: different salary levels -->
+        <div style="margin-top:12px">
+          <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">📊 Perbandingan beberapa level gaji:</div>
+          <table class="tenor-table" id="pph-scenario-table"></table>
+        </div>
+
+        <!-- Action cards -->
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Langkah Optimasi Pajak Anda:</div>
+        <div class="action-grid" id="pph-action-cards"></div>
       </div>
     </div>
   </div>
@@ -261,7 +307,7 @@
 
 <footer class="site-footer">
   <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <script defer>
@@ -330,6 +376,77 @@ function pasal17(pkp) {
     prev = b;
   }
   return tax;
+}
+
+
+let _lastPPHData = {};
+
+function calcPTKPSim() {
+  const sel = document.getElementById('sim-ptkp-new').value;
+  if (!sel || !_lastPPHData.bruto) return;
+  const parts = sel.split('|');
+  const katNew = parts[0];
+  const {bruto, kat: katNow, pphTER: pphNow} = _lastPPHData;
+  const rateNew = getTER(bruto, katNew);
+  const pphNew = Math.round(bruto * rateNew);
+  const diff = pphNow - pphNew;
+  const el = document.getElementById('ptkp-sim-result');
+  if (diff > 0) {
+    document.getElementById('ptkp-sim-main').textContent = 'Rp '+diff.toLocaleString('id-ID')+'/bulan';
+    document.getElementById('ptkp-sim-sub').textContent = 'Hemat Rp '+(diff*12).toLocaleString('id-ID')+'/tahun · PPh baru: Rp '+pphNew.toLocaleString('id-ID')+'/bln';
+    el.style.display='';
+  } else if (diff === 0) {
+    document.getElementById('ptkp-sim-main').textContent = 'Tidak ada perubahan';
+    document.getElementById('ptkp-sim-sub').textContent = 'Status ini memiliki kategori TER yang sama';
+    el.style.display='';
+  } else {
+    document.getElementById('ptkp-sim-main').textContent = '⚠ PPh naik Rp '+Math.abs(diff).toLocaleString('id-ID')+'/bulan';
+    document.getElementById('ptkp-sim-sub').textContent = 'Status baru justru meningkatkan pajak — cek kembali kategori TER';
+    el.style.display='';
+  }
+}
+
+function buildPPHScenarioTable(brutoNow, kat) {
+  // Show nearby salary levels
+  const base = Math.round(brutoNow/1e6)*1e6;
+  const levels = [-3,-2,-1,0,1,2,3].map(d=>base+d*1e6).filter(v=>v>0);
+  let html='<thead><tr><th>Gaji Bruto</th><th>Tarif TER</th><th>PPh 21</th><th>Take-home</th></tr></thead><tbody>';
+  levels.forEach(g=>{
+    const r=getTER(g,kat);
+    const pph=Math.round(g*r);
+    const th=g-pph;
+    const active=Math.abs(g-brutoNow)<500000;
+    html+=`<tr${active?' class="active-tenor"':''}><td>Rp ${(g/1e6).toFixed(0)} jt</td><td>${(r*100).toFixed(2)}%</td><td style="color:#f97316">Rp ${(pph/1e3).toFixed(0)}rb</td><td style="color:var(--mint)">Rp ${(th/1e6).toFixed(2)} jt</td></tr>`;
+  });
+  html+='</tbody>';
+  document.getElementById('pph-scenario-table').innerHTML=html;
+}
+
+function buildPPHActionCards(bruto, pph, terRate, kat) {
+  let cards;
+  if (pph === 0) {
+    cards = [
+      {icon:'✅',title:'Bebas PPh — manfaatkan',desc:'Tidak ada pajak! Simpan selisih untuk investasi atau dana darurat 3–6 bulan pengeluaran.'},
+      {icon:'📝',title:'Tetap lapor SPT',desc:'Meski PPh nol, kewajiban lapor SPT Tahunan (31 Maret) tetap ada jika penghasilan melampaui PTKP.'},
+      {icon:'💰',title:'Mulai investasi sekarang',desc:'Reksa dana pasar uang atau ORI/SBR cocok untuk pemula — potensi 5–7%/tahun, lebih dari tabungan biasa.'},
+      {icon:'📱',title:'Aktifkan NIK sebagai NPWP',desc:'NIK KTP sudah bisa berfungsi sebagai NPWP sejak 2024 — aktifkan di djponline.pajak.go.id.'},
+    ];
+  } else if (terRate <= 0.05) {
+    cards = [
+      {icon:'💍',title:'Kawin = PTKP naik',desc:'Menikah menaikkan PTKP Rp 4,5 jt/tahun → PPh turun. Gunakan simulator di atas untuk lihat angkanya.'},
+      {icon:'👶',title:'Tambah tanggungan',desc:'Setiap tanggungan tambahan naik PTKP Rp 4,5 jt/tahun. Pastikan lapor segera ke HRD setelah kelahiran.'},
+      {icon:'🏥',title:'Laporkan iuran BPJS TK',desc:'Iuran JHT (2%) dan JP (1%) Anda dapat dikurangkan dari PKP — kurangi PPh secara legal.'},
+      {icon:'📋',title:'Cek slip Desember',desc:'Bulan Desember ada rekonsiliasi tahunan — PPh bisa lebih besar atau lebih kecil dari bulan biasa.'},
+    ];
+  } else {
+    cards = [
+      {icon:'🤝',title:'Minta skema gross-up',desc:'"Pajak ditanggung perusahaan" setara kenaikan gaji implisit — tanyakan ke HRD sebagai opsi negosiasi.'},
+      {icon:'🏢',title:'Tunjangan natura lebih hemat',desc:'Fasilitas kantin, kendaraan dinas, dll. tidak kena PPh karyawan — lebih efisien dari tunjangan tunai.'},
+      {icon:'💼',title:'Manfaatkan iuran pensiun',desc:'Iuran dana pensiun yang disahkan Menkeu dapat dikurangkan dari PKP — tanya HRD apakah tersedia.'},
+      {icon:'📑',title:'Lapor SPT tepat waktu',desc:'Batas lapor SPT: 31 Maret. Terlambat dikenakan denda Rp 100.000. Gunakan e-Filing DJP Online.'},
+    ];
+  const el = document.getElementById('pph-action-cards');
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
 }
 
 function autoCalc() {
@@ -413,6 +530,12 @@ function calculate() {
     advice = `⚠️ <strong>Tarif efektif ${(terRate*100).toFixed(2)}% — tergolong tinggi.</strong> Dengan gaji di level ini, optimalkan potongan legal: iuran BPJS, iuran dana pensiun, dan update status PTKP jika ada perubahan keluarga. Pertimbangkan konsultasi dengan konsultan pajak untuk perencanaan PPh yang lebih optimal.`;
   }
   document.getElementById('res-advice').innerHTML = advice;
+
+  // Store for PTKP sim
+  _lastPPHData = {bruto, kat, pphTER};
+  // Build extras
+  buildPPHActionCards(bruto, pphBulan, terRate, kat);
+  buildPPHScenarioTable(bruto, kat);
 
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
