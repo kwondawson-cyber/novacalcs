@@ -99,6 +99,22 @@
 .ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
 .ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
 .ref-table tr:last-child td { border-bottom:none; }
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+/* Scenario table */
+.scen-tbl{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+.scen-tbl th{background:var(--bg-input);color:var(--text-secondary);padding:6px 8px;text-align:center;font-weight:600;font-size:.7rem}
+.scen-tbl th:first-child{text-align:left}
+.scen-tbl td{padding:5px 8px;border-bottom:1px solid var(--border);text-align:center;font-size:.75rem}
+.scen-tbl td:first-child{text-align:left;color:var(--text-secondary)}
+.scen-tbl tr.active-row td{background:var(--mint-dim);font-weight:700;color:var(--mint)}
+.scen-tbl tr.impossible td{opacity:.45}
+.scen-tbl tr:last-child td{border-bottom:none}
 </style>
 </head>
 <body>
@@ -163,6 +179,8 @@
           <div class="grade-dist" id="r0-dist"></div>
 
           <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Strategi untuk Anda:</div>
+          <div class="action-grid" id="r0-action-cards"></div>
         </div>
       </div>
 
@@ -189,6 +207,8 @@
           <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px">📋 Rincian per Semester</div>
           <table class="sem-tbl" id="r1-tbl"></table>
           <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Strategi untuk Anda:</div>
+          <div class="action-grid" id="r1-action-cards"></div>
         </div>
       </div>
 
@@ -230,6 +250,14 @@
             </div>
           </div>
           <div id="t-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+
+          <!-- Scenario: SKS tersisa vs IPS yang dibutuhkan -->
+          <div id="t-scenario-wrap" style="display:none;margin-top:10px">
+            <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.35rem">📊 Skenario berbagai jumlah SKS tersisa:</div>
+            <table class="scen-tbl" id="t-scen-tbl"></table>
+          </div>
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Strategi untuk Anda:</div>
+          <div class="action-grid" id="t-action-cards"></div>
         </div>
       </div>
 
@@ -338,6 +366,98 @@ const gradeOrder = ['A','A-','B+','B','B-','C+','C','D','E'];
 let courseCount = 0, semCount = 0;
 let targetIPK = 3.51;
 
+
+function buildIPKActionCards(ipk, containerId) {
+  let cards;
+  if (ipk >= 3.51) {
+    cards = [
+      {icon:'🏆',title:'Pertahankan konsistensi',desc:'IPK Cum Laude tercapai! Fokus pertahankan — 1 nilai C di semester akhir bisa sangat berpengaruh.'},
+      {icon:'🎓',title:'Kejar beasiswa S2',desc:'IPK Cum Laude membuka pintu beasiswa LPDP, Chevening, DAAD, dan program internasional lainnya.'},
+      {icon:'💼',title:'Siapkan portofolio',desc:'IPK tinggi + pengalaman organisasi/magang = kombinasi kuat. Mulai dokumentasikan pencapaian Anda.'},
+      {icon:'📑',title:'Verifikasi syarat Cum Laude',desc:'Cek syarat tambahan kampus: masa studi normal, tidak ada nilai D/E, tidak pernah cuti akademik.'},
+    ];
+  } else if (ipk >= 3.01) {
+    cards = [
+      {icon:'🎯',title:'Cum Laude masih bisa',desc:'Selisih '+(3.51-ipk).toFixed(2)+' poin. Gunakan Tab Target IPK untuk hitung berapa IPS yang diperlukan di semester tersisa.'},
+      {icon:'📚',title:'Prioritaskan MK ber-SKS besar',desc:'Nilai A di MK 4 SKS = dampak 2× lebih besar dari MK 2 SKS. Alokasikan waktu belajar proporsional.'},
+      {icon:'🔄',title:'Cek opsi pengulangan MK',desc:'Jika ada nilai C atau D, tanyakan ke dosen/akademik apakah bisa diulang untuk mengganti nilai lama.'},
+      {icon:'🤝',title:'Kelompok belajar efektif',desc:'Bergabung kelompok belajar meningkatkan retensi materi hingga 50% dibanding belajar sendiri.'},
+    ];
+  } else if (ipk >= 2.76) {
+    cards = [
+      {icon:'💪',title:'Fokus semester ini',desc:'IPK Memuaskan. Setiap semester tersisa adalah kesempatan mendongkrak IPK kumulatif secara signifikan.'},
+      {icon:'👨‍🏫',title:'Konsultasi dosen PA',desc:'Minta panduan dari dosen Pembimbing Akademik untuk strategi pemilihan MK dan perbaikan nilai.'},
+      {icon:'📖',title:'Manfaatkan UAS dengan maksimal',desc:'Nilai UAS biasanya 40–60% dari total nilai MK. Fokus belajar intensif 2 minggu sebelum ujian.'},
+      {icon:'🎯',title:'Target realistis per semester',desc:'Naik 0,1 poin IPK per semester bisa mengubah predikat kelulusan secara signifikan dalam 2–3 semester.'},
+    ];
+  } else {
+    cards = [
+      {icon:'🚨',title:'Perhatikan batas lulus',desc:'IPK di bawah 2,00 biasanya tidak memenuhi syarat kelulusan. Segera konsultasi ke bagian akademik.'},
+      {icon:'👨‍🏫',title:'Bicara dengan dosen PA',desc:'Dosen Pembimbing Akademik bisa membantu merencanakan strategi pemulihan IPK dan evaluasi beban SKS.'},
+      {icon:'📉',title:'Kurangi beban SKS sementara',desc:'Ambil SKS lebih sedikit tapi fokus mendapat nilai bagus, daripada banyak SKS dengan nilai rendah.'},
+      {icon:'💊',title:'Cek kondisi Anda',desc:'Nilai turun drastis bisa jadi tanda kelelahan atau masalah lain. Jangan ragu minta bantuan konseling kampus.'},
+    ];
+  }
+  const el = document.getElementById(containerId);
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+}
+
+function buildTargetScenario(ipkNow, sksDone, targetVal) {
+  const sksVariants = [20, 40, 60, 80, 100, 120, 144];
+  const mutuDone = ipkNow * sksDone;
+  let html = '<thead><tr><th>SKS Tersisa</th><th>IPS yang Diperlukan</th><th>Status</th></tr></thead><tbody>';
+  const currentLeft = parseFloat(document.getElementById('t-sks-left').value) || 0;
+  sksVariants.forEach(left => {
+    const mutuNeeded = targetVal * (sksDone + left);
+    const extra = mutuNeeded - mutuDone;
+    const ipsNeeded = left > 0 ? extra / left : null;
+    const active = Math.abs(left - currentLeft) < 5;
+    const impossible = ipsNeeded === null || ipsNeeded > 4.0;
+    const easy = ipsNeeded !== null && ipsNeeded <= 3.0;
+    let statusText, statusColor;
+    if (impossible) { statusText = '🚫 Tidak bisa'; statusColor = '#f87171'; }
+    else if (ipsNeeded >= 3.51) { statusText = '🔥 Sangat sulit'; statusColor = '#f97316'; }
+    else if (ipsNeeded >= 3.01) { statusText = '⚡ Bisa dicapai'; statusColor = '#fbbf24'; }
+    else { statusText = '✅ Realistis'; statusColor = '#4ade80'; }
+    html += `<tr class="${active?'active-row':''} ${impossible?'impossible':''}">
+      <td>${left} SKS</td>
+      <td style="font-weight:600;color:${impossible?'#f87171':'var(--text-primary)'}">${impossible?'> 4,00':ipsNeeded.toFixed(2).replace('.',',')}</td>
+      <td style="font-size:.7rem;color:${statusColor}">${statusText}</td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('t-scen-tbl').innerHTML = html;
+  document.getElementById('t-scenario-wrap').style.display = '';
+}
+
+function buildTargetActionCards(ipsNeeded, targetVal, ipkNow) {
+  let cards;
+  if (ipsNeeded > 4.0) {
+    cards = [
+      {icon:'🔄',title:'Target lebih realistis',desc:`IPK ${targetVal.toFixed(2).replace('.',',')} tidak dapat dicapai. Coba target ${(Math.min(targetVal-0.25, ipkNow+0.5)).toFixed(2).replace('.',',')} sebagai langkah bertahap.`},
+      {icon:'📚',title:'Fokus mata kuliah tersisa',desc:'Meski target Cum Laude sulit, usahakan IPS setinggi mungkin untuk meningkatkan predikat kelulusan.'},
+      {icon:'🎓',title:'Pertimbangkan nilai kehormatan lain',desc:'Aktif di organisasi, penelitian, atau lomba bisa menjadi nilai tambah selain IPK di dunia kerja.'},
+      {icon:'💼',title:'Bangun portofolio kerja',desc:'Rekruiter sering lebih tertarik pada proyek nyata dan pengalaman daripada IPK semata.'},
+    ];
+  } else if (ipsNeeded >= 3.51) {
+    cards = [
+      {icon:'🔥',title:'Target ambisius — perlu all-out',desc:`IPS ${ipsNeeded.toFixed(2).replace('.',',')} artinya hampir semua nilai A. Kurangi aktivitas non-akademik di semester krusial.`},
+      {icon:'📚',title:'Manfaatkan remediasi',desc:'Cek apakah ada mata kuliah lama yang bisa diulang untuk mengganti nilai buruk dengan yang lebih baik.'},
+      {icon:'👨‍🏫',title:'Bimbingan intensif',desc:'Untuk MK sulit, minta jadwal bimbingan tambahan ke dosen atau asisten dosen sebelum UAS.'},
+      {icon:'⏰',title:'Mulai belajar lebih awal',desc:'Mulai persiapan UAS dari minggu ke-8 (bukan minggu UAS) untuk hasil yang lebih maksimal.'},
+    ];
+  } else {
+    cards = [
+      {icon:'✅',title:'Target realistis — tetap fokus',desc:`IPS ${ipsNeeded.toFixed(2).replace('.',',')} sangat bisa dicapai. Jaga konsistensi dan hindari mata kuliah yang tidak dikuasai.`},
+      {icon:'📊',title:'Prioritaskan SKS besar',desc:'Alokasikan waktu belajar proporsional dengan bobot SKS. MK 4 SKS layak mendapat 2× waktu dari MK 2 SKS.'},
+      {icon:'🎯',title:'Pilih MK pilihan strategis',desc:'Ambil mata kuliah pilihan di bidang yang Anda kuasai untuk boost IPS tanpa risiko nilai rendah.'},
+      {icon:'📅',title:'Buat jadwal belajar mingguan',desc:'Mahasiswa dengan jadwal terstruktur rata-rata mendapat IPK 0,3–0,5 lebih tinggi dari yang belajar mendadak.'},
+    ];
+  }
+  const el = document.getElementById('t-action-cards');
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+}
+
 function switchTab(idx, btn) {
   document.querySelectorAll('.ipk-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.ipk-panel').forEach(p => p.classList.remove('active'));
@@ -438,6 +558,7 @@ function calcIPS() {
   else advice = `💪 IPS <strong>${ipk.toFixed(2).replace('.',',')}</strong>. Masih ada ruang untuk berkembang. Gunakan Tab "Target IPK" untuk menghitung berapa nilai yang dibutuhkan agar IPK kumulatif Anda mencapai target.`;
   document.getElementById('r0-advice').innerHTML = advice;
 
+  buildIPKActionCards(ipk, 'r0-action-cards');
   document.getElementById('res0').style.display = 'block';
   document.getElementById('res0').classList.add('show');
 }
@@ -509,6 +630,7 @@ function calcKumulatif() {
   document.getElementById('r1-advice').innerHTML =
     `📈 IPK kumulatif dari <strong>${valid} semester</strong> = <strong>${ipk.toFixed(2).replace('.',',')}</strong> — ${pred.text}. Total ${totalSKS} SKS dengan ${totalMutu.toFixed(1)} poin mutu.`;
 
+  buildIPKActionCards(ipk, 'r1-action-cards');
   document.getElementById('res1').style.display = 'block';
   document.getElementById('res1').classList.add('show');
 }
@@ -565,6 +687,11 @@ function calcTarget() {
   }
   document.getElementById('t-advice').innerHTML = adviceText;
 
+  if (ipsNeeded !== null && ipsNeeded <= 4.0) {
+    const sksDoneVal = parseFloat(document.getElementById('t-sks-done').value)||0;
+    buildTargetScenario(ipkNow, sksDoneVal, targetIPK);
+    buildTargetActionCards(ipsNeeded, targetIPK, ipkNow);
+  }
   document.getElementById('res2').style.display = 'block';
   document.getElementById('res2').classList.add('show');
 }

@@ -78,6 +78,24 @@
 .ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
 .ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
 .ref-table tr:last-child td { border-bottom:none; }
+
+/* Preset buttons */
+.hk-preset-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
+.hk-pre-btn{padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s}
+.hk-pre-btn:hover,.hk-pre-btn.active{background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35)}
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+
+/* Libur dalam rentang */
+.libur-list{margin-top:10px}
+.libur-item{display:flex;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.78rem}
+.libur-item:last-child{border-bottom:none}
+.libur-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -107,6 +125,16 @@
 
       <!-- TAB 0: Hitung hari kerja -->
       <div class="hk-panel active" id="hk0">
+        <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">Preset Cepat:</div>
+        <div class="hk-preset-row">
+          <button class="hk-pre-btn" onclick="applyPreset('week',this)">Minggu ini</button>
+          <button class="hk-pre-btn" onclick="applyPreset('month',this)">Bulan ini</button>
+          <button class="hk-pre-btn" onclick="applyPreset('q1',this)">Q1 2026</button>
+          <button class="hk-pre-btn" onclick="applyPreset('q2',this)">Q2 2026</button>
+          <button class="hk-pre-btn" onclick="applyPreset('q3',this)">Q3 2026</button>
+          <button class="hk-pre-btn" onclick="applyPreset('q4',this)">Q4 2026</button>
+          <button class="hk-pre-btn" onclick="applyPreset('year',this)">Tahun 2026</button>
+        </div>
         <div class="field"><label>Tanggal Mulai</label>
           <div id="start-picker"></div>
         </div>
@@ -147,6 +175,16 @@
           </div>
           <div class="month-breakdown" id="r0-month-breakdown"></div>
           <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+
+          <!-- Libur dalam rentang -->
+          <div id="libur-dalam-rentang" style="display:none;margin-top:10px">
+            <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">🗓️ Libur nasional dalam rentang ini:</div>
+            <div class="libur-list" id="libur-list-items"></div>
+          </div>
+
+          <!-- Action cards -->
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips untuk Anda:</div>
+          <div class="action-grid" id="r0-action-cards"></div>
         </div>
       </div>
 
@@ -181,6 +219,8 @@
             <div class="hks-card"><div class="hc-label">Akhir pekan dilewati</div><div class="hc-val" id="r1-wknd">—</div></div>
           </div>
           <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips SLA & Deadline:</div>
+          <div class="action-grid" id="r1-action-cards"></div>
         </div>
       </div>
 
@@ -350,6 +390,90 @@ function dpGet(prefix) {
   return dt.getDate() === d ? dt : null;
 }
 
+
+function applyPreset(type, btn) {
+  document.querySelectorAll('.hk-pre-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const now = new Date();
+  const yr = 2026;
+  let s, e;
+  if (type==='week') {
+    const day = now.getDay(); // 0=sun
+    s = new Date(now); s.setDate(now.getDate()-(day===0?6:day-1));
+    e = new Date(s); e.setDate(s.getDate()+6);
+  } else if (type==='month') {
+    s = new Date(now.getFullYear(), now.getMonth(), 1);
+    e = new Date(now.getFullYear(), now.getMonth()+1, 0);
+  } else if (type==='q1') { s=new Date(yr,0,1); e=new Date(yr,2,31); }
+  else if (type==='q2') { s=new Date(yr,3,1); e=new Date(yr,5,30); }
+  else if (type==='q3') { s=new Date(yr,6,1); e=new Date(yr,8,30); }
+  else if (type==='q4') { s=new Date(yr,9,1); e=new Date(yr,11,31); }
+  else { s=new Date(yr,0,1); e=new Date(yr,11,31); }
+  dpSet('start', s); dpSet('end', e);
+  calcRentang();
+}
+
+function showLiburDalamRentang(start, end) {
+  const inRange = HOLIDAYS_2026.filter(h => {
+    const d = new Date(h.date);
+    return d >= start && d < end;
+  });
+  const el = document.getElementById('libur-dalam-rentang');
+  if (inRange.length === 0) { el.style.display='none'; return; }
+  document.getElementById('libur-list-items').innerHTML = inRange.map(h => {
+    const d = new Date(h.date);
+    const wkd = isWeekday(d);
+    return `<div class="libur-item">
+      <div class="libur-dot" style="background:${wkd?'#f97316':'#60a5fa'}"></div>
+      <span style="color:var(--text-muted);font-size:.7rem;min-width:110px">${fmtDate(d)}</span>
+      <span style="flex:1">${h.name}</span>
+      <span style="font-size:.68rem;color:${wkd?'#f97316':'#60a5fa'}">${wkd?'Hari kerja':'Akhir pekan'}</span>
+    </div>`;
+  }).join('');
+  el.style.display='';
+}
+
+function buildHKActionCards(workdays, totalDays, holidays, containerId) {
+  let cards;
+  const perWeek = (workdays / (totalDays / 7)).toFixed(1);
+  if (totalDays <= 7) {
+    cards = [
+      {icon:'⏰',title:'Deadline minggu ini',desc:`${workdays} hari kerja tersisa minggu ini. Rencanakan prioritas tugas dari yang paling kritis.`},
+      {icon:'📋',title:'Cek SLA layanan',desc:'SLA 3 hari kerja dari hari ini? Gunakan tab "Tambah Hari Kerja" untuk cari tanggal deadline.'},
+      {icon:'🎯',title:'Focus time Selasa-Kamis',desc:'Senin & Jumat sering terganggu rapat. Selasa-Kamis adalah waktu kerja paling produktif.'},
+      {icon:'📱',title:'Set reminder deadline',desc:'Tandai deadline di kalender dengan alarm H-1 hari kerja agar tidak terlewat.'},
+    ];
+  } else if (totalDays <= 31) {
+    cards = [
+      {icon:'📅',title:perWeek+' hari kerja/minggu rata-rata',desc:`${workdays} hari kerja dalam ${totalDays} hari kalender. ${holidays} hari libur mengurangi produktivitas.`},
+      {icon:'🏖️',title:'Hitung sisa cuti',desc:'Libur nasional dalam rentang ini tidak memotong cuti. Cek tab libur untuk lihat mana yang jatuh di hari kerja.'},
+      {icon:'📊',title:'Rencanakan sprint',desc:'Dengan '+workdays+' hari kerja, bisa bagi menjadi '+Math.ceil(workdays/5)+' sprint @5 hari kerja untuk manajemen proyek.'},
+      {icon:'🗓️',title:'Booking meeting jauh hari',desc:'Hindari jadwal meeting di hari Senin setelah libur panjang — biasanya banyak backlog email.'},
+    ];
+  } else {
+    cards = [
+      {icon:'📊',title:workdays+' hari kerja efektif',desc:`Dalam ${Math.round(totalDays/30)} bulan ini, ada ${workdays} hari kerja produktif setelah dikurangi ${holidays} hari libur.`},
+      {icon:'🎯',title:'Tetapkan OKR per kuartal',desc:'Bagi target tahunan menjadi kuartal. Q1-Q4 2026 masing-masing punya ~60 hari kerja efektif.'},
+      {icon:'✈️',title:'Optimalkan cuti bersama',desc:'Cuti di jeda libur panjang (sebelum/sesudah Idul Fitri) bisa dapat 9–12 hari libur dengan hanya 3–4 hari cuti.'},
+      {icon:'📋',title:'Rencanakan project timeline',desc:'Gunakan hari kerja efektif (bukan hari kalender) untuk estimasi timeline proyek yang lebih akurat.'},
+    ];
+  }
+  const el = document.getElementById(containerId);
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+}
+
+function buildSLAActionCards(days, endDate) {
+  const dayName = DAYS[endDate.getDay()];
+  const cards = [
+    {icon:'📋',title:'SLA '+days+' HK = '+fmtDate(endDate),desc:`Deadline jatuh hari ${dayName}. ${dayName==='Jumat'?'⚠️ Jumat sore bisa sibuk — usahakan kirim Kamis malam.':dayName==='Senin'?'Senin pagi banyak email backlog — kirim lebih awal.':'Hari yang baik untuk deadline.'}`},
+    {icon:'📧',title:'Kirim konfirmasi H-1',desc:'Kirim reminder ke pihak terkait H-1 hari kerja sebelum deadline agar tidak ada yang terkejut.'},
+    {icon:'⚡',title:'Buffer 1 hari kerja',desc:'Untuk SLA penting, tambahkan buffer 1 hari kerja ekstra untuk antisipasi masalah tak terduga.'},
+    {icon:'🗓️',title:'Catat di kalender tim',desc:'Share deadline ke Google Calendar tim sehingga semua orang bisa mempersiapkan diri dengan baik.'},
+  ];
+  const el = document.getElementById('r1-action-cards');
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+}
+
 function switchTab(idx, btn) {
   document.querySelectorAll('.hk-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.hk-panel').forEach(p => p.classList.remove('active'));
@@ -464,6 +588,8 @@ function calcRentang() {
   document.getElementById('r0-advice').innerHTML =
     `📅 Rentang <strong>${fmtDate(start)}</strong> – <strong>${fmtDate(end)}</strong>: total <strong>${fmt(totalDays)} hari kalender</strong>, <strong>${fmt(workdays)} hari kerja</strong> (sebelum libur), <strong>${fmt(effective)} hari kerja efektif</strong> setelah dikurangi ${fmt(totalHolidays)} hari libur.`;
 
+  showLiburDalamRentang(start, end);
+  buildHKActionCards(effective, totalDays, totalHolidays, 'r0-action-cards');
   document.getElementById('res0').style.display = 'block';
   document.getElementById('res0').classList.add('show');
 }
@@ -500,6 +626,7 @@ function calcAddDays() {
   document.getElementById('r1-advice').innerHTML =
     `🗓️ <strong>${days} hari kerja</strong> dari <strong>${fmtDate(start)}</strong> jatuh pada <strong>${fmtDate(cur)} (${DAYS[cur.getDay()]})</strong>. Secara kalender, ini berarti ${calDays} hari (termasuk ${weekendsSkipped} hari akhir pekan yang dilewati).`;
 
+  buildSLAActionCards(days, cur);
   document.getElementById('res1').style.display = 'block';
   document.getElementById('res1').classList.add('show');
 }
