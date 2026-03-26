@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
 <link rel="stylesheet" href="/calc.css"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Konversi Ukuran Baju","url":"https://novacalcs.com/id/konversi-ukuran-baju.html","description":"Konversi ukuran baju dan pakaian dari Indonesia ke US, UK, EU, Asia","applicationCategory":"UtilitiesApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
 </head>
 <body>
@@ -62,8 +65,27 @@
         </select>
       </div>
 
+      <!-- OR: input measurements directly -->
+      <div style="text-align:center;font-size:.72rem;color:#8fa3b1;margin:.5rem 0">— atau masukkan ukuran tubuh langsung —</div>
+      <div class="measure-grid" id="measure-inputs">
+        <div class="measure-item" id="m-chest-wrap">
+          <label>Lingkar dada (cm)</label>
+          <input type="number" id="m-chest" placeholder="Contoh: 88" min="60" max="150" oninput="convertFromMeasure()"/>
+        </div>
+        <div class="measure-item" id="m-waist-wrap" style="display:none">
+          <label>Lingkar pinggang (cm)</label>
+          <input type="number" id="m-waist" placeholder="Contoh: 72" min="50" max="130" oninput="convertFromMeasure()"/>
+        </div>
+      </div>
+
       <div class="result-box" id="result" style="display:none;">
         <div id="result-content"></div>
+        <div id="brand-tips-section" style="display:none">
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">🏷️ Tips Sizing per Brand Populer:</div>
+          <div class="brand-grid" id="brand-tips-grid"></div>
+        </div>
+        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips Belanja Online:</div>
+        <div class="action-grid" id="size-action-cards"></div>
       </div>
     </div>
 
@@ -201,10 +223,27 @@
     <a href="/id/tentang.html">Tentang</a>
     <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
   </div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
 </footer>
 
 <style>
+
+/* Measurement input */
+.measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem}
+.measure-item label{font-size:.72rem;color:#8fa3b1;display:block;margin-bottom:.2rem}
+.measure-item input{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text-primary);font-size:.9rem}
+/* Brand tips */
+.brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.brand-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.6rem .7rem}
+.bc-name{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.bc-tip{font-size:.68rem;color:#8fa3b1;line-height:1.4}
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+
 .ref-table { width:100%; border-collapse:collapse; font-size:0.8rem; }
 .ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
 .ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
@@ -276,6 +315,109 @@ const DATA = {
   }
 };
 
+
+function convertFromMeasure() {
+  const cat = currentCat;
+  const gender = currentGender;
+  const chest = parseFloat(document.getElementById('m-chest').value)||0;
+  const waist = parseFloat(document.getElementById('m-waist').value)||0;
+  const d = DATA[cat][gender];
+  if (!d) return;
+
+  let matched = null;
+  if (cat === 'tops' && chest >= 60) {
+    matched = d.find(s => {
+      if (!s.chest) return false;
+      const [lo, hi] = s.chest.split('–').map(Number);
+      return chest >= lo && chest <= hi+2;
+    });
+  } else if (cat === 'bottoms' && waist >= 50) {
+    matched = d.find(s => {
+      if (!s.waist) return false;
+      const [lo, hi] = s.waist.split('–').map(Number);
+      return waist >= lo && waist <= hi+2;
+    });
+  }
+  if (matched) {
+    document.getElementById('size-input').value = matched.id;
+    convert();
+  }
+}
+
+const BRAND_TIPS_DATA = {
+  tops_W: [
+    {name:'Shein / Temu',tip:'Naik 1–2 size. M biasanya = S-XS Indonesia. Cek ukuran cm di halaman produk.'},
+    {name:'Zara',tip:'Umumnya sesuai standar EU. L Zara ≈ M-L Indonesia. Potongan lebih slim.'},
+    {name:'H&M',tip:'Lebih generous dari Zara. M H&M biasanya sesuai M Indonesia.'},
+    {name:'Uniqlo',tip:'Ukuran Jepang — naik 1 size. M Uniqlo ≈ S Indonesia untuk kebanyakan wanita.'},
+  ],
+  tops_M: [
+    {name:'Shein / AliExpress',tip:'Naik 1–2 size dari biasanya. Cek tabel cm karena ukuran sangat variatif.'},
+    {name:'Zara Man',tip:'Fit slim. Jika bahu lebar, naik 1 size dari biasanya.'},
+    {name:'H&M',tip:'Fit regular. M H&M umumnya sesuai M Indonesia untuk pria rata-rata.'},
+    {name:'Uniqlo',tip:'Size Jepang mirip Asia. L Uniqlo ≈ M Indonesia untuk pria.'},
+  ],
+  bottoms_W: [
+    {name:'Shein',tip:'Naik 1–2 size. Cek waist measurement dalam cm, jangan percaya label saja.'},
+    {name:'Zara',tip:'Potongan slim. Jika pinggul lebih besar, naik 1 size dari waist measurement.'},
+    {name:'H&M',tip:'Lebih longgar dari Zara. Biasanya sesuai ukuran Indonesia dengan fit mid-rise.'},
+    {name:'Tokopedia/Shopee lokal',tip:'Size chart variatif antar seller. Selalu tanya seller atau cek review pembeli lain.'},
+  ],
+  bottoms_M: [
+    {name:'Shein',tip:'Pakai ukuran W (waist dalam inci) — W30 ≈ lingkar pinggang 76cm.'},
+    {name:'Brand lokal',tip:'Cek size chart. "L" lokal bisa sangat berbeda antar merek — ukuran cm lebih akurat.'},
+    {name:'Levi's',tip:'True to size. Pilih W-size sesuai lingkar pinggang Anda dalam inci.'},
+    {name:'Uniqlo',tip:'Regular fit. Size Jepang mirip Asia — umumnya sesuai ukuran Indonesia.'},
+  ],
+  shoes_W: [
+    {name:'Nike / Adidas',tip:'True to size untuk wanita. Jika di antara dua ukuran, pilih yang lebih besar.'},
+    {name:'Shein / AliExpress',tip:'Naik 0.5–1 ukuran. Cek panjang kaki dalam cm di deskripsi produk.'},
+    {name:'Zara / H&M',tip:'EU size umumnya sesuai. Ukur panjang kaki dan tambah 1–1.5cm untuk toleransi.'},
+    {name:'Korean brand',tip:'Pakai ukuran mm (220, 230, 240). Ukur panjang kaki Anda dan cocokkan langsung.'},
+  ],
+  shoes_M: [
+    {name:'Nike / Adidas',tip:'True to size. Untuk lari, naik 0.5 ukuran untuk kenyamanan jari kaki.'},
+    {name:'Vans / Converse',tip:'Converse biasanya naik 1 ukuran (ukuran besar). Vans biasanya true to size.'},
+    {name:'AliExpress / Shopee China',tip:'Naik 1–2 ukuran. Cek panjang kaki dalam cm sebagai referensi utama.'},
+    {name:'Sepatu lokal',tip:'Size variatif. Ukur lingkar kaki + panjang kaki untuk kenyamanan terbaik.'},
+  ],
+};
+
+function buildBrandTips(cat, gender) {
+  const key = cat + '_' + gender;
+  const tips = BRAND_TIPS_DATA[key];
+  const el = document.getElementById('brand-tips-grid');
+  const sec = document.getElementById('brand-tips-section');
+  if (!tips || !el) return;
+  el.innerHTML = tips.map(t=>`<div class="brand-card"><div class="bc-name">${t.name}</div><div class="bc-tip">${t.tip}</div></div>`).join('');
+  sec.style.display='';
+}
+
+function buildSizeActionCards(cat) {
+  const CARDS = {
+    tops:[
+      {icon:'📏',title:'Ukur dada sebelum beli',desc:'Lingkar dada adalah ukuran paling penting untuk atasan. Ukur di bagian terlebar dengan pita meteran rata.'},
+      {icon:'🔍',title:'Selalu cek size chart',desc:'Jangan percaya hanya pada label S/M/L — setiap brand punya standar berbeda. Cari tabel ukuran dalam cm.'},
+      {icon:'🛒',title:'Naik 1–2 size untuk brand China',desc:'Shein, Temu, AliExpress — ukurannya lebih kecil dari Indonesia. M di sana bisa = XS di sini.'},
+      {icon:'↩️',title:'Cek kebijakan return',desc:'Untuk belanja online internasional, pastikan ada opsi tukar ukuran atau refund jika tidak pas.'},
+    ],
+    bottoms:[
+      {icon:'📏',title:'Ukur pinggang & pinggul',desc:'Untuk celana wanita: lingkar pinggang & pinggul. Pria: lingkar pinggang dan panjang kaki dalam (inseam).'},
+      {icon:'🔢',title:'Pakai ukuran W untuk celana pria',desc:'W30 = lingkar pinggang 76cm, W32 = 81cm, W34 = 86cm. Lebih akurat dari label S/M/L.'},
+      {icon:'🧵',title:'Perhatikan bahan',desc:'Celana denim biasanya shrink pertama kali dicuci. Pilih 1 ukuran lebih besar untuk celana raw denim.'},
+      {icon:'📸',title:'Lihat foto pembeli lain',desc:'Review dengan foto memberikan gambaran fit yang lebih nyata dari foto produk yang sudah diedit.'},
+    ],
+    shoes:[
+      {icon:'📏',title:'Ukur panjang kaki',desc:'Letakkan kaki di kertas, tandai ujung jari terpanjang dan tumit. Ukur jaraknya dalam cm.'},
+      {icon:'⏰',title:'Ukur kaki sore hari',desc:'Kaki sedikit membesar di sore hari setelah aktivitas. Ukur sore untuk ukuran yang lebih akurat.'},
+      {icon:'🧦',title:'Pertimbangkan ketebalan kaos kaki',desc:'Sepatu untuk hiking/olahraga: pilih ukuran dengan kaos kaki tebal. Sepatu kasual: dengan kaos kaki tipis.'},
+      {icon:'↔️',title:'Di antara dua ukuran? Pilih lebih besar',desc:'Sepatu ketat bisa sangat tidak nyaman. Jika ragu antara dua ukuran, selalu pilih yang lebih besar.'},
+    ],
+  };
+  const el = document.getElementById('size-action-cards');
+  if (el) el.innerHTML = (CARDS[cat]||CARDS.tops).map(cd=>`<div class="action-card"><div class="ac-icon">${cd.icon}</div><div class="ac-title">${cd.title}</div><div class="ac-desc">${cd.desc}</div></div>`).join('');
+}
+
 let currentCat = 'tops';
 let currentGender = 'W';
 
@@ -296,6 +438,11 @@ function selectGender(g) {
 }
 
 function updateOptions() {
+  // Show/hide measurement inputs
+  document.getElementById('m-chest-wrap').style.display = currentCat==='tops'?'':'none';
+  document.getElementById('m-waist-wrap').style.display = currentCat==='bottoms'?'':'none';
+  document.getElementById('measure-inputs').style.display = currentCat==='shoes'?'none':'';
+
   const sel = document.getElementById('size-input');
   const d = DATA[currentCat][currentGender];
   const label = document.getElementById('input-label');
@@ -329,6 +476,8 @@ function convert() {
     `<div style="margin-top:10px;font-size:0.75rem;color:var(--text-muted)">⚠️ Ini adalah panduan umum. Selalu cek size chart spesifik dari masing-masing merek.</div>`;
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').classList.add('show');
+  buildBrandTips(currentCat, currentGender);
+  buildSizeActionCards(currentCat);
 }
 
 updateOptions();

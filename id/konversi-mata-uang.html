@@ -69,6 +69,13 @@
 .ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
 .ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
 .ref-table tr:last-child td { border-bottom:none; }
+
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+.copy-btn{width:100%;padding:.45rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#c0cdd8;font-size:.78rem;cursor:pointer;font-family:inherit;margin-top:8px}
 </style>
 </head>
 <body>
@@ -126,6 +133,7 @@
             <div class="conv-rate" id="res-rate">—</div>
           </div>
           <div style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:6px" id="res-updated">—</div>
+          <button class="copy-btn" onclick="copyConvResult()">📋 Salin Hasil Konversi</button>
         </div>
       </div>
 
@@ -187,6 +195,8 @@
             <div class="budget-row"><span id="t-curr-label">Dalam mata uang lokal</span><span class="budget-val" id="t-total-curr">—</span></div>
           </div>
           <div id="t-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.78rem;line-height:1.6;"></div>
+          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips Perjalanan Anda:</div>
+          <div class="action-grid" id="travel-action-cards"></div>
         </div>
       </div>
 
@@ -483,8 +493,58 @@ function calcTravel() {
     ? `💡 Siapkan setidaknya <strong>${fmtIDR(totalIDR * 1.15)}</strong> (termasuk cadangan 15%) untuk perjalanan ${hari} hari. Dalam ${curr}: ~${fmtNum(totalCurr * 1.15, curr)} ${curr}. Rekomendasi: tukar uang dalam 2 tahap — sebagian sebelum berangkat (untuk kepastian), sisanya di negara tujuan setelah cek kurs money changer lokal.`
     : '';
   document.getElementById('t-advice').innerHTML = advice;
+  buildTravelActionCards(curr, totalIDR, hari);
   document.getElementById('res3').style.display = 'block';
   document.getElementById('res3').classList.add('show');
+}
+
+
+function copyConvResult() {
+  const val = document.getElementById('res-val').textContent;
+  const rate = document.getElementById('res-rate').textContent;
+  const lbl = document.getElementById('res-label').textContent;
+  const text = '💱 Konversi Mata Uang NovaCalcs\n' + lbl + '\nKurs: ' + rate + '\n\nNovaCalcs.com';
+  navigator.clipboard?.writeText(text).then(()=>alert('Disalin! 📋')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Disalin! 📋');
+  });
+}
+
+function buildTravelActionCards(curr, totalIDR, days) {
+  const TIPS = {
+    USD:[
+      {icon:'💳',title:'Pakai kartu tanpa biaya valas',desc:'Kartu dengan zero foreign fee (Wise, Jenius, BCA Visa) memberi kurs terbaik tanpa biaya tersembunyi.'},
+      {icon:'💵',title:'Bawa cash USD 20–30%',desc:'Sisihkan USD untuk keperluan tip, transportasi lokal, atau tempat yang tidak terima kartu.'},
+      {icon:'🏧',title:'Tarik ATM di sana',desc:'ATM di AS memberi kurs mendekati mid-market. Lebih baik dari money changer bandara (5–10% lebih buruk).'},
+      {icon:'📱',title:'Gunakan Wise untuk transfer',desc:'Kirim uang ke rekening Wise sebelum berangkat. Kursnya jauh lebih baik dari transfer bank biasa.'},
+    ],
+    SGD:[
+      {icon:'🏪',title:'Money changer Orchard Road',desc:'Money changer di sekitar Lucky Plaza atau People's Park lebih kompetitif dari money changer bandara Changi.'},
+      {icon:'🚌',title:'EZ-Link untuk transportasi',desc:'Isi EZ-Link card dari IDR sebelum berangkat lebih hemat daripada beli SGD di bandara Indonesia.'},
+      {icon:'🍜',title:'Hawker centre = hemat',desc:'Makan di hawker centre (SGD 4–6/meal) jauh lebih murah dari restoran. Amoy Street, Maxwell, Lau Pa Sat.'},
+      {icon:'💳',title:'Kartu kredit untuk hotel',desc:'Pakai kartu kredit untuk bayar hotel — lebih aman dan kurs biasanya lebih baik dari cash.'},
+    ],
+    JPY:[
+      {icon:'💴',title:'Bawa cash JPY lebih banyak',desc:'Jepang masih cash-heavy. Banyak tempat (temple, warung, vending machine) hanya terima cash.'},
+      {icon:'🏧',title:'7-Eleven ATM terima kartu asing',desc:'ATM di 7-Eleven dan Japan Post Bank terima kartu internasional dengan biaya lebih rendah.'},
+      {icon:'🚂',title:'Beli IC card (Suica/Pasmo)',desc:'Isi IC card saat tiba untuk naik kereta/bus — hemat waktu dan menghindari beli tiket per perjalanan.'},
+      {icon:'📉',title:'Yen sedang lemah → keuntungan',desc:'Jika JPY sedang melemah terhadap IDR, ini saat terbaik untuk jalan-jalan ke Jepang secara cost-effective.'},
+    ],
+    MYR:[
+      {icon:'🏪',title:'Tukar di money changer KL',desc:'Money changer di Jalan Masjid India, Chow Kit, atau Berjaya Times Square lebih bagus dari bandara KLIA.'},
+      {icon:'🚌',title:'Grab lebih murah',desc:'Grab Malaysia umumnya lebih murah dari taksi biasa. Pakai fitur GrabCar atau GrabBike untuk rute pendek.'},
+      {icon:'🍲',title:'Mamak untuk makan hemat',desc:'Restoran mamak (warung India-Muslim) buka 24 jam dengan harga sangat terjangkau — alternatif terbaik dari hawker.'},
+      {icon:'📞',title:'Beli SIM lokal Celcom/Maxis',desc:'SIM lokal Malaysia untuk data jauh lebih murah dari roaming. Tersedia di bandara dan minimarket.'},
+    ],
+  };
+  const defaultCards = [
+    {icon:'💱',title:'Tukar uang sebelum berangkat',desc:`Siapkan sebagian ${curr} sebelum terbang — hindari money changer bandara yang kursnya 5–10% lebih buruk.`},
+    {icon:'💳',title:'Kombinasi kartu + cash',desc:'80% kartu untuk keamanan, 20% cash untuk keperluan darurat atau tempat non-kartu.'},
+    {icon:'📱',title:'Pantau kurs real-time',desc:'Kalkulator ini menampilkan kurs terkini. Cek beberapa hari sebelum berangkat untuk timing penukaran terbaik.'},
+    {icon:'🔒',title:'Simpan valuta di dompet terpisah',desc:'Jangan bawa semua uang valas di satu tempat. Split antara dompet, tas, dan hotel safe.'},
+  ];
+  const cards = TIPS[curr] || defaultCards;
+  const el = document.getElementById('travel-action-cards');
+  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
 }
 
 populateSelects();

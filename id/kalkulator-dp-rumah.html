@@ -90,6 +90,18 @@
 .ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
 .ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
 .ref-table tr:last-child td { border-bottom:none; }
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
+.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
+.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
+/* Monthly saving progress */
+.save-progress-wrap{margin:10px 0}
+.sp-track{height:12px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden}
+.sp-fill{height:100%;border-radius:6px;background:var(--mint);transition:width .5s}
+.sp-labels{display:flex;justify-content:space-between;font-size:.7rem;color:#8fa3b1;margin-top:.25rem}
 </style>
 </head>
 <body>
@@ -269,6 +281,17 @@
             <div class="ds-card green"><div class="dc-label">Dari bunga/return</div><div class="dc-val" id="r1-return">—</div></div>
           </div>
           <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+
+          <!-- Progress bar: tabungan vs target -->
+          <div class="save-progress-wrap">
+            <div class="sp-labels"><span id="sp-current-lbl">Dana saat ini</span><span id="sp-target-lbl">Target</span></div>
+            <div class="sp-track"><div class="sp-fill" id="sp-fill" style="width:0%"></div></div>
+            <div class="sp-labels"><span id="sp-pct-lbl" style="color:var(--mint);font-weight:700">0%</span><span id="sp-eta-lbl">—</span></div>
+          </div>
+
+          <!-- Saving tips action cards -->
+          <div style="font-size:.75rem;color:#8fa3b1;margin:8px 0 4px;font-weight:600">💡 Strategi Menabung DP:</div>
+          <div class="action-grid" id="save-action-cards"></div>
         </div>
       </div>
 
@@ -529,7 +552,74 @@ function calcDP() {
     `🏠 Rumah ${fmtM(price)} dengan DP <strong>${dpPct}% (${fmtM(dp)})</strong>. Total dana tunai yang disiapkan: <strong>${fmtM(totalCash)}</strong> (termasuk biaya ~5%). Cicilan KPR: <strong>${fmt(cicilan)}/bulan</strong> (bunga ${bungaTh}%, ${tenorTh} thn). ${statusMsg}`;
 
   document.getElementById('res0').style.display = 'block';
+  buildDPActionCards(price, dp, cicilan, income, dpPct, tenorTh);
   document.getElementById('res0').classList.add('show');
+}
+
+
+function buildDPActionCards(price, dp, cicilan, income, dpPct, tenorTh) {
+  const fmtM2 = n => { if(n>=1e9) return 'Rp '+(n/1e9).toFixed(1)+' M'; if(n>=1e6) return 'Rp '+(n/1e6).toFixed(0)+' jt'; return 'Rp '+Math.round(n).toLocaleString('id-ID'); };
+  const ratio = income > 0 ? cicilan/income : 0;
+  let cards;
+  if (dpPct <= 5) {
+    cards = [
+      {icon:'🏦',title:'DP 1–5% = FLPP/BTN Sejahtera',desc:'Program subsidi pemerintah. Pastikan rumah memenuhi syarat FLPP (harga maks, tipe, dan penghasilan pemohon).'},
+      {icon:'📋',title:'Syarat FLPP 2026',desc:'Penghasilan maks Rp 8 jt/bln (rumah tapak), belum pernah punya rumah, tidak punya KPR sebelumnya.'},
+      {icon:'📈',title:'Pertimbangkan DP lebih besar',desc:'DP lebih besar = cicilan lebih kecil + total bunga dibayar lebih hemat. Coba simulasi DP 10–20%.'},
+      {icon:'💰',title:'Siapkan biaya di luar DP',desc:'BPHTB, notaris, provisi KPR (~5% dari harga). Sering terlupakan dan bisa mengejutkan.'},
+    ];
+  } else if (ratio > 0 && ratio > 0.35) {
+    cards = [
+      {icon:'⚠️',title:'Cicilan melebihi 35% gaji',desc:'Cicilan '+fmtM2(cicilan)+'/bln = '+Math.round(ratio*100)+'% gaji. Bank biasanya mensyaratkan maks 30–35%. Pertimbangkan rumah lebih murah.'},
+      {icon:'⬆️',title:'Naikkan DP untuk turunkan cicilan',desc:'Setiap penambahan DP 5% bisa menurunkan cicilan bulanan 5–8%. Gunakan slider DP di atas.'},
+      {icon:'📅',title:'Perpanjang tenor',desc:f'Tenor {tenorTh} tahun → 30 tahun bisa turunkan cicilan ~15–20%, meski total bunga lebih besar.'},
+      {icon:'🏘️',title:'Pertimbangkan lokasi lain',desc:'Rumah di pinggiran kota dengan akses transportasi bagus bisa 30–50% lebih murah dari pusat kota.'},
+    ];
+  elif ratio > 0 and ratio <= 0.30:
+    cards = [
+      {icon:'✅',title:'Cicilan dalam batas aman',desc:'Cicilan '+fmtM2(cicilan)+'/bln = '+Math.round(ratio*100)+'% gaji — ideal! Bank umumnya setujui KPR di bawah 35%.'},
+      {icon:'💰',title:'Alokasi sisa untuk dana darurat',desc:'Setelah cicilan, pastikan masih ada 10–15% gaji untuk dana darurat. Jangan habiskan semua untuk properti.'},
+      {icon:'📊',title:'Simulasikan kenaikan bunga',desc:'KPR biasanya floating rate. Jika bunga naik 1–2%, pastikan masih mampu bayar cicilan lebih tinggi.'},
+      {icon:'📋',title:'Siapkan dokumen KPR',desc:'KTP, NPWP, slip gaji 3 bulan, rekening koran 3 bulan, surat keterangan kerja. Proses bisa 2–4 minggu.'},
+    ];
+  else:
+    cards = [
+      {icon:'📐',title:'DP 20% = aman dan umum',desc:'DP 20% adalah standar KPR non-subsidi. Bank lebih mudah menyetujui dan bunga bisa lebih rendah.'},
+      {icon:'💳',title:'Persiapkan total biaya tunai',desc:'DP + biaya tambahan ~5% = total '+fmtM2(dp*1.05)+' yang harus disiapkan. Jangan lupa biaya pindahan.'},
+      {icon:'🔍',title:'Bandingkan bunga antar bank',desc:'Bunga KPR bisa beda 0.5–2% antar bank. Selisih ini bisa jutaan rupiah per bulan. Bandingkan minimal 3 bank.'},
+      {icon:'🏗️',title:'Rumah indent vs ready stock',desc:'Indent lebih murah tapi harus tunggu 1–2 tahun. Ready stock bisa langsung huni. Pertimbangkan kebutuhan.'},
+    ];
+  const el = document.getElementById('dp-action-cards');
+  if (el) el.innerHTML = cards.map(card=>`<div class="action-card"><div class="ac-icon">${card.icon}</div><div class="ac-title">${card.title}</div><div class="ac-desc">${card.desc}</div></div>`).join('');
+}
+
+function buildSaveActionCards(monthly, months, rYear) {
+  const fmtM2 = n => { if(n>=1e9) return 'Rp '+(n/1e9).toFixed(1)+' M'; if(n>=1e6) return 'Rp '+(n/1e6).toFixed(0)+' jt'; return 'Rp '+Math.round(n).toLocaleString('id-ID'); };
+  const yr = Math.round(months/12*10)/10;
+  let cards;
+  if (months <= 12) {
+    cards = [
+      {icon:'🎯',title:'Target bisa tercapai 1 tahun!',desc:'Dengan tabungan ini, DP bisa terkumpul dalam '+months+' bulan. Konsisten dan hindari pengeluaran besar.'},
+      {icon:'🏦',title:'Deposito untuk return lebih baik',desc:'Simpan di deposito bank (4–5%/thn) atau ORI/SBR (5–6%/thn) daripada tabungan biasa (0.5–1%).'},
+      {icon:'📱',title:'Autoset tabungan setiap gajian',desc:'Transfer otomatis ke rekening tabungan khusus DP setiap tanggal gaji. Tabungan terdisiplin lebih mudah.'},
+      {icon:'🚫',title:'Hindari pencairan sebelum target',desc:'Jangan gunakan dana DP untuk keperluan lain. Buka rekening terpisah khusus untuk tujuan ini.'},
+    ];
+  } else if (yr <= 3) {
+    cards = [
+      {icon:'📊',title:'Reksa dana pasar uang',desc:'Return 4–6%/thn, likuid, aman. Cocok untuk dana DP yang direncanakan dalam 1–3 tahun.'},
+      {icon:'🏦',title:'Tabungan berjangka',desc:'Otomatis potong dari rekening setiap bulan, bunga sedikit lebih tinggi dari tabungan biasa. Disiplin terjaga.'},
+      {icon:'💡',title:'Cari penghasilan tambahan',desc:'Freelance, jual barang bekas, atau side job bisa memangkas waktu menabung secara signifikan.'},
+      {icon:'📉',title:'Kurangi pengeluaran tidak penting',desc:'Hemat Rp 500rb/bln dari langganan, makan di luar, atau transportasi = Rp 6 jt/thn tambahan untuk DP.'},
+    ];
+  else:
+    cards = [
+      {icon:'📈',title:'Reksa dana obligasi/saham',desc:'Untuk jangka > 3 tahun, reksa dana campuran atau saham bisa memberi return 7–12%/thn. Risiko lebih tinggi.'},
+      {icon:'💰',title:'Tingkatkan tabungan seiring gaji naik',desc:'Naikkan jumlah tabungan bulanan setiap kali ada kenaikan gaji. Bahkan +Rp 200rb/bln bisa signifikan.'},
+      {icon:'🏠',title:'Pertimbangkan target harga rumah',desc:'Harga properti naik ~5–10%/thn. Simulasikan ulang dengan harga rumah lebih tinggi saat akan beli.'},
+      {icon:'⏳',title:'Mulai sekarang, jangan tunda',desc:`Setiap bulan terlambat memulai = target mundur 1 bulan. Mulai dengan tabungan kecil, tingkatkan bertahap.`},
+    ];
+  const el = document.getElementById('save-action-cards');
+  if (el) el.innerHTML = cards.map(card=>`<div class="action-card"><div class="ac-icon">${card.icon}</div><div class="ac-title">${card.title}</div><div class="ac-desc">${card.desc}</div></div>`).join('');
 }
 
 function setSaving(v, btn) {
@@ -577,6 +667,17 @@ function calcSavePlan() {
     `💰 Dengan menabung <strong>${fmt(monthly)}/bulan</strong>, target DP <strong>${fmtM(target)}</strong> tercapai dalam <strong>${months} bulan</strong> (estimasi tahun <strong>${estYear}</strong>). ${rYear > 0 ? `Dengan return ${(rYear*100).toFixed(1)}%/thn, bunga menambah ${fmtM(Math.max(0,returnTotal))} ke tabungan Anda.` : 'Gunakan deposito atau reksa dana untuk mempercepat dengan tambahan return.'}`;
 
   document.getElementById('res1').style.display = 'block';
+  // Progress bar
+  const currentVal = parseFloat(document.getElementById('current-dp').value)||0;
+  const targetVal  = parseFloat(document.getElementById('target-dp').value)||0;
+  const pct = targetVal > 0 ? Math.min(100, Math.round(currentVal/targetVal*100)) : 0;
+  document.getElementById('sp-fill').style.width = pct + '%';
+  document.getElementById('sp-current-lbl').textContent = 'Dana sekarang: ' + fmtM(currentVal);
+  document.getElementById('sp-target-lbl').textContent = 'Target: ' + fmtM(targetVal);
+  document.getElementById('sp-pct-lbl').textContent = pct + '% terkumpul';
+  document.getElementById('sp-eta-lbl').textContent = 'Sisa: ' + fmtM(Math.max(0, targetVal - currentVal));
+
+  buildSaveActionCards(monthly, months, rYear);
   document.getElementById('res1').classList.add('show');
 }
 
