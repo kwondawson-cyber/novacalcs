@@ -1,407 +1,578 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator THR 2026 — Hitung Tunjangan Hari Raya + PPh | NovaCalcs</title>
-<meta name="description" content="Hitung THR (Tunjangan Hari Raya) sesuai aturan Permenaker 2026. Termasuk simulasi PPh 21 atas THR, perbandingan masa kerja, dan panduan hak karyawan."/>
-<meta name="keywords" content="kalkulator THR 2025, hitung THR lebaran 2026, tunjangan hari raya, THR karyawan 2026, rumus THR proporsional, PPh THR, THR kontrak"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-thr.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-thr.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator THR","url":"https://novacalcs.com/id/kalkulator-thr.html","description":"Kalkulator THR 2026 dengan simulasi PPh 21 dan perbandingan masa kerja","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Big THR display */
-.thr-main { text-align:center; padding:16px 0 10px; }
-.thr-num { font-size:2.4rem; font-weight:700; color:var(--mint); line-height:1; }
-.thr-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Proporsi progress bar */
-.proporsi-bar-wrap { margin:14px 0 6px; }
-.prop-bar-label { display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-secondary); margin-bottom:5px; }
-.prop-track { height:18px; border-radius:9px; background:var(--bg-input); overflow:hidden; }
-.prop-fill { height:100%; border-radius:9px; background:var(--mint); transition:width 0.7s cubic-bezier(.34,1.56,.64,1); display:flex; align-items:center; padding-left:8px; font-size:0.68rem; font-weight:700; color:#001a17; }
-
-/* Stats grid */
-.thr-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.thr-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.thr-stat .ts-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
-.thr-stat .ts-val { font-size:0.9rem; font-weight:700; color:var(--text-primary); }
-.thr-stat.green .ts-val { color:var(--mint); }
-.thr-stat.warn .ts-val { color:#f87171; }
-
-/* PPh breakdown */
-.pph-box { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; margin-top:10px; }
-.pph-box .pb-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:8px; }
-.pph-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border); font-size:0.8rem; }
-.pph-row:last-child { border-bottom:none; font-weight:700; }
-.pph-plus { color:var(--mint); font-weight:700; }
-.pph-minus { color:#f87171; font-weight:700; }
-
-/* Masa kerja comparison table */
-.masa-table { width:100%; border-collapse:collapse; font-size:0.78rem; margin-top:10px; }
-.masa-table th { background:var(--bg-input); color:var(--text-secondary); padding:6px 10px; text-align:right; font-weight:600; }
-.masa-table th:first-child { text-align:left; }
-.masa-table td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; }
-.masa-table td:first-child { text-align:left; color:var(--text-secondary); }
-.masa-table tr.current-row td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
-.masa-table tr:last-child td { border-bottom:none; }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator THR 2026 — Tunjangan Hari Raya + PPh 21 Bulan Lebaran | NovaCalcs</title>
+  <meta name="description" content="Hitung THR 2026 sesuai Permenaker No. 6/2016: proporsional masa kerja, karyawan harian lepas, simulasi PPh 21 bulan Lebaran & perbandingan berbagai masa kerja. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-thr">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* PROGRESS BAR */
+    .prog-wrap{margin:16px 0 8px}
+    .prog-lbl{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+    .prog-bar{height:12px;background:var(--sur2);border-radius:6px;overflow:hidden}
+    .prog-fill{height:100%;background:var(--pri);border-radius:6px;transition:width .5s ease}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:16px}.rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* SLIP THR */
+    .slip{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-top:14px;font-size:12px}
+    .slip-head{background:var(--pri);color:#fff;padding:12px 14px}
+    .slip-co{font-weight:700;font-size:13px}
+    .slip-title{font-size:10px;opacity:.85;margin-top:1px}
+    .slip-sec{padding:10px 14px}
+    .slip-sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tx3);margin-bottom:6px}
+    .slip-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed var(--bor)}
+    .slip-row:last-child{border-bottom:none}
+    .slip-row span:last-child{font-family:'DM Mono',monospace;font-weight:600}
+    .slip-row.highlight{background:var(--pri-l);margin:0 -14px;padding:4px 14px;font-weight:700}
+    .slip-divider{height:1px;background:var(--bor)}
+    .slip-total{background:var(--grn-b);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:800}
+    .slip-total span:last-child{font-family:'DM Mono',monospace;font-size:16px;color:var(--grn)}
+    /* COMPARE TABLE */
+    .cmp-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .cmp-tbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3)}
+    .cmp-tbl td{padding:8px 10px;border-bottom:1px solid var(--bor);font-family:'DM Mono',monospace;font-weight:600}
+    .cmp-tbl td:first-child{font-family:inherit;font-weight:500}
+    .cmp-tbl tr:last-child td{border-bottom:none}
+    .cmp-tbl tr.hl td{background:var(--pri-l);color:var(--pri);font-weight:700}
+    .cmp-tbl tr.hl td:first-child{font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator THR</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator THR</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🎁 Tunjangan Hari Raya</div>
+  <h1 class="hdr-h1">Kalkulator THR 2026</h1>
+  <p class="hdr-sub">Hitung THR sesuai Permenaker No. 6/2016 — proporsional masa kerja, simulasi PPh 21 bulan Lebaran &amp; perbandingan berbagai masa kerja. Hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">Permenaker <span>No. 6/2016</span></div>
+    <div class="pchip">Masa kerja ≥ 12 bln <span>1 bulan penuh</span></div>
+    <div class="pchip">Deadline <span>7 hari sebelum lebaran</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🎁 Kalkulator THR 2026</div>
-      <div class="calc-subtitle">Hitung THR + PPh 21 + simulasi masa kerja</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="field"><label>Gaji Pokok (Rp/bulan)</label>
-        <input type="number" id="gaji" placeholder="Contoh: 8.000.000" oninput="liveCalc()"/>
-      </div>
-      <div class="field"><label>Tunjangan Tetap (Rp/bulan)</label>
-        <input type="number" id="tunjangan" value="0" placeholder="Tunjangan jabatan, keluarga, dll." oninput="liveCalc()"/>
-        <p style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">Tunjangan tidak tetap (transport, makan harian) tidak termasuk komponen THR</p>
-      </div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🎁</div>Hitung THR Saya</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="tetap">💼 Karyawan Tetap / Kontrak (PKWTT/PKWT)</button>
+      <button class="tbtn" data-tab="harian">🗓️ Karyawan Harian Lepas</button>
+    </div>
 
-      <div class="field">
-        <label>Masa Kerja</label>
-        <div style="display:flex;gap:8px;align-items:center">
-          <div style="flex:1"><input type="number" id="masa-tahun" placeholder="Tahun" min="0" max="50" oninput="liveCalc()"/></div>
-          <span style="color:var(--text-muted);font-size:0.82rem">tahun</span>
-          <div style="flex:1"><input type="number" id="masa-bulan" placeholder="Bulan" min="0" max="11" oninput="liveCalc()"/></div>
-          <span style="color:var(--text-muted);font-size:0.82rem">bulan</span>
-        </div>
-      </div>
-
-      <div class="field"><label>Status Karyawan</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-tetap" onclick="setStatus('tetap',this)">Karyawan Tetap (PKWTT)</div>
-          <div class="radio-btn" id="btn-kontrak" onclick="setStatus('kontrak',this)">Kontrak (PKWT)</div>
-        </div>
-      </div>
-
-      <div class="field"><label>Status PTKP (untuk simulasi PPh THR)</label>
-        <select id="ptkp" onchange="liveCalc()">
-          <option value="A|54000000">TK/0 — Lajang</option>
-          <option value="A|58500000">K/0 — Menikah</option>
-          <option value="B|63000000">K/1 — Menikah + 1 tanggungan</option>
-          <option value="B|67500000">K/2 — Menikah + 2 tanggungan</option>
-          <option value="C|72000000">K/3 — Menikah + 3 tanggungan</option>
-        </select>
-      </div>
-
-      <button class="calc-btn" onclick="liveCalc()">🎁 Hitung THR Saya</button>
-
-      <div class="result-box" id="result" style="display:none">
-
-        <!-- Main THR -->
-        <div class="thr-main">
-          <div class="thr-num" id="res-thr">—</div>
-          <div class="thr-label">THR kotor yang berhak diterima</div>
-        </div>
-
-        <!-- Proporsi bar -->
-        <div class="proporsi-bar-wrap">
-          <div class="prop-bar-label">
-            <span>Proporsi THR</span>
-            <span id="prop-label">—</span>
-          </div>
-          <div class="prop-track">
-            <div class="prop-fill" id="prop-bar" style="width:0%">—</div>
+    <!-- TAB: KARYAWAN TETAP/KONTRAK -->
+    <div class="tpanel on" id="tab-tetap">
+      <div class="g2">
+        <div class="fld">
+          <label>Gaji Pokok (Rp/bulan)</label>
+          <div class="iw"><input type="number" id="gp" value="8000000" min="0" step="500000"></div>
+          <div class="presets">
+            <button class="pb" data-val="5000000" data-for="gp">5 jt</button>
+            <button class="pb on" data-val="8000000" data-for="gp">8 jt</button>
+            <button class="pb" data-val="10000000" data-for="gp">10 jt</button>
+            <button class="pb" data-val="15000000" data-for="gp">15 jt</button>
           </div>
         </div>
-
-        <!-- Stats -->
-        <div class="thr-stats">
-          <div class="thr-stat"><div class="ts-label">Upah sebulan</div><div class="ts-val" id="ts-upah">—</div></div>
-          <div class="thr-stat"><div class="ts-label">Masa kerja</div><div class="ts-val" id="ts-masa">—</div></div>
-          <div class="thr-stat green"><div class="ts-label">THR kotor</div><div class="ts-val" id="ts-thr-gross">—</div></div>
-          <div class="thr-stat warn"><div class="ts-label">PPh 21 atas THR (est.)</div><div class="ts-val" id="ts-pph">—</div></div>
+        <div class="fld">
+          <label>Tunjangan Tetap (Rp/bulan)</label>
+          <div class="iw"><input type="number" id="tj" value="0" min="0" step="100000"></div>
+          <div class="presets">
+            <button class="pb on" data-val="0" data-for="tj">Tidak ada</button>
+            <button class="pb" data-val="1000000" data-for="tj">1 jt</button>
+            <button class="pb" data-val="2000000" data-for="tj">2 jt</button>
+          </div>
         </div>
-
-        <!-- PPh breakdown -->
-        <div class="pph-box">
-          <div class="pb-title">📊 Simulasi PPh 21 Bulan Penerimaan THR</div>
-          <div class="pph-row"><span>Gaji rutin bulan ini</span><span class="pph-plus" id="pb-gaji">—</span></div>
-          <div class="pph-row"><span>THR yang diterima</span><span class="pph-plus" id="pb-thr">—</span></div>
-          <div class="pph-row"><span>Total penghasilan bulan ini</span><span class="pph-plus" id="pb-total">—</span></div>
-          <div class="pph-row"><span>PPh 21 bulan ini (est.)</span><span class="pph-minus" id="pb-pph">—</span></div>
-          <div class="pph-row"><span>THR bersih (setelah PPh)</span><span class="pph-plus" id="pb-bersih">—</span></div>
+      </div>
+      <div style="font-size:10px;color:var(--tx3);background:var(--sur2);border-radius:var(--rs);padding:8px 10px;margin-bottom:14px">ℹ️ Tunjangan <strong>tidak tetap</strong> (uang makan/transport harian, lembur, insentif) <strong>tidak masuk</strong> komponen THR.</div>
+      <div class="g2">
+        <div class="fld">
+          <label>Masa Kerja — Tahun</label>
+          <div class="iw"><input type="number" id="mk-thn" value="2" min="0" max="40" step="1"><span class="iu">thn</span></div>
         </div>
+        <div class="fld">
+          <label>Masa Kerja — Bulan</label>
+          <div class="iw"><input type="number" id="mk-bln" value="0" min="0" max="11" step="1"><span class="iu">bln</span></div>
+        </div>
+      </div>
 
-        <!-- Masa kerja comparison -->
-        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">📋 Perbandingan THR Berbagai Masa Kerja</div>
-        <table class="masa-table" id="masa-comparison"></table>
+      <!-- PROGRESS BAR -->
+      <div class="prog-wrap">
+        <div class="prog-lbl">
+          <span style="font-size:12px;font-weight:600" id="prog-label">Proporsi THR</span>
+          <span style="font-family:'DM Mono',monospace;font-weight:700;color:var(--pri)" id="prog-pct">—</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px" id="prog-sub">—</div>
+      </div>
 
-        <!-- Advice -->
-        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">THR yang Berhak Diterima (Kotor)</div>
+            <div class="rv lg" id="r-thr">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Upah sebulan (gaji + tunjangan tetap)</span><span id="r-upah">—</span></div>
+          <div class="rr"><span>Masa kerja</span><span id="r-masa">—</span></div>
+          <div class="rr"><span>Proporsi THR</span><span id="r-proporsi">—</span></div>
+          <div class="rr"><span>Deadline pembayaran</span><span>7 hari sebelum lebaran</span></div>
+        </div>
+      </div>
+      <div class="notice" id="r-notice">* Permenaker No. 6/2016: THR wajib dibayar sekaligus (tidak bisa dicicil), paling lambat 7 hari sebelum hari raya. Karyawan masa kerja &lt; 1 bulan belum berhak THR.</div>
+    </div>
+
+    <!-- TAB: HARIAN LEPAS -->
+    <div class="tpanel" id="tab-harian">
+      <div class="fld">
+        <label>Rata-rata Upah Harian (Rp)</label>
+        <div class="iw"><input type="number" id="harian-upah" value="200000" min="0" step="10000"></div>
+        <div class="presets">
+          <button class="pb" data-val="100000" data-for="harian-upah">100rb</button>
+          <button class="pb on" data-val="200000" data-for="harian-upah">200rb</button>
+          <button class="pb" data-val="300000" data-for="harian-upah">300rb</button>
+          <button class="pb" data-val="500000" data-for="harian-upah">500rb</button>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>Masa Kerja — Tahun</label>
+          <div class="iw"><input type="number" id="harian-thn" value="1" min="0" max="40"><span class="iu">thn</span></div>
+        </div>
+        <div class="fld">
+          <label>Masa Kerja — Bulan</label>
+          <div class="iw"><input type="number" id="harian-bln" value="0" min="0" max="11"><span class="iu">bln</span></div>
+        </div>
+      </div>
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">THR Karyawan Harian Lepas</div>
+            <div class="rv lg" id="h-thr">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Upah sebulan (30 × upah harian)</span><span id="h-upah-bln">—</span></div>
+          <div class="rr"><span>Masa kerja</span><span id="h-masa">—</span></div>
+          <div class="rr"><span>Proporsi THR</span><span id="h-proporsi">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* Karyawan harian lepas: upah sebulan = 30 × rata-rata upah harian. THR proporsional jika masa kerja 1–11 bulan, penuh 1× upah sebulan jika ≥ 12 bulan. Masa kerja dihitung dari tanggal masuk kerja.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ② SIMULATOR: PPH 21 BULAN LEBARAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Simulasi PPh 21 Bulan Lebaran <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Bulan THR diterima, <strong>penghasilan bruto melonjak</strong> sehingga PPh 21 bisa 2–5× lebih besar dari bulan biasa. Simulasikan slip gaji bulan Lebaran Anda secara lengkap.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Gaji Rutin Bulanan (Rp)</label>
+        <div class="iw"><input type="number" id="sim-gaji" value="8000000" min="0" step="500000"></div>
+      </div>
+      <div class="fld">
+        <label>THR yang Diterima (Rp)</label>
+        <div class="iw"><input type="number" id="sim-thr" value="8000000" min="0" step="100000"></div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">Bisa diisi dari hasil kalkulator di atas</div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Status PTKP</label>
+      <div class="iw sw"><select id="sim-ptkp">
+        <option value="54000000">TK/0 — Lajang (Rp 54 juta)</option>
+        <option value="58500000">TK/1 / K/0 (Rp 58,5 juta)</option>
+        <option value="63000000">TK/2 / K/1 (Rp 63 juta)</option>
+        <option value="67500000">TK/3 / K/2 (Rp 67,5 juta)</option>
+        <option value="72000000">K/3 (Rp 72 juta)</option>
+      </select></div>
+    </div>
+
+    <!-- SLIP GAJI LEBARAN -->
+    <div class="slip">
+      <div class="slip-head">
+        <div class="slip-co">PT [Perusahaan Anda]</div>
+        <div class="slip-title">Slip Gaji + THR — Bulan Lebaran</div>
+      </div>
+      <div class="slip-sec">
+        <div class="slip-sec-title">Pendapatan Bulan Ini</div>
+        <div class="slip-row"><span>Gaji rutin</span><span id="sl-gaji">—</span></div>
+        <div class="slip-row highlight"><span>🎁 THR Hari Raya</span><span id="sl-thr">—</span></div>
+        <div class="slip-row" style="font-weight:700"><span>Total Pendapatan</span><span id="sl-total">—</span></div>
+      </div>
+      <div class="slip-divider"></div>
+      <div class="slip-sec">
+        <div class="slip-sec-title">Potongan</div>
+        <div class="slip-row"><span>PPh 21 bulan ini</span><span id="sl-pph">—</span></div>
+        <div class="slip-row" style="color:var(--tx3);font-size:11px"><span>  ↳ PPh bulan normal</span><span id="sl-pph-normal">—</span></div>
+        <div class="slip-row highlight" style="color:var(--red)"><span>  ↳ Tambahan PPh karena THR</span><span id="sl-pph-tambahan">—</span></div>
+      </div>
+      <div class="slip-total">
+        <span>💵 Gaji Bersih Bulan Ini</span>
+        <span id="sl-net">—</span>
+      </div>
+    </div>
+
+    <div class="lres" style="margin-top:12px">
+      <div class="rrows" style="border:none;padding:0">
+        <div class="rr"><span>THR kotor</span><span id="sim-thr-kotor">—</span></div>
+        <div class="rr"><span>Tambahan PPh akibat THR</span><span id="sim-pph-thr">—</span></div>
+        <div class="rr"><span>THR bersih (setelah PPh)</span><span id="sim-thr-bersih">—</span></div>
+        <div class="rr"><span>% PPh dari THR</span><span id="sim-pph-pct">—</span></div>
+      </div>
+    </div>
+    <div class="notice info" style="margin-top:10px">💡 PPh 21 pada bulan THR dihitung dari selisih: PPh(gaji+THR) − PPh(gaji saja). Ini adalah estimasi metode TER — angka akhir bisa berbeda tergantung rekonsiliasi Desember.</div>
+  </div>
+</div>
+
+<!-- ③ SIMULATOR: PERBANDINGAN MASA KERJA -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📋</div>Perbandingan THR Berbagai Masa Kerja <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Lihat berapa THR yang diterima di berbagai tahap masa kerja — berguna untuk perencanaan keuangan dan memahami hak karyawan baru.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Upah Sebulan (Rp)</label>
+        <div class="iw"><input type="number" id="cmp-upah" value="8000000" min="0" step="500000"></div>
+        <div class="presets">
+          <button class="pb" data-val="5000000" data-for="cmp-upah">5 jt</button>
+          <button class="pb on" data-val="8000000" data-for="cmp-upah">8 jt</button>
+          <button class="pb" data-val="10000000" data-for="cmp-upah">10 jt</button>
+          <button class="pb" data-val="15000000" data-for="cmp-upah">15 jt</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Masa Kerja Anda (Bulan) — untuk sorot</label>
+        <div class="iw"><input type="number" id="cmp-masa" value="24" min="0" max="480"><span class="iu">bln</span></div>
+      </div>
+    </div>
+    <table class="cmp-tbl" id="cmp-table">
+      <thead><tr><th>Masa Kerja</th><th>Proporsi</th><th>THR Kotor</th><th>Status</th></tr></thead>
+      <tbody id="cmp-body"></tbody>
+    </table>
+    <div class="notice">* Baris berwarna oranye = posisi masa kerja Anda saat ini. Karyawan dengan masa kerja &lt; 1 bulan belum berhak THR.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Aturan THR 2026</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#1A7F4E"></div><div><div class="fn">≥ 12 bulan kerja</div><div class="fron">THR penuh</div></div></div><div class="fprice">1× upah</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#E85D04"></div><div><div class="fn">1 – 11 bulan kerja</div><div class="fron">THR proporsional</div></div></div><div class="fprice">bulan/12</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#718096"></div><div><div class="fn">&lt; 1 bulan kerja</div><div class="fron">Belum berhak</div></div></div><div class="fprice">—</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#C0392B"></div><div><div class="fn">Deadline pembayaran</div><div class="fron">Permenaker 6/2016</div></div></div><div class="fprice">-7 hari</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#D97706"></div><div><div class="fn">Denda keterlambatan</div><div class="fron">Per hari</div></div></div><div class="fprice">5%/hari</div></div>
+      </div>
+      <div class="notice" style="margin-top:10px">THR <strong>wajib dibayar sekaligus</strong>, tidak boleh dicicil. Berlaku untuk semua karyawan (tetap &amp; kontrak).</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips THR</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📝</span><span class="tptx"><strong>Catat tanggal masuk kerja</strong> — penentu masa kerja dan besar THR proporsional</span></div>
+        <div class="tip"><span class="tpico">🧾</span><span class="tptx"><strong>Cek komponen slip gaji</strong> — hanya gaji pokok + tunjangan <em>tetap</em> yang masuk THR</span></div>
+        <div class="tip"><span class="tpico">💰</span><span class="tptx"><strong>PPh THR bisa besar</strong> — siapkan dana darurat agar tidak kaget saat terima slip bulan Lebaran</span></div>
+        <div class="tip"><span class="tpico">🏛️</span><span class="tptx"><strong>Jika THR tidak dibayar</strong> — laporkan ke Disnaker setempat, ada denda 5%/hari bagi perusahaan</span></div>
+        <div class="tip"><span class="tpico">👋</span><span class="tptx"><strong>Resign 30 hari sebelum lebaran</strong> — masih berhak THR penuh jika sudah ≥ 12 bulan kerja</span></div>
       </div>
     </div>
   </div>
-
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator THR 2026 — Tunjangan Hari Raya + Simulasi PPh 21</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung THR (Tunjangan Hari Raya) sesuai aturan terbaru Permenaker No. 6/2016 yang masih berlaku di 2026. Dilengkapi simulasi PPh 21 bulan penerimaan THR dan perbandingan untuk berbagai masa kerja.</p>
-
-    <h2>Aturan THR Berdasarkan Permenaker No. 6/2016</h2>
-    <p>THR Keagamaan adalah hak setiap karyawan yang telah bekerja minimal 1 bulan penuh, tanpa membedakan status karyawan tetap atau kontrak. Besarannya diatur sebagai berikut:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Masa Kerja</th><th>Besaran THR</th><th>Rumus</th></tr></thead>
-      <tbody>
-        <tr><td>≥ 12 bulan</td><td>1 bulan upah (penuh)</td><td>1 × (gaji + tunjangan tetap)</td></tr>
-        <tr><td>1 bulan – &lt; 12 bulan</td><td>Proporsional</td><td>(masa kerja bulan ÷ 12) × upah sebulan</td></tr>
-        <tr><td>&lt; 1 bulan</td><td>Tidak berhak THR</td><td>—</td></tr>
-      </tbody>
-    </table>
-    <p>THR wajib dibayarkan paling lambat <strong>7 hari sebelum hari raya</strong>. Perusahaan yang terlambat dikenakan denda 5% per hari dari nilai THR yang belum dibayar, dan THR tidak dapat dicicil — harus dibayar sekaligus.</p>
-
-    <h2>Komponen Upah yang Masuk Hitungan THR</h2>
-    <p>Tidak semua pendapatan masuk ke dalam komponen upah untuk menghitung THR. Berikut yang termasuk dan tidak termasuk:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Komponen</th><th>Masuk THR?</th><th>Contoh</th></tr></thead>
-      <tbody>
-        <tr><td>Gaji pokok</td><td>✅ Ya</td><td>Gaji bulanan tetap</td></tr>
-        <tr><td>Tunjangan tetap</td><td>✅ Ya</td><td>Tunjangan jabatan, tunjangan keluarga, tunjangan perumahan tetap</td></tr>
-        <tr><td>Tunjangan tidak tetap</td><td>❌ Tidak</td><td>Uang makan/transport harian (tergantung kehadiran), lembur, insentif prestasi</td></tr>
-        <tr><td>Bonus</td><td>❌ Tidak</td><td>Bonus tahunan, bonus proyek</td></tr>
-        <tr><td>Natura/fasilitas</td><td>❌ Tidak</td><td>Makan siang gratis, kendaraan dinas</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Fitur Kalkulator THR NovaCalcs</h2>
-    <ul>
-      <li><strong>Proporsi bar visual</strong> — Progress bar menampilkan seberapa besar proporsi THR Anda (berapa persen dari satu bulan gaji) secara langsung. Untuk masa kerja ≥ 12 bulan, bar terisi penuh 100%.</li>
-      <li><strong>Simulasi PPh 21 bulan THR</strong> — Bulan Lebaran biasanya ada kejutan: PPh 21 naik drastis karena THR ditambahkan ke penghasilan bulan itu. Kalkulator ini mensimulasikan total penghasilan + PPh 21 bulan penerimaan THR, sehingga Anda tahu berapa THR bersih yang benar-benar diterima.</li>
-      <li><strong>Tabel perbandingan masa kerja</strong> — Secara otomatis menampilkan simulasi THR untuk masa kerja 1, 3, 6, 9, 12, 24, dan 36 bulan — dengan baris masa kerja Anda saat ini disorot.</li>
-      <li><strong>Input tunjangan terpisah</strong> — Pisahkan gaji pokok dan tunjangan tetap untuk perhitungan yang akurat sesuai struktur slip gaji Anda.</li>
-    </ul>
-
-    <h2>Cara Menghitung PPh 21 atas THR</h2>
-    <p>Ini sering menjadi pertanyaan karena PPh 21 bulan Lebaran bisa jauh lebih besar dari biasanya. Mekanismenya:</p>
-    <ul>
-      <li>THR adalah <strong>penghasilan tidak teratur</strong> yang tetap dikenakan PPh 21</li>
-      <li>Bulan penerimaan THR: penghasilan bruto = gaji biasa + THR, sehingga tarif TER yang berlaku bisa naik ke bracket lebih tinggi</li>
-      <li>Contoh: Gaji bruto normal Rp 8 juta (TER ~1,5%), bulan THR bruto jadi Rp 16 juta (TER ~6,5%) → PPh bulan itu jauh lebih tinggi</li>
-      <li>Untuk karyawan dengan status kontrak atau yang baru bergabung, THR proporsional tetap dikenakan PPh 21 sesuai tarif yang berlaku</li>
-    </ul>
-    <p>Kalkulator ini menggunakan estimasi berdasarkan tarif TER (Tarif Efektif Rata-rata) sesuai PP No. 58/2023 untuk simulasi PPh bulan THR. Angka ini estimasi — hasil akhir bisa sedikit berbeda tergantung rekonsiliasi Desember.</p>
-
-    <h2>Hak Karyawan Terkait THR</h2>
-    <ul>
-      <li><strong>Karyawan kontrak (PKWT)</strong> — Berhak THR proporsional jika masa kerja sudah ≥ 1 bulan. Jika kontrak habis sebelum Lebaran namun masa kerja sudah ≥ 1 bulan, tetap berhak THR proporsional.</li>
-      <li><strong>Karyawan outsourcing</strong> — Berhak THR dari perusahaan outsourcing (bukan perusahaan pengguna) berdasarkan masa kerja aktual.</li>
-      <li><strong>Karyawan harian lepas</strong> — Jika sudah bekerja ≥ 12 bulan, THR dihitung dari rata-rata upah 12 bulan terakhir. Kurang dari 12 bulan, dari rata-rata upah selama bekerja.</li>
-      <li><strong>Karyawan yang mengundurkan diri</strong> — Jika pengunduran diri terjadi 30 hari atau kurang sebelum hari raya, tetap berhak THR penuh.</li>
-    </ul>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah karyawan kontrak (PKWT) berhak mendapat THR?</div>
-      <div class="faq-a">Ya, berhak. Permenaker No. 6/2016 berlaku untuk semua karyawan tanpa membedakan status PKWTT (tetap) atau PKWT (kontrak). Syaratnya: sudah bekerja minimal 1 bulan penuh. Jika masa kerja kurang dari 12 bulan, THR dihitung secara proporsional. Jika perusahaan menolak membayar THR dengan alasan status kontrak, ini melanggar hukum dan dapat dilaporkan ke Disnaker.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah THR dikenakan PPh 21?</div>
-      <div class="faq-a">Ya. THR termasuk penghasilan tidak teratur yang wajib dikenakan PPh 21. Cara perhitungannya: bulan THR diterima, gaji + THR digabungkan sebagai penghasilan bulan itu, lalu dikenakan tarif TER yang berlaku untuk total penghasilan tersebut. Hasilnya, PPh 21 bulan Lebaran bisa 2–5× lebih besar dari bulan biasa. Gunakan fitur "Simulasi PPh 21 Bulan THR" di kalkulator ini untuk memperkirakan berapa THR bersih yang akan diterima.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika perusahaan tidak mampu membayar THR penuh?</div>
-      <div class="faq-a">Perusahaan yang tidak mampu membayar THR penuh harus mengajukan permohonan penundaan secara tertulis kepada Disnaker setempat dengan melampirkan laporan keuangan sebagai bukti. Penundaan harus disepakati bersama karyawan. Penting: penundaan bukan berarti penghapusan — THR tetap wajib dibayarkan, hanya waktunya yang diundur. Karyawan berhak menolak kesepakatan penundaan dan melaporkan ke Disnaker jika merasa hak mereka dilanggar.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah THR bisa lebih dari 1 bulan gaji?</div>
-      <div class="faq-a">Ya, 1 kali gaji adalah minimum hukum. Perusahaan bebas memberikan lebih. Banyak perusahaan BUMN, multinasional, dan perusahaan besar memberikan THR 2–3 kali gaji atau menambahkan bonus Lebaran terpisah. Ketentuan ini biasanya tercantum dalam PKB (Perjanjian Kerja Bersama) atau peraturan perusahaan. Selalu cek PKB atau kontrak kerja Anda untuk mengetahui ketentuan spesifik di perusahaan Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Ke mana melapor jika THR tidak dibayar tepat waktu?</div>
-      <div class="faq-a">Langkah yang bisa dilakukan: (1) Ajukan secara tertulis ke HRD atau manajemen dengan menyebutkan dasar hukum (Permenaker No. 6/2016), (2) Jika tidak ditanggapi, laporkan ke Dinas Ketenagakerjaan (Disnaker) setempat, (3) Kemenaker biasanya membuka <em>posko pengaduan THR</em> online setiap menjelang Lebaran — manfaatkan layanan ini. Siapkan bukti: slip gaji, kontrak kerja, dan bukti komunikasi dengan perusahaan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah karyawan yang mengundurkan diri sebelum Lebaran tetap dapat THR?</div>
-      <div class="faq-a">Berdasarkan Permenaker No. 6/2016, karyawan yang mengundurkan diri masih berhak THR jika pengunduran diri dilakukan dalam 30 hari sebelum hari raya. Namun jika pengunduran diri lebih dari 30 hari sebelum hari raya, hak THR tidak ada. Beberapa perusahaan mungkin punya kebijakan berbeda yang lebih menguntungkan karyawan — cek perjanjian kerja atau PKB Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada THR untuk hari raya selain Idul Fitri?</div>
-      <div class="faq-a">Ya. Permenaker No. 6/2016 mengatur THR untuk semua hari raya keagamaan sesuai agama karyawan — Idul Fitri (Islam), Natal (Kristen/Katolik), Nyepi (Hindu), Waisak (Buddha), dan Imlek (Kong Hu Cu). Karyawan berhak 1 kali THR per tahun sesuai hari raya agamanya. Jika karyawan bekerja di perusahaan hingga menjelang hari raya agama lain setelah mengambil THR agamanya, tidak ada kewajiban THR tambahan.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
-      <a href="/id/kalkulator-pesangon.html" class="related-item"><span class="ri">📋</span>Pesangon</a>
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>PPh 21</a>
-      <a href="/id/kalkulator-zakat.html" class="related-item"><span class="ri">🌙</span>Kalkulator Zakat</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-gaji-bersih" class="relc"><div class="relc-ico">💵</div><div class="relc-nm">Gaji Bersih</div><div class="relc-ds">Take-home pay</div></a>
+        <a href="/id/kalkulator-pph" class="relc"><div class="relc-ico">💼</div><div class="relc-nm">PPh 21</div><div class="relc-ds">Pajak gaji TER</div></a>
+        <a href="/id/kalkulator-pesangon" class="relc"><div class="relc-ico">📋</div><div class="relc-nm">Pesangon</div><div class="relc-ds">Hak PHK</div></a>
+        <a href="/id/kalkulator-bpjs" class="relc"><div class="relc-ico">🏥</div><div class="relc-nm">BPJS</div><div class="relc-ds">Iuran kesehatan</div></a>
+      </div>
     </div>
   </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Aturan THR 2026 — Permenaker No. 6/2016</h2>
+  <p>THR Keagamaan adalah hak setiap karyawan yang telah bekerja minimal 1 bulan penuh, tanpa membedakan status karyawan tetap (PKWTT) atau kontrak (PKWT).</p>
+  <div class="stw"><table class="stbl">
+    <thead><tr><th>Masa Kerja</th><th>Besaran THR</th><th>Rumus</th></tr></thead>
+    <tbody>
+      <tr><td>≥ 12 bulan</td><td>1 bulan upah (penuh)</td><td>1 × (gaji pokok + tunjangan tetap)</td></tr>
+      <tr><td>1 bulan – &lt; 12 bulan</td><td>Proporsional</td><td>(masa kerja bulan ÷ 12) × upah sebulan</td></tr>
+      <tr><td>&lt; 1 bulan</td><td>Tidak berhak THR</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Komponen yang Masuk Hitungan THR</h2>
+  <ul>
+    <li><strong>Masuk THR:</strong> Gaji pokok, tunjangan jabatan, tunjangan keluarga, tunjangan perumahan tetap</li>
+    <li><strong>Tidak masuk THR:</strong> Uang makan/transport harian (tergantung kehadiran), lembur, insentif prestasi, bonus, fasilitas/natura</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apakah karyawan kontrak (PKWT) berhak mendapat THR?</div><div class="faq-a">Ya, berhak. Permenaker No. 6/2016 berlaku untuk semua karyawan tanpa membedakan status PKWTT (tetap) atau PKWT (kontrak). Syaratnya sudah bekerja minimal 1 bulan penuh. Jika perusahaan menolak dengan alasan status kontrak, ini melanggar hukum dan dapat dilaporkan ke Disnaker.</div></div>
+  <div class="faq-i"><div class="faq-q">Kenapa PPh 21 bulan Lebaran jauh lebih besar dari bulan biasa?</div><div class="faq-a">Karena THR dijumlahkan dengan gaji bulan itu, sehingga total penghasilan bulan Lebaran bisa 2× lebih besar dari biasanya. Tarif TER yang berlaku pun naik ke bracket lebih tinggi. Misalnya, gaji bruto normal Rp 8 juta (TER ~1,5%), bulan THR bruto menjadi Rp 16 juta (TER ~6,5%) — PPh yang dipotong bisa 5× lebih besar. Gunakan Simulator PPh Bulan Lebaran di atas untuk melihat angka persisnya.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana jika perusahaan tidak mampu membayar THR penuh?</div><div class="faq-a">Perusahaan yang tidak mampu harus mengajukan permohonan penundaan tertulis ke Disnaker dengan melampirkan laporan keuangan. Penundaan harus disepakati bersama karyawan. Penting: ini penundaan, bukan penghapusan — THR tetap wajib dibayar. Perusahaan yang telat tanpa izin dikenakan denda 5% per hari dari nilai THR yang belum dibayar.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana THR dihitung jika saya baru saja resign?</div><div class="faq-a">Karyawan yang mengundurkan diri dalam 30 hari atau kurang sebelum hari raya tetap berhak THR, dengan syarat sudah bekerja ≥ 12 bulan (THR penuh) atau 1–11 bulan (THR proporsional). Pengunduran diri lebih dari 30 hari sebelum lebaran umumnya tidak mendapat THR.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-let statusKaryawan = 'tetap';
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-
-function setStatus(s, btn) {
-  statusKaryawan = s;
-  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  liveCalc();
+<script>
+// PPh engine (Pasal 17 / TER equivalent)
+const BRACKETS=[{min:0,max:60e6,rate:.05},{min:60e6,max:250e6,rate:.15},{min:250e6,max:500e6,rate:.25},{min:500e6,max:5000e6,rate:.30},{min:5000e6,max:Infinity,rate:.35}];
+function calcPph(brutoM,ptkpY){
+  const pkpY=Math.max(0,brutoM*12-ptkpY);
+  let t=0;BRACKETS.forEach(b=>{t+=Math.max(0,Math.min(pkpY,b.max)-b.min)*b.rate;});
+  return t/12;
 }
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function pct(n){return(n*100).toFixed(1)+'%'}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-// TER tables (PP 58/2023) — simplified for simulation
-const TER_A = [
-  [5400000,0],[5650000,0.0025],[5950000,0.005],[6300000,0.0075],
-  [6750000,0.01],[7500000,0.0125],[8550000,0.015],[9650000,0.0175],
-  [10050000,0.02],[10350000,0.0225],[10700000,0.025],[11050000,0.03],
-  [11600000,0.035],[12500000,0.04],[13750000,0.05],[15100000,0.06],
-  [16950000,0.07],[19750000,0.08],[24150000,0.09],[26450000,0.10],
-  [28000000,0.11],[30050000,0.12],[32400000,0.13],[35400000,0.14],
-  [39100000,0.15],[43850000,0.16],[47800000,0.17],[51400000,0.18],
-  [56300000,0.19],[62200000,0.20],[Infinity,0.22]
-];
-const TER_B = [
-  [6200000,0],[6500000,0.0025],[6850000,0.005],[7300000,0.0075],
-  [9200000,0.01],[10750000,0.015],[11600000,0.02],[12600000,0.025],
-  [13600000,0.03],[14950000,0.04],[16400000,0.05],[18450000,0.06],
-  [21850000,0.07],[26000000,0.08],[29350000,0.10],[41100000,0.14],[Infinity,0.20]
-];
-const TER_C = [
-  [6600000,0],[6950000,0.0025],[7350000,0.005],[7800000,0.0075],
-  [8850000,0.01],[10350000,0.0175],[11600000,0.025],[14500000,0.04],[Infinity,0.18]
-];
+// ① KARYAWAN TETAP/KONTRAK
+function calcTetap(){
+  const gp=v('gp'),tj=v('tj');
+  const upah=gp+tj;
+  const thn=v('mk-thn'),bln=v('mk-bln');
+  const totalBln=thn*12+bln;
 
-function getTER(bruto, kat) {
-  const tbl = kat === 'A' ? TER_A : kat === 'B' ? TER_B : TER_C;
-  for (const [b, r] of tbl) { if (bruto <= b) return r; }
-  return tbl[tbl.length-1][1];
-}
-
-function liveCalc() {
-  const gaji      = parseFloat(document.getElementById('gaji').value) || 0;
-  const tunjangan = parseFloat(document.getElementById('tunjangan').value) || 0;
-  const tahun     = parseInt(document.getElementById('masa-tahun').value) || 0;
-  const bulan     = parseInt(document.getElementById('masa-bulan').value) || 0;
-  if (!gaji) return;
-
-  const totalBulan = tahun * 12 + bulan;
-  if (totalBulan < 1) {
-    document.getElementById('result').style.display = 'none';
-    return;
-  }
-
-  const upah = gaji + tunjangan;
-  const proporsi = totalBulan >= 12 ? 1 : totalBulan / 12;
-  const thr = upah * proporsi;
-  const masaLabel = (tahun > 0 ? tahun + ' tahun ' : '') + (bulan > 0 ? bulan + ' bulan' : (tahun > 0 ? '' : ''));
-
-  // PPh simulation — month with THR
-  const sel = document.getElementById('ptkp');
-  const ptkpParts = sel.value.split('|');
-  const kat = ptkpParts[0];
-  const brutoTHRMonth = upah + thr;
-  const pphNormal = Math.round(upah * getTER(upah, kat));
-  const pphTHRMonth = Math.round(brutoTHRMonth * getTER(brutoTHRMonth, kat));
-  const pphOnTHR = pphTHRMonth - pphNormal;
-  const thrBersih = thr - Math.max(0, pphOnTHR);
-
-  // Main display
-  document.getElementById('res-thr').textContent = fmt(thr);
-
-  // Proporsi bar
-  const propPct = Math.round(proporsi * 100);
-  const propBar = document.getElementById('prop-bar');
-  propBar.style.width = propPct + '%';
-  propBar.textContent = propPct + '%';
-  document.getElementById('prop-label').textContent =
-    proporsi >= 1 ? '1 bulan penuh ✓' : totalBulan + '/12 bulan';
-
-  // Stats
-  document.getElementById('ts-upah').textContent = fmt(upah);
-  document.getElementById('ts-masa').textContent = masaLabel || totalBulan + ' bulan';
-  document.getElementById('ts-thr-gross').textContent = fmt(thr);
-  document.getElementById('ts-pph').textContent = '~' + fmt(Math.max(0, pphOnTHR));
-
-  // PPh breakdown
-  document.getElementById('pb-gaji').textContent  = fmt(upah);
-  document.getElementById('pb-thr').textContent   = fmt(thr);
-  document.getElementById('pb-total').textContent = fmt(brutoTHRMonth);
-  document.getElementById('pb-pph').textContent   = '−' + fmt(pphTHRMonth);
-  document.getElementById('pb-bersih').textContent = fmt(brutoTHRMonth - pphTHRMonth);
-
-  // Masa kerja comparison table
-  const milestones = [1, 3, 6, 9, 12, 24, 36];
-  const tbl = document.getElementById('masa-comparison');
-  tbl.innerHTML = `<thead><tr><th>Masa Kerja</th><th>Proporsi</th><th>THR Kotor</th><th>THR Bersih (~)</th></tr></thead>`;
-  const tbody = document.createElement('tbody');
-  milestones.forEach(m => {
-    const prop = m >= 12 ? 1 : m / 12;
-    const t = upah * prop;
-    const pphM = Math.round((upah + t) * getTER(upah + t, kat)) - pphNormal;
-    const bersihM = t - Math.max(0, pphM);
-    const tr = document.createElement('tr');
-    const label = m >= 12 ? m/12 + ' tahun' : m + ' bulan';
-    if (totalBulan === m || (m === 12 && totalBulan >= 12 && milestones.indexOf(totalBulan) === -1 && totalBulan < 24)) {
-      tr.className = 'current-row';
-    } else if (totalBulan >= m && (milestones[milestones.indexOf(m)+1] === undefined || totalBulan < milestones[milestones.indexOf(m)+1])) {
-      tr.className = totalBulan === m ? 'current-row' : '';
-    }
-    // Mark the closest milestone
-    tr.innerHTML = `<td>${label}</td><td>${(prop*100).toFixed(1)}%</td><td>${fmt(t)}</td><td>${fmt(Math.max(0,bersihM))}</td>`;
-    tbody.appendChild(tr);
-  });
-  tbl.appendChild(tbody);
-  // Highlight current
-  const allRows = tbody.querySelectorAll('tr');
-  allRows.forEach((tr, i) => {
-    const m = milestones[i];
-    const nextM = milestones[i+1] || 999;
-    if (totalBulan >= m && totalBulan < nextM) tr.className = 'current-row';
-  });
-
-  // Advice
-  let advice;
-  if (totalBulan < 1) {
-    advice = `⏳ Masa kerja kurang dari 1 bulan — belum berhak menerima THR.`;
-  } else if (totalBulan < 12) {
-    advice = `💡 <strong>THR proporsional ${fmt(thr)}</strong> untuk masa kerja ${masaLabel}. Karena belum genap 12 bulan, THR dihitung ${totalBulan}/12 × upah. Setelah genap 1 tahun, THR Anda menjadi 1 bulan penuh (${fmt(upah)}).`;
+  let thr=0,proporsi=0,notice='';
+  if(totalBln<1){
+    thr=0;proporsi=0;
+    notice='⚠️ Masa kerja kurang dari 1 bulan — belum berhak menerima THR.';
+  } else if(totalBln>=12){
+    proporsi=1;thr=upah;
+    notice='✅ Masa kerja ≥ 12 bulan — berhak THR penuh 1× upah sebulan.';
   } else {
-    advice = `✅ <strong>THR penuh ${fmt(thr)}</strong> — setara 1 bulan upah untuk masa kerja ${masaLabel}. THR bersih setelah estimasi PPh ~${fmt(thrBersih)}. Perhatikan bahwa PPh bulan Lebaran lebih besar karena THR ditambahkan ke penghasilan bulan tersebut.`;
+    proporsi=totalBln/12;thr=upah*proporsi;
+    notice=`📊 Masa kerja ${totalBln} bulan → THR proporsional ${totalBln}/12 = ${pct(proporsi)} × upah sebulan.`;
   }
-  document.getElementById('res-advice').innerHTML = advice;
 
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
+  // progress bar
+  const fillEl=document.getElementById('prog-fill');
+  if(fillEl)fillEl.style.width=Math.min(100,proporsi*100)+'%';
+  set('prog-pct',pct(proporsi));
+  set('prog-label',totalBln>=12?'THR Penuh':'Proporsi THR');
+  set('prog-sub',totalBln>=12?'Masa kerja ≥ 12 bulan — THR penuh':'Masa kerja '+totalBln+' bulan dari 12 bulan');
+
+  set('r-thr',thr>0?rp(thr):'Belum berhak');
+  set('r-upah',rp(upah));
+  set('r-masa',thn>0?thn+' tahun '+bln+' bulan':bln+' bulan');
+  set('r-proporsi',totalBln>=12?'100% (1× upah)':totalBln+'/12 = '+pct(proporsi));
+  const noticeEl=document.getElementById('r-notice');
+  if(noticeEl)noticeEl.textContent=notice;
+
+  // sync to simulator
+  document.getElementById('sim-gaji').value=upah;
+  if(thr>0) document.getElementById('sim-thr').value=Math.round(thr);
+  calcSim();calcCmp();
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') liveCalc(); });
+// ② HARIAN LEPAS
+function calcHarian(){
+  const upahHarian=v('harian-upah');
+  const upahBln=upahHarian*30;
+  const thn=v('harian-thn'),bln=v('harian-bln');
+  const totalBln=thn*12+bln;
+  let thr=0,proporsi=0;
+  if(totalBln<1){thr=0;proporsi=0;}
+  else if(totalBln>=12){proporsi=1;thr=upahBln;}
+  else{proporsi=totalBln/12;thr=upahBln*proporsi;}
+  set('h-thr',thr>0?rp(thr):'Belum berhak');
+  set('h-upah-bln',rp(upahBln)+' (30 × '+rp(upahHarian)+')');
+  set('h-masa',thn>0?thn+' tahun '+bln+' bulan':bln+' bulan');
+  set('h-proporsi',totalBln>=12?'100% (1× upah sebulan)':totalBln+'/12 = '+pct(proporsi));
+}
+
+// ③ SIMULATOR PPH BULAN LEBARAN
+function calcSim(){
+  const gaji=v('sim-gaji'),thr=v('sim-thr');
+  const ptkp=parseFloat(document.getElementById('sim-ptkp')?.value)||54e6;
+  const totalBruto=gaji+thr;
+  // PPh bulan normal (gaji saja)
+  const pphNormal=calcPph(gaji,ptkp);
+  // PPh bulan THR: marginal approach
+  // PPh on THR = [calcPph(gaji+thr, ptkp) × 12 - calcPph(gaji, ptkp) × 12] = delta annual pph
+  // Then divide by... no, we want the PPh for that specific month
+  // Correct: PPh bulan lebaran = pph on (gaji + THR) in that month
+  // Using TER: bruto × TER(bruto total)
+  // But THR is taxed differently: PPh_THR = PPh_annual(gaji+thr) - PPh_annual(gaji)
+  // Then PPh bulan = pphNormal + PPh_THR
+  const pphAnnualWithThr = (() => {
+    const pkpY=Math.max(0,(gaji*12+thr)-ptkp);
+    let t=0;BRACKETS.forEach(b=>{t+=Math.max(0,Math.min(pkpY,b.max)-b.min)*b.rate;});return t;
+  })();
+  const pphAnnualWithout = calcPph(gaji,ptkp)*12;
+  const pphThr = Math.max(0, pphAnnualWithThr - pphAnnualWithout);
+  const pphBulanIni = pphNormal + pphThr;
+  const netBulan = totalBruto - pphBulanIni;
+
+  // Update slip
+  set('sl-gaji',rp(gaji));set('sl-thr',rp(thr));set('sl-total',rp(totalBruto));
+  set('sl-pph',rp(pphBulanIni));
+  set('sl-pph-normal',rp(pphNormal));
+  set('sl-pph-tambahan','+'+rp(pphThr));
+  set('sl-net',rp(netBulan));
+  // Summary
+  set('sim-thr-kotor',rp(thr));
+  set('sim-pph-thr',rp(pphThr));
+  set('sim-thr-bersih',rp(thr-pphThr));
+  set('sim-pph-pct',thr>0?pct(pphThr/thr):'—');
+}
+
+// ④ PERBANDINGAN MASA KERJA
+const CMP_MONTHS=[1,3,6,9,12,18,24,36,48,60];
+function calcCmp(){
+  const upah=v('cmp-upah'),curMasa=v('cmp-masa');
+  const tbody=document.getElementById('cmp-body');
+  if(!tbody)return;
+  tbody.innerHTML=CMP_MONTHS.map(m=>{
+    const prop=m>=12?1:m/12;
+    const thr=upah*prop;
+    const status=m<1?'Belum berhak':m>=12?'THR Penuh':'Proporsional';
+    const isActive=Math.abs(m-curMasa)<=2;
+    return`<tr${isActive?' class="hl"':''}><td>${m<12?m+' bulan':Math.floor(m/12)+' tahun'+(m%12?' '+m%12+' bln':'')}</td><td>${pct(prop)}</td><td>${rp(thr)}</td><td>${status}</td></tr>`;
+  }).join('');
+}
+
+// EVENTS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['gp','tj','mk-thn','mk-bln'],calcTetap);
+listen(['harian-upah','harian-thn','harian-bln'],calcHarian);
+listen(['sim-gaji','sim-thr','sim-ptkp'],calcSim);
+listen(['cmp-upah','cmp-masa'],calcCmp);
+calcTetap();calcHarian();calcSim();calcCmp();
 </script>
 </body>
 </html>
