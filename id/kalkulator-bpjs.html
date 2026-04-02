@@ -1,548 +1,705 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator BPJS Kesehatan 2026 — Iuran Mandiri, Karyawan & Keluarga | NovaCalcs</title>
-<meta name="description" content="Hitung iuran BPJS Kesehatan 2026 untuk peserta mandiri, karyawan, dan keluarga. Simulasi kelas 1, 2, 3 — lengkap dengan info KRIS dan perbandingan antarkelas."/>
-<meta name="keywords" content="kalkulator BPJS Kesehatan 2026, iuran BPJS kelas 1 2 3, BPJS mandiri, BPJS karyawan, BPJS keluarga, KRIS BPJS 2026, biaya BPJS bulanan"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bpjs.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-bpjs.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator BPJS Kesehatan","url":"https://novacalcs.com/id/kalkulator-bpjs.html","description":"Kalkulator iuran BPJS Kesehatan 2026 untuk mandiri, karyawan, dan keluarga","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Tabs */
-.bpjs-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
-.bpjs-tab  { flex:1; padding:8px 6px; font-size:.75rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
-.bpjs-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
-.bpjs-panel { display:none; }
-.bpjs-panel.active { display:block; }
-
-/* Big iuran display */
-.bpjs-main  { text-align:center; padding:14px 0 8px; }
-.bpjs-num   { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
-.bpjs-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Kelas comparison cards */
-.kelas-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:12px 0; }
-.kelas-card { border-radius:var(--radius-md); padding:12px; text-align:center; border:2px solid var(--border); cursor:pointer; transition:all .15s; }
-.kelas-card.k1 { background:rgba(251,191,36,.08); }
-.kelas-card.k2 { background:rgba(0,201,177,.07); }
-.kelas-card.k3 { background:rgba(96,165,250,.07); }
-.kelas-card.selected.k1 { border-color:#fbbf24; }
-.kelas-card.selected.k2 { border-color:var(--mint); }
-.kelas-card.selected.k3 { border-color:#60a5fa; }
-.kelas-card .kc-label { font-size:.68rem; font-weight:700; margin-bottom:4px; }
-.kelas-card.k1 .kc-label { color:#fbbf24; }
-.kelas-card.k2 .kc-label { color:var(--mint); }
-.kelas-card.k3 .kc-label { color:#60a5fa; }
-.kelas-card .kc-price { font-size:1rem; font-weight:700; color:var(--text-primary); }
-.kelas-card .kc-sub   { font-size:.62rem; color:var(--text-muted); margin-top:3px; }
-
-/* Stats */
-.bpjs-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.bs-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.bs-card .bc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
-.bs-card .bc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
-.bs-card.green .bc-val { color:var(--mint); }
-.bs-card.blue  .bc-val { color:#60a5fa; }
-
-/* Karyawan bar: karyawan vs perusahaan */
-.split-bar-wrap  { margin:12px 0 6px; }
-.split-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
-.sb-kary  { background:#60a5fa; transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#0c1a2e; }
-.sb-perus { background:var(--mint); transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:700; color:#001a17; }
-.sb-legend { display:flex; gap:14px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
-.sb-legend span::before { content:'●'; margin-right:4px; }
-.leg-b::before { color:#60a5fa; } .leg-m::before { color:var(--mint); }
-
-/* Keluarga member rows */
-.member-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:.82rem; }
-.member-row:last-child { border-bottom:none; }
-.mr-name { color:var(--text-secondary); }
-.mr-iuran { color:var(--mint); font-weight:700; }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-
-/* Action cards */
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
-.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
-.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
-.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
-.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
-/* Naik kelas sim */
-.kelas-sim-box{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:.8rem;margin-top:10px}
-.kelas-sim-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.8rem}
-.kelas-sim-row:last-child{border-bottom:none}
-/* Tunggakan box */
-.tunggakan-box{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:.8rem;margin-top:10px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Iuran BPJS Kesehatan 2026 — Mandiri, Karyawan & Keluarga | NovaCalcs</title>
+  <meta name="description" content="Hitung iuran BPJS Kesehatan 2026: mandiri kelas 1/2/3, karyawan (PPU 5%), dan simulasi keluarga. Kalkulator denda tunggakan & info KRIS terbaru. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-bpjs">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;
+      --bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;
+      --bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;
+      --grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;
+      --r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}
+    .nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px;flex-wrap:wrap}
+    .tbtn{flex:1;min-width:0;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;white-space:nowrap;text-align:center}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}
+    .tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* KELAS CARDS */
+    .kelas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+    @media(max-width:480px){.kelas-grid{grid-template-columns:1fr}}
+    .kcard{border:2px solid var(--bor);border-radius:var(--rs);padding:14px 12px;cursor:pointer;transition:all .15s;text-align:center}
+    .kcard:hover{border-color:var(--pri);background:var(--pri-l)}
+    .kcard.on{border-color:var(--pri);background:var(--pri-l)}
+    .kcard-name{font-size:12px;font-weight:700;margin-bottom:4px}
+    .kcard-price{font-family:'DM Mono',monospace;font-size:18px;font-weight:800;color:var(--pri);letter-spacing:-.5px}
+    .kcard-sub{font-size:10px;color:var(--tx3);margin-top:3px}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:4px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}
+    .rv.sm{font-size:16px}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* BAR */
+    .pbar{height:8px;border-radius:4px;background:var(--sur2);overflow:hidden;margin:10px 0 4px}
+    .pbar-fill{height:100%;border-radius:4px;background:var(--pri);transition:width .4s}
+    .bleg{display:flex;gap:10px;font-size:10px;color:var(--tx3)}
+    .bleg-d{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+    /* COUNTER */
+    .counter-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .counter-lbl{flex:1;font-size:13px;font-weight:600}
+    .counter-sub{font-size:10px;color:var(--tx3);font-weight:400}
+    .ctr{display:flex;align-items:center;gap:6px}
+    .ctr-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--bor);background:var(--sur);cursor:pointer;font-size:16px;font-weight:700;color:var(--tx2);display:flex;align-items:center;justify-content:center;transition:all .15s}
+    .ctr-btn:hover{border-color:var(--pri);color:var(--pri)}
+    .ctr-val{font-family:'DM Mono',monospace;font-size:16px;font-weight:800;min-width:24px;text-align:center;color:var(--pri)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* COMPARE TABLE */
+    .ctbl{width:100%;border-collapse:collapse;font-size:13px}
+    .ctbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tx3)}
+    .ctbl td{padding:9px 10px;border-bottom:1px solid var(--bor)}
+    .ctbl tr:last-child td{border-bottom:none}
+    .ctbl tr.hi td{background:var(--pri-l);font-weight:700;color:var(--pri)}
+    .ctbl .mo{font-family:'DM Mono',monospace;font-weight:600}
+    .ctbl .ch{color:var(--grn);font-weight:700}
+    /* DENDA */
+    .denda-result{background:var(--red-b);border:1.5px solid #fca5a5;border-radius:var(--r);padding:16px;margin-top:14px}
+    .denda-result.ok{background:var(--grn-b);border-color:#86efac}
+    .denda-val{font-family:'DM Mono',monospace;font-size:28px;font-weight:800;color:var(--red);letter-spacing:-.5px}
+    .denda-result.ok .denda-val{color:var(--grn)}
+    .denda-lbl{font-size:11px;color:#991b1b;margin-top:2px}
+    .denda-result.ok .denda-lbl{color:#166534}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent;transition:all .12s}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}
+    .fron{font-size:11px;color:var(--tx3)}
+    .fprice{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}
+    .tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}
+    .relc-nm{font-size:13px;font-weight:700}
+    .relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    /* SEO */
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo h3{font-size:15px;font-weight:700;color:var(--tx);margin:20px 0 7px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}
+    .stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .kris-badge{display:inline-block;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:6px}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator BPJS Kesehatan</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator BPJS</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🏥 BPJS Kesehatan</div>
+  <h1 class="hdr-h1">Kalkulator Iuran BPJS Kesehatan 2026</h1>
+  <p class="hdr-sub">Hitung iuran mandiri, karyawan & keluarga. Hasil tampil otomatis — termasuk denda tunggakan & simulasi KRIS.</p>
+  <div class="pstrip">
+    <div class="pchip">Kelas 1 <span>Rp 150.000/org</span></div>
+    <div class="pchip">Kelas 2 <span>Rp 100.000/org</span></div>
+    <div class="pchip">Kelas 3 <span>Rp 35.000/org</span></div>
+    <div class="pchip">Karyawan (PPU) <span>5% dari gaji</span></div>
+    <div class="pchip" style="color:var(--tx3);font-size:10px">Perpres 64/2020 · Update 2026</div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🏥 Kalkulator BPJS Kesehatan 2026</div>
-      <div class="calc-subtitle">Mandiri · Karyawan · Simulasi Keluarga</div>
+<main class="main">
+<div class="left-col">
 
-      <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:var(--radius-sm);padding:10px 12px;font-size:.75rem;color:#f0a800;margin-bottom:14px">
-        📢 <strong>Info 2026:</strong> Sistem kelas 1/2/3 sedang bertahap diganti menjadi <strong>KRIS</strong> (Kelas Rawat Inap Standar) sesuai Perpres No. 59/2024. Iuran <strong>belum berubah</strong> hingga ada Peraturan Presiden baru yang menetapkan iuran KRIS.
-      </div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🏥</div>Hitung Iuran BPJS Kesehatan</div>
+  <div class="card-b">
+    <div class="notice info" style="margin-bottom:18px;margin-top:4px">📢 <strong>Info 2026:</strong> Sistem kelas 1/2/3 sedang bertahap diganti menjadi <strong>KRIS</strong> (Kelas Rawat Inap Standar) sesuai Perpres 59/2024. Iuran <strong>belum berubah</strong> — kelas 1/2/3 masih berlaku hingga ada Perpres baru.</div>
 
-      <div class="bpjs-tabs">
-        <div class="bpjs-tab active" onclick="switchTab(0,this)">👤 Mandiri</div>
-        <div class="bpjs-tab" onclick="switchTab(1,this)">💼 Karyawan</div>
-        <div class="bpjs-tab" onclick="switchTab(2,this)">👨‍👩‍👧 Keluarga</div>
-      </div>
+    <div class="tbar">
+      <button class="tbtn on" data-tab="mandiri">👤 Mandiri (PBPU)</button>
+      <button class="tbtn" data-tab="karyawan">💼 Karyawan (PPU)</button>
+      <button class="tbtn" data-tab="keluarga">👨‍👩‍👧 Keluarga</button>
+    </div>
 
-      <!-- TAB 0: Mandiri -->
-      <div class="bpjs-panel active" id="bt0">
-        <div class="field">
-          <label>Pilih Kelas Perawatan</label>
-          <div class="kelas-grid">
-            <div class="kelas-card k1" id="kc1" onclick="setKelas(1)">
-              <div class="kc-label">Kelas 1</div>
-              <div class="kc-price">Rp 150.000</div>
-              <div class="kc-sub">1–2 tempat tidur</div>
-            </div>
-            <div class="kelas-card k2 selected" id="kc2" onclick="setKelas(2)">
-              <div class="kc-label">Kelas 2</div>
-              <div class="kc-price">Rp 100.000</div>
-              <div class="kc-sub">3–4 tempat tidur</div>
-            </div>
-            <div class="kelas-card k3" id="kc3" onclick="setKelas(3)">
-              <div class="kc-label">Kelas 3</div>
-              <div class="kc-price">Rp 42.000</div>
-              <div class="kc-sub">Bangsal umum</div>
-            </div>
+    <!-- MANDIRI -->
+    <div class="tpanel on" id="tab-mandiri">
+      <div class="fld">
+        <label>Pilih Kelas Perawatan</label>
+        <div class="kelas-grid">
+          <div class="kcard on" data-kelas="1" onclick="setKelas(1)">
+            <div class="kcard-name">Kelas 1</div>
+            <div class="kcard-price">150rb</div>
+            <div class="kcard-sub">1–2 tempat tidur</div>
+          </div>
+          <div class="kcard" data-kelas="2" onclick="setKelas(2)">
+            <div class="kcard-name">Kelas 2</div>
+            <div class="kcard-price">100rb</div>
+            <div class="kcard-sub">3–4 tempat tidur</div>
+          </div>
+          <div class="kcard" data-kelas="3" onclick="setKelas(3)">
+            <div class="kcard-name">Kelas 3</div>
+            <div class="kcard-price">35rb</div>
+            <div class="kcard-sub">Bangsal (subsidi Rp 7rb)</div>
           </div>
         </div>
-        <div class="field"><label>Jumlah Anggota Keluarga (termasuk Anda)</label>
-          <input type="number" id="anggota" value="1" min="1" max="20" oninput="calcMandiri()"/>
-          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Maks. 5 orang: Anda + pasangan + 3 anak</p>
-        </div>
-        <button class="calc-btn" onclick="calcMandiri()">🏥 Hitung Iuran</button>
-        <div class="result-box" id="res0" style="display:none">
-          <div class="bpjs-main">
-            <div class="bpjs-num" id="r0-total">—</div>
-            <div class="bpjs-label" id="r0-label">Iuran per bulan</div>
-          </div>
-          <div class="bpjs-stats">
-            <div class="bs-card"><div class="bc-label">Kelas perawatan</div><div class="bc-val" id="r0-kelas">—</div></div>
-            <div class="bs-card"><div class="bc-label">Iuran per orang</div><div class="bc-val" id="r0-per-org">—</div></div>
-            <div class="bs-card green"><div class="bc-label">Total per tahun</div><div class="bc-val" id="r0-tahunan">—</div></div>
-            <div class="bs-card"><div class="bc-label">Jumlah anggota</div><div class="bc-val" id="r0-anggota">—</div></div>
-          </div>
-          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
-
-          <!-- Naik/turun kelas simulator -->
-          <div id="r0-kelas-sim" style="display:none">
-            <div class="kelas-sim-box">
-              <div style="font-size:.75rem;color:#f0a800;font-weight:600;margin-bottom:.5rem">📊 Perbandingan semua kelas (per orang):</div>
-              <div id="r0-kelas-sim-rows"></div>
-            </div>
-          </div>
-
-          <!-- Tunggakan calculator -->
-          <div style="margin-top:12px">
-            <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">⚠️ Simulator Tunggakan:</div>
-            <div style="display:flex;gap:6px;align-items:center;margin-bottom:.4rem">
-              <span style="font-size:.72rem;color:#8fa3b1">Jika nunggak</span>
-              <input type="number" id="tg-bulan" placeholder="bln" min="1" max="12" style="width:55px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg-input);color:var(--text-primary);font-size:.82rem" oninput="calcTunggakan()"/>
-              <span style="font-size:.72rem;color:#8fa3b1">bulan dengan biaya rawat inap</span>
-              <input type="number" id="tg-biaya" placeholder="Rp" style="width:110px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg-input);color:var(--text-primary);font-size:.82rem" oninput="calcTunggakan()"/>
-            </div>
-            <div class="tunggakan-box" id="tg-result" style="display:none">
-              <div style="font-size:.75rem;color:#f87171;font-weight:600;margin-bottom:.4rem">Estimasi denda rawat inap:</div>
-              <div id="tg-rows"></div>
-            </div>
-          </div>
-
-          <!-- Action cards -->
-          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips untuk Anda:</div>
-          <div class="action-grid" id="r0-action-cards"></div>
+      </div>
+      <div class="fld">
+        <label>Jumlah Jiwa yang Didaftarkan</label>
+        <div class="iw"><input type="number" id="m-jiwa" value="1" min="1" max="5" step="1"><span class="iu">jiwa</span></div>
+        <div class="presets">
+          <button class="pb on" data-val="1" data-for="m-jiwa">1 orang</button>
+          <button class="pb" data-val="2" data-for="m-jiwa">2 orang</button>
+          <button class="pb" data-val="3" data-for="m-jiwa">3 orang</button>
+          <button class="pb" data-val="4" data-for="m-jiwa">4 orang</button>
+          <button class="pb" data-val="5" data-for="m-jiwa">5 orang</button>
         </div>
       </div>
 
-      <!-- TAB 1: Karyawan PPU -->
-      <div class="bpjs-panel" id="bt1">
-        <div class="field"><label>Gaji / Upah per Bulan (Rp)</label>
-          <input type="number" id="gaji-ppu" placeholder="Contoh: 8.000.000" oninput="calcKaryawan()"/>
-          <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Batas atas perhitungan: Rp 12.000.000/bulan</p>
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Total Iuran per Bulan</div>
+            <div class="rv lg" id="m-total">—</div>
+          </div>
         </div>
-        <button class="calc-btn" onclick="calcKaryawan()">💼 Hitung Iuran Karyawan</button>
-        <div class="result-box" id="res1" style="display:none">
-          <div class="bpjs-main">
-            <div class="bpjs-num" id="r1-kary">—</div>
-            <div class="bpjs-label">Potongan dari gaji Anda (1%)</div>
-          </div>
-          <div class="split-bar-wrap">
-            <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:5px">Pembagian iuran 5%</div>
-            <div class="split-bar-track">
-              <div class="sb-kary"  id="r1-bar-k" style="width:20%">Karyawan 1%</div>
-              <div class="sb-perus" id="r1-bar-p" style="width:80%">Perusahaan 4%</div>
-            </div>
-            <div class="sb-legend"><span class="leg-b">Karyawan (1%)</span><span class="leg-m">Perusahaan (4%)</span></div>
-          </div>
-          <div class="bpjs-stats">
-            <div class="bs-card"><div class="bc-label">Gaji dasar perhitungan</div><div class="bc-val" id="r1-gaji-cap">—</div></div>
-            <div class="bs-card blue"><div class="bc-label">Potongan karyawan (1%)</div><div class="bc-val" id="r1-kary2">—</div></div>
-            <div class="bs-card green"><div class="bc-label">Kontribusi perusahaan (4%)</div><div class="bc-val" id="r1-perus">—</div></div>
-            <div class="bs-card"><div class="bc-label">Total iuran (5%)</div><div class="bc-val" id="r1-total">—</div></div>
-          </div>
-          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
-          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips untuk Anda:</div>
-          <div class="action-grid" id="r1-action-cards"></div>
+        <div class="rrows">
+          <div class="rr"><span>Kelas perawatan</span><span id="m-kelas-lbl">—</span></div>
+          <div class="rr"><span>Iuran per jiwa</span><span id="m-per-jiwa">—</span></div>
+          <div class="rr"><span>Jumlah jiwa</span><span id="m-jiwa-lbl">—</span></div>
+          <div class="rr"><span>Total per tahun</span><span id="m-perthn">—</span></div>
         </div>
       </div>
+      <div class="notice">* Kelas 3: iuran Rp 42.000/jiwa, pemerintah subsidi Rp 7.000, peserta bayar Rp 35.000. Maks. 5 jiwa dalam satu kartu keluarga (Anda + pasangan + 3 anak).</div>
+    </div>
 
-      <!-- TAB 2: Simulasi Keluarga -->
-      <div class="bpjs-panel" id="bt2">
-        <div class="field">
-          <label>Kelas Perawatan Keluarga</label>
-          <div class="radio-group">
-            <div class="radio-btn" id="fk1" onclick="setKelasKeluarga(1,this)">Kelas 1</div>
-            <div class="radio-btn active" id="fk2" onclick="setKelasKeluarga(2,this)">Kelas 2</div>
-            <div class="radio-btn" id="fk3" onclick="setKelasKeluarga(3,this)">Kelas 3</div>
+    <!-- KARYAWAN -->
+    <div class="tpanel" id="tab-karyawan">
+      <div class="fld">
+        <label>Gaji / Upah per Bulan (Rp)</label>
+        <div class="iw"><input type="number" id="k-gaji" value="8000000" min="0" step="500000"></div>
+        <div class="presets">
+          <button class="pb" data-val="5000000" data-for="k-gaji">5 jt</button>
+          <button class="pb on" data-val="8000000" data-for="k-gaji">8 jt</button>
+          <button class="pb" data-val="10000000" data-for="k-gaji">10 jt</button>
+          <button class="pb" data-val="12000000" data-for="k-gaji">12 jt</button>
+          <button class="pb" data-val="15000000" data-for="k-gaji">15 jt+</button>
+        </div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:5px">Batas atas perhitungan: Rp 12.000.000/bulan</div>
+      </div>
+
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Potongan dari Gaji Anda (1%)</div>
+            <div class="rv lg" id="k-potong">—</div>
           </div>
         </div>
-        <div class="field"><label>Jumlah Orang yang Ditanggung</label>
-          <table style="width:100%;font-size:.82rem;border-collapse:collapse">
-            <tr><td style="padding:6px 0">Anda sendiri</td><td style="text-align:right"><input type="number" id="f-anda" value="1" min="0" max="1" style="width:60px;text-align:center;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text-primary)" oninput="calcKeluarga()"/></td></tr>
-            <tr><td style="padding:6px 0">Pasangan (suami/istri)</td><td style="text-align:right"><input type="number" id="f-pasangan" value="1" min="0" max="1" style="width:60px;text-align:center;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text-primary)" oninput="calcKeluarga()"/></td></tr>
-            <tr><td style="padding:6px 0">Anak (maks 3)</td><td style="text-align:right"><input type="number" id="f-anak" value="2" min="0" max="3" style="width:60px;text-align:center;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text-primary)" oninput="calcKeluarga()"/></td></tr>
-          </table>
+        <div class="pbar"><div class="pbar-fill" id="k-bar" style="width:20%"></div></div>
+        <div class="bleg">
+          <span><span class="bleg-d" style="background:var(--pri)"></span>Karyawan 1%</span>
+          <span><span class="bleg-d" style="background:#fda05d"></span>Perusahaan 4%</span>
         </div>
-        <button class="calc-btn" onclick="calcKeluarga()">👨‍👩‍👧 Hitung Iuran Keluarga</button>
-        <div class="result-box" id="res2" style="display:none">
-          <div class="bpjs-main">
-            <div class="bpjs-num" id="r2-total">—</div>
-            <div class="bpjs-label">Total iuran keluarga per bulan</div>
+        <div class="rrows">
+          <div class="rr"><span>Gaji dasar perhitungan</span><span id="k-gaji-dasar">—</span></div>
+          <div class="rr"><span>Potongan karyawan (1%)</span><span id="k-karyawan">—</span></div>
+          <div class="rr"><span>Kontribusi perusahaan (4%)</span><span id="k-perusahaan">—</span></div>
+          <div class="rr"><span>Total iuran (5%)</span><span id="k-total">—</span></div>
+          <div class="rr"><span>Gaji bersih setelah potong</span><span id="k-bersih">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* Iuran PPU = 5% dari gaji (maks. Rp 12 juta). Karyawan menanggung 1%, perusahaan 4%. Bagi gaji &gt; Rp 12 juta, tetap dihitung dari Rp 12 juta.</div>
+    </div>
+
+    <!-- KELUARGA -->
+    <div class="tpanel" id="tab-keluarga">
+      <div class="fld">
+        <label>Kelas Perawatan Keluarga</label>
+        <div class="kelas-grid">
+          <div class="kcard on" data-kelas-k="1" onclick="setKelasK(1)">
+            <div class="kcard-name">Kelas 1</div>
+            <div class="kcard-price">150rb</div>
+            <div class="kcard-sub">per jiwa</div>
           </div>
-          <div id="r2-members" style="background:var(--bg-input);border-radius:var(--radius-sm);padding:10px 14px;margin:10px 0;border:1px solid var(--border);"></div>
-          <div class="bpjs-stats">
-            <div class="bs-card green"><div class="bc-label">Per bulan</div><div class="bc-val" id="r2-bln">—</div></div>
-            <div class="bs-card"><div class="bc-label">Per tahun</div><div class="bc-val" id="r2-thn">—</div></div>
+          <div class="kcard" data-kelas-k="2" onclick="setKelasK(2)">
+            <div class="kcard-name">Kelas 2</div>
+            <div class="kcard-price">100rb</div>
+            <div class="kcard-sub">per jiwa</div>
+          </div>
+          <div class="kcard" data-kelas-k="3" onclick="setKelasK(3)">
+            <div class="kcard-name">Kelas 3</div>
+            <div class="kcard-price">35rb</div>
+            <div class="kcard-sub">per jiwa (subsidi)</div>
           </div>
         </div>
       </div>
 
+      <div class="fld">
+        <label>Anggota Keluarga yang Didaftarkan</label>
+        <div class="counter-row">
+          <div><div class="counter-lbl">Anda (wajib)</div></div>
+          <div class="ctr"><span class="ctr-val">1</span></div>
+        </div>
+        <div class="counter-row">
+          <div><div class="counter-lbl">Pasangan <span class="counter-sub">(suami/istri)</span></div></div>
+          <div class="ctr">
+            <button class="ctr-btn" onclick="adj('kl-pasangan',-1)">−</button>
+            <span class="ctr-val" id="kl-pasangan">0</span>
+            <button class="ctr-btn" onclick="adj('kl-pasangan',1,1)">+</button>
+          </div>
+        </div>
+        <div class="counter-row">
+          <div><div class="counter-lbl">Anak <span class="counter-sub">(maks. 3 anak)</span></div></div>
+          <div class="ctr">
+            <button class="ctr-btn" onclick="adj('kl-anak',-1)">−</button>
+            <span class="ctr-val" id="kl-anak">0</span>
+            <button class="ctr-btn" onclick="adj('kl-anak',1,3)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Total Iuran Keluarga / Bulan</div>
+            <div class="rv lg" id="kl-total">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Kelas perawatan</span><span id="kl-kelas-lbl">—</span></div>
+          <div class="rr"><span>Total jiwa</span><span id="kl-jiwa">—</span></div>
+          <div class="rr"><span>Iuran per jiwa</span><span id="kl-per">—</span></div>
+          <div class="rr"><span>Total per tahun</span><span id="kl-thn">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* Satu kartu keluarga: Anda + pasangan + maks. 3 anak. Anggota di luar ketentuan ini harus mendaftar sebagai peserta mandiri terpisah.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ② SIMULATOR: TUNGGAKAN & DENDA -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚠️</div>Kalkulator Tunggakan &amp; Denda <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Hitung total tagihan jika Anda menunggak iuran BPJS — termasuk potensi denda rawat inap jika masuk RS dalam 45 hari setelah aktif kembali.</p>
+
+    <div class="g2">
+      <div class="fld">
+        <label>Iuran per Bulan (Rp)</label>
+        <div class="iw"><input type="number" id="d-iuran" value="100000" min="0" step="1000"></div>
+        <div class="presets">
+          <button class="pb" data-val="35000" data-for="d-iuran">Kls 3</button>
+          <button class="pb on" data-val="100000" data-for="d-iuran">Kls 2</button>
+          <button class="pb" data-val="150000" data-for="d-iuran">Kls 1</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Berapa Bulan Menunggak?</label>
+        <div class="iw"><input type="number" id="d-bulan" value="3" min="1" max="24" step="1"><span class="iu">bln</span></div>
+        <div class="presets">
+          <button class="pb" data-val="1" data-for="d-bulan">1 bln</button>
+          <button class="pb" data-val="3" data-for="d-bulan">3 bln</button>
+          <button class="pb" data-val="6" data-for="d-bulan">6 bln</button>
+          <button class="pb" data-val="12" data-for="d-bulan">12 bln</button>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Perkiraan Biaya Rawat Inap (Rp) <span style="font-weight:400;color:var(--tx3)">— jika dalam 45 hari setelah aktif</span></label>
+      <div class="iw"><input type="number" id="d-ranap" value="5000000" min="0" step="500000"></div>
+      <div class="presets">
+        <button class="pb" data-val="0" data-for="d-ranap">Tidak perlu rawat inap</button>
+        <button class="pb" data-val="5000000" data-for="d-ranap">Rp 5 juta</button>
+        <button class="pb" data-val="10000000" data-for="d-ranap">Rp 10 juta</button>
+        <button class="pb" data-val="20000000" data-for="d-ranap">Rp 20 juta</button>
+      </div>
+    </div>
+
+    <div class="denda-result" id="denda-box">
+      <div class="denda-val" id="d-total">—</div>
+      <div class="denda-lbl" id="d-lbl">Total yang harus dibayar</div>
+    </div>
+    <div class="lres" style="margin-top:12px">
+      <div class="rrows" style="border:none;padding:0">
+        <div class="rr"><span>Tunggakan iuran</span><span id="d-tunggak">—</span></div>
+        <div class="rr"><span>Denda rawat inap (5% × biaya × bulan, maks 12 bln)</span><span id="d-denda">—</span></div>
+        <div class="rr"><span>Batas denda maks.</span><span>Rp 30.000.000</span></div>
+        <div class="rr"><span>Kepesertaan aktif kembali</span><span id="d-aktif">—</span></div>
+      </div>
+    </div>
+    <div class="notice warn" id="d-warn" style="display:none">⚠️ <strong>Waspada:</strong> Jika rawat inap dalam 45 hari pertama setelah aktif, denda bisa sangat besar. Pertimbangkan aktifkan autodebet agar tidak telat bayar.</div>
+    <div class="notice">* Denda rawat inap = 5% × biaya pelayanan × jumlah bulan tunggak (maks. 12 bulan, maks. Rp 30 juta). Denda hanya berlaku jika rawat inap dalam 45 hari setelah reaktivasi. Kepesertaan aktif kembali 1×24 jam setelah lunasi tunggakan.</div>
+  </div>
+</div>
+
+<!-- ③ SIMULATOR: BANDINGKAN KELAS + KRIS -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Bandingkan Kelas &amp; Simulasi KRIS <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <div class="fld">
+      <label>Jumlah Jiwa yang Dibandingkan</label>
+      <div class="iw"><input type="number" id="cmp-jiwa" value="3" min="1" max="5" step="1"><span class="iu">jiwa</span></div>
+      <div class="presets">
+        <button class="pb" data-val="1" data-for="cmp-jiwa">1</button>
+        <button class="pb" data-val="2" data-for="cmp-jiwa">2</button>
+        <button class="pb on" data-val="3" data-for="cmp-jiwa">3</button>
+        <button class="pb" data-val="4" data-for="cmp-jiwa">4</button>
+        <button class="pb" data-val="5" data-for="cmp-jiwa">5</button>
+      </div>
+    </div>
+
+    <div class="sec-lbl">Perbandingan Semua Kelas (per bulan & per tahun)</div>
+    <table class="ctbl" id="cmp-tbl">
+      <thead><tr><th>Kelas</th><th>Per Jiwa</th><th>Per Bulan</th><th>Per Tahun</th></tr></thead>
+      <tbody id="cmp-tbody"></tbody>
+    </table>
+
+    <div class="sec-lbl" style="margin-top:18px">Estimasi Iuran KRIS <span class="kris-badge">Perpres 59/2024</span></div>
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:10px">Iuran KRIS belum ditetapkan resmi. Berikut simulasi jika KRIS diberlakukan dengan skenario berbeda:</p>
+    <table class="ctbl">
+      <thead><tr><th>Skenario Iuran KRIS</th><th>Per Jiwa/Bulan</th><th>Per Bulan (<span id="kris-jiwa-lbl">3 jiwa</span>)</th><th>vs Kelas 2 sekarang</th></tr></thead>
+      <tbody id="kris-tbody"></tbody>
+    </table>
+    <div class="notice info" style="margin-top:12px">ℹ️ Skenario KRIS bersifat estimasi. Iuran resmi akan ditetapkan melalui Peraturan Presiden tersendiri. Pantau perkembangan di bpjs-kesehatan.go.id.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Tarif Iuran 2026</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow">
+          <div class="frl"><div class="fdot" style="background:#E85D04"></div><div><div class="fn">Mandiri Kelas 1</div><div class="fron">1–2 tempat tidur</div></div></div>
+          <div class="fprice">Rp 150.000</div>
+        </div>
+        <div class="frow">
+          <div class="frl"><div class="fdot" style="background:#EA7B2C"></div><div><div class="fn">Mandiri Kelas 2</div><div class="fron">3–4 tempat tidur</div></div></div>
+          <div class="fprice">Rp 100.000</div>
+        </div>
+        <div class="frow">
+          <div class="frl"><div class="fdot" style="background:#EC9353"></div><div><div class="fn">Mandiri Kelas 3</div><div class="fron">Bangsal · subsidi Rp 7rb</div></div></div>
+          <div class="fprice">Rp 35.000</div>
+        </div>
+        <div class="frow">
+          <div class="frl"><div class="fdot" style="background:#1A7F4E"></div><div><div class="fn">Karyawan (PPU)</div><div class="fron">5% gaji, maks Rp 12 jt</div></div></div>
+          <div class="fprice">1% + 4%</div>
+        </div>
+        <div class="frow">
+          <div class="frl"><div class="fdot" style="background:#718096"></div><div><div class="fn">PBI (penerima bantuan)</div><div class="fron">Ditanggung APBN, Kelas 3</div></div></div>
+          <div class="fprice">Rp 0</div>
+        </div>
+      </div>
+      <div class="notice" style="margin-top:10px">Sumber: Perpres No. 64 Tahun 2020. Berlaku hingga iuran KRIS ditetapkan.</div>
     </div>
   </div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator BPJS Kesehatan 2026 — Iuran Mandiri, Karyawan & Keluarga</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung iuran BPJS Kesehatan bulanan untuk peserta mandiri (PBPU), karyawan (PPU), dan simulasi iuran keluarga. Lengkap dengan info terbaru tentang KRIS dan perbandingan kelas perawatan.</p>
-
-    <h2>Besaran Iuran BPJS Kesehatan 2026</h2>
-    <p>Iuran BPJS Kesehatan ditetapkan berdasarkan Perpres No. 64 Tahun 2020 dan masih berlaku hingga 2026 karena iuran KRIS belum ditetapkan secara resmi:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Jenis Peserta</th><th>Iuran per Orang/Bulan</th><th>Keterangan</th></tr></thead>
-      <tbody>
-        <tr><td>Mandiri Kelas 1</td><td>Rp 150.000</td><td>1–2 tempat tidur per kamar</td></tr>
-        <tr><td>Mandiri Kelas 2</td><td>Rp 100.000</td><td>3–4 tempat tidur per kamar</td></tr>
-        <tr><td>Mandiri Kelas 3</td><td>Rp 42.000 (efektif Rp 35.000)</td><td>Subsidi pemerintah Rp 7.000/orang</td></tr>
-        <tr><td>Karyawan (PPU)</td><td>5% dari gaji (maks Rp 12 juta)</td><td>Karyawan 1%, perusahaan 4%</td></tr>
-        <tr><td>PBI (penerima bantuan iuran)</td><td>Rp 0 (gratis)</td><td>Ditanggung penuh APBN, kelas 3</td></tr>
-      </tbody>
-    </table>
-
-    <h2>KRIS — Kelas Rawat Inap Standar 2026</h2>
-    <p>Berdasarkan Peraturan Presiden No. 59 Tahun 2024, sistem kelas 1, 2, dan 3 BPJS Kesehatan secara bertahap digantikan dengan <strong>KRIS (Kelas Rawat Inap Standar)</strong> — satu standar kamar rawat inap yang sama untuk semua peserta. Beberapa poin penting:</p>
-    <ul>
-      <li>Implementasi KRIS dilakukan secara bertahap di seluruh rumah sakit mitra BPJS</li>
-      <li><strong>Besaran iuran KRIS belum ditetapkan</strong> — menunggu Peraturan Presiden baru. Hingga saat ini, iuran kelas 1/2/3 masih berlaku.</li>
-      <li>Standar KRIS: minimal 4 tempat tidur per ruang, kamar mandi dalam, AC, dan fasilitas pendukung lainnya</li>
-      <li>Semua peserta akan mendapat layanan medis yang setara — tidak ada perbedaan fasilitas kamar antarkelompok peserta</li>
-    </ul>
-
-    <h2>Perbedaan Kelas Perawatan BPJS Kesehatan</h2>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Kelas</th><th>Iuran/Orang</th><th>Kapasitas Kamar</th><th>Catatan</th></tr></thead>
-      <tbody>
-        <tr><td>Kelas 1</td><td>Rp 150.000/bln</td><td>1–2 tempat tidur</td><td>Kamar lebih privat</td></tr>
-        <tr><td>Kelas 2</td><td>Rp 100.000/bln</td><td>3–4 tempat tidur</td><td>Standar nyaman</td></tr>
-        <tr><td>Kelas 3</td><td>Rp 42.000/bln</td><td>4–6 tempat tidur</td><td>Bangsal umum, ada subsidi Rp 7.000</td></tr>
-      </tbody>
-    </table>
-    <p>Semua kelas mendapat layanan medis yang sama. Perbedaan hanya pada fasilitas kamar rawat inap. Dengan berlakunya KRIS secara penuh, perbedaan ini akan dihapus.</p>
-
-    <h2>Fitur Kalkulator BPJS NovaCalcs</h2>
-    <ul>
-      <li><strong>Mode Mandiri</strong> — Pilih kelas (1/2/3) dengan kartu visual interaktif, masukkan jumlah anggota keluarga, langsung dapat iuran per bulan dan per tahun.</li>
-      <li><strong>Mode Karyawan (PPU)</strong> — Masukkan gaji dan kalkulator otomatis menghitung potongan gaji (1%) dan kontribusi perusahaan (4%). Bar visualisasi menunjukkan proporsi 1%:4%.</li>
-      <li><strong>Mode Simulasi Keluarga</strong> — Input detail: Anda + pasangan + jumlah anak (maks 3). Hasilnya merinci iuran per anggota dan total keluarga per bulan dan tahun.</li>
-      <li><strong>Info KRIS</strong> — Penjelasan transparan tentang status transisi ke KRIS dan dampaknya pada iuran.</li>
-    </ul>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mendaftarkan anggota keluarga ke BPJS Kesehatan?</div>
-      <div class="faq-a">Anggota keluarga yang dapat didaftarkan adalah suami/istri dan anak kandung/angkat maksimal 3 anak. Cara mendaftar: (1) Melalui aplikasi Mobile JKN di smartphone, (2) Melalui website bpjs-kesehatan.go.id, atau (3) Datang langsung ke kantor BPJS Kesehatan terdekat dengan membawa KK, KTP anggota keluarga, dan buku nikah (untuk pasangan). Anggota keluarga tambahan di luar tanggungan resmi bisa didaftarkan sebagai peserta mandiri terpisah.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa yang terjadi jika terlambat bayar iuran BPJS Kesehatan?</div>
-      <div class="faq-a">Kepesertaan dinonaktifkan jika menunggak lebih dari 1 bulan. Setelah melunasi tunggakan, kepesertaan aktif kembali dalam 1×24 jam. Jika dalam 45 hari setelah aktif kembali terdapat pelayanan rawat inap, akan dikenakan denda 5% dari biaya pelayanan × jumlah bulan menunggak (maksimal 12 bulan, maksimal Rp 30 juta). Untuk menghindari ini, pertimbangkan autodebet dari rekening bank.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah KRIS akan mengubah besaran iuran BPJS?</div>
-      <div class="faq-a">Kemungkinan besar ya, namun besaran iuran KRIS belum ditetapkan hingga pertengahan 2026. Pemerintah melalui Perpres 59/2024 menyatakan iuran KRIS akan ditetapkan dengan Peraturan Presiden tersendiri. Beberapa skenario yang beredar menyebut iuran KRIS sekitar Rp 50.000–70.000/bulan (setara kelas 2 ke atas). Pantau perkembangan resmi di bpjs-kesehatan.go.id.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana alur berobat menggunakan BPJS Kesehatan?</div>
-      <div class="faq-a">Alur standar: (1) Berobat ke Faskes Tingkat 1 (puskesmas, klinik pratama, atau dokter keluarga) sesuai pilihan yang terdaftar. (2) Jika butuh penanganan lanjutan, faskes 1 memberikan surat rujukan ke rumah sakit. (3) Berobat di RS sesuai rujukan menggunakan kartu BPJS. Kondisi gawat darurat dapat langsung ke IGD rumah sakit mana pun tanpa rujukan — cukup tunjukkan kartu BPJS atau NIK KTP.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah penyakit bawaan (pre-existing condition) ditanggung BPJS?</div>
-      <div class="faq-a">Secara prinsip, BPJS Kesehatan menanggung semua penyakit termasuk penyakit yang sudah ada sebelum mendaftar (pre-existing condition). Ini adalah keunggulan besar BPJS dibanding asuransi komersial yang biasanya mengecualikan kondisi pra-ada. Namun ada pengecualian: perawatan yang tidak sesuai indikasi medis, perawatan estetika/kosmetik, dan beberapa kondisi yang diatur dalam regulasi BPJS.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bolehkah peserta mandiri beralih kelas perawatan?</div>
-      <div class="faq-a">Boleh. Perubahan kelas dapat dilakukan setelah minimal 12 bulan aktif di kelas yang ada. Pengajuan bisa melalui kantor BPJS terdekat atau aplikasi Mobile JKN. Perubahan berlaku pada bulan berikutnya. Naik kelas (mis. dari Kelas 3 ke Kelas 2) langsung bisa, sementara turun kelas umumnya lebih mudah. Dengan implementasi KRIS, perubahan kelas secara bertahap tidak lagi relevan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada perbedaan manfaat antara BPJS dan asuransi kesehatan swasta?</div>
-      <div class="faq-a">Ya, ada perbedaan signifikan. BPJS Kesehatan: iuran sangat terjangkau, menanggung hampir semua penyakit termasuk pre-existing, berlaku di seluruh faskes mitra, namun harus mengikuti alur rujukan. Asuransi swasta: premi lebih mahal, umumnya mengecualikan pre-existing condition, namun bisa langsung ke dokter/RS tanpa rujukan, pilihan rumah sakit lebih luas, kamar bisa lebih premium. Banyak orang memiliki keduanya: BPJS sebagai jaminan dasar, asuransi swasta sebagai pelengkap.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>PPh 21</a>
-      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
-      <a href="/id/kalkulator-pesangon.html" class="related-item"><span class="ri">📋</span>Pesangon</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Kelola BPJS</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🔄</span><span class="tptx"><strong>Autodebet</strong> dari rekening bank — hindari telat bayar & denda besar</span></div>
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Aplikasi Mobile JKN</strong> — cek kepesertaan, antrean, & ubah faskes online</span></div>
+        <div class="tip"><span class="tpico">⬆️</span><span class="tptx"><strong>Naik kelas</strong> bisa dilakukan setelah min. 12 bulan aktif di kelas lama</span></div>
+        <div class="tip"><span class="tpico">🏥</span><span class="tptx"><strong>Gawat darurat</strong> → langsung IGD RS manapun tanpa rujukan, tunjukkan NIK</span></div>
+        <div class="tip"><span class="tpico">👨‍👩‍👧</span><span class="tptx"><strong>Daftarkan keluarga</strong> meski sehat — iuran jauh lebih murah dari risiko biaya RS</span></div>
+      </div>
     </div>
   </div>
+
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-gaji-bersih" class="relc"><div class="relc-ico">💵</div><div class="relc-nm">Gaji Bersih</div><div class="relc-ds">Take-home pay</div></a>
+        <a href="/id/kalkulator-pph-freelance" class="relc"><div class="relc-ico">💻</div><div class="relc-nm">PPh Freelancer</div><div class="relc-ds">Pajak penghasilan</div></a>
+        <a href="/id/kalkulator-thr" class="relc"><div class="relc-ico">🎁</div><div class="relc-nm">Kalkulator THR</div><div class="relc-ds">Tunjangan hari raya</div></a>
+        <a href="/id/kalkulator-pesangon" class="relc"><div class="relc-ico">📋</div><div class="relc-nm">Pesangon</div><div class="relc-ds">Hak pemutusan kerja</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Besaran Iuran BPJS Kesehatan 2026</h2>
+  <p>Iuran BPJS Kesehatan ditetapkan berdasarkan Perpres No. 64 Tahun 2020 dan masih berlaku hingga 2026 karena iuran KRIS belum ditetapkan secara resmi:</p>
+  <div class="stw"><table class="stbl">
+    <thead><tr><th>Jenis Peserta</th><th>Iuran per Jiwa/Bulan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>Mandiri Kelas 1</td><td>Rp 150.000</td><td>1–2 tempat tidur per kamar</td></tr>
+      <tr><td>Mandiri Kelas 2</td><td>Rp 100.000</td><td>3–4 tempat tidur per kamar</td></tr>
+      <tr><td>Mandiri Kelas 3</td><td>Rp 35.000 (efektif)</td><td>Subsidi pemerintah Rp 7.000 (total Rp 42.000)</td></tr>
+      <tr><td>Karyawan / PPU</td><td>5% dari gaji (maks Rp 12 juta)</td><td>Karyawan 1%, perusahaan 4%</td></tr>
+      <tr><td>PBI (penerima bantuan)</td><td>Rp 0</td><td>Ditanggung penuh APBN, kelas 3</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>KRIS — Kelas Rawat Inap Standar 2026</h2>
+  <p>Berdasarkan Perpres No. 59 Tahun 2024, sistem kelas 1/2/3 BPJS Kesehatan secara bertahap digantikan dengan <strong>KRIS (Kelas Rawat Inap Standar)</strong> — satu standar kamar rawat inap yang sama untuk semua peserta. Besaran iuran KRIS <strong>belum ditetapkan</strong> — menunggu Peraturan Presiden baru. Hingga saat ini, iuran kelas 1/2/3 masih berlaku. Standar KRIS: minimal 4 tempat tidur per ruang, kamar mandi dalam, dan AC.</p>
+
+  <h2>Aturan Denda Tunggakan BPJS Kesehatan</h2>
+  <p>Jika menunggak iuran lebih dari 1 bulan, kepesertaan dinonaktifkan. Setelah melunasi tunggakan, kepesertaan aktif kembali dalam 1×24 jam. Jika dalam <strong>45 hari</strong> setelah aktif kembali terdapat pelayanan rawat inap, dikenakan denda: <strong>5% × biaya pelayanan × jumlah bulan menunggak</strong> (maksimal 12 bulan, maksimal Rp 30 juta).</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan kelas 1, 2, dan 3 BPJS?</div><div class="faq-a">Perbedaannya hanya pada fasilitas kamar rawat inap — bukan kualitas layanan medis. Kelas 1 (1–2 tempat tidur, lebih privat), Kelas 2 (3–4 tempat tidur), Kelas 3 (bangsal umum, 4–6 tempat tidur). Semua kelas mendapat penanganan dokter dan obat yang setara.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana alur berobat menggunakan BPJS Kesehatan?</div><div class="faq-a">Alur standar: (1) Berobat ke Faskes Tingkat 1 (puskesmas/klinik/dokter keluarga) sesuai yang terdaftar. (2) Jika butuh penanganan lanjutan, dapat rujukan ke RS. (3) Berobat di RS dengan kartu BPJS. Kondisi gawat darurat langsung ke IGD RS mana pun tanpa rujukan — tunjukkan kartu BPJS atau NIK KTP.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah penyakit bawaan (pre-existing condition) ditanggung BPJS?</div><div class="faq-a">Secara prinsip ya — BPJS menanggung semua penyakit termasuk penyakit yang sudah ada sebelum mendaftar. Ini keunggulan besar vs asuransi swasta yang biasanya mengecualikan kondisi pra-ada. Pengecualian: perawatan estetika/kosmetik dan beberapa kondisi yang diatur dalam regulasi BPJS.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah KRIS akan mengubah besaran iuran?</div><div class="faq-a">Kemungkinan besar ya, namun belum ada kepastian. Perpres 59/2024 menyatakan iuran KRIS akan ditetapkan dengan Peraturan Presiden tersendiri. Beberapa estimasi menyebut iuran KRIS sekitar Rp 50.000–70.000/bulan. Pantau resmi di bpjs-kesehatan.go.id.</div></div>
+  <div class="faq-i"><div class="faq-q">Bolehkah pindah kelas perawatan BPJS?</div><div class="faq-a">Boleh. Perubahan kelas dapat dilakukan setelah minimal 12 bulan aktif di kelas yang ada. Pengajuan melalui kantor BPJS atau aplikasi Mobile JKN. Dengan implementasi KRIS penuh, perubahan kelas tidak lagi relevan karena semua peserta akan mendapat standar yang sama.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-let kelas = 2;
-let kelasKeluarga = 2;
-const IURAN = { 1:150000, 2:100000, 3:42000 };
-const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-const fmtM = n => {
-  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(2) + ' jt';
-  return fmt(n);
-};
+<script>
+// DATA
+const IURAN={1:150000,2:100000,3:35000};
+const IURAN_LABEL={1:'Kelas 1 — Rp 150.000/jiwa',2:'Kelas 2 — Rp 100.000/jiwa',3:'Kelas 3 — Rp 35.000/jiwa'};
+let activeKelas=1, activeKelasK=1;
 
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-const IURAN = { 1:150000, 2:100000, 3:42000 };
-const KELAS_LABELS = {1:'Kelas 1 (1–2 TT)',2:'Kelas 2 (3–4 TT)',3:'Kelas 3 (bangsal)'};
-
-function buildBPJSActionCards(id, type, kelas, gaji) {
-  let cards;
-  if (type === 'mandiri') {
-    if (kelas === 3) {
-      cards = [
-        {icon:'💰',title:'Subsidi Rp 7.000/orang',desc:'Kelas 3 hanya bayar Rp 35.000/orang — pemerintah subsidi Rp 7.000. Pilihan paling terjangkau.'},
-        {icon:'📱',title:'Autodebet via Mobile JKN',desc:'Atur autodebet di aplikasi Mobile JKN atau bank untuk menghindari tunggakan dan denda.'},
-        {icon:'🆙',title:'Naik kelas kapan?',desc:'Bisa naik kelas setelah 12 bulan aktif. Ajukan via Mobile JKN atau kantor BPJS terdekat.'},
-        {icon:'🏥',title:'Daftar faskes terdekat',desc:'Pastikan faskes tingkat 1 (puskesmas/klinik) terdaftar di BPJS Anda untuk proses rujukan lancar.'},
-      ];
-    } else if (kelas === 2) {
-      cards = [
-        {icon:'⚖️',title:'Kelas 2 paling populer',desc:'Keseimbangan terbaik antara biaya dan fasilitas. Layanan medis sama dengan kelas lain.'},
-        {icon:'📱',title:'Mobile JKN untuk segalanya',desc:'Cek keaktifan, ubah faskes, lihat riwayat klaim — semua bisa di aplikasi Mobile JKN.'},
-        {icon:'🏥',title:'Gawat darurat tanpa rujukan',desc:'Kondisi darurat bisa langsung ke IGD manapun tanpa rujukan — cukup tunjukkan KTP/kartu BPJS.'},
-        {icon:'👨‍👩‍👧',title:'Daftarkan keluarga sekarang',desc:'Pasangan dan anak (maks 3) bisa didaftarkan via Mobile JKN atau kantor BPJS dengan membawa KK.'},
-      ];
-    } else {
-      cards = [
-        {icon:'🏆',title:'Kelas 1 — kamar paling privat',desc:'1–2 tempat tidur per kamar. Biaya lebih tinggi tapi kenyamanan terbaik dalam sistem BPJS.'},
-        {icon:'⚡',title:'Bandingkan dengan asuransi swasta',desc:'Dengan iuran kelas 1 Rp 150rb, pertimbangkan apakah asuransi swasta bisa memberi lebih banyak manfaat.'},
-        {icon:'📋',title:'Cek KRIS 2026',desc:'KRIS akan menyamakan standar kamar semua peserta. Pantau perkembangan di bpjs-kesehatan.go.id.'},
-        {icon:'📱',title:'Autodebet bank/e-wallet',desc:'Hindari lupa bayar — atur autodebet dari rekening atau GoPay/OVO di Mobile JKN.'},
-      ];
-  } else {
-    // karyawan
-    const gCap = Math.min(gaji || 8e6, 12e6);
-    if (gaji > 12e6) {
-      cards = [
-        {icon:'ℹ️',title:'Iuran sudah mencapai batas',desc:'Gaji Anda di atas Rp 12 juta — iuran dihitung maksimal dari Rp 12 juta. Tidak ada tambahan meski gaji lebih besar.'},
-        {icon:'💼',title:'Kontribusi perusahaan besar',desc:'Perusahaan menanggung 4% × Rp 12 juta = Rp 480.000/bulan untuk Anda. Ini benefit tersembunyi yang signifikan.'},
-        {icon:'🏥',title:'Manfaatkan fasilitas penuh',desc:'Dengan iuran tertinggi, pastikan Anda memanfaatkan faskes BPJS untuk perawatan rutin — penghematan besar jangka panjang.'},
-        {icon:'👨‍👩‍👧',title:'Keluarga ikut ditanggung',desc:'Pasangan dan anak otomatis terdaftar dalam BPJS karyawan. Pastikan data keluarga sudah dilaporkan ke HRD.'},
-      ];
-    } else {
-      cards = [
-        {icon:'💼',title:'1%:4% — Perusahaan tanggung lebih',desc:'Anda bayar 1%, perusahaan bayar 4%. Total manfaat BPJS setara iuran 5% dari gaji Anda.'},
-        {icon:'👨‍👩‍👧',title:'Daftarkan keluarga via HRD',desc:'Pasangan dan anak ikut terlindungi di BPJS karyawan — minta HRD untuk proses pendaftaran.'},
-        {icon:'🔄',title:'Pindah ke mandiri jika resign',desc:'Jika resign, segera daftarkan diri sebagai peserta mandiri dalam 30 hari agar tidak ada jeda perlindungan.'},
-        {icon:'📱',title:'Unduh Mobile JKN',desc:'Cek keaktifan BPJS, ubah faskes, cari RS terdekat — semua dalam satu aplikasi gratis.'},
-      ];
-    }
-  }
-  const el = document.getElementById(id);
-  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
-}
-
-function showKelasComparison(anggota) {
-  const rows = [1,2,3].map(k => {
-    const total = IURAN[k] * anggota;
-    const diff = total - (IURAN[kelas] * anggota);
-    const label = diff > 0 ? '+Rp '+Math.abs(diff).toLocaleString('id-ID') : diff < 0 ? '−Rp '+Math.abs(diff).toLocaleString('id-ID') : '← Anda sekarang';
-    return `<div class="kelas-sim-row">
-      <span style="color:${k===1?'#fbbf24':k===2?'var(--mint)':'#60a5fa'}">${KELAS_LABELS[k]}</span>
-      <span style="font-weight:700">Rp ${(IURAN[k]*anggota).toLocaleString('id-ID')}/bln</span>
-      <span style="font-size:.7rem;color:${diff>0?'#f87171':diff<0?'#4ade80':'#8fa3b1'}">${label}</span>
-    </div>`;
-  }).join('');
-  document.getElementById('r0-kelas-sim-rows').innerHTML = rows;
-  document.getElementById('r0-kelas-sim').style.display = '';
-}
-
-function calcTunggakan() {
-  const bln = parseInt(document.getElementById('tg-bulan').value) || 0;
-  const biaya = parseFloat(document.getElementById('tg-biaya').value) || 0;
-  const el = document.getElementById('tg-result');
-  if (!bln || !biaya) { el.style.display='none'; return; }
-  const fmt2 = n => 'Rp '+Math.round(n).toLocaleString('id-ID');
-  // Denda: 5% × biaya rawat inap × bulan menunggak (maks 12 bln, maks Rp30jt)
-  const dendaPct = Math.min(bln, 12) * 0.05;
-  const denda = Math.min(biaya * dendaPct, 30000000);
-  const anggotaVal = parseInt(document.getElementById('anggota').value) || 1;
-  const tunggakanIuran = IURAN[kelas] * anggotaVal * bln;
-  document.getElementById('tg-rows').innerHTML = `
-    <div class="kelas-sim-row"><span>Iuran tertunggak (${bln} bln)</span><span style="color:#f87171;font-weight:700">${fmt2(tunggakanIuran)}</span></div>
-    <div class="kelas-sim-row"><span>Denda rawat inap (${(dendaPct*100).toFixed(0)}% × biaya)</span><span style="color:#f87171;font-weight:700">${fmt2(denda)}</span></div>
-    <div class="kelas-sim-row" style="font-weight:700"><span>Total yang harus dibayar</span><span style="color:#f87171">${fmt2(tunggakanIuran + denda)}</span></div>
-    <div style="font-size:.68rem;color:#8fa3b1;margin-top:.3rem">💡 Solusi: lunasi tunggakan → aktif lagi dalam 24 jam. Autodebet mencegah ini terjadi.</div>`;
-  el.style.display = '';
-}
-
-function switchTab(idx, btn) {
-  document.querySelectorAll('.bpjs-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.bpjs-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('bt' + idx).classList.add('active');
-}
-
-function setKelas(k) {
-  kelas = k;
-  [1,2,3].forEach(i => {
-    document.getElementById('kc' + i).classList.toggle('selected', i === k);
-  });
+// KELAS SELECTOR
+function setKelas(k){
+  activeKelas=k;
+  document.querySelectorAll('.kcard[data-kelas]').forEach(c=>c.classList.toggle('on',parseInt(c.dataset.kelas)===k));
   calcMandiri();
 }
-
-function setKelasKeluarga(k, btn) {
-  kelasKeluarga = k;
-  document.querySelectorAll('#bt2 .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+function setKelasK(k){
+  activeKelasK=k;
+  document.querySelectorAll('.kcard[data-kelas-k]').forEach(c=>c.classList.toggle('on',parseInt(c.dataset.kelasK)===k));
   calcKeluarga();
 }
 
-/* ── Mandiri ── */
-function calcMandiri() {
-  const anggota = parseInt(document.getElementById('anggota').value) || 1;
-  const iuranPer = IURAN[kelas];
-  const total    = iuranPer * anggota;
-
-  document.getElementById('r0-total').textContent   = fmt(total);
-  document.getElementById('r0-label').textContent   = `Iuran per bulan (Kelas ${kelas})`;
-  document.getElementById('r0-kelas').textContent   = `Kelas ${kelas}`;
-  document.getElementById('r0-per-org').textContent = fmt(iuranPer);
-  document.getElementById('r0-tahunan').textContent = fmtM(total * 12);
-  document.getElementById('r0-anggota').textContent = anggota + ' orang';
-
-  const kelasLabel = ['', 'satu (premium)', 'dua (standar)', 'tiga (ekonomi)'][kelas];
-  document.getElementById('r0-advice').innerHTML =
-    `🏥 Iuran kelas ${kelas} untuk ${anggota} orang: <strong>${fmt(total)}/bulan</strong> atau <strong>${fmtM(total*12)}/tahun</strong>. ${kelas === 3 ? 'Dari Rp 42.000, Anda hanya membayar Rp 35.000 — sisanya subsidi pemerintah Rp 7.000.' : kelas === 1 ? 'Kelas 1 memberikan kamar lebih privat dengan 1–2 tempat tidur.' : 'Kelas 2 adalah pilihan paling populer — keseimbangan antara biaya dan kenyamanan.'}`;
-
-  document.getElementById('res0').style.display = 'block';
-  buildBPJSActionCards('r0-action-cards', 'mandiri', kelas, 0);
-  showKelasComparison(anggota);
-  document.getElementById('res0').classList.add('show');
-}
-
-/* ── Karyawan ── */
-function calcKaryawan() {
-  const gaji   = parseFloat(document.getElementById('gaji-ppu').value) || 0;
-  if (!gaji) return;
-  const gajiCap = Math.min(gaji, 12_000_000);
-  const kary    = gajiCap * 0.01;
-  const perus   = gajiCap * 0.04;
-  const total   = gajiCap * 0.05;
-
-  document.getElementById('r1-kary').textContent    = fmt(kary);
-  document.getElementById('r1-gaji-cap').textContent= fmt(gajiCap);
-  document.getElementById('r1-kary2').textContent   = fmt(kary);
-  document.getElementById('r1-perus').textContent   = fmt(perus);
-  document.getElementById('r1-total').textContent   = fmt(total);
-
-  const capped = gaji > 12_000_000;
-  document.getElementById('r1-advice').innerHTML = capped
-    ? `💼 Gaji Anda Rp ${gaji.toLocaleString('id-ID')} melebihi batas atas Rp 12 juta. Iuran dihitung dari batas Rp 12 juta. Potongan dari gaji Anda: <strong>${fmt(kary)}/bulan</strong>, perusahaan menanggung <strong>${fmt(perus)}/bulan</strong>.`
-    : `💼 Dari gaji <strong>${fmt(gaji)}</strong>, BPJS dipotong <strong>${fmt(kary)}/bulan</strong> (1%). Perusahaan menambahkan <strong>${fmt(perus)}/bulan</strong> (4%) sehingga total iuran <strong>${fmt(total)}/bulan</strong>.`;
-
-  document.getElementById('res1').style.display = 'block';
-  const gajiVal2 = parseFloat(document.getElementById('gaji-ppu').value)||0;
-  buildBPJSActionCards('r1-action-cards', 'karyawan', 0, gajiVal2);
-  document.getElementById('res1').classList.add('show');
-}
-
-/* ── Keluarga ── */
-function calcKeluarga() {
-  const anda    = parseInt(document.getElementById('f-anda').value)    || 0;
-  const pas     = parseInt(document.getElementById('f-pasangan').value)|| 0;
-  const anak    = Math.min(parseInt(document.getElementById('f-anak').value) || 0, 3);
-  const total   = (anda + pas + anak) * IURAN[kelasKeluarga];
-  const iuranPer= IURAN[kelasKeluarga];
-
-  document.getElementById('r2-total').textContent = fmt(total);
-  document.getElementById('r2-bln').textContent   = fmt(total);
-  document.getElementById('r2-thn').textContent   = fmtM(total * 12);
-
-  const rows = [
-    anda    > 0 ? { label:'Anda', n:anda }    : null,
-    pas     > 0 ? { label:'Pasangan', n:pas }  : null,
-    anak    > 0 ? { label:`Anak (${anak} orang)`, n:anak } : null,
-  ].filter(Boolean);
-
-  document.getElementById('r2-members').innerHTML =
-    '<div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px">Rincian per anggota</div>' +
-    rows.map(r => `<div class="member-row"><span class="mr-name">${r.label}</span><span class="mr-iuran">${fmt(r.n * iuranPer)}/bln (${r.n} × ${fmt(iuranPer)})</span></div>`).join('') +
-    `<div class="member-row" style="font-weight:700"><span>Total</span><span class="mr-iuran">${fmt(total)}/bulan</span></div>`;
-
-  document.getElementById('res2').style.display = 'block';
-  document.getElementById('res2').classList.add('show');
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-
-// Init on load
-window.addEventListener('DOMContentLoaded', () => {
-  setKelas(2);
+// COUNTER
+const counters={};
+function adj(id, delta, max=99){
+  const el=document.getElementById(id);
+  if(!el) return;
+  let val=parseInt(el.textContent)||0;
+  val=Math.max(0,Math.min(max,val+delta));
+  el.textContent=val;
   calcKeluarga();
+}
+function getCtr(id){return parseInt(document.getElementById(id)?.textContent)||0;}
+
+// ① MANDIRI
+function calcMandiri(){
+  const jiwa=v('m-jiwa')||1;
+  const iur=IURAN[activeKelas];
+  const total=iur*jiwa;
+  set('m-total',rp(total)+'/bulan');
+  set('m-kelas-lbl',IURAN_LABEL[activeKelas]);
+  set('m-per-jiwa',rp(iur)+'/jiwa');
+  set('m-jiwa-lbl',jiwa+' jiwa');
+  set('m-perthn',rp(total*12)+'/tahun');
+}
+
+// ② KARYAWAN
+function calcKaryawan(){
+  const gajiRaw=v('k-gaji');
+  const gaji=Math.min(gajiRaw,12000000);
+  const kar=gaji*0.01, per=gaji*0.04, total=gaji*0.05;
+  set('k-potong',rp(kar)+'/bulan');
+  set('k-gaji-dasar',rp(gaji)+(gajiRaw>12000000?' (dibatasi)':''));
+  set('k-karyawan',rp(kar)+' (1%)');
+  set('k-perusahaan',rp(per)+' (4%)');
+  set('k-total',rp(total)+' (5%)');
+  set('k-bersih',rp(gajiRaw-kar)+'/bulan');
+  // bar: karyawan 1% dari total 5% = 20%
+  const barEl=document.getElementById('k-bar');
+  if(barEl)barEl.style.width='20%';
+}
+
+// ③ KELUARGA
+function calcKeluarga(){
+  const pas=getCtr('kl-pasangan'),anak=getCtr('kl-anak');
+  const jiwa=1+pas+anak;
+  const iur=IURAN[activeKelasK];
+  const total=iur*jiwa;
+  set('kl-total',rp(total)+'/bulan');
+  set('kl-kelas-lbl',IURAN_LABEL[activeKelasK]);
+  set('kl-jiwa',jiwa+' jiwa (Anda + '+pas+' pasangan + '+anak+' anak)');
+  set('kl-per',rp(iur)+'/jiwa');
+  set('kl-thn',rp(total*12)+'/tahun');
+}
+
+// ④ DENDA
+function calcDenda(){
+  const iuranBln=v('d-iuran');
+  const bulan=Math.max(1,v('d-bulan'));
+  const ranap=v('d-ranap');
+  const tunggak=iuranBln*bulan;
+  // Denda rawat inap: 5% × biaya rawat inap × min(bulan, 12), maks 30jt
+  const dendaRaw=ranap>0 ? ranap*0.05*Math.min(bulan,12) : 0;
+  const denda=Math.min(dendaRaw,30000000);
+  const total=tunggak+denda;
+  set('d-tunggak',rp(tunggak));
+  set('d-denda',ranap>0?rp(denda):'Tidak ada rawat inap');
+  set('d-aktif','1×24 jam setelah lunasi tunggakan');
+  const box=document.getElementById('denda-box');
+  const warn=document.getElementById('d-warn');
+  if(denda>0){
+    box?.classList.remove('ok');
+    set('d-total',rp(total));
+    set('d-lbl','Total yang harus dibayar (tunggakan + denda)');
+    if(warn)warn.style.display='block';
+  } else {
+    box?.classList.add('ok');
+    set('d-total',rp(total));
+    set('d-lbl','Total tunggakan yang harus dilunasi (tidak ada denda rawat inap)');
+    if(warn)warn.style.display='none';
+  }
+}
+
+// ⑤ BANDINGKAN
+function calcCmp(){
+  const jiwa=v('cmp-jiwa')||3;
+  set('kris-jiwa-lbl',jiwa+' jiwa');
+  // Compare table
+  const tbody=document.getElementById('cmp-tbody');
+  if(tbody){
+    tbody.innerHTML=[1,2,3].map(k=>{
+      const iur=IURAN[k];
+      const bln=iur*jiwa,thn=bln*12;
+      const label={1:'Kelas 1',2:'Kelas 2',3:'Kelas 3'}[k];
+      return `<tr><td>${label}</td><td class="mo">${rp(iur)}</td><td class="mo ch">${rp(bln)}</td><td class="mo">${rp(thn)}</td></tr>`;
+    }).join('');
+  }
+  // KRIS scenarios
+  const krisScenarios=[
+    {label:'Skenario rendah',iur:50000},
+    {label:'Skenario menengah',iur:65000},
+    {label:'Skenario tinggi',iur:75000},
+    {label:'Sama dengan Kelas 2 sekarang',iur:100000},
+  ];
+  const refBln=IURAN[2]*jiwa;
+  const ktbody=document.getElementById('kris-tbody');
+  if(ktbody){
+    ktbody.innerHTML=krisScenarios.map(s=>{
+      const bln=s.iur*jiwa;
+      const diff=bln-refBln;
+      const diffStr=diff===0?'—':(diff>0?'+':'')+rp(Math.abs(diff))+(diff>0?' lebih mahal':' lebih murah');
+      const cls=diff<0?'ch':diff>0?'px':'';
+      return `<tr><td>${s.label}</td><td class="mo">${rp(s.iur)}</td><td class="mo ch">${rp(bln)}</td><td class="mo ${cls}">${diffStr}</td></tr>`;
+    }).join('');
+  }
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
 });
+// PRESETS
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+// FAQ
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+
+// LISTENERS
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['m-jiwa'],calcMandiri);
+listen(['k-gaji'],calcKaryawan);
+listen(['d-iuran','d-bulan','d-ranap'],calcDenda);
+listen(['cmp-jiwa'],calcCmp);
+
+// INIT
+calcMandiri();calcKaryawan();calcKeluarga();calcDenda();calcCmp();
 </script>
 </body>
 </html>
