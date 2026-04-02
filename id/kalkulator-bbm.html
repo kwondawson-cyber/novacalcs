@@ -4,11 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kalkulator BBM 2026 — Berapa Biaya Bensin Perjalanan Anda? Hitung Gratis</title>
-  <meta name="description" content="Hitung biaya BBM perjalanan dalam 10 detik ✓ Harga Pertalite Rp10.000, Pertamax Rp12.300 terbaru April 2026 ✓ Kalkulator mudik, bulanan, simulasi hemat & konsumsi BBM nyata. Gratis & akurat." />
+  <meta name="description" content="Hitung biaya BBM perjalanan dalam 10 detik. Harga Pertalite Rp10.000, Pertamax Rp12.300 terbaru April 2026. Kalkulator mudik, bulanan, simulasi hemat & konsumsi BBM nyata. Gratis & akurat." />
   <link rel="canonical" href="https://novacalcs.com/id/kalkulator-bbm" />
-  <meta property="og:title" content="Kalkulator BBM 2026 — Hitung Biaya Bensin & Mudik Gratis" />
-  <meta property="og:description" content="Hitung biaya Pertalite, Pertamax, Solar untuk perjalanan & mudik lebaran. Harga BBM terbaru April 2026. Gratis, cepat, akurat." />
-  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -23,41 +20,29 @@
     }
     html{scroll-behavior:smooth}
     body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
-
-    /* NAV */
     .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
     .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
     .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
     .nav-sep{color:var(--bor)}
     .nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
-
-    /* HEADER */
     .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
-    .hdr-tag{display:inline-flex;align-items:center;gap:6px;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
     .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
-    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:520px}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
     .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
     .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
     .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
-
-    /* LAYOUT */
     .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px}
     @media(max-width:700px){.main{grid-template-columns:1fr}}
-
-    /* CARD */
     .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
     .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
-    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
     .card-b{padding:18px}
-
-    /* TABS */
     .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px;flex-wrap:wrap}
     .tbtn{flex:1;min-width:0;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;white-space:nowrap}
     .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
     .tpanel{display:none}
     .tpanel.on{display:block}
-
-    /* FORM */
     .fld{margin-bottom:14px}
     .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
     .iw{position:relative}
@@ -73,10 +58,29 @@
     .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
     .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-    /* LIVE RESULT — always visible */
+    /* FUEL SELECT + INLINE PRICE */
+    .fuel-row{display:flex;gap:8px;align-items:stretch}
+    .fuel-row .sw{flex:1;min-width:0}
+    .price-wrap{position:relative;width:116px;flex-shrink:0}
+    .price-wrap input{
+      width:100%;height:100%;padding:10px 28px 10px 30px;
+      border:1.5px solid var(--bor);border-radius:var(--rs);
+      font-family:'DM Mono',monospace;font-size:14px;font-weight:700;
+      color:var(--pri);background:var(--sur);outline:none;
+      transition:border-color .15s,background .15s;text-align:right;
+      appearance:none;
+    }
+    .price-wrap input:focus{border-color:var(--pri);background:var(--pri-l)}
+    .price-wrap input.custom{border-color:#D97706;background:#FFFBEB;color:#92400E}
+    .price-pfx{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:var(--tx3);pointer-events:none}
+    .price-rst{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:12px;color:var(--tx3);padding:2px;line-height:1;opacity:0;pointer-events:none;transition:opacity .15s}
+    .price-wrap input.custom ~ .price-rst{opacity:1;pointer-events:auto}
+    .price-hint{font-size:10px;color:var(--tx3);margin-top:4px}
+    .price-hint.warn{color:#92400E}
+
     .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
     .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-    .rg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
     @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
     .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
     .ri.s2{grid-column:1/-1}
@@ -88,11 +92,7 @@
     .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
     .rr{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
     .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
-
-    /* NOTICE */
     .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
-
-    /* COMPARISON TABLE */
     .ctbl{width:100%;border-collapse:collapse;font-size:13px}
     .ctbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tx3)}
     .ctbl td{padding:9px 10px;border-bottom:1px solid var(--bor)}
@@ -101,10 +101,6 @@
     .ctbl .mo{font-family:'DM Mono',monospace;font-weight:600}
     .ctbl .ch{color:var(--grn);font-weight:700}
     .ctbl .px{color:var(--red);font-weight:700}
-    .bcalc{width:100%;padding:12px;background:var(--pri);color:#fff;border:none;border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;margin-top:4px}
-    .bcalc:hover{background:var(--pri-d)}
-
-    /* SIMULASI */
     .slev{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:14px;margin-bottom:10px;transition:border-color .2s}
     .slev.ok{border-color:var(--grn);background:var(--grn-b)}
     .slev-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;font-weight:700}
@@ -124,8 +120,6 @@
     .simsum{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--rs);padding:14px;margin-top:14px}
     .simr{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}
     .simr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
-
-    /* KONSUMSI SECTION */
     .ksec{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh);margin-top:20px}
     .ksec-i{padding:18px}
     .ktabs{display:flex;gap:3px;background:var(--sur2);border-radius:8px;padding:3px;margin-bottom:18px}
@@ -144,14 +138,12 @@
     .ksr:last-child{border-bottom:none}
     .ksr span:last-child{font-family:'DM Mono',monospace;font-weight:700;color:var(--tx)}
     .ktip{font-size:12px;color:var(--tx2);line-height:1.6;background:var(--sur2);border-radius:var(--rs);padding:10px 12px}
-
-    /* SIDEBAR */
     .sb{display:flex;flex-direction:column;gap:16px}
     .flist{display:flex;flex-direction:column;gap:6px}
     .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent;cursor:pointer;transition:all .12s}
     .frow:hover,.frow.on{border-color:var(--pri);background:var(--pri-l)}
     .frl{display:flex;align-items:center;gap:9px}
-    .fdot{width:9px;height:9px;border-radius:50%}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
     .fn{font-size:12px;font-weight:700}
     .fron{font-size:11px;color:var(--tx3)}
     .fprice{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--pri)}
@@ -160,8 +152,6 @@
     .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
     .tptx{color:var(--tx2);line-height:1.5}
     .tptx strong{color:var(--tx);font-weight:700}
-
-    /* SEO */
     .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
     .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
     .seo h3{font-size:15px;font-weight:700;color:var(--tx);margin:20px 0 7px}
@@ -194,19 +184,18 @@
 <header class="hdr">
   <div class="hdr-tag">⛽ Bahan Bakar Minyak</div>
   <h1 class="hdr-h1">Kalkulator BBM 2026</h1>
-  <p class="hdr-sub">Hitung biaya bensin & solar untuk perjalanan, mudik, dan pengeluaran bulanan. Hasil tampil otomatis saat Anda mengetik.</p>
+  <p class="hdr-sub">Hitung biaya bensin & solar untuk perjalanan, mudik, dan bulanan. Harga bisa diubah langsung — cocok untuk Shell, Vivo, BP, atau wilayah luar Jawa.</p>
   <div class="pstrip">
     <div class="pchip">Pertalite <span>Rp10.000/L</span></div>
     <div class="pchip">Pertamax <span>Rp12.300/L</span></div>
     <div class="pchip">Pertamax Turbo <span>Rp13.100/L</span></div>
     <div class="pchip">Solar <span>Rp6.800/L</span></div>
-    <div class="pchip">Dexlite <span>Rp14.200/L</span></div>
     <div class="pchip" style="color:var(--tx3);font-size:10px">Update 1 Apr 2026 · Jawa-Bali</div>
   </div>
 </header>
 
 <main class="main">
-<div><!-- LEFT -->
+<div>
 
 <div class="card">
   <div class="card-h"><div class="card-ico">⛽</div>Hitung Biaya BBM</div>
@@ -222,15 +211,18 @@
 
     <!-- PERJALANAN -->
     <div class="tpanel on" id="tab-perjalanan">
-      <div class="fld"><label>Jenis BBM</label><div class="sw"><select id="pFuel">
-        <option value="10000">⛽ Pertalite (RON 90) — Rp10.000/L</option>
-        <option value="12300">⛽ Pertamax (RON 92) — Rp12.300/L</option>
-        <option value="13000">⛽ Pertamax Green 95 — Rp13.000/L</option>
-        <option value="13100">⛽ Pertamax Turbo (RON 98) — Rp13.100/L</option>
-        <option value="6800">🚛 Solar Subsidi — Rp6.800/L</option>
-        <option value="14200">🚛 Dexlite — Rp14.200/L</option>
-        <option value="14500">🚛 Pertamina Dex — Rp14.500/L</option>
-      </select></div></div>
+      <div class="fld">
+        <label>Jenis BBM &amp; Harga per Liter</label>
+        <div class="fuel-row">
+          <div class="sw"><select id="pFuel" data-pt="pPrice"></select></div>
+          <div class="price-wrap">
+            <span class="price-pfx">Rp</span>
+            <input type="number" id="pPrice" class="price-input" data-def="10000" min="1000" step="100" />
+            <button class="price-rst" id="pRst" title="Reset harga resmi">↩</button>
+          </div>
+        </div>
+        <div class="price-hint" id="pHint">✏️ Ketuk angka harga untuk sesuaikan (Shell, Vivo, luar Jawa, dsb)</div>
+      </div>
       <div class="fld"><label>Jarak Perjalanan</label><div class="iw"><input type="number" id="pDist" placeholder="150" min="1"/><span class="iu">km</span></div>
         <div class="presets">
           <button class="pb" data-t="pDist" data-v="10">10 km</button><button class="pb" data-t="pDist" data-v="50">50 km</button>
@@ -243,19 +235,22 @@
           <button class="pb" data-t="pEff" data-v="18">Irit (18)</button><button class="pb" data-t="pEff" data-v="40">Motor matic (40)</button>
         </div>
       </div>
-      <div class="fld"><label>Arah</label><div class="presets"><button class="pb" id="p1w">Sekali Jalan</button><button class="pb on" id="p2w">Pulang Pergi (PP)</button></div></div>
+      <div class="fld"><label>Arah</label>
+        <div class="presets"><button class="pb" id="p1w">Sekali Jalan</button><button class="pb on" id="p2w">Pulang Pergi (PP)</button></div>
+      </div>
       <div class="lres">
-        <div class="rg"><div class="ri s2"><div class="rl">Total Biaya BBM</div><div class="rv lg" id="pTotal">—</div><div class="rsub" id="pSub">Isi jarak & konsumsi BBM di atas</div></div>
+        <div class="rg">
+          <div class="ri s2"><div class="rl">Total Biaya BBM</div><div class="rv lg" id="pTotal">—</div><div class="rsub" id="pSub">Isi jarak & konsumsi BBM di atas</div></div>
           <div class="ri"><div class="rl">BBM Dibutuhkan</div><div class="rv sm" id="pL">— L</div></div>
           <div class="ri"><div class="rl">Jarak Tempuh</div><div class="rv sm" id="pD">— km</div></div>
         </div>
         <div class="rrows">
-          <div class="rr"><span style="color:var(--tx2)">Harga/liter</span><span id="pPL">—</span></div>
+          <div class="rr"><span style="color:var(--tx2)">Harga/liter (digunakan)</span><span id="pPLout">—</span></div>
           <div class="rr"><span style="color:var(--tx2)">Konsumsi</span><span id="pEO">—</span></div>
           <div class="rr"><span style="color:var(--tx2)">Biaya/km</span><span id="pCK">—</span></div>
         </div>
       </div>
-      <div class="notice">⚠️ Harga BBM berlaku 1 April 2026 · Wilayah Jawa, Madura, Bali.</div>
+      <div class="notice">⚠️ Harga default berlaku 1 April 2026 · Jawa-Bali. Ubah angka harga di atas untuk menyesuaikan SPBU atau wilayah Anda.</div>
     </div>
 
     <!-- MUDIK -->
@@ -274,19 +269,27 @@
         <div class="fld"><label>Jarak Satu Arah</label><div class="iw"><input type="number" id="mDist" placeholder="700" min="1"/><span class="iu">km</span></div></div>
         <div class="fld"><label>Biaya Tol (PP)</label><div class="iw"><input type="number" id="mToll" placeholder="0" min="0"/><span class="iu">Rp</span></div></div>
       </div>
-      <div class="g2">
-        <div class="fld"><label>Jenis BBM</label><div class="sw"><select id="mFuel">
-          <option value="10000">Pertalite — Rp10.000</option><option value="12300">Pertamax — Rp12.300</option>
-          <option value="13000">Green 95 — Rp13.000</option><option value="13100">Turbo — Rp13.100</option>
-          <option value="6800">Solar — Rp6.800</option><option value="14200">Dexlite — Rp14.200</option>
-        </select></div></div>
-        <div class="fld"><label>Konsumsi BBM</label><div class="iw"><input type="number" id="mEff" placeholder="12" min="1" step=".5"/><span class="iu">km/L</span></div></div>
+      <div class="fld">
+        <label>Jenis BBM &amp; Harga per Liter</label>
+        <div class="fuel-row">
+          <div class="sw"><select id="mFuel" data-pt="mPrice"></select></div>
+          <div class="price-wrap">
+            <span class="price-pfx">Rp</span>
+            <input type="number" id="mPrice" class="price-input" data-def="10000" min="1000" step="100"/>
+            <button class="price-rst" id="mRst" title="Reset">↩</button>
+          </div>
+        </div>
+        <div class="price-hint" id="mHint">✏️ Ketuk angka harga untuk sesuaikan</div>
       </div>
-      <div class="fld"><label>Jumlah Penumpang</label><div class="iw"><input type="number" id="mPax" value="4" min="1" max="10"/><span class="iu">orang</span></div>
-        <div class="presets"><button class="pb" data-t="mPax" data-v="1">1</button><button class="pb" data-t="mPax" data-v="2">2</button><button class="pb" data-t="mPax" data-v="4">4</button><button class="pb" data-t="mPax" data-v="6">6</button></div>
+      <div class="g2">
+        <div class="fld"><label>Konsumsi BBM</label><div class="iw"><input type="number" id="mEff" placeholder="12" min="1" step=".5"/><span class="iu">km/L</span></div></div>
+        <div class="fld"><label>Penumpang</label><div class="iw"><input type="number" id="mPax" value="4" min="1" max="10"/><span class="iu">orang</span></div>
+          <div class="presets"><button class="pb" data-t="mPax" data-v="1">1</button><button class="pb" data-t="mPax" data-v="2">2</button><button class="pb" data-t="mPax" data-v="4">4</button><button class="pb" data-t="mPax" data-v="6">6</button></div>
+        </div>
       </div>
       <div class="lres">
-        <div class="rg"><div class="ri s2"><div class="rl">Total Biaya Mudik PP (BBM + Tol)</div><div class="rv lg" id="mTotal">—</div><div class="rsub" id="mPO">Isi jarak & konsumsi BBM di atas</div></div>
+        <div class="rg">
+          <div class="ri s2"><div class="rl">Total Biaya Mudik PP (BBM + Tol)</div><div class="rv lg" id="mTotal">—</div><div class="rsub" id="mPO">Isi jarak & konsumsi BBM di atas</div></div>
           <div class="ri"><div class="rl">Biaya BBM (PP)</div><div class="rv sm" id="mB">—</div></div>
           <div class="ri"><div class="rl">Biaya Tol (PP)</div><div class="rv sm" id="mT">—</div></div>
           <div class="ri"><div class="rl">Total BBM</div><div class="rv sm" id="mL">—</div></div>
@@ -298,30 +301,37 @@
           <div class="rr" style="border-top:1px dashed #ffd4b3;margin-top:4px;padding-top:8px"><span style="font-weight:700">Total per orang</span><span id="mTP2" style="color:var(--pri)">—</span></div>
         </div>
       </div>
-      <div class="notice">⚠️ Estimasi biaya tol berdasarkan tarif non-peak. Saat lebaran bisa berbeda.</div>
+      <div class="notice">⚠️ Estimasi tol berdasarkan tarif non-peak. Saat lebaran bisa berbeda.</div>
     </div>
 
     <!-- BULANAN -->
     <div class="tpanel" id="tab-bulanan">
+      <div class="fld">
+        <label>Jenis BBM &amp; Harga per Liter</label>
+        <div class="fuel-row">
+          <div class="sw"><select id="bFuel" data-pt="bPrice"></select></div>
+          <div class="price-wrap">
+            <span class="price-pfx">Rp</span>
+            <input type="number" id="bPrice" class="price-input" data-def="10000" min="1000" step="100"/>
+            <button class="price-rst" id="bRst" title="Reset">↩</button>
+          </div>
+        </div>
+        <div class="price-hint" id="bHint">✏️ Ketuk angka harga untuk sesuaikan</div>
+      </div>
       <div class="g2">
-        <div class="fld"><label>Jenis BBM</label><div class="sw"><select id="bFuel">
-          <option value="10000">Pertalite — Rp10.000</option><option value="12300">Pertamax — Rp12.300</option>
-          <option value="13000">Green 95 — Rp13.000</option><option value="13100">Turbo — Rp13.100</option>
-          <option value="6800">Solar — Rp6.800</option><option value="14200">Dexlite — Rp14.200</option>
-        </select></div></div>
         <div class="fld"><label>Konsumsi BBM</label><div class="iw"><input type="number" id="bEff" placeholder="12" min="1" step=".5"/><span class="iu">km/L</span></div></div>
-      </div>
-      <div class="g2">
         <div class="fld"><label>Jarak Harian</label><div class="iw"><input type="number" id="bDaily" placeholder="30" min="1"/><span class="iu">km</span></div></div>
-        <div class="fld"><label>Hari Berkendara</label><div class="iw"><input type="number" id="bDays" value="22" min="1" max="31"/><span class="iu">hari/bln</span></div></div>
       </div>
-      <div class="presets" style="margin-bottom:4px">
-        <button class="pb" data-t="bDaily" data-v="10">10 km</button><button class="pb" data-t="bDaily" data-v="20">20 km</button>
-        <button class="pb" data-t="bDaily" data-v="40">40 km</button>
-        <button class="pb" data-t="bDays" data-v="22">22 hari</button><button class="pb" data-t="bDays" data-v="26">26 hari</button>
+      <div class="fld"><label>Hari Berkendara / Bulan</label><div class="iw"><input type="number" id="bDays" value="22" min="1" max="31"/><span class="iu">hari</span></div>
+        <div class="presets">
+          <button class="pb" data-t="bDaily" data-v="10">10 km</button><button class="pb" data-t="bDaily" data-v="20">20 km</button>
+          <button class="pb" data-t="bDaily" data-v="40">40 km</button>
+          <button class="pb" data-t="bDays" data-v="22">22 hari</button><button class="pb" data-t="bDays" data-v="26">26 hari</button>
+        </div>
       </div>
       <div class="lres">
-        <div class="rg3"><div class="ri s2"><div class="rl">Biaya BBM / Bulan</div><div class="rv lg" id="bMo">—</div><div class="rsub">per bulan</div></div>
+        <div class="rg rg3">
+          <div class="ri s2"><div class="rl">Biaya BBM / Bulan</div><div class="rv lg" id="bMo">—</div><div class="rsub">per bulan</div></div>
           <div class="ri"><div class="rl">Per Hari</div><div class="rv sm" id="bDy">—</div></div>
           <div class="ri"><div class="rl">Total BBM</div><div class="rv sm" id="bLt">—</div></div>
           <div class="ri"><div class="rl">Jarak/Bulan</div><div class="rv sm" id="bKm">—</div></div>
@@ -334,35 +344,39 @@
       <div class="notice">⚠️ Konsumsi aktual bervariasi sesuai kondisi jalan dan kemacetan.</div>
     </div>
 
-    <!-- SIMULASI HEMAT -->
+    <!-- SIMULASI -->
     <div class="tpanel" id="tab-simulasi">
-      <p style="font-size:13px;color:var(--tx2);margin-bottom:14px;line-height:1.6">Masukkan kondisi saat ini & target penghematan. Slider bergerak real-time.</p>
+      <p style="font-size:13px;color:var(--tx2);margin-bottom:14px;line-height:1.6">Masukkan kondisi saat ini & target penghematan. Geser slider untuk lihat dampaknya.</p>
       <div style="background:var(--sur2);border-radius:var(--rs);padding:13px;margin-bottom:14px">
         <div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px">Kondisi Berkendara Saat Ini</div>
+        <div class="fld" style="margin-bottom:10px">
+          <label>Jenis BBM &amp; Harga per Liter</label>
+          <div class="fuel-row">
+            <div class="sw"><select id="sFuel" data-pt="sPrice"></select></div>
+            <div class="price-wrap">
+              <span class="price-pfx">Rp</span>
+              <input type="number" id="sPrice" class="price-input" data-def="10000" min="1000" step="100"/>
+              <button class="price-rst" id="sRst" title="Reset">↩</button>
+            </div>
+          </div>
+        </div>
         <div class="g2">
-          <div class="fld" style="margin-bottom:0"><label>Jenis BBM</label><div class="sw"><select id="sFuel">
-            <option value="10000">Pertalite — Rp10.000</option><option value="12300">Pertamax — Rp12.300</option>
-            <option value="13000">Green 95 — Rp13.000</option><option value="13100">Turbo — Rp13.100</option>
-            <option value="6800">Solar — Rp6.800</option><option value="14200">Dexlite — Rp14.200</option>
-          </select></div></div>
           <div class="fld" style="margin-bottom:0"><label>Konsumsi BBM</label><div class="iw"><input type="number" id="sEff" placeholder="12" min="1" step=".5"/><span class="iu">km/L</span></div></div>
           <div class="fld" style="margin-bottom:0"><label>Jarak Harian</label><div class="iw"><input type="number" id="sDaily" placeholder="30" min="1"/><span class="iu">km</span></div></div>
-          <div class="fld" style="margin-bottom:0"><label>Hari/Bulan</label><div class="iw"><input type="number" id="sDays" value="22" min="1" max="31"/><span class="iu">hari</span></div></div>
+          <div class="fld" style="margin-bottom:0;grid-column:1/-1"><label>Hari/Bulan</label><div class="iw"><input type="number" id="sDays" value="22" min="1" max="31"/><span class="iu">hari</span></div></div>
         </div>
       </div>
-      <div class="fld"><label>🎯 Target Penghematan per Bulan</label>
+      <div class="fld"><label>🎯 Target Penghematan / Bulan</label>
         <div class="iw"><input type="number" id="sTarget" placeholder="100000" min="1000" step="5000"/><span class="iu">Rp</span></div>
         <div class="presets"><button class="pb" data-t="sTarget" data-v="50000">Rp50rb</button><button class="pb" data-t="sTarget" data-v="100000">Rp100rb</button><button class="pb" data-t="sTarget" data-v="200000">Rp200rb</button><button class="pb" data-t="sTarget" data-v="500000">Rp500rb</button></div>
       </div>
-      <!-- Current cost — always visible -->
       <div class="lres" style="margin-bottom:14px">
         <div class="rl" style="margin-bottom:8px">Pengeluaran BBM Saat Ini</div>
         <div class="rr"><span style="color:var(--tx2)">Biaya/bulan</span><span id="sCur" style="color:var(--pri)">—</span></div>
         <div class="rr"><span style="color:var(--tx2)">Biaya/tahun</span><span id="sCurY">—</span></div>
         <div class="rr" style="border-top:1px solid #ffd4b3;margin-top:6px;padding-top:8px"><span style="color:var(--tx2)">Target hemat</span><span id="sTgt" style="color:var(--grn)">—</span></div>
       </div>
-      <!-- Levers -->
-      <div id="levers">
+      <div>
         <div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px">Cara mencapai target — geser slider:</div>
         <div class="slev" id="lv1"><div class="slev-h"><span>📍 Kurangi jarak harian</span><span class="lbdg lb-o" id="lb1">—</span></div>
           <div class="ssw"><span style="font-size:11px;color:var(--tx3);min-width:30px">0 km</span><input type="range" class="sslider" id="sl1" min="0" step="1" value="0"/><span class="ssv" id="sv1">0 km</span></div>
@@ -392,7 +406,7 @@
 
     <!-- BANDINGKAN -->
     <div class="tpanel" id="tab-bandingkan">
-      <p style="font-size:13px;color:var(--tx2);margin-bottom:14px">Bandingkan biaya semua jenis BBM untuk jarak dan konsumsi yang sama. Hasil tampil otomatis.</p>
+      <p style="font-size:13px;color:var(--tx2);margin-bottom:14px">Bandingkan biaya semua jenis BBM untuk jarak dan konsumsi yang sama.</p>
       <div class="g2">
         <div class="fld"><label>Jarak</label><div class="iw"><input type="number" id="cDist" placeholder="100" min="1"/><span class="iu">km</span></div></div>
         <div class="fld"><label>Konsumsi BBM</label><div class="iw"><input type="number" id="cEff" placeholder="12" min="1" step=".5"/><span class="iu">km/L</span></div></div>
@@ -409,34 +423,35 @@
       </div>
     </div>
 
-  </div><!-- /card-b -->
-</div><!-- /card -->
+  </div>
+</div>
 
-<!-- ═══════════════════════════════════════
-     KALKULATOR KONSUMSI BBM NYATA (실연비)
-     Inspired by everycalc.kr/fuel_economy
-════════════════════════════════════════ -->
+<!-- KONSUMSI BBM NYATA -->
 <div class="ksec">
   <div class="card-h" style="padding:18px 18px 0"><div class="card-ico">📊</div>Kalkulator Konsumsi BBM Nyata</div>
   <div class="ksec-i">
-    <p style="font-size:13px;color:var(--tx2);margin-bottom:16px;line-height:1.6">Ukur konsumsi BBM aktual kendaraan Anda, hitung sisa jarak yang bisa ditempuh, atau cari tahu biaya BBM per km.</p>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:16px;line-height:1.6">Ukur konsumsi BBM aktual kendaraan Anda, hitung sisa jarak, atau cari tahu biaya per km.</p>
     <div class="ktabs">
       <button class="ktab on" data-kt="ukur">📏 Konsumsi Nyata</button>
       <button class="ktab" data-kt="sisa">⛽ Jarak Tersisa</button>
       <button class="ktab" data-kt="perkm">💰 Biaya per km</button>
     </div>
-
-    <!-- KONSUMSI NYATA -->
     <div class="kpanel on" id="kt-ukur">
       <div class="kin">
-        <div class="ktip">💡 <strong>Cara ukur:</strong> Isi tangki penuh → catat odometer → berkendara seperti biasa → isi tangki penuh lagi → catat liter yang diisi & jarak tempuh.</div>
+        <div class="ktip">💡 <strong>Cara ukur:</strong> Isi tangki penuh → catat odometer → berkendara → isi lagi penuh → catat liter &amp; jarak.</div>
         <div class="fld"><label>Jarak yang Ditempuh</label><div class="iw"><input type="number" id="k1d" placeholder="500" min="1"/><span class="iu">km</span></div></div>
-        <div class="fld"><label>BBM yang Diisi (pengisian ke-2)</label><div class="iw"><input type="number" id="k1f" placeholder="40" min="0.1" step="0.1"/><span class="iu">liter</span></div></div>
-        <div class="fld"><label>Harga BBM</label><div class="sw"><select id="k1p">
-          <option value="10000">Pertalite — Rp10.000/L</option><option value="12300">Pertamax — Rp12.300/L</option>
-          <option value="13000">Green 95 — Rp13.000/L</option><option value="13100">Turbo — Rp13.100/L</option>
-          <option value="6800">Solar — Rp6.800/L</option><option value="14200">Dexlite — Rp14.200/L</option>
-        </select></div></div>
+        <div class="fld"><label>BBM yang Diisi (ke-2)</label><div class="iw"><input type="number" id="k1f" placeholder="40" min="0.1" step="0.1"/><span class="iu">liter</span></div></div>
+        <div class="fld">
+          <label>Harga BBM</label>
+          <div class="fuel-row">
+            <div class="sw"><select id="k1sel" data-pt="k1p"></select></div>
+            <div class="price-wrap">
+              <span class="price-pfx">Rp</span>
+              <input type="number" id="k1p" class="price-input" data-def="10000" min="1000" step="100"/>
+              <button class="price-rst" id="k1Rst" title="Reset">↩</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="kres">
         <div class="kres-main"><div class="kres-lbl">Konsumsi BBM Nyata</div><div><span class="kres-val" id="k1r">—</span><span class="kres-u"> km/L</span></div></div>
@@ -447,14 +462,12 @@
         <div class="ksr" style="border-top:2px solid var(--bor);margin-top:4px;padding-top:10px"><span style="color:var(--tx2);font-weight:700">vs Standar (12 km/L)</span><span id="k1vs">—</span></div>
       </div>
     </div>
-
-    <!-- JARAK TERSISA -->
     <div class="kpanel" id="kt-sisa">
       <div class="kin">
-        <div class="ktip">💡 Masukkan estimasi sisa BBM di tangki dan konsumsi kendaraan Anda untuk mengetahui masih bisa jalan seberapa jauh.</div>
+        <div class="ktip">💡 Masukkan estimasi sisa BBM di tangki untuk tahu masih bisa jalan seberapa jauh.</div>
         <div class="fld"><label>Sisa BBM di Tangki</label><div class="iw"><input type="number" id="k2s" placeholder="10" min="0.1" step="0.5"/><span class="iu">liter</span></div></div>
         <div class="fld"><label>Konsumsi BBM Kendaraan</label><div class="iw"><input type="number" id="k2e" placeholder="12" min="1" step=".5"/><span class="iu">km/L</span></div>
-          <div class="presets"><button class="pb" data-t="k2e" data-v="8">Motor besar (8)</button><button class="pb" data-t="k2e" data-v="12">Mobil (12)</button><button class="pb" data-t="k2e" data-v="40">Motor matic (40)</button></div>
+          <div class="presets"><button class="pb" data-t="k2e" data-v="8">Motor besar</button><button class="pb" data-t="k2e" data-v="12">Mobil</button><button class="pb" data-t="k2e" data-v="40">Motor matic</button></div>
         </div>
         <div class="fld"><label>Kapasitas Tangki (Opsional)</label><div class="iw"><input type="number" id="k2t" placeholder="40" min="1"/><span class="iu">liter</span></div></div>
       </div>
@@ -466,19 +479,23 @@
         <div class="ksr"><span style="color:var(--tx2)">Tangki terisi</span><span id="k2pct">—</span></div>
       </div>
     </div>
-
-    <!-- BIAYA PER KM -->
     <div class="kpanel" id="kt-perkm">
       <div class="kin">
-        <div class="ktip">💡 Bandingkan biaya operasional per kilometer kendaraan Anda dengan standar motor matic dan referensi umum lainnya.</div>
+        <div class="ktip">💡 Bandingkan biaya operasional per kilometer kendaraan Anda dengan motor matic.</div>
         <div class="fld"><label>Konsumsi BBM Kendaraan</label><div class="iw"><input type="number" id="k3e" placeholder="12" min="1" step=".5"/><span class="iu">km/L</span></div>
-          <div class="presets"><button class="pb" data-t="k3e" data-v="8">Motor besar (8)</button><button class="pb" data-t="k3e" data-v="12">Mobil (12)</button><button class="pb" data-t="k3e" data-v="40">Motor matic (40)</button></div>
+          <div class="presets"><button class="pb" data-t="k3e" data-v="8">Motor besar</button><button class="pb" data-t="k3e" data-v="12">Mobil</button><button class="pb" data-t="k3e" data-v="40">Motor matic</button></div>
         </div>
-        <div class="fld"><label>Jenis BBM</label><div class="sw"><select id="k3p">
-          <option value="10000">Pertalite — Rp10.000/L</option><option value="12300">Pertamax — Rp12.300/L</option>
-          <option value="13000">Green 95 — Rp13.000/L</option><option value="13100">Turbo — Rp13.100/L</option>
-          <option value="6800">Solar — Rp6.800/L</option><option value="14200">Dexlite — Rp14.200/L</option>
-        </select></div></div>
+        <div class="fld">
+          <label>Harga BBM</label>
+          <div class="fuel-row">
+            <div class="sw"><select id="k3sel" data-pt="k3p"></select></div>
+            <div class="price-wrap">
+              <span class="price-pfx">Rp</span>
+              <input type="number" id="k3p" class="price-input" data-def="10000" min="1000" step="100"/>
+              <button class="price-rst" id="k3Rst" title="Reset">↩</button>
+            </div>
+          </div>
+        </div>
         <div class="fld"><label>Jarak per Bulan (Opsional)</label><div class="iw"><input type="number" id="k3m" placeholder="600" min="1"/><span class="iu">km</span></div></div>
       </div>
       <div class="kres">
@@ -486,29 +503,28 @@
         <div class="ksr"><span style="color:var(--tx2)">Biaya/100 km</span><span id="k3h">—</span></div>
         <div class="ksr"><span style="color:var(--tx2)">Biaya/hari (≈30 km)</span><span id="k3dy">—</span></div>
         <div class="ksr"><span style="color:var(--tx2)">Biaya/bulan</span><span id="k3mo">—</span></div>
-        <div class="ksr" style="border-top:2px solid var(--bor);margin-top:4px;padding-top:10px"><span style="color:var(--tx2);font-weight:700">vs Motor matic (40 km/L)</span><span id="k3vs">—</span></div>
+        <div class="ksr" style="border-top:2px solid var(--bor);margin-top:4px;padding-top:10px"><span style="color:var(--tx2);font-weight:700">vs Motor matic (40 km/L · Pertalite)</span><span id="k3vs">—</span></div>
       </div>
     </div>
-
   </div>
-</div><!-- /ksec -->
+</div>
 
-</div><!-- /left -->
+</div>
 
 <!-- SIDEBAR -->
 <aside class="sb">
   <div class="card">
     <div class="card-h"><div class="card-ico">📋</div>Harga BBM April 2026</div>
     <div class="card-b">
-      <p style="font-size:11px;color:var(--tx3);margin-bottom:10px">Berlaku 1 Apr 2026 · Jawa, Bali</p>
+      <p style="font-size:11px;color:var(--tx3);margin-bottom:10px">Klik untuk isi otomatis ke kalkulator · Jawa, Bali</p>
       <div class="flist">
-        <div class="frow on" data-fp="10000"><div class="frl"><div class="fdot" style="background:#F59E0B"></div><div><div class="fn">Pertalite</div><div class="fron">RON 90 · Subsidi</div></div></div><div class="fprice">Rp10.000</div></div>
-        <div class="frow" data-fp="12300"><div class="frl"><div class="fdot" style="background:#3B82F6"></div><div><div class="fn">Pertamax</div><div class="fron">RON 92 · Non-subsidi</div></div></div><div class="fprice">Rp12.300</div></div>
-        <div class="frow" data-fp="13000"><div class="frl"><div class="fdot" style="background:#10B981"></div><div><div class="fn">Pertamax Green 95</div><div class="fron">RON 95 · Bioetanol</div></div></div><div class="fprice">Rp13.000</div></div>
-        <div class="frow" data-fp="13100"><div class="frl"><div class="fdot" style="background:#EF4444"></div><div><div class="fn">Pertamax Turbo</div><div class="fron">RON 98 · Performa</div></div></div><div class="fprice">Rp13.100</div></div>
-        <div class="frow" data-fp="6800"><div class="frl"><div class="fdot" style="background:#6B7280"></div><div><div class="fn">Solar Subsidi</div><div class="fron">CN 48 · Diesel</div></div></div><div class="fprice">Rp6.800</div></div>
-        <div class="frow" data-fp="14200"><div class="frl"><div class="fdot" style="background:#8B5CF6"></div><div><div class="fn">Dexlite</div><div class="fron">CN 51 · Diesel premium</div></div></div><div class="fprice">Rp14.200</div></div>
-        <div class="frow" data-fp="14500"><div class="frl"><div class="fdot" style="background:#1D4ED8"></div><div><div class="fn">Pertamina Dex</div><div class="fron">CN 53 · Diesel performa</div></div></div><div class="fprice">Rp14.500</div></div>
+        <div class="frow on" data-fp="10000" data-fid="pertalite"><div class="frl"><div class="fdot" style="background:#F59E0B"></div><div><div class="fn">Pertalite</div><div class="fron">RON 90 · Subsidi</div></div></div><div class="fprice">Rp10.000</div></div>
+        <div class="frow" data-fp="12300" data-fid="pertamax"><div class="frl"><div class="fdot" style="background:#3B82F6"></div><div><div class="fn">Pertamax</div><div class="fron">RON 92 · Non-subsidi</div></div></div><div class="fprice">Rp12.300</div></div>
+        <div class="frow" data-fp="13000" data-fid="pertamax-green"><div class="frl"><div class="fdot" style="background:#10B981"></div><div><div class="fn">Pertamax Green 95</div><div class="fron">RON 95 · Bioetanol</div></div></div><div class="fprice">Rp13.000</div></div>
+        <div class="frow" data-fp="13100" data-fid="pertamax-turbo"><div class="frl"><div class="fdot" style="background:#EF4444"></div><div><div class="fn">Pertamax Turbo</div><div class="fron">RON 98 · Performa</div></div></div><div class="fprice">Rp13.100</div></div>
+        <div class="frow" data-fp="6800" data-fid="solar"><div class="frl"><div class="fdot" style="background:#6B7280"></div><div><div class="fn">Solar Subsidi</div><div class="fron">CN 48 · Diesel</div></div></div><div class="fprice">Rp6.800</div></div>
+        <div class="frow" data-fp="14200" data-fid="dexlite"><div class="frl"><div class="fdot" style="background:#8B5CF6"></div><div><div class="fn">Dexlite</div><div class="fron">CN 51 · Diesel premium</div></div></div><div class="fprice">Rp14.200</div></div>
+        <div class="frow" data-fp="14500" data-fid="pertamina-dex"><div class="frl"><div class="fdot" style="background:#1D4ED8"></div><div><div class="fn">Pertamina Dex</div><div class="fron">CN 53 · Diesel performa</div></div></div><div class="fprice">Rp14.500</div></div>
       </div>
       <p style="font-size:10px;color:var(--tx3);margin-top:9px;text-align:center">Sumber: Pertamina Patra Niaga</p>
     </div>
@@ -519,18 +535,19 @@
       <div class="tip"><span class="tpico">🌡️</span><div class="tptx"><strong>Isi pagi hari</strong> — suhu dingin membuat BBM lebih padat.</div></div>
       <div class="tip"><span class="tpico">💨</span><div class="tptx"><strong>Cek tekanan ban</strong> — kurang angin bisa boros 3–5%.</div></div>
       <div class="tip"><span class="tpico">🚗</span><div class="tptx"><strong>Kecepatan 60–80 km/h</strong> — range paling efisien.</div></div>
-      <div class="tip"><span class="tpico">❄️</span><div class="tptx"><strong>Hemat AC</strong> — AC bisa boros hingga 10–20%.</div></div>
-      <div class="tip"><span class="tpico">🔧</span><div class="tptx"><strong>Servis rutin</strong> — filter & busi kotor bisa kurangi efisiensi 15%.</div></div>
+      <div class="tip"><span class="tpico">❄️</span><div class="tptx"><strong>Hemat AC</strong> — bisa boros hingga 10–20%.</div></div>
+      <div class="tip"><span class="tpico">🔧</span><div class="tptx"><strong>Servis rutin</strong> — filter & busi kotor kurangi efisiensi 15%.</div></div>
     </div></div>
   </div>
 </aside>
 
 </main>
 
-<!-- SEO -->
 <section class="seo">
   <h2>Kalkulator BBM Online — Panduan Lengkap 2026</h2>
-  <p>Kalkulator BBM NovaCalcs membantu menghitung estimasi biaya bahan bakar minyak secara real-time tanpa perlu menekan tombol hitung — hasil muncul otomatis saat Anda mengetik. Tersedia 5 fitur utama: kalkulator perjalanan, mudik lebaran, bulanan, simulasi hemat, dan perbandingan semua jenis BBM. Dilengkapi dengan Kalkulator Konsumsi BBM Nyata untuk mengukur km/L aktual kendaraan Anda.</p>
+  <p>Kalkulator BBM NovaCalcs membantu menghitung estimasi biaya bahan bakar minyak secara real-time. Harga default mengacu pada tarif resmi Pertamina untuk wilayah Jawa, Madura, dan Bali — namun Anda bisa langsung mengubah harga dengan mengklik angka di samping pilihan BBM, cocok untuk pengguna Shell, Vivo, BP, atau yang berada di luar Jawa.</p>
+  <h2>Sistem Harga BBM di Indonesia</h2>
+  <p>Berbeda dengan banyak negara lain, harga BBM di Indonesia bersifat seragam per wilayah dan tidak berubah setiap hari. Pertamina menetapkan harga yang berlaku di seluruh SPBU Pertamina dalam satu wilayah, biasanya dievaluasi setiap bulan pada tanggal 1. BBM bersubsidi seperti Pertalite (RON 90) dan Solar ditetapkan langsung oleh pemerintah dan cenderung lebih stabil.</p>
   <h2>Harga BBM Terbaru April 2026 — Pertamina</h2>
   <div class="stw"><table class="stbl"><thead><tr><th>Jenis BBM</th><th>Oktan/CN</th><th>Harga (Jawa-Bali)</th><th>Jenis</th></tr></thead><tbody>
     <tr><td>Pertalite</td><td>RON 90</td><td>Rp10.000/L</td><td>Subsidi</td></tr>
@@ -541,13 +558,6 @@
     <tr><td>Dexlite</td><td>CN 51</td><td>Rp14.200/L</td><td>Non-subsidi</td></tr>
     <tr><td>Pertamina Dex</td><td>CN 53</td><td>Rp14.500/L</td><td>Non-subsidi</td></tr>
   </tbody></table></div>
-  <h2>Cara Mengukur Konsumsi BBM Nyata Kendaraan Anda</h2>
-  <p>Gunakan fitur <strong>Kalkulator Konsumsi BBM Nyata</strong> di bawah kalkulator utama. Caranya: isi tangki penuh → catat angka odometer → berkendara seperti biasa → isi lagi penuh → masukkan liter yang diisi dan jarak tempuh. Konsumsi BBM nyata (km/L) akan dihitung otomatis, lengkap dengan biaya per km dan perbandingan dengan standar 12 km/L.</p>
-  <h2>FAQ Seputar BBM</h2>
-  <h3>Berapa biaya BBM Jakarta–Surabaya?</h3>
-  <p>Jarak Jakarta–Surabaya via tol sekitar 700 km. Dengan mobil 12 km/L pakai Pertalite: ~58,3 L × Rp10.000 = <strong>Rp583.000</strong> sekali jalan. Pulang pergi ~Rp1.166.000. Belum termasuk tol ~Rp585.000 PP.</p>
-  <h3>Bagaimana cara menghitung konsumsi BBM kendaraan saya?</h3>
-  <p>Gunakan tab <strong>"Konsumsi Nyata"</strong> di Kalkulator Konsumsi BBM Nyata bawah halaman ini. Isi tangki penuh, catat odometer, berkendara, isi lagi penuh, lalu masukkan jarak & liter yang diisi.</p>
   <h2>Kalkulator Terkait</h2>
   <div class="relg">
     <a href="/id/kalkulator-listrik" class="relc"><div class="relc-ico">⚡</div><div class="relc-nm">Kalkulator Listrik</div><div class="relc-ds">Tagihan PLN bulanan</div></a>
@@ -560,170 +570,219 @@
 <footer><span>© 2026 NovaCalcs · Harga BBM update 1 April 2026</span><span>Sumber: Pertamina Patra Niaga</span></footer>
 
 <script>
-/* ── UTILS ── */
-const fmt  = n => 'Rp' + Math.round(n).toLocaleString('id-ID');
-const fmtL = n => n.toFixed(1) + ' L';
-const fmtK = n => Math.round(n).toLocaleString('id-ID') + ' km';
-const S    = id => document.getElementById(id);
-const set  = (id,v) => { const e=S(id); if(e) e.textContent=v; };
-const slBg = el => { const p=((el.value-el.min)/(el.max-el.min))*100; el.style.setProperty('--pct',p+'%'); };
+const FUELS=[
+  {id:"pertalite",name:"Pertalite",short:"⛽ Pertalite (RON 90)",price:10000},
+  {id:"pertamax",name:"Pertamax",short:"⛽ Pertamax (RON 92)",price:12300},
+  {id:"pertamax-green",name:"Pertamax Green 95",short:"⛽ Pertamax Green 95",price:13000},
+  {id:"pertamax-turbo",name:"Pertamax Turbo",short:"⛽ Pertamax Turbo (RON 98)",price:13100},
+  {id:"solar",name:"Solar Subsidi",short:"🚛 Solar Subsidi",price:6800},
+  {id:"dexlite",name:"Dexlite",short:"🚛 Dexlite (CN 51)",price:14200},
+  {id:"pertamina-dex",name:"Pertamina Dex",short:"🚛 Pertamina Dex (CN 53)",price:14500},
+];
 
-/* ── MAIN TABS ── */
-document.querySelectorAll('.tbtn').forEach(b => b.addEventListener('click', function(){
+const fmt=n=>'Rp'+Math.round(n).toLocaleString('id-ID');
+const fmtL=n=>n.toFixed(1)+' L';
+const fmtK=n=>Math.round(n).toLocaleString('id-ID')+' km';
+const S=id=>document.getElementById(id);
+const set=(id,v)=>{const e=S(id);if(e)e.textContent=v};
+const slBg=el=>{const p=((+el.value-+el.min)/(+el.max-+el.min))*100;el.style.setProperty('--pct',p+'%')};
+const gp=id=>{const e=S(id);return e?+e.value:0};
+
+// Build selects
+function buildSel(id,short=false){
+  const el=S(id);if(!el)return;
+  el.innerHTML=FUELS.map(f=>`<option value="${f.id}" data-price="${f.price}">${short?f.name+' — '+fmt(f.price):f.short+' — '+fmt(f.price)+'/L'}</option>`).join('');
+}
+['pFuel','mFuel','bFuel','sFuel'].forEach(id=>buildSel(id,false));
+['k1sel','k3sel'].forEach(id=>buildSel(id,true));
+
+// ── INLINE PRICE EDIT ──
+// Each select with data-pt syncs to a price input
+function syncPrice(selEl,priceEl){
+  if(!selEl||!priceEl)return;
+  const p=+selEl.selectedOptions[0]?.dataset.price||0;
+  priceEl.value=p;
+  priceEl.dataset.def=p;
+  priceEl.classList.remove('custom');
+  const hint=S(priceEl.id+'Hint');
+  if(hint){hint.textContent='✏️ Ketuk angka harga untuk sesuaikan (Shell, Vivo, luar Jawa, dsb)';hint.className='price-hint';}
+}
+function markCustom(priceEl){
+  const isC=+priceEl.value!==+priceEl.dataset.def;
+  priceEl.classList.toggle('custom',isC);
+  const hint=S(priceEl.id+'Hint');
+  if(hint){
+    if(isC){hint.textContent='⚠️ Harga kustom aktif — klik ↩ untuk kembali ke harga resmi';hint.className='price-hint warn';}
+    else{hint.textContent='✏️ Ketuk angka harga untuk sesuaikan (Shell, Vivo, luar Jawa, dsb)';hint.className='price-hint';}
+  }
+}
+
+document.querySelectorAll('select[data-pt]').forEach(sel=>{
+  const pid=sel.dataset.pt;
+  const priceEl=S(pid);
+  if(!priceEl)return;
+  syncPrice(sel,priceEl);
+  sel.addEventListener('change',()=>{syncPrice(sel,priceEl);priceEl.dispatchEvent(new Event('input',{bubbles:true}))});
+  priceEl.addEventListener('input',()=>{markCustom(priceEl)});
+  const rst=priceEl.parentElement.querySelector('.price-rst');
+  if(rst)rst.addEventListener('click',()=>{syncPrice(sel,priceEl);priceEl.dispatchEvent(new Event('input',{bubbles:true}))});
+});
+
+// ── SIDEBAR ──
+document.querySelectorAll('.frow').forEach(row=>row.addEventListener('click',function(){
+  document.querySelectorAll('.frow').forEach(r=>r.classList.remove('on'));
+  this.classList.add('on');
+  const fid=this.dataset.fid;
+  document.querySelectorAll('select[data-pt]').forEach(sel=>{
+    const opt=[...sel.options].find(o=>o.value===fid);
+    if(opt){sel.value=fid;sel.dispatchEvent(new Event('change',{bubbles:true}));}
+  });
+}));
+
+// ── TABS ──
+document.querySelectorAll('.tbtn').forEach(b=>b.addEventListener('click',function(){
   document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));
   document.querySelectorAll('.tpanel').forEach(x=>x.classList.remove('on'));
-  this.classList.add('on');
-  S('tab-'+this.dataset.tab).classList.add('on');
+  this.classList.add('on');S('tab-'+this.dataset.tab).classList.add('on');
+}));
+document.querySelectorAll('.ktab').forEach(b=>b.addEventListener('click',function(){
+  document.querySelectorAll('.ktab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.kpanel').forEach(x=>x.classList.remove('on'));
+  this.classList.add('on');S('kt-'+this.dataset.kt).classList.add('on');
 }));
 
-/* ── PRESETS ── */
-document.querySelectorAll('.pb[data-t]').forEach(b => b.addEventListener('click', function(){
-  const el=S(this.dataset.t); if(!el) return;
-  el.value=this.dataset.v;
-  el.dispatchEvent(new Event('input',{bubbles:true}));
+// ── PRESETS ──
+document.querySelectorAll('.pb[data-t]').forEach(b=>b.addEventListener('click',function(){
+  const el=S(this.dataset.t);if(!el)return;
+  el.value=this.dataset.v;el.dispatchEvent(new Event('input',{bubbles:true}));
 }));
+document.querySelectorAll('.sslider').forEach(sl=>sl.addEventListener('input',()=>slBg(sl)));
 
-/* ── SLIDER BG ── */
-document.querySelectorAll('.sslider').forEach(sl => sl.addEventListener('input',()=>slBg(sl)));
-
-/* ═══ PERJALANAN (real-time) ═══ */
+// ── PERJALANAN ──
 let pp=1;
 S('p1w').onclick=()=>{pp=0;S('p1w').classList.add('on');S('p2w').classList.remove('on');cP()};
 S('p2w').onclick=()=>{pp=1;S('p2w').classList.add('on');S('p1w').classList.remove('on');cP()};
 function cP(){
-  const pr=+S('pFuel').value, di=+S('pDist').value, ef=+S('pEff').value;
-  if(!di||!ef){set('pTotal','—');set('pSub','Isi jarak & konsumsi BBM di atas');set('pL','— L');set('pD','— km');set('pPL','—');set('pEO','—');set('pCK','—');return}
-  const td=di*(pp?2:1),L=td/ef,co=L*pr;
-  set('pTotal',fmt(co)); set('pSub',(pp?'Pulang Pergi':'Sekali Jalan')+' · '+fmtK(td));
-  set('pL',fmtL(L)); set('pD',fmtK(td));
-  set('pPL',fmt(pr)+'/L'); set('pEO',ef+' km/L'); set('pCK',fmt(pr/ef)+'/km');
+  const pr=gp('pPrice'),di=+S('pDist').value,ef=+S('pEff').value;
+  if(!di||!ef||!pr){set('pTotal','—');set('pSub','Isi jarak & konsumsi BBM di atas');set('pL','— L');set('pD','— km');set('pPLout','—');set('pEO','—');set('pCK','—');return}
+  const td=di*(pp?2:1),L=td/ef,co=L*pr,isC=S('pPrice').classList.contains('custom');
+  set('pTotal',fmt(co));set('pSub',(pp?'Pulang Pergi':'Sekali Jalan')+' · '+fmtK(td));
+  set('pL',fmtL(L));set('pD',fmtK(td));
+  set('pPLout',fmt(pr)+'/L'+(isC?' ✏️ kustom':''));set('pEO',ef+' km/L');set('pCK',fmt(pr/ef)+'/km');
 }
-['pFuel','pDist','pEff'].forEach(id=>S(id)?.addEventListener('input',cP));
+['pFuel','pDist','pEff','pPrice'].forEach(id=>S(id)?.addEventListener('input',cP));
 
-/* ═══ MUDIK (real-time) ═══ */
+// ── MUDIK ──
 S('mRoute').addEventListener('change',function(){
   if(!this.value)return;
   const[d,t]=this.value.split('|');
-  S('mDist').value=d; S('mToll').value=t; cM();
+  S('mDist').value=d;S('mToll').value=t;cM();
 });
 function cM(){
-  const pr=+S('mFuel').value,di=+S('mDist').value,ef=+S('mEff').value,tl=+S('mToll').value||0,px=+S('mPax').value||1;
-  if(!di||!ef){set('mTotal','—');set('mPO','Isi jarak & konsumsi BBM di atas');['mB','mT','mL','mK','mBP','mTP','mTP2'].forEach(id=>set(id,'—'));return}
+  const pr=gp('mPrice'),di=+S('mDist').value,ef=+S('mEff').value,tl=+S('mToll').value||0,px=+S('mPax').value||1;
+  if(!di||!ef||!pr){set('mTotal','—');set('mPO','Isi jarak & konsumsi BBM di atas');['mB','mT','mL','mK','mBP','mTP','mTP2'].forEach(id=>set(id,'—'));return}
   const km=di*2,L=km/ef,bb=L*pr,tot=bb+tl;
-  set('mTotal',fmt(tot)); set('mPO',fmt(tot/px)+' per orang ('+px+' penumpang)');
-  set('mB',fmt(bb)); set('mT',tl>0?fmt(tl):'—'); set('mL',fmtL(L)); set('mK',fmtK(km));
-  set('mBP',fmt(bb/px)); set('mTP',tl>0?fmt(tl/px):'—'); set('mTP2',fmt(tot/px));
+  set('mTotal',fmt(tot));set('mPO',fmt(tot/px)+' per orang ('+px+' penumpang)');
+  set('mB',fmt(bb));set('mT',tl>0?fmt(tl):'—');set('mL',fmtL(L));set('mK',fmtK(km));
+  set('mBP',fmt(bb/px));set('mTP',tl>0?fmt(tl/px):'—');set('mTP2',fmt(tot/px));
 }
-['mFuel','mDist','mEff','mToll','mPax'].forEach(id=>S(id)?.addEventListener('input',cM));
+['mFuel','mDist','mEff','mToll','mPax','mPrice'].forEach(id=>S(id)?.addEventListener('input',cM));
 
-/* ═══ BULANAN (real-time) ═══ */
+// ── BULANAN ──
 function cB(){
-  const pr=+S('bFuel').value,ef=+S('bEff').value,dy=+S('bDaily').value,da=+S('bDays').value;
-  if(!ef||!dy||!da){['bMo','bDy','bLt','bKm','bYr','bPK'].forEach(id=>set(id,'—'));return}
+  const pr=gp('bPrice'),ef=+S('bEff').value,dy=+S('bDaily').value,da=+S('bDays').value;
+  if(!ef||!dy||!da||!pr){['bMo','bDy','bLt','bKm','bYr','bPK'].forEach(id=>set(id,'—'));return}
   const km=dy*da,L=km/ef,mo=L*pr;
-  set('bMo',fmt(mo)); set('bDy',fmt(dy/ef*pr)); set('bLt',fmtL(L));
-  set('bKm',fmtK(km)); set('bYr',fmt(mo*12)); set('bPK',fmt(pr/ef)+'/km');
+  set('bMo',fmt(mo));set('bDy',fmt(dy/ef*pr));set('bLt',fmtL(L));
+  set('bKm',fmtK(km));set('bYr',fmt(mo*12));set('bPK',fmt(pr/ef)+'/km');
 }
-['bFuel','bEff','bDaily','bDays'].forEach(id=>S(id)?.addEventListener('input',cB));
+['bFuel','bEff','bDaily','bDays','bPrice'].forEach(id=>S(id)?.addEventListener('input',cB));
 
-/* ═══ SIMULASI HEMAT (real-time) ═══ */
-const fOpts=[{n:'Pertalite',p:10000},{n:'Pertamax',p:12300},{n:'Green 95',p:13000},{n:'Turbo',p:13100},{n:'Solar',p:6800},{n:'Dexlite',p:14200}];
+// ── SIMULASI HEMAT ──
 function updLev(i,sav,tgt){
   const pct=Math.min(sav/tgt*100,100);
   const fill=S('sf'+i),badge=S('lb'+i),card=S('lv'+i);
   if(!fill)return;
-  fill.style.width=pct+'%'; fill.classList.toggle('ov',pct>=100);
+  fill.style.width=pct+'%';fill.classList.toggle('ov',pct>=100);
   if(sav>=tgt){badge.textContent='✓ Tercapai!';badge.className='lbdg lb-g';card.classList.add('ok');}
   else{badge.textContent=fmt(sav)+'/bln';badge.className='lbdg lb-o';card.classList.remove('ok');}
 }
 function cSim(){
-  const pr=+S('sFuel').value,ef=+S('sEff').value,dy=+S('sDaily').value,da=+S('sDays').value,tg=+S('sTarget').value;
-  if(!ef||!dy||!da){set('sCur','—');set('sCurY','—');set('sTgt','—');return}
+  const pr=gp('sPrice'),ef=+S('sEff').value,dy=+S('sDaily').value,da=+S('sDays').value,tg=+S('sTarget').value;
+  if(!ef||!dy||!da||!pr){set('sCur','—');set('sCurY','—');set('sTgt','—');return}
   const base=dy*da/ef*pr;
-  set('sCur',fmt(base)+'/bulan'); set('sCurY',fmt(base*12)+'/tahun');
-  set('sTgt',tg?fmt(tg)+'/bulan':'—'); set('simM',tg?fmt(tg)+'/bulan':'—');
-  set('simY',tg?fmt(tg*12)+'/tahun':'—'); set('simN',tg?fmt(base-tg)+'/bulan':'—');
+  set('sCur',fmt(base)+'/bulan');set('sCurY',fmt(base*12)+'/tahun');
+  set('sTgt',tg?fmt(tg)+'/bulan':'—');set('simM',tg?fmt(tg)+'/bulan':'—');
+  set('simY',tg?fmt(tg*12)+'/tahun':'—');set('simN',tg?fmt(base-tg)+'/bulan':'—');
   if(!tg)return;
-  // SL1
-  const s1=S('sl1'); s1.max=dy; if(+s1.value>dy)s1.value=0; slBg(s1);
-  const upd1=()=>{const r=+s1.value,sv=base-((dy-r)*da/ef*pr);set('sv1',r+' km dikurangi');S('ss1').innerHTML=`Sisa <strong>${(dy-r).toFixed(0)} km/hari</strong> → Hemat <strong>${fmt(sv)}/bln</strong>`;updLev(1,sv,tg)};
-  upd1(); s1.oninput=upd1;
-  // SL2
-  const s2=S('sl2'); s2.max=da; if(+s2.value>da)s2.value=0; slBg(s2);
-  const upd2=()=>{const r=+s2.value,sv=base-(dy*(da-r)/ef*pr);set('sv2',r+' hari dikurangi');S('ss2').innerHTML=`Sisa <strong>${(da-r).toFixed(0)} hari/bln</strong> → Hemat <strong>${fmt(sv)}/bln</strong>`;updLev(2,sv,tg)};
-  upd2(); s2.oninput=upd2;
-  // SL3
-  const s3=S('sl3'),maxE=Math.min(ef*2.5,80); s3.min=ef; s3.max=maxE; if(+s3.value<ef)s3.value=ef; set('sl3min',ef+' km/L'); slBg(s3);
-  const upd3=()=>{const ne=+s3.value,sv=base-(dy*da/ne*pr),pu=((ne-ef)/ef*100).toFixed(0);set('sv3',ne.toFixed(1)+' km/L');S('ss3').innerHTML=`Efisiensi +${pu}% → Hemat <strong>${fmt(sv)}/bln</strong>`;updLev(3,sv,tg)};
-  upd3(); s3.oninput=upd3;
-  // LEVER 4
-  const l4=S('lv4opts'); l4.innerHTML='';
-  const cheaper=fOpts.filter(f=>f.p<pr);
+  const s1=S('sl1');s1.max=dy;if(+s1.value>dy)s1.value=0;slBg(s1);
+  const u1=()=>{const r=+s1.value,sv=base-((dy-r)*da/ef*pr);set('sv1',r+' km dikurangi');S('ss1').innerHTML=`Sisa <strong>${(dy-r).toFixed(0)} km/hari</strong> → Hemat <strong>${fmt(sv)}/bln</strong>`;updLev(1,sv,tg)};
+  u1();s1.oninput=u1;
+  const s2=S('sl2');s2.max=da;if(+s2.value>da)s2.value=0;slBg(s2);
+  const u2=()=>{const r=+s2.value,sv=base-(dy*(da-r)/ef*pr);set('sv2',r+' hari dikurangi');S('ss2').innerHTML=`Sisa <strong>${(da-r).toFixed(0)} hari/bln</strong> → Hemat <strong>${fmt(sv)}/bln</strong>`;updLev(2,sv,tg)};
+  u2();s2.oninput=u2;
+  const s3=S('sl3'),maxE=Math.min(ef*2.5,80);s3.min=ef;s3.max=maxE;if(+s3.value<ef)s3.value=ef;set('sl3min',ef+' km/L');slBg(s3);
+  const u3=()=>{const ne=+s3.value,sv=base-(dy*da/ne*pr),pu=((ne-ef)/ef*100).toFixed(0);set('sv3',ne.toFixed(1)+' km/L');S('ss3').innerHTML=`Efisiensi +${pu}% → Hemat <strong>${fmt(sv)}/bln</strong>`;updLev(3,sv,tg)};
+  u3();s3.oninput=u3;
+  const l4=S('lv4opts');l4.innerHTML='';
+  const cheaper=FUELS.filter(f=>f.price<pr);
   if(!cheaper.length){set('ss4','⚠️ Sudah menggunakan BBM paling murah.');S('lb4').textContent='N/A';S('lb4').className='lbdg lb-r';}
-  else{S('lb4').textContent=cheaper.length+' pilihan';S('lb4').className='lbdg lb-g';
-    cheaper.forEach(f=>{const sv=base-(dy*da/ef*f.p);const btn=document.createElement('button');btn.className='pb';btn.style.cssText='border-color:var(--grn);color:var(--grn)';btn.textContent=`${f.n} → hemat ${fmt(sv)}/bln`;btn.onclick=function(){document.querySelectorAll('#lv4opts .pb').forEach(b=>b.classList.remove('on'));this.classList.add('on');S('ss4').innerHTML=`Ganti ke ${f.n} (${fmt(f.p)}/L) → Hemat <strong>${fmt(sv)}/bulan</strong>`+(sv>=tg?' <span style="color:var(--grn)">✓ Tercapai!</span>':'');updLev(4,sv,tg)};l4.appendChild(btn)});
-    set('ss4','Pilih jenis BBM yang ingin dicoba');updLev(4,0,tg);}
+  else{
+    S('lb4').textContent=cheaper.length+' pilihan';S('lb4').className='lbdg lb-g';
+    cheaper.forEach(f=>{
+      const sv=base-(dy*da/ef*f.price);
+      const btn=document.createElement('button');btn.className='pb';
+      btn.style.cssText='border-color:var(--grn);color:var(--grn)';
+      btn.textContent=f.name+' → hemat '+fmt(sv)+'/bln';
+      btn.onclick=function(){document.querySelectorAll('#lv4opts .pb').forEach(b=>b.classList.remove('on'));this.classList.add('on');S('ss4').innerHTML='Ganti ke '+f.name+' ('+fmt(f.price)+'/L) → Hemat <strong>'+fmt(sv)+'</strong>/bulan'+(sv>=tg?' <span style="color:var(--grn)">✓ Tercapai!</span>':'');updLev(4,sv,tg)};
+      l4.appendChild(btn);
+    });
+    set('ss4','Pilih jenis BBM yang ingin dicoba');updLev(4,0,tg);
+  }
 }
-['sFuel','sEff','sDaily','sDays','sTarget'].forEach(id=>S(id)?.addEventListener('input',cSim));
+['sFuel','sEff','sDaily','sDays','sTarget','sPrice'].forEach(id=>S(id)?.addEventListener('input',cSim));
 
-/* ═══ BANDINGKAN (real-time) ═══ */
-const cmpF=[{n:'Pertalite (RON 90)',p:10000,base:true},{n:'Pertamax (RON 92)',p:12300},{n:'Pertamax Green 95',p:13000},{n:'Pertamax Turbo (RON 98)',p:13100},{n:'Solar Subsidi',p:6800},{n:'Dexlite',p:14200},{n:'Pertamina Dex',p:14500}];
+// ── BANDINGKAN ──
 function cCmp(){
   const di=+S('cDist').value,ef=+S('cEff').value,body=S('cBody');
   if(!di||!ef){body.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--tx3);padding:20px;font-size:13px">Isi jarak & konsumsi BBM di atas</td></tr>';return}
-  const baseC=di/ef*10000;
-  body.innerHTML=cmpF.map(f=>{const co=di/ef*f.p,df=co-baseC,ds=f.base?'—':(df>0?`<span class="px">+${fmt(df)}</span>`:`<span class="ch">${fmt(df)}</span>`);return`<tr${f.base?' class="hi"':''}><td>${f.n}${f.base?' ✓':''}</td><td class="mo">${fmt(f.p)}</td><td class="mo">${(di/ef).toFixed(1)} L</td><td class="mo">${fmt(co)}</td><td>${ds}</td></tr>`}).join('');
+  const baseC=di/ef*FUELS[0].price;
+  body.innerHTML=FUELS.map((f,i)=>{
+    const co=di/ef*f.price,df=co-baseC;
+    const ds=i===0?'—':(df>0?'<span class="px">+'+fmt(df)+'</span>':'<span class="ch">'+fmt(df)+'</span>');
+    return '<tr'+(i===0?' class="hi"':'')+'><td>'+f.name+(i===0?' ✓':'')+'</td><td class="mo">'+fmt(f.price)+'</td><td class="mo">'+(di/ef).toFixed(1)+' L</td><td class="mo">'+fmt(co)+'</td><td>'+ds+'</td></tr>';
+  }).join('');
 }
 ['cDist','cEff'].forEach(id=>S(id)?.addEventListener('input',cCmp));
 
-/* ═══ KONSUMSI TABS ═══ */
-document.querySelectorAll('.ktab').forEach(b=>b.addEventListener('click',function(){
-  document.querySelectorAll('.ktab').forEach(x=>x.classList.remove('on'));
-  document.querySelectorAll('.kpanel').forEach(x=>x.classList.remove('on'));
-  this.classList.add('on'); S('kt-'+this.dataset.kt).classList.add('on');
-}));
-
-/* KONSUMSI NYATA */
+// ── KONSUMSI NYATA ──
 function cK1(){
-  const di=+S('k1d').value,fu=+S('k1f').value,pr=+S('k1p').value;
+  const di=+S('k1d').value,fu=+S('k1f').value,pr=gp('k1p');
   if(!di||!fu){set('k1r','—');['k1fo','k1do','k1co','k1pk','k1vs'].forEach(id=>set(id,'—'));return}
   const ef=di/fu,co=fu*pr,pk=pr/ef,std=12,dp=((ef-std)/std*100).toFixed(0);
-  set('k1r',ef.toFixed(1)); set('k1fo',fmtL(fu)); set('k1do',fmtK(di));
-  set('k1co',fmt(co)); set('k1pk',fmt(pk)+'/km');
-  const el=S('k1vs');
-  if(el){el.textContent=ef>=std?`+${dp}% lebih irit ✓`:`${dp}% lebih boros`;el.style.color=ef>=std?'var(--grn)':'var(--red)';}
+  set('k1r',ef.toFixed(1));set('k1fo',fmtL(fu));set('k1do',fmtK(di));set('k1co',fmt(co));set('k1pk',fmt(pk)+'/km');
+  const el=S('k1vs');if(el){el.textContent=ef>=std?'+'+dp+'% lebih irit ✓':dp+'% lebih boros';el.style.color=ef>=std?'var(--grn)':'var(--red)';}
 }
-['k1d','k1f','k1p'].forEach(id=>S(id)?.addEventListener('input',cK1));
+['k1d','k1f','k1p','k1sel'].forEach(id=>S(id)?.addEventListener('input',cK1));
 
-/* JARAK TERSISA */
 function cK2(){
   const si=+S('k2s').value,ef=+S('k2e').value,tk=+S('k2t').value;
   if(!si||!ef){set('k2r','—');['k2so','k2eo','k2max','k2pct'].forEach(id=>set(id,'—'));return}
-  const di=si*ef;
-  set('k2r',Math.round(di).toString()); set('k2so',fmtL(si)); set('k2eo',ef+' km/L');
+  set('k2r',Math.round(si*ef).toString());set('k2so',fmtL(si));set('k2eo',ef+' km/L');
   set('k2max',tk?fmtK(tk*ef)+' (tangki penuh)':'— (isi kapasitas tangki)');
   set('k2pct',tk?((si/tk)*100).toFixed(0)+'% terisi':'—');
 }
 ['k2s','k2e','k2t'].forEach(id=>S(id)?.addEventListener('input',cK2));
 
-/* BIAYA PER KM */
 function cK3(){
-  const ef=+S('k3e').value,pr=+S('k3p').value,mo=+S('k3m').value;
-  if(!ef){['k3r','k3h','k3dy','k3mo','k3vs'].forEach(id=>set(id,'—'));return}
-  const pk=pr/ef,mt=pr/40,df=pk-mt;
-  set('k3r',fmt(pk)); set('k3h',fmt(pk*100)); set('k3dy',fmt(pk*30));
+  const ef=+S('k3e').value,pr=gp('k3p'),mo=+S('k3m').value;
+  if(!ef||!pr){['k3r','k3h','k3dy','k3mo','k3vs'].forEach(id=>set(id,'—'));return}
+  const pk=pr/ef,mt=10000/40,df=pk-mt;
+  set('k3r',fmt(pk));set('k3h',fmt(pk*100));set('k3dy',fmt(pk*30));
   set('k3mo',mo?fmt(pk*mo):'— (isi jarak/bulan)');
-  const el=S('k3vs');
-  if(el){el.textContent=df>0?`+${fmt(df)}/km lebih mahal dari motor matic`:`${fmt(Math.abs(df))}/km lebih hemat dari motor matic`;el.style.color=df>0?'var(--red)':'var(--grn)';}
+  const el=S('k3vs');if(el){el.textContent=df>0?'+'+fmt(df)+'/km lebih mahal dari motor matic':fmt(Math.abs(df))+'/km lebih hemat dari motor matic';el.style.color=df>0?'var(--red)':'var(--grn)';}
 }
-['k3e','k3p','k3m'].forEach(id=>S(id)?.addEventListener('input',cK3));
-
-/* ═══ SIDEBAR FUEL ROW SYNC ═══ */
-document.querySelectorAll('.frow').forEach(row=>row.addEventListener('click',function(){
-  document.querySelectorAll('.frow').forEach(r=>r.classList.remove('on')); this.classList.add('on');
-  const fp=this.dataset.fp;
-  ['pFuel','mFuel','bFuel','sFuel','k1p','k3p'].forEach(id=>{const s=S(id);if(s){for(let o of s.options)if(o.value===fp){s.value=fp;s.dispatchEvent(new Event('input',{bubbles:true}));break}}});
-}));
+['k3e','k3p','k3m','k3sel'].forEach(id=>S(id)?.addEventListener('input',cK3));
 </script>
 </body>
 </html>
