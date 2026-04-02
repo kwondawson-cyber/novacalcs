@@ -1,495 +1,593 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Zakat 2026 — Mal, Penghasilan, Emas & Fitrah | NovaCalcs</title>
-<meta name="description" content="Hitung zakat mal, zakat penghasilan, zakat emas, dan zakat fitrah 2025 sesuai nisab terkini. Cek apakah harta Anda sudah mencapai nisab dan berapa yang wajib dizakatkan."/>
-<meta name="keywords" content="kalkulator zakat 2026, hitung zakat mal, zakat penghasilan, nisab zakat 2026, zakat emas, zakat fitrah, kalkulator zakat BAZNAS"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-zakat.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-zakat.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Zakat","url":"https://novacalcs.com/id/kalkulator-zakat.html","description":"Kalkulator zakat mal, penghasilan, emas, dan fitrah sesuai nisab 2026","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Tabs */
-.z-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:18px; gap:2px; overflow-x:auto; }
-.z-tab { padding:8px 12px; font-size:0.78rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.15s; }
-.z-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
-.z-mode { display:none; }
-.z-mode.active { display:block; }
-
-/* Nisab info banner */
-.nisab-banner { background:var(--mint-dim); border:1px solid rgba(0,201,177,0.25); border-radius:var(--radius-sm); padding:10px 12px; font-size:0.75rem; color:var(--text-secondary); margin-bottom:14px; }
-.nisab-banner strong { color:var(--mint); }
-
-/* Nisab progress bar */
-.nisab-bar-wrap { margin:14px 0 6px; }
-.nisab-bar-title { display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-secondary); margin-bottom:5px; }
-.nisab-track { height:14px; border-radius:7px; background:var(--bg-input); overflow:hidden; position:relative; }
-.nisab-fill { height:100%; border-radius:7px; transition:width 0.7s ease; }
-.nisab-fill.wajib { background:var(--mint); }
-.nisab-fill.belum { background:#fbbf24; }
-.nisab-fill.over { background:#f97316; }
-
-/* Big zakat display */
-.zakat-main { text-align:center; padding:16px 0 10px; }
-.zakat-num { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
-.zakat-num.belum-wajib { color:#fbbf24; font-size:1.4rem; }
-.zakat-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Stats grid */
-.z-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.z-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.z-stat .zs-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
-.z-stat .zs-val { font-size:0.9rem; font-weight:700; color:var(--text-primary); }
-.z-stat.green .zs-val { color:var(--mint); }
-.z-stat.yellow .zs-val { color:#fbbf24; }
-
-/* Aset types (zakat mal) */
-.aset-grid { display:grid; gap:8px; margin:10px 0; }
-.aset-item { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; }
-.aset-item label { font-size:0.78rem; font-weight:600; color:var(--text-secondary); display:flex; align-items:center; gap:6px; margin-bottom:6px; }
-.aset-item input { width:100%; background:var(--bg-card); border:1px solid var(--border); border-radius:6px; padding:7px 10px; color:var(--text-primary); font-size:0.875rem; }
-
-/* Fitrah result */
-.fitrah-cards { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
-.fitrah-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:12px; text-align:center; border:1px solid var(--border); }
-.fitrah-card .fc-num { font-size:1.2rem; font-weight:700; color:var(--mint); }
-.fitrah-card .fc-label { font-size:0.68rem; color:var(--text-muted); margin-top:2px; }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Zakat Maal 2026 — Harta, Tabungan, Investasi & Fitrah | NovaCalcs</title>
+  <meta name="description" content="Kalkulator zakat maal 2026: hitung zakat harta (tabungan, investasi, emas) berdasarkan nisab 85 gram emas & haul 1 tahun. Termasuk zakat fitrah per jiwa. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-zakat">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* HARTA ROWS */
+    .harta-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bor)}
+    .harta-row:last-child{border-bottom:none}
+    .harta-ico{font-size:18px;flex-shrink:0;width:24px;text-align:center}
+    .harta-lbl{flex:1}
+    .harta-nm{font-size:13px;font-weight:600}
+    .harta-sub{font-size:10px;color:var(--tx3)}
+    .harta-inp{width:140px}
+    .harta-inp input{width:100%;padding:7px 10px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:13px;font-weight:700;text-align:right;background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .harta-inp input:focus{border-color:var(--pri)}
+    /* NISAB PROGRESS */
+    .nisab-bar{margin:16px 0 6px}
+    .nisab-bar-bg{height:12px;background:var(--sur2);border-radius:6px;overflow:hidden;position:relative}
+    .nisab-bar-fill{height:100%;border-radius:6px;transition:width .5s ease}
+    .nisab-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-top:4px}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .lres.grn-res{background:var(--grn-b);border-color:#86efac}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* STATUS BADGE */
+    .status-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:700;margin-top:14px}
+    .status-badge.wajib{background:var(--pri-l);color:var(--pri);border:1.5px solid #ffd4b3}
+    .status-badge.belum{background:var(--sur2);color:var(--tx3);border:1.5px solid var(--bor)}
+    /* CHART BARS */
+    .distrib-wrap{margin-top:14px}
+    .distrib-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
+    .distrib-lbl{min-width:100px;color:var(--tx2);font-size:11px}
+    .distrib-bar-bg{flex:1;background:var(--sur2);border-radius:3px;height:18px;overflow:hidden}
+    .distrib-bar-fill{height:100%;border-radius:3px;background:var(--pri);transition:width .4s}
+    .distrib-val{min-width:80px;text-align:right;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--pri)}
+    /* NISAB TRACKER */
+    .tracker-wrap{margin-top:14px}
+    .tracker-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--bor);font-size:12px}
+    .tracker-row:last-child{border-bottom:none}
+    .tracker-lbl{color:var(--tx2)}
+    .tracker-val{font-family:'DM Mono',monospace;font-weight:700}
+    .tracker-val.ok{color:var(--grn)}.tracker-val.warn{color:var(--pri)}.tracker-val.bad{color:var(--tx3)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    .notice.grn{background:var(--grn-b);border-color:#86efac;color:#166534}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Zakat</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Zakat</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">☪️ Zakat</div>
+  <h1 class="hdr-h1">Kalkulator Zakat Maal 2026</h1>
+  <p class="hdr-sub">Hitung zakat harta (maal) dan zakat fitrah. Cek apakah harta Anda sudah mencapai nisab — hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">Nisab <span>85 gram emas</span></div>
+    <div class="pchip">Haul <span>1 tahun kepemilikan</span></div>
+    <div class="pchip">Kadar <span>2,5% dari total harta</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🌙 Kalkulator Zakat 2026</div>
-      <div class="calc-subtitle">Mal · Penghasilan · Emas · Fitrah</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="z-tabs">
-        <div class="z-tab active" onclick="switchTab(0,this)">💰 Zakat Mal</div>
-        <div class="z-tab" onclick="switchTab(1,this)">💼 Penghasilan</div>
-        <div class="z-tab" onclick="switchTab(2,this)">🥇 Emas</div>
-        <div class="z-tab" onclick="switchTab(3,this)">🌾 Fitrah</div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">☪️</div>Hitung Zakat Saya</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="maal">💰 Zakat Maal (Harta)</button>
+      <button class="tbtn" data-tab="fitrah">🌙 Zakat Fitrah</button>
+    </div>
+
+    <!-- TAB: ZAKAT MAAL -->
+    <div class="tpanel on" id="tab-maal">
+      <div class="fld">
+        <label>Harga Emas saat ini (Rp/gram)</label>
+        <div class="iw"><input type="number" id="harga-emas" value="1750000" min="0" step="10000"></div>
+        <div class="presets">
+          <button class="pb" data-val="1500000" data-for="harga-emas">1,5 jt</button>
+          <button class="pb on" data-val="1750000" data-for="harga-emas">1,75 jt</button>
+          <button class="pb" data-val="2000000" data-for="harga-emas">2 jt</button>
+          <button class="pb" data-val="2200000" data-for="harga-emas">2,2 jt</button>
+        </div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">Gunakan harga emas hari ini (cek Antam/pasar emas setempat). Nisab = 85 gram × harga emas.</div>
       </div>
 
-      <!-- TAB 0: Zakat Mal -->
-      <div class="z-mode active" id="z0">
-        <div class="nisab-banner">
-          Nisab zakat mal = <strong>85 gram emas</strong>. Dengan harga emas ~Rp 1.800.000/gram → Nisab ≈ <strong>Rp 153.000.000</strong> (2026)
+      <div class="sec-lbl">Daftar Harta yang Wajib Dizakati</div>
+      <div style="background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden">
+        <div class="harta-row" style="padding:10px 14px">
+          <div class="harta-ico">💵</div>
+          <div class="harta-lbl"><div class="harta-nm">Uang Tunai & Tabungan</div><div class="harta-sub">Saldo rekening, deposito, uang tunai</div></div>
+          <div class="harta-inp"><input type="number" id="h-tabungan" value="50000000" min="0" step="1000000"></div>
         </div>
-        <div class="aset-grid">
-          <div class="aset-item">
-            <label>🏦 Uang tunai + tabungan (Rp)</label>
-            <input type="number" id="m-tabungan" placeholder="Total saldo semua rekening" oninput="calcMal()"/>
-          </div>
-          <div class="aset-item">
-            <label>🥇 Nilai emas yang dimiliki (Rp)</label>
-            <input type="number" id="m-emas-val" placeholder="Berat × harga emas terkini" oninput="calcMal()"/>
-          </div>
-          <div class="aset-item">
-            <label>📈 Investasi (saham, reksa dana, dll.) (Rp)</label>
-            <input type="number" id="m-investasi" placeholder="Nilai pasar saat ini" oninput="calcMal()"/>
-          </div>
-          <div class="aset-item">
-            <label>🏪 Piutang yang dapat ditagih (Rp)</label>
-            <input type="number" id="m-piutang" placeholder="Utang orang lain ke Anda" oninput="calcMal()"/>
-          </div>
-          <div class="aset-item">
-            <label>📦 Stok barang dagangan (Rp)</label>
-            <input type="number" id="m-dagang" placeholder="Nilai stok saat ini" oninput="calcMal()"/>
-          </div>
-          <div class="aset-item">
-            <label>💳 Hutang jatuh tempo (Rp) <span style="color:#f87171">kurangi</span></label>
-            <input type="number" id="m-hutang" placeholder="Hutang yang harus dibayar" oninput="calcMal()"/>
-          </div>
+        <div class="harta-row" style="padding:10px 14px">
+          <div class="harta-ico">📈</div>
+          <div class="harta-lbl"><div class="harta-nm">Investasi (Saham, Reksa Dana)</div><div class="harta-sub">Nilai pasar saat ini</div></div>
+          <div class="harta-inp"><input type="number" id="h-investasi" value="0" min="0" step="1000000"></div>
         </div>
-        <div class="field" style="margin-top:8px">
-          <label>Harga emas per gram saat ini (Rp)</label>
-          <input type="number" id="m-harga-emas" value="1800000" oninput="calcMal()"/>
-          <p style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">Cek harga Antam terkini di logammulia.com</p>
+        <div class="harta-row" style="padding:10px 14px">
+          <div class="harta-ico">🏅</div>
+          <div class="harta-lbl"><div class="harta-nm">Emas & Perak (perhiasan simpan)</div><div class="harta-sub">Emas/perak bukan untuk dipakai sehari-hari</div></div>
+          <div class="harta-inp"><input type="number" id="h-emas" value="0" min="0" step="1000000"></div>
         </div>
-        <button class="calc-btn" onclick="calcMal()">🌙 Hitung Zakat Mal</button>
-        <div class="result-box" id="res-mal" style="display:none">
-          <div class="nisab-bar-wrap">
-            <div class="nisab-bar-title"><span>Harta bersih</span><span id="mal-pct-label">—% dari nisab</span></div>
-            <div class="nisab-track"><div class="nisab-fill" id="mal-bar" style="width:0%"></div></div>
-          </div>
-          <div class="zakat-main">
-            <div class="zakat-num" id="mal-zakat-num">—</div>
-            <div class="zakat-label" id="mal-zakat-label">—</div>
-          </div>
-          <div class="z-stats">
-            <div class="z-stat"><div class="zs-label">Total harta bruto</div><div class="zs-val" id="mal-harta">—</div></div>
-            <div class="z-stat"><div class="zs-label">Harta bersih (−hutang)</div><div class="zs-val" id="mal-bersih">—</div></div>
-            <div class="z-stat yellow"><div class="zs-label">Nisab (85g emas)</div><div class="zs-val" id="mal-nisab">—</div></div>
-            <div class="z-stat"><div class="zs-label">Status</div><div class="zs-val" id="mal-status">—</div></div>
-          </div>
+        <div class="harta-row" style="padding:10px 14px">
+          <div class="harta-ico">🏪</div>
+          <div class="harta-lbl"><div class="harta-nm">Stok / Barang Dagangan</div><div class="harta-sub">Nilai barang dagangan / inventori</div></div>
+          <div class="harta-inp"><input type="number" id="h-dagang" value="0" min="0" step="1000000"></div>
+        </div>
+        <div class="harta-row" style="padding:10px 14px">
+          <div class="harta-ico">📋</div>
+          <div class="harta-lbl"><div class="harta-nm">Piutang yang Diharapkan Kembali</div><div class="harta-sub">Pinjaman ke orang lain yang akan dikembalikan</div></div>
+          <div class="harta-inp"><input type="number" id="h-piutang" value="0" min="0" step="1000000"></div>
+        </div>
+        <div class="harta-row" style="padding:10px 14px">
+          <div class="harta-ico">➖</div>
+          <div class="harta-lbl"><div class="harta-nm">Utang Jatuh Tempo (kurangi)</div><div class="harta-sub">Utang yang harus dibayar segera</div></div>
+          <div class="harta-inp"><input type="number" id="h-utang" value="0" min="0" step="1000000"></div>
         </div>
       </div>
 
-      <!-- TAB 1: Zakat Penghasilan -->
-      <div class="z-mode" id="z1">
-        <div class="nisab-banner">
-          Nisab zakat penghasilan = <strong>520 kg beras</strong> ≈ <strong>Rp 7.800.000/bulan</strong> (harga beras ~Rp 15.000/kg, 2026)
+      <!-- NISAB PROGRESS -->
+      <div class="nisab-bar">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
+          <span style="font-weight:600">Progress menuju Nisab</span>
+          <span id="nisab-pct-lbl" style="font-family:'DM Mono',monospace;font-weight:700;color:var(--pri)">—</span>
         </div>
-        <div class="field"><label>Penghasilan bersih per bulan (Rp)</label>
-          <input type="number" id="p-penghasilan" placeholder="Setelah kebutuhan pokok" oninput="calcPenghasilan()"/>
+        <div class="nisab-bar-bg">
+          <div class="nisab-bar-fill" id="nisab-bar-fill" style="width:0%;background:var(--pri)"></div>
         </div>
-        <div class="field"><label>Metode pembayaran zakat</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="btn-bulanan" onclick="setPeriode('bulanan',this)">Bulanan</div>
-            <div class="radio-btn" id="btn-tahunan" onclick="setPeriode('tahunan',this)">Tahunan</div>
-          </div>
-        </div>
-        <div class="field"><label>Harga beras per kg (Rp)</label>
-          <input type="number" id="p-beras" value="15000" oninput="calcPenghasilan()"/>
-        </div>
-        <button class="calc-btn" onclick="calcPenghasilan()">🌙 Hitung Zakat Penghasilan</button>
-        <div class="result-box" id="res-peng" style="display:none">
-          <div class="nisab-bar-wrap">
-            <div class="nisab-bar-title"><span>Penghasilan vs nisab</span><span id="peng-pct-label">—</span></div>
-            <div class="nisab-track"><div class="nisab-fill" id="peng-bar" style="width:0%"></div></div>
-          </div>
-          <div class="zakat-main">
-            <div class="zakat-num" id="peng-zakat-num">—</div>
-            <div class="zakat-label" id="peng-zakat-label">—</div>
-          </div>
-          <div class="z-stats">
-            <div class="z-stat"><div class="zs-label">Penghasilan per bulan</div><div class="zs-val" id="peng-income">—</div></div>
-            <div class="z-stat yellow"><div class="zs-label">Nisab bulanan</div><div class="zs-val" id="peng-nisab">—</div></div>
-            <div class="z-stat green"><div class="zs-label">Zakat per bulan</div><div class="zs-val" id="peng-bln">—</div></div>
-            <div class="z-stat"><div class="zs-label">Zakat per tahun</div><div class="zs-val" id="peng-thn">—</div></div>
-          </div>
-        </div>
+        <div class="nisab-labels"><span id="nisab-harta-lbl">Harta bersih: —</span><span id="nisab-val-lbl">Nisab: —</span></div>
       </div>
 
-      <!-- TAB 2: Zakat Emas -->
-      <div class="z-mode" id="z2">
-        <div class="nisab-banner">
-          Nisab zakat emas = <strong>85 gram emas murni (24K)</strong>. Perak = 595 gram. Tarif zakat: <strong>2,5%</strong> dari nilai total.
-        </div>
-        <div class="field"><label>Berat emas yang dimiliki (gram)</label>
-          <input type="number" id="e-gram" placeholder="Contoh: 100" oninput="calcEmas()"/>
-          <p style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">Hitung total semua emas: perhiasan (tidak dipakai), batangan, tabungan emas</p>
-        </div>
-        <div class="field"><label>Kadar emas (%)</label>
-          <div class="radio-group" id="kadar-btns">
-            <div class="radio-btn" onclick="setKadar(100,this)">24K (100%)</div>
-            <div class="radio-btn active" onclick="setKadar(75,this)">18K (75%)</div>
-            <div class="radio-btn" onclick="setKadar(58.3,this)">14K (58%)</div>
-            <div class="radio-btn" onclick="setKadar(41.7,this)">10K (42%)</div>
+      <div id="status-badge-wrap" style="text-align:center;margin-bottom:4px"></div>
+
+      <div class="lres" id="maal-result">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Zakat Maal yang Wajib Dibayar</div>
+            <div class="rv lg" id="r-zakat-maal">—</div>
+            <div class="rsub" id="r-zakat-sub">—</div>
           </div>
         </div>
-        <div class="field"><label>Harga emas 24K per gram (Rp)</label>
-          <input type="number" id="e-harga" value="1800000" oninput="calcEmas()"/>
-        </div>
-        <button class="calc-btn" onclick="calcEmas()">🌙 Hitung Zakat Emas</button>
-        <div class="result-box" id="res-emas" style="display:none">
-          <div class="nisab-bar-wrap">
-            <div class="nisab-bar-title"><span>Emas murni Anda</span><span id="emas-pct-label">—</span></div>
-            <div class="nisab-track"><div class="nisab-fill" id="emas-bar" style="width:0%"></div></div>
-          </div>
-          <div class="zakat-main">
-            <div class="zakat-num" id="emas-zakat-num">—</div>
-            <div class="zakat-label" id="emas-zakat-label">—</div>
-          </div>
-          <div class="z-stats">
-            <div class="z-stat"><div class="zs-label">Berat emas murni</div><div class="zs-val" id="emas-murni">—</div></div>
-            <div class="z-stat yellow"><div class="zs-label">Nisab (85g)</div><div class="zs-val" id="emas-nisab">—</div></div>
-            <div class="z-stat"><div class="zs-label">Nilai total emas</div><div class="zs-val" id="emas-nilai">—</div></div>
-            <div class="z-stat green"><div class="zs-label">Zakat (2,5%)</div><div class="zs-val" id="emas-zakat">—</div></div>
-          </div>
+        <div class="rrows">
+          <div class="rr"><span>Total harta wajib zakat</span><span id="r-total-harta">—</span></div>
+          <div class="rr"><span>Dikurangi utang</span><span id="r-utang">—</span></div>
+          <div class="rr"><span>Harta bersih (net)</span><span id="r-harta-bersih">—</span></div>
+          <div class="rr"><span>Nisab (85g × harga emas)</span><span id="r-nisab">—</span></div>
+          <div class="rr"><span>Status nisab</span><span id="r-status">—</span></div>
+          <div class="rr"><span>Kadar zakat (2,5%)</span><span id="r-kadar">2,5%</span></div>
         </div>
       </div>
+      <div class="notice">* Syarat wajib zakat maal: (1) Muslim, (2) Merdeka, (3) Harta mencapai nisab (85g emas), (4) Haul — dimiliki selama 1 tahun qamariyah (354 hari). Rumah tinggal utama, kendaraan untuk dipakai sendiri, dan perabot rumah tangga tidak termasuk harta wajib zakat.</div>
+    </div>
 
-      <!-- TAB 3: Zakat Fitrah -->
-      <div class="z-mode" id="z3">
-        <div class="nisab-banner">
-          Zakat fitrah = <strong>2,5 kg beras</strong> (atau makanan pokok setara) per jiwa Muslim. Wajib dibayar sebelum Sholat Idul Fitri.
-        </div>
-        <div class="field"><label>Jumlah jiwa yang dizakatkan</label>
-          <input type="number" id="f-jiwa" value="4" min="1" oninput="calcFitrah()"/>
-        </div>
-        <div class="field"><label>Harga beras per kg (Rp)</label>
-          <input type="number" id="f-beras" value="15000" oninput="calcFitrah()"/>
-          <p style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">Sesuaikan dengan harga beras di daerah Anda</p>
-        </div>
-        <button class="calc-btn" onclick="calcFitrah()">🌙 Hitung Zakat Fitrah</button>
-        <div class="result-box" id="res-fitrah" style="display:none">
-          <div class="zakat-main">
-            <div class="zakat-num" id="f-total">—</div>
-            <div class="zakat-label">Total zakat fitrah keluarga Anda</div>
+    <!-- TAB: ZAKAT FITRAH -->
+    <div class="tpanel" id="tab-fitrah">
+      <div class="notice info" style="margin-bottom:16px">🌙 Zakat fitrah wajib dikeluarkan setiap muslim sebelum shalat Idul Fitri, untuk diri sendiri dan setiap jiwa yang ditanggung.</div>
+      <div class="g2">
+        <div class="fld">
+          <label>Jumlah Jiwa yang Ditanggung</label>
+          <div class="iw"><input type="number" id="f-jiwa" value="4" min="1" max="20" step="1"><span class="iu">jiwa</span></div>
+          <div class="presets">
+            <button class="pb" data-val="1" data-for="f-jiwa">1</button>
+            <button class="pb" data-val="2" data-for="f-jiwa">2</button>
+            <button class="pb" data-val="3" data-for="f-jiwa">3</button>
+            <button class="pb on" data-val="4" data-for="f-jiwa">4</button>
+            <button class="pb" data-val="5" data-for="f-jiwa">5</button>
+            <button class="pb" data-val="6" data-for="f-jiwa">6</button>
           </div>
-          <div class="fitrah-cards">
-            <div class="fitrah-card"><div class="fc-num" id="f-per-jiwa">—</div><div class="fc-label">Per jiwa (uang)</div></div>
-            <div class="fitrah-card"><div class="fc-num" id="f-beras-total">—</div><div class="fc-label">Total beras</div></div>
-            <div class="fitrah-card"><div class="fc-num" id="f-jiwa-out">—</div><div class="fc-label">Jumlah jiwa</div></div>
-            <div class="fitrah-card"><div class="fc-num" id="f-harga-beras">—</div><div class="fc-label">Harga beras/kg</div></div>
+        </div>
+        <div class="fld">
+          <label>Nilai Fitrah per Jiwa (Rp)</label>
+          <div class="iw"><input type="number" id="f-nilai" value="45000" min="0" step="1000"></div>
+          <div class="presets">
+            <button class="pb" data-val="40000" data-for="f-nilai">40rb</button>
+            <button class="pb on" data-val="45000" data-for="f-nilai">45rb</button>
+            <button class="pb" data-val="50000" data-for="f-nilai">50rb</button>
+            <button class="pb" data-val="55000" data-for="f-nilai">55rb</button>
           </div>
-          <div id="f-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.8rem;line-height:1.6;"></div>
+          <div style="font-size:10px;color:var(--tx3);margin-top:4px">Sesuai ketetapan lembaga zakat/baznas daerah (beras 2,5–3,5 kg). Cek BAZNAS setempat.</div>
         </div>
       </div>
+      <div class="fld">
+        <label>Jenis Pembayaran</label>
+        <div class="iw sw"><select id="f-jenis">
+          <option value="uang">💵 Uang tunai (sesuai nilai beras)</option>
+          <option value="beras">🌾 Beras (2,5 kg per jiwa)</option>
+        </select></div>
+      </div>
 
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Total Zakat Fitrah</div>
+            <div class="rv lg" id="f-total">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Jumlah jiwa</span><span id="f-jiwa-show">—</span></div>
+          <div class="rr"><span>Nilai per jiwa</span><span id="f-per-jiwa">—</span></div>
+          <div class="rr" id="f-beras-row" style="display:none"><span>Total beras</span><span id="f-beras-total">—</span></div>
+          <div class="rr"><span>Waktu pembayaran</span><span>Sebelum shalat Idul Fitri</span></div>
+          <div class="rr"><span>Penerima (mustahiq)</span><span>Fakir, miskin, amil</span></div>
+        </div>
+      </div>
+      <div class="notice">* Nilai fitrah dalam bentuk uang setara harga beras 2,5–3,5 kg (sha'). Besaran resmi berbeda per daerah — cek ketetapan BAZNAS atau pengurus masjid setempat. Diutamakan dibayar sebelum shalat Idul Fitri; jika sesudah, tetap diterima sebagai sedekah biasa.</div>
     </div>
   </div>
+</div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Zakat 2026 — Mal, Penghasilan, Emas & Fitrah</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung kewajiban zakat Anda sesuai nisab dan ketentuan terkini 2026. Tersedia kalkulator untuk empat jenis zakat: zakat mal (harta), zakat penghasilan, zakat emas, dan zakat fitrah.</p>
-
-    <h2>Jenis Zakat dan Nisab 2026</h2>
-    <p>Zakat adalah salah satu dari lima rukun Islam — kewajiban mengeluarkan sebagian harta bagi Muslim yang hartanya telah mencapai batas minimum tertentu (nisab) dan kepemilikan telah berlangsung selama satu tahun (haul). Berikut ringkasan jenis zakat dan nisab terkini:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Jenis Zakat</th><th>Nisab 2026</th><th>Tarif</th><th>Haul</th></tr></thead>
-      <tbody>
-        <tr><td>Zakat Mal (harta)</td><td>85g emas ≈ Rp 136 juta*</td><td>2,5%</td><td>1 tahun</td></tr>
-        <tr><td>Zakat Penghasilan</td><td>520kg beras ≈ Rp 7,8 juta/bulan*</td><td>2,5%</td><td>Per bulan/tahun</td></tr>
-        <tr><td>Zakat Emas</td><td>85 gram emas murni</td><td>2,5%</td><td>1 tahun</td></tr>
-        <tr><td>Zakat Fitrah</td><td>Wajib semua Muslim</td><td>2,5 kg beras/jiwa</td><td>Ramadan</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:0.78rem;color:var(--text-muted)">*Nisab dihitung berdasarkan harga emas/beras terkini dan dapat berubah. Kalkulator di atas memungkinkan Anda memasukkan harga terkini.</p>
-
-    <h2>Cara Menghitung Zakat Mal dengan Benar</h2>
-    <p>Zakat mal dihitung dari <strong>total harta bersih</strong> yang telah dimiliki selama 1 tahun penuh (haul) dan melebihi nisab. Harta yang diperhitungkan meliputi:</p>
-    <ul>
-      <li><strong>Uang tunai dan tabungan</strong> — Total saldo semua rekening bank, dompet digital, dan uang tunai</li>
-      <li><strong>Emas dan perak</strong> — Perhiasan yang tidak dipakai sehari-hari, emas batangan, tabungan emas</li>
-      <li><strong>Investasi</strong> — Saham, reksa dana, obligasi, sukuk dihitung dari nilai pasar saat ini</li>
-      <li><strong>Piutang</strong> — Uang yang dipinjamkan kepada orang lain dan dapat ditagih</li>
-      <li><strong>Stok barang dagangan</strong> — Nilai persediaan barang yang diperjualbelikan</li>
-    </ul>
-    <p>Hutang yang jatuh tempo dapat dikurangkan dari total harta sebelum menghitung nisab. Harta produktif seperti properti sewaan hanya dizakati dari pendapatan sewanya, bukan dari nilai propertinya.</p>
-
-    <h2>Fitur Kalkulator Zakat NovaCalcs</h2>
-    <ul>
-      <li><strong>Empat jenis zakat dalam satu halaman</strong> — Mal, penghasilan, emas, dan fitrah tersedia dalam tab terpisah untuk kemudahan akses.</li>
-      <li><strong>Nisab progress bar</strong> — Visualisasi seberapa jauh harta Anda dari ambang batas nisab — warna kuning (belum wajib) atau hijau (wajib zakat).</li>
-      <li><strong>Kalkulator zakat emas dengan pilihan kadar</strong> — Masukkan berat emas dan pilih kadar (24K, 18K, 14K, 10K) — kalkulator otomatis menghitung emas murni yang sebenarnya untuk perbandingan dengan nisab.</li>
-      <li><strong>Input harga terkini</strong> — Harga emas dan beras bisa diubah sesuai kondisi pasar terkini untuk hasil yang akurat. Default sudah diperbarui ke harga 2026.</li>
-      <li><strong>Kalkulator zakat mal multi-aset</strong> — Input terpisah untuk tabungan, emas, investasi, piutang, dagangan, dan hutang — hasil dijumlahkan otomatis.</li>
-      <li><strong>Perhitungan real-time</strong> — Hasil diperbarui otomatis setiap kali input berubah.</li>
-    </ul>
-
-    <h2>Penerima Zakat — 8 Golongan (Asnaf)</h2>
-    <p>Zakat hanya boleh disalurkan kepada 8 golongan yang disebutkan dalam Al-Qur'an Surat At-Taubah ayat 60:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>No.</th><th>Golongan</th><th>Keterangan</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>Fakir</td><td>Tidak memiliki harta dan tidak mampu bekerja</td></tr>
-        <tr><td>2</td><td>Miskin</td><td>Memiliki usaha tapi penghasilan tidak mencukupi kebutuhan</td></tr>
-        <tr><td>3</td><td>Amil</td><td>Pengelola/pengurus zakat</td></tr>
-        <tr><td>4</td><td>Mualaf</td><td>Orang yang baru masuk Islam</td></tr>
-        <tr><td>5</td><td>Riqab</td><td>Memerdekakan budak (konteks historis)</td></tr>
-        <tr><td>6</td><td>Gharimin</td><td>Orang yang terlilit hutang untuk kebutuhan pokok</td></tr>
-        <tr><td>7</td><td>Fi Sabilillah</td><td>Pejuang di jalan Allah, termasuk dakwah dan pendidikan Islam</td></tr>
-        <tr><td>8</td><td>Ibnu Sabil</td><td>Musafir yang kehabisan bekal di perjalanan</td></tr>
-      </tbody>
-    </table>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah zakat penghasilan boleh dibayar setiap bulan?</div>
-      <div class="faq-a">Ya, boleh. Zakat penghasilan dapat dibayarkan setiap bulan jika penghasilan bulan tersebut sudah melebihi nisab, atau diakumulasikan dan dibayar sekali di akhir tahun (haul). BAZNAS menganjurkan pembayaran bulanan agar lebih ringan dan teratur. Dasar hukumnya adalah Fatwa MUI No. 3 Tahun 2003 tentang Zakat Penghasilan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah zakat dihitung dari gaji sebelum atau sesudah pajak?</div>
-      <div class="faq-a">Terdapat perbedaan pendapat ulama: (1) Pendapat yang menghitung dari penghasilan bruto (sebelum pajak) — dengan pertimbangan bahwa kewajiban zakat tidak berkurang karena kewajiban negara, (2) Pendapat yang menghitung dari penghasilan neto (setelah dikurangi pajak dan kebutuhan pokok) — karena zakat hanya wajib dari "harta yang lebih dari kebutuhan". BAZNAS Indonesia dalam pedomannya cenderung menggunakan penghasilan bruto, namun mengakui kedua pendapat sebagai sah. Pilih pendapat yang Anda yakini lebih tepat.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan BAZNAS dan LAZ? Mana yang lebih baik?</div>
-      <div class="faq-a">BAZNAS (Badan Amil Zakat Nasional) adalah lembaga pemerintah yang dibentuk berdasarkan UU No. 23/2011, bertugas mengelola zakat di tingkat nasional hingga kabupaten/kota. LAZ (Lembaga Amil Zakat) adalah lembaga swasta yang mendapat izin dari pemerintah untuk mengelola zakat — contohnya Rumah Zakat, Dompet Dhuafa, PKPU. Keduanya resmi dan sah. Perbedaan terutama pada program pendistribusian dan fokus bidang. Anda bisa memilih sesuai program yang paling sesuai dengan nilai Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah zakat bisa menjadi pengurang pajak?</div>
-      <div class="faq-a">Ya. Berdasarkan UU No. 23 Tahun 2011 dan PMK No. 254/2010, zakat yang dibayarkan melalui BAZNAS atau LAZ yang telah mendapat izin resmi dapat dikurangkan dari <strong>Penghasilan Kena Pajak (PKP)</strong> — bukan pengurang pajak langsung, tetapi pengurang penghasilan kena pajak. Simpan bukti pembayaran zakat resmi (bukti setor zakat) untuk dilampirkan dalam SPT Tahunan PPh.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah perhiasan emas yang dipakai sehari-hari wajib dizakati?</div>
-      <div class="faq-a">Terdapat perbedaan pendapat di kalangan ulama. Mayoritas ulama Mazhab Hanafi dan sebagian ulama kontemporer berpendapat bahwa emas/perak yang digunakan sebagai perhiasan tetap wajib dizakati jika mencapai nisab dan haul. Mazhab Syafi'i dan Maliki berpendapat bahwa perhiasan yang digunakan (mubah) tidak wajib dizakati. Di Indonesia, sebagian ulama dan BAZNAS mengambil pendapat pertama — perhiasan yang mencapai nisab dan tidak dipakai aktif (disimpan) wajib dizakati. Sebaiknya konsultasikan dengan ulama atau amil setempat.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana menghitung nisab jika harga emas berubah?</div>
-      <div class="faq-a">Nisab selalu mengacu pada harga emas terkini. Caranya: cek harga emas Antam hari ini (di logammulia.com), lalu kalikan 85 gram untuk mendapat nilai nisab saat ini. Contoh: harga emas Rp 1.600.000/gram → nisab = Rp 136.000.000. Nilai nisab ini berubah mengikuti fluktuasi harga emas, sehingga perlu diperiksa setiap kali hendak menghitung zakat.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bolehkah menyalurkan zakat langsung ke penerima tanpa melalui amil?</div>
-      <div class="faq-a">Secara fikih, menyalurkan zakat langsung kepada mustahiq (penerima) yang tepat adalah sah dan diterima. Namun melalui amil resmi lebih dianjurkan karena: lebih terorganisir, memastikan penerima memang berhak, dan memudahkan administrasi terutama untuk pengurangan pajak. Jika menyalurkan langsung, pastikan penerima benar-benar termasuk dalam 8 golongan asnaf.</div>
+<!-- ② SIMULATOR: CEK NISAB & PROYEKSI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Simulator Nisab &amp; Proyeksi Zakat <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Lihat berapa lagi harta yang dibutuhkan untuk mencapai nisab, dan proyeksi zakat jika harta bertambah — berguna untuk perencanaan zakat tahunan.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Harta Bersih saat ini (Rp)</label>
+        <div class="iw"><input type="number" id="sim-harta" value="50000000" min="0" step="1000000"></div>
+      </div>
+      <div class="fld">
+        <label>Harga Emas (Rp/gram)</label>
+        <div class="iw"><input type="number" id="sim-emas" value="1750000" min="0" step="10000"></div>
+      </div>
     </div>
 
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-zakat-penghasilan.html" class="related-item"><span class="ri">💼</span>Zakat Penghasilan</a>
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">📋</span>Kalkulator PPh 21</a>
-      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
-      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
+    <div class="tracker-wrap" id="tracker"></div>
+
+    <div class="sec-lbl" style="margin-top:16px">Proyeksi Zakat di Berbagai Level Harta</div>
+    <div class="distrib-wrap" id="sim-chart"></div>
+    <div class="notice" style="margin-top:10px">* Progress bar menunjukkan zakat yang harus dikeluarkan di tiap level harta. Harta di bawah nisab = Rp 0 zakat.</div>
+  </div>
+</div>
+
+<!-- ③ SIMULATOR: DISTRIBUSI MUSTAHIQ -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🤲</div>Distribusi Zakat ke 8 Asnaf <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Al-Quran menetapkan 8 golongan (asnaf) penerima zakat. Simulasikan pembagian zakat Anda ke berbagai asnaf — atau salurkan lewat BAZNAS/LAZ terpercaya.</p>
+    <div class="fld">
+      <label>Total Zakat yang Akan Disalurkan (Rp)</label>
+      <div class="iw"><input type="number" id="dist-total" value="3000000" min="0" step="100000"></div>
+    </div>
+    <div class="sec-lbl">Proporsi Distribusi (total harus 100%)</div>
+    <div id="dist-inputs"></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;padding:10px 0;border-top:1px solid var(--bor);margin-top:8px">
+      <span>Total porsi</span>
+      <span id="dist-sum" style="font-family:'DM Mono',monospace">100%</span>
+    </div>
+    <div class="sec-lbl">Distribusi Nominal</div>
+    <div class="distrib-wrap" id="dist-chart"></div>
+    <div class="notice info" style="margin-top:10px">💡 Jika tidak yakin cara mendistribusikan, salurkan lewat <strong>BAZNAS</strong> (Badan Amil Zakat Nasional) atau LAZ (Lembaga Amil Zakat) resmi seperti Dompet Dhuafa, YDSF, Rumah Zakat, dll. Mereka akan mendistribusikan ke asnaf yang tepat.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Info Nisab 2026</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Nisab Emas</div><div class="fron">85 gram emas × harga emas</div></div></div><div class="fprice" id="sb-nisab">—</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#fbbf24"></div><div><div class="fn">Kadar Zakat Maal</div><div class="fron">Dari harta bersih</div></div></div><div class="fprice">2,5%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Haul (masa kepemilikan)</div><div class="fron">Wajib haul minimal</div></div></div><div class="fprice">1 tahun</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Zakat Fitrah</div><div class="fron">Per jiwa</div></div></div><div class="fprice">2,5 kg beras</div></div>
+      </div>
+      <div class="notice" style="margin-top:10px">Nisab berubah sesuai harga emas. Update harga emas di kalkulator untuk hasil akurat.</div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Zakat</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📅</span><span class="tptx"><strong>Tentukan tanggal haul</strong> — catat kapan harta pertama kali mencapai nisab untuk menentukan kapan wajib zakat</span></div>
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Bayar via BAZNAS</strong> atau LAZ resmi — lebih mudah dan tersalurkan tepat sasaran</span></div>
+        <div class="tip"><span class="tpico">💳</span><span class="tptx"><strong>Zakat mengurangi pajak</strong> — sesuai UU 23/2011, zakat yang dibayar ke LAZ resmi dapat dikurangkan dari PKP</span></div>
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>Hitung tiap tahun</strong> — harta berubah, harga emas berubah, zakat wajib dihitung ulang setiap haul</span></div>
+        <div class="tip"><span class="tpico">🕌</span><span class="tptx"><strong>Fitrah lebih awal lebih baik</strong> — boleh sejak awal Ramadan, agar amil sempat distribusikan sebelum Idul Fitri</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-zakat-penghasilan" class="relc"><div class="relc-ico">💼</div><div class="relc-nm">Zakat Penghasilan</div><div class="relc-ds">Zakat profesi</div></a>
+        <a href="/id/kalkulator-tabungan" class="relc"><div class="relc-ico">🏦</div><div class="relc-nm">Tabungan</div><div class="relc-ds">Simulasi tabungan</div></a>
+        <a href="/id/kalkulator-investasi" class="relc"><div class="relc-ico">📈</div><div class="relc-nm">Investasi</div><div class="relc-ds">Return investasi</div></a>
+        <a href="/id/kalkulator-pph-freelance" class="relc"><div class="relc-ico">💻</div><div class="relc-nm">PPh Freelancer</div><div class="relc-ds">Pajak penghasilan</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Syarat Wajib Zakat Maal</h2>
+  <p>Zakat maal wajib dikeluarkan apabila memenuhi empat syarat: (1) Muslim, (2) Merdeka, (3) Harta mencapai <strong>nisab</strong> (setara 85 gram emas), dan (4) <strong>Haul</strong> — harta telah dimiliki selama satu tahun qamariyah (354 hari). Harta yang tidak memenuhi salah satu syarat ini tidak wajib dizakati.</p>
+
+  <h2>8 Asnaf (Golongan Penerima Zakat)</h2>
+  <div class="stw"><table class="stbl">
+    <thead><tr><th>Asnaf</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>Fakir</td><td>Tidak punya harta dan penghasilan untuk memenuhi kebutuhan dasar</td></tr>
+      <tr><td>Miskin</td><td>Punya harta/penghasilan tapi masih kurang dari kebutuhan</td></tr>
+      <tr><td>Amil</td><td>Pengelola/pengumpul zakat</td></tr>
+      <tr><td>Muallaf</td><td>Orang yang baru masuk Islam</td></tr>
+      <tr><td>Riqab</td><td>Hamba sahaya/yang memerdekakan diri</td></tr>
+      <tr><td>Gharim</td><td>Orang yang terlilit utang di jalan kebaikan</td></tr>
+      <tr><td>Fi Sabilillah</td><td>Pejuang di jalan Allah</td></tr>
+      <tr><td>Ibnu Sabil</td><td>Musafir yang kehabisan bekal dalam perjalanan</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan zakat maal dan zakat penghasilan?</div><div class="faq-a">Zakat maal (harta) dikenakan atas akumulasi kekayaan bersih yang telah mencapai nisab dan haul 1 tahun. Zakat penghasilan (profesi) dikenakan atas pendapatan/gaji setiap bulan atau tahun, tanpa syarat haul. Keduanya bisa saling melengkapi — gunakan kalkulator Zakat Penghasilan untuk menghitung zakat profesi bulanan Anda.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah zakat bisa mengurangi pajak?</div><div class="faq-a">Ya. Berdasarkan UU No. 23/2011 tentang Pengelolaan Zakat, pembayaran zakat kepada BAZNAS atau LAZ yang terdaftar di Kementerian Agama dapat dikurangkan dari Penghasilan Kena Pajak (PKP). Simpan bukti pembayaran dan laporkan di SPT Tahunan Anda.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa harga emas untuk menghitung nisab zakat 2026?</div><div class="faq-a">Harga emas berubah setiap hari mengikuti pasar. Gunakan harga emas Antam (emas batangan 24 karat) atau harga emas pasar lokal hari ini. Nisab = 85 gram × harga emas/gram. Masukkan harga emas terkini di kalkulator di atas untuk hasil yang akurat.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah rumah dan kendaraan termasuk harta wajib zakat?</div><div class="faq-a">Rumah tempat tinggal utama dan kendaraan yang digunakan untuk keperluan pribadi/keluarga tidak termasuk harta wajib zakat. Namun, properti kedua (rumah sewa), kendaraan untuk usaha, atau aset investasi termasuk dalam perhitungan harta zakat.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-let periodeZakat = 'bulanan';
-let kadarEmas = 75;
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+<script>
+const ASNAF=[
+  {key:'fakir',lbl:'Fakir',pct:30},
+  {key:'miskin',lbl:'Miskin',pct:25},
+  {key:'amil',lbl:'Amil (pengelola)',pct:12.5},
+  {key:'muallaf',lbl:'Muallaf',pct:5},
+  {key:'riqab',lbl:'Riqab',pct:5},
+  {key:'gharim',lbl:'Gharim (terlilit utang)',pct:7.5},
+  {key:'sabilillah',lbl:'Fi Sabilillah',pct:10},
+  {key:'ibnusabil',lbl:'Ibnu Sabil',pct:5},
+];
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){if(n>=1e9)return'Rp '+(n/1e9).toFixed(2)+' M';if(n>=1e6)return'Rp '+(n/1e6).toFixed(0)+' jt';return rp(n)}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-function switchTab(idx, btn) {
-  document.querySelectorAll('.z-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.z-mode').forEach(m => m.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('z' + idx).classList.add('active');
-}
-function setPeriode(p, btn) {
-  periodeZakat = p;
-  document.querySelectorAll('#z1 .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  calcPenghasilan();
-}
-function setKadar(k, btn) {
-  kadarEmas = k;
-  document.querySelectorAll('#kadar-btns .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  calcEmas();
-}
+// ① ZAKAT MAAL
+function calcMaal(){
+  const hEmas=v('harga-emas');
+  const nisab=85*hEmas;
+  const tabungan=v('h-tabungan'), investasi=v('h-investasi'), emas=v('h-emas');
+  const dagang=v('h-dagang'), piutang=v('h-piutang'), utang=v('h-utang');
+  const total=tabungan+investasi+emas+dagang+piutang;
+  const bersih=Math.max(0,total-utang);
+  const wajib=bersih>=nisab;
+  const zakatMaal=wajib?bersih*0.025:0;
 
-function setNisabBar(barId, pctLabelId, val, nisab) {
-  const pct = Math.min(val / nisab * 100, 100);
-  const bar = document.getElementById(barId);
-  bar.style.width = pct + '%';
-  bar.className = 'nisab-fill ' + (val >= nisab ? 'wajib' : 'belum');
-  document.getElementById(pctLabelId).textContent = (val / nisab * 100).toFixed(0) + '% dari nisab';
-}
+  // Nisab bar
+  const pctNisab=nisab>0?Math.min(120,bersih/nisab*100):0;
+  const fill=document.getElementById('nisab-bar-fill');
+  if(fill){fill.style.width=Math.min(100,pctNisab)+'%';fill.style.background=wajib?'var(--grn)':'var(--pri)';}
+  set('nisab-pct-lbl',(pctNisab).toFixed(0)+'%');
+  set('nisab-harta-lbl','Harta bersih: '+rpM(bersih));
+  set('nisab-val-lbl','Nisab: '+rpM(nisab));
 
-// ── Zakat Mal ──
-function calcMal() {
-  const tab   = parseFloat(document.getElementById('m-tabungan').value) || 0;
-  const emas  = parseFloat(document.getElementById('m-emas-val').value) || 0;
-  const inv   = parseFloat(document.getElementById('m-investasi').value) || 0;
-  const piut  = parseFloat(document.getElementById('m-piutang').value) || 0;
-  const dag   = parseFloat(document.getElementById('m-dagang').value) || 0;
-  const hutang= parseFloat(document.getElementById('m-hutang').value) || 0;
-  const hEmas = parseFloat(document.getElementById('m-harga-emas').value) || 1600000;
-  if (tab + emas + inv + piut + dag === 0) return;
+  // Status badge
+  const badgeWrap=document.getElementById('status-badge-wrap');
+  if(badgeWrap){
+    if(wajib){
+      badgeWrap.innerHTML='<div class="status-badge wajib">✅ Sudah mencapai nisab — Wajib Zakat Maal</div>';
+    } else {
+      const kurang=nisab-bersih;
+      badgeWrap.innerHTML=`<div class="status-badge belum">⏳ Belum wajib — kurang ${rpM(kurang)} lagi untuk mencapai nisab</div>`;
+    }
+  }
 
-  const total = tab + emas + inv + piut + dag;
-  const bersih = Math.max(0, total - hutang);
-  const nisab = 85 * hEmas;
-  const wajib = bersih >= nisab;
-  const zakat = wajib ? bersih * 0.025 : 0;
+  set('r-zakat-maal',wajib?rp(zakatMaal):'Rp 0');
+  set('r-zakat-sub',wajib?'2,5% × '+rpM(bersih):'Harta belum mencapai nisab');
+  set('r-total-harta',rp(total));
+  set('r-utang',rp(utang));
+  set('r-harta-bersih',rp(bersih));
+  set('r-nisab',rpM(nisab)+' (85g × '+rp(hEmas)+'/g)');
+  set('r-status',wajib?'✅ Wajib zakat':'⏳ Belum wajib');
+  set('sb-nisab',rpM(nisab));
 
-  setNisabBar('mal-bar', 'mal-pct-label', bersih, nisab);
-
-  const numEl = document.getElementById('mal-zakat-num');
-  numEl.textContent = wajib ? fmt(zakat) : 'Belum Wajib';
-  numEl.className = 'zakat-num' + (wajib ? '' : ' belum-wajib');
-  document.getElementById('mal-zakat-label').textContent = wajib ? 'Zakat mal yang wajib dikeluarkan (2,5%)' : 'Harta bersih belum mencapai nisab';
-  document.getElementById('mal-harta').textContent = fmt(total);
-  document.getElementById('mal-bersih').textContent = fmt(bersih);
-  document.getElementById('mal-nisab').textContent = fmt(nisab);
-  document.getElementById('mal-status').textContent = wajib ? '✅ Wajib zakat' : '⏳ Belum nisab';
-  document.getElementById('res-mal').style.display = 'block';
-}
-
-// ── Zakat Penghasilan ──
-function calcPenghasilan() {
-  const penghasilan = parseFloat(document.getElementById('p-penghasilan').value) || 0;
-  const hBeras = parseFloat(document.getElementById('p-beras').value) || 15000;
-  const nisabBulan = 520 * hBeras;
-  const wajib = penghasilan >= nisabBulan;
-  const zakatBulan = wajib ? penghasilan * 0.025 : 0;
-  const zakatTahun = zakatBulan * 12;
-  if (!penghasilan) return;
-
-  setNisabBar('peng-bar', 'peng-pct-label', penghasilan, nisabBulan);
-
-  const numEl = document.getElementById('peng-zakat-num');
-  const displayed = periodeZakat === 'bulanan' ? zakatBulan : zakatTahun;
-  numEl.textContent = wajib ? fmt(displayed) : 'Belum Wajib';
-  numEl.className = 'zakat-num' + (wajib ? '' : ' belum-wajib');
-  document.getElementById('peng-zakat-label').textContent = wajib
-    ? 'Zakat penghasilan ' + (periodeZakat === 'bulanan' ? 'per bulan' : 'per tahun')
-    : 'Penghasilan belum mencapai nisab bulanan';
-  document.getElementById('peng-income').textContent = fmt(penghasilan);
-  document.getElementById('peng-nisab').textContent = fmt(nisabBulan);
-  document.getElementById('peng-bln').textContent = wajib ? fmt(zakatBulan) : '—';
-  document.getElementById('peng-thn').textContent = wajib ? fmt(zakatTahun) : '—';
-  document.getElementById('res-peng').style.display = 'block';
+  // sync nisab simulator
+  document.getElementById('sim-harta').value=bersih;
+  document.getElementById('sim-emas').value=hEmas;
+  document.getElementById('dist-total').value=Math.round(zakatMaal)||3000000;
+  calcSim(); renderDistrib();
 }
 
-// ── Zakat Emas ──
-function calcEmas() {
-  const gram = parseFloat(document.getElementById('e-gram').value) || 0;
-  const harga = parseFloat(document.getElementById('e-harga').value) || 1600000;
-  const gramMurni = gram * kadarEmas / 100;
-  const nisab = 85;
-  const wajib = gramMurni >= nisab;
-  const nilaiEmas = gramMurni * harga;
-  const zakat = wajib ? nilaiEmas * 0.025 : 0;
-  if (!gram) return;
-
-  setNisabBar('emas-bar', 'emas-pct-label', gramMurni, nisab);
-
-  const numEl = document.getElementById('emas-zakat-num');
-  numEl.textContent = wajib ? fmt(zakat) : 'Belum Wajib';
-  numEl.className = 'zakat-num' + (wajib ? '' : ' belum-wajib');
-  document.getElementById('emas-zakat-label').textContent = wajib ? 'Zakat emas yang wajib dikeluarkan (2,5% dari nilai)' : 'Emas murni belum mencapai nisab 85 gram';
-  document.getElementById('emas-murni').textContent = gramMurni.toFixed(2) + ' gram';
-  document.getElementById('emas-nisab').textContent = '85 gram';
-  document.getElementById('emas-nilai').textContent = fmt(nilaiEmas);
-  document.getElementById('emas-zakat').textContent = wajib ? fmt(zakat) : '—';
-  document.getElementById('res-emas').style.display = 'block';
+// ② ZAKAT FITRAH
+function calcFitrah(){
+  const jiwa=v('f-jiwa')||1, nilai=v('f-nilai')||45000;
+  const jenis=document.getElementById('f-jenis')?.value||'uang';
+  const total=jiwa*nilai;
+  const beras=jiwa*2.5;
+  set('f-total',jenis==='uang'?rp(total):beras.toFixed(1)+' kg beras');
+  set('f-jiwa-show',jiwa+' jiwa');
+  set('f-per-jiwa',jenis==='uang'?rp(nilai)+'/jiwa':'2,5 kg beras/jiwa');
+  const berasRow=document.getElementById('f-beras-row');
+  if(berasRow)berasRow.style.display=jenis==='beras'?'flex':'none';
+  set('f-beras-total',beras.toFixed(1)+' kg');
 }
 
-// ── Zakat Fitrah ──
-function calcFitrah() {
-  const jiwa = parseInt(document.getElementById('f-jiwa').value) || 1;
-  const hBeras = parseFloat(document.getElementById('f-beras').value) || 15000;
-  const perJiwa = 2.5 * hBeras;
-  const total = perJiwa * jiwa;
+// ③ SIMULATOR NISAB
+function calcSim(){
+  const harta=v('sim-harta'),hEmas=v('sim-emas');
+  const nisab=85*hEmas;
+  const tracker=document.getElementById('tracker');if(!tracker)return;
+  const rows=[
+    {lbl:'Harta bersih saat ini',val:harta,cls:harta>=nisab?'ok':harta>=nisab*0.8?'warn':'bad'},
+    {lbl:'Nisab (85g emas)',val:nisab,cls:''},
+    {lbl:'Selisih ke nisab',val:Math.max(0,nisab-harta),cls:harta>=nisab?'ok':'bad',prefix:harta>=nisab?'✅ Sudah lewat: +':'Kurang: '},
+    {lbl:'Zakat yang wajib',val:harta>=nisab?harta*0.025:0,cls:harta>=nisab?'ok':'bad'},
+  ];
+  tracker.innerHTML=rows.map(r=>`<div class="tracker-row"><span class="tracker-lbl">${r.lbl}</span><span class="tracker-val ${r.cls}">${r.prefix||''}${rp(r.val)}</span></div>`).join('');
 
-  document.getElementById('f-total').textContent = fmt(total);
-  document.getElementById('f-per-jiwa').textContent = fmt(perJiwa);
-  document.getElementById('f-beras-total').textContent = (2.5 * jiwa) + ' kg';
-  document.getElementById('f-jiwa-out').textContent = jiwa + ' orang';
-  document.getElementById('f-harga-beras').textContent = fmt(hBeras);
-  document.getElementById('f-advice').innerHTML = `💡 Zakat fitrah <strong>${fmt(total)}</strong> untuk ${jiwa} jiwa. Wajib dibayar sebelum Sholat Idul Fitri — idealnya di 10 hari terakhir Ramadan agar bisa segera disalurkan. Bisa dibayarkan dalam bentuk beras ${(2.5*jiwa).toFixed(1)} kg atau uang tunai senilai itu ke amil zakat terdekat atau BAZNAS.`;
-  document.getElementById('res-fitrah').style.display = 'block';
+  // chart
+  const chart=document.getElementById('sim-chart');if(!chart)return;
+  const levels=[nisab*0.5,nisab*0.8,nisab,nisab*1.5,nisab*2,nisab*3,nisab*5];
+  const maxZ=levels[levels.length-1]*0.025;
+  chart.innerHTML=levels.map(l=>{
+    const z=l>=nisab?l*0.025:0;
+    const pct=maxZ>0?z/maxZ*100:0;
+    const isActive=Math.abs(l-harta)<nisab*0.15;
+    return`<div class="distrib-row${isActive?' ':{}}">
+      <span class="distrib-lbl">${rpM(l)}</span>
+      <div class="distrib-bar-bg"><div class="distrib-bar-fill" style="width:${pct}%;background:${l>=nisab?'var(--grn)':'var(--sur2)'}"></div></div>
+      <span class="distrib-val" style="color:${l>=nisab?'var(--grn)':'var(--tx3)'}">${z>0?rp(z):'—'}</span>
+    </div>`;
+  }).join('');
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-// Auto-run on load if inputs have values
-window.addEventListener('DOMContentLoaded', () => {
-  calcFitrah();
+// ④ DISTRIBUSI ASNAF
+function renderDistribInputs(){
+  const wrap=document.getElementById('dist-inputs');if(!wrap)return;
+  wrap.innerHTML=ASNAF.map(a=>`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-size:12px;flex:1;color:var(--tx2)">${a.lbl}</span>
+      <div style="position:relative;width:70px">
+        <input type="number" id="dist-${a.key}" value="${a.pct}" min="0" max="100" step="0.5" style="width:100%;padding:5px 22px 5px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:12px;font-weight:700;text-align:right;background:var(--sur);outline:none;-webkit-appearance:none" oninput="renderDistrib()">
+        <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--tx3);pointer-events:none">%</span>
+      </div>
+    </div>`).join('');
+}
+function renderDistrib(){
+  const total=v('dist-total');
+  let sum=0;
+  ASNAF.forEach(a=>{sum+=v('dist-'+a.key);});
+  set('dist-sum',sum.toFixed(1)+'%');
+  const sumEl=document.getElementById('dist-sum');
+  if(sumEl)sumEl.style.color=Math.abs(sum-100)<0.1?'var(--grn)':'var(--red)';
+
+  const chart=document.getElementById('dist-chart');if(!chart)return;
+  chart.innerHTML=ASNAF.map(a=>{
+    const pct=v('dist-'+a.key);
+    const nom=total*pct/100;
+    return`<div class="distrib-row">
+      <span class="distrib-lbl">${a.lbl}</span>
+      <div class="distrib-bar-bg"><div class="distrib-bar-fill" style="width:${pct}%"></div></div>
+      <span class="distrib-val">${rp(nom)}</span>
+    </div>`;
+  }).join('');
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
 });
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['harga-emas','h-tabungan','h-investasi','h-emas','h-dagang','h-piutang','h-utang'],calcMaal);
+listen(['f-jiwa','f-nilai','f-jenis'],calcFitrah);
+listen(['sim-harta','sim-emas'],calcSim);
+listen(['dist-total'],renderDistrib);
+
+renderDistribInputs();
+calcMaal();calcFitrah();
 </script>
 </body>
 </html>

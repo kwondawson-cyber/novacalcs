@@ -1,460 +1,567 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Pesangon PHK 2026 — UU Cipta Kerja + JKP BPJS | NovaCalcs</title>
-<meta name="description" content="Hitung uang pesangon PHK 2026 sesuai PP 35/2021 (UU Cipta Kerja). Simulasi UP, UPMK, UPH, dan manfaat JKP BPJS Ketenagakerjaan. Lengkap dengan perbandingan skenario PHK."/>
-<meta name="keywords" content="kalkulator pesangon, hitung pesangon PHK 2026, PP 35 2021, UU Cipta Kerja pesangon, JKP BPJS TK, uang penghargaan masa kerja"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pesangon.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-pesangon.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Pesangon PHK","url":"https://novacalcs.com/id/kalkulator-pesangon.html","description":"Kalkulator pesangon PHK 2026 sesuai PP 35/2021 dengan simulasi JKP","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Big total display */
-.pesangon-main { text-align:center; padding:16px 0 8px; }
-.pesangon-num  { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
-.pesangon-label{ font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Component bars */
-.comp-bar-wrap { margin:12px 0 6px; }
-.comp-bar-track{ height:18px; border-radius:9px; overflow:hidden; display:flex; }
-.cb-up   { background:var(--mint);   transition:width .6s; display:flex; align-items:center; padding-left:7px; font-size:.6rem; font-weight:700; color:#001a17; }
-.cb-upmk { background:#60a5fa; transition:width .6s; display:flex; align-items:center; padding-left:5px; font-size:.6rem; font-weight:700; color:#0c1a2e; }
-.cb-uph  { background:#fbbf24; transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:700; color:#451a03; }
-.comp-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
-.comp-legend span::before { content:'●'; margin-right:4px; }
-.leg-m::before { color:var(--mint); } .leg-b::before { color:#60a5fa; } .leg-y::before { color:#fbbf24; }
-
-/* Stats grid */
-.pss-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.pss-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.pss-card .pc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
-.pss-card .pc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
-.pss-card.green .pc-val { color:var(--mint); }
-.pss-card.blue  .pc-val { color:#60a5fa; }
-.pss-card.yellow .pc-val { color:#fbbf24; }
-
-/* JKP section */
-.jkp-box { background:rgba(96,165,250,.08); border:1px solid rgba(96,165,250,.25); border-radius:var(--radius-md); padding:14px; margin-top:12px; }
-.jkp-title { font-size:.72rem; font-weight:700; color:#60a5fa; margin-bottom:8px; }
-.jkp-row { display:flex; justify-content:space-between; padding:4px 0; font-size:.8rem; border-bottom:1px solid rgba(96,165,250,.1); }
-.jkp-row:last-child { border-bottom:none; font-weight:700; }
-.jkp-val { color:#60a5fa; font-weight:600; }
-
-/* Scenario comparison */
-.scenario-comp { width:100%; border-collapse:collapse; font-size:.78rem; margin-top:10px; }
-.scenario-comp th { background:var(--bg-input); color:var(--text-secondary); padding:7px 10px; text-align:right; font-weight:600; }
-.scenario-comp th:first-child { text-align:left; }
-.scenario-comp td { padding:7px 10px; border-bottom:1px solid var(--border); text-align:right; }
-.scenario-comp td:first-child { text-align:left; color:var(--text-secondary); font-size:.75rem; }
-.scenario-comp tr.chosen td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
-.scenario-comp tr:last-child td { border-bottom:none; }
-
-/* Masa kerja comparison */
-.masa-tbl { width:100%; border-collapse:collapse; font-size:.78rem; }
-.masa-tbl th { background:var(--bg-input); color:var(--text-secondary); padding:6px 10px; text-align:right; font-weight:600; }
-.masa-tbl th:first-child { text-align:left; }
-.masa-tbl td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; }
-.masa-tbl td:first-child { text-align:left; color:var(--text-secondary); }
-.masa-tbl tr.current-row td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
-.masa-tbl tr:last-child td { border-bottom:none; }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Pesangon PHK 2026 — PP 35/2021 + JKP BPJS | NovaCalcs</title>
+  <meta name="description" content="Hitung pesangon PHK 2026 sesuai PP 35/2021 (UU Cipta Kerja): UP, UPMK, UPH + manfaat JKP BPJS. Perbandingan semua skenario PHK & simulasi masa kerja. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-pesangon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* BAR */
+    .bw3{height:10px;border-radius:5px;background:var(--sur2);margin:12px 0 6px;overflow:hidden;display:flex}
+    .bleg{display:flex;gap:10px;font-size:10px;color:var(--tx3);flex-wrap:wrap}
+    .bleg-d{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+    /* JKP BOX */
+    .jkp-box{background:var(--grn-b);border:1.5px solid #86efac;border-radius:var(--r);padding:14px;margin-top:14px}
+    .jkp-title{font-size:12px;font-weight:700;color:var(--grn);margin-bottom:10px}
+    .jkp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+    @media(max-width:420px){.jkp-grid{grid-template-columns:1fr 1fr}}
+    .jkp-item{background:var(--sur);border-radius:var(--rs);padding:9px;border:1px solid #86efac}
+    .jkp-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:#166534;margin-bottom:3px}
+    .jkp-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:800;color:var(--grn)}
+    .jkp-total{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:1px solid #86efac}
+    .jkp-total-lbl{font-size:12px;font-weight:700;color:var(--grn)}
+    .jkp-total-val{font-family:'DM Mono',monospace;font-size:16px;font-weight:800;color:var(--grn)}
+    /* COMPARE TABLE */
+    .cmp-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .cmp-tbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3)}
+    .cmp-tbl td{padding:8px 10px;border-bottom:1px solid var(--bor)}
+    .cmp-tbl td.mo{font-family:'DM Mono',monospace;font-weight:600}
+    .cmp-tbl tr:last-child td{border-bottom:none}
+    .cmp-tbl tr.hl td{background:var(--pri-l);color:var(--pri);font-weight:700}
+    .cmp-tbl tr.grn-hl td{background:var(--grn-b);color:var(--grn)}
+    .cmp-tbl tr.dim td{color:var(--tx3)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .stbl-wrap{overflow-x:auto}
+    .stbl{width:100%;border-collapse:collapse;font-size:11px}
+    .stbl th{background:var(--sur2);padding:6px 8px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .stbl td{padding:6px 8px;border-bottom:1px solid var(--bor)}
+    .stbl td.mo{font-family:'DM Mono',monospace;font-size:10px}
+    .stbl tr:last-child td{border-bottom:none}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .seo-tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .seo-tbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .seo-tbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .seo-tbl tr:last-child td{border-bottom:none}.seo-tbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .tag-r{display:inline-block;background:var(--red-b);color:var(--red);font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:4px}
+    .tag-g{display:inline-block;background:var(--grn-b);color:var(--grn);font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:4px}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Pesangon</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Pesangon</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">📋 Pesangon PHK</div>
+  <h1 class="hdr-h1">Kalkulator Pesangon PHK 2026</h1>
+  <p class="hdr-sub">Hitung UP, UPMK, UPH &amp; manfaat JKP BPJS sesuai PP No. 35/2021. Perbandingan semua skenario PHK &amp; simulasi masa kerja. Hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">PP 35/2021 <span>UU Cipta Kerja</span></div>
+    <div class="pchip">UP maks <span>9 bulan upah</span></div>
+    <div class="pchip">JKP BPJS <span>maks 6 bulan</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">📋 Kalkulator Pesangon PHK 2026</div>
-      <div class="calc-subtitle">UP · UPMK · UPH · JKP BPJS Ketenagakerjaan</div>
+<main class="main">
+<div class="left-col">
 
-      <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:var(--radius-sm);padding:10px 12px;font-size:.75rem;color:#f0a800;margin-bottom:14px;">
-        📌 Berdasarkan PP No. 35/2021 (UU Cipta Kerja). Konsultasikan dengan pengacara/Disnaker untuk kasus spesifik.
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📋</div>Hitung Pesangon Saya</div>
+  <div class="card-b">
+    <div class="notice warn" style="margin-bottom:18px;margin-top:2px">⚖️ Berdasarkan PP No. 35/2021 (UU Cipta Kerja). Untuk kasus spesifik atau sengketa, konsultasikan dengan pengacara ketenagakerjaan atau Disnaker setempat.</div>
+
+    <div class="fld">
+      <label>Upah Sebulan (Rp) — gaji pokok + tunjangan tetap</label>
+      <div class="iw"><input type="number" id="upah" value="8000000" min="0" step="500000"></div>
+      <div class="presets">
+        <button class="pb" data-val="5000000" data-for="upah">5 jt</button>
+        <button class="pb on" data-val="8000000" data-for="upah">8 jt</button>
+        <button class="pb" data-val="10000000" data-for="upah">10 jt</button>
+        <button class="pb" data-val="15000000" data-for="upah">15 jt</button>
+        <button class="pb" data-val="20000000" data-for="upah">20 jt</button>
       </div>
-
-      <div class="field"><label>Upah Sebulan (Rp) — gaji pokok + tunjangan tetap</label>
-        <input type="number" id="upah" placeholder="Contoh: 8.000.000" oninput="autoCalc()"/>
+    </div>
+    <div class="g2">
+      <div class="fld">
+        <label>Masa Kerja (Tahun)</label>
+        <div class="iw"><input type="number" id="masa" value="5" min="0" max="50" step="1"><span class="iu">thn</span></div>
+        <div class="presets">
+          <button class="pb" data-val="1" data-for="masa">1</button>
+          <button class="pb" data-val="3" data-for="masa">3</button>
+          <button class="pb on" data-val="5" data-for="masa">5</button>
+          <button class="pb" data-val="10" data-for="masa">10</button>
+          <button class="pb" data-val="20" data-for="masa">20</button>
+        </div>
       </div>
-      <div class="field"><label>Masa Kerja (tahun)</label>
-        <input type="number" id="masa" placeholder="Contoh: 5" min="0" step="0.5" oninput="autoCalc()"/>
-        <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Dihitung sejak pertama bekerja, termasuk masa PKWT (kontrak)</p>
+      <div class="fld">
+        <label>Alasan PHK</label>
+        <div class="iw sw"><select id="alasan">
+          <option value="efisiensi">Efisiensi / restrukturisasi (0,5×)</option>
+          <option value="pailit">Perusahaan pailit / tutup (0,5×)</option>
+          <option value="pensiun">Pensiun (1×)</option>
+          <option value="meninggal">Karyawan meninggal dunia (2×)</option>
+          <option value="sakit">Sakit berkepanjangan ≥ 12 bln (2×)</option>
+          <option value="resign">Mengundurkan diri / resign (0×)</option>
+        </select></div>
       </div>
-      <div class="field"><label>Alasan PHK</label>
-        <select id="alasan" onchange="autoCalc()">
-          <option value="umum">Efisiensi / restrukturisasi perusahaan</option>
-          <option value="pailit">Perusahaan pailit atau tutup</option>
-          <option value="pensiun">Pensiun</option>
-          <option value="meninggal">Karyawan meninggal dunia</option>
-          <option value="sakit">PHK karena sakit berkepanjangan (≥12 bln)</option>
-          <option value="resign">Mengundurkan diri (resign)</option>
-        </select>
+    </div>
+    <div class="fld">
+      <label>Status JKP (Jaminan Kehilangan Pekerjaan)</label>
+      <div class="iw sw"><select id="jkp-status">
+        <option value="ya">Ya — terdaftar JKP BPJS Ketenagakerjaan</option>
+        <option value="tidak">Tidak terdaftar JKP</option>
+      </select></div>
+      <div style="font-size:10px;color:var(--tx3);margin-top:4px">JKP wajib bagi karyawan formal sejak Feb 2022. Klaim hanya untuk PHK bukan resign/pensiun.</div>
+    </div>
+
+    <div class="lres">
+      <div class="rg rg3">
+        <div class="ri s2">
+          <div class="rl">Total Hak dari Perusahaan</div>
+          <div class="rv lg" id="r-total">—</div>
+          <div class="rsub" id="r-total-sub">—</div>
+        </div>
+        <div class="ri">
+          <div class="rl">Uang Pesangon (UP)</div>
+          <div class="rv sm" id="r-up">—</div>
+          <div class="rsub" id="r-up-sub">—</div>
+        </div>
+        <div class="ri">
+          <div class="rl">Penghargaan Masa Kerja (UPMK)</div>
+          <div class="rv sm" id="r-upmk">—</div>
+          <div class="rsub" id="r-upmk-sub">—</div>
+        </div>
+        <div class="ri">
+          <div class="rl">Penggantian Hak / UPH (15%)</div>
+          <div class="rv sm" id="r-uph">—</div>
+          <div class="rsub">15% dari UP+UPMK</div>
+        </div>
       </div>
-      <div class="field">
-        <label>Terdaftar JKP (Jaminan Kehilangan Pekerjaan)?</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-jkp-ya"   onclick="setJKP(true,this)">Ya — terdaftar BPJS TK</div>
-          <div class="radio-btn"        id="btn-jkp-tidak" onclick="setJKP(false,this)">Tidak</div>
-        </div>
-        <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">JKP wajib bagi karyawan formal. Jika PHK, berhak manfaat 6 bulan.</p>
+      <div class="bw3">
+        <div id="b-up" style="background:var(--pri);transition:width .3s;height:100%"></div>
+        <div id="b-upmk" style="background:#fbbf24;transition:width .3s;height:100%"></div>
+        <div id="b-uph" style="background:var(--grn);transition:width .3s;height:100%"></div>
       </div>
+      <div class="bleg">
+        <span><span class="bleg-d" style="background:var(--pri)"></span>UP</span>
+        <span><span class="bleg-d" style="background:#fbbf24"></span>UPMK</span>
+        <span><span class="bleg-d" style="background:var(--grn)"></span>UPH</span>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>Upah sebulan</span><span id="r-upah">—</span></div>
+        <div class="rr"><span>Masa kerja</span><span id="r-masa">—</span></div>
+        <div class="rr"><span>Multiplier alasan PHK</span><span id="r-mult">—</span></div>
+        <div class="rr"><span>UP dasar (sebelum multiplier)</span><span id="r-up-dasar">—</span></div>
+        <div class="rr"><span>UPMK dasar (sebelum multiplier)</span><span id="r-upmk-dasar">—</span></div>
+      </div>
+    </div>
 
-      <button class="calc-btn" onclick="calculate()">📋 Hitung Pesangon Saya</button>
+    <!-- JKP -->
+    <div class="jkp-box" id="jkp-box" style="display:none">
+      <div class="jkp-title">💼 + Manfaat JKP BPJS Ketenagakerjaan (dari BPJS, bukan perusahaan)</div>
+      <div class="jkp-grid">
+        <div class="jkp-item"><div class="jkp-lbl">Bln 1–3 (45%/bln)</div><div class="jkp-val" id="jkp-1-3">—</div></div>
+        <div class="jkp-item"><div class="jkp-lbl">Bln 4–5 (25%/bln)</div><div class="jkp-val" id="jkp-4-5">—</div></div>
+        <div class="jkp-item"><div class="jkp-lbl">Bln 6 (15%/bln)</div><div class="jkp-val" id="jkp-6">—</div></div>
+      </div>
+      <div class="jkp-total">
+        <span class="jkp-total-lbl">Total manfaat tunai JKP (6 bulan)</span>
+        <span class="jkp-total-val" id="jkp-total">—</span>
+      </div>
+      <div style="font-size:10px;color:#166534;margin-top:6px">+ Akses pelatihan kerja gratis &amp; informasi lowongan via platform BPJS TK</div>
+    </div>
 
-      <div class="result-box" id="result" style="display:none">
-
-        <!-- Main total -->
-        <div class="pesangon-main">
-          <div class="pesangon-num" id="res-total">—</div>
-          <div class="pesangon-label" id="res-total-label">Total hak dari perusahaan</div>
+    <div class="lres" id="grand-total-box" style="display:none">
+      <div class="rg">
+        <div class="ri grn s2">
+          <div class="rl">Total Keseluruhan (Pesangon + JKP)</div>
+          <div class="rv lg grn" id="r-grand-total">—</div>
         </div>
+      </div>
+    </div>
+    <div class="notice">* UPH mencakup: sisa cuti yang belum diambil + biaya transportasi ke asal (diestimasi 15% dari UP+UPMK). Multiplier resign = 0 untuk UP, namun karyawan tetap berhak UPH.</div>
+  </div>
+</div>
 
-        <!-- Component bar -->
-        <div class="comp-bar-wrap">
-          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:5px;">Komposisi total pesangon</div>
-          <div class="comp-bar-track">
-            <div class="cb-up"   id="bar-up"   style="width:60%">UP</div>
-            <div class="cb-upmk" id="bar-upmk" style="width:25%">UPMK</div>
-            <div class="cb-uph"  id="bar-uph"  style="width:15%">UPH</div>
-          </div>
-          <div class="comp-legend">
-            <span class="leg-m">Uang Pesangon (UP)</span>
-            <span class="leg-b">Penghargaan Masa Kerja (UPMK)</span>
-            <span class="leg-y">Penggantian Hak (UPH)</span>
-          </div>
-        </div>
+<!-- ② SIMULATOR: PERBANDINGAN SKENARIO PHK -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚖️</div>Perbandingan Semua Skenario PHK <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Bandingkan total pesangon untuk semua alasan PHK dengan upah dan masa kerja yang sama — sehingga Anda tahu hak di setiap skenario.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Upah Sebulan (Rp)</label>
+        <div class="iw"><input type="number" id="cmp-upah" value="8000000" min="0" step="500000"></div>
+      </div>
+      <div class="fld">
+        <label>Masa Kerja (Tahun)</label>
+        <div class="iw"><input type="number" id="cmp-masa" value="5" min="0" max="50"><span class="iu">thn</span></div>
+      </div>
+    </div>
+    <table class="cmp-tbl">
+      <thead><tr><th>Alasan PHK</th><th>Mult.</th><th>UP</th><th>UPMK</th><th>UPH</th><th>Total</th></tr></thead>
+      <tbody id="cmp-body"></tbody>
+    </table>
+    <div class="notice info" style="margin-top:10px">💡 Baris hijau = berhak JKP BPJS (kecuali resign/pensiun). Klaim JKP dalam 3 bulan sejak PHK melalui aplikasi JMO (Jamsostek Mobile).</div>
+  </div>
+</div>
 
-        <!-- Stats -->
-        <div class="pss-grid">
-          <div class="pss-card green"><div class="pc-label">Uang Pesangon (UP)</div><div class="pc-val" id="s-up">—</div></div>
-          <div class="pss-card blue"><div class="pc-label">Penghargaan Masa Kerja (UPMK)</div><div class="pc-val" id="s-upmk">—</div></div>
-          <div class="pss-card yellow"><div class="pc-label">Penggantian Hak (UPH ~15%)</div><div class="pc-val" id="s-uph">—</div></div>
-          <div class="pss-card"><div class="pc-label">Multiplier yang berlaku</div><div class="pc-val" id="s-mult">—</div></div>
-        </div>
+<!-- ③ SIMULATOR: BERBAGAI MASA KERJA -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Simulasi Berbagai Masa Kerja <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Lihat perkembangan pesangon seiring bertambahnya masa kerja — berguna untuk memahami nilai loyalitas karyawan dan perencanaan keuangan jangka panjang.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Upah Sebulan (Rp)</label>
+        <div class="iw"><input type="number" id="mk-upah" value="8000000" min="0" step="500000"></div>
+      </div>
+      <div class="fld">
+        <label>Alasan PHK (untuk multiplier)</label>
+        <div class="iw sw"><select id="mk-alasan">
+          <option value="efisiensi">Efisiensi (0,5×)</option>
+          <option value="pensiun">Pensiun (1×)</option>
+          <option value="meninggal">Meninggal (2×)</option>
+        </select></div>
+      </div>
+    </div>
+    <table class="cmp-tbl">
+      <thead><tr><th>Masa Kerja</th><th>UP (bln)</th><th>UPMK (bln)</th><th>Total Pesangon</th></tr></thead>
+      <tbody id="mk-body"></tbody>
+    </table>
+    <div class="notice">* Baris oranye = masa kerja Anda saat ini (dari kalkulator utama). UP maksimal 9 bulan, UPMK maksimal 10 bulan upah.</div>
+  </div>
+</div>
 
-        <!-- JKP section -->
-        <div class="jkp-box" id="jkp-section" style="display:none">
-          <div class="jkp-title">💼 Manfaat JKP BPJS Ketenagakerjaan (jika memenuhi syarat)</div>
-          <div class="jkp-row"><span>Bulan 1–3 (45% upah/bulan)</span><span class="jkp-val" id="jkp-1-3">—</span></div>
-          <div class="jkp-row"><span>Bulan 4–5 (25% upah/bulan)</span><span class="jkp-val" id="jkp-4-5">—</span></div>
-          <div class="jkp-row"><span>Bulan 6 (15% upah/bulan)</span><span class="jkp-val" id="jkp-6">—</span></div>
-          <div class="jkp-row"><span>Total manfaat tunai JKP</span><span class="jkp-val" id="jkp-total">—</span></div>
-          <div style="font-size:.68rem;color:#60a5fa;margin-top:6px;">+ Akses pelatihan & info lowongan kerja</div>
-        </div>
+</div><!-- /left-col -->
 
-        <!-- Scenario comparison -->
-        <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">📊 Perbandingan Skenario PHK</div>
-        <table class="scenario-comp" id="scenario-comp"></table>
-
-        <!-- Masa kerja comparison -->
-        <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">📋 Simulasi Berbagai Masa Kerja (alasan sama)</div>
-        <table class="masa-tbl" id="masa-tbl"></table>
-
-        <!-- Advice -->
-        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Tabel UP &amp; UPMK PP 35/2021</div>
+    <div class="card-b">
+      <div class="sec-lbl">Uang Pesangon (UP)</div>
+      <div class="stbl-wrap"><table class="stbl">
+        <thead><tr><th>Masa Kerja</th><th>UP</th></tr></thead>
+        <tbody>
+          <tr><td>&lt; 1 tahun</td><td class="mo">1 bln</td></tr>
+          <tr><td>1–2 tahun</td><td class="mo">2 bln</td></tr>
+          <tr><td>2–3 tahun</td><td class="mo">3 bln</td></tr>
+          <tr><td>3–4 tahun</td><td class="mo">4 bln</td></tr>
+          <tr><td>4–5 tahun</td><td class="mo">5 bln</td></tr>
+          <tr><td>5–6 tahun</td><td class="mo">6 bln</td></tr>
+          <tr><td>6–7 tahun</td><td class="mo">7 bln</td></tr>
+          <tr><td>7–8 tahun</td><td class="mo">8 bln</td></tr>
+          <tr><td>≥ 8 tahun</td><td class="mo">9 bln (maks)</td></tr>
+        </tbody>
+      </table></div>
+      <div class="sec-lbl" style="margin-top:12px">Penghargaan Masa Kerja (UPMK)</div>
+      <div class="stbl-wrap"><table class="stbl">
+        <thead><tr><th>Masa Kerja</th><th>UPMK</th></tr></thead>
+        <tbody>
+          <tr><td>3–6 tahun</td><td class="mo">2 bln</td></tr>
+          <tr><td>6–9 tahun</td><td class="mo">3 bln</td></tr>
+          <tr><td>9–12 tahun</td><td class="mo">4 bln</td></tr>
+          <tr><td>12–15 tahun</td><td class="mo">5 bln</td></tr>
+          <tr><td>15–18 tahun</td><td class="mo">6 bln</td></tr>
+          <tr><td>18–21 tahun</td><td class="mo">7 bln</td></tr>
+          <tr><td>21–24 tahun</td><td class="mo">8 bln</td></tr>
+          <tr><td>≥ 24 tahun</td><td class="mo">10 bln (maks)</td></tr>
+        </tbody>
+      </table></div>
+      <div class="notice" style="margin-top:8px">UP maks: 9 bln upah. UPMK maks: 10 bln upah. UPH: 15% dari UP+UPMK.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Hak Karyawan</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Klaim JKP</strong> via aplikasi JMO (Jamsostek Mobile) dalam 3 bulan sejak PHK</span></div>
+        <div class="tip"><span class="tpico">📄</span><span class="tptx"><strong>Minta surat PHK resmi</strong> — dokumen penting untuk klaim JKP dan referensi kerja</span></div>
+        <div class="tip"><span class="tpico">🏛️</span><span class="tptx"><strong>Sengketa pesangon</strong> → Disnaker setempat untuk mediasi, atau PHI (Pengadilan Hubungan Industrial)</span></div>
+        <div class="tip"><span class="tpico">⏰</span><span class="tptx"><strong>Tenggat pesangon</strong> — harus dibayar sebelum tanggal PHK efektif, bukan setelah</span></div>
+        <div class="tip"><span class="tpico">💼</span><span class="tptx"><strong>JKP tidak mengurangi pesangon</strong> — keduanya adalah hak terpisah yang bisa diterima bersamaan</span></div>
       </div>
     </div>
   </div>
-
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Pesangon PHK 2026 — PP 35/2021 + JKP BPJS</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung hak pesangon PHK sesuai PP No. 35/2021 (turunan UU Cipta Kerja). Kalkulator ini menghitung Uang Pesangon (UP), Penghargaan Masa Kerja (UPMK), Penggantian Hak (UPH), plus simulasi manfaat JKP BPJS Ketenagakerjaan yang mulai berlaku sejak 2022.</p>
-
-    <h2>Tabel Pesangon PP 35/2021 — UP dan UPMK</h2>
-    <p>Berdasarkan PP No. 35 Tahun 2021 yang merupakan aturan pelaksana UU Cipta Kerja, besaran pesangon dihitung sebagai berikut:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Masa Kerja</th><th>UP (Uang Pesangon)</th><th>UPMK (Penghargaan Masa Kerja)</th></tr></thead>
-      <tbody>
-        <tr><td>&lt; 1 tahun</td><td>1 bulan upah</td><td>—</td></tr>
-        <tr><td>1–2 tahun</td><td>2 bulan upah</td><td>—</td></tr>
-        <tr><td>2–3 tahun</td><td>3 bulan upah</td><td>—</td></tr>
-        <tr><td>3–4 tahun</td><td>4 bulan upah</td><td>2 bulan upah</td></tr>
-              <tr><td>4–5 tahun</td><td>5 bulan upah</td><td>2 bulan upah</td></tr>
-        <tr><td>5–6 tahun</td><td>6 bulan upah</td><td>2 bulan upah</td></tr>
-        <tr><td>6–9 tahun</td><td>7–9 bulan upah</td><td>3 bulan upah</td></tr>
-        <tr><td>9–12 tahun</td><td>9 bulan upah (maks)</td><td>4 bulan upah</td></tr>
-        <tr><td>12–24 tahun</td><td>9 bulan upah (maks)</td><td>5–8 bulan upah</td></tr>
-        <tr><td>≥ 24 tahun</td><td>9 bulan upah (maks)</td><td>10 bulan upah (maks)</td></tr>
-      </tbody>
-    </table>
-    <p>Selain UP + UPMK, karyawan yang di-PHK juga berhak atas <strong>UPH (Penggantian Hak)</strong> berupa sisa cuti yang belum diambil dan biaya transportasi ke tempat asal — diestimasi sebesar 15% dari UP + UPMK.</p>
-
-    <h2>Multiplier Pesangon Berdasarkan Alasan PHK</h2>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Alasan PHK</th><th>Multiplier</th><th>Hak yang Diterima</th></tr></thead>
-      <tbody>
-        <tr><td>Efisiensi / restrukturisasi</td><td>0,5×</td><td>0,5× UP + UPMK + UPH</td></tr>
-        <tr><td>Perusahaan pailit / tutup</td><td>0,5×</td><td>0,5× UP + UPMK + UPH</td></tr>
-        <tr><td>Pensiun</td><td>1,0×</td><td>1× UP + UPMK + UPH</td></tr>
-        <tr><td>Karyawan meninggal dunia</td><td>2,0×</td><td>2× UP + UPMK + UPH (untuk ahli waris)</td></tr>
-        <tr><td>Sakit berkepanjangan ≥ 12 bulan</td><td>2,0×</td><td>2× UP + UPMK + UPH</td></tr>
-        <tr><td>Mengundurkan diri (resign)</td><td>0×</td><td>Uang pisah (jika ada) + UPH saja</td></tr>
-      </tbody>
-    </table>
-
-    <h2>JKP — Jaminan Kehilangan Pekerjaan 2026</h2>
-    <p>Sejak Februari 2022, BPJS Ketenagakerjaan memiliki program baru: <strong>JKP (Jaminan Kehilangan Pekerjaan)</strong>. Ini adalah kompensasi tambahan di luar pesangon yang diberikan langsung oleh BPJS TK kepada karyawan yang di-PHK:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Periode</th><th>Manfaat Tunai</th><th>Manfaat Lain</th></tr></thead>
-      <tbody>
-        <tr><td>Bulan 1–3</td><td>45% dari upah/bulan</td><td rowspan="3">Akses pelatihan kerja &amp; informasi pasar kerja</td></tr>
-        <tr><td>Bulan 4–5</td><td>25% dari upah/bulan</td></tr>
-        <tr><td>Bulan 6</td><td>15% dari upah/bulan</td></tr>
-      </tbody>
-    </table>
-    <p>Syarat klaim JKP: (1) Terdaftar sebagai peserta JKP minimal 12 bulan, (2) Di-PHK bukan karena resign/pensiun/meninggal/kesalahan berat, (3) Mengajukan klaim dalam 3 bulan sejak PHK. Batas maksimal upah untuk perhitungan JKP: Rp 5.000.000/bulan (update 2022).</p>
-
-    <h2>Fitur Kalkulator Pesangon NovaCalcs</h2>
-    <ul>
-      <li><strong>Komponen lengkap</strong> — Menghitung UP, UPMK, dan UPH sekaligus sesuai PP 35/2021, bukan hanya UP saja.</li>
-      <li><strong>Visualisasi komposisi bar</strong> — Bar tiga warna menunjukkan proporsi UP, UPMK, dan UPH dari total pesangon, sehingga langsung terlihat komponen mana yang terbesar.</li>
-      <li><strong>Simulasi manfaat JKP</strong> — Jika terdaftar JKP, kalkulator otomatis menghitung manfaat tunai bulan 1–6 dari BPJS TK sebagai tambahan pesangon.</li>
-      <li><strong>Perbandingan 6 skenario PHK</strong> — Tabel otomatis menampilkan total pesangon untuk semua alasan PHK sekaligus dengan upah dan masa kerja yang sama — memudahkan memahami perbedaan hak antar skenario.</li>
-      <li><strong>Simulasi berbagai masa kerja</strong> — Tabel kedua menampilkan pesangon untuk masa kerja 1, 3, 5, 7, 10, 15, dan 20 tahun, dengan baris masa kerja Anda disorot.</li>
-    </ul>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah karyawan yang resign berhak dapat pesangon?</div>
-      <div class="faq-a">Secara umum tidak. Karyawan yang mengundurkan diri secara sukarela hanya berhak atas uang pisah (jika diatur dalam PKB atau peraturan perusahaan) dan penggantian hak (sisa cuti, dll.). Uang pesangon dalam arti UP + UPMK hanya wajib diberikan jika PHK diprakarsai oleh perusahaan. Namun jika resign karena pelecehan atau kondisi kerja yang melanggar hak, karyawan bisa mengklaim setara PHK melalui mediasi atau PHI.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa multiplier pesangon untuk PHK efisiensi di 2026?</div>
-      <div class="faq-a">Berdasarkan PP 35/2021 (berlaku hingga 2026), PHK karena efisiensi mendapat multiplier 0,5× dari UP + UPMK + UPH. Ini jauh lebih rendah dari UU 13/2003 yang memberikan 2× UP. Perubahan ini adalah inti dari kontroversi UU Cipta Kerja. Sebagai kompensasi, pemerintah mewajibkan pengusaha mendaftarkan karyawan ke JKP BPJS Ketenagakerjaan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah pesangon dikenakan pajak?</div>
-      <div class="faq-a">Ya, pesangon dikenakan PPh Final dengan tarif progresif khusus: 0% untuk pesangon hingga Rp 50 juta; 5% untuk Rp 50–100 juta; 15% untuk Rp 100–500 juta; 25% untuk di atas Rp 500 juta. Pajak ini bersifat final, dipotong langsung oleh perusahaan, dan tidak perlu dilaporkan ulang di SPT. Kalkulator ini menampilkan nilai pesangon sebelum pajak.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu JKP dan bagaimana cara klaimnya?</div>
-      <div class="faq-a">JKP (Jaminan Kehilangan Pekerjaan) adalah program BPJS Ketenagakerjaan yang memberikan manfaat tunai kepada karyawan yang di-PHK. Cara klaim: (1) Lapor ke BPJS Ketenagakerjaan dalam 3 bulan setelah PHK, (2) Siapkan dokumen: KTP, kartu BPJS TK, surat PHK, dan bukti kepesertaan minimal 12 bulan, (3) Daftar melalui aplikasi JMO (Jamsostek Mobile) atau kantor BPJS TK terdekat. Manfaat 45% upah di bulan 1-3, 25% di bulan 4-5, dan 15% di bulan 6.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika perusahaan tidak membayar pesangon?</div>
-      <div class="faq-a">Langkah penyelesaian: (1) <strong>Bipartit</strong> — negosiasi langsung dengan perusahaan dalam 30 hari. Buat risalah tertulis. (2) <strong>Mediasi Disnaker</strong> — ajukan ke Dinas Ketenagakerjaan setempat dalam 30 hari jika bipartit gagal. (3) <strong>Pengadilan Hubungan Industrial (PHI)</strong> — jika mediasi gagal, ajukan gugatan ke PHI. Siapkan: kontrak kerja, slip gaji 3 bulan terakhir, surat PHK, dan bukti komunikasi. Jika pesangon tidak dibayar, perusahaan bisa dipidana.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah masa kerja kontrak (PKWT) dihitung untuk pesangon?</div>
-      <div class="faq-a">Ya, masa kerja dihitung sejak pertama bekerja di perusahaan tersebut, termasuk periode PKWT (kontrak) sebelum diangkat menjadi karyawan tetap, asalkan tidak ada jeda hubungan kerja yang signifikan. Penting untuk mendokumentasikan riwayat kerja sejak awal kontrak. Jika ada jeda lebih dari beberapa bulan, masa kerja mungkin dihitung ulang dari awal — tergantung perjanjian.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah pesangon bisa dicicil oleh perusahaan?</div>
-      <div class="faq-a">Secara hukum, pesangon seharusnya dibayarkan sekaligus saat PHK. Namun jika perusahaan mengalami kesulitan keuangan, cicilan bisa dilakukan atas kesepakatan bersama yang dituangkan dalam perjanjian tertulis. Pastikan perjanjian mencantumkan jadwal pembayaran yang jelas, besaran cicilan, dan konsekuensi jika tidak dibayar. Jangan menerima pembayaran parsial tanpa perjanjian tertulis yang melindungi hak Anda.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
-      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>PPh 21</a>
-      <a href="/id/kalkulator-bpjs.html" class="related-item"><span class="ri">🏥</span>BPJS Kesehatan</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-thr" class="relc"><div class="relc-ico">🎁</div><div class="relc-nm">Kalkulator THR</div><div class="relc-ds">Tunjangan hari raya</div></a>
+        <a href="/id/kalkulator-gaji-bersih" class="relc"><div class="relc-ico">💵</div><div class="relc-nm">Gaji Bersih</div><div class="relc-ds">Take-home pay</div></a>
+        <a href="/id/kalkulator-bpjs" class="relc"><div class="relc-ico">🏥</div><div class="relc-nm">BPJS</div><div class="relc-ds">Iuran kesehatan</div></a>
+        <a href="/id/kalkulator-pph" class="relc"><div class="relc-ico">💼</div><div class="relc-nm">PPh 21</div><div class="relc-ds">Pajak gaji TER</div></a>
+      </div>
     </div>
   </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Komponen Pesangon PP 35/2021</h2>
+  <p>Berdasarkan PP No. 35 Tahun 2021 (UU Cipta Kerja), karyawan yang di-PHK berhak atas tiga komponen: <strong>UP</strong> (Uang Pesangon), <strong>UPMK</strong> (Penghargaan Masa Kerja), dan <strong>UPH</strong> (Penggantian Hak, estimasi 15% dari UP+UPMK).</p>
+
+  <h2>Multiplier Pesangon Berdasarkan Alasan PHK</h2>
+  <div class="stw"><table class="seo-tbl">
+    <thead><tr><th>Alasan PHK</th><th>Multiplier</th><th>Hak yang Diterima</th></tr></thead>
+    <tbody>
+      <tr><td>Efisiensi / restrukturisasi</td><td>0,5×</td><td>0,5× UP + UPMK + UPH</td></tr>
+      <tr><td>Perusahaan pailit / tutup</td><td>0,5×</td><td>0,5× UP + UPMK + UPH</td></tr>
+      <tr><td>Pensiun</td><td>1,0×</td><td>1× UP + UPMK + UPH</td></tr>
+      <tr><td>Karyawan meninggal dunia</td><td>2,0×</td><td>2× UP + UPMK + UPH (untuk ahli waris)</td></tr>
+      <tr><td>Sakit berkepanjangan ≥ 12 bulan</td><td>2,0×</td><td>2× UP + UPMK + UPH</td></tr>
+      <tr><td>Mengundurkan diri (resign)</td><td>0×</td><td>Uang pisah (jika ada) + UPH saja</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apakah karyawan kontrak (PKWT) berhak pesangon?</div><div class="faq-a">Karyawan kontrak PKWT yang dikontrak tidak diperpanjang tanpa alasan yang sah berhak atas uang kompensasi, bukan pesangon dalam arti UP+UPMK. Besarnya: masa kerja (bulan) / 12 × 1 bulan upah. Jika PKWT berubah menjadi PKWTT lalu di-PHK, maka berhak pesangon penuh sesuai PP 35/2021.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu JKP dan siapa yang berhak?</div><div class="faq-a">JKP (Jaminan Kehilangan Pekerjaan) adalah program BPJS TK yang memberikan manfaat tunai kepada karyawan formal yang di-PHK. Syarat: terdaftar JKP minimal 12 bulan, PHK bukan karena resign/pensiun/meninggal/kesalahan berat, ajukan klaim dalam 3 bulan sejak PHK. Besaran: 45% upah (bln 1-3), 25% (bln 4-5), 15% (bln 6), dengan batas upah Rp 5 juta.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah pesangon dikenakan pajak?</div><div class="faq-a">Ya. Pesangon dikenakan PPh Pasal 21 dengan tarif final: 0% untuk pesangon ≤ Rp 50 juta, 5% untuk Rp 50–100 juta, 15% untuk Rp 100–500 juta, dan 25% untuk di atas Rp 500 juta. Pajak pesangon bersifat final, artinya tidak digabungkan dengan penghasilan lain untuk penghitungan SPT tahunan.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana jika perusahaan menolak membayar pesangon?</div><div class="faq-a">Langkah pertama: negosiasi bipartit (karyawan vs perusahaan). Jika gagal, laporkan ke Disnaker setempat untuk mediasi tripartit. Jika mediasi gagal, ajukan gugatan ke Pengadilan Hubungan Industrial (PHI). Pastikan Anda memiliki dokumen: surat PHK, slip gaji, dan bukti masa kerja.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-let hasJKP = true;
-const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-const fmtM = n => {
-  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
-  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
-  return fmt(n);
-};
+<script>
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-function setJKP(v, btn) {
-  hasJKP = v;
-  document.getElementById('btn-jkp-ya').classList.toggle('active', v);
-  document.getElementById('btn-jkp-tidak').classList.toggle('active', !v);
-  autoCalc();
+// ===== PP 35/2021 ENGINE =====
+function getUP(thn){
+  if(thn<1) return 1;
+  if(thn<2) return 2;
+  if(thn<3) return 3;
+  if(thn<4) return 4;
+  if(thn<5) return 5;
+  if(thn<6) return 6;
+  if(thn<7) return 7;
+  if(thn<8) return 8;
+  return 9; // maks
 }
-
-function autoCalc() {
-  const u = parseFloat(document.getElementById('upah').value);
-  const m = parseFloat(document.getElementById('masa').value);
-  if (u > 0 && m >= 0) calculate();
+function getUPMK(thn){
+  if(thn<3) return 0;
+  if(thn<6) return 2;
+  if(thn<9) return 3;
+  if(thn<12) return 4;
+  if(thn<15) return 5;
+  if(thn<18) return 6;
+  if(thn<21) return 7;
+  if(thn<24) return 8;
+  return 10; // maks
 }
-
-function hitungUP(masa) {
-  if (masa < 1) return 1;
-  if (masa < 2) return 2;
-  if (masa < 3) return 3;
-  if (masa < 4) return 4;
-  if (masa < 5) return 5;
-  if (masa < 6) return 6;
-  if (masa < 7) return 7;
-  if (masa < 8) return 8;
-  return 9;
+function getMultiplier(alasan){
+  const m={efisiensi:0.5,pailit:0.5,pensiun:1,meninggal:2,sakit:2,resign:0};
+  return m[alasan]||0;
 }
-function hitungUPMK(masa) {
-  if (masa < 3)  return 0;
-  if (masa < 6)  return 2;
-  if (masa < 9)  return 3;
-  if (masa < 12) return 4;
-  if (masa < 15) return 5;
-  if (masa < 18) return 6;
-  if (masa < 21) return 7;
-  if (masa < 24) return 8;
-  return 10;
-}
-
-function getMultiplier(alasan) {
-  const MAP = {
-    umum:     { mult:0.5, label:'0,5× (efisiensi)' },
-    pailit:   { mult:0.5, label:'0,5× (pailit)' },
-    pensiun:  { mult:1.0, label:'1× (pensiun)' },
-    meninggal:{ mult:2.0, label:'2× (meninggal)' },
-    sakit:    { mult:2.0, label:'2× (sakit ≥12 bln)' },
-    resign:   { mult:0,   label:'0× (resign)' },
-  };
-  return MAP[alasan] || MAP.umum;
-}
-
-function calcPesangon(upah, masa, alasan) {
-  const upBulan   = hitungUP(masa);
-  const upmkBulan = hitungUPMK(masa);
-  const { mult }  = getMultiplier(alasan);
-  const up   = upBulan   * upah * mult;
-  const upmk = upmkBulan * upah * mult;
-  const uph  = (up + upmk) * 0.15;
-  const total = up + upmk + uph;
-  return { up, upmk, uph, total, upBulan, upmkBulan, mult };
-}
-
-function calculate() {
-  const upah   = parseFloat(document.getElementById('upah').value) || 0;
-  const masa   = parseFloat(document.getElementById('masa').value) || 0;
-  const alasan = document.getElementById('alasan').value;
-  if (!upah) return;
-
-  const r = calcPesangon(upah, masa, alasan);
-  const { mult, label } = getMultiplier(alasan);
-
-  // Main
-  document.getElementById('res-total').textContent = fmt(r.total);
-  document.getElementById('res-total-label').textContent = r.total === 0 ? 'Tidak ada pesangon (resign)' : 'Total hak dari perusahaan';
-
-  // Bar
-  if (r.total > 0) {
-    const upP   = Math.round(r.up   / r.total * 100);
-    const upmkP = Math.round(r.upmk / r.total * 100);
-    const uphP  = 100 - upP - upmkP;
-    document.getElementById('bar-up').style.width   = upP + '%';
-    document.getElementById('bar-up').textContent   = upP > 10 ? 'UP' : '';
-    document.getElementById('bar-upmk').style.width = upmkP + '%';
-    document.getElementById('bar-upmk').textContent = upmkP > 8 ? 'UPMK' : '';
-    document.getElementById('bar-uph').style.width  = uphP + '%';
-    document.getElementById('bar-uph').textContent  = uphP > 8 ? 'UPH' : '';
+function calcPesangon(upah, masa, alasan){
+  const upBulan=getUP(masa), upmkBulan=getUPMK(masa);
+  const mult=getMultiplier(alasan);
+  const upDasar=upBulan*upah, upmkDasar=upmkBulan*upah;
+  let upFinal, upmkFinal, uph, total;
+  if(alasan==='resign'){
+    upFinal=0; upmkFinal=0;
+    uph=(upDasar+upmkDasar)*0.15; // UPH tetap, tapi 15% dari dasar tanpa multiplier
+    total=uph;
+  } else {
+    upFinal=upDasar*mult; upmkFinal=upmkDasar;
+    uph=(upFinal+upmkFinal)*0.15;
+    total=upFinal+upmkFinal+uph;
   }
+  return{upDasar,upmkDasar,upFinal,upmkFinal,uph,total,mult,upBulan,upmkBulan};
+}
+function calcJKP(upah, alasan){
+  if(alasan==='resign'||alasan==='pensiun'||alasan==='meninggal') return null;
+  const base=Math.min(upah,5000000);
+  const b13=base*0.45*3, b45=base*0.25*2, b6=base*0.15;
+  return{b13,b45,b6,total:b13+b45+b6};
+}
 
-  // Stats
-  document.getElementById('s-up').textContent   = fmtM(r.up)   + (r.upBulan   > 0 ? ` (${r.upBulan} bln)` : '');
-  document.getElementById('s-upmk').textContent = fmtM(r.upmk) + (r.upmkBulan > 0 ? ` (${r.upmkBulan} bln)` : '');
-  document.getElementById('s-uph').textContent  = fmtM(r.uph);
-  document.getElementById('s-mult').textContent = getMultiplier(alasan).label;
+// ① MAIN
+function calcMain(){
+  const upah=v('upah'), masa=v('masa'), alasan=document.getElementById('alasan')?.value||'efisiensi';
+  const jkpStatus=document.getElementById('jkp-status')?.value||'ya';
+  const r=calcPesangon(upah,masa,alasan);
+
+  set('r-total',rp(r.total));
+  set('r-total-sub',alasan==='resign'?'UPH saja (resign tidak dapat UP/UPMK)':'UP × '+r.mult+' + UPMK + UPH');
+  set('r-up',rp(r.upFinal));set('r-up-sub',r.upBulan+' bln × '+r.mult+' = '+rp(r.upFinal));
+  set('r-upmk',rp(r.upmkFinal));set('r-upmk-sub',r.upmkBulan+' bln upah');
+  set('r-uph',rp(r.uph));
+  set('r-upah',rp(upah));set('r-masa',masa+' tahun');
+  set('r-mult',r.mult+'× ('+alasan+')');
+  set('r-up-dasar',rp(r.upDasar)+' ('+r.upBulan+' bln)');
+  set('r-upmk-dasar',rp(r.upmkDasar)+' ('+r.upmkBulan+' bln)');
+
+  const tot=r.total;
+  if(tot>0){
+    const up=r.upFinal/tot*100, um=r.upmkFinal/tot*100, uh=r.uph/tot*100;
+    document.getElementById('b-up').style.width=up+'%';
+    document.getElementById('b-upmk').style.width=um+'%';
+    document.getElementById('b-uph').style.width=uh+'%';
+  }
 
   // JKP
-  const jkpEl = document.getElementById('jkp-section');
-  if (hasJKP && ['umum','pailit'].includes(alasan)) {
-    const jkpUpah = Math.min(upah, 5_000_000); // batas JKP
-    const j1_3 = jkpUpah * 0.45;
-    const j4_5 = jkpUpah * 0.25;
-    const j6   = jkpUpah * 0.15;
-    const jTotal = j1_3 * 3 + j4_5 * 2 + j6;
-    document.getElementById('jkp-1-3').textContent  = fmt(j1_3) + '/bln × 3';
-    document.getElementById('jkp-4-5').textContent  = fmt(j4_5) + '/bln × 2';
-    document.getElementById('jkp-6').textContent    = fmt(j6)   + '/bln × 1';
-    document.getElementById('jkp-total').textContent = fmt(jTotal);
-    jkpEl.style.display = '';
+  const jkpBox=document.getElementById('jkp-box');
+  const grandBox=document.getElementById('grand-total-box');
+  const jkp=jkpStatus==='ya'?calcJKP(upah,alasan):null;
+  if(jkp){
+    if(jkpBox)jkpBox.style.display='block';
+    set('jkp-1-3',rp(jkp.b13));set('jkp-4-5',rp(jkp.b45));set('jkp-6',rp(jkp.b6));set('jkp-total',rp(jkp.total));
+    if(grandBox)grandBox.style.display='block';
+    set('r-grand-total',rp(r.total+jkp.total));
   } else {
-    jkpEl.style.display = 'none';
+    if(jkpBox)jkpBox.style.display='none';
+    if(grandBox)grandBox.style.display='none';
   }
 
-  // Scenario comparison
-  const SCENARIOS = [
-    { key:'umum',      label:'Efisiensi / restrukturisasi' },
-    { key:'pailit',    label:'Perusahaan pailit' },
-    { key:'pensiun',   label:'Pensiun' },
-    { key:'meninggal', label:'Meninggal dunia' },
-    { key:'sakit',     label:'Sakit berkepanjangan' },
-    { key:'resign',    label:'Mengundurkan diri' },
-  ];
-  const scTbl = document.getElementById('scenario-comp');
-  scTbl.innerHTML = '<thead><tr><th>Skenario</th><th>Multiplier</th><th>UP + UPMK</th><th>Total</th></tr></thead>';
-  const scBody = document.createElement('tbody');
-  SCENARIOS.forEach(s => {
-    const sc = calcPesangon(upah, masa, s.key);
-    const tr = document.createElement('tr');
-    if (s.key === alasan) tr.className = 'chosen';
-    tr.innerHTML = `<td>${s.label}</td><td>${getMultiplier(s.key).label.split(' ')[0]}</td><td>${fmtM(sc.up + sc.upmk)}</td><td>${fmtM(sc.total)}</td>`;
-    scBody.appendChild(tr);
-  });
-  scTbl.appendChild(scBody);
-
-  // Masa kerja comparison
-  const MASA_LIST = [1, 3, 5, 7, 10, 15, 20, 24];
-  const masaTbl = document.getElementById('masa-tbl');
-  masaTbl.innerHTML = '<thead><tr><th>Masa Kerja</th><th>UP</th><th>UPMK</th><th>Total</th></tr></thead>';
-  const mBody = document.createElement('tbody');
-  MASA_LIST.forEach(m => {
-    const mc = calcPesangon(upah, m, alasan);
-    const tr = document.createElement('tr');
-    const closest = MASA_LIST.reduce((a, b) => Math.abs(b - masa) < Math.abs(a - masa) ? b : a);
-    if (m === closest) tr.className = 'current-row';
-    tr.innerHTML = `<td>${m} tahun</td><td>${fmtM(mc.up)}</td><td>${fmtM(mc.upmk)}</td><td>${fmtM(mc.total)}</td>`;
-    mBody.appendChild(tr);
-  });
-  masaTbl.appendChild(mBody);
-
-  // Advice
-  let advice;
-  if (alasan === 'resign') {
-    advice = `⚠️ Karyawan yang mengundurkan diri <strong>tidak berhak atas pesangon (UP + UPMK)</strong>. Anda hanya berhak atas penggantian hak (sisa cuti, dll.) dan uang pisah jika diatur dalam PKB atau peraturan perusahaan.`;
-  } else if (r.total === 0) {
-    advice = `⚠️ Berdasarkan kondisi yang dimasukkan, pesangon yang diterima adalah Rp 0. Periksa kembali masa kerja dan alasan PHK.`;
-  } else {
-    const jkpInfo = (hasJKP && ['umum','pailit'].includes(alasan))
-      ? ` Selain itu, klaim manfaat JKP BPJS TK Anda untuk mendapatkan tambahan penghasilan selama 6 bulan.`
-      : '';
-    advice = `💡 Total hak Anda dari perusahaan adalah <strong>${fmt(r.total)}</strong> terdiri dari UP ${fmtM(r.up)}, UPMK ${fmtM(r.upmk)}, dan UPH ${fmtM(r.uph)}.${jkpInfo} Simpan semua dokumen (kontrak, slip gaji, surat PHK) sebagai bukti jika ada sengketa.`;
-  }
-  document.getElementById('res-advice').innerHTML = advice;
-
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
+  // sync comparison tables
+  document.getElementById('cmp-upah').value=upah;
+  document.getElementById('cmp-masa').value=masa;
+  document.getElementById('mk-upah').value=upah;
+  calcCmp(); calcMK();
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+// ② PERBANDINGAN SKENARIO
+const ALASAN_LIST=[
+  {key:'efisiensi',label:'Efisiensi / restrukturisasi',cls:''},
+  {key:'pailit',label:'Pailit / tutup',cls:''},
+  {key:'pensiun',label:'Pensiun',cls:''},
+  {key:'meninggal',label:'Meninggal dunia',cls:'grn-hl'},
+  {key:'sakit',label:'Sakit ≥ 12 bulan',cls:'grn-hl'},
+  {key:'resign',label:'Resign',cls:'dim'},
+];
+function calcCmp(){
+  const upah=v('cmp-upah'),masa=v('cmp-masa');
+  const tbody=document.getElementById('cmp-body');if(!tbody)return;
+  tbody.innerHTML=ALASAN_LIST.map(a=>{
+    const r=calcPesangon(upah,masa,a.key);
+    const jkpOk=a.key!=='resign'&&a.key!=='pensiun'&&a.key!=='meninggal';
+    return`<tr class="${a.cls}"><td>${a.label}${jkpOk?'<span class="tag-g">+JKP</span>':''}${a.key==='resign'?'<span class="tag-r">0×</span>':''}</td><td class="mo">${r.mult}×</td><td class="mo">${rp(r.upFinal)}</td><td class="mo">${rp(r.upmkFinal)}</td><td class="mo">${rp(r.uph)}</td><td class="mo">${rp(r.total)}</td></tr>`;
+  }).join('');
+}
+
+// ③ SIMULASI MASA KERJA
+const MK_LIST=[1,2,3,5,7,10,12,15,18,20,24,25];
+function calcMK(){
+  const upah=v('mk-upah'),alasan=document.getElementById('mk-alasan')?.value||'efisiensi';
+  const curMasa=v('masa');
+  const tbody=document.getElementById('mk-body');if(!tbody)return;
+  tbody.innerHTML=MK_LIST.map(m=>{
+    const r=calcPesangon(upah,m,alasan);
+    const isActive=Math.abs(m-curMasa)<=0.5;
+    return`<tr${isActive?' class="hl"':''}><td>${m} tahun</td><td class="mo">${r.upBulan} bln</td><td class="mo">${r.upmkBulan} bln</td><td class="mo">${rp(r.total)}</td></tr>`;
+  }).join('');
+}
+
+// EVENTS
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['upah','masa','alasan','jkp-status'],calcMain);
+listen(['cmp-upah','cmp-masa'],calcCmp);
+listen(['mk-upah','mk-alasan'],calcMK);
+calcMain();
 </script>
 </body>
 </html>
