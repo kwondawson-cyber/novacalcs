@@ -1,405 +1,594 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator PPh Freelancer 2026 — Pajak Penghasilan Tenaga Ahli & UMKM | NovaCalcs</title>
-<meta name="description" content="Hitung PPh 21 untuk freelancer dan tenaga ahli, atau PPh Final 0,5% untuk UMKM. Bandingkan mana yang lebih hemat, lengkap dengan estimasi take-home setelah pajak."/>
-<meta name="keywords" content="kalkulator PPh freelancer, pajak penghasilan freelancer, PPh 21 tenaga ahli, PPh final UMKM, pajak konsultan, hitung pajak freelance 2026"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pph-freelance.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-pph-freelance.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.tax-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:.35rem 0}
-.tb-seg{height:100%;transition:width .4s}
-.tb-legend{display:flex;gap:.6rem;flex-wrap:wrap;font-size:.73rem;margin-top:.25rem}
-.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
-.cmp-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin:.45rem 0}
-.cmp-card.winner{border-color:rgba(0,201,177,.4);background:rgba(0,201,177,.06)}
-.cmp-card h4{margin:0 0 .3rem;font-size:.88rem}
-.cmp-card p{margin:0;font-size:.82rem;color:#8fa3b1;line-height:1.5}
-.winner-label{display:inline-block;background:#00C9B1;color:#0d1b2a;font-size:.65rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem}
-.ptkp-row{display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.ptkp-row:last-child{border-bottom:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Pajak Freelancer 2026 — PPh 21 Tenaga Ahli & PPh Final UMKM | NovaCalcs</title>
+  <meta name="description" content="Hitung pajak penghasilan freelancer 2026: PPh 21 tenaga ahli (norma 50%), PPh Final 0,5% UMKM (bebas Rp500 juta). Bandingkan & simulasi kenaikan penghasilan. Akurat sesuai UU HPP 2021.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-pph-freelance">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;
+      --bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;
+      --bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;
+      --grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;
+      --r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}
+    .nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px;flex-wrap:wrap}
+    .tbtn{flex:1;min-width:0;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}
+    .tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}
+    .rv.sm{font-size:16px}
+    .rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .ctbl{width:100%;border-collapse:collapse;font-size:13px}
+    .ctbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tx3)}
+    .ctbl td{padding:9px 10px;border-bottom:1px solid var(--bor)}
+    .ctbl tr:last-child td{border-bottom:none}
+    .ctbl tr.hi td{background:var(--pri-l);font-weight:700}
+    .ctbl .mo{font-family:'DM Mono',monospace;font-weight:600}
+    .ctbl .ch{color:var(--grn);font-weight:700}
+    .ctbl .px{color:var(--red);font-weight:700}
+    .slev{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:14px;margin-bottom:10px;transition:border-color .2s}
+    .slev.ok{border-color:var(--grn);background:var(--grn-b)}
+    .slev-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;font-weight:700}
+    .lbdg{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
+    .lb-o{background:var(--pri-l);color:var(--pri)}
+    .lb-g{background:var(--grn-b);color:var(--grn)}
+    .lb-r{background:var(--red-b);color:var(--red)}
+    .ssw{display:flex;align-items:center;gap:8px}
+    .sslider{flex:1;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:linear-gradient(to right,var(--pri) var(--pct,0%),var(--bor) var(--pct,0%));outline:none;cursor:pointer}
+    .sslider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--pri);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+    .ssv{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;min-width:60px;text-align:right}
+    .ssav{margin-top:7px;font-size:12px;color:var(--tx2)}
+    .ssav strong{color:var(--grn)}
+    .sbar{background:var(--sur2);border-radius:4px;height:6px;margin-top:8px;overflow:hidden}
+    .sfill{height:100%;border-radius:4px;background:var(--grn);transition:width .25s}
+    .sfill.ov{background:var(--pri)}
+    .simsum{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--rs);padding:14px;margin-top:14px}
+    .simr{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}
+    .simr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent;cursor:pointer;transition:all .12s}
+    .frow:hover,.frow.on{border-color:var(--pri);background:var(--pri-l)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}
+    .fron{font-size:11px;color:var(--tx3)}
+    .fprice{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}
+    .tptx strong{color:var(--tx);font-weight:700}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo h3{font-size:15px;font-weight:700;color:var(--tx);margin:20px 0 7px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}
+    .stbl td:first-child{font-weight:600;color:var(--tx)}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}
+    .relc-nm{font-size:13px;font-weight:700}
+    .relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+    /* === PPH-SPECIFIC === */
+    .bw{background:var(--sur2);height:6px;border-radius:4px;margin:10px 0 6px;overflow:hidden;display:flex}
+    .bleg{display:flex;gap:10px;font-size:10px;color:var(--tx3)}
+    .bleg-d{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+    .tbands{border-radius:var(--rs);overflow:hidden;border:1px solid var(--bor);margin:12px 0}
+    .tband{display:flex;align-items:center;padding:7px 12px;font-size:12px;border-bottom:1px solid var(--bor)}
+    .tband:last-child{border-bottom:none}
+    .tband.active{background:var(--pri-l);font-weight:700;color:var(--pri)}
+    .tb-r{flex:1;font-size:11px}
+    .tb-rate{font-weight:700;min-width:30px;text-align:center}
+    .tb-amt{flex:1;text-align:right;font-size:11px;font-family:'DM Mono',monospace}
+    .tl{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .tl-item{display:flex;gap:10px}
+    .tl-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+    .tl-dot.active{background:var(--grn);color:#fff}
+    .tl-dot.done{background:var(--bor);color:var(--tx3)}
+    .tl-dot.future{background:var(--sur2);border:2px solid var(--bor);color:var(--tx3)}
+    .tl-ty{font-size:12px;font-weight:700}
+    .tl-td{font-size:11px;color:var(--tx3)}
+    .cmp2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .cbox{border-radius:var(--rs);padding:14px;border:1.5px solid var(--bor);background:var(--sur2)}
+    .cbox.winner{border-color:var(--grn);background:var(--grn-b)}
+    .cbox-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tx3);margin-bottom:6px}
+    .cbox.winner .cbox-lbl{color:var(--grn)}
+    .cbox-val{font-family:'DM Mono',monospace;font-size:20px;font-weight:800;color:var(--tx);letter-spacing:-.3px}
+    .cbox.winner .cbox-val{color:var(--grn)}
+    .cbox-sub{font-size:11px;color:var(--tx3);margin-top:4px}
+    .verdict{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--rs);padding:13px;margin-top:12px;font-size:13px;font-weight:700;text-align:center;color:var(--pri)}
+    .schart{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-top:12px}
+    .srow{display:grid;grid-template-columns:110px 1fr 80px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--bor);font-size:12px;gap:8px}
+    .srow:last-child{border-bottom:none}
+    .srow.hdr{background:var(--sur2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3)}
+    .srow.hl{background:var(--pri-l);font-weight:700;color:var(--pri)}
+    .sbar-cell{position:relative;height:16px}
+    .sbar-fill{height:100%;border-radius:3px;background:var(--pri);opacity:.8;transition:width .4s;min-width:3px}
+    .srow.hl .sbar-fill{opacity:1}
+    .spct{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;text-align:right;color:var(--pri)}
+    .ibox{border-radius:var(--rs);padding:10px 13px;font-size:11px;line-height:1.6;margin-top:12px}
+    .ibox.grn{background:var(--grn-b);border:1px solid #86efac;color:#166534}
+    .ibox.ora{background:var(--pri-l);border:1px solid #ffd4b3;color:#9a3412}
+    .ibox.red{background:var(--red-b);border:1px solid #fca5a5;color:#991b1b}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    a{color:var(--pri);text-decoration:none}
+    footer a{color:var(--tx3)}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>PPh Freelancer</span>
-    </nav>
+
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">PPh Freelancer</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">💻 Pajak Freelancer</div>
+  <h1 class="hdr-h1">Kalkulator Pajak Freelancer 2026</h1>
+  <p class="hdr-sub">Hitung PPh 21 tenaga ahli & PPh Final UMKM. Bandingkan mana yang lebih hemat — hasil tampil otomatis sesuai penghasilan Anda.</p>
+  <div class="pstrip">
+    <div class="pchip">👔 PPh 21 Tenaga Ahli <span>DPP 50% bruto</span></div>
+    <div class="pchip">🏪 PPh Final UMKM <span>0,5% — bebas Rp500 jt</span></div>
+    <div class="pchip" style="color:var(--tx3);font-size:10px">PP 55/2022 · UU HPP 2021</div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">💻 Kalkulator PPh Freelancer</div>
-      <div class="calc-subtitle">Hitung pajak untuk tenaga ahli, konsultan &amp; UMKM</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-pph21',this)">👔 PPh 21 Tenaga Ahli</button>
-        <button class="tab-btn" onclick="showTab('tab-umkm',this)">🏪 PPh Final UMKM</button>
-        <button class="tab-btn" onclick="showTab('tab-banding',this)">⚖️ Perbandingan</button>
+<main class="main">
+<div>
+
+<div class="card">
+  <div class="card-h"><div class="card-ico">💻</div>Hitung Pajak Freelancer</div>
+  <div class="card-b">
+
+    <div class="tbar">
+      <button class="tbtn on" data-tab="pph21">👔 PPh 21 Tenaga Ahli</button>
+      <button class="tbtn" data-tab="umkm">🏪 PPh Final UMKM</button>
+      <button class="tbtn" data-tab="bandingkan">⚖️ Bandingkan</button>
+      <button class="tbtn" data-tab="simulasi">📈 Simulasi Kenaikan <span class="nbadge">Baru</span></button>
+    </div>
+
+    <!-- PPH 21 -->
+    <div class="tpanel on" id="tab-pph21">
+      <div class="fld">
+        <label>Penghasilan Bruto per Bulan (Rp)</label>
+        <div class="iw"><input type="number" id="p-bruto" value="10000000" min="0" step="500000"></div>
+        <div class="presets">
+          <button class="pb" data-val="5000000" data-for="p-bruto">5 juta</button>
+          <button class="pb on" data-val="10000000" data-for="p-bruto">10 juta</button>
+          <button class="pb" data-val="20000000" data-for="p-bruto">20 juta</button>
+          <button class="pb" data-val="30000000" data-for="p-bruto">30 juta</button>
+          <button class="pb" data-val="50000000" data-for="p-bruto">50 juta</button>
+        </div>
       </div>
-
-      <!-- TAB 1: PPh 21 -->
-      <div id="tab-pph21" class="tab-pane active">
-        <div class="field"><label>Penghasilan Bruto per Bulan (Rp)</label><input type="number" id="bruto-21" placeholder="Contoh: 15000000" min="0"/></div>
-        <div class="field">
-          <label>Status Perkawinan &amp; Tanggungan (PTKP)</label>
-          <select id="ptkp-status">
-            <option value="54000000">TK/0 — Tidak kawin, tanpa tanggungan (Rp 54 juta)</option>
-            <option value="58500000">TK/1 — Tidak kawin, 1 tanggungan (Rp 58,5 juta)</option>
-            <option value="63000000">TK/2 — Tidak kawin, 2 tanggungan (Rp 63 juta)</option>
-            <option value="67500000">TK/3 — Tidak kawin, 3 tanggungan (Rp 67,5 juta)</option>
-            <option value="58500000">K/0 — Kawin, tanpa tanggungan (Rp 58,5 juta)</option>
-            <option value="63000000">K/1 — Kawin, 1 tanggungan (Rp 63 juta)</option>
-            <option value="67500000">K/2 — Kawin, 2 tanggungan (Rp 67,5 juta)</option>
-            <option value="72000000">K/3 — Kawin, 3 tanggungan (Rp 72 juta)</option>
-          </select>
+      <div class="g2">
+        <div class="fld">
+          <label>Status PTKP</label>
+          <div class="iw sw"><select id="p-ptkp">
+            <option value="54000000">TK/0 — Lajang (Rp 54 juta)</option>
+            <option value="58500000">TK/1 — Lajang + 1 tanggungan</option>
+            <option value="63000000">TK/2 — Lajang + 2 tanggungan</option>
+            <option value="67500000">TK/3 — Lajang + 3 tanggungan</option>
+            <option value="58500000">K/0 — Menikah (Rp 58,5 juta)</option>
+            <option value="63000000">K/1 — Menikah + 1 tanggungan</option>
+            <option value="67500000">K/2 — Menikah + 2 tanggungan</option>
+            <option value="72000000">K/3 — Menikah + 3 tanggungan</option>
+          </select></div>
         </div>
-        <div class="field">
-          <label>Status NPWP</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="btn-npwp" onclick="setNpwp(true)">Punya NPWP / NIK aktif</div>
-            <div class="radio-btn" id="btn-nonpwp" onclick="setNpwp(false)">Tidak punya NPWP (+20%)</div>
-          </div>
-        </div>
-        <button class="calc-btn" onclick="calculatePph21()">Hitung PPh 21</button>
-
-        <div class="result-panel" id="res-pph21">
-          <div class="result-main">
-            <div class="result-value" id="r21-pph">—</div>
-            <div class="result-label">PPh 21 Terutang per Bulan</div>
-          </div>
-          <div style="margin:.6rem 0">
-            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.2rem">Komposisi Penghasilan Bulanan</div>
-            <div class="tax-bar">
-              <div class="tb-seg" id="r21-bar-takehome" style="background:#00C9B1"></div>
-              <div class="tb-seg" id="r21-bar-pph" style="background:#ef4444"></div>
-            </div>
-            <div class="tb-legend">
-              <span><span class="leg-dot" style="background:#00C9B1"></span>Take-home</span>
-              <span><span class="leg-dot" style="background:#ef4444"></span>PPh 21</span>
-            </div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">DPP (50% dari bruto tahunan)</span><span class="rval" id="r21-dpp">—</span></div>
-            <div class="result-row"><span class="rkey">PTKP yang digunakan</span><span class="rval" id="r21-ptkp">—</span></div>
-            <div class="result-row"><span class="rkey">PKP (DPP − PTKP)</span><span class="rval" id="r21-pkp">—</span></div>
-            <div class="result-row"><span class="rkey">PPh 21 setahun</span><span class="rval" id="r21-tahunan">—</span></div>
-            <div class="result-row"><span class="rkey">Tarif efektif dari bruto</span><span class="rval" id="r21-efektif">—</span></div>
-            <div class="result-row"><span class="rkey">Take-home setelah pajak</span><span class="rval" id="r21-takehome">—</span></div>
-          </div>
+        <div class="fld">
+          <label>Status NPWP / NIK</label>
+          <div class="iw sw"><select id="p-npwp">
+            <option value="1">Punya NPWP / NIK aktif</option>
+            <option value="1.2">Tidak punya NPWP (+20%)</option>
+          </select></div>
         </div>
       </div>
 
-      <!-- TAB 2: UMKM PP 23 -->
-      <div id="tab-umkm" class="tab-pane">
-        <div class="field"><label>Omzet / Penghasilan Bruto Setahun (Rp)</label><input type="number" id="omzet-23" placeholder="Contoh: 300000000" min="0"/></div>
-        <div class="field"><label>Tahun ke berapa menggunakan PP 23/2018?</label>
-          <select id="pp23-year">
-            <option value="1">Tahun ke-1 (max 7 tahun untuk Orang Pribadi)</option>
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">PPh 21 Terutang per Bulan</div>
+            <div class="rv lg" id="r1-pph">—</div>
+          </div>
+        </div>
+        <div class="bw"><div id="b1-pajak" style="background:var(--pri);transition:width .3s"></div><div id="b1-bersih" style="background:#fecba1;transition:width .3s"></div></div>
+        <div class="bleg"><span><span class="bleg-d" style="background:var(--pri)"></span>PPh 21</span><span><span class="bleg-d" style="background:#fecba1"></span>Take-home</span></div>
+        <div class="rrows">
+          <div class="rr"><span>DPP (50% × bruto bulanan × 12)</span><span id="r1-dpp">—</span></div>
+          <div class="rr"><span>PTKP yang digunakan</span><span id="r1-ptkp">—</span></div>
+          <div class="rr"><span>PKP (DPP − PTKP)</span><span id="r1-pkp">—</span></div>
+          <div class="rr"><span>PPh 21 per tahun</span><span id="r1-tahunan">—</span></div>
+          <div class="rr"><span>Tarif efektif dari bruto</span><span id="r1-efektif">—</span></div>
+          <div class="rr"><span>Take-home per bulan</span><span id="r1-takehome">—</span></div>
+        </div>
+      </div>
+
+      <div class="sec-lbl">Lapisan Tarif Progresif (Pasal 17 UU HPP 2021)</div>
+      <div class="tbands" id="p1-bands"></div>
+      <div class="notice">* DPP = 50% × bruto bulanan × 12. PKP = DPP − PTKP. PPh = PKP × tarif progresif ÷ 12. Tanpa NPWP: PPh × 1,2. Berlaku sesuai PMK 168/2023.</div>
+    </div>
+
+    <!-- UMKM -->
+    <div class="tpanel" id="tab-umkm">
+      <div class="g2">
+        <div class="fld">
+          <label>Omzet / Bruto per Tahun (Rp)</label>
+          <div class="iw"><input type="number" id="u-omzet" value="120000000" min="0" step="1000000"></div>
+          <div class="presets">
+            <button class="pb" data-val="60000000" data-for="u-omzet">60 jt</button>
+            <button class="pb on" data-val="120000000" data-for="u-omzet">120 jt</button>
+            <button class="pb" data-val="300000000" data-for="u-omzet">300 jt</button>
+            <button class="pb" data-val="600000000" data-for="u-omzet">600 jt</button>
+          </div>
+        </div>
+        <div class="fld">
+          <label>Tahun ke berapa (PP 23/2018)</label>
+          <div class="iw sw"><select id="u-tahun">
+            <option value="1">Tahun ke-1 (max 7 thn — OP)</option>
             <option value="2">Tahun ke-2</option>
             <option value="3">Tahun ke-3</option>
             <option value="4">Tahun ke-4</option>
             <option value="5">Tahun ke-5</option>
             <option value="6">Tahun ke-6</option>
-            <option value="7">Tahun ke-7 (terakhir untuk Orang Pribadi)</option>
-          </select>
-        </div>
-        <button class="calc-btn" onclick="calculateUmkm()">Hitung PPh UMKM</button>
-
-        <div class="result-panel" id="res-umkm">
-          <div class="result-main">
-            <div class="result-value" id="r23-pph">—</div>
-            <div class="result-label">PPh Final per Tahun</div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">Omzet bruto setahun</span><span class="rval" id="r23-omzet">—</span></div>
-            <div class="result-row"><span class="rkey">Status bebas PPh 500jt pertama</span><span class="rval" id="r23-status">—</span></div>
-            <div class="result-row"><span class="rkey">PPh terutang per bulan</span><span class="rval" id="r23-bulan">—</span></div>
-            <div class="result-row"><span class="rkey">Take-home bersih per bulan</span><span class="rval" id="r23-takehome">—</span></div>
-            <div class="result-row"><span class="rkey">Tarif efektif dari omzet</span><span class="rval" id="r23-efektif">—</span></div>
-          </div>
-          <div id="r23-warning" style="display:none;margin-top:.6rem;padding:.6rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;font-size:.78rem;color:#f59e0b"></div>
+            <option value="7">Tahun ke-7 (terakhir)</option>
+          </select></div>
         </div>
       </div>
 
-      <!-- TAB 3: PERBANDINGAN -->
-      <div id="tab-banding" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Masukkan penghasilan bulanan untuk melihat mana yang lebih hemat antara PPh 21 Tenaga Ahli dan PPh Final UMKM.</p>
-        <div class="field"><label>Penghasilan Bruto per Bulan (Rp)</label><input type="number" id="cmp-income" placeholder="Contoh: 20000000" min="0"/></div>
-        <div class="field">
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2"><div class="rl">PPh Final per Tahun</div><div class="rv lg" id="r2-pph">—</div></div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Omzet bruto setahun</span><span id="r2-omzet">—</span></div>
+          <div class="rr"><span>Bebas PPh (Rp 500 juta pertama)</span><span id="r2-bebas">—</span></div>
+          <div class="rr"><span>Omzet kena PPh 0,5%</span><span id="r2-kena">—</span></div>
+          <div class="rr"><span>PPh terutang per bulan</span><span id="r2-bulanan">—</span></div>
+          <div class="rr"><span>Take-home bersih per bulan</span><span id="r2-takehome">—</span></div>
+          <div class="rr"><span>Tarif efektif dari omzet</span><span id="r2-efektif">—</span></div>
+        </div>
+      </div>
+      <div id="u-ibox"></div>
+
+      <div class="sec-lbl">Timeline Penggunaan PP 23/2018</div>
+      <div class="tl" id="u-tl"></div>
+      <div class="notice">* PP 55/2022: omzet ≤ Rp 500 juta/tahun bebas PPh Final. PPh 0,5% hanya atas omzet di atas Rp 500 juta. Batas omzet: Rp 4,8 miliar/tahun. Setor paling lambat tgl 15 bulan berikutnya via e-Billing DJP.</div>
+    </div>
+
+    <!-- BANDINGKAN -->
+    <div class="tpanel" id="tab-bandingkan">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan penghasilan bulanan untuk melihat mana yang lebih hemat.</p>
+      <div class="g2">
+        <div class="fld">
+          <label>Penghasilan Bruto per Bulan (Rp)</label>
+          <div class="iw"><input type="number" id="cmp-bruto" value="10000000" min="0" step="500000"></div>
+        </div>
+        <div class="fld">
           <label>Status PTKP</label>
-          <select id="cmp-ptkp">
-            <option value="54000000">TK/0 — Rp 54 juta/tahun</option>
-            <option value="58500000">K/0 atau TK/1 — Rp 58,5 juta/tahun</option>
-            <option value="63000000">K/1 atau TK/2 — Rp 63 juta/tahun</option>
-            <option value="67500000">K/2 atau TK/3 — Rp 67,5 juta/tahun</option>
-            <option value="72000000">K/3 — Rp 72 juta/tahun</option>
-          </select>
+          <div class="iw sw"><select id="cmp-ptkp">
+            <option value="54000000">TK/0 (Rp 54 juta)</option>
+            <option value="58500000">K/0 / TK/1 (Rp 58,5 juta)</option>
+            <option value="63000000">K/1 / TK/2 (Rp 63 juta)</option>
+            <option value="67500000">K/2 / TK/3 (Rp 67,5 juta)</option>
+            <option value="72000000">K/3 (Rp 72 juta)</option>
+          </select></div>
         </div>
-        <button class="calc-btn" onclick="calculateBanding()">Bandingkan Sekarang</button>
-        <div id="res-banding" style="display:none;margin-top:1rem">
-          <div id="banding-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
-          <div id="banding-cards"></div>
-          <div style="margin-top:.75rem;padding:.6rem;background:rgba(255,255,255,.04);border-radius:8px;font-size:.78rem;color:#8fa3b1" id="banding-note"></div>
+      </div>
+      <div class="cmp2" id="cmp-cards"></div>
+      <div class="verdict" id="cmp-verdict">—</div>
+
+      <div class="sec-lbl" style="margin-top:18px">Perbandingan Berbagai Level Penghasilan</div>
+      <div class="schart" id="cmp-chart">
+        <div class="srow hdr"><span>Penghasilan/bln</span><span>PPh 21 vs UMKM</span><span>Hemat</span></div>
+      </div>
+      <div class="notice">* Perbandingan menggunakan PTKP sesuai pilihan di atas. UMKM dihitung dengan PP 23/2018 (bebas Rp 500 juta/tahun).</div>
+    </div>
+
+    <!-- SIMULASI KENAIKAN -->
+    <div class="tpanel" id="tab-simulasi">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Lihat proyeksi PPh 21 seiring kenaikan penghasilan dan titik persilangan dengan skema UMKM.</p>
+      <div class="g2">
+        <div class="fld">
+          <label>Penghasilan Awal per Bulan (Rp)</label>
+          <div class="iw"><input type="number" id="sim-start" value="5000000" min="0" step="500000"></div>
+        </div>
+        <div class="fld">
+          <label>Status PTKP</label>
+          <div class="iw sw"><select id="sim-ptkp">
+            <option value="54000000">TK/0 (Rp 54 juta)</option>
+            <option value="58500000">K/0 / TK/1 (Rp 58,5 juta)</option>
+            <option value="63000000">K/1 / TK/2 (Rp 63 juta)</option>
+            <option value="67500000">K/2 / TK/3 (Rp 67,5 juta)</option>
+            <option value="72000000">K/3 (Rp 72 juta)</option>
+          </select></div>
         </div>
       </div>
 
+      <div class="sec-lbl">Proyeksi PPh 21 — Kenaikan Penghasilan Bertahap</div>
+      <div class="schart" id="sim-chart">
+        <div class="srow hdr"><span>Penghasilan/bln</span><span>PPh per bulan</span><span>Efektif</span></div>
+      </div>
+
+      <div class="sec-lbl" style="margin-top:18px">Titik Persilangan PPh 21 vs UMKM</div>
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">UMKM mulai lebih hemat di atas</div>
+            <div class="rv lg" id="sim-cross-val">—</div>
+            <div class="rsub" id="sim-cross-sub">Menghitung...</div>
+          </div>
+        </div>
+      </div>
+      <div class="notice">* Di bawah titik persilangan: PPh 21 lebih hemat. Di atas titik: UMKM (PP 23) lebih hemat — selama masih dalam 7 tahun penggunaan.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+</div>
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Tarif Progresif 2026</div>
+    <div class="card-b">
+      <table class="ctbl">
+        <thead><tr><th>PKP per Tahun</th><th style="text-align:right">Tarif</th></tr></thead>
+        <tbody>
+          <tr><td>Rp 0 – 60 juta</td><td class="mo" style="text-align:right">5%</td></tr>
+          <tr><td>Rp 60 – 250 juta</td><td class="mo" style="text-align:right">15%</td></tr>
+          <tr><td>Rp 250 – 500 juta</td><td class="mo" style="text-align:right">25%</td></tr>
+          <tr><td>Rp 500 jt – 5 miliar</td><td class="mo" style="text-align:right">30%</td></tr>
+          <tr><td>Di atas Rp 5 miliar</td><td class="mo" style="text-align:right">35%</td></tr>
+        </tbody>
+      </table>
+      <div class="notice" style="margin-top:10px">PPh = PKP × tarif progresif Pasal 17 UU HPP 2021. DPP tenaga ahli = 50% × bruto.</div>
     </div>
   </div>
-
-  <div class="content-area">
-    <h1>Kalkulator PPh Freelancer 2026 — Pajak Penghasilan Tenaga Ahli, Konsultan &amp; UMKM</h1>
-    <p class="page-desc">Freelancer, konsultan, dan pelaku UMKM wajib membayar pajak penghasilan. Kalkulator ini membantu menghitung PPh 21 untuk tenaga ahli dan PPh Final 0,5% untuk UMKM, serta membandingkan mana yang lebih menguntungkan untuk situasi Anda.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Dua Skema Pajak untuk Freelancer di Indonesia</h2>
-    <p>Freelancer di Indonesia bisa dikenakan dua skema pajak yang berbeda tergantung jenis pekerjaan dan besarnya omzet:</p>
-    <p><strong>1. PPh 21 Tenaga Ahli</strong> — berlaku untuk profesional yang memberikan jasa keahlian kepada klien korporat, seperti konsultan, dokter, pengacara, arsitek, dan desainer. DPP dihitung sebesar 50% dari penghasilan bruto, kemudian dikurangi PTKP, dan dikenakan tarif progresif Pasal 17 UU PPh (sebagaimana diubah UU HPP 2021).</p>
-    <p><strong>2. PPh Final 0,5% (PP 23/2018 jo. PP 55/2022)</strong> — berlaku untuk pelaku UMKM dengan omzet tidak melebihi Rp 4,8 miliar per tahun. Penghasilan hingga Rp 500 juta per tahun <strong>bebas pajak</strong> (berdasarkan PP 55/2022). Omzet di atas Rp 500 juta hingga Rp 4,8 miliar dikenakan 0,5% dari bruto. Berlaku maksimal 7 tahun untuk Wajib Pajak Orang Pribadi.</p>
-
-    <h2>Rumus PPh 21 Tenaga Ahli</h2>
-    <table>
-      <tr><th>Langkah</th><th>Cara Hitung</th></tr>
-      <tr><td>1. DPP</td><td>50% × penghasilan bruto</td></tr>
-      <tr><td>2. Annualisasi</td><td>DPP × 12 bulan</td></tr>
-      <tr><td>3. PKP</td><td>DPP tahunan − PTKP</td></tr>
-      <tr><td>4. PPh tahunan</td><td>PKP × Tarif Progresif Pasal 17</td></tr>
-      <tr><td>5. PPh per bulan</td><td>PPh tahunan ÷ 12</td></tr>
-      <tr><td>6. Tanpa NPWP</td><td>PPh × 120% (tarif naik 20%)</td></tr>
-    </table>
-    <table style="margin-top:.75rem">
-      <tr><th>Lapisan PKP (Pasal 17 UU HPP)</th><th>Tarif</th></tr>
-      <tr><td>Rp 0 – Rp 60 juta</td><td>5%</td></tr>
-      <tr><td>Rp 60 juta – Rp 250 juta</td><td>15%</td></tr>
-      <tr><td>Rp 250 juta – Rp 500 juta</td><td>25%</td></tr>
-      <tr><td>Rp 500 juta – Rp 5 miliar</td><td>30%</td></tr>
-      <tr><td>Di atas Rp 5 miliar</td><td>35%</td></tr>
-    </table>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li><strong>Tab PPh 21 Tenaga Ahli:</strong> Masukkan penghasilan bruto bulanan, status PTKP, dan kepemilikan NPWP. Dapatkan rincian DPP, PKP, PPh terutang, dan take-home bersih.</li>
-      <li><strong>Tab PPh Final UMKM:</strong> Masukkan total omzet setahun dan tahun ke berapa Anda menggunakan skema PP 23/2018. Lihat PPh yang harus dibayar beserta fasilitas bebas Rp 500 juta.</li>
-      <li><strong>Tab Perbandingan:</strong> Masukkan penghasilan bulanan, lalu lihat secara langsung mana yang lebih hemat antara skema PPh 21 dan PPh Final UMKM untuk kondisi Anda.</li>
-    </ol>
-
-    <h2>Contoh Perhitungan PPh 21 Tenaga Ahli 2026</h2>
-    <p><strong>Konsultan IT, penghasilan bruto Rp 30.000.000/bulan, status TK/0 (PTKP Rp 54 juta):</strong></p>
-    <ul>
-      <li>DPP tahunan = 50% × (Rp 30 juta × 12) = 50% × Rp 360 juta = <strong>Rp 180 juta</strong></li>
-      <li>PKP = Rp 180 juta − Rp 54 juta PTKP = <strong>Rp 126 juta</strong></li>
-      <li>PPh tahunan = (Rp 60 juta × 5%) + (Rp 66 juta × 15%) = Rp 3 juta + Rp 9,9 juta = <strong>Rp 12,9 juta/tahun</strong></li>
-      <li>PPh per bulan = Rp 12,9 juta ÷ 12 = <strong>Rp 1.075.000/bulan</strong></li>
-      <li>Take-home = Rp 30 juta − Rp 1.075.000 = <strong>Rp 28.925.000/bulan</strong></li>
-      <li>Tarif efektif = 1.075.000 ÷ 30.000.000 = <strong>3,58%</strong> dari bruto</li>
-    </ul>
-
-    <h2>Fasilitas Bebas Pajak Rp 500 Juta untuk UMKM (PP 55/2022)</h2>
-    <p>Berdasarkan PP No. 55 Tahun 2022, Wajib Pajak Orang Pribadi pelaku UMKM mendapat fasilitas <strong>penghasilan hingga Rp 500 juta per tahun bebas dari PPh Final 0,5%</strong>. Ini berarti freelancer dengan omzet tahunan di bawah Rp 500 juta tidak perlu membayar PPh Final sama sekali. PPh Final 0,5% hanya dikenakan atas omzet yang melebihi Rp 500 juta, hingga batas atas Rp 4,8 miliar per tahun.</p>
-
-    <h2>Kewajiban Administrasi Pajak Freelancer</h2>
-    <p>Selain menghitung dan membayar pajak, freelancer di Indonesia memiliki kewajiban administrasi yang wajib dipenuhi. Setiap tahun sebelum 31 Maret, freelancer harus menyampaikan SPT Tahunan menggunakan formulir 1770 (bukan 1770S — formulir 1770S hanya untuk karyawan dengan satu pemberi kerja). Jika klien korporat sudah memotong PPh 21, minta Bukti Potong (Bupot) yang bisa dikreditkan di SPT Tahunan. Untuk skema PPh Final PP 23, setor sendiri setiap bulan paling lambat tanggal 15 bulan berikutnya menggunakan kode billing dari e-Billing DJP Online.</p>
-
-    <h2>Strategi Pajak Legal untuk Freelancer</h2>
-    <p>Beberapa strategi yang sah secara hukum untuk mengoptimalkan pajak: pastikan PTKP yang digunakan sudah sesuai status perkawinan dan jumlah tanggungan karena ini langsung mengurangi PKP. Bayar zakat penghasilan melalui BAZNAS/LAZ resmi — zakat dapat mengurangi PKP sehingga menghemat PPh. Jika Anda memiliki lebih dari satu sumber penghasilan, konsultasikan dengan konsultan pajak mengenai pelaporan yang optimal. Gunakan e-Billing DJP Online dan simpan semua bukti pembayaran dengan rapi untuk kemudahan lapor SPT Tahunan.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah freelancer wajib punya NPWP?</div><div class="faq-a">Setiap Wajib Pajak Orang Pribadi yang memiliki penghasilan di atas PTKP (minimal Rp 54 juta/tahun untuk TK/0) wajib mendaftarkan diri. Sejak 2023, NIK KTP secara otomatis berfungsi sebagai NPWP (integrasi NIK-NPWP). Tanpa NPWP/NIK aktif, tarif pemotongan PPh 21 naik 20%. Pendaftaran NPWP gratis di ereg.pajak.go.id atau KPP terdekat.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mana yang lebih hemat: PPh 21 atau PPh Final UMKM?</div><div class="faq-a">Bergantung besarnya penghasilan. Untuk penghasilan di bawah Rp 500 juta per tahun: PPh Final UMKM (PP 55/2022) jelas lebih menguntungkan karena bebas pajak sepenuhnya. Untuk penghasilan Rp 500 juta–Rp 1 miliar: PPh Final 0,5% dari omzet di atas 500 juta umumnya lebih hemat dari tarif progresif PPh 21. Di atas itu, perlu perbandingan detail tergantung status PTKP dan besarnya DPP. Gunakan Tab Perbandingan di atas untuk hasil spesifik situasi Anda.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara melaporkan pajak sebagai freelancer?</div><div class="faq-a">Jika PPh 21 dipotong oleh klien korporat: minta Bukti Potong dari setiap klien dan laporkan di SPT Tahunan 1770 sebagai penghasilan dengan pemotongan pajak. Jika PP 23 UMKM: setor sendiri paling lambat tanggal 15 bulan berikutnya melalui e-Billing DJP, dan laporkan di SPT Tahunan 1770. Setiap tahun sebelum 31 Maret, sampaikan SPT Tahunan di djponline.pajak.go.id.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa PTKP (Penghasilan Tidak Kena Pajak) terbaru?</div><div class="faq-a">PTKP terbaru (berlaku sejak 2016, belum ada perubahan hingga 2026): TK/0 = Rp 54 juta/tahun, tambahan kawin = Rp 4,5 juta, tambahan per tanggungan = Rp 4,5 juta (maksimal 3 tanggungan). Jadi PTKP tertinggi (K/3) = Rp 54 juta + Rp 4,5 juta + (3 × Rp 4,5 juta) = Rp 72 juta/tahun. PTKP langsung mengurangi DPP sebelum dikenakan tarif progresif.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah penghasilan dari klien luar negeri (Upwork, Fiverr) wajib dilaporkan?</div><div class="faq-a">Ya, wajib. Prinsip perpajakan Indonesia menggunakan asas domisili — seluruh penghasilan Wajib Pajak Indonesia, baik dari dalam maupun luar negeri, wajib dilaporkan di SPT Tahunan. Platform luar negeri umumnya tidak memotong PPh Indonesia. Anda perlu menghitung dan membayar sendiri pajak atas penghasilan tersebut. Jika sudah dipotong pajak di negara asal, bisa dikreditkan sesuai perjanjian Penghindaran Pajak Berganda (P3B/tax treaty) yang berlaku.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Sampai kapan bisa menggunakan skema PPh Final 0,5%?</div><div class="faq-a">Berdasarkan PP 23/2018, Wajib Pajak Orang Pribadi dapat menggunakan tarif PPh Final 0,5% selama maksimal 7 tahun sejak pertama kali terdaftar menggunakan skema ini. Wajib Pajak Badan non-PT hanya 4 tahun, dan PT hanya 3 tahun. Setelah habis masa penggunaan, wajib beralih ke skema PPh umum (norma penghitungan penghasilan neto atau pembukuan lengkap). Batas omzet tetap Rp 4,8 miliar per tahun.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>PPh 21 Karyawan</a>
-      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
-      <a href="/id/kalkulator-zakat-penghasilan.html" class="related-item"><span class="ri">🌙</span>Zakat Penghasilan</a>
-      <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Strategi Pajak Legal</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📝</span><span class="tptx"><strong>Pastikan PTKP sesuai</strong> — status kawin dan tanggungan langsung mengurangi PKP</span></div>
+        <div class="tip"><span class="tpico">🌙</span><span class="tptx"><strong>Bayar zakat via BAZNAS</strong> — zakat mengurangi PKP, hemat PPh</span></div>
+        <div class="tip"><span class="tpico">🪪</span><span class="tptx"><strong>Aktifkan NIK sebagai NPWP</strong> — tanpa NPWP tarif naik 20%</span></div>
+        <div class="tip"><span class="tpico">📅</span><span class="tptx"><strong>SPT Tahunan 1770</strong> sebelum 31 Maret setiap tahun</span></div>
+        <div class="tip"><span class="tpico">🧾</span><span class="tptx"><strong>Minta Bukti Potong</strong> dari setiap klien korporat</span></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-pph" class="relc"><div class="relc-ico">💼</div><div class="relc-nm">PPh 21 Karyawan</div><div class="relc-ds">Tarif TER 2024</div></a>
+        <a href="/id/kalkulator-gaji-bersih" class="relc"><div class="relc-ico">💵</div><div class="relc-nm">Gaji Bersih</div><div class="relc-ds">Take-home + BPJS</div></a>
+        <a href="/id/kalkulator-bpjs" class="relc"><div class="relc-ico">🏥</div><div class="relc-nm">BPJS</div><div class="relc-ds">Iuran kesehatan</div></a>
+        <a href="/id/kalkulator-listrik" class="relc"><div class="relc-ico">⚡</div><div class="relc-nm">Tagihan Listrik</div><div class="relc-ds">Estimasi PLN</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Dua Skema Pajak Freelancer di Indonesia</h2>
+  <p>Freelancer di Indonesia bisa dikenakan dua skema pajak berbeda: <strong>PPh 21 Tenaga Ahli</strong> (DPP 50% bruto, tarif progresif Pasal 17 UU HPP) dan <strong>PPh Final 0,5% (PP 23/2018 jo PP 55/2022)</strong> — omzet ≤ Rp 500 juta/tahun bebas pajak, berlaku max 7 tahun untuk Orang Pribadi.</p>
+  <div class="stw"><table class="stbl">
+    <thead><tr><th>Langkah PPh 21 Tenaga Ahli</th><th>Cara Hitung</th></tr></thead>
+    <tbody>
+      <tr><td>1. DPP Bulanan</td><td>50% × penghasilan bruto per bulan</td></tr>
+      <tr><td>2. DPP Tahunan</td><td>DPP bulanan × 12</td></tr>
+      <tr><td>3. PKP</td><td>DPP tahunan − PTKP</td></tr>
+      <tr><td>4. PPh Tahunan</td><td>PKP × tarif progresif Pasal 17</td></tr>
+      <tr><td>5. PPh per Bulan</td><td>PPh tahunan ÷ 12</td></tr>
+      <tr><td>6. Tanpa NPWP</td><td>PPh per bulan × 1,2 (naik 20%)</td></tr>
+    </tbody>
+  </table></div>
+  <h2>Kalkulator Terkait</h2>
+  <div class="relg">
+    <a href="/id/kalkulator-pph" class="relc"><div class="relc-ico">💼</div><div class="relc-nm">PPh 21 Karyawan</div><div class="relc-ds">Tarif TER 2024</div></a>
+    <a href="/id/kalkulator-gaji-bersih" class="relc"><div class="relc-ico">💵</div><div class="relc-nm">Gaji Bersih</div><div class="relc-ds">Take-home pay</div></a>
+    <a href="/id/kalkulator-bpjs" class="relc"><div class="relc-ico">🏥</div><div class="relc-nm">BPJS Kesehatan</div><div class="relc-ds">Iuran BPJS bulanan</div></a>
+    <a href="/id/kalkulator-listrik" class="relc"><div class="relc-ico">⚡</div><div class="relc-nm">Tagihan Listrik</div><div class="relc-ds">Estimasi PLN</div></a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/" style="color:var(--tx3)">Beranda</a> · <a href="/id/kebijakan-privasi" style="color:var(--tx3)">Privasi</a></span>
 </footer>
-<script defer>
-let hasNpwp = true;
 
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+<script>
+const BR=[
+  {min:0,max:60e6,rate:.05,label:'Rp 0 – 60 juta'},
+  {min:60e6,max:250e6,rate:.15,label:'Rp 60 – 250 juta'},
+  {min:250e6,max:500e6,rate:.25,label:'Rp 250 – 500 juta'},
+  {min:500e6,max:5000e6,rate:.30,label:'Rp 500 jt – 5 M'},
+  {min:5000e6,max:Infinity,rate:.35,label:'> Rp 5 M'}
+];
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){if(n>=1e9)return'Rp '+(n/1e9).toFixed(1)+' M';if(n>=1e6)return'Rp '+(n/1e6).toFixed(0)+' jt';return rp(n)}
+function pct(n){return(Math.round(n*1000)/1000).toFixed(2)+'%'}
+function v(id){return parseFloat(document.getElementById(id).value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
+
+function calcProg(pkp){
+  let tot=0;const bd=[];
+  BR.forEach(b=>{const k=Math.max(0,Math.min(pkp,b.max)-b.min);const p=k*b.rate;tot+=p;bd.push({...b,kena:k,pajak:p,active:k>0});});
+  return{tot,bd};
 }
-function setNpwp(v) {
-  hasNpwp = v;
-  document.getElementById('btn-npwp').classList.toggle('active', v);
-  document.getElementById('btn-nonpwp').classList.toggle('active', !v);
+function calcPPh21(brutoM,ptkp,mult=1){
+  const dppM=brutoM*.5,dppY=dppM*12,pkp=Math.max(0,dppY-ptkp);
+  const{tot:pphY,bd}=calcProg(pkp);
+  const pphM=pphY*mult/12,efektif=brutoM>0?pphM/brutoM:0;
+  return{dppM,dppY,pkp,pphY:pphY*mult,pphM,efektif,takehome:brutoM-pphM,bd};
 }
-function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
-function fmtShort(n) {
-  if (n >= 1e9) return 'Rp ' + (n / 1e9).toFixed(2) + ' miliar';
-  if (n >= 1e6) return 'Rp ' + (n / 1e6).toFixed(1) + ' juta';
-  return fmt(n);
+function calcUMKM(omzetY){
+  const bebas=Math.min(omzetY,500e6),kena=Math.max(0,omzetY-500e6);
+  const pphY=kena*.005,pphM=pphY/12,omzetM=omzetY/12,efektif=omzetY>0?pphY/omzetY:0;
+  return{bebas,kena,pphY,pphM,omzetM,efektif,takehome:omzetM-pphM};
 }
 
-function hitungProgresif(pkp) {
-  let pph = 0;
-  const layers = [[60e6, 0.05], [190e6, 0.15], [250e6, 0.25], [4500e6, 0.30], [Infinity, 0.35]];
-  let sisa = pkp;
-  for (const [batas, rate] of layers) {
-    if (sisa <= 0) break;
-    const kena = Math.min(sisa, batas);
-    pph += kena * rate;
-    sisa -= kena;
+function tab1(){
+  const bruto=v('p-bruto'),ptkp=v('p-ptkp'),mult=parseFloat(document.getElementById('p-npwp').value)||1;
+  const r=calcPPh21(bruto,ptkp,mult);
+  set('r1-pph',rp(r.pphM));set('r1-dpp',rp(r.dppY));set('r1-ptkp',rp(ptkp));
+  set('r1-pkp',rp(r.pkp));set('r1-tahunan',rp(r.pphY));
+  set('r1-efektif',pct(r.efektif*100));set('r1-takehome',rp(r.takehome));
+  const pp=bruto>0?r.pphM/bruto*100:0;
+  document.getElementById('b1-pajak').style.width=pp+'%';
+  document.getElementById('b1-bersih').style.width=(100-pp)+'%';
+  document.getElementById('p1-bands').innerHTML=r.bd.map(b=>`
+    <div class="tband${b.active?' active':''}">
+      <span class="tb-r">${b.label} · ${(b.rate*100).toFixed(0)}%</span>
+      <span class="tb-rate">${b.active?pct(b.rate*100):'—'}</span>
+      <span class="tb-amt">${b.kena>0?rp(b.pajak):'—'}</span>
+    </div>`).join('');
+}
+function tab2(){
+  const omzet=v('u-omzet'),tahun=parseInt(document.getElementById('u-tahun').value)||1;
+  const r=calcUMKM(omzet);
+  set('r2-pph',rp(r.pphY));set('r2-omzet',rp(omzet));
+  set('r2-bebas',rp(r.bebas)+' (bebas PPh)');set('r2-kena',rp(r.kena));
+  set('r2-bulanan',rp(r.pphM)+'/bln');set('r2-takehome',rp(r.takehome)+'/bln');
+  set('r2-efektif',pct(r.efektif*100));
+  const ibox=document.getElementById('u-ibox');
+  if(omzet<=500e6)ibox.innerHTML='<div class="ibox grn">✅ Omzet di bawah Rp 500 juta/tahun — <strong>bebas PPh Final sama sekali</strong> berdasarkan PP 55/2022. Tetap wajib lapor SPT Tahunan.</div>';
+  else if(omzet>4.8e9)ibox.innerHTML='<div class="ibox red">⚠️ Omzet melebihi Rp 4,8 miliar — tidak bisa gunakan PPh Final PP 23. Wajib pakai tarif umum PPh Pasal 17.</div>';
+  else ibox.innerHTML=`<div class="ibox ora">💡 PPh 0,5% hanya atas omzet di atas Rp 500 juta: ${rp(r.kena)} × 0,5% = ${rp(r.pphY)}/tahun (${rp(r.pphM)}/bulan)</div>`;
+  document.getElementById('u-tl').innerHTML=Array.from({length:7},(_,i)=>{
+    const y=i+1;const a=y===tahun;const d=y<tahun;
+    return`<div class="tl-item"><div class="tl-dot ${a?'active':d?'done':'future'}">${y}</div><div><div class="tl-ty">Tahun ke-${y}${a?' ← Anda sekarang':d?' ✓':''}</div><div class="tl-td">${y===7?'Tahun terakhir — wajib tarif umum setelah ini':'Masih bisa menggunakan PPh Final 0,5%'}</div></div></div>`;
+  }).join('');
+}
+function tab3(){
+  const bruto=v('cmp-bruto'),ptkp=v('cmp-ptkp');
+  const r21=calcPPh21(bruto,ptkp);const ru=calcUMKM(bruto*12);
+  const win21=r21.pphM<ru.pphM;const winU=ru.pphM<r21.pphM;
+  document.getElementById('cmp-cards').innerHTML=`
+    <div class="cbox${win21?' winner':''}"><div class="cbox-lbl">👔 PPh 21 Tenaga Ahli</div><div class="cbox-val">${rp(r21.pphM)}</div><div class="cbox-sub">per bulan · efektif ${pct(r21.efektif*100)}</div><div class="cbox-sub">Take-home: ${rp(r21.takehome)}</div></div>
+    <div class="cbox${winU?' winner':''}"><div class="cbox-lbl">🏪 PPh Final UMKM</div><div class="cbox-val">${rp(ru.pphM)}</div><div class="cbox-sub">per bulan · efektif ${pct(ru.efektif*100)}</div><div class="cbox-sub">Take-home: ${rp(ru.takehome)}</div></div>`;
+  const sel=Math.abs(r21.pphM-ru.pphM);
+  const vd=document.getElementById('cmp-verdict');
+  if(win21)vd.textContent='🏆 PPh 21 lebih hemat '+rp(sel)+'/bulan untuk penghasilan ini';
+  else if(winU)vd.textContent='🏆 PPh Final UMKM lebih hemat '+rp(sel)+'/bulan untuk penghasilan ini';
+  else vd.textContent='⚖️ Keduanya setara untuk penghasilan ini';
+  const levels=[3e6,5e6,8e6,10e6,15e6,20e6,30e6,50e6];
+  const chart=document.getElementById('cmp-chart');
+  while(chart.children.length>1)chart.removeChild(chart.lastChild);
+  const maxP=Math.max(...levels.map(l=>calcPPh21(l,ptkp).pphM));
+  levels.forEach(l=>{
+    const r=calcPPh21(l,ptkp);const ru2=calcUMKM(l*12);
+    const w=ru2.pphM<=r.pphM?'UMKM':'PPh 21';const hl=Math.abs(l-bruto)<1500000;
+    const row=document.createElement('div');row.className='srow'+(hl?' hl':'');
+    row.innerHTML=`<span>${rpM(l)}/bln</span><div class="sbar-cell"><div class="sbar-fill" style="width:${Math.min(100,r.pphM/maxP*100)}%"></div></div><span class="spct">${w}</span>`;
+    chart.appendChild(row);
+  });
+}
+function tab4(){
+  const start=v('sim-start'),ptkp=v('sim-ptkp');
+  const steps=Array.from({length:8},(_,i)=>start*(1+i*.6));
+  const chart=document.getElementById('sim-chart');
+  while(chart.children.length>1)chart.removeChild(chart.lastChild);
+  const maxP=Math.max(...steps.map(l=>calcPPh21(l,ptkp).pphM));
+  steps.forEach((l,i)=>{
+    const r=calcPPh21(l,ptkp);const row=document.createElement('div');row.className='srow'+(i===0?' hl':'');
+    row.innerHTML=`<span>${rpM(l)}/bln</span><div class="sbar-cell"><div class="sbar-fill" style="width:${Math.min(100,r.pphM/maxP*100)}%"></div></div><span class="spct">${pct(r.efektif*100)}</span>`;
+    chart.appendChild(row);
+  });
+  let found=false;
+  for(let m=500000;m<=200e6;m+=500000){
+    const r21=calcPPh21(m,ptkp);const ru=calcUMKM(m*12);
+    if(ru.pphM<r21.pphM){set('sim-cross-val',rpM(m)+'/bulan');set('sim-cross-sub','Di bawah '+rpM(m)+': PPh 21 lebih hemat. Di atas ini: skema UMKM (PP 23) lebih hemat.');found=true;break;}
   }
-  return pph;
+  if(!found){set('sim-cross-val','Tidak ditemukan');set('sim-cross-sub','Untuk PTKP ini, PPh 21 selalu lebih hemat dari PPh UMKM.');}
 }
 
-function calculatePph21() {
-  const bruto = parseFloat(document.getElementById('bruto-21').value);
-  const ptkp  = parseFloat(document.getElementById('ptkp-status').value);
-  if (!bruto || bruto <= 0) { alert('Masukkan penghasilan bruto yang valid.'); return; }
-
-  const brutoTahunan = bruto * 12;
-  const dppTahunan   = brutoTahunan * 0.5;
-  const pkp          = Math.max(0, dppTahunan - ptkp);
-  let   pphTahunan   = hitungProgresif(pkp);
-  if (!hasNpwp) pphTahunan *= 1.2;
-
-  const pphBulan   = pphTahunan / 12;
-  const takehome   = bruto - pphBulan;
-  const efektif    = bruto > 0 ? (pphBulan / bruto * 100).toFixed(2) : '0';
-
-  document.getElementById('r21-pph').textContent      = fmt(pphBulan) + '/bulan';
-  document.getElementById('r21-dpp').textContent      = fmtShort(dppTahunan) + '/tahun';
-  document.getElementById('r21-ptkp').textContent     = fmtShort(ptkp) + '/tahun';
-  document.getElementById('r21-pkp').textContent      = fmtShort(pkp) + '/tahun';
-  document.getElementById('r21-tahunan').textContent  = fmt(pphTahunan) + '/tahun' + (!hasNpwp ? ' (+20%)' : '');
-  document.getElementById('r21-efektif').textContent  = efektif.replace('.', ',') + '% dari bruto';
-  document.getElementById('r21-takehome').textContent = fmt(takehome) + '/bulan';
-
-  // bar
-  const thPct = (takehome / bruto * 100).toFixed(1);
-  const pphPct = (pphBulan / bruto * 100).toFixed(1);
-  document.getElementById('r21-bar-takehome').style.width = thPct + '%';
-  document.getElementById('r21-bar-pph').style.width      = pphPct + '%';
-
-  document.getElementById('res-pph21').classList.add('show');
-
-  // Sync banding tab
-  document.getElementById('cmp-income').value = bruto;
-}
-
-function calculateUmkm() {
-  const omzet = parseFloat(document.getElementById('omzet-23').value);
-  const yr    = parseInt(document.getElementById('pp23-year').value);
-  if (!omzet || omzet <= 0) { alert('Masukkan omzet yang valid.'); return; }
-  if (omzet > 4_800_000_000) { alert('PP 23/2018 hanya berlaku untuk omzet di bawah Rp 4,8 miliar/tahun.'); return; }
-
-  const batasBebas = 500_000_000;
-  const kenaOmzet  = Math.max(0, omzet - batasBebas);
-  const pphTahunan = kenaOmzet * 0.005;
-  const pphBulan   = pphTahunan / 12;
-  const takehomeBulan = omzet / 12 - pphBulan;
-  const efektif = (pphTahunan / omzet * 100).toFixed(3);
-
-  document.getElementById('r23-pph').textContent      = fmt(pphTahunan) + '/tahun';
-  document.getElementById('r23-omzet').textContent    = fmtShort(omzet) + '/tahun';
-  document.getElementById('r23-status').textContent   = omzet <= batasBebas
-    ? '✅ Seluruh omzet bebas PPh (di bawah Rp 500 juta)'
-    : '⚠️ Rp 500 juta pertama bebas, sisanya kena 0,5%';
-  document.getElementById('r23-bulan').textContent    = fmt(pphBulan) + '/bulan';
-  document.getElementById('r23-takehome').textContent = fmt(takehomeBulan) + '/bulan';
-  document.getElementById('r23-efektif').textContent  = efektif.replace('.', ',') + '% dari omzet';
-
-  const warn = document.getElementById('r23-warning');
-  if (yr >= 7) {
-    warn.style.display = '';
-    warn.textContent = '⚠️ Ini adalah tahun terakhir penggunaan PPh Final 0,5% untuk Orang Pribadi (maksimal 7 tahun). Tahun depan, Anda wajib beralih ke skema PPh umum (norma atau pembukuan).';
-  } else {
-    warn.style.display = 'none';
-  }
-
-  document.getElementById('res-umkm').classList.add('show');
-  document.getElementById('cmp-income').value = Math.round(omzet / 12);
-}
-
-function calculateBanding() {
-  const income = parseFloat(document.getElementById('cmp-income').value);
-  const ptkp   = parseFloat(document.getElementById('cmp-ptkp').value);
-  if (!income || income <= 0) { alert('Masukkan penghasilan bulanan yang valid.'); return; }
-
-  // PPh 21
-  const brutoTahunan = income * 12;
-  const dppTahunan   = brutoTahunan * 0.5;
-  const pkp          = Math.max(0, dppTahunan - ptkp);
-  const pphTahunan21 = hitungProgresif(pkp);
-  const pph21Bulan   = pphTahunan21 / 12;
-
-  // PPh Final UMKM
-  const omzetTahunan = income * 12;
-  const kenaOmzet    = Math.max(0, omzetTahunan - 500_000_000);
-  const pphUmkm      = kenaOmzet * 0.005;
-  const pphUmkmBulan = pphUmkm / 12;
-
-  const winner = pph21Bulan <= pphUmkmBulan ? 'PPh 21' : 'PPh Final UMKM';
-  const selisih = Math.abs(pph21Bulan - pphUmkmBulan);
-
-  document.getElementById('banding-summary').innerHTML =
-    `📊 Untuk penghasilan <strong>${fmt(income)}/bulan</strong>, skema <strong style="color:#00C9B1">${winner}</strong> lebih hemat dengan selisih <strong style="color:#00C9B1">${fmt(selisih)}/bulan</strong> (${fmt(selisih * 12)}/tahun).`;
-  document.getElementById('banding-summary').style.background = 'rgba(0,201,177,.08)';
-  document.getElementById('banding-summary').style.border = '1px solid rgba(0,201,177,.2)';
-
-  const is21Winner = pph21Bulan <= pphUmkmBulan;
-  document.getElementById('banding-cards').innerHTML = `
-    <div class="cmp-card ${is21Winner ? 'winner' : ''}">
-      <h4 style="color:#3b82f6">💼 PPh 21 Tenaga Ahli ${is21Winner ? '<span class="winner-label">Lebih hemat</span>' : ''}</h4>
-      <p>PPh per bulan: <strong style="color:#fff">${fmt(pph21Bulan)}</strong><br>
-      PPh per tahun: <strong>${fmt(pphTahunan21)}</strong><br>
-      Take-home: ${fmt(income - pph21Bulan)}/bln<br>
-      Tarif efektif: ${(pph21Bulan / income * 100).toFixed(2).replace('.', ',')}%</p>
-    </div>
-    <div class="cmp-card ${!is21Winner ? 'winner' : ''}">
-      <h4 style="color:#00C9B1">🏪 PPh Final UMKM 0,5% ${!is21Winner ? '<span class="winner-label">Lebih hemat</span>' : ''}</h4>
-      <p>PPh per bulan: <strong style="color:#fff">${fmt(pphUmkmBulan)}</strong><br>
-      PPh per tahun: <strong>${fmt(pphUmkm)}</strong><br>
-      Take-home: ${fmt(income - pphUmkmBulan)}/bln<br>
-      Tarif efektif: ${(pphUmkmBulan / income * 100).toFixed(3).replace('.', ',')}%</p>
-    </div>`;
-
-  document.getElementById('banding-note').innerHTML =
-    omzetTahunan <= 500_000_000
-      ? '💡 Omzet tahunan Anda di bawah Rp 500 juta → PPh Final UMKM = Rp 0 (bebas pajak berdasarkan PP 55/2022). Skema ini jauh lebih hemat jika Anda memenuhi syarat.'
-      : '💡 Perbandingan ini menggunakan asumsi Anda memenuhi syarat skema PP 23/2018 (omzet &lt; Rp 4,8 miliar/tahun dan masih dalam masa 7 tahun). Konsultasikan dengan konsultan pajak untuk kepastian hukum.';
-
-  document.getElementById('res-banding').style.display = 'block';
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculatePph21(); });
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['p-bruto','p-ptkp','p-npwp'],tab1);
+listen(['u-omzet','u-tahun'],tab2);
+listen(['cmp-bruto','cmp-ptkp'],tab3);
+listen(['sim-start','sim-ptkp'],tab4);
+tab1();tab2();tab3();tab4();
 </script>
 </body>
 </html>

@@ -1,390 +1,682 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Tagihan Listrik PLN 2026 — Estimasi Biaya Listrik Rumah | NovaCalcs</title>
-<meta name="description" content="Hitung estimasi tagihan listrik PLN berdasarkan golongan daya dan pemakaian kWh. Simulasi konsumsi per peralatan, estimasi token listrik, dan tips hemat tagihan bulanan."/>
-<meta name="keywords" content="kalkulator listrik PLN, hitung tagihan listrik, tarif listrik 2026, biaya listrik rumah, kWh PLN, token listrik, hemat listrik"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-listrik.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-listrik.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.usage-bar-wrap{margin:.75rem 0}
-.usage-bar{display:flex;height:16px;border-radius:8px;overflow:hidden;margin:.3rem 0}
-.ub-label{font-size:.73rem;color:#8fa3b1;margin-bottom:.2rem}
-.ub-seg{height:100%;transition:width .4s}
-.ub-legend{display:flex;gap:.6rem;flex-wrap:wrap;font-size:.73rem;margin-top:.3rem}
-.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
-.device-row{display:grid;grid-template-columns:1fr auto auto;gap:.5rem;align-items:center;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
-.device-row:last-child{border-bottom:none}
-.device-label{color:#c0cdd8}
-.device-kwh{color:#8fa3b1;text-align:right;font-size:.78rem}
-.device-cost{color:#00C9B1;text-align:right;font-weight:600}
-.token-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin:.45rem 0}
-.token-card h4{margin:0 0 .3rem;color:#f59e0b;font-size:.88rem}
-.token-card p{margin:0;font-size:.82rem;color:#8fa3b1;line-height:1.5}
-.saving-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
-.saving-item:last-child{border-bottom:none}
-.saving-amount{color:#00C9B1;font-weight:600}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Tagihan Listrik PLN 2026 — Estimasi Akurat + Simulasi Hemat | NovaCalcs</title>
+  <meta name="description" content="Hitung tagihan listrik PLN 2026 otomatis berdasarkan golongan daya & kWh. Simulasi peralatan AC, kulkas, TV. Kalkulator token listrik + simulasi hemat interaktif. Gratis dan akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-listrik">
+  <meta property="og:title" content="Kalkulator Tagihan Listrik PLN 2026 | NovaCalcs">
+  <meta property="og:description" content="Estimasi tagihan listrik PLN bulanan. Simulasi peralatan, token, dan cara hemat.">
+  <meta property="og:url" content="https://novacalcs.com/id/kalkulator-listrik">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;
+      --bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;
+      --bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;
+      --grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;
+      --r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}
+    .nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px;flex-wrap:wrap}
+    .tbtn{flex:1;min-width:0;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}
+    .tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}
+    .rv.sm{font-size:16px}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .ctbl{width:100%;border-collapse:collapse;font-size:13px}
+    .ctbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tx3)}
+    .ctbl td{padding:9px 10px;border-bottom:1px solid var(--bor)}
+    .ctbl tr:last-child td{border-bottom:none}
+    .ctbl tr.hi td{background:var(--pri-l);font-weight:700}
+    .ctbl .mo{font-family:'DM Mono',monospace;font-weight:600}
+    .ctbl .ch{color:var(--grn);font-weight:700}
+    .slev{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:14px;margin-bottom:10px;transition:border-color .2s}
+    .slev.ok{border-color:var(--grn);background:var(--grn-b)}
+    .slev-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;font-weight:700}
+    .ssw{display:flex;align-items:center;gap:8px}
+    .sslider{flex:1;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:linear-gradient(to right,var(--pri) var(--pct,0%),var(--bor) var(--pct,0%));outline:none;cursor:pointer}
+    .sslider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--pri);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+    .ssv{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;min-width:60px;text-align:right}
+    .ssav{margin-top:7px;font-size:12px;color:var(--tx2)}
+    .ssav strong{color:var(--grn)}
+    .simsum{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--rs);padding:14px;margin-top:14px}
+    .simr{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}
+    .simr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent;cursor:pointer;transition:all .12s}
+    .frow:hover,.frow.on{border-color:var(--pri);background:var(--pri-l)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}
+    .fron{font-size:11px;color:var(--tx3)}
+    .fprice{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}
+    .tptx strong{color:var(--tx);font-weight:700}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo h3{font-size:15px;font-weight:700;color:var(--tx);margin:20px 0 7px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}
+    .stbl td:first-child{font-weight:600;color:var(--tx)}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}
+    .relc-nm{font-size:13px;font-weight:700}
+    .relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+    /* === LISTRIK-SPECIFIC === */
+    /* appliance table */
+    .atbl{width:100%;border-collapse:collapse}
+    .atbl tr{border-bottom:1px solid var(--bor)}
+    .atbl tr:last-child{border-bottom:none}
+    .atbl td{padding:10px 4px;vertical-align:middle}
+    .an{font-size:12px;font-weight:700}
+    .ah{font-size:10px;color:var(--tx3);margin-top:1px}
+    .achk{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2);margin-top:3px;cursor:pointer}
+    .achk input{accent-color:var(--pri);width:auto}
+    .ai{width:66px;padding:6px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:13px;font-weight:700;text-align:right;background:var(--sur);outline:none;-webkit-appearance:none;appearance:none}
+    .ai:focus{border-color:var(--pri)}
+    .ais{width:80px;padding:6px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:11px;background:var(--sur);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none}
+    .ais:focus{border-color:var(--pri)}
+    .ak{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri);text-align:right;min-width:56px;white-space:nowrap}
+    .slsub{font-size:10px;color:var(--tx3);display:flex;justify-content:space-between;margin-top:2px}
+    /* bar */
+    .bw{background:var(--sur2);height:6px;border-radius:4px;margin:10px 0 6px;overflow:hidden;display:flex}
+    .bleg{display:flex;gap:10px;font-size:10px;color:var(--tx3)}
+    .bleg-d{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+    /* savings green box */
+    .savsum{background:var(--grn-b);border:1.5px solid #86efac;border-radius:var(--r);padding:16px;margin-top:14px}
+    .savval{font-family:'DM Mono',monospace;font-size:28px;font-weight:800;color:var(--grn);letter-spacing:-.5px}
+    .savlbl{font-size:11px;color:#166534;margin-top:2px}
+    .savg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+    .savi{background:var(--sur);border-radius:var(--rs);padding:10px}
+    .savi .sv{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--grn)}
+    .savi .sl{font-size:10px;color:var(--tx3);margin-top:2px}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    a{color:var(--pri);text-decoration:none}
+    footer a{color:var(--tx3)}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Listrik</span>
-    </nav>
+
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Listrik</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">⚡ Tagihan Listrik PLN</div>
+  <h1 class="hdr-h1">Kalkulator Tagihan Listrik PLN 2026</h1>
+  <p class="hdr-sub">Estimasi tagihan bulanan, simulasi peralatan, token & hemat. Klik golongan di bawah untuk isi otomatis — hasil tampil langsung.</p>
+  <div class="pstrip">
+    <div class="pchip">1.300 VA <span>Rp 1.444/kWh</span></div>
+    <div class="pchip">450 VA Subsidi <span>Rp 415/kWh</span></div>
+    <div class="pchip">900 VA Subsidi <span>Rp 605/kWh</span></div>
+    <div class="pchip">2.200 VA <span>Rp 1.444/kWh</span></div>
+    <div class="pchip" style="color:var(--tx3);font-size:10px">Tarif 2026 · Sumber: PLN</div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">⚡ Kalkulator Tagihan Listrik PLN</div>
-      <div class="calc-subtitle">Estimasi tagihan, simulasi peralatan, dan tips hemat</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-tagihan',this)">🧮 Tagihan Bulanan</button>
-        <button class="tab-btn" onclick="showTab('tab-peralatan',this)">🔌 Simulasi Peralatan</button>
-        <button class="tab-btn" onclick="showTab('tab-token',this)">💡 Token &amp; Hemat</button>
-      </div>
+<main class="main">
+<div>
 
-      <!-- TAB 1: TAGIHAN BULANAN -->
-      <div id="tab-tagihan" class="tab-pane active">
-        <div class="field">
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚡</div>Hitung Tagihan Listrik</div>
+  <div class="card-b">
+
+    <div class="tbar">
+      <button class="tbtn on" data-tab="tagihan">🧮 Tagihan</button>
+      <button class="tbtn" data-tab="peralatan">🔌 Peralatan</button>
+      <button class="tbtn" data-tab="token">💡 Token</button>
+      <button class="tbtn" data-tab="simulasi">📊 Simulasi Hemat <span class="nbadge">Baru</span></button>
+      <button class="tbtn" data-tab="bandingkan">⚡ Bandingkan <span class="nbadge">Baru</span></button>
+    </div>
+
+    <!-- TAGIHAN -->
+    <div class="tpanel on" id="tab-tagihan">
+      <div class="g2">
+        <div class="fld">
           <label>Golongan / Daya Listrik</label>
-          <select id="golongan" onchange="syncGolongan()">
-            <optgroup label="Rumah Tangga">
-              <option value="450">R-1/TR 450 VA — subsidi (Rp 415/kWh)</option>
-              <option value="900s">R-1/TR 900 VA — subsidi (Rp 605/kWh)</option>
-              <option value="900">R-1/TR 900 VA — non-subsidi (Rp 1.352/kWh)</option>
-              <option value="1300" selected>R-1/TR 1.300 VA (Rp 1.444,70/kWh)</option>
-              <option value="2200">R-1/TR 2.200 VA (Rp 1.444,70/kWh)</option>
-              <option value="3500">R-2/TR 3.500–5.500 VA (Rp 1.699,53/kWh)</option>
-              <option value="6600">R-3/TR 6.600 VA ke atas (Rp 1.699,53/kWh)</option>
-            </optgroup>
-            <optgroup label="Bisnis">
-              <option value="b1">B-1/TR s.d. 5.500 VA (Rp 1.115/kWh)</option>
-              <option value="b2">B-2/TR 6.600–200 kVA (Rp 1.372/kWh)</option>
-            </optgroup>
-          </select>
-        </div>
-        <div class="field"><label>Pemakaian Listrik Bulan Ini (kWh)</label><input type="number" id="kwh" placeholder="Contoh: 150" min="0" step="0.1"/></div>
-        <button class="calc-btn" onclick="calculateTagihan()">Hitung Tagihan</button>
-
-        <div class="result-panel" id="res-tagihan">
-          <div class="result-main">
-            <div class="result-value" id="res-bill">—</div>
-            <div class="result-label">Estimasi Tagihan Listrik / Bulan</div>
-          </div>
-          <div class="usage-bar-wrap">
-            <div class="ub-label">Komposisi Tagihan</div>
-            <div class="usage-bar">
-              <div class="ub-seg" id="ub-energi" style="background:#00C9B1;width:80%"></div>
-              <div class="ub-seg" id="ub-abon" style="background:#3b82f6;width:15%"></div>
-              <div class="ub-seg" id="ub-ppj" style="background:#8b5cf6;width:5%"></div>
-            </div>
-            <div class="ub-legend">
-              <span><span class="leg-dot" style="background:#00C9B1"></span>Biaya energi</span>
-              <span><span class="leg-dot" style="background:#3b82f6"></span>Abonemen</span>
-              <span><span class="leg-dot" style="background:#8b5cf6"></span>PPJ (3%)</span>
-            </div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">Pemakaian kWh</span><span class="rval" id="res-kwh">—</span></div>
-            <div class="result-row"><span class="rkey">Tarif per kWh</span><span class="rval" id="res-rate">—</span></div>
-            <div class="result-row"><span class="rkey">Biaya energi</span><span class="rval" id="res-energi">—</span></div>
-            <div class="result-row"><span class="rkey">Biaya abonemen (estimasi)</span><span class="rval" id="res-abonemen">—</span></div>
-            <div class="result-row"><span class="rkey">PPJ estimasi (3%)</span><span class="rval" id="res-ppj">—</span></div>
-            <div class="result-row"><span class="rkey">Biaya per hari</span><span class="rval" id="res-daily">—</span></div>
-          </div>
-          <p style="font-size:.72rem;color:#6b7c8d;margin-top:.6rem">* Estimasi. PPJ (Pajak Penerangan Jalan) bervariasi per daerah (umumnya 3–10%). Abonemen adalah estimasi. Tagihan aktual bisa berbeda — cek struk tagihan PLN untuk angka pasti.</p>
-        </div>
-      </div>
-
-      <!-- TAB 2: SIMULASI PERALATAN -->
-      <div id="tab-peralatan" class="tab-pane">
-        <div class="field">
-          <label>Golongan Listrik (untuk tarif)</label>
-          <select id="gol2" onchange="syncGolongan()">
-            <option value="450">450 VA subsidi (Rp 415/kWh)</option>
-            <option value="900s">900 VA subsidi (Rp 605/kWh)</option>
-            <option value="900">900 VA non-subsidi (Rp 1.352/kWh)</option>
+          <div class="iw sw"><select id="gol1">
+            <option value="450sub">450 VA — subsidi (Rp 415/kWh)</option>
+            <option value="900sub">900 VA — subsidi (Rp 605/kWh)</option>
+            <option value="900non">900 VA — non-subsidi (Rp 1.352/kWh)</option>
             <option value="1300" selected>1.300 VA (Rp 1.444,70/kWh)</option>
             <option value="2200">2.200 VA (Rp 1.444,70/kWh)</option>
-            <option value="3500">3.500 VA+ (Rp 1.699,53/kWh)</option>
-          </select>
+            <option value="3500">3.500–5.500 VA (Rp 1.699,53/kWh)</option>
+            <option value="6600">6.600 VA+ (Rp 1.699,53/kWh)</option>
+            <option value="b1">Bisnis ≤5.500 VA (Rp 1.115/kWh)</option>
+            <option value="b2">Bisnis 6.600 kVA+ (Rp 1.372/kWh)</option>
+          </select></div>
         </div>
-        <div class="field"><label>AC (PK) — jam pakai per hari</label><input type="number" id="ac-hours" placeholder="0" min="0" max="24" step="0.5" value="0"/><small style="color:#7a8fa0">1 PK AC ≈ 850 watt rata-rata (non-inverter)</small></div>
-        <div class="field"><label>Kulkas — jumlah unit</label><input type="number" id="kulkas" placeholder="0 atau 1" min="0" max="5" value="1"/><small style="color:#7a8fa0">1 kulkas 1 pintu ≈ 35 kWh/bulan</small></div>
-        <div class="field"><label>TV LED 32–55 inci — jam pakai per hari</label><input type="number" id="tv-hours" placeholder="0" min="0" max="24" value="0"/><small style="color:#7a8fa0">~80–120 watt</small></div>
-        <div class="field"><label>Mesin cuci — kali pakai per bulan</label><input type="number" id="washer" placeholder="0" min="0" max="60" value="0"/><small style="color:#7a8fa0">~0,5 kWh per pemakaian</small></div>
-        <div class="field"><label>Pompa air — jam per hari</label><input type="number" id="pump-hours" placeholder="0" min="0" max="12" step="0.5" value="0"/><small style="color:#7a8fa0">~150 watt</small></div>
-        <div class="field"><label>Total watt lampu (semua lampu)</label><input type="number" id="lights-watt" placeholder="Contoh: 80" min="0" value="0"/><small style="color:#7a8fa0">Misal 8 lampu × 10W = 80W, nyala rata-rata 8 jam/hari</small></div>
-        <div class="field"><label>Lain-lain (watt) — laptop, charger, dll.</label><input type="number" id="other-watt" placeholder="Contoh: 100" min="0" value="0"/><small style="color:#7a8fa0">Estimasi rata-rata nyala ~10 jam/hari</small></div>
-        <button class="calc-btn" onclick="calculatePeralatan()">Simulasikan</button>
-
-        <div id="res-peralatan" style="display:none;margin-top:1rem">
-          <div class="result-main" style="text-align:center;padding:.75rem;background:rgba(0,201,177,.08);border-radius:10px;margin-bottom:.75rem">
-            <div class="result-value" id="per-total-bill" style="font-size:1.5rem">—</div>
-            <div style="font-size:.8rem;color:#8fa3b1">Estimasi Tagihan Bulanan</div>
-          </div>
-          <div class="ub-label">Pemakaian per Peralatan</div>
-          <div id="per-device-list" style="margin:.5rem 0"></div>
-          <div class="usage-bar-wrap">
-            <div class="ub-label">Komposisi Konsumsi</div>
-            <div class="usage-bar" id="per-usage-bar"></div>
-            <div class="ub-legend" id="per-legend"></div>
-          </div>
+        <div class="fld">
+          <label>PPJ Daerah (%)</label>
+          <div class="iw"><input type="number" id="ppj1" value="3" min="0" max="15" step="0.5"><span class="iu">%</span></div>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Pemakaian Bulan Ini (kWh)</label>
+        <div class="iw"><input type="number" id="kwh1" value="150" min="0" step="5"><span class="iu">kWh</span></div>
+        <div class="presets">
+          <button class="pb" data-val="80" data-for="kwh1">80 kWh</button>
+          <button class="pb on" data-val="150" data-for="kwh1">150 kWh</button>
+          <button class="pb" data-val="200" data-for="kwh1">200 kWh</button>
+          <button class="pb" data-val="300" data-for="kwh1">300 kWh</button>
+          <button class="pb" data-val="450" data-for="kwh1">450 kWh</button>
         </div>
       </div>
 
-      <!-- TAB 3: TOKEN & HEMAT -->
-      <div id="tab-token" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Hitung nominal token listrik yang perlu dibeli, atau cek berapa hari token Anda bertahan.</p>
-        <div class="field">
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Estimasi Tagihan / Bulan</div>
+            <div class="rv lg" id="r1-total">—</div>
+          </div>
+        </div>
+        <div class="bw"><div id="b-energi" style="background:var(--pri);transition:width .3s"></div><div id="b-abonemen" style="background:#fda05d;transition:width .3s"></div><div id="b-ppj" style="background:#fecba1;transition:width .3s"></div></div>
+        <div class="bleg">
+          <span><span class="bleg-d" style="background:var(--pri)"></span>Energi</span>
+          <span><span class="bleg-d" style="background:#fda05d"></span>Abonemen</span>
+          <span><span class="bleg-d" style="background:#fecba1"></span>PPJ</span>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Pemakaian kWh</span><span id="r1-kwh">—</span></div>
+          <div class="rr"><span>Tarif per kWh</span><span id="r1-tarif">—</span></div>
+          <div class="rr"><span>Biaya energi</span><span id="r1-energi">—</span></div>
+          <div class="rr"><span>Biaya abonemen</span><span id="r1-abonemen">—</span></div>
+          <div class="rr"><span>PPJ (<span id="r1-ppjpct">3</span>%)</span><span id="r1-ppj">—</span></div>
+          <div class="rr"><span>Biaya per hari</span><span id="r1-hari">—</span></div>
+        </div>
+      </div>
+      <div class="notice">⚠️ Estimasi. PPJ bervariasi per daerah (umumnya 3–10%). Abonemen adalah perkiraan — cek struk PLN untuk angka pasti.</div>
+    </div>
+
+    <!-- PERALATAN -->
+    <div class="tpanel" id="tab-peralatan">
+      <div class="fld">
+        <label>Golongan Listrik (tarif)</label>
+        <div class="iw sw"><select id="gol2">
+          <option value="450sub">450 VA subsidi (Rp 415/kWh)</option>
+          <option value="900sub">900 VA subsidi (Rp 605/kWh)</option>
+          <option value="900non">900 VA non-subsidi (Rp 1.352/kWh)</option>
+          <option value="1300" selected>1.300 VA (Rp 1.444,70/kWh)</option>
+          <option value="2200">2.200 VA (Rp 1.444,70/kWh)</option>
+          <option value="3500">3.500 VA+ (Rp 1.699,53/kWh)</option>
+        </select></div>
+      </div>
+      <table class="atbl">
+        <tr>
+          <td><div class="an">AC</div><div class="ah">1 PK non-inverter ≈ 850W · inverter ≈ 500W</div><label class="achk"><input type="checkbox" id="ac-inv"> Inverter (hemat ~40%)</label></td>
+          <td style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">PK</div><input class="ai" type="number" id="ac-pk" value="1" min="0" max="10" step="0.5"></td>
+          <td style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Jam/hari</div><input class="ai" type="number" id="ac-jam" value="8" min="0" max="24"></td>
+          <td class="ak" id="ac-kwh">204 kWh</td>
+        </tr>
+        <tr>
+          <td><div class="an">Kulkas</div><div class="ah">1 pintu ≈ 35 kWh · 2 pintu ≈ 50 kWh/bln</div></td>
+          <td style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Unit</div><input class="ai" type="number" id="kulkas-unit" value="1" min="0" max="5"></td>
+          <td style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Jenis</div><select class="ais" id="kulkas-type"><option value="35">1 pintu</option><option value="50">2 pintu</option></select></td>
+          <td class="ak" id="kulkas-kwh">35 kWh</td>
+        </tr>
+        <tr>
+          <td><div class="an">TV LED 32–55"</div><div class="ah">~100 watt rata-rata</div></td>
+          <td style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Unit</div><input class="ai" type="number" id="tv-unit" value="1" min="0" max="5"></td>
+          <td style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Jam/hari</div><input class="ai" type="number" id="tv-jam" value="5" min="0" max="24"></td>
+          <td class="ak" id="tv-kwh">15 kWh</td>
+        </tr>
+        <tr>
+          <td><div class="an">Mesin Cuci</div><div class="ah">~0,5 kWh per pemakaian</div></td>
+          <td colspan="2" style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Kali/bulan</div><input class="ai" type="number" id="mc-uses" value="8" min="0" max="60"></td>
+          <td class="ak" id="mc-kwh">4 kWh</td>
+        </tr>
+        <tr>
+          <td><div class="an">Pompa Air</div><div class="ah">~150 watt</div></td>
+          <td colspan="2" style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Jam/hari</div><input class="ai" type="number" id="pompa-jam" value="1" min="0" max="12" step="0.5"></td>
+          <td class="ak" id="pompa-kwh">4,5 kWh</td>
+        </tr>
+        <tr>
+          <td><div class="an">Lampu (semua)</div><div class="ah">Total watt · misal 8 × 10W = 80W, nyala 8 jam/hari</div></td>
+          <td style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Total watt</div><input class="ai" type="number" id="lampu-watt" value="80" min="0" max="2000" step="10"></td>
+          <td style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Jam/hari</div><input class="ai" type="number" id="lampu-jam" value="8" min="0" max="24"></td>
+          <td class="ak" id="lampu-kwh">19 kWh</td>
+        </tr>
+        <tr>
+          <td><div class="an">Lain-lain</div><div class="ah">Laptop, charger, rice cooker · ~10 jam/hari</div></td>
+          <td colspan="2" style="text-align:right;padding-right:6px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Total watt</div><input class="ai" type="number" id="lain-watt" value="200" min="0" max="5000" step="10"></td>
+          <td class="ak" id="lain-kwh">60 kWh</td>
+        </tr>
+      </table>
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2"><div class="rl">Estimasi Tagihan dari Peralatan</div><div class="rv lg" id="r2-total">—</div></div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Total pemakaian</span><span id="r2-kwh">—</span></div>
+          <div class="rr"><span>AC</span><span id="r2-ac">—</span></div>
+          <div class="rr"><span>Kulkas</span><span id="r2-kulkas">—</span></div>
+          <div class="rr"><span>TV + lampu</span><span id="r2-tv">—</span></div>
+          <div class="rr"><span>Lain-lain</span><span id="r2-lain">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* AC menyumbang 40–60% tagihan. Angka adalah estimasi — konsumsi aktual bervariasi per merk dan suhu ruangan.</div>
+    </div>
+
+    <!-- TOKEN -->
+    <div class="tpanel" id="tab-token">
+      <div class="fld">
+        <label>Golongan Listrik</label>
+        <div class="iw sw"><select id="gol3">
+          <option value="450sub">450 VA subsidi (Rp 415/kWh)</option>
+          <option value="900sub">900 VA subsidi (Rp 605/kWh)</option>
+          <option value="900non">900 VA non-subsidi (Rp 1.352/kWh)</option>
+          <option value="1300" selected>1.300 VA (Rp 1.444,70/kWh)</option>
+          <option value="2200">2.200 VA (Rp 1.444,70/kWh)</option>
+          <option value="3500">3.500 VA+ (Rp 1.699,53/kWh)</option>
+        </select></div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>Nominal Token (Rp)</label>
+          <div class="iw"><input type="number" id="tok-nom" value="100000" min="20000" step="10000"></div>
+          <div class="presets">
+            <button class="pb" data-val="50000" data-for="tok-nom">50rb</button>
+            <button class="pb on" data-val="100000" data-for="tok-nom">100rb</button>
+            <button class="pb" data-val="200000" data-for="tok-nom">200rb</button>
+            <button class="pb" data-val="500000" data-for="tok-nom">500rb</button>
+          </div>
+        </div>
+        <div class="fld">
+          <label>Pemakaian per Hari (kWh)</label>
+          <div class="iw"><input type="number" id="tok-hari" value="5" min="0.5" step="0.5"><span class="iu">kWh</span></div>
+        </div>
+      </div>
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2"><div class="rl">kWh yang Anda Dapatkan</div><div class="rv lg" id="r3-kwh">—</div></div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Nominal bersih (setelah admin Rp 1.600)</span><span id="r3-net">—</span></div>
+          <div class="rr"><span>Tarif per kWh</span><span id="r3-tarif">—</span></div>
+          <div class="rr"><span>Perkiraan tahan</span><span id="r3-tahan">—</span></div>
+          <div class="rr"><span>Biaya per hari</span><span id="r3-perhari">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIMULASI HEMAT AC -->
+    <div class="tpanel" id="tab-simulasi">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Masukkan kondisi AC saat ini lalu geser slider — potensi penghematan tampil langsung.</p>
+      <div class="g2">
+        <div class="fld">
           <label>Golongan Listrik</label>
-          <select id="gol3" onchange="syncGolongan()">
-            <option value="450">450 VA subsidi (Rp 415/kWh)</option>
-            <option value="900s">900 VA subsidi (Rp 605/kWh)</option>
-            <option value="900">900 VA non-subsidi (Rp 1.352/kWh)</option>
-            <option value="1300" selected>1.300 VA (Rp 1.444,70/kWh)</option>
-            <option value="2200">2.200 VA (Rp 1.444,70/kWh)</option>
-            <option value="3500">3.500 VA+ (Rp 1.699,53/kWh)</option>
-          </select>
+          <div class="iw sw"><select id="gol4">
+            <option value="450sub">450 VA subsidi</option>
+            <option value="900sub">900 VA subsidi</option>
+            <option value="900non">900 VA non-subsidi</option>
+            <option value="1300" selected>1.300 VA</option>
+            <option value="2200">2.200 VA</option>
+            <option value="3500">3.500 VA+</option>
+          </select></div>
         </div>
-        <div class="field"><label>Nominal Token yang Dibeli (Rp)</label><input type="number" id="token-nominal" placeholder="Contoh: 100000" min="0"/></div>
-        <div class="field"><label>Rata-rata Pemakaian per Hari (kWh)</label><input type="number" id="token-daily" placeholder="Contoh: 5" min="0" step="0.1"/></div>
-        <button class="calc-btn" onclick="calculateToken()">Hitung Token</button>
-        <div id="res-token" style="display:none;margin-top:1rem">
-          <div id="tok-summary" style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
-          <div style="font-size:.85rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">💡 Potensi Penghematan Bulanan</div>
-          <div id="savings-list"></div>
+        <div class="fld">
+          <label>AC saat ini</label>
+          <div class="g2" style="gap:6px">
+            <div class="iw"><input type="number" id="sim-pk" value="1" min="0.5" max="5" step="0.5"><span class="iu">PK</span></div>
+            <div class="iw sw"><select id="sim-type"><option value="850">Non-inv</option><option value="500">Inverter</option></select></div>
+          </div>
         </div>
       </div>
+      <div class="fld">
+        <label>Jam pakai AC per hari saat ini</label>
+        <div class="iw" style="max-width:140px"><input type="number" id="sim-jam" value="8" min="1" max="24"><span class="iu">jam</span></div>
+      </div>
 
+      <div class="slev">
+        <div class="slev-h"><span>⏰ Kurangi jam pakai per hari</span></div>
+        <div class="ssw">
+          <input class="sslider" type="range" id="sl-jam" min="0" max="6" value="0" step="1" style="--pct:0%">
+          <span class="ssv" id="sv-jam">−0 jam</span>
+        </div>
+        <div class="ssav" id="sav-jam">Tidak ada pengurangan</div>
+      </div>
+      <div class="slev">
+        <div class="slev-h"><span>🌡️ Naikkan suhu AC (hemat konsumsi)</span></div>
+        <div class="ssw">
+          <input class="sslider" type="range" id="sl-suhu" min="0" max="40" value="0" step="5" style="--pct:0%">
+          <span class="ssv" id="sv-suhu">−0%</span>
+        </div>
+        <div class="ssav" id="sav-suhu">Tidak ubah suhu (20°C → hemat 0%)</div>
+      </div>
+      <div class="slev">
+        <div class="slev-h"><span>🔄 Ganti ke AC inverter</span></div>
+        <div class="ssw">
+          <input class="sslider" type="range" id="sl-inv" min="0" max="1" value="0" step="1" style="--pct:0%">
+          <span class="ssv" id="sv-inv">Tidak</span>
+        </div>
+        <div class="ssav" id="sav-inv">Non-inverter → inverter: hemat ~41% konsumsi AC</div>
+      </div>
+
+      <div class="savsum">
+        <div class="savval" id="sim-hemat">Rp 0</div>
+        <div class="savlbl">Potensi penghematan biaya AC per bulan</div>
+        <div class="savg">
+          <div class="savi"><div class="sv" id="sim-before">—</div><div class="sl">Biaya AC sekarang</div></div>
+          <div class="savi"><div class="sv" id="sim-after">—</div><div class="sl">Biaya AC setelah</div></div>
+          <div class="savi"><div class="sv" id="sim-year">—</div><div class="sl">Hemat per tahun</div></div>
+        </div>
+      </div>
+      <div class="notice">* 1 PK non-inverter ≈ 850W rata-rata, inverter ≈ 500W. Konsumsi aktual bervariasi per kondisi ruangan dan cuaca.</div>
+    </div>
+
+    <!-- BANDINGKAN -->
+    <div class="tpanel" id="tab-bandingkan">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Perbandingan estimasi tagihan semua golongan + simulasi kenaikan tarif PLN.</p>
+      <div class="g2">
+        <div class="fld">
+          <label>Pemakaian Bulanan (kWh)</label>
+          <div class="iw"><input type="number" id="cmp-kwh" value="150" min="0" step="10"><span class="iu">kWh</span></div>
+        </div>
+        <div class="fld">
+          <label>Golongan Anda</label>
+          <div class="iw sw"><select id="cmp-gol">
+            <option value="450sub">450 VA Subsidi</option>
+            <option value="900sub">900 VA Subsidi</option>
+            <option value="900non">900 VA Non-sub</option>
+            <option value="1300" selected>1.300 VA</option>
+            <option value="2200">2.200 VA</option>
+            <option value="3500">3.500 VA+</option>
+          </select></div>
+        </div>
+      </div>
+      <div class="sec-lbl">Perbandingan Semua Golongan Rumah Tangga</div>
+      <table class="ctbl">
+        <thead><tr><th>Golongan</th><th>Tarif/kWh</th><th>Abonemen</th><th>Tagihan</th></tr></thead>
+        <tbody id="cmp-tbody"></tbody>
+      </table>
+      <div class="sec-lbl" style="margin-top:16px">Simulasi Kenaikan Tarif PLN</div>
+      <table class="ctbl">
+        <thead><tr><th>Skenario</th><th>Tarif/kWh</th><th>Tagihan</th><th>Selisih</th></tr></thead>
+        <tbody id="hike-tbody"></tbody>
+      </table>
+      <div class="notice">* Simulasi kenaikan tarif untuk perencanaan saja. Tarif PLN diatur Kementerian ESDM.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+</div>
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Tarif PLN 2026</div>
+    <div class="card-b">
+      <div class="flist" id="tariff-list"></div>
+      <div class="notice" style="margin-top:10px">Klik golongan untuk isi semua kalkulator otomatis.</div>
     </div>
   </div>
-
-  <div class="content-area">
-    <h1>Kalkulator Tagihan Listrik PLN 2026 — Estimasi Biaya Listrik Rumah Tangga</h1>
-    <p class="page-desc">Hitung estimasi tagihan listrik PLN bulanan berdasarkan golongan daya dan pemakaian kWh. Lengkap dengan simulasi konsumsi per peralatan, estimasi token listrik, dan tips hemat yang efektif.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Tarif Listrik PLN 2026 untuk Rumah Tangga</h2>
-    <p>Tarif listrik PLN dibedakan berdasarkan golongan daya (VA) dan jenis pelanggan. Untuk rumah tangga, golongan yang paling umum adalah R-1 (900 VA, 1.300 VA, 2.200 VA). Penting untuk membedakan pelanggan <strong>900 VA bersubsidi</strong> (terdaftar di DTKS, tarif Rp 605/kWh) dengan <strong>900 VA non-subsidi/mampu</strong> (tarif Rp 1.352/kWh). Pelanggan 1.300 VA dan 2.200 VA dikenakan tarif Rp 1.444,70/kWh.</p>
-    <p style="font-size:.85rem;color:#8fa3b1"><em>Catatan: Tarif PLN dapat berubah sesuai kebijakan pemerintah. Angka ini berdasarkan tarif yang berlaku saat ini. Selalu cek tagihan atau website PLN (pln.co.id) untuk tarif terkini.</em></p>
-
-    <h2>Cara Menggunakan Kalkulator Listrik Ini</h2>
-    <ol>
-      <li><strong>Tab Tagihan Bulanan:</strong> Pilih golongan daya listrik Anda, masukkan pemakaian kWh dari struk tagihan atau meteran, lalu lihat estimasi tagihan beserta komposisinya.</li>
-      <li><strong>Tab Simulasi Peralatan:</strong> Masukkan jumlah dan durasi pemakaian setiap peralatan untuk mengetahui peralatan mana yang paling boros dan perkiraan tagihan total.</li>
-      <li><strong>Tab Token &amp; Hemat:</strong> Hitung berapa lama token Anda bertahan dan lihat potensi penghematan dari berbagai langkah efisiensi.</li>
-    </ol>
-
-    <h2>Konsumsi Listrik Peralatan Rumah Tangga Umum</h2>
-    <table>
-      <tr><th>Peralatan</th><th>Daya (Watt)</th><th>kWh/bulan (estimasi)</th></tr>
-      <tr><td>AC 1 PK non-inverter (8 jam/hari)</td><td>850–900 W</td><td>~200–220 kWh</td></tr>
-      <tr><td>AC 1 PK inverter (8 jam/hari)</td><td>400–600 W</td><td>~100–145 kWh</td></tr>
-      <tr><td>Kulkas 1 pintu</td><td>60–100 W</td><td>~30–40 kWh</td></tr>
-      <tr><td>TV LED 40 inci (5 jam/hari)</td><td>80–120 W</td><td>~12–18 kWh</td></tr>
-      <tr><td>Mesin cuci (8 kali/bulan)</td><td>300–500 W</td><td>~2,5–4 kWh</td></tr>
-      <tr><td>Pompa air (1 jam/hari)</td><td>125–200 W</td><td>~3,75–6 kWh</td></tr>
-      <tr><td>Rice cooker (2 kali masak/hari)</td><td>300–400 W</td><td>~10–14 kWh</td></tr>
-      <tr><td>Lampu LED 10W (8 jam/hari)</td><td>10 W</td><td>~2,4 kWh/lampu</td></tr>
-    </table>
-
-    <h2>Tips Hemat Listrik Paling Efektif</h2>
-    <p>AC adalah penyumbang terbesar tagihan listrik di rumah Indonesia, bisa mencapai 40–60% dari total konsumsi. Menaikkan suhu AC dari 20°C ke 26°C saja bisa menghemat 30–40% konsumsi AC. Gunakan mode sleep/timer dan bersihkan filter setiap 1–2 bulan. Pertimbangkan beralih ke AC inverter yang 30–50% lebih hemat dari non-inverter. Ganti lampu konvensional dengan LED yang 80% lebih hemat. Cabut peralatan dari colokan saat tidak digunakan — <em>vampire power</em> (konsumsi standby) bisa mencapai 5–10% dari total pemakaian bulanan.</p>
-
-    <h2>Cara Membaca Tagihan Listrik PLN</h2>
-    <p>Tagihan listrik PLN terdiri dari beberapa komponen: <strong>biaya pemakaian/energi</strong> (pemakaian kWh × tarif per kWh), <strong>biaya abonemen/beban</strong> (biaya tetap per bulan sesuai daya terpasang, dibayar meski tidak pakai listrik), dan <strong>PPJ (Pajak Penerangan Jalan)</strong> yang bervariasi per daerah umumnya 3–10% dari biaya energi. Untuk pelanggan prabayar (token), tidak ada biaya abonemen terpisah — semua sudah termasuk dalam harga per kWh token.</p>
-
-    <h2>Program Subsidi Listrik 2026: Siapa yang Berhak?</h2>
-    <p>PLN memberikan subsidi listrik bagi golongan tidak mampu yang terdaftar dalam Data Terpadu Kesejahteraan Sosial (DTKS) Kementerian Sosial. Per 2026, penerima subsidi listrik adalah rumah tangga daya 450 VA (subsidi penuh) dan rumah tangga daya 900 VA yang terdaftar sebagai keluarga kurang mampu di DTKS. Jika Anda termasuk kelompok kurang mampu namun belum menerima subsidi listrik, perbarui data di Kantor Desa/Kelurahan atau melalui portal aplikasi pemerintah setempat.</p>
-
-    <h2>Panel Surya untuk Rumah: Apakah Sepadan?</h2>
-    <p>Panel surya atap (PLTS) bisa sangat mengurangi tagihan listrik, bahkan hingga nol melalui skema net metering PLN (ekspor kelebihan produksi ke jaringan). Investasi awal untuk sistem 1–2 kWp berkisar Rp 15–25 juta, mampu memenuhi 50–80% kebutuhan listrik rumah tangga standar. Masa pengembalian investasi (payback period) umumnya 5–8 tahun. Dengan umur panel 20–25 tahun, keuntungan finansial jangka panjangnya signifikan — belum termasuk manfaat lingkungan.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara membaca meteran listrik kWh?</div><div class="faq-a">Pada meteran konvensional, catat angka yang tertera (biasanya 5–6 digit). Pemakaian bulan ini = angka meteran akhir bulan − angka meteran awal bulan. Untuk meteran digital/smart meter, angka langsung ditampilkan dalam kWh. PLN biasanya membaca meteran sekitar tanggal yang sama setiap bulan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kenapa tagihan listrik bisa tiba-tiba naik drastis?</div><div class="faq-a">Penyebab paling umum: cuaca panas (AC lebih sering menyala), penambahan peralatan baru, musim liburan (semua anggota keluarga di rumah), peralatan yang rusak dan menyedot daya berlebih, atau perubahan tarif PLN. Jika lonjakan sangat drastis tanpa alasan jelas, minta PLN melakukan pengecekan meteran untuk memastikan tidak ada kesalahan baca atau masalah teknis.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Prabayar (token) atau pascabayar — mana lebih hemat?</div><div class="faq-a">Tidak ada perbedaan tarif antara prabayar dan pascabayar untuk golongan yang sama. Namun banyak pengguna merasa lebih hemat dengan sistem token karena lebih sadar terhadap konsumsi (bisa memantau sisa kWh secara real-time di meteran). Prabayar juga menghilangkan risiko tunggakan dan biaya keterlambatan pembayaran.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa rata-rata tagihan listrik rumah tangga Indonesia per bulan?</div><div class="faq-a">Rata-rata rumah tangga dengan daya 1.300 VA dan pemakaian sedang (100–200 kWh) membayar sekitar Rp 150.000–Rp 300.000 per bulan. Rumah dengan AC bisa lebih tinggi, Rp 400.000–Rp 700.000+. Apartemen dengan pengelolaan gedung dan AC sentral biasanya lebih mahal.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu biaya abonemen listrik?</div><div class="faq-a">Abonemen adalah biaya tetap bulanan yang harus dibayar terlepas dari seberapa banyak listrik yang digunakan. Besarnya tergantung golongan daya yang terpasang — semakin besar daya (VA), semakin tinggi biaya abonemennya. Ini adalah kompensasi untuk "hak pakai" kapasitas daya yang sudah terpasang di rumah Anda. Untuk pelanggan token/prabayar, tidak ada tagihan abonemen terpisah.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah AC inverter benar-benar lebih hemat?</div><div class="faq-a">Ya, signifikan. AC inverter menggunakan kompresor yang bekerja dengan kecepatan variabel — melambat saat suhu target tercapai, lalu mempercepat saat perlu pendinginan lagi. Ini jauh lebih efisien dari AC non-inverter yang hanya bisa on/off. Penghematan listrik AC inverter bisa mencapai 30–50% dibanding non-inverter. Dengan biaya listrik AC yang bisa Rp 200.000–Rp 400.000/bulan, investasi lebih pada AC inverter biasanya balik modal dalam 1–2 tahun.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-bbm.html" class="related-item"><span class="ri">⛽</span>Kalkulator BBM</a>
-      <a href="/id/kalkulator-kos.html" class="related-item"><span class="ri">🏠</span>Kalkulator Kos</a>
-      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💰</span>Gaji Bersih</a>
-      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Hemat Listrik</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">❄️</span><span class="tptx"><strong>Suhu AC 26°C</strong> — hemat 30–40% konsumsi AC vs 20°C</span></div>
+        <div class="tip"><span class="tpico">💡</span><span class="tptx"><strong>Ganti ke LED</strong> — 80% lebih hemat vs lampu pijar</span></div>
+        <div class="tip"><span class="tpico">🔌</span><span class="tptx"><strong>Cabut saat tidak pakai</strong> — vampire power 5–10%</span></div>
+        <div class="tip"><span class="tpico">⚙️</span><span class="tptx"><strong>Bersihkan filter AC</strong> tiap 1–2 bulan — efisiensi naik 10–15%</span></div>
+        <div class="tip"><span class="tpico">🔄</span><span class="tptx"><strong>AC inverter</strong> — hemat 30–50% vs non-inverter</span></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-bbm" class="relc"><div class="relc-ico">⛽</div><div class="relc-nm">Kalkulator BBM</div><div class="relc-ds">Biaya bahan bakar</div></a>
+        <a href="/id/kalkulator-bpjs" class="relc"><div class="relc-ico">🏥</div><div class="relc-nm">BPJS</div><div class="relc-ds">Iuran kesehatan</div></a>
+        <a href="/id/kalkulator-pph-freelance" class="relc"><div class="relc-ico">💻</div><div class="relc-nm">PPh Freelancer</div><div class="relc-ds">Pajak penghasilan</div></a>
+        <a href="/id/kalkulator-gaji-bersih" class="relc"><div class="relc-ico">💵</div><div class="relc-nm">Gaji Bersih</div><div class="relc-ds">Take-home pay</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Tarif Listrik PLN 2026 untuk Rumah Tangga</h2>
+  <p>Tarif listrik PLN dibedakan berdasarkan golongan daya (VA) dan jenis pelanggan. Golongan paling umum untuk rumah tangga adalah R-1 (900 VA, 1.300 VA, 2.200 VA). Penting membedakan pelanggan <strong>900 VA bersubsidi</strong> (terdaftar di DTKS, tarif Rp 605/kWh) dengan <strong>900 VA non-subsidi</strong> (tarif Rp 1.352/kWh).</p>
+  <div class="stw"><table class="stbl">
+    <thead><tr><th>Golongan</th><th>Tarif/kWh</th><th>Abonemen/bln</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>R-1 450 VA</td><td>Rp 415</td><td>~Rp 11.000</td><td>Subsidi penuh — DTKS</td></tr>
+      <tr><td>R-1 900 VA subsidi</td><td>Rp 605</td><td>~Rp 20.000</td><td>Subsidi — terdaftar DTKS</td></tr>
+      <tr><td>R-1 900 VA non-subsidi</td><td>Rp 1.352</td><td>~Rp 40.000</td><td>Mampu / tidak di DTKS</td></tr>
+      <tr><td>R-1 1.300 VA</td><td>Rp 1.444,70</td><td>~Rp 56.000</td><td>Rumah tangga menengah</td></tr>
+      <tr><td>R-1 2.200 VA</td><td>Rp 1.444,70</td><td>~Rp 95.000</td><td>Rumah tangga besar</td></tr>
+      <tr><td>R-2 3.500–5.500 VA</td><td>Rp 1.699,53</td><td>~Rp 150.000</td><td>Premium</td></tr>
+    </tbody>
+  </table></div>
+  <h2>Cara Menghitung Tagihan Listrik PLN</h2>
+  <p>Tagihan terdiri dari: <strong>biaya energi</strong> (kWh × tarif), <strong>biaya abonemen</strong> (tetap per bulan, dibayar meski tidak pakai listrik), dan <strong>PPJ</strong> (Pajak Penerangan Jalan, bervariasi 3–10% per daerah).</p>
+  <h2>Kalkulator Terkait</h2>
+  <div class="relg">
+    <a href="/id/kalkulator-bbm" class="relc"><div class="relc-ico">⛽</div><div class="relc-nm">Kalkulator BBM</div><div class="relc-ds">Biaya bahan bakar</div></a>
+    <a href="/id/kalkulator-pph-freelance" class="relc"><div class="relc-ico">💻</div><div class="relc-nm">PPh Freelancer</div><div class="relc-ds">Pajak penghasilan</div></a>
+    <a href="/id/kalkulator-bpjs" class="relc"><div class="relc-ico">🏥</div><div class="relc-nm">BPJS Kesehatan</div><div class="relc-ds">Iuran BPJS bulanan</div></a>
+    <a href="/id/kalkulator-inflasi" class="relc"><div class="relc-ico">📈</div><div class="relc-nm">Inflasi</div><div class="relc-ds">Dampak inflasi</div></a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/" style="color:var(--tx3)">Beranda</a> · <a href="/id/kebijakan-privasi" style="color:var(--tx3)">Privasi</a></span>
 </footer>
-<script defer>
-const TARIFFS = {
-  '450': 415, '900s': 605, '900': 1352,
-  '1300': 1444.7, '2200': 1444.7,
-  '3500': 1699.53, '6600': 1699.53,
-  'b1': 1115, 'b2': 1372
+
+<script>
+const GOL={
+  '450sub':{label:'450 VA Subsidi',tarif:415,abonemen:11000},
+  '900sub':{label:'900 VA Subsidi',tarif:605,abonemen:20000},
+  '900non':{label:'900 VA Non-sub',tarif:1352,abonemen:40000},
+  '1300':{label:'1.300 VA',tarif:1444.70,abonemen:56000},
+  '2200':{label:'2.200 VA',tarif:1444.70,abonemen:95000},
+  '3500':{label:'3.500–5.500 VA',tarif:1699.53,abonemen:150000},
+  '6600':{label:'6.600 VA+',tarif:1699.53,abonemen:300000},
+  'b1':{label:'Bisnis ≤5.500 VA',tarif:1115,abonemen:88000},
+  'b2':{label:'Bisnis 6.600 kVA+',tarif:1372,abonemen:200000}
 };
-const ABONEMEN = {
-  '450': 11000, '900s': 11000, '900': 20000,
-  '1300': 40234, '2200': 67380,
-  '3500': 112560, '6600': 168210,
-  'b1': 40000, 'b2': 80000
-};
+const SKEYS=['450sub','900sub','900non','1300','2200','3500'];
+const COLORS=['#E85D04','#EA7B2C','#EC9353','#EDAA7A','#EFC2A1','#F0D9C8'];
 
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function kf(n){return+(Math.round(n*10)/10)+' kWh'}
+function v(id){return parseFloat(document.getElementById(id).value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
+
+function tab1(){
+  const g=GOL[document.getElementById('gol1').value]||GOL['1300'];
+  const kwh=v('kwh1'),ppjR=v('ppj1');
+  const e=kwh*g.tarif,ppj=e*(ppjR/100),tot=e+g.abonemen+ppj;
+  set('r1-total',rp(tot));set('r1-kwh',kwh+' kWh');
+  set('r1-tarif','Rp '+g.tarif.toLocaleString('id-ID',{maximumFractionDigits:0}));
+  set('r1-energi',rp(e));set('r1-abonemen',rp(g.abonemen));
+  set('r1-ppj',rp(ppj));set('r1-ppjpct',ppjR);set('r1-hari',rp(tot/30));
+  if(tot>0){
+    document.getElementById('b-energi').style.width=(e/tot*100)+'%';
+    document.getElementById('b-abonemen').style.width=(g.abonemen/tot*100)+'%';
+    document.getElementById('b-ppj').style.width=(ppj/tot*100)+'%';
+  }
 }
-
-function syncGolongan() {
-  const v = document.getElementById('golongan').value;
-  if (document.getElementById('gol2')) document.getElementById('gol2').value = v;
-  if (document.getElementById('gol3')) document.getElementById('gol3').value = v;
+function tab2(){
+  const g=GOL[document.getElementById('gol2').value]||GOL['1300'];
+  const inv=document.getElementById('ac-inv').checked;
+  const acK=v('ac-pk')*(inv?500:850)*v('ac-jam')*30/1000;
+  const kulK=v('kulkas-unit')*(parseFloat(document.getElementById('kulkas-type').value)||35);
+  const tvK=v('tv-unit')*100*v('tv-jam')*30/1000;
+  const mcK=v('mc-uses')*.5,pomK=v('pompa-jam')*150*30/1000;
+  const lamK=v('lampu-watt')*v('lampu-jam')*30/1000,lainK=v('lain-watt')*10*30/1000;
+  const tot=acK+kulK+tvK+mcK+pomK+lamK+lainK;
+  const total=tot*g.tarif+g.abonemen+tot*g.tarif*.03;
+  const fmt=kf;
+  set('ac-kwh',fmt(acK));set('kulkas-kwh',fmt(kulK));set('tv-kwh',fmt(tvK));
+  set('mc-kwh',fmt(mcK));set('pompa-kwh',fmt(pomK));set('lampu-kwh',fmt(lamK));set('lain-kwh',fmt(lainK));
+  set('r2-total',rp(total));set('r2-kwh',fmt(tot));
+  set('r2-ac',fmt(acK));set('r2-kulkas',fmt(kulK));set('r2-tv',fmt(tvK+lamK));set('r2-lain',fmt(mcK+pomK+lainK));
 }
-
-function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
-
-function calculateTagihan() {
-  const gol  = document.getElementById('golongan').value;
-  const kwh  = parseFloat(document.getElementById('kwh').value);
-  if (!kwh || kwh < 0) { alert('Masukkan pemakaian kWh yang valid.'); return; }
-
-  const rate    = TARIFFS[gol];
-  const abon    = ABONEMEN[gol] || 0;
-  const energi  = kwh * rate;
-  const ppj     = energi * 0.03;
-  const total   = energi + abon + ppj;
-  const totalPct = total > 0 ? total : 1;
-
-  document.getElementById('res-bill').textContent   = fmt(total);
-  document.getElementById('res-kwh').textContent    = kwh.toFixed(1).replace('.', ',') + ' kWh';
-  document.getElementById('res-rate').textContent   = 'Rp ' + rate.toLocaleString('id-ID') + '/kWh';
-  document.getElementById('res-energi').textContent = fmt(energi);
-  document.getElementById('res-abonemen').textContent = fmt(abon);
-  document.getElementById('res-ppj').textContent    = fmt(ppj) + ' (3% estimasi)';
-  document.getElementById('res-daily').textContent  = fmt(total / 30) + '/hari';
-
-  document.getElementById('ub-energi').style.width = (energi / totalPct * 100).toFixed(1) + '%';
-  document.getElementById('ub-abon').style.width   = (abon / totalPct * 100).toFixed(1) + '%';
-  document.getElementById('ub-ppj').style.width    = (ppj / totalPct * 100).toFixed(1) + '%';
-
-  document.getElementById('res-tagihan').classList.add('show');
+function tab3(){
+  const g=GOL[document.getElementById('gol3').value]||GOL['1300'];
+  const nom=v('tok-nom'),hari=v('tok-hari');
+  const net=Math.max(0,nom-1600),kwh=net/g.tarif,days=hari>0?kwh/hari:0;
+  set('r3-kwh',kwh.toFixed(1)+' kWh');set('r3-net',rp(net));
+  set('r3-tarif','Rp '+g.tarif.toLocaleString('id-ID',{maximumFractionDigits:0})+'/kWh');
+  set('r3-tahan',days>0?Math.round(days)+' hari':'—');
+  set('r3-perhari',days>0?rp(nom/days)+'/hari':'—');
 }
-
-function calculatePeralatan() {
-  const gol = document.getElementById('gol2').value;
-  const rate = TARIFFS[gol];
-  const abon = ABONEMEN[gol] || 0;
-  const days = 30;
-
-  const acH   = parseFloat(document.getElementById('ac-hours').value) || 0;
-  const kulkas= parseFloat(document.getElementById('kulkas').value) || 0;
-  const tvH   = parseFloat(document.getElementById('tv-hours').value) || 0;
-  const wash  = parseFloat(document.getElementById('washer').value) || 0;
-  const pumpH = parseFloat(document.getElementById('pump-hours').value) || 0;
-  const lW    = parseFloat(document.getElementById('lights-watt').value) || 0;
-  const othW  = parseFloat(document.getElementById('other-watt').value) || 0;
-
-  const devices = [
-    { name: 'AC', kwh: acH * 0.85 * days },
-    { name: 'Kulkas', kwh: kulkas * 35 },
-    { name: 'TV LED', kwh: tvH * 0.1 * days },
-    { name: 'Mesin cuci', kwh: wash * 0.5 },
-    { name: 'Pompa air', kwh: pumpH * 0.15 * days },
-    { name: 'Lampu', kwh: (lW / 1000) * 8 * days },
-    { name: 'Lain-lain', kwh: (othW / 1000) * 10 * days },
-  ].filter(d => d.kwh > 0);
-
-  const totalKwh = devices.reduce((s, d) => s + d.kwh, 0);
-  if (totalKwh <= 0) { alert('Masukkan setidaknya satu peralatan.'); return; }
-
-  const totalBill = totalKwh * rate + abon;
-  document.getElementById('per-total-bill').textContent = fmt(totalBill) + ' (~' + totalKwh.toFixed(1) + ' kWh)';
-
-  const colors = ['#00C9B1','#3b82f6','#8b5cf6','#f59e0b','#ef4444','#10b981','#6366f1'];
-  let deviceHtml = '';
-  devices.forEach((d, i) => {
-    const cost = d.kwh * rate;
-    deviceHtml += `<div class="device-row">
-      <span class="device-label">${d.name}</span>
-      <span class="device-kwh">${d.kwh.toFixed(1)} kWh</span>
-      <span class="device-cost">${fmt(cost)}</span>
-    </div>`;
+function updateSlider(sl){
+  const pct=((sl.value-sl.min)/(sl.max-sl.min)*100);
+  sl.style.setProperty('--pct',pct+'%');
+  const lev=sl.closest('.slev');
+  if(lev)lev.classList.toggle('ok',parseFloat(sl.value)>0);
+}
+function tab4(){
+  const g=GOL[document.getElementById('gol4').value]||GOL['1300'];
+  const pk=v('sim-pk'),jam=v('sim-jam'),typeW=parseFloat(document.getElementById('sim-type').value)||850;
+  const rJ=parseFloat(document.getElementById('sl-jam').value)||0;
+  const rS=(parseFloat(document.getElementById('sl-suhu').value)||0)/100;
+  const gI=parseFloat(document.getElementById('sl-inv').value)||0;
+  ['sl-jam','sl-suhu','sl-inv'].forEach(id=>updateSlider(document.getElementById(id)));
+  set('sv-jam','−'+rJ+' jam');
+  set('sv-suhu','−'+(parseFloat(document.getElementById('sl-suhu').value))+'%');
+  set('sv-inv',gI?'Ya':'Tidak');
+  const before=pk*typeW*jam*30/1000*g.tarif;
+  const wA=gI?500:typeW,jA=Math.max(0,jam-rJ);
+  const after=pk*wA*jA*30/1000*(1-rS)*g.tarif;
+  const hemat=Math.max(0,before-after);
+  set('sim-hemat',rp(hemat));
+  set('sim-before',rp(before)+'/bln');set('sim-after',rp(after)+'/bln');set('sim-year',rp(hemat*12)+'/thn');
+  set('sav-jam',rJ>0?`Kurangi ${rJ} jam → hemat ${rp(pk*typeW*rJ*30/1000*g.tarif)}/bln`:'Tidak ada pengurangan');
+  set('sav-suhu',rS>0?`Naikkan suhu → hemat ${(rS*100).toFixed(0)}% konsumsi AC`:'Tidak ubah suhu (20°C)');
+  set('sav-inv',gI?`Ganti ke inverter → hemat ${rp((pk*typeW-pk*500)*jam*30/1000*g.tarif)}/bln`:'Non-inverter → inverter: hemat ~41% konsumsi AC');
+}
+function tab5(){
+  const kwh=v('cmp-kwh'),active=document.getElementById('cmp-gol').value;
+  const tbody=document.getElementById('cmp-tbody');
+  tbody.innerHTML='';
+  SKEYS.forEach(k=>{
+    const g=GOL[k];const e=kwh*g.tarif;const t=e+g.abonemen+e*.03;
+    const tr=document.createElement('tr');if(k===active)tr.className='hi';
+    tr.innerHTML=`<td>${g.label}${k===active?' ✓':''}</td><td class="mo">Rp ${g.tarif.toLocaleString('id-ID',{maximumFractionDigits:0})}</td><td class="mo">${rp(g.abonemen)}</td><td class="mo">${rp(t)}</td>`;
+    tbody.appendChild(tr);
   });
-  document.getElementById('per-device-list').innerHTML = deviceHtml;
-
-  let barHtml = '', legendHtml = '';
-  devices.forEach((d, i) => {
-    const pct = (d.kwh / totalKwh * 100).toFixed(1);
-    barHtml += `<div class="ub-seg" style="background:${colors[i%colors.length]};width:${pct}%"></div>`;
-    legendHtml += `<span><span class="leg-dot" style="background:${colors[i%colors.length]}"></span>${d.name} ${pct}%</span>`;
+  const g=GOL[active]||GOL['1300'];
+  const base=kwh*g.tarif+g.abonemen+kwh*g.tarif*.03;
+  const ht=document.getElementById('hike-tbody');ht.innerHTML='';
+  [0,5,10,15,20,30].forEach(pct=>{
+    const t2=g.tarif*(1+pct/100);const tot=kwh*t2+g.abonemen+kwh*t2*.03;
+    const tr=document.createElement('tr');if(pct===0)tr.className='hi';
+    tr.innerHTML=`<td>${pct===0?'Tarif saat ini':'Naik '+pct+'%'}</td><td class="mo">Rp ${Math.round(t2).toLocaleString('id-ID')}/kWh</td><td class="mo">${rp(tot)}</td><td class="mo">${pct===0?'—':'+'+rp(tot-base)}</td>`;
+    ht.appendChild(tr);
   });
-  document.getElementById('per-usage-bar').innerHTML = barHtml;
-  document.getElementById('per-legend').innerHTML = legendHtml;
-  document.getElementById('res-peralatan').style.display = 'block';
 }
-
-function calculateToken() {
-  const gol     = document.getElementById('gol3').value;
-  const rate    = TARIFFS[gol];
-  const nominal = parseFloat(document.getElementById('token-nominal').value);
-  const daily   = parseFloat(document.getElementById('token-daily').value);
-  if (!nominal || nominal <= 0) { alert('Masukkan nominal token yang valid.'); return; }
-
-  // Token kWh = nominal * 0.95 / rate (approximation, ~5% admin fee)
-  const kwhToken = (nominal * 0.95) / rate;
-  const days = daily > 0 ? kwhToken / daily : null;
-
-  document.getElementById('tok-summary').innerHTML =
-    `Token <strong>${fmt(nominal)}</strong> menghasilkan sekitar <strong>${kwhToken.toFixed(1)} kWh</strong> bersih (setelah admin ~5%).` +
-    (days ? ` Dengan pemakaian <strong>${daily} kWh/hari</strong>, token cukup untuk sekitar <strong>${days.toFixed(1)} hari</strong>.` : '');
-
-  const savings = [
-    ['Naikkan suhu AC dari 20°C → 26°C', Math.round(daily > 0 ? daily * 0.35 * 30 * rate : 0)],
-    ['Matikan AC saat tidur (hemat 2 jam/hari)', Math.round(daily > 0 ? 2 * 0.85 * 30 * rate : 0)],
-    ['Ganti AC non-inverter → inverter', Math.round(daily > 0 ? daily * 0.30 * 30 * rate : 0)],
-    ['Cabut peralatan standby (vampire power)', Math.round(daily > 0 ? daily * 0.07 * 30 * rate : 0)],
-  ];
-
-  document.getElementById('savings-list').innerHTML = savings.map(([tip, save]) => `
-    <div class="saving-item">
-      <span>${tip}</span>
-      <span class="saving-amount">${save > 0 ? 'Hemat ~' + fmt(save) + '/bln' : '—'}</span>
+function renderSidebar(){
+  document.getElementById('tariff-list').innerHTML=SKEYS.map((k,i)=>`
+    <div class="frow" data-gol="${k}" onclick="setAll('${k}')">
+      <div class="frl"><div class="fdot" style="background:${COLORS[i]}"></div>
+        <div><div class="fn">${GOL[k].label}</div><div class="fron">Abonemen ≈ ${rp(GOL[k].abonemen)}/bln</div></div>
+      </div>
+      <div class="fprice">Rp ${GOL[k].tarif.toLocaleString('id-ID',{maximumFractionDigits:0})}</div>
     </div>`).join('');
-
-  document.getElementById('res-token').style.display = 'block';
 }
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculateTagihan(); });
+function setAll(key){
+  ['gol1','gol2','gol3','gol4','cmp-gol'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=key});
+  document.querySelectorAll('.frow[data-gol]').forEach(r=>r.classList.toggle('on',r.dataset.gol===key));
+  calcAll();
+}
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+['sl-jam','sl-suhu','sl-inv'].forEach(id=>document.getElementById(id).addEventListener('input',tab4));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['gol1','kwh1','ppj1'],tab1);
+listen(['gol2','ac-pk','ac-jam','ac-inv','kulkas-unit','kulkas-type','tv-unit','tv-jam','mc-uses','pompa-jam','lampu-watt','lampu-jam','lain-watt'],tab2);
+listen(['gol3','tok-nom','tok-hari'],tab3);
+listen(['gol4','sim-pk','sim-jam','sim-type'],tab4);
+listen(['cmp-kwh','cmp-gol'],tab5);
+function calcAll(){tab1();tab2();tab3();tab4();tab5();}
+renderSidebar();calcAll();
 </script>
 </body>
 </html>
