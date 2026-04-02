@@ -1,395 +1,605 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Biaya Kos 2026 — Hitung & Bandingkan Harga Sewa Kos | NovaCalcs</title>
-<meta name="description" content="Hitung total biaya kos bulanan termasuk listrik, air, dan Wi-Fi. Bandingkan dua pilihan kos, hitung break-even kontrak tahunan, dan cari tahu batas ideal anggaran kos dari gaji Anda."/>
-<meta name="keywords" content="kalkulator kos, biaya kos bulanan, harga sewa kos, perbandingan kos, deposit kos, kos kontrak tahunan, budget kos gaji"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kos.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-kos.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.cost-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:.4rem 0}
-.cb-seg{height:100%;transition:width .4s}
-.cb-legend{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.72rem;color:#8fa3b1;margin-top:.25rem}
-.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
-.cmp-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.8rem;text-align:center}
-.cmp-card.winner{border-color:rgba(0,201,177,.4);background:rgba(0,201,177,.06)}
-.cmp-name{font-size:.78rem;color:#8fa3b1;margin-bottom:.25rem}
-.cmp-val{font-size:1.05rem;font-weight:700;color:#fff}
-.cmp-sub{font-size:.72rem;color:#6b7c8d;margin-top:.2rem}
-.winner-badge{display:inline-block;background:#00C9B1;color:#0d1b2a;font-size:.65rem;font-weight:700;padding:.1rem .4rem;border-radius:5px;margin-bottom:.3rem}
-.budget-bar{height:10px;background:rgba(255,255,255,.07);border-radius:5px;margin:.3rem 0;overflow:hidden}
-.budget-fill{height:100%;border-radius:5px;transition:width .5s}
-.budget-item{padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.83rem;display:flex;justify-content:space-between}
-.budget-item:last-child{border-bottom:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Biaya Kos 2026 — Total Biaya Bulanan, Kos vs Kontrak & Budget Hidup | NovaCalcs</title>
+  <meta name="description" content="Kalkulator biaya kos 2026: hitung total biaya bulanan tinggal di kos, bandingkan kos vs kontrak rumah, dan buat budget hidup lengkap. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kos">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:12px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:4px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:9px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:50px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{width:100%;padding:9px 32px 9px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;appearance:none;cursor:pointer}
+    .sw select:focus{border-color:var(--pri)}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* BIAYA ROWS */
+    .biaya-section{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-bottom:14px}
+    .biaya-header{background:var(--sur2);padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .biaya-row{display:grid;grid-template-columns:1fr 130px;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--bor)}
+    .biaya-row:last-child{border-bottom:none}
+    .biaya-lbl{font-size:12px;font-weight:600}
+    .biaya-sub{font-size:10px;color:var(--tx3);font-weight:400}
+    .biaya-inp{width:100%}
+    .biaya-inp input{width:100%;padding:5px 7px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:12px;font-weight:700;text-align:right;background:var(--sur);outline:none;appearance:none}
+    .biaya-inp input:focus{border-color:var(--pri)}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* PIE-LIKE BAR */
+    .budget-vis{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+    .bv-row{display:flex;align-items:center;gap:8px;font-size:11px}
+    .bv-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .bv-lbl{flex:1;color:var(--tx2)}
+    .bv-pct{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;min-width:35px;text-align:right}
+    .bv-bar-bg{width:80px;height:8px;background:var(--sur2);border-radius:4px;overflow:hidden}
+    .bv-bar-fill{height:100%;border-radius:4px;transition:width .4s}
+    .bv-val{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;min-width:70px;text-align:right;color:var(--pri)}
+    /* KOS TIPE */
+    .tipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px}
+    .tipe-card{border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;cursor:pointer;transition:all .15s}
+    .tipe-card:hover{border-color:var(--pri)}
+    .tipe-card.sel{border-color:var(--pri);background:var(--pri-l)}
+    .tipe-ico{font-size:20px;margin-bottom:6px}
+    .tipe-nm{font-size:12px;font-weight:700}
+    .tipe-harga{font-family:'DM Mono',monospace;font-size:13px;font-weight:800;color:var(--pri);margin-top:3px}
+    .tipe-feat{font-size:9px;color:var(--tx3);margin-top:3px;line-height:1.4}
+    /* VS COMPARE */
+    .vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    @media(max-width:480px){.vs-grid{grid-template-columns:1fr}}
+    .vs-card{border-radius:var(--rs);padding:14px;border:1.5px solid var(--bor)}
+    .vs-card.kos{background:var(--pri-l);border-color:#ffd4b3}
+    .vs-card.kontrak{background:var(--grn-b);border-color:#86efac}
+    .vs-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+    .vs-card.kos .vs-lbl{color:var(--pri)}.vs-card.kontrak .vs-lbl{color:var(--grn)}
+    .vs-val{font-family:'DM Mono',monospace;font-size:20px;font-weight:800}
+    .vs-card.kos .vs-val{color:var(--pri)}.vs-card.kontrak .vs-val{color:var(--grn)}
+    .vs-sub{font-size:10px;color:var(--tx3);margin-top:4px;line-height:1.5}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Kos</span>
-    </nav>
+
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Kos</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🏠 Biaya Kos</div>
+  <h1 class="hdr-h1">Kalkulator Biaya Kos 2026</h1>
+  <p class="hdr-sub">Hitung total biaya bulanan tinggal di kos, bandingkan kos vs kontrak rumah, dan buat budget hidup lengkap. Cocok untuk mahasiswa, pekerja muda & rantau.</p>
+  <div class="pstrip">
+    <div class="pchip">Biaya total <span>sewa + listrik + makan</span></div>
+    <div class="pchip">Kos Jakarta <span>800rb–5 jt/bln</span></div>
+    <div class="pchip">Kos Jogja/Solo <span>400rb–2 jt/bln</span></div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🏠 Kalkulator Biaya Kos</div>
-      <div class="calc-subtitle">Hitung, bandingkan, dan rencanakan anggaran kos Anda</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-hitung',this)">🧮 Hitung Kos</button>
-        <button class="tab-btn" onclick="showTab('tab-banding',this)">⚖️ Bandingkan 2 Kos</button>
-        <button class="tab-btn" onclick="showTab('tab-budget',this)">💰 Budget Planner</button>
+<main class="main">
+<div class="left-col">
+
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🏠</div>Kalkulator Biaya Kos</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="biaya">💰 Total Biaya Bulanan</button>
+      <button class="tbtn" data-tab="vs">🏘️ Kos vs Kontrak</button>
+    </div>
+
+    <!-- TOTAL BIAYA -->
+    <div class="tpanel on" id="tab-biaya">
+      <!-- SEWA & TEMPAT -->
+      <div class="biaya-section">
+        <div class="biaya-header">🏠 Biaya Tempat Tinggal</div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Sewa Kos per Bulan</div><div class="biaya-sub">Harga bulanan / (harga tahunan ÷ 12)</div></div>
+          <div class="biaya-inp"><input type="number" id="b-sewa" value="1500000" min="0" step="50000"></div>
+        </div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Listrik per Bulan</div><div class="biaya-sub">Token/tagihan, estimasi</div></div>
+          <div class="biaya-inp"><input type="number" id="b-listrik" value="150000" min="0" step="10000"></div>
+        </div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Air & Internet</div><div class="biaya-sub">Jika tidak sudah termasuk sewa</div></div>
+          <div class="biaya-inp"><input type="number" id="b-air" value="100000" min="0" step="10000"></div>
+        </div>
       </div>
-
-      <!-- TAB 1: HITUNG KOS -->
-      <div id="tab-hitung" class="tab-pane active">
-        <div class="field"><label>Sewa Bulanan (Rp)</label><input type="number" id="sewa-bulan" placeholder="Contoh: 1500000" min="0"/></div>
-        <div class="field"><label>Sewa Kontrak Tahunan (Rp) — opsional untuk cek penghematan</label><input type="number" id="sewa-tahun" placeholder="Contoh: 15000000" min="0"/></div>
-        <div class="field"><label>Uang Deposit / Jaminan (Rp)</label><input type="number" id="deposit" placeholder="Biasanya 1 bulan sewa" min="0"/></div>
-        <div class="field"><label>Biaya Listrik per Bulan (Rp)</label><input type="number" id="listrik" placeholder="Contoh: 200000" min="0" value="0"/></div>
-        <div class="field"><label>Biaya Air per Bulan (Rp)</label><input type="number" id="air" placeholder="Contoh: 50000" min="0" value="0"/></div>
-        <div class="field"><label>Biaya Wi-Fi per Bulan (Rp)</label><input type="number" id="wifi" placeholder="Contoh: 100000" min="0" value="0"/></div>
-        <div class="field"><label>Rencana Lama Tinggal (bulan)</label><input type="number" id="durasi" placeholder="Contoh: 12" min="1" max="120" value="12"/></div>
-        <button class="calc-btn" onclick="calculateKos()">Hitung Total Biaya</button>
-
-        <div class="result-panel" id="res-kos">
-          <div class="result-main">
-            <div class="result-value" id="res-total">—</div>
-            <div class="result-label">Total Pengeluaran Selama Tinggal</div>
-          </div>
-          <!-- Cost breakdown bar -->
-          <div style="margin:.6rem 0">
-            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.2rem">Komposisi Biaya Bulanan</div>
-            <div class="cost-bar" id="cost-bar"></div>
-            <div class="cb-legend" id="cost-legend"></div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">Biaya bulanan all-in</span><span class="rval" id="res-per-bulan">—</span></div>
-            <div class="result-row"><span class="rkey">Total sewa selama tinggal</span><span class="rval" id="res-sewa-total">—</span></div>
-            <div class="result-row"><span class="rkey">Deposit (idealnya kembali saat keluar)</span><span class="rval" id="res-deposit">—</span></div>
-            <div class="result-row" id="hemat-row" style="display:none"><span class="rkey">Hemat dengan kontrak tahunan</span><span class="rval" id="res-hemat">—</span></div>
-            <div class="result-row" id="be-row" style="display:none"><span class="rkey">Break-even kontrak (min. lama tinggal)</span><span class="rval" id="res-be">—</span></div>
-          </div>
+      <!-- MAKAN & TRANSPORTASI -->
+      <div class="biaya-section">
+        <div class="biaya-header">🍚 Makan & Transportasi</div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Makan per Hari × 30</div><div class="biaya-sub">Rata-rata pengeluaran makan/hari</div></div>
+          <div class="biaya-inp"><input type="number" id="b-makan" value="50000" min="0" step="5000"></div>
+        </div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Transportasi per Bulan</div><div class="biaya-sub">Ojol, bensin, angkutan umum</div></div>
+          <div class="biaya-inp"><input type="number" id="b-transport" value="300000" min="0" step="50000"></div>
+        </div>
+      </div>
+      <!-- LAINNYA -->
+      <div class="biaya-section">
+        <div class="biaya-header">🛒 Kebutuhan Lainnya</div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Laundry</div><div class="biaya-sub">Jika tidak ada mesin cuci di kos</div></div>
+          <div class="biaya-inp"><input type="number" id="b-laundry" value="80000" min="0" step="10000"></div>
+        </div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Belanja Bulanan</div><div class="biaya-sub">Sabun, sampo, perlengkapan pribadi</div></div>
+          <div class="biaya-inp"><input type="number" id="b-belanja" value="150000" min="0" step="10000"></div>
+        </div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Hiburan & Sosial</div><div class="biaya-sub">Nongkrong, streaming, dll.</div></div>
+          <div class="biaya-inp"><input type="number" id="b-hiburan" value="200000" min="0" step="50000"></div>
+        </div>
+        <div class="biaya-row">
+          <div><div class="biaya-lbl">Lain-lain / Darurat</div><div class="biaya-sub">Buffer tak terduga</div></div>
+          <div class="biaya-inp"><input type="number" id="b-lain" value="100000" min="0" step="50000"></div>
         </div>
       </div>
 
-      <!-- TAB 2: BANDINGKAN 2 KOS -->
-      <div id="tab-banding" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Masukkan detail dua pilihan kos untuk dibandingkan secara langsung.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
-          <div>
-            <div style="font-size:.8rem;font-weight:600;color:#00C9B1;margin-bottom:.5rem">🏠 Kos A</div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Sewa/bulan (Rp)</label><input type="number" id="a-sewa" placeholder="1500000" min="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Listrik/bulan (Rp)</label><input type="number" id="a-listrik" placeholder="200000" min="0" value="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Air/bulan (Rp)</label><input type="number" id="a-air" placeholder="50000" min="0" value="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Wi-Fi/bulan (Rp)</label><input type="number" id="a-wifi" placeholder="0" min="0" value="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Deposit (Rp)</label><input type="number" id="a-deposit" placeholder="1500000" min="0" value="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Jarak ke kantor/kampus (km)</label><input type="number" id="a-jarak" placeholder="2" min="0" step="0.1" value="0"/></div>
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Total Pengeluaran per Bulan</div>
+            <div class="rv lg" id="b-total">—</div>
           </div>
-          <div>
-            <div style="font-size:.8rem;font-weight:600;color:#3b82f6;margin-bottom:.5rem">🏠 Kos B</div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Sewa/bulan (Rp)</label><input type="number" id="b-sewa" placeholder="1200000" min="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Listrik/bulan (Rp)</label><input type="number" id="b-listrik" placeholder="150000" min="0" value="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Air/bulan (Rp)</label><input type="number" id="b-air" placeholder="50000" min="0" value="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Wi-Fi/bulan (Rp)</label><input type="number" id="b-wifi" placeholder="100000" min="0" value="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Deposit (Rp)</label><input type="number" id="b-deposit" placeholder="1200000" min="0" value="0"/></div>
-            <div class="field" style="margin-bottom:.5rem"><label style="font-size:.75rem">Jarak ke kantor/kampus (km)</label><input type="number" id="b-jarak" placeholder="5" min="0" step="0.1" value="0"/></div>
+          <div class="ri">
+            <div class="rl">Total per Tahun</div>
+            <div class="rv sm" id="b-tahun">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">% Sewa dari Total</div>
+            <div class="rv sm" id="b-sewa-pct">—</div>
           </div>
         </div>
-        <div class="field"><label>Lama Tinggal Rencana (bulan)</label><input type="number" id="cmp-durasi" placeholder="12" min="1" value="12"/></div>
-        <div class="field"><label>Estimasi Biaya Transportasi per km (Rp)</label><input type="number" id="cmp-transport" placeholder="Contoh: 5000 per km per hari" value="5000" min="0"/><small style="color:#7a8fa0">Biaya ojek/bensin per km, estimasi untuk 22 hari kerja/bulan</small></div>
-        <button class="calc-btn" onclick="calculateBanding()">Bandingkan Sekarang</button>
-        <div id="res-banding" style="display:none;margin-top:1rem">
-          <div id="banding-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
-          <div class="compare-grid" id="compare-cards"></div>
+        <div class="rrows">
+          <div class="rr"><span>Biaya tempat tinggal</span><span id="b-tempat-sub">—</span></div>
+          <div class="rr"><span>Makan per bulan (×30 hari)</span><span id="b-makan-bln">—</span></div>
+          <div class="rr"><span>Transportasi</span><span id="b-trans-show">—</span></div>
+          <div class="rr"><span>Lainnya (laundry, belanja, hiburan, dll.)</span><span id="b-lainnya">—</span></div>
         </div>
       </div>
 
-      <!-- TAB 3: BUDGET PLANNER -->
-      <div id="tab-budget" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Cek apakah biaya kos Anda masih dalam batas ideal dari penghasilan, dan lihat simulasi pengeluaran bulanan lengkap.</p>
-        <div class="field"><label>Penghasilan Bersih per Bulan (Rp)</label><input type="number" id="bp-income" placeholder="Contoh: 5000000" min="0"/></div>
-        <div class="field"><label>Biaya Kos All-in per Bulan (Rp)</label><input type="number" id="bp-kos" placeholder="Contoh: 1800000" min="0"/></div>
-        <div class="field"><label>Biaya Makan per Bulan (Rp)</label><input type="number" id="bp-makan" placeholder="Contoh: 1500000" min="0" value="0"/></div>
-        <div class="field"><label>Biaya Transportasi per Bulan (Rp)</label><input type="number" id="bp-transport" placeholder="Contoh: 500000" min="0" value="0"/></div>
-        <div class="field"><label>Biaya Lain-lain per Bulan (Rp)</label><input type="number" id="bp-other" placeholder="Contoh: 500000" min="0" value="0"/></div>
-        <button class="calc-btn" onclick="calculateBudget()">Analisis Budget</button>
-        <div id="res-budget" style="display:none;margin-top:1rem">
-          <div id="bp-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
-          <div style="font-size:.8rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">Rincian Pengeluaran Bulanan</div>
-          <div id="bp-items"></div>
-          <div style="font-size:.8rem;font-weight:600;color:#8fa3b1;margin:.75rem 0 .25rem">Proporsi Pengeluaran</div>
-          <div class="cost-bar" id="bp-bar"></div>
-          <div class="cb-legend" id="bp-legend"></div>
-          <div style="margin-top:.75rem;padding:.6rem;background:rgba(0,201,177,.07);border-radius:8px;font-size:.82rem" id="bp-advice"></div>
+      <div class="sec-lbl">Distribusi Pengeluaran</div>
+      <div class="budget-vis" id="b-vis"></div>
+    </div>
+
+    <!-- KOS vs KONTRAK -->
+    <div class="tpanel" id="tab-vs">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Kos lebih fleksibel tapi bisa lebih mahal per m². Kontrak lebih murah per bulan jika berbagi dengan teman. Hitung mana yang lebih hemat.</p>
+      <div class="sec-lbl">🏠 Kos (per orang)</div>
+      <div class="g2">
+        <div class="fld">
+          <label>Sewa Kos / Bulan (Rp)</label>
+          <div class="iw"><input type="number" id="k-sewa" value="1500000" min="0" step="100000"></div>
+        </div>
+        <div class="fld">
+          <label>Fasilitas Tambahan Kos / Bulan</label>
+          <div class="iw"><input type="number" id="k-fasilitas" value="200000" min="0" step="50000"></div>
+          <div style="font-size:10px;color:var(--tx3);margin-top:3px">Listrik, air, internet (jika terpisah)</div>
+        </div>
+      </div>
+      <div class="sec-lbl">🏘️ Kontrak Rumah (dibagi bersama)</div>
+      <div class="g2">
+        <div class="fld">
+          <label>Sewa Kontrak / Tahun (Rp)</label>
+          <div class="iw"><input type="number" id="kr-sewa" value="18000000" min="0" step="1000000"></div>
+        </div>
+        <div class="fld">
+          <label>Jumlah Orang yang Berbagi</label>
+          <div class="iw"><input type="number" id="kr-orang" value="2" min="1" max="10" step="1"><span class="iu">orang</span></div>
+          <div class="presets">
+            <button class="pb" data-val="1" data-for="kr-orang">1</button>
+            <button class="pb on" data-val="2" data-for="kr-orang">2</button>
+            <button class="pb" data-val="3" data-for="kr-orang">3</button>
+            <button class="pb" data-val="4" data-for="kr-orang">4</button>
+          </div>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Utilitas Kontrak per Bulan (Listrik, Air, Internet)</label>
+        <div class="iw"><input type="number" id="kr-util" value="500000" min="0" step="50000"></div>
+      </div>
+
+      <div class="vs-grid">
+        <div class="vs-card kos">
+          <div class="vs-lbl">🏠 Kos (per orang)</div>
+          <div class="vs-val" id="vs-kos">—</div>
+          <div class="vs-sub">per bulan semua biaya<br>Deposit: <span id="vs-kos-deposit">—</span><br>Fleksibel, tidak perlu teman</div>
+        </div>
+        <div class="vs-card kontrak">
+          <div class="vs-lbl">🏘️ Kontrak (per orang)</div>
+          <div class="vs-val" id="vs-kontrak">—</div>
+          <div class="vs-sub">per bulan semua biaya<br>Deposit: <span id="vs-kontrak-deposit">—</span><br>Lebih luas, butuh komitmen</div>
         </div>
       </div>
 
+      <div class="lres" style="margin-top:12px">
+        <div class="rrows" style="border:none;padding:0">
+          <div class="rr"><span>Lebih hemat dengan</span><span id="vs-lebih-hemat">—</span></div>
+          <div class="rr"><span>Selisih per bulan</span><span id="vs-selisih">—</span></div>
+          <div class="rr"><span>Selisih per tahun</span><span id="vs-selisih-thn">—</span></div>
+        </div>
+      </div>
+      <div class="notice info" style="margin-top:10px">💡 Pertimbangkan juga: kontrak membutuhkan deposit (biasanya 1–2 bulan sewa) + risiko jika teman pindah tiba-tiba. Kos lebih mudah pindah kapan saja (minimal 1 bulan notice).</div>
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator Biaya Kos — Hitung Total Pengeluaran dan Bandingkan Pilihan Sewa 2026</h1>
-    <p class="page-desc">Memilih kos yang tepat bukan hanya soal harga sewa, melainkan total biaya all-in termasuk listrik, air, dan Wi-Fi. Kalkulator ini membantu Anda menghitung, membandingkan, dan merencanakan anggaran kos secara menyeluruh.</p>
+<!-- ② PERBANDINGAN TIPE KOS -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🏘️</div>Perbandingan Tipe Kos <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Pilih kota dan tipe kos untuk melihat estimasi harga pasar dan biaya total bulanan. Data estimasi berdasarkan rata-rata 2025–2026.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Kota</label>
+        <div class="sw"><select id="tp-kota" onchange="calcTipe()">
+          <option value="jakarta">Jakarta</option>
+          <option value="bandung">Bandung</option>
+          <option value="surabaya">Surabaya</option>
+          <option value="yogyakarta" selected>Yogyakarta</option>
+          <option value="medan">Medan</option>
+          <option value="semarang">Semarang</option>
+          <option value="bali">Bali (Denpasar)</option>
+        </select></div>
+      </div>
+      <div class="fld">
+        <label>Pengeluaran Harian di Luar Sewa (Rp)</label>
+        <div class="iw"><input type="number" id="tp-harian" value="50000" min="0" step="5000"><span class="iu">Rp/hari</span></div>
+      </div>
+    </div>
 
-    <div class="ad-slot">Advertisement</div>
+    <div class="tipe-grid" id="tp-cards"></div>
+    <div class="sec-lbl" style="margin-top:14px">Total Biaya Bulanan per Tipe (termasuk biaya hidup)</div>
+    <div class="budget-vis" id="tp-chart"></div>
+    <div class="notice" style="margin-top:10px">* Estimasi harga pasar, dapat berbeda signifikan antar lokasi dalam satu kota. Selalu survei langsung sebelum memutuskan.</div>
+  </div>
+</div>
 
-    <h2>Komponen Biaya Kos yang Wajib Diperhitungkan</h2>
-    <p>Banyak pencari kos hanya fokus pada harga sewa, padahal ada komponen biaya lain yang bisa cukup signifikan. Di Jakarta dan kota besar, biaya listrik kos bisa mencapai Rp 150.000–Rp 500.000 per bulan tergantung penggunaan AC dan peralatan elektronik. Air biasanya Rp 30.000–Rp 100.000. Wi-Fi bisa gratis atau berbayar Rp 100.000–Rp 200.000. Deposit biasanya 1 bulan sewa yang idealnya kembali saat keluar tanpa kerusakan. Hitung semua komponen ini sebelum memutuskan pilihan kos.</p>
+<!-- ③ BUDGET HIDUP BULANAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Budget Hidup Bulanan di Kos <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan penghasilan atau uang bulanan — lihat alokasi ideal agar keuangan tetap sehat saat kos.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Penghasilan / Uang Bulanan (Rp)</label>
+        <div class="iw"><input type="number" id="bg-income" value="5000000" min="0" step="500000"></div>
+        <div class="presets">
+          <button class="pb" data-val="3000000" data-for="bg-income">3 jt</button>
+          <button class="pb on" data-val="5000000" data-for="bg-income">5 jt</button>
+          <button class="pb" data-val="8000000" data-for="bg-income">8 jt</button>
+          <button class="pb" data-val="10000000" data-for="bg-income">10 jt</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Sewa Kos per Bulan (Rp)</label>
+        <div class="iw"><input type="number" id="bg-sewa" value="1500000" min="0" step="100000"></div>
+      </div>
+    </div>
 
-    <h2>Cara Menggunakan Kalkulator Kos Ini</h2>
-    <ol>
-      <li><strong>Tab Hitung Kos:</strong> Masukkan semua komponen biaya kos — sewa, deposit, listrik, air, Wi-Fi, dan rencana durasi tinggal. Lihat biaya bulanan all-in dan total selama masa tinggal, serta perbandingan dengan opsi kontrak tahunan jika ada.</li>
-      <li><strong>Tab Bandingkan 2 Kos:</strong> Masukkan detail dua pilihan kos termasuk jarak ke tempat kerja/kampus, lalu lihat perbandingan biaya total per bulan dan selama periode tinggal.</li>
-      <li><strong>Tab Budget Planner:</strong> Masukkan penghasilan dan semua pos pengeluaran bulanan untuk mengecek apakah biaya kos Anda masih dalam batas ideal, dan melihat sisa anggaran untuk tabungan.</li>
-    </ol>
+    <div id="bg-alloc" style="margin-top:14px"></div>
 
-    <h2>Kisaran Harga Kos di Kota Besar Indonesia 2026</h2>
-    <table>
-      <tr><th>Kota</th><th>Kos Standar (tanpa AC)</th><th>Kos AC</th><th>Kos Premium</th></tr>
-      <tr><td>Jakarta (Jabodetabek)</td><td>Rp 700rb–1,5jt</td><td>Rp 1,5–3jt</td><td>Rp 3–8jt+</td></tr>
-      <tr><td>Surabaya</td><td>Rp 500rb–1,2jt</td><td>Rp 1,2–2,5jt</td><td>Rp 2,5–5jt</td></tr>
-      <tr><td>Bandung</td><td>Rp 500rb–1jt</td><td>Rp 1–2jt</td><td>Rp 2–4jt</td></tr>
-      <tr><td>Yogyakarta</td><td>Rp 400rb–900rb</td><td>Rp 900rb–1,8jt</td><td>Rp 1,8–3,5jt</td></tr>
-      <tr><td>Medan</td><td>Rp 400rb–900rb</td><td>Rp 900rb–2jt</td><td>Rp 2–4jt</td></tr>
-    </table>
+    <div class="lres" style="margin-top:14px">
+      <div class="rrows" style="border:none;padding:0">
+        <div class="rr"><span>Penghasilan</span><span id="bg-income-show">—</span></div>
+        <div class="rr"><span>Total pengeluaran wajib</span><span id="bg-wajib">—</span></div>
+        <div class="rr"><span>Sisa untuk tabungan & hiburan</span><span id="bg-sisa">—</span></div>
+        <div class="rr"><span>% sewa dari penghasilan</span><span id="bg-sewa-pct">—</span></div>
+        <div class="rr"><span>Rekomendasi tabungan (20%)</span><span id="bg-tabungan">—</span></div>
+      </div>
+    </div>
+    <div class="notice info" style="margin-top:10px">💡 <strong>Aturan 50/30/20:</strong> 50% untuk kebutuhan (sewa, makan, transport), 30% keinginan (hiburan, sosial), 20% tabungan. Jika sewa > 30% penghasilan, pertimbangkan kos yang lebih terjangkau atau cari kost patungan.</div>
+  </div>
+</div>
 
-    <h2>Bulanan vs Kontrak Tahunan — Mana Lebih Hemat?</h2>
-    <p>Kontrak tahunan biasanya <strong>10–25% lebih murah</strong> dari harga bulanan dikalikan 12. Jika Anda yakin tinggal lebih dari 10 bulan, kontrak tahunan hampir selalu lebih hemat. Namun risikonya jelas: jika harus pindah sebelum kontrak berakhir, uang yang sudah dibayar umumnya tidak bisa dikembalikan. Gunakan fitur kalkulator untuk menghitung <em>break-even point</em> — berapa bulan minimum agar kontrak tahunan lebih menguntungkan.</p>
+</div><!-- /left-col -->
 
-    <h2>Berapa Ideal Anggaran Kos dari Gaji?</h2>
-    <p>Aturan umum perencanaan keuangan: total biaya tempat tinggal (kos + semua utilitas) sebaiknya tidak melebihi <strong>30% dari penghasilan bersih</strong> per bulan. Dengan UMP Jakarta 2026 sekitar Rp 5.396.761, batas ideal adalah sekitar Rp 1.619.000/bulan untuk biaya kos total. Jika biaya kos melebihi 30% gaji, pertimbangkan mencari teman sekamar (berbagi kos), pindah ke kawasan dengan harga lebih terjangkau, atau menambah penghasilan.</p>
-
-    <h2>Hak dan Kewajiban Penghuni Kos di Indonesia</h2>
-    <p>Meski belum ada undang-undang khusus tentang kos-kosan di Indonesia, beberapa perlindungan hukum berlaku bagi penghuni kos. Pastikan selalu ada perjanjian tertulis yang mencantumkan harga, fasilitas, aturan, dan konsekuensi pelanggaran. Deposit atau uang jaminan lazimnya 1 bulan sewa dan harus dikembalikan saat berakhirnya perjanjian jika tidak ada kerusakan yang disebabkan penghuni. Pemilik kos tidak boleh masuk kamar tanpa izin penghuni kecuali dalam keadaan darurat. Kenaikan harga sewa harus diberitahukan minimal 1 bulan sebelumnya agar penghuni punya waktu untuk memutuskan.</p>
-
-    <h2>Tips Negosiasi Harga Kos yang Efektif</h2>
-    <p>Harga kos bukanlah harga mati. Bayar kontrak tahunan di muka — pemilik biasanya mau memberi diskon 10–20%. Datang langsung daripada melalui aplikasi pencari kos (aplikasi mengambil komisi dari pemilik). Cari di akhir bulan saat pemilik dengan unit kosong lebih fleksibel. Tanyakan apakah ada diskon untuk pembayaran beberapa bulan sekaligus. Tawarkan komitmen jangka panjang — pemilik kos biasanya lebih suka penghuni yang stabil dan membayar tepat waktu.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah deposit kos harus dikembalikan?</div><div class="faq-a">Secara hukum perdata Indonesia, deposit (uang jaminan) harus dikembalikan saat berakhirnya perjanjian sewa, kecuali ada kerusakan yang menjadi tanggung jawab penyewa. Sayangnya banyak kasus deposit tidak dikembalikan penuh atau dengan alasan yang tidak jelas. Selalu minta kuitansi deposit tertulis dan dokumentasikan kondisi kamar saat pertama kali masuk (foto/video sebagai bukti) agar ada pegangan jika terjadi sengketa.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung apakah kontrak tahunan lebih hemat?</div><div class="faq-a">Bandingkan: (sewa bulanan × 12) dengan harga kontrak tahunan. Jika sewa bulanan Rp 1.500.000 dan kontrak tahunan Rp 15.000.000, selisihnya Rp 3.000.000 per tahun. Untuk break-even, hitung: harga kontrak tahunan ÷ sewa bulanan = jumlah bulan minimum. Di contoh ini: 15.000.000 ÷ 1.500.000 = 10 bulan. Artinya jika tinggal minimal 10 bulan, kontrak tahunan sudah impas, dan bulan ke-11 hingga ke-12 menjadi penghematan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Tips mencari kos yang aman dan tidak menguras kantong?</div><div class="faq-a">Selalu cek lokasi langsung sebelum membayar; perhatikan keamanan lingkungan, kebersihan, dan akses transportasi umum. Tanyakan secara detail biaya listrik (per kWh atau flat), air, dan Wi-Fi. Baca perjanjian sewa dengan teliti — perhatikan klausul kenaikan harga, pembatalan, dan denda. Cek ulasan di platform seperti Mamikos, 99.co, atau komunitas lokal. Kos sedikit lebih mahal tapi transparan soal biaya jauh lebih baik daripada kos murah dengan banyak biaya tersembunyi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah biaya listrik kos bisa dinegosiasi?</div><div class="faq-a">Bisa, terutama jika tarif per kWh yang dikenakan jauh di atas tarif PLN standar (Rp 1.444/kWh untuk 1.300 VA). Beberapa pemilik kos mengenakan Rp 2.000–3.000/kWh yang merupakan keuntungan tambahan bagi mereka. Coba negosiasikan agar listrik dihitung sesuai tarif PLN, atau pilih kos dengan listrik flat yang sudah termasuk dalam harga sewa jika konsumsi Anda diperkirakan rendah.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa ideal anggaran kos dari gaji?</div><div class="faq-a">Aturan umum: total biaya tempat tinggal (kos + semua utilitas) sebaiknya tidak melebihi 30% dari penghasilan bersih per bulan. Dengan UMP DKI Jakarta 2026 sekitar Rp 5.396.761, batas idealnya sekitar Rp 1,6 juta/bulan untuk biaya kos total. Jika biaya kos di kota Anda melebihi 30% gaji, pertimbangkan berbagi kamar, pindah ke kawasan pinggiran yang lebih terjangkau, atau menambah penghasilan dari sampingan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kos vs apartemen — mana yang lebih cocok?</div><div class="faq-a">Kos umumnya lebih murah dan fleksibel (bisa kontrak bulanan), cocok untuk mahasiswa dan pekerja baru. Apartemen menawarkan privasi lebih, fasilitas lebih lengkap (gym, kolam renang), dan lebih cocok untuk jangka panjang atau pasangan. Dari sisi biaya, apartemen studio di Jakarta mulai Rp 3–5 juta/bulan, jauh lebih mahal dari kos standar. Pilih sesuai kebutuhan, durasi tinggal yang direncanakan, dan kemampuan finansial.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏡</span>Kalkulator KPR</a>
-      <a href="/id/kalkulator-dp-rumah.html" class="related-item"><span class="ri">🏠</span>DP Rumah</a>
-      <a href="/id/kalkulator-listrik.html" class="related-item"><span class="ri">⚡</span>Kalkulator Listrik</a>
-      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Harga Kos per Kota 2026</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#ef4444"></div><div><div class="fn">Jakarta</div><div class="fron">Estimasi range bulanan</div></div></div><div class="fprice">800rb–5 jt</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Bandung</div><div class="fron">Estimasi range bulanan</div></div></div><div class="fprice">500rb–3 jt</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#D97706"></div><div><div class="fn">Surabaya</div><div class="fron">Estimasi range bulanan</div></div></div><div class="fprice">600rb–3 jt</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Yogyakarta</div><div class="fron">Estimasi range bulanan</div></div></div><div class="fprice">400rb–2 jt</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Bali (Denpasar)</div><div class="fron">Estimasi range bulanan</div></div></div><div class="fprice">700rb–4 jt</div></div>
+      </div>
+      <div class="notice" style="margin-top:8px">Harga bervariasi sangat besar tergantung lokasi, fasilitas, dan kondisi pasar. Selalu cek langsung di lapangan.</div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Cari & Hemat Kos</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🔍</span><span class="tptx"><strong>Survei minimal 3–5 kos</strong> sebelum memutuskan — harga dan kualitas bervariasi besar</span></div>
+        <div class="tip"><span class="tpico">📝</span><span class="tptx"><strong>Pastikan ada perjanjian tertulis</strong> — masalah deposit dan kenaikan harga sering terjadi</span></div>
+        <div class="tip"><span class="tpico">💡</span><span class="tptx"><strong>Listrik token lebih hemat</strong> — kos dengan listrik token membuat kamu lebih sadar konsumsi</span></div>
+        <div class="tip"><span class="tpico">🍳</span><span class="tptx"><strong>Kos dengan dapur</strong> bisa hemat 500rb–1 jt/bulan vs makan di warung setiap hari</span></div>
+        <div class="tip"><span class="tpico">📍</span><span class="tptx"><strong>Lokasi dekat kerja/kampus</strong> hemat transport — hitung total biaya, bukan hanya sewa</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-gaji-bersih" class="relc"><div class="relc-ico">💵</div><div class="relc-nm">Gaji Bersih</div><div class="relc-ds">Take-home pay</div></a>
+        <a href="/id/kalkulator-tabungan" class="relc"><div class="relc-ico">🏦</div><div class="relc-nm">Tabungan</div><div class="relc-ds">Simulasi menabung</div></a>
+        <a href="/id/kalkulator-split-bill" class="relc"><div class="relc-ico">🧾</div><div class="relc-nm">Split Bill</div><div class="relc-ds">Bagi tagihan</div></a>
+        <a href="/id/kalkulator-listrik" class="relc"><div class="relc-ico">⚡</div><div class="relc-nm">Listrik</div><div class="relc-ds">Estimasi tagihan</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Tips Mengatur Budget Hidup di Kos</h2>
+  <p>Tinggal di kos, terutama sebagai perantau baru, membutuhkan perencanaan keuangan yang baik. Biaya kos bukan hanya sewa — total pengeluaran mencakup listrik, air, makan, transportasi, laundry, dan kebutuhan pribadi. Umumnya, total biaya hidup di kos adalah 2–3× dari harga sewa itu sendiri.</p>
+  <p>Aturan keuangan yang populer adalah <strong>50/30/20</strong>: 50% untuk kebutuhan (sewa, makan, transport), 30% untuk keinginan (hiburan, sosial), dan 20% untuk tabungan. Jika sewa kos melebihi 30% penghasilan, pertimbangkan alternatif yang lebih terjangkau atau mencari teman untuk berbagi biaya kontrak rumah.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa saja yang biasanya sudah termasuk dalam harga kos?</div><div class="faq-a">Tergantung jenis dan harga kos. Kos murah biasanya: kamar kosong saja, listrik terpisah (token), tidak ada air panas, toilet bersama. Kos menengah: listrik termasuk (dengan batas), air panas, kamar mandi dalam, wifi. Kos premium: semua termasuk, AC, laundry, parkir, dapur bersama. Selalu klarifikasi apa saja yang sudah include sebelum bayar.</div></div>
+  <div class="faq-i"><div class="faq-q">Lebih hemat kos atau kontrak rumah bersama teman?</div><div class="faq-a">Kontrak rumah bersama teman biasanya lebih hemat per orang — bisa 30–50% lebih murah dari kos dengan fasilitas setara. Namun ada risikonya: jika satu teman pindah tiba-tiba, sisanya harus menanggung biaya lebih besar. Kos lebih fleksibel dan tidak ada risiko itu, tapi lebih mahal per bulan. Gunakan kalkulator Kos vs Kontrak di atas untuk perbandingan spesifik situasi Anda.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara memperkirakan biaya listrik di kos?</div><div class="faq-a">Jika kos pakai token/meteran sendiri, rata-rata pemakaian kamar kos: AC 0,5–1 kWh/jam, kipas 0,05 kWh/jam, lampu LED 0,01 kWh/jam, charger gadget 0,01 kWh/jam. Dengan AC menyala 8 jam/hari, estimasi 120–240 kWh/bulan × tarif R1 ~Rp 1.352/kWh = Rp 160–325rb/bulan. Gunakan kalkulator listrik kami untuk perhitungan lebih detail.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
 
-function calculateKos() {
-  const sewa    = parseFloat(document.getElementById('sewa-bulan').value) || 0;
-  const sewaThn = parseFloat(document.getElementById('sewa-tahun').value) || 0;
-  const deposit = parseFloat(document.getElementById('deposit').value) || 0;
-  const listrik = parseFloat(document.getElementById('listrik').value) || 0;
-  const air     = parseFloat(document.getElementById('air').value) || 0;
-  const wifi    = parseFloat(document.getElementById('wifi').value) || 0;
-  const durasi  = parseInt(document.getElementById('durasi').value) || 12;
+<script>
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){if(n>=1e6)return'Rp '+(n/1e6).toFixed(1)+' jt';return rp(n)}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-  if (!sewa) { alert('Masukkan harga sewa bulanan.'); return; }
+const COLORS=['#E85D04','#1A7F4E','#C0392B','#3b82f6','#D97706','#8b5cf6','#06b6d4'];
+const KOTA_DATA={
+  jakarta:{std:1200000,ac:2000000,en:3500000},
+  bandung:{std:700000,ac:1300000,en:2200000},
+  surabaya:{std:800000,ac:1500000,en:2500000},
+  yogyakarta:{std:500000,ac:900000,en:1500000},
+  medan:{std:700000,ac:1200000,en:2000000},
+  semarang:{std:600000,ac:1100000,en:1800000},
+  bali:{std:900000,ac:1600000,en:2800000},
+};
+const TIPE_KOS=[
+  {key:'std',nm:'Standar (Kipas)',ico:'🪟',feat:'Kamar mandi luar, kipas, tanpa AC'},
+  {key:'ac',nm:'AC + KM Dalam',ico:'❄️',feat:'AC, kamar mandi dalam, parkir motor'},
+  {key:'en',nm:'Premium / Exclusive',ico:'🌟',feat:'Full furnish, AC, wifi, dapur, laundry'},
+];
+let selTipe='ac';
 
-  const utilitas   = listrik + air + wifi;
-  const perBulan   = sewa + utilitas;
-  const sewaTotal  = sewa * durasi;
-  const total      = sewaTotal + (utilitas * durasi) + deposit;
+// ① TOTAL BIAYA
+function calcBiaya(){
+  const sewa=v('b-sewa'),listrik=v('b-listrik'),air=v('b-air');
+  const makanHari=v('b-makan'),transport=v('b-transport');
+  const laundry=v('b-laundry'),belanja=v('b-belanja'),hiburan=v('b-hiburan'),lain=v('b-lain');
+  const tempat=sewa+listrik+air;
+  const makanBln=makanHari*30;
+  const lainnya=laundry+belanja+hiburan+lain;
+  const total=tempat+makanBln+transport+lainnya;
 
-  document.getElementById('res-total').textContent    = fmt(total);
-  document.getElementById('res-per-bulan').textContent= fmt(perBulan) + '/bulan';
-  document.getElementById('res-sewa-total').textContent = fmt(sewaTotal) + ' (' + durasi + ' bln)';
-  document.getElementById('res-deposit').textContent  = fmt(deposit);
+  set('b-total',rp(total)+'/bulan');set('b-tahun',rp(total*12)+'/tahun');
+  set('b-sewa-pct',total>0?(sewa/total*100).toFixed(0)+'%':'—');
+  set('b-tempat-sub',rp(tempat));set('b-makan-bln',rp(makanBln)+' ('+rp(makanHari)+'/hari)');
+  set('b-trans-show',rp(transport));set('b-lainnya',rp(lainnya));
 
-  // Cost breakdown bar
-  const segs = [
-    { label: 'Sewa', val: sewa, color: '#00C9B1' },
-    { label: 'Listrik', val: listrik, color: '#3b82f6' },
-    { label: 'Air', val: air, color: '#8b5cf6' },
-    { label: 'Wi-Fi', val: wifi, color: '#f59e0b' },
-  ].filter(s => s.val > 0);
-  let barHtml = '', legHtml = '';
-  segs.forEach(s => {
-    const pct = (s.val / perBulan * 100).toFixed(1);
-    barHtml += `<div class="cb-seg" style="background:${s.color};width:${pct}%"></div>`;
-    legHtml += `<span><span class="leg-dot" style="background:${s.color}"></span>${s.label} ${pct}%</span>`;
-  });
-  document.getElementById('cost-bar').innerHTML   = barHtml;
-  document.getElementById('cost-legend').innerHTML = legHtml;
-
-  if (sewaThn > 0) {
-    const hemat = (sewa * 12) - sewaThn;
-    const be    = Math.ceil(sewaThn / sewa);
-    document.getElementById('hemat-row').style.display = '';
-    document.getElementById('be-row').style.display    = '';
-    document.getElementById('res-hemat').textContent = hemat > 0
-      ? fmt(hemat) + '/tahun ✅ Kontrak tahunan lebih hemat'
-      : 'Kontrak tahunan lebih mahal! Pilih bulanan.';
-    document.getElementById('res-be').textContent = be + ' bulan (tinggal minimal ' + be + ' bulan agar impas)';
-  } else {
-    document.getElementById('hemat-row').style.display = 'none';
-    document.getElementById('be-row').style.display    = 'none';
-  }
-  document.getElementById('res-kos').classList.add('show');
-}
-
-function calculateBanding() {
-  const dur    = parseInt(document.getElementById('cmp-durasi').value) || 12;
-  const tpkm   = parseFloat(document.getElementById('cmp-transport').value) || 5000;
-  const wdays  = 22; // hari kerja/bulan
-
-  function getTotalA() {
-    const s = parseFloat(document.getElementById('a-sewa').value) || 0;
-    const l = parseFloat(document.getElementById('a-listrik').value) || 0;
-    const a = parseFloat(document.getElementById('a-air').value) || 0;
-    const w = parseFloat(document.getElementById('a-wifi').value) || 0;
-    const d = parseFloat(document.getElementById('a-deposit').value) || 0;
-    const j = parseFloat(document.getElementById('a-jarak').value) || 0;
-    const transport = j * 2 * tpkm * wdays; // pulang pergi
-    return { perBulan: s + l + a + w + transport, deposit: d, transport };
-  }
-  function getTotalB() {
-    const s = parseFloat(document.getElementById('b-sewa').value) || 0;
-    const l = parseFloat(document.getElementById('b-listrik').value) || 0;
-    const a = parseFloat(document.getElementById('b-air').value) || 0;
-    const w = parseFloat(document.getElementById('b-wifi').value) || 0;
-    const d = parseFloat(document.getElementById('b-deposit').value) || 0;
-    const j = parseFloat(document.getElementById('b-jarak').value) || 0;
-    const transport = j * 2 * tpkm * wdays;
-    return { perBulan: s + l + a + w + transport, deposit: d, transport };
-  }
-
-  const A = getTotalA(), B = getTotalB();
-  if (!A.perBulan && !B.perBulan) { alert('Masukkan data setidaknya satu kos.'); return; }
-
-  const totalA = A.perBulan * dur + A.deposit;
-  const totalB = B.perBulan * dur + B.deposit;
-  const winner = totalA <= totalB ? 'A' : 'B';
-  const diff   = Math.abs(totalA - totalB);
-
-  document.getElementById('banding-summary').innerHTML =
-    `🏆 <strong>Kos ${winner} lebih hemat</strong> selama ${dur} bulan dengan selisih <strong style="color:#00C9B1">${fmt(diff)}</strong> (termasuk estimasi transportasi).`;
-  document.getElementById('banding-summary').style.background = 'rgba(0,201,177,.08)';
-  document.getElementById('banding-summary').style.border = '1px solid rgba(0,201,177,.2)';
-
-  document.getElementById('compare-cards').innerHTML = `
-    <div class="cmp-card${winner === 'A' ? ' winner' : ''}">
-      ${winner === 'A' ? '<div class="winner-badge">✓ Lebih hemat</div>' : ''}
-      <div class="cmp-name">Kos A</div>
-      <div class="cmp-val">${fmt(A.perBulan)}/bln</div>
-      <div class="cmp-sub">Total ${dur}bln: ${fmt(totalA)}</div>
-      ${A.transport > 0 ? `<div class="cmp-sub">Incl. transport: ${fmt(A.transport)}/bln</div>` : ''}
-    </div>
-    <div class="cmp-card${winner === 'B' ? ' winner' : ''}">
-      ${winner === 'B' ? '<div class="winner-badge">✓ Lebih hemat</div>' : ''}
-      <div class="cmp-name">Kos B</div>
-      <div class="cmp-val">${fmt(B.perBulan)}/bln</div>
-      <div class="cmp-sub">Total ${dur}bln: ${fmt(totalB)}</div>
-      ${B.transport > 0 ? `<div class="cmp-sub">Incl. transport: ${fmt(B.transport)}/bln</div>` : ''}
+  // vis
+  const cats=[
+    {lbl:'Sewa kos',val:sewa,col:COLORS[0]},
+    {lbl:'Listrik & utilitas',val:listrik+air,col:COLORS[3]},
+    {lbl:'Makan',val:makanBln,col:COLORS[1]},
+    {lbl:'Transportasi',val:transport,col:COLORS[4]},
+    {lbl:'Lainnya',val:lainnya,col:COLORS[2]},
+  ];
+  const vis=document.getElementById('b-vis');if(!vis)return;
+  vis.innerHTML=cats.map(c=>{
+    const pct=total>0?(c.val/total*100).toFixed(0):0;
+    return`<div class="bv-row">
+      <div class="bv-dot" style="background:${c.col}"></div>
+      <span class="bv-lbl">${c.lbl}</span>
+      <span class="bv-pct">${pct}%</span>
+      <div class="bv-bar-bg"><div class="bv-bar-fill" style="width:${pct}%;background:${c.col}"></div></div>
+      <span class="bv-val">${rp(c.val)}</span>
     </div>`;
-
-  document.getElementById('res-banding').style.display = 'block';
+  }).join('');
+  // sync bg
+  document.getElementById('bg-sewa').value=sewa;document.getElementById('bg-income').value=Math.round(total/0.6);
+  calcBudget();
 }
 
-function calculateBudget() {
-  const income    = parseFloat(document.getElementById('bp-income').value) || 0;
-  const kos       = parseFloat(document.getElementById('bp-kos').value) || 0;
-  const makan     = parseFloat(document.getElementById('bp-makan').value) || 0;
-  const transport = parseFloat(document.getElementById('bp-transport').value) || 0;
-  const other     = parseFloat(document.getElementById('bp-other').value) || 0;
+// ② KOS vs KONTRAK
+function calcVS(){
+  const kSewa=v('k-sewa'),kFas=v('k-fasilitas');
+  const krSewa=v('kr-sewa'),krOrang=v('kr-orang')||1,krUtil=v('kr-util');
+  const totalKos=kSewa+kFas;
+  const totalKontrak=krSewa/12/krOrang+krUtil/krOrang;
+  const hemat=totalKos<totalKontrak?'Kos':'Kontrak';
+  const selisih=Math.abs(totalKos-totalKontrak);
+  set('vs-kos',rp(totalKos)+'/bln');set('vs-kontrak',rp(totalKontrak)+'/bln');
+  set('vs-kos-deposit',rp(kSewa*2));set('vs-kontrak-deposit',rp(krSewa/krOrang));
+  set('vs-lebih-hemat',hemat+' lebih hemat');
+  set('vs-selisih',rp(selisih)+'/bulan');set('vs-selisih-thn',rp(selisih*12)+'/tahun');
+}
 
-  if (!income || !kos) { alert('Masukkan penghasilan dan biaya kos.'); return; }
+// ③ TIPE KOS
+function calcTipe(){
+  const kota=document.getElementById('tp-kota')?.value||'yogyakarta';
+  const harian=v('tp-harian');
+  const data=KOTA_DATA[kota]||KOTA_DATA.yogyakarta;
+  const biayaHidup=harian*30+300000; // transport estimasi
+  const wrap=document.getElementById('tp-cards');
+  if(wrap)wrap.innerHTML=TIPE_KOS.map(t=>`
+    <div class="tipe-card${selTipe===t.key?' sel':''}" onclick="selTipe='${t.key}';calcTipe()">
+      <div class="tipe-ico">${t.ico}</div>
+      <div class="tipe-nm">${t.nm}</div>
+      <div class="tipe-harga">${rpM(data[t.key])}/bln</div>
+      <div class="tipe-feat">${t.feat}</div>
+    </div>`).join('');
+  const chart=document.getElementById('tp-chart');if(!chart)return;
+  const maxVal=Math.max(...TIPE_KOS.map(t=>data[t.key]+biayaHidup));
+  chart.innerHTML=TIPE_KOS.map((t,i)=>{
+    const sewa=data[t.key],total=sewa+biayaHidup;
+    const pct=maxVal>0?total/maxVal*100:50;
+    const isSel=selTipe===t.key;
+    return`<div class="bv-row">
+      <div class="bv-dot" style="background:${isSel?COLORS[0]:COLORS[i+1]}"></div>
+      <span class="bv-lbl">${t.ico} ${t.nm}</span>
+      <span class="bv-pct">${pct.toFixed(0)}%</span>
+      <div class="bv-bar-bg"><div class="bv-bar-fill" style="width:${pct}%;background:${isSel?COLORS[0]:COLORS[i+1]}"></div></div>
+      <span class="bv-val" style="color:${isSel?COLORS[0]:COLORS[i+1]}">${rp(total)}</span>
+    </div>`;
+  }).join('');
+}
 
-  const totalExp   = kos + makan + transport + other;
-  const sisa       = income - totalExp;
-  const kosRatio   = kos / income * 100;
-  const idealRatio = 30;
-  const status     = kosRatio <= idealRatio ? '✅ Ideal' : kosRatio <= 40 ? '⚠️ Agak tinggi' : '❌ Terlalu tinggi';
+// ④ BUDGET
+function calcBudget(){
+  const income=v('bg-income'),sewa=v('bg-sewa');
+  const makan=income*0.25,transport=income*0.08,utilitas=income*0.05;
+  const wajib=sewa+makan+transport+utilitas;
+  const sisa=income-wajib;
+  const tabungan=income*0.2;
+  const alloc=[
+    {lbl:'Sewa kos',val:sewa,col:COLORS[0]},
+    {lbl:'Makan (~25%)',val:makan,col:COLORS[1]},
+    {lbl:'Transportasi (~8%)',val:transport,col:COLORS[4]},
+    {lbl:'Utilitas (~5%)',val:utilitas,col:COLORS[3]},
+    {lbl:'Sisa (hiburan + tabungan)',val:Math.max(0,sisa),col:COLORS[5]},
+  ];
+  const wrap=document.getElementById('bg-alloc');if(!wrap)return;
+  wrap.innerHTML=alloc.map(a=>{
+    const pct=income>0?(a.val/income*100).toFixed(0):0;
+    return`<div class="bv-row" style="margin-bottom:5px">
+      <div class="bv-dot" style="background:${a.col}"></div>
+      <span class="bv-lbl">${a.lbl}</span>
+      <span class="bv-pct">${pct}%</span>
+      <div class="bv-bar-bg"><div class="bv-bar-fill" style="width:${pct}%;background:${a.col}"></div></div>
+      <span class="bv-val" style="color:${a.col}">${rp(a.val)}</span>
+    </div>`;
+  }).join('');
+  set('bg-income-show',rp(income)+'/bulan');
+  set('bg-wajib',rp(wajib)+' ('+(income>0?(wajib/income*100).toFixed(0):'0')+'%)');
+  set('bg-sisa',rp(Math.max(0,sisa)));
+  set('bg-sewa-pct',income>0?(sewa/income*100).toFixed(0)+'%':'—');
+  set('bg-tabungan',rp(tabungan)+'/bulan (20% penghasilan)');
+}
 
-  const summaryColor = kosRatio <= 30 ? '#00C9B1' : kosRatio <= 40 ? '#f59e0b' : '#ef4444';
-  document.getElementById('bp-summary').innerHTML =
-    `Biaya kos Anda <strong>${kosRatio.toFixed(1)}%</strong> dari penghasilan — <strong style="color:${summaryColor}">${status}</strong> (ideal: ≤30%). Sisa setelah semua pengeluaran: <strong style="color:${sisa >= 0 ? '#00C9B1' : '#ef4444'}">${fmt(sisa)}/bulan</strong>.`;
-  document.getElementById('bp-summary').style.background = `rgba(${kosRatio <= 30 ? '0,201,177' : kosRatio <= 40 ? '245,158,11' : '239,68,68'},.08)`;
-  document.getElementById('bp-summary').style.border = `1px solid rgba(${kosRatio <= 30 ? '0,201,177' : kosRatio <= 40 ? '245,158,11' : '239,68,68'},.2)`;
-
-  const items = [
-    { label: 'Kos all-in', val: kos, color: '#00C9B1' },
-    { label: 'Makan', val: makan, color: '#3b82f6' },
-    { label: 'Transportasi', val: transport, color: '#8b5cf6' },
-    { label: 'Lain-lain', val: other, color: '#f59e0b' },
-  ].filter(i => i.val > 0);
-
-  document.getElementById('bp-items').innerHTML = items.map(i => `
-    <div class="budget-item">
-      <span><span class="leg-dot" style="background:${i.color}"></span>${i.label}</span>
-      <span>${fmt(i.val)} (${(i.val/income*100).toFixed(1)}%)</span>
-    </div>
-  `).join('') + `<div class="budget-item" style="font-weight:700;color:${sisa>=0?'#00C9B1':'#ef4444'}">
-    <span>Sisa / Tabungan</span><span>${fmt(sisa)}</span>
-  </div>`;
-
-  let barHtml = '', legHtml = '';
-  items.forEach(i => {
-    const pct = (i.val / income * 100).toFixed(1);
-    barHtml += `<div class="cb-seg" style="background:${i.color};width:${pct}%"></div>`;
-    legHtml += `<span><span class="leg-dot" style="background:${i.color}"></span>${i.label} ${pct}%</span>`;
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
   });
-  if (sisa > 0) {
-    barHtml += `<div class="cb-seg" style="background:#374151;width:${(sisa/income*100).toFixed(1)}%"></div>`;
-    legHtml += `<span><span class="leg-dot" style="background:#374151"></span>Sisa ${(sisa/income*100).toFixed(1)}%</span>`;
-  }
-  document.getElementById('bp-bar').innerHTML    = barHtml;
-  document.getElementById('bp-legend').innerHTML = legHtml;
-
-  const advice = kosRatio > 40
-    ? '💡 Biaya kos Anda terlalu tinggi. Pertimbangkan mencari teman sekamar untuk berbagi biaya, pindah ke lokasi yang lebih terjangkau, atau menambah penghasilan dari pekerjaan sampingan.'
-    : kosRatio > 30
-    ? '💡 Biaya kos sedikit di atas ideal. Coba negosiasi harga atau kurangi biaya utilitas (hemat listrik, minta Wi-Fi dimasukkan ke sewa).'
-    : sisa < income * 0.1
-    ? '💡 Sisa penghasilan Anda tipis. Prioritaskan menabung minimal 10% dari gaji — mulai dengan nominal kecil dan tingkatkan seiring waktu.'
-    : '✅ Alokasi keuangan Anda terlihat sehat. Pastikan sisa penghasilan diinvestasikan, tidak hanya tersimpan di rekening biasa.';
-  document.getElementById('bp-advice').textContent = advice;
-  document.getElementById('res-budget').style.display = 'block';
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculateKos(); });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['b-sewa','b-listrik','b-air','b-makan','b-transport','b-laundry','b-belanja','b-hiburan','b-lain'],calcBiaya);
+listen(['k-sewa','k-fasilitas','kr-sewa','kr-orang','kr-util'],calcVS);
+listen(['tp-harian'],calcTipe);
+listen(['bg-income','bg-sewa'],calcBudget);
+calcBiaya();calcVS();calcTipe();calcBudget();
 </script>
 </body>
 </html>

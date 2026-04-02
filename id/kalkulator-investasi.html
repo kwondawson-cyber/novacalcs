@@ -1,518 +1,643 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Investasi 2026 — Simulasi Bunga Majemuk, DCA & Target | NovaCalcs</title>
-<meta name="description" content="Simulasi pertumbuhan investasi jangka panjang dengan bunga majemuk. Hitung DCA bulanan, bandingkan instrumen investasi, dan cari tahu setoran yang dibutuhkan untuk mencapai target finansial Anda."/>
-<meta name="keywords" content="kalkulator investasi, simulasi bunga majemuk, DCA investasi, reksa dana saham, return investasi 2026, target investasi, compound interest Indonesia"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-investasi.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-investasi.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Investasi","url":"https://novacalcs.com/id/kalkulator-investasi.html","description":"Simulasi investasi jangka panjang dengan DCA, inflasi, dan target finansial","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Tabs */
-.inv-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
-.inv-tab { flex:1; padding:8px 8px; font-size:0.75rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
-.inv-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
-.inv-panel { display:none; }
-.inv-panel.active { display:block; }
-
-/* Preset chips */
-.presets { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
-.preset-chip { padding:4px 10px; border-radius:6px; font-size:.72rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all .15s; }
-.preset-chip:hover,.preset-chip.on { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,.35); }
-
-/* Big result */
-.inv-main { text-align:center; padding:16px 0 8px; }
-.inv-nilai { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
-.inv-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Setor vs return bar */
-.inv-bar-wrap { margin:12px 0 6px; }
-.inv-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
-.inv-bar-setor  { background:#60a5fa; transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#0c1a2e; }
-.inv-bar-return { background:var(--mint); transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:700; color:#001a17; }
-.inv-legend { display:flex; gap:14px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
-.inv-legend span::before { content:'●'; margin-right:4px; }
-.leg-b::before { color:#60a5fa; } .leg-m::before { color:var(--mint); }
-
-/* Stats grid */
-.inv-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.is-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.is-card .ic-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
-.is-card .ic-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
-.is-card.green .ic-val { color:var(--mint); }
-.is-card.blue  .ic-val { color:#60a5fa; }
-
-/* Milestone table */
-.milestone-wrap { max-height:220px; overflow-y:auto; margin-top:10px; border:1px solid var(--border); border-radius:var(--radius-sm); }
-.milestone-wrap table { width:100%; font-size:.76rem; border-collapse:collapse; }
-.milestone-wrap th { position:sticky; top:0; background:var(--bg-card); padding:6px 10px; color:var(--text-secondary); text-align:right; border-bottom:1px solid var(--border); font-weight:600; z-index:1; }
-.milestone-wrap th:first-child { text-align:left; }
-.milestone-wrap td { padding:5px 10px; text-align:right; border-bottom:1px solid rgba(255,255,255,.03); }
-.milestone-wrap td:first-child { text-align:left; color:var(--text-secondary); }
-
-/* Instrument cards */
-.instrument-grid { display:grid; gap:8px; margin-top:12px; }
-.inst-card { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; }
-.inst-card .inst-name { font-size:.78rem; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
-.inst-card .inst-return { font-size:1.1rem; font-weight:700; color:var(--mint); }
-.inst-card .inst-final { font-size:.72rem; color:var(--text-secondary); margin-top:3px; }
-.inst-card .inst-risk  { display:inline-block; font-size:.65rem; padding:2px 7px; border-radius:10px; margin-top:4px; }
-.risk-low    { background:rgba(74,222,128,.15);  color:#4ade80; }
-.risk-medium { background:rgba(251,191,36,.15);  color:#fbbf24; }
-.risk-high   { background:rgba(248,113,113,.15); color:#f87171; }
-
-/* Goal box */
-.goal-result-box { background:var(--mint-dim); border:1px solid rgba(0,201,177,.25); border-radius:var(--radius-sm); padding:14px; }
-.grb-num   { font-size:1.6rem; font-weight:700; color:var(--mint); margin-bottom:4px; }
-.grb-row   { display:flex; justify-content:space-between; padding:4px 0; font-size:.82rem; border-bottom:1px solid rgba(0,201,177,.1); }
-.grb-row:last-child { border-bottom:none; }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Investasi 2026 — Return, Bunga Majemuk & Simulasi Tujuan Keuangan | NovaCalcs</title>
+  <meta name="description" content="Kalkulator investasi 2026: hitung return investasi sekaligus & rutin dengan bunga majemuk. Bandingkan deposito, reksa dana & saham. Simulasi tujuan keuangan. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-investasi">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--grn-b);color:var(--grn);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--grn);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--grn-b);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--grn);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--grn)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--grn);color:var(--grn);background:var(--grn-b)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT — green theme */
+    .lres{background:var(--grn-b);border:1.5px solid #86efac;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--grn);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.pri{color:var(--pri)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #86efac;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* GROWTH BAR */
+    .bw{background:var(--sur2);height:10px;border-radius:5px;margin:12px 0 6px;overflow:hidden;display:flex}
+    .bleg{display:flex;gap:10px;font-size:10px;color:var(--tx3)}
+    .bleg-d{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+    /* GROWTH CHART (year by year) */
+    .growth-chart{display:flex;flex-direction:column;gap:4px;margin-top:12px}
+    .g-row{display:flex;align-items:center;gap:8px;font-size:10px}
+    .g-lbl{min-width:44px;color:var(--tx3);text-align:right;font-family:'DM Mono',monospace}
+    .g-bar-bg{flex:1;background:var(--sur2);border-radius:3px;height:16px;overflow:hidden;display:flex}
+    .g-bar-modal{background:#86efac;height:100%}
+    .g-bar-return{background:var(--grn);height:100%}
+    .g-val{min-width:80px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--grn)}
+    /* INSTRUMENT CARDS */
+    .ins-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px}
+    .ins-card{border-radius:var(--rs);padding:13px;border:1.5px solid var(--bor);cursor:pointer;transition:all .15s}
+    .ins-card:hover{border-color:var(--grn)}
+    .ins-card.selected{border-color:var(--grn);background:var(--grn-b)}
+    .ins-ico{font-size:18px;margin-bottom:5px}
+    .ins-nm{font-size:12px;font-weight:700}
+    .ins-rate{font-family:'DM Mono',monospace;font-size:14px;font-weight:800;color:var(--grn);margin-top:2px}
+    .ins-sub{font-size:9px;color:var(--tx3);margin-top:2px}
+    /* TUJUAN */
+    .tujuan-box{background:var(--grn-b);border:1.5px solid #86efac;border-radius:var(--r);padding:16px;margin-top:14px}
+    .tujuan-val{font-family:'DM Mono',monospace;font-size:28px;font-weight:800;color:var(--grn);letter-spacing:-.5px}
+    .tujuan-lbl{font-size:11px;color:#166534;margin-top:2px}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--grn)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--grn)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--grn-b);color:var(--grn)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Investasi</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Investasi</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">📈 Investasi & Return</div>
+  <h1 class="hdr-h1">Kalkulator Investasi 2026</h1>
+  <p class="hdr-sub">Hitung return investasi dengan bunga majemuk — sekaligus atau rutin bulanan. Bandingkan instrumen & simulasi tujuan keuangan. Hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">Bunga Majemuk <span>compound interest</span></div>
+    <div class="pchip">Investasi Rutin <span>SIP / DCA</span></div>
+    <div class="pchip">Tujuan Keuangan <span>simulasi target</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">📈 Kalkulator Investasi 2026</div>
-      <div class="calc-subtitle">Simulasi DCA · Bandingkan instrumen · Rencanakan target</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="inv-tabs">
-        <div class="inv-tab active" onclick="switchTab(0,this)">📈 Simulasi</div>
-        <div class="inv-tab" onclick="switchTab(1,this)">⚖️ Bandingkan</div>
-        <div class="inv-tab" onclick="switchTab(2,this)">🎯 Target</div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📈</div>Hitung Return Investasi</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="sekaligus">💰 Investasi Sekaligus</button>
+      <button class="tbtn" data-tab="rutin">📅 Investasi Rutin (Bulanan)</button>
+    </div>
+
+    <!-- SEKALIGUS -->
+    <div class="tpanel on" id="tab-sekaligus">
+      <div class="fld">
+        <label>Modal Awal (Rp)</label>
+        <div class="iw"><input type="number" id="s-modal" value="10000000" min="0" step="1000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="5000000" data-for="s-modal">5 jt</button>
+          <button class="pb on" data-val="10000000" data-for="s-modal">10 jt</button>
+          <button class="pb" data-val="50000000" data-for="s-modal">50 jt</button>
+          <button class="pb" data-val="100000000" data-for="s-modal">100 jt</button>
+          <button class="pb" data-val="500000000" data-for="s-modal">500 jt</button>
+        </div>
       </div>
-
-      <!-- TAB 0: Simulasi utama -->
-      <div class="inv-panel active" id="ip0">
-        <div class="field"><label>Modal Awal (Rp)</label>
-          <input type="number" id="modal" placeholder="Contoh: 10.000.000" oninput="autoCalc0()"/>
-        </div>
-        <div class="field"><label>Setoran Rutin per Bulan (Rp)</label>
-          <div class="presets">
-            <div class="preset-chip" onclick="setChip('setoran',0,this)">Tanpa setoran</div>
-            <div class="preset-chip" onclick="setChip('setoran',500000,this)">Rp 500rb</div>
-            <div class="preset-chip" onclick="setChip('setoran',1000000,this)">Rp 1 jt</div>
-            <div class="preset-chip" onclick="setChip('setoran',2000000,this)">Rp 2 jt</div>
-          </div>
-          <input type="number" id="setoran" value="0" placeholder="0 = tidak ada setoran rutin" oninput="autoCalc0()"/>
-        </div>
-        <div class="field">
+      <div class="g2">
+        <div class="fld">
           <label>Return per Tahun (%)</label>
+          <div class="iw"><input type="number" id="s-rate" value="10" min="0.1" max="100" step="0.5"><span class="iu">%/thn</span></div>
           <div class="presets">
-            <div class="preset-chip" onclick="setChip('return-rate',5,this)">Deposito 5%</div>
-            <div class="preset-chip" onclick="setChip('return-rate',7,this)">Obligasi 7%</div>
-            <div class="preset-chip on" onclick="setChip('return-rate',12,this)">Reksa Dana 12%</div>
-            <div class="preset-chip" onclick="setChip('return-rate',15,this)">Saham 15%</div>
-          </div>
-          <input type="number" id="return-rate" value="12" step="0.1" oninput="autoCalc0()"/>
-        </div>
-        <div class="field">
-          <label>Jangka Waktu (tahun)</label>
-          <div class="radio-group" id="th0-btns">
-            <div class="radio-btn" onclick="setTh('th0',5,this)">5</div>
-            <div class="radio-btn" onclick="setTh('th0',10,this)">10</div>
-            <div class="radio-btn active" onclick="setTh('th0',20,this)">20</div>
-            <div class="radio-btn" onclick="setTh('th0',30,this)">30</div>
+            <button class="pb" data-val="5" data-for="s-rate">5%</button>
+            <button class="pb" data-val="7" data-for="s-rate">7%</button>
+            <button class="pb on" data-val="10" data-for="s-rate">10%</button>
+            <button class="pb" data-val="15" data-for="s-rate">15%</button>
+            <button class="pb" data-val="20" data-for="s-rate">20%</button>
           </div>
         </div>
-        <div class="field" style="display:flex;gap:10px;align-items:center">
-          <label style="min-width:fit-content;margin-bottom:0">Sesuaikan Inflasi</label>
-          <input type="checkbox" id="inflasi-check" onchange="autoCalc0()" style="width:16px;height:16px;accent-color:var(--mint)"/>
-          <span style="font-size:.72rem;color:var(--text-muted)">Tunjukkan nilai riil (dikurangi inflasi ~3,5%/thn)</span>
+        <div class="fld">
+          <label>Jangka Waktu (Tahun)</label>
+          <div class="iw"><input type="number" id="s-thn" value="10" min="1" max="50" step="1"><span class="iu">thn</span></div>
+          <div class="presets">
+            <button class="pb" data-val="3" data-for="s-thn">3</button>
+            <button class="pb" data-val="5" data-for="s-thn">5</button>
+            <button class="pb on" data-val="10" data-for="s-thn">10</button>
+            <button class="pb" data-val="20" data-for="s-thn">20</button>
+            <button class="pb" data-val="30" data-for="s-thn">30</button>
+          </div>
         </div>
-        <button class="calc-btn" onclick="calcSimulasi()">📈 Simulasikan Investasi</button>
+      </div>
+      <div class="fld">
+        <label>Frekuensi Compound</label>
+        <div class="iw sw"><select id="s-freq">
+          <option value="12" selected>Bulanan (paling umum)</option>
+          <option value="4">Kuartalan</option>
+          <option value="1">Tahunan</option>
+          <option value="365">Harian</option>
+        </select></div>
+      </div>
 
-        <div class="result-box" id="inv-res0" style="display:none">
-          <div class="inv-main">
-            <div class="inv-nilai" id="i0-nilai">—</div>
-            <div class="inv-label" id="i0-label">Nilai akhir investasi</div>
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Nilai Akhir Investasi</div>
+            <div class="rv lg" id="s-fv">—</div>
           </div>
-          <div class="inv-bar-wrap">
-            <div class="inv-bar-track">
-              <div class="inv-bar-setor"  id="i0-bar-s" style="width:50%">Modal</div>
-              <div class="inv-bar-return" id="i0-bar-r" style="width:50%">Return</div>
-            </div>
-            <div class="inv-legend"><span class="leg-b">Total modal disetor</span><span class="leg-m">Keuntungan (return)</span></div>
+          <div class="ri">
+            <div class="rl">Total Return (Keuntungan)</div>
+            <div class="rv sm" id="s-return">—</div>
           </div>
-          <div class="inv-stats">
-            <div class="is-card blue"><div class="ic-label">Total modal disetor</div><div class="ic-val" id="i0-setor">—</div></div>
-            <div class="is-card green"><div class="ic-label">Keuntungan bersih</div><div class="ic-val" id="i0-untung">—</div></div>
-            <div class="is-card"><div class="ic-label">Pertumbuhan total</div><div class="ic-val" id="i0-growth">—</div></div>
-            <div class="is-card"><div class="ic-label">Nilai riil (inflasi 3,5%)</div><div class="ic-val" id="i0-riil">—</div></div>
+          <div class="ri">
+            <div class="rl">Nilai 2× Modal</div>
+            <div class="rv sm" id="s-double">—</div>
           </div>
-          <!-- Milestone table -->
-          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px">📋 Proyeksi Nilai per Tahun</div>
-          <div class="milestone-wrap">
-            <table>
-              <thead><tr><th>Tahun</th><th>Nilai Nominal</th><th>Total Disetor</th><th style="color:var(--mint)">Keuntungan</th></tr></thead>
-              <tbody id="i0-milestones"></tbody>
-            </table>
-          </div>
-          <div id="i0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+        </div>
+        <div class="bw">
+          <div id="s-bar-modal" style="background:#86efac;height:100%;transition:width .4s"></div>
+          <div id="s-bar-return" style="background:var(--grn);height:100%;transition:width .4s"></div>
+        </div>
+        <div class="bleg">
+          <span><span class="bleg-d" style="background:#86efac"></span>Modal awal</span>
+          <span><span class="bleg-d" style="background:var(--grn)"></span>Return (bunga majemuk)</span>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Modal awal</span><span id="s-modal-show">—</span></div>
+          <div class="rr"><span>Return per tahun</span><span id="s-rate-show">—</span></div>
+          <div class="rr"><span>Jangka waktu</span><span id="s-thn-show">—</span></div>
+          <div class="rr"><span>Total return (% dari modal)</span><span id="s-return-pct">—</span></div>
+          <div class="rr"><span>CAGR tersirat</span><span id="s-cagr">—</span></div>
         </div>
       </div>
 
-      <!-- TAB 1: Bandingkan instrumen -->
-      <div class="inv-panel" id="ip1">
-        <div class="field"><label>Modal Awal (Rp)</label>
-          <input type="number" id="c-modal" placeholder="Contoh: 10.000.000" oninput="calcCompare()"/>
+      <div class="sec-lbl">Pertumbuhan per Tahun</div>
+      <div class="growth-chart" id="s-chart"></div>
+    </div>
+
+    <!-- RUTIN -->
+    <div class="tpanel" id="tab-rutin">
+      <div class="g2">
+        <div class="fld">
+          <label>Modal Awal (Rp) — opsional</label>
+          <div class="iw"><input type="number" id="r-modal" value="0" min="0" step="1000000"></div>
         </div>
-        <div class="field"><label>Setoran Rutin per Bulan (Rp)</label>
-          <input type="number" id="c-setoran" value="0" placeholder="0 = lump sum saja" oninput="calcCompare()"/>
-        </div>
-        <div class="field">
-          <label>Jangka Waktu (tahun)</label>
-          <div class="radio-group" id="tc-btns">
-            <div class="radio-btn" onclick="setTh('tc',5,this)">5</div>
-            <div class="radio-btn active" onclick="setTh('tc',10,this)">10</div>
-            <div class="radio-btn" onclick="setTh('tc',20,this)">20</div>
+        <div class="fld">
+          <label>Investasi Rutin per Bulan (Rp)</label>
+          <div class="iw"><input type="number" id="r-rutin" value="1000000" min="0" step="100000"></div>
+          <div class="presets">
+            <button class="pb" data-val="500000" data-for="r-rutin">500rb</button>
+            <button class="pb on" data-val="1000000" data-for="r-rutin">1 jt</button>
+            <button class="pb" data-val="2000000" data-for="r-rutin">2 jt</button>
+            <button class="pb" data-val="5000000" data-for="r-rutin">5 jt</button>
           </div>
-        </div>
-        <button class="calc-btn" onclick="calcCompare()">⚖️ Bandingkan Sekarang</button>
-        <div id="compare-result" style="display:none">
-          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px">Hasil perbandingan per instrumen</div>
-          <div class="instrument-grid" id="inst-grid"></div>
         </div>
       </div>
-
-      <!-- TAB 2: Target (reverse) -->
-      <div class="inv-panel" id="ip2">
-        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
-          Tentukan target finansial Anda dan kalkulator menghitung berapa yang perlu diinvestasikan setiap bulan.
-        </div>
-        <div class="field"><label>Target Nilai Investasi (Rp)</label>
-          <div class="presets">
-            <div class="preset-chip" onclick="setChip('g-target',100000000,this)">Rp 100 jt</div>
-            <div class="preset-chip" onclick="setChip('g-target',500000000,this)">Rp 500 jt</div>
-            <div class="preset-chip" onclick="setChip('g-target',1000000000,this)">Rp 1 M</div>
-            <div class="preset-chip" onclick="setChip('g-target',5000000000,this)">Rp 5 M</div>
-          </div>
-          <input type="number" id="g-target" placeholder="Contoh: 1.000.000.000" oninput="autoCalc2()"/>
-        </div>
-        <div class="field"><label>Modal Awal yang Sudah Ada (Rp)</label>
-          <input type="number" id="g-awal" value="0" oninput="autoCalc2()"/>
-        </div>
-        <div class="field">
+      <div class="g2">
+        <div class="fld">
           <label>Return per Tahun (%)</label>
+          <div class="iw"><input type="number" id="r-rate" value="10" min="0.1" max="100" step="0.5"><span class="iu">%</span></div>
           <div class="presets">
-            <div class="preset-chip" onclick="setChip('g-rate',7,this)">7%</div>
-            <div class="preset-chip on" onclick="setChip('g-rate',12,this)">12%</div>
-            <div class="preset-chip" onclick="setChip('g-rate',15,this)">15%</div>
-          </div>
-          <input type="number" id="g-rate" value="12" step="0.1" oninput="autoCalc2()"/>
-        </div>
-        <div class="field">
-          <label>Jangka Waktu (tahun)</label>
-          <div class="radio-group" id="tg-btns">
-            <div class="radio-btn" onclick="setTh('tg',5,this)">5</div>
-            <div class="radio-btn" onclick="setTh('tg',10,this)">10</div>
-            <div class="radio-btn active" onclick="setTh('tg',20,this)">20</div>
-            <div class="radio-btn" onclick="setTh('tg',30,this)">30</div>
+            <button class="pb" data-val="5" data-for="r-rate">5%</button>
+            <button class="pb" data-val="7" data-for="r-rate">7%</button>
+            <button class="pb on" data-val="10" data-for="r-rate">10%</button>
+            <button class="pb" data-val="15" data-for="r-rate">15%</button>
           </div>
         </div>
-        <button class="calc-btn" onclick="calcGoal()">🎯 Hitung Setoran yang Dibutuhkan</button>
-        <div class="result-box" id="inv-res2" style="display:none">
-          <div class="goal-result-box">
-            <div class="grb-num" id="g-setoran-out">—</div>
-            <div style="font-size:.72rem;color:var(--mint)">setoran per bulan yang diperlukan</div>
-            <div style="margin-top:12px">
-              <div class="grb-row"><span>Target investasi</span><span style="font-weight:700" id="g-target-out">—</span></div>
-              <div class="grb-row"><span>Modal awal</span><span style="font-weight:700" id="g-awal-out">—</span></div>
-              <div class="grb-row"><span>Total yang Anda setor</span><span style="font-weight:700" id="g-total-setor">—</span></div>
-              <div class="grb-row"><span>Kontribusi return/bunga</span><span style="font-weight:700;color:var(--mint)" id="g-kontrib">—</span></div>
-              <div class="grb-row"><span>Estimasi lama mencapai target</span><span style="font-weight:700" id="g-lama">—</span></div>
-            </div>
+        <div class="fld">
+          <label>Jangka Waktu (Tahun)</label>
+          <div class="iw"><input type="number" id="r-thn" value="10" min="1" max="50"><span class="iu">thn</span></div>
+          <div class="presets">
+            <button class="pb" data-val="5" data-for="r-thn">5</button>
+            <button class="pb on" data-val="10" data-for="r-thn">10</button>
+            <button class="pb" data-val="20" data-for="r-thn">20</button>
+            <button class="pb" data-val="30" data-for="r-thn">30</button>
           </div>
-          <div id="g-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
         </div>
       </div>
 
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Nilai Akhir Portofolio</div>
+            <div class="rv lg" id="r-fv">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Total Disetorkan</div>
+            <div class="rv sm pri" id="r-setor">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Total Return</div>
+            <div class="rv sm" id="r-return">—</div>
+          </div>
+        </div>
+        <div class="bw">
+          <div id="r-bar-setor" style="background:#86efac;height:100%;transition:width .4s"></div>
+          <div id="r-bar-return" style="background:var(--grn);height:100%;transition:width .4s"></div>
+        </div>
+        <div class="bleg">
+          <span><span class="bleg-d" style="background:#86efac"></span>Total setor</span>
+          <span><span class="bleg-d" style="background:var(--grn)"></span>Return (compound)</span>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Investasi rutin per bulan</span><span id="r-rutin-show">—</span></div>
+          <div class="rr"><span>Total disetorkan selama periode</span><span id="r-setor2">—</span></div>
+          <div class="rr"><span>Return (keuntungan bersih)</span><span id="r-return2">—</span></div>
+          <div class="rr"><span>% return dari total setor</span><span id="r-return-pct">—</span></div>
+          <div class="rr"><span>Return per bulan (rata-rata)</span><span id="r-return-bln">—</span></div>
+        </div>
+      </div>
+      <div class="sec-lbl">Pertumbuhan per Tahun</div>
+      <div class="growth-chart" id="r-chart"></div>
     </div>
   </div>
+</div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Investasi 2026 — Simulasi Bunga Majemuk, DCA & Target Finansial</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Lihat potensi pertumbuhan investasi Anda dalam jangka panjang. Hitung DCA bulanan, bandingkan 6 instrumen investasi sekaligus, dan rencanakan berapa yang harus diinvestasikan untuk mencapai target finansial.</p>
-
-    <h2>Kekuatan Bunga Majemuk — Mengapa Mulai Lebih Awal Sangat Penting</h2>
-    <p>Bunga majemuk (compound interest) adalah proses di mana return investasi terus diinvestasikan ulang sehingga menghasilkan return atas return sebelumnya. Inilah fondasi dari semua strategi investasi jangka panjang:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Skenario</th><th>Modal</th><th>Return</th><th>Nilai setelah 20 thn</th><th>Keuntungan</th></tr></thead>
-      <tbody>
-        <tr><td>Lump sum saja</td><td>Rp 10 juta</td><td>12%/tahun</td><td>Rp 96,5 juta</td><td>+865%</td></tr>
-        <tr><td>DCA Rp 500rb/bln (tanpa modal awal)</td><td>Rp 120 juta total</td><td>12%/tahun</td><td>Rp 494 juta</td><td>+312%</td></tr>
-        <tr><td>Lump sum + DCA Rp 500rb/bln</td><td>Rp 130 juta total</td><td>12%/tahun</td><td>Rp 590 juta</td><td>+354%</td></tr>
-      </tbody>
-    </table>
-    <p>Kunci bunga majemuk: <strong>waktu dan konsistensi</strong>. Mulai 5 tahun lebih awal bisa menghasilkan perbedaan ratusan juta rupiah di akhir periode.</p>
-
-    <h2>Fitur Kalkulator Investasi NovaCalcs</h2>
-    <ul>
-      <li><strong>Mode Simulasi</strong> — Hitung nilai investasi dari modal awal dan/atau setoran bulanan (DCA). Tersedia tombol toggle inflasi: tampilkan nilai nominal atau nilai riil setelah dikurangi inflasi 3,5%/tahun agar bisa menilai daya beli sesungguhnya.</li>
-      <li><strong>Tabel proyeksi per tahun</strong> — Lihat detail nilai investasi, total yang telah disetor, dan keuntungan kumulatif untuk setiap tahun hingga akhir periode investasi.</li>
-      <li><strong>Mode Bandingkan</strong> — Masukkan modal dan setoran sekali, langsung tampil perbandingan hasil untuk 6 instrumen sekaligus (deposito, obligasi, reksa dana pasar uang, campuran, saham, dan IHSG historis) dalam kartu yang mudah dibaca.</li>
-      <li><strong>Mode Target (Reverse)</strong> — Tentukan nominal target (Rp 1 miliar, Rp 5 miliar, dll.) dan jangka waktu, kalkulator menghitung setoran bulanan minimal yang diperlukan dengan asumsi return yang dipilih.</li>
-      <li><strong>Preset instrumen</strong> — Tombol cepat untuk return historis deposito 5%, obligasi 7%, reksa dana 12%, dan saham 15%.</li>
-    </ul>
-
-    <h2>Perbandingan Return Instrumen Investasi Indonesia 2026</h2>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Instrumen</th><th>Return Rata-rata/Tahun</th><th>Risiko</th><th>Cocok untuk</th></tr></thead>
-      <tbody>
-        <tr><td>Deposito / Tabungan</td><td>4–6%</td><td>Sangat rendah</td><td>Dana darurat, jangka &lt;1 tahun</td></tr>
-        <tr><td>Obligasi negara (ORI/SBR)</td><td>6–7,5%</td><td>Sangat rendah</td><td>Jangka 2–3 tahun, modal min Rp 1 jt</td></tr>
-        <tr><td>Reksa dana pasar uang</td><td>4–6%</td><td>Sangat rendah</td><td>Dana darurat, fleksibel dicairkan</td></tr>
-        <tr><td>Reksa dana pendapatan tetap</td><td>6–9%</td><td>Rendah–sedang</td><td>Jangka 2–5 tahun</td></tr>
-        <tr><td>Reksa dana saham / campuran</td><td>10–15%</td><td>Tinggi</td><td>Jangka panjang ≥5 tahun</td></tr>
-        <tr><td>Saham langsung (IHSG historis)</td><td>12–15%</td><td>Tinggi</td><td>Jangka panjang, butuh analisis</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:.78rem;color:var(--text-muted)">*Return historis tidak menjamin return masa depan. Semakin tinggi potensi return, semakin tinggi risiko fluktuasi jangka pendek.</p>
-
-    <h2>Dollar Cost Averaging (DCA) — Strategi Investasi Rutin</h2>
-    <p>DCA adalah strategi berinvestasi dengan nominal tetap setiap bulan, terlepas dari kondisi pasar. Misalnya: investasi Rp 500.000 ke reksa dana saham setiap tanggal 1, apapun yang terjadi di pasar. Keunggulan DCA:</p>
-    <ul>
-      <li>Menghilangkan risiko "salah timing" — saat harga turun Anda otomatis beli lebih banyak unit</li>
-      <li>Membangun disiplin keuangan — investasi jadi kebiasaan seperti bayar tagihan</li>
-      <li>Cocok untuk investor dengan penghasilan bulanan tetap</li>
-      <li>Return DCA jangka panjang (10–20 tahun) sering mengalahkan investor yang mencoba timing pasar</li>
-    </ul>
-    <p>Kalkulator ini mensimulasikan DCA dengan asumsi setoran setiap awal bulan dan kompounding bulanan.</p>
-
-    <h2>Dampak Inflasi pada Investasi</h2>
-    <p>Return investasi yang terlihat besar bisa menyusut saat disesuaikan dengan inflasi. Contoh: return 12%/tahun dikurangi inflasi 3,5%/tahun = return riil sekitar 8,2%. Nilai riil penting untuk menilai apakah investasi Anda benar-benar meningkatkan daya beli, bukan sekadar nominal. Kalkulator ini menyediakan toggle inflasi untuk membantu memahami nilai sesungguhnya.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa modal minimum untuk mulai investasi reksa dana?</div>
-      <div class="faq-a">Reksa dana di Indonesia bisa dimulai dari Rp 10.000 di platform digital seperti Bibit, Bareksa, dan beberapa aplikasi bank. Tidak ada alasan menunggu modal besar — lebih penting memulai lebih awal karena kekuatan bunga majemuk sangat bergantung pada lamanya waktu investasi. Mulai dengan nominal kecil dan tingkatkan seiring kenaikan penghasilan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah return 12% per tahun realistis untuk reksa dana?</div>
-      <div class="faq-a">Return 12%/tahun adalah estimasi rata-rata historis untuk reksa dana saham Indonesia dalam jangka 10+ tahun. Namun ini tidak dijamin — dalam jangka pendek bisa negatif secara signifikan (mis. krisis 2008: −50%, COVID 2020: −25%). Reksa dana pasar uang jauh lebih stabil (4–6%) namun returnnya lebih kecil. Sesuaikan pilihan instrumen dengan toleransi risiko dan jangka waktu Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah keuntungan reksa dana dikenakan pajak?</div>
-      <div class="faq-a">Untuk reksa dana, capital gain (keuntungan dari penjualan) saat ini tidak dikenakan pajak di Indonesia — keunggulan dibanding deposito yang bunganya dipotong 20%. Namun dividen dari reksa dana saham tertentu bisa dikenakan pajak. Regulasi perpajakan investasi dapat berubah — selalu cek peraturan terkini di OJK atau konsultasikan dengan manajer investasi.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Mana yang lebih baik: investasi sekaligus atau rutin (DCA)?</div>
-      <div class="faq-a">Secara teoritis, lump sum (investasi sekaligus) lebih optimal jika timing-nya tepat. Namun bagi investor individu yang tidak bisa memprediksi pasar, DCA lebih realistis dan psikologis lebih aman. Penelitian menunjukkan bahwa dalam jangka panjang (10+ tahun), perbedaan return antara lump sum dan DCA cenderung mengecil. Yang terpenting adalah konsistensi dan jangka waktu, bukan cara masuknya.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik untuk mulai investasi?</div>
-      <div class="faq-a">Jawabannya: sekarang, bukan saat kondisi pasar "sempurna". Menunggu timing yang tepat justru sering membuat seseorang tidak pernah mulai. Pastikan Anda sudah memiliki: (1) dana darurat minimal 3–6 bulan pengeluaran, (2) tidak ada utang berbunga tinggi, (3) pemahaman dasar tentang produk yang dipilih. Setelah itu, mulai dengan jumlah yang nyaman dan tingkatkan secara konsisten.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung berapa yang harus diinvestasikan untuk pensiun?</div>
-      <div class="faq-a">Langkah dasarnya: (1) Estimasi biaya hidup bulanan saat pensiun dalam nilai sekarang, (2) Kalikan dengan 12 × jumlah tahun pensiun untuk mendapat total kebutuhan, (3) Sesuaikan dengan inflasi untuk nilai di masa depan, (4) Gunakan Tab "Target" di kalkulator ini untuk menghitung setoran bulanan. Aturan umum: untuk bisa menarik 4% per tahun dari portofolio secara berkelanjutan, Anda butuh 25× pengeluaran tahunan (rule of 25).</div>
+<!-- ② SIMULATOR: PERBANDINGAN INSTRUMEN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚖️</div>Perbandingan Instrumen Investasi <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Bandingkan hasil investasi yang sama di berbagai instrumen. Klik instrumen untuk lihat detail perbandingan.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Modal (Rp)</label>
+        <div class="iw"><input type="number" id="ins-modal" value="10000000" min="0" step="1000000"></div>
+      </div>
+      <div class="fld">
+        <label>Jangka Waktu (Tahun)</label>
+        <div class="iw"><input type="number" id="ins-thn" value="10" min="1" max="50"><span class="iu">thn</span></div>
+        <div class="presets">
+          <button class="pb" data-val="3" data-for="ins-thn">3</button>
+          <button class="pb" data-val="5" data-for="ins-thn">5</button>
+          <button class="pb on" data-val="10" data-for="ins-thn">10</button>
+          <button class="pb" data-val="20" data-for="ins-thn">20</button>
+        </div>
+      </div>
     </div>
 
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
-      <a href="/id/kalkulator-roi.html" class="related-item"><span class="ri">💹</span>Kalkulator ROI</a>
-      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Inflasi</a>
-      <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
+    <div class="ins-grid" id="ins-cards"></div>
+
+    <div class="sec-lbl" style="margin-top:16px">Hasil di Akhir Periode</div>
+    <div class="growth-chart" id="ins-chart"></div>
+    <div class="notice info" style="margin-top:10px">💡 Return historis tidak menjamin return masa depan. Risiko berbanding lurus dengan potensi return — saham dan reksa dana saham fluktuatif; deposito aman tapi return rendah. Diversifikasi adalah kunci.</div>
+  </div>
+</div>
+
+<!-- ③ SIMULATOR: KALKULATOR TUJUAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🎯</div>Kalkulator Tujuan Keuangan <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Punya target finansial? Hitung berapa yang harus diinvestasikan setiap bulan — atau berapa lama waktu yang dibutuhkan.</p>
+    <div class="fld">
+      <label>Target Dana yang Dibutuhkan (Rp)</label>
+      <div class="iw"><input type="number" id="tj-target" value="1000000000" min="0" step="10000000"></div>
+      <div class="presets">
+        <button class="pb" data-val="100000000" data-for="tj-target">100 jt</button>
+        <button class="pb" data-val="500000000" data-for="tj-target">500 jt</button>
+        <button class="pb on" data-val="1000000000" data-for="tj-target">1 M</button>
+        <button class="pb" data-val="2000000000" data-for="tj-target">2 M</button>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="fld">
+        <label>Return per Tahun (%)</label>
+        <div class="iw"><input type="number" id="tj-rate" value="10" min="0.1" max="100" step="0.5"><span class="iu">%</span></div>
+      </div>
+      <div class="fld">
+        <label>Modal Awal yang Sudah Ada (Rp)</label>
+        <div class="iw"><input type="number" id="tj-modal" value="0" min="0" step="1000000"></div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Jangka Waktu Target (Tahun)</label>
+      <div class="iw"><input type="number" id="tj-thn" value="10" min="1" max="50"><span class="iu">thn</span></div>
+      <div class="presets">
+        <button class="pb" data-val="5" data-for="tj-thn">5 thn</button>
+        <button class="pb on" data-val="10" data-for="tj-thn">10 thn</button>
+        <button class="pb" data-val="15" data-for="tj-thn">15 thn</button>
+        <button class="pb" data-val="20" data-for="tj-thn">20 thn</button>
+      </div>
+    </div>
+
+    <div class="tujuan-box">
+      <div class="tujuan-val" id="tj-rutin">—</div>
+      <div class="tujuan-lbl">Investasi rutin per bulan yang dibutuhkan</div>
+    </div>
+
+    <div class="lres" style="margin-top:12px">
+      <div class="rrows" style="border:none;padding:0">
+        <div class="rr"><span>Target dana</span><span id="tj-target-show">—</span></div>
+        <div class="rr"><span>Modal awal yang dimiliki</span><span id="tj-modal-show">—</span></div>
+        <div class="rr"><span>Pertumbuhan modal awal di akhir periode</span><span id="tj-modal-grow">—</span></div>
+        <div class="rr"><span>Kekurangan yang harus ditutup dari investasi rutin</span><span id="tj-kekurangan">—</span></div>
+        <div class="rr"><span>Investasi rutin per bulan</span><span id="tj-rutin2">—</span></div>
+        <div class="rr"><span>Total disetorkan selama periode</span><span id="tj-total-setor">—</span></div>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:10px">* Asumsi return stabil sepanjang periode — return investasi nyata bervariasi. Gunakan return yang konservatif untuk perencanaan yang lebih aman. Pertimbangkan juga inflasi saat menentukan target dana.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico" style="background:var(--grn-b)">📋</div>Return Investasi Umum</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Deposito Bank</div><div class="fron">Aman, dijamin LPS</div></div></div><div class="fprice">4–6%/thn</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#8b5cf6"></div><div><div class="fn">Obligasi / SBN</div><div class="fron">SBR, ORI, Sukuk ritel</div></div></div><div class="fprice">5–7%/thn</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Reksa Dana Campuran</div><div class="fron">Diversifikasi otomatis</div></div></div><div class="fprice">8–12%/thn</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Reksa Dana Saham</div><div class="fron">Jangka panjang ≥5 thn</div></div></div><div class="fprice">10–18%/thn</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Saham Individual</div><div class="fron">Risiko tinggi, volatile</div></div></div><div class="fprice">Bervariasi</div></div>
+      </div>
+      <div class="notice" style="margin-top:8px">Return historis — bukan jaminan masa depan. Risiko ↑ = potensi return ↑.</div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico" style="background:var(--grn-b)">💡</div>Prinsip Investasi</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">⏳</span><span class="tptx"><strong>Mulai lebih awal</strong> — bunga majemuk bekerja lebih baik dengan waktu lebih panjang</span></div>
+        <div class="tip"><span class="tpico">🔄</span><span class="tptx"><strong>Konsisten (DCA)</strong> — investasi rutin setiap bulan lebih baik dari timing pasar</span></div>
+        <div class="tip"><span class="tpico">🌏</span><span class="tptx"><strong>Diversifikasi</strong> — jangan taruh semua telur dalam satu keranjang</span></div>
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>Sesuaikan risiko</strong> — jangka pendek = konservatif; jangka panjang = bisa agresif</span></div>
+        <div class="tip"><span class="tpico">🧮</span><span class="tptx"><strong>Rule of 72</strong> — 72 ÷ return% = tahun untuk 2× modal</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico" style="background:var(--grn-b)">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-roi" class="relc"><div class="relc-ico">📊</div><div class="relc-nm">ROI</div><div class="relc-ds">Return on investment</div></a>
+        <a href="/id/kalkulator-tabungan" class="relc"><div class="relc-ico">🏦</div><div class="relc-nm">Tabungan</div><div class="relc-ds">Simulasi tabungan</div></a>
+        <a href="/id/kalkulator-inflasi" class="relc"><div class="relc-ico">📈</div><div class="relc-nm">Inflasi</div><div class="relc-ds">Dampak inflasi</div></a>
+        <a href="/id/kalkulator-dp-rumah" class="relc"><div class="relc-ico">🏡</div><div class="relc-nm">DP Rumah</div><div class="relc-ds">Simulasi tabungan DP</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Kekuatan Bunga Majemuk (Compound Interest)</h2>
+  <p>Bunga majemuk berarti return Anda juga menghasilkan return — keuntungan diinvestasikan kembali sehingga nilai investasi tumbuh secara eksponensial. Semakin lama horizon investasi, semakin besar efek compounding. <strong>Rule of 72:</strong> bagi 72 dengan return tahunan untuk mengetahui berapa tahun modal Anda berlipat dua.</p>
+
+  <h2>Investasi Sekaligus vs Rutin (SIP/DCA)</h2>
+  <ul>
+    <li><strong>Lump sum (sekaligus)</strong>: Cocok jika punya dana besar dan pasar sedang rendah. Seluruh modal langsung bekerja sejak hari pertama.</li>
+    <li><strong>SIP/DCA (rutin bulanan)</strong>: Cocok untuk pemula dengan penghasilan tetap. Mengurangi risiko beli di harga puncak. Membangun disiplin investasi.</li>
+    <li>Riset menunjukkan DCA menghasilkan return yang lebih stabil karena rata-rata harga beli menjadi lebih baik di jangka panjang.</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Berapa return investasi yang realistis di Indonesia?</div><div class="faq-a">Deposito bank: 4–6%/tahun (aman, dijamin LPS hingga Rp 2 miliar). Obligasi ritel negara (ORI, SBR): 5–7%. Reksa dana campuran: 8–12% historis. Reksa dana saham/indeks: 10–18% jangka panjang (dengan fluktuasi signifikan). Saham individual: sangat bervariasi tergantung pilihan dan kemampuan analisis. Selalu gunakan asumsi konservatif untuk perencanaan.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu Dollar Cost Averaging (DCA) dan mengapa efektif?</div><div class="faq-a">DCA adalah strategi investasi rutin dengan jumlah tetap setiap periode — misalnya Rp 1 juta setiap bulan — tanpa peduli kondisi pasar. Efektif karena: (1) membeli lebih banyak unit saat harga turun dan lebih sedikit saat harga naik, sehingga rata-rata harga beli lebih optimal; (2) menghilangkan kebutuhan timing pasar yang sulit; (3) membangun disiplin investasi jangka panjang.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara memulai investasi reksa dana di Indonesia?</div><div class="faq-a">Langkah mudah: (1) Pilih platform — Bibit, Bareksa, Tokopedia Investasi, atau aplikasi bank. (2) Daftar dan verifikasi identitas (KTP + NPWP). (3) Pilih reksa dana sesuai profil risiko dan horizon investasi. (4) Mulai dari jumlah kecil (min. Rp 10.000 di beberapa platform). (5) Aktifkan auto-invest untuk DCA konsisten.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-const fmtM = n => {
-  if (n >= 1e12) return 'Rp ' + (n/1e12).toFixed(2) + ' T';
-  if (n >= 1e9)  return 'Rp ' + (n/1e9).toFixed(2) + ' M';
-  if (n >= 1e6)  return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
-  return fmt(n);
-};
+<script>
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){if(n>=1e12)return'Rp '+(n/1e12).toFixed(2)+' T';if(n>=1e9)return'Rp '+(n/1e9).toFixed(2)+' M';if(n>=1e6)return'Rp '+(n/1e6).toFixed(1)+' jt';return rp(n)}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-const th = { th0:20, tc:10, tg:20 };
+// FV = PV * (1 + r/f)^(n*f)
+function fvLump(PV, ratePct, years, freq=12){
+  const r=ratePct/100/freq, n=years*freq;
+  return PV*Math.pow(1+r,n);
+}
+// FV annuity = PMT * ((1+r)^n - 1)/r + PV*(1+r)^n
+function fvAnnuity(PMT, ratePct, years, PV=0){
+  const r=ratePct/100/12, n=years*12;
+  if(r===0)return PV+PMT*n;
+  const fvPMT=PMT*(Math.pow(1+r,n)-1)/r;
+  const fvPV=PV*Math.pow(1+r,n);
+  return fvPMT+fvPV;
+}
+// PMT to reach FV: PMT = (FV - PV*(1+r)^n) * r / ((1+r)^n - 1)
+function pmtForFV(FV, ratePct, years, PV=0){
+  const r=ratePct/100/12, n=years*12;
+  if(r===0)return Math.max(0,FV-PV)/n;
+  const fvPV=PV*Math.pow(1+r,n);
+  const remain=Math.max(0,FV-fvPV);
+  return remain*r/(Math.pow(1+r,n)-1);
+}
 
-const INSTRUMENTS = [
-  { name:'Deposito Bank',         icon:'🏦', ret:5,  risk:'Sangat Rendah', riskClass:'risk-low'    },
-  { name:'Obligasi Negara',       icon:'📜', ret:7,  risk:'Rendah',        riskClass:'risk-low'    },
-  { name:'Reksa Dana Pasar Uang', icon:'💵', ret:5.5,risk:'Sangat Rendah', riskClass:'risk-low'    },
-  { name:'Reksa Dana Campuran',   icon:'📊', ret:10, risk:'Sedang',        riskClass:'risk-medium' },
-  { name:'Reksa Dana Saham',      icon:'📈', ret:12, risk:'Tinggi',        riskClass:'risk-high'   },
-  { name:'Saham (IHSG historis)', icon:'🏛️', ret:14, risk:'Tinggi',        riskClass:'risk-high'   },
+const INSTRUMENTS=[
+  {key:'deposito',ico:'🏦',nm:'Deposito',rate:5,sub:'Dijamin LPS'},
+  {key:'sbn',ico:'🏛️',nm:'SBN/ORI',rate:6.5,sub:'Obligasi negara'},
+  {key:'reksacampuran',ico:'📊',nm:'RD Campuran',rate:10,sub:'Diversifikasi'},
+  {key:'reksasaham',ico:'📈',nm:'RD Saham',rate:14,sub:'Jangka panjang'},
+  {key:'properti',ico:'🏠',nm:'Properti',rate:8,sub:'Sewa + capital gain'},
 ];
+let selIns='reksasaham';
 
-function switchTab(idx, btn) {
-  document.querySelectorAll('.inv-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.inv-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('ip' + idx).classList.add('active');
-}
-function setChip(id, v, btn) {
-  document.getElementById(id).value = v;
-  btn.closest('.field').querySelectorAll('.preset-chip').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  autoCalc0(); autoCalc2();
-}
-function setTh(key, v, btn) {
-  th[key] = v;
-  document.querySelectorAll('#' + key + '-btns .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  autoCalc0(); calcCompare(); autoCalc2();
-}
-
-/* ── Shared DCA calc ── */
-function dcaCalc(modal, setoran, rateYear, tahunN) {
-  const r = rateYear / 100 / 12;
-  const n = tahunN * 12;
-  let v = modal;
-  const milestones = [];
-  for (let m = 1; m <= n; m++) {
-    v = v * (1 + r) + setoran;
-    if (m % 12 === 0) milestones.push(v);
-  }
-  return milestones;
+// ① SEKALIGUS
+function calcSekaligus(){
+  const modal=v('s-modal'),rate=v('s-rate'),thn=v('s-thn');
+  const freq=parseFloat(document.getElementById('s-freq')?.value)||12;
+  const fv=fvLump(modal,rate,thn,freq);
+  const ret=fv-modal;
+  const doubleYrs=rate>0?(72/rate).toFixed(1):'—';
+  set('s-fv',rpM(fv));set('s-return',rpM(ret));
+  set('s-double',doubleYrs+' tahun (Rule of 72)');
+  set('s-modal-show',rp(modal));set('s-rate-show',rate+'%/tahun');
+  set('s-thn-show',thn+' tahun');
+  set('s-return-pct',modal>0?((ret/modal)*100).toFixed(1)+'%':'—');
+  set('s-cagr',rate+'%/tahun');
+  const barM=fv>0?modal/fv*100:50;
+  document.getElementById('s-bar-modal').style.width=barM+'%';
+  document.getElementById('s-bar-return').style.width=(100-barM)+'%';
+  // chart
+  renderGrowthChart('s-chart', modal, rate, thn, freq, 'lump');
+  // sync
+  document.getElementById('ins-modal').value=modal;document.getElementById('ins-thn').value=thn;
+  document.getElementById('tj-rate').value=rate;
+  calcIns();calcTujuan();
 }
 
-/* ── TAB 0 ── */
-function autoCalc0() {
-  if (document.getElementById('modal').value || document.getElementById('setoran').value > 0) calcSimulasi();
-}
-function calcSimulasi() {
-  const modal    = parseFloat(document.getElementById('modal').value) || 0;
-  const setoran  = parseFloat(document.getElementById('setoran').value) || 0;
-  const rate     = parseFloat(document.getElementById('return-rate').value) || 12;
-  const inflasi  = document.getElementById('inflasi-check').checked ? 3.5 : 0;
-  const t        = th.th0;
-  if (!modal && !setoran) return;
-
-  const milestones = dcaCalc(modal, setoran, rate, t);
-  const n          = t * 12;
-  const hasil      = milestones[milestones.length - 1];
-  const totalSetor = modal + setoran * n;
-  const untung     = hasil - totalSetor;
-  const growth     = totalSetor > 0 ? ((hasil / totalSetor - 1) * 100).toFixed(1) : 0;
-  const hasilRiil  = hasil / Math.pow(1 + inflasi / 100, t);
-
-  document.getElementById('i0-nilai').textContent = fmtM(hasil);
-  document.getElementById('i0-label').textContent = inflasi > 0 ? 'Nilai nominal (sebelum inflasi)' : 'Nilai akhir investasi';
-  document.getElementById('i0-setor').textContent  = fmtM(totalSetor);
-  document.getElementById('i0-untung').textContent = '+' + fmtM(untung);
-  document.getElementById('i0-growth').textContent = '+' + growth + '%';
-  document.getElementById('i0-riil').textContent   = inflasi > 0 ? fmtM(hasilRiil) + ' (−' + inflasi + '%/thn)' : '—';
-
-  const setPct = Math.round(totalSetor / hasil * 100);
-  const retPct = 100 - setPct;
-  document.getElementById('i0-bar-s').style.width = setPct + '%';
-  document.getElementById('i0-bar-s').textContent = setPct > 15 ? 'Modal ' + setPct + '%' : '';
-  document.getElementById('i0-bar-r').style.width = retPct + '%';
-  document.getElementById('i0-bar-r').textContent = retPct > 10 ? 'Return ' + retPct + '%' : '';
-
-  // Milestone table
-  const tbody = document.getElementById('i0-milestones');
-  tbody.innerHTML = milestones.map((v, i) => {
-    const yr   = i + 1;
-    const setor = modal + setoran * yr * 12;
-    const g    = v - setor;
-    return `<tr><td>Tahun ${yr}</td><td>${fmtM(v)}</td><td>${fmtM(setor)}</td><td style="color:var(--mint)">${g > 0 ? '+' : ''}${fmtM(g)}</td></tr>`;
-  }).join('');
-
-  document.getElementById('i0-advice').innerHTML =
-    `📈 Dengan return ${rate}%/tahun selama ${t} tahun, total modal <strong>${fmtM(totalSetor)}</strong> tumbuh menjadi <strong>${fmtM(hasil)}</strong>. Return berkontribusi <strong>${fmtM(untung)}</strong> (+${growth}% dari modal). ${inflasi > 0 ? `Nilai riil setelah inflasi ${inflasi}%/tahun: <strong>${fmtM(hasilRiil)}</strong>.` : 'Aktifkan toggle inflasi untuk melihat nilai riil.'} `;
-
-  document.getElementById('inv-res0').style.display = 'block';
-  document.getElementById('inv-res0').classList.add('show');
+// ② RUTIN
+function calcRutin(){
+  const modal=v('r-modal'),rutin=v('r-rutin'),rate=v('r-rate'),thn=v('r-thn');
+  const fv=fvAnnuity(rutin,rate,thn,modal);
+  const setor=modal+rutin*thn*12;
+  const ret=fv-setor;
+  set('r-fv',rpM(fv));set('r-setor',rpM(setor));set('r-return',rpM(ret));
+  set('r-rutin-show',rp(rutin)+'/bulan');set('r-setor2',rpM(setor));set('r-return2',rpM(ret));
+  set('r-return-pct',setor>0?((ret/setor)*100).toFixed(1)+'%':'—');
+  set('r-return-bln',rpM(ret/(thn*12))+'/bulan (rata-rata)');
+  const barS=fv>0?setor/fv*100:60;
+  document.getElementById('r-bar-setor').style.width=barS+'%';
+  document.getElementById('r-bar-return').style.width=(100-barS)+'%';
+  renderGrowthChart('r-chart', modal, rate, thn, 12, 'annuity', rutin);
+  document.getElementById('tj-rate').value=rate;
+  calcTujuan();
 }
 
-/* ── TAB 1 ── */
-function calcCompare() {
-  const modal   = parseFloat(document.getElementById('c-modal').value) || 0;
-  const setoran = parseFloat(document.getElementById('c-setoran').value) || 0;
-  const t       = th.tc;
-  if (!modal && !setoran) return;
-
-  const grid = document.getElementById('inst-grid');
-  grid.innerHTML = INSTRUMENTS.map(inst => {
-    const ms     = dcaCalc(modal, setoran, inst.ret, t);
-    const hasil  = ms[ms.length - 1];
-    const setor  = modal + setoran * t * 12;
-    const untung = hasil - setor;
-    return `<div class="inst-card">
-      <div class="inst-name">${inst.icon} ${inst.name}</div>
-      <div class="inst-return">${inst.ret}%/tahun</div>
-      <div class="inst-final">Nilai akhir: <strong>${fmtM(hasil)}</strong> · Return: <strong>+${fmtM(untung)}</strong></div>
-      <span class="inst-risk ${inst.riskClass}">Risiko ${inst.risk}</span>
+function renderGrowthChart(id, modal, rate, thn, freq, mode, pmt=0){
+  const el=document.getElementById(id);if(!el)return;
+  const years=Math.min(thn,20);
+  const maxFV=mode==='lump'?fvLump(modal,rate,thn,freq):fvAnnuity(pmt,rate,thn,modal);
+  el.innerHTML=Array.from({length:years},(_,i)=>{
+    const y=i+1;
+    const fv=mode==='lump'?fvLump(modal,rate,y,freq):fvAnnuity(pmt,rate,y,modal);
+    const setor=mode==='lump'?modal:modal+pmt*y*12;
+    const ret=fv-setor;
+    const mPct=maxFV>0?setor/maxFV*100:50;
+    const rPct=maxFV>0?Math.max(0,ret)/maxFV*100:50;
+    return`<div class="g-row">
+      <span class="g-lbl">Thn ${y}</span>
+      <div class="g-bar-bg">
+        <div class="g-bar-modal" style="width:${Math.min(100,mPct)}%"></div>
+        <div class="g-bar-return" style="width:${Math.min(100-mPct,rPct)}%"></div>
+      </div>
+      <span class="g-val">${rpM(fv)}</span>
     </div>`;
   }).join('');
-
-  document.getElementById('compare-result').style.display = 'block';
 }
 
-/* ── TAB 2 ── */
-function autoCalc2() {
-  if (document.getElementById('g-target').value) calcGoal();
-}
-function calcGoal() {
-  const target = parseFloat(document.getElementById('g-target').value) || 0;
-  const awal   = parseFloat(document.getElementById('g-awal').value) || 0;
-  const rate   = parseFloat(document.getElementById('g-rate').value) || 12;
-  const t      = th.tg;
-  if (!target) return;
-
-  const r = rate / 100 / 12;
-  const n = t * 12;
-
-  // FV: target = awal*(1+r)^n + setoran*((1+r)^n - 1)/r
-  const fvAwal = awal * Math.pow(1 + r, n);
-  const sisa   = target - fvAwal;
-  const setoran = sisa > 0 ? sisa * r / (Math.pow(1 + r, n) - 1) : 0;
-  const totalSetor = awal + Math.max(0, setoran) * n;
-  const kontrib = target - totalSetor;
-
-  document.getElementById('g-setoran-out').textContent = setoran > 0 ? fmt(setoran) + '/bulan' : 'Tidak perlu setoran tambahan!';
-  document.getElementById('g-target-out').textContent  = fmtM(target);
-  document.getElementById('g-awal-out').textContent    = fmtM(awal);
-  document.getElementById('g-total-setor').textContent = fmtM(totalSetor);
-  document.getElementById('g-kontrib').textContent     = '+' + fmtM(Math.max(0, kontrib));
-  document.getElementById('g-lama').textContent        = t + ' tahun';
-
-  document.getElementById('g-advice').innerHTML = setoran > 0
-    ? `🎯 Untuk mencapai <strong>${fmtM(target)}</strong> dalam ${t} tahun dengan return ${rate}%, Anda perlu investasikan <strong>${fmt(setoran)}/bulan</strong>. Total yang benar-benar Anda keluarkan: <strong>${fmtM(totalSetor)}</strong> — return pasar menanggung sisanya (<strong>${fmtM(Math.max(0,kontrib))}</strong>).`
-    : `✅ Dengan modal awal <strong>${fmtM(awal)}</strong> dan return ${rate}%/tahun, target <strong>${fmtM(target)}</strong> bisa tercapai dalam ${t} tahun tanpa setoran tambahan!`;
-
-  document.getElementById('inv-res2').style.display = 'block';
-  document.getElementById('inv-res2').classList.add('show');
+// ③ INSTRUMEN
+function calcIns(){
+  const modal=v('ins-modal'),thn=v('ins-thn');
+  const wrap=document.getElementById('ins-cards');
+  if(wrap)wrap.innerHTML=INSTRUMENTS.map(ins=>`
+    <div class="ins-card${selIns===ins.key?' selected':''}" onclick="selIns='${ins.key}';calcIns()">
+      <div class="ins-ico">${ins.ico}</div>
+      <div class="ins-nm">${ins.nm}</div>
+      <div class="ins-rate">${ins.rate}%/thn</div>
+      <div class="ins-sub">${ins.sub}</div>
+    </div>`).join('');
+  const chart=document.getElementById('ins-chart');if(!chart)return;
+  const maxFV=Math.max(...INSTRUMENTS.map(i=>fvLump(modal,i.rate,thn)));
+  chart.innerHTML=INSTRUMENTS.map(ins=>{
+    const fv=fvLump(modal,ins.rate,thn);
+    const pct=maxFV>0?fv/maxFV*100:50;
+    const isSel=selIns===ins.key;
+    return`<div class="g-row${isSel?' ':{}}">
+      <span class="g-lbl" style="color:${isSel?'var(--grn)':'var(--tx3)'}">${ins.ico} ${ins.nm}</span>
+      <div class="g-bar-bg">
+        <div class="g-bar-return" style="width:${pct}%;background:${isSel?'var(--grn)':'#86efac'}"></div>
+      </div>
+      <span class="g-val" style="color:${isSel?'var(--grn)':'var(--tx3)'}">${rpM(fv)}</span>
+    </div>`;
+  }).join('');
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+// ④ TUJUAN
+function calcTujuan(){
+  const target=v('tj-target'),rate=v('tj-rate'),thn=v('tj-thn'),modal=v('tj-modal');
+  const pmt=pmtForFV(target,rate,thn,modal);
+  const fvModal=fvLump(modal,rate,thn);
+  const kekurangan=Math.max(0,target-fvModal);
+  const totalSetor=modal+pmt*thn*12;
+  set('tj-rutin',rp(pmt)+'/bulan');set('tj-rutin2',rp(pmt)+'/bulan');
+  set('tj-target-show',rpM(target));set('tj-modal-show',rpM(modal));
+  set('tj-modal-grow',rpM(fvModal)+' di akhir periode');
+  set('tj-kekurangan',rpM(kekurangan));set('tj-total-setor',rpM(totalSetor));
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['s-modal','s-rate','s-thn','s-freq'],calcSekaligus);
+listen(['r-modal','r-rutin','r-rate','r-thn'],calcRutin);
+listen(['ins-modal','ins-thn'],calcIns);
+listen(['tj-target','tj-rate','tj-thn','tj-modal'],calcTujuan);
+calcSekaligus();calcRutin();calcIns();calcTujuan();
 </script>
 </body>
 </html>

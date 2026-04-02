@@ -1,467 +1,606 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Cicilan 2026 — Flat vs Efektif + Tabel Angsuran | NovaCalcs</title>
-<meta name="description" content="Simulasi cicilan kredit bulanan dengan metode flat, efektif (anuitas), dan anuitas menurun. Bandingkan ketiga metode sekaligus dan lihat tabel angsuran lengkap."/>
-<meta name="keywords" content="kalkulator cicilan, hitung cicilan kredit, angsuran bulanan, bunga flat efektif, simulasi kredit, tabel amortisasi, cicilan motor mobil KTA"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-cicilan.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-cicilan.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Cicilan","url":"https://novacalcs.com/id/kalkulator-cicilan.html","description":"Simulasi cicilan dengan tiga metode bunga dan tabel amortisasi lengkap","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Big cicilan display */
-.cic-main { text-align:center; padding:16px 0 8px; }
-.cic-num { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
-.cic-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Pokok vs bunga bar */
-.cic-bar-wrap { margin:12px 0 6px; }
-.cic-bar-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:5px; }
-.cic-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
-.cic-bar-pokok { background:#4ade80; transition:width 0.6s; display:flex; align-items:center; padding-left:8px; font-size:0.62rem; font-weight:700; color:#064e3b; }
-.cic-bar-bunga { background:#f97316; transition:width 0.6s; display:flex; align-items:center; justify-content:center; font-size:0.62rem; font-weight:700; color:#431407; }
-.cic-bar-legend { display:flex; gap:14px; margin-top:5px; font-size:0.72rem; color:var(--text-secondary); }
-.cic-bar-legend span::before { content:'●'; margin-right:4px; }
-.leg-g::before { color:#4ade80; } .leg-o::before { color:#f97316; }
-
-/* Stats grid */
-.cic-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.cic-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.cic-stat .cs-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
-.cic-stat .cs-val { font-size:0.9rem; font-weight:700; color:var(--text-primary); }
-.cic-stat.highlight .cs-val { color:var(--mint); }
-.cic-stat.warn .cs-val { color:#f97316; }
-
-/* Method comparison table */
-.method-comp { width:100%; border-collapse:collapse; font-size:0.78rem; margin:10px 0; }
-.method-comp th { background:var(--bg-input); color:var(--text-secondary); padding:7px 10px; text-align:right; font-weight:600; }
-.method-comp th:first-child { text-align:left; }
-.method-comp td { padding:7px 10px; border-bottom:1px solid var(--border); text-align:right; }
-.method-comp td:first-child { text-align:left; font-weight:600; color:var(--text-secondary); }
-.method-comp tr.chosen td { background:var(--mint-dim); color:var(--mint); font-weight:700; }
-.method-comp tr:last-child td { border-bottom:none; }
-.method-comp .cheaper { color:#4ade80; }
-.method-comp .pricier { color:#f97316; }
-
-/* Amortization */
-.amort-wrap { max-height:260px; overflow-y:auto; scrollbar-width:thin; margin-top:10px; border:1px solid var(--border); border-radius:var(--radius-sm); }
-.amort-wrap table { width:100%; font-size:0.75rem; border-collapse:collapse; }
-.amort-wrap th { position:sticky; top:0; background:var(--bg-card); padding:6px 10px; color:var(--text-secondary); text-align:right; border-bottom:1px solid var(--border); font-weight:600; z-index:1; }
-.amort-wrap th:first-child { text-align:left; }
-.amort-wrap td { padding:5px 10px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.02); }
-.amort-wrap td:first-child { text-align:left; color:var(--text-secondary); }
-.amort-wrap tr:hover td { background:var(--bg-input); }
-
-/* Tenor buttons */
-.tenor-btns { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
-.tenor-btn { padding:5px 10px; border-radius:6px; font-size:0.75rem; font-weight:600; background:var(--bg-input); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all 0.15s; }
-.tenor-btn.active { background:var(--mint-dim); color:var(--mint); border-color:rgba(0,201,177,0.35); }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Cicilan 2026 — Anuitas, Flat Rate & Perbandingan KTA/Kredit | NovaCalcs</title>
+  <meta name="description" content="Kalkulator cicilan 2026: hitung cicilan KTA, kredit barang, dan pinjaman dengan metode anuitas & flat rate. Bandingkan keduanya & simulasi berbagai tenor. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-cicilan">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}.ri.red{background:var(--red-b);border-color:#fca5a5}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.red{color:var(--red)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* BAR */
+    .bw{background:var(--sur2);height:8px;border-radius:4px;margin:12px 0 6px;overflow:hidden;display:flex}
+    .bleg{display:flex;gap:10px;font-size:10px;color:var(--tx3)}
+    .bleg-d{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+    /* COMPARISON GRID */
+    .cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    @media(max-width:480px){.cmp-grid{grid-template-columns:1fr}}
+    .cmp-card{border-radius:var(--rs);padding:14px;border:1.5px solid var(--bor)}
+    .cmp-card.an{background:var(--grn-b);border-color:#86efac}
+    .cmp-card.fl{background:var(--red-b);border-color:#fca5a5}
+    .cmp-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+    .cmp-card.an .cmp-lbl{color:var(--grn)}.cmp-card.fl .cmp-lbl{color:var(--red)}
+    .cmp-val{font-family:'DM Mono',monospace;font-size:20px;font-weight:800}
+    .cmp-card.an .cmp-val{color:var(--grn)}.cmp-card.fl .cmp-val{color:var(--red)}
+    .cmp-sub{font-size:10px;color:var(--tx3);margin-top:4px;line-height:1.5}
+    /* TENOR CHART */
+    .chart-wrap{display:flex;flex-direction:column;gap:5px;margin-top:12px}
+    .chart-row{display:flex;align-items:center;gap:8px;font-size:11px}
+    .chart-lbl{min-width:56px;color:var(--tx2);font-size:10px;text-align:right}
+    .chart-bar-bg{flex:1;background:var(--sur2);border-radius:3px;height:20px;overflow:hidden;position:relative}
+    .chart-bar-pokok{height:100%;background:var(--grn);position:absolute;left:0}
+    .chart-bar-bunga{height:100%;background:var(--pri);position:absolute}
+    .chart-val{min-width:80px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--pri)}
+    .chart-row.hl .chart-lbl{color:var(--pri);font-weight:800}
+    /* WARN BOX */
+    .warn-box{background:var(--red-b);border:1.5px solid #fca5a5;border-radius:var(--r);padding:14px;margin-top:12px}
+    .warn-val{font-family:'DM Mono',monospace;font-size:22px;font-weight:800;color:var(--red)}
+    .warn-lbl{font-size:11px;color:#991b1b;margin-top:2px}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Cicilan</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Cicilan</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">💳 Kalkulator Cicilan</div>
+  <h1 class="hdr-h1">Kalkulator Cicilan 2026</h1>
+  <p class="hdr-sub">Hitung cicilan KTA, kredit barang &amp; pinjaman dengan metode anuitas &amp; flat rate. Bandingkan keduanya — jangan sampai salah pilih! Hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">Anuitas <span>cicilan tetap</span></div>
+    <div class="pchip">Flat Rate <span>bunga dari pokok awal</span></div>
+    <div class="pchip">Efektif rate <span>flat ≠ anuitas</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">💳 Kalkulator Cicilan 2026</div>
-      <div class="calc-subtitle">Flat · Efektif · Bandingkan + Tabel Angsuran</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="field"><label>Harga / Jumlah Pinjaman (Rp)</label>
-        <input type="number" id="harga" placeholder="Contoh: 20.000.000" oninput="autoCalc()"/>
-      </div>
-      <div class="field"><label>Uang Muka / DP (Rp)</label>
-        <input type="number" id="dp" value="0" placeholder="0 = tanpa DP" oninput="autoCalc()"/>
-      </div>
-      <div class="field"><label>Bunga per tahun (%)</label>
-        <input type="number" id="bunga" placeholder="Contoh: 12" step="0.1" oninput="autoCalc()"/>
-        <p style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">Bunga flat 1%/bln = 12%/thn. Bunga efektif 1%/bln = 12,68%/thn (APR)</p>
-      </div>
-      <div class="field">
-        <label>Tenor</label>
-        <div class="tenor-btns" id="tenor-btns">
-          <div class="tenor-btn" onclick="setTenor(6,this)">6 bln</div>
-          <div class="tenor-btn" onclick="setTenor(12,this)">12 bln</div>
-          <div class="tenor-btn active" onclick="setTenor(24,this)">24 bln</div>
-          <div class="tenor-btn" onclick="setTenor(36,this)">36 bln</div>
-          <div class="tenor-btn" onclick="setTenor(48,this)">48 bln</div>
-          <div class="tenor-btn" onclick="setTenor(60,this)">60 bln</div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">💳</div>Hitung Cicilan</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="anuitas">📊 Anuitas (KTA / Kredit Umum)</button>
+      <button class="tbtn" data-tab="flat">🏷️ Flat Rate (Kredit Barang / Leasing)</button>
+    </div>
+
+    <!-- ANUITAS -->
+    <div class="tpanel on" id="tab-anuitas">
+      <div class="fld">
+        <label>Jumlah Pinjaman / Pokok (Rp)</label>
+        <div class="iw"><input type="number" id="a-pokok" value="50000000" min="0" step="1000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="10000000" data-for="a-pokok">10 jt</button>
+          <button class="pb" data-val="25000000" data-for="a-pokok">25 jt</button>
+          <button class="pb on" data-val="50000000" data-for="a-pokok">50 jt</button>
+          <button class="pb" data-val="100000000" data-for="a-pokok">100 jt</button>
+          <button class="pb" data-val="200000000" data-for="a-pokok">200 jt</button>
         </div>
-        <input type="number" id="tenor" value="24" min="1" max="360" placeholder="Bulan" oninput="autoCalc()"/>
       </div>
-      <div class="field">
-        <label>Metode Bunga</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-flat"    onclick="setMetode('flat',this)">Flat</div>
-          <div class="radio-btn"        id="btn-efektif" onclick="setMetode('efektif',this)">Efektif (Anuitas)</div>
-          <div class="radio-btn"        id="btn-menurun" onclick="setMetode('menurun',this)">Pokok Tetap</div>
-        </div>
-        <p style="font-size:0.7rem;color:var(--text-muted);margin-top:4px" id="metode-desc">Flat: bunga dihitung dari pokok awal sepanjang tenor. Umum di kredit kendaraan/barang.</p>
-      </div>
-
-      <button class="calc-btn" onclick="calculate()">💳 Simulasi Cicilan</button>
-
-      <div class="result-box" id="result" style="display:none">
-        <!-- Main cicilan -->
-        <div class="cic-main">
-          <div class="cic-num" id="res-cicilan">—</div>
-          <div class="cic-label" id="res-cicilan-label">Angsuran per bulan</div>
-        </div>
-
-        <!-- Pokok vs bunga bar -->
-        <div class="cic-bar-wrap">
-          <div class="cic-bar-title">Komposisi Total Pembayaran</div>
-          <div class="cic-bar-track">
-            <div class="cic-bar-pokok" id="bar-pokok" style="width:60%">Pokok</div>
-            <div class="cic-bar-bunga" id="bar-bunga" style="width:40%">Bunga</div>
-          </div>
-          <div class="cic-bar-legend">
-            <span class="leg-g">Pokok pinjaman</span>
-            <span class="leg-o">Total bunga</span>
+      <div class="g2">
+        <div class="fld">
+          <label>Suku Bunga per Tahun (%)</label>
+          <div class="iw"><input type="number" id="a-bunga" value="12" min="0.1" max="100" step="0.5"><span class="iu">%/thn</span></div>
+          <div class="presets">
+            <button class="pb" data-val="8" data-for="a-bunga">8%</button>
+            <button class="pb" data-val="10" data-for="a-bunga">10%</button>
+            <button class="pb on" data-val="12" data-for="a-bunga">12%</button>
+            <button class="pb" data-val="15" data-for="a-bunga">15%</button>
+            <button class="pb" data-val="18" data-for="a-bunga">18%</button>
           </div>
         </div>
-
-        <!-- Stats -->
-        <div class="cic-stats">
-          <div class="cic-stat"><div class="cs-label">Pokok pinjaman</div><div class="cs-val" id="s-pokok">—</div></div>
-          <div class="cic-stat"><div class="cs-label">Uang muka (DP)</div><div class="cs-val" id="s-dp">—</div></div>
-          <div class="cic-stat warn"><div class="cs-label">Total bunga</div><div class="cs-val" id="s-bunga">—</div></div>
-          <div class="cic-stat"><div class="cs-label">Total bayar (pokok+bunga)</div><div class="cs-val" id="s-total">—</div></div>
+        <div class="fld">
+          <label>Tenor (Bulan)</label>
+          <div class="iw"><input type="number" id="a-tenor" value="24" min="1" max="360" step="1"><span class="iu">bln</span></div>
+          <div class="presets">
+            <button class="pb" data-val="12" data-for="a-tenor">12 bln</button>
+            <button class="pb on" data-val="24" data-for="a-tenor">24 bln</button>
+            <button class="pb" data-val="36" data-for="a-tenor">36 bln</button>
+            <button class="pb" data-val="48" data-for="a-tenor">48 bln</button>
+            <button class="pb" data-val="60" data-for="a-tenor">60 bln</button>
+          </div>
         </div>
+      </div>
 
-        <!-- Metode comparison -->
-        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">📊 Perbandingan Tiga Metode (bunga sama)</div>
-        <table class="method-comp" id="method-comp"></table>
-
-        <!-- Amortization table -->
-        <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 4px">
-          <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600">📋 Tabel Angsuran per Bulan</div>
-          <div style="font-size:0.68rem;color:var(--text-muted)">Geser ↓ untuk semua</div>
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Cicilan per Bulan (Anuitas)</div>
+            <div class="rv lg" id="a-cicilan">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Total Bunga</div>
+            <div class="rv sm red" id="a-total-bunga">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Total Bayar</div>
+            <div class="rv sm" id="a-total-bayar">—</div>
+          </div>
         </div>
-        <div class="amort-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th style="text-align:left">Bln</th>
-                <th>Cicilan</th>
-                <th>Pokok</th>
-                <th style="color:#f97316">Bunga</th>
-                <th>Sisa</th>
-              </tr>
-            </thead>
-            <tbody id="amort-body"></tbody>
-          </table>
+        <div class="bw">
+          <div id="a-bar-p" style="background:var(--grn);height:100%;transition:width .3s"></div>
+          <div id="a-bar-b" style="background:var(--pri);height:100%;transition:width .3s"></div>
         </div>
+        <div class="bleg">
+          <span><span class="bleg-d" style="background:var(--grn)"></span>Pokok</span>
+          <span><span class="bleg-d" style="background:var(--pri)"></span>Total bunga</span>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Pokok pinjaman</span><span id="a-pokok-show">—</span></div>
+          <div class="rr"><span>Bunga per tahun (efektif)</span><span id="a-bunga-show">—</span></div>
+          <div class="rr"><span>Bunga per bulan</span><span id="a-bunga-bln">—</span></div>
+          <div class="rr"><span>Tenor</span><span id="a-tenor-show">—</span></div>
+          <div class="rr"><span>Total bunga dibayar</span><span id="a-bunga-total">—</span></div>
+          <div class="rr"><span>% bunga dari pokok</span><span id="a-bunga-pct">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* Metode anuitas: cicilan tetap setiap bulan. Di awal tenor, sebagian besar cicilan adalah bunga. Di akhir tenor, sebagian besar adalah pokok. Bunga dihitung dari sisa pokok setiap bulan.</div>
+    </div>
 
-        <!-- Advice -->
-        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
+    <!-- FLAT RATE -->
+    <div class="tpanel" id="tab-flat">
+      <div class="notice warn" style="margin-bottom:16px">⚠️ <strong>Hati-hati!</strong> Flat rate 1%/bulan terdengar lebih murah dari anuitas 2%/bulan — padahal tidak. Flat rate 1%/bulan ≈ anuitas efektif ~1,8–1,9%/bulan. Lihat simulasi di bawah.</div>
+      <div class="fld">
+        <label>Jumlah Pinjaman / Pokok (Rp)</label>
+        <div class="iw"><input type="number" id="f-pokok" value="50000000" min="0" step="1000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="10000000" data-for="f-pokok">10 jt</button>
+          <button class="pb" data-val="25000000" data-for="f-pokok">25 jt</button>
+          <button class="pb on" data-val="50000000" data-for="f-pokok">50 jt</button>
+          <button class="pb" data-val="100000000" data-for="f-pokok">100 jt</button>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>Bunga Flat per Bulan (%)</label>
+          <div class="iw"><input type="number" id="f-bunga" value="1" min="0.1" max="10" step="0.1"><span class="iu">%/bln</span></div>
+          <div class="presets">
+            <button class="pb" data-val="0.5" data-for="f-bunga">0,5%</button>
+            <button class="pb on" data-val="1" data-for="f-bunga">1%</button>
+            <button class="pb" data-val="1.5" data-for="f-bunga">1,5%</button>
+            <button class="pb" data-val="2" data-for="f-bunga">2%</button>
+          </div>
+        </div>
+        <div class="fld">
+          <label>Tenor (Bulan)</label>
+          <div class="iw"><input type="number" id="f-tenor" value="24" min="1" max="360"><span class="iu">bln</span></div>
+          <div class="presets">
+            <button class="pb" data-val="12" data-for="f-tenor">12 bln</button>
+            <button class="pb on" data-val="24" data-for="f-tenor">24 bln</button>
+            <button class="pb" data-val="36" data-for="f-tenor">36 bln</button>
+            <button class="pb" data-val="48" data-for="f-tenor">48 bln</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Cicilan per Bulan (Flat Rate)</div>
+            <div class="rv lg" id="f-cicilan">—</div>
+          </div>
+          <div class="ri red">
+            <div class="rl">Bunga Efektif (Setara Anuitas)</div>
+            <div class="rv sm red" id="f-efektif">—</div>
+            <div class="rsub">Rate efektif per tahun</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Total Bunga Dibayar</div>
+            <div class="rv sm red" id="f-total-bunga">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Bunga flat per bulan</span><span id="f-bunga-bln">—</span></div>
+          <div class="rr"><span>Bunga bulanan (dari pokok awal)</span><span id="f-bunga-nom">—</span></div>
+          <div class="rr"><span>Cicilan pokok per bulan</span><span id="f-cicilan-pokok">—</span></div>
+          <div class="rr"><span>Total bayar</span><span id="f-total-bayar">—</span></div>
+          <div class="rr"><span>% bunga dari pokok</span><span id="f-bunga-pct">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* Flat rate: bunga dihitung dari pokok AWAL setiap bulan, meski pokok sudah berkurang. Ini membuat bunga efektif jauh lebih tinggi dari tarif flat yang disebutkan. Bandingkan dengan anuitas di bawah.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ② SIMULATOR: ANUITAS vs FLAT RATE -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚖️</div>Perbandingan Anuitas vs Flat Rate <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Jangan tertipu angka kecil flat rate! Bandingkan total biaya nyata antara dua metode untuk pinjaman yang sama.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Pokok Pinjaman (Rp)</label>
+        <div class="iw"><input type="number" id="cmp-pokok" value="50000000" min="0" step="1000000"></div>
+      </div>
+      <div class="fld">
+        <label>Tenor (Bulan)</label>
+        <div class="iw"><input type="number" id="cmp-tenor" value="24" min="1" max="360"><span class="iu">bln</span></div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="fld">
+        <label>Bunga Anuitas (%/tahun)</label>
+        <div class="iw"><input type="number" id="cmp-anuitas" value="12" min="0.1" max="100" step="0.5"><span class="iu">%</span></div>
+      </div>
+      <div class="fld">
+        <label>Bunga Flat (%/bulan)</label>
+        <div class="iw"><input type="number" id="cmp-flat" value="1" min="0.1" max="10" step="0.1"><span class="iu">%/bln</span></div>
+      </div>
+    </div>
+
+    <div class="cmp-grid">
+      <div class="cmp-card an">
+        <div class="cmp-lbl">✅ Anuitas (efektif)</div>
+        <div class="cmp-val" id="cmp-an-cicilan">—</div>
+        <div class="cmp-sub">cicilan/bulan<br>Total bunga: <span id="cmp-an-bunga">—</span></div>
+      </div>
+      <div class="cmp-card fl">
+        <div class="cmp-lbl">⚠️ Flat Rate</div>
+        <div class="cmp-val" id="cmp-fl-cicilan">—</div>
+        <div class="cmp-sub">cicilan/bulan<br>Total bunga: <span id="cmp-fl-bunga">—</span></div>
+      </div>
+    </div>
+
+    <div class="warn-box" id="cmp-warn-box">
+      <div class="warn-val" id="cmp-lebih-mahal">—</div>
+      <div class="warn-lbl" id="cmp-warn-lbl">Flat rate lebih mahal dari anuitas</div>
+    </div>
+
+    <div class="lres" style="margin-top:12px">
+      <div class="rrows" style="border:none;padding:0">
+        <div class="rr"><span>Bunga efektif flat rate (setara anuitas)</span><span id="cmp-fl-efektif">—</span></div>
+        <div class="rr"><span>Selisih total bunga yang dibayar</span><span id="cmp-selisih-bunga">—</span></div>
+        <div class="rr"><span>Selisih cicilan per bulan</span><span id="cmp-selisih-cicilan">—</span></div>
+      </div>
+    </div>
+    <div class="notice info" style="margin-top:10px">💡 <strong>Tips:</strong> Selalu tanya ke pemberi pinjaman: "Bunga ini flat atau efektif/anuitas?" Lalu konversi ke efektif untuk perbandingan yang fair. Gunakan kalkulator ini untuk menghitung nilai efektifnya.</div>
+  </div>
+</div>
+
+<!-- ③ SIMULATOR: PERBANDINGAN TENOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Simulasi Berbagai Tenor <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Tenor lebih panjang = cicilan lebih ringan, tapi total bunga jauh lebih besar. Lihat trade-off-nya secara visual.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Pokok Pinjaman (Rp)</label>
+        <div class="iw"><input type="number" id="tn-pokok" value="50000000" min="0" step="1000000"></div>
+      </div>
+      <div class="fld">
+        <label>Suku Bunga Anuitas (%/tahun)</label>
+        <div class="iw"><input type="number" id="tn-bunga" value="12" min="0.1" max="100" step="0.5"><span class="iu">%</span></div>
+      </div>
+    </div>
+
+    <div class="sec-lbl">Cicilan & Total Bunga per Tenor (▓ pokok, ░ bunga)</div>
+    <div class="chart-wrap" id="tn-chart"></div>
+
+    <div class="lres" style="margin-top:14px">
+      <div class="rrows" style="border:none;padding:0">
+        <div class="rr"><span>Cicilan terendah (tenor terpanjang)</span><span id="tn-min-cicilan">—</span></div>
+        <div class="rr"><span>Total bunga terendah (tenor terpendek)</span><span id="tn-min-bunga">—</span></div>
+        <div class="rr"><span>Selisih total bunga: tenor 12 vs 60 bln</span><span id="tn-selisih">—</span></div>
+      </div>
+    </div>
+    <div class="notice">* Semakin panjang tenor, semakin rendah cicilan bulanan — tapi total bunga yang dibayar jauh lebih besar. Pilih tenor yang paling sesuai dengan kemampuan dan tujuan keuangan Anda.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Flat Rate vs Anuitas</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Anuitas</div><div class="fron">Bunga dari sisa pokok</div></div></div><div class="fprice" style="color:var(--grn)">Efektif</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Flat Rate</div><div class="fron">Bunga dari pokok awal</div></div></div><div class="fprice">Tidak efektif</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Flat 1%/bln ≈</div><div class="fron">Setara anuitas efektif</div></div></div><div class="fprice" style="color:var(--red)">~1,8%/bln</div></div>
+      </div>
+      <div class="notice" style="margin-top:10px">Flat rate selalu lebih mahal dari angka yang disebutkan. Hitung rate efektifnya sebelum memutuskan.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Cicilan Cerdas</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🔍</span><span class="tptx"><strong>Tanya "flat atau efektif?"</strong> — selalu klarifikasi jenis bunga sebelum tanda tangan</span></div>
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>Bandingkan minimal 3 penawaran</strong> — konversi semua ke anuitas/efektif untuk perbandingan adil</span></div>
+        <div class="tip"><span class="tpico">💰</span><span class="tptx"><strong>Cicilan maks 30% penghasilan</strong> — termasuk semua cicilan yang berjalan</span></div>
+        <div class="tip"><span class="tpico">⏰</span><span class="tptx"><strong>Pelunasan awal</strong> — bisa hemat bunga signifikan, tapi cek biaya penalti dulu</span></div>
+        <div class="tip"><span class="tpico">🏦</span><span class="tptx"><strong>KTA bank vs pinjol</strong> — KTA bank lebih aman, bunga lebih rendah, proses lebih ketat</span></div>
       </div>
     </div>
   </div>
-
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Cicilan 2026 — Flat, Efektif & Pokok Tetap</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Simulasi cicilan kredit bulanan dengan tiga metode bunga sekaligus. Bandingkan total bunga yang harus dibayar, lihat tabel angsuran per bulan, dan pahami mana metode yang lebih menguntungkan.</p>
-
-    <h2>Tiga Metode Bunga Kredit — Perbedaan dan Penggunaannya</h2>
-    <p>Metode penghitungan bunga sangat menentukan berapa total yang Anda bayar dan bagaimana beban cicilan terdistribusi. Berikut penjelasan ketiga metode yang didukung kalkulator ini:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Aspek</th><th>Flat</th><th>Efektif (Anuitas)</th><th>Pokok Tetap</th></tr></thead>
-      <tbody>
-        <tr><td>Cara hitung bunga</td><td>% × pokok awal ÷ 12</td><td>% × sisa pokok tiap bulan</td><td>% × sisa pokok tiap bulan</td></tr>
-        <tr><td>Cicilan per bulan</td><td>Tetap sama</td><td>Tetap sama</td><td>Turun setiap bulan</td></tr>
-        <tr><td>Total bunga</td><td>Paling besar</td><td>Lebih kecil dari flat</td><td>Paling kecil jika dibandingkan</td></tr>
-        <tr><td>Cicilan awal</td><td>Sedang</td><td>Sedang</td><td>Paling besar di awal</td></tr>
-        <tr><td>Umum digunakan</td><td>Kredit motor, barang elektronik, leasing</td><td>KPR, KTA, kartu kredit</td><td>KPR syariah (murabahah), pinjaman tertentu</td></tr>
-      </tbody>
-    </table>
-    <p>⚠️ <strong>Perhatian penting:</strong> Bunga flat 1%/bulan (12%/tahun) dan bunga efektif 1%/bulan (12%/tahun) menghasilkan cicilan yang <em>berbeda</em> dan total bunga yang berbeda. Bunga flat dihitung dari pokok awal penuh, sehingga secara efektif lebih mahal. Bunga flat 12%/tahun setara dengan bunga efektif sekitar 21–22%/tahun dalam hal total biaya.</p>
-
-    <h2>Rumus Perhitungan Masing-masing Metode</h2>
-    <p>Berikut rumus yang digunakan kalkulator ini — sudah diverifikasi terhadap kalkulator kredit bank:</p>
-    <ul>
-      <li><strong>Flat:</strong> Cicilan = (Pokok ÷ Tenor) + (Pokok × Bunga/12). Total bunga = Pokok × Bunga/12 × Tenor</li>
-      <li><strong>Efektif/Anuitas:</strong> Cicilan = Pokok × [r(1+r)ⁿ ÷ ((1+r)ⁿ−1)], di mana r = bunga/12, n = tenor. Cicilan sama setiap bulan tetapi komposisi pokok/bunga berubah.</li>
-      <li><strong>Pokok Tetap:</strong> Pokok per bulan = Pokok ÷ Tenor (tetap). Bunga per bulan = Sisa pokok × Bunga/12 (turun setiap bulan). Cicilan = Pokok/bulan + Bunga/bulan (menurun).</li>
-    </ul>
-
-    <h2>Fitur Kalkulator Cicilan NovaCalcs</h2>
-    <ul>
-      <li><strong>Tiga metode bunga dalam satu kalkulator</strong> — Pilih metode yang sesuai jenis kredit Anda: flat (leasing kendaraan), efektif/anuitas (KPR/KTA), atau pokok tetap (KPR syariah).</li>
-      <li><strong>Perbandingan otomatis tiga metode</strong> — Setelah menghitung, tabel perbandingan otomatis muncul menampilkan cicilan, total bunga, dan total bayar untuk ketiga metode sekaligus — sehingga Anda bisa langsung melihat mana yang paling murah.</li>
-      <li><strong>Tabel angsuran per bulan (amortisasi)</strong> — Lihat detail setiap bulan: cicilan, berapa yang mengurangi pokok, berapa yang menjadi bunga, dan sisa pinjaman. Penting untuk memahami kapan pelunasan dipercepat paling menguntungkan.</li>
-      <li><strong>Visualisasi pokok vs bunga</strong> — Bar hijau-oranye menampilkan secara intuitif berapa persen dari total pembayaran yang benar-benar menjadi nilai aset (pokok) vs biaya pinjaman (bunga).</li>
-      <li><strong>Tombol tenor cepat</strong> — Pilih tenor 6, 12, 24, 36, 48, atau 60 bulan dengan satu klik, tanpa perlu mengetik ulang.</li>
-      <li><strong>Input real-time</strong> — Hasil diperbarui otomatis saat mengetik.</li>
-    </ul>
-
-    <h2>Estimasi Cicilan Kendaraan Bermotor 2026</h2>
-    <p>Berikut simulasi cicilan untuk kendaraan populer menggunakan metode bunga flat 1%/bulan (12%/tahun) dan tenor 24 bulan — angka ini hanya perkiraan, harga dan bunga aktual bisa berbeda tergantung dealer dan lembaga pembiayaan:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Kendaraan</th><th>Harga (estimasi)</th><th>DP 20%</th><th>Cicilan 24 bln (Flat 12%/thn)</th></tr></thead>
-      <tbody>
-        <tr><td>Motor bebek/skutik</td><td>Rp 20 juta</td><td>Rp 4 juta</td><td>±Rp 827.000/bln</td></tr>
-        <tr><td>Motor sport 150cc</td><td>Rp 30 juta</td><td>Rp 6 juta</td><td>±Rp 1.240.000/bln</td></tr>
-        <tr><td>Motor premium 250cc</td><td>Rp 60 juta</td><td>Rp 12 juta</td><td>±Rp 2.480.000/bln</td></tr>
-        <tr><td>Mobil LCGC</td><td>Rp 160 juta</td><td>Rp 32 juta</td><td>±Rp 6.613.000/bln</td></tr>
-        <tr><td>Mobil MPV entry level</td><td>Rp 250 juta</td><td>Rp 50 juta</td><td>±Rp 10.333.000/bln</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:0.78rem;color:var(--text-muted)">*Gunakan kalkulator di atas untuk simulasi dengan angka spesifik. Harga kendaraan 2026 dan bunga leasing dapat berbeda dari estimasi ini.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan bunga flat dan efektif secara praktis?</div>
-      <div class="faq-a">Perbedaan paling penting: dengan bunga flat, bunga dihitung dari pokok awal yang penuh sepanjang tenor, meski saldo pinjaman Anda sudah berkurang setiap bulan. Ini artinya Anda membayar bunga atas saldo yang sebenarnya sudah dilunasi. Dengan bunga efektif, bunga dihitung dari sisa pokok yang sebenarnya — lebih adil karena bunga turun seiring penurunan saldo. Bunga flat 12%/tahun setara dengan bunga efektif sekitar 21–22%/tahun. Selalu tanyakan metode bunga sebelum menandatangani kontrak kredit.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Lebih baik DP besar atau kecil?</div>
-      <div class="faq-a">DP besar mengurangi pokok pinjaman, sehingga cicilan per bulan lebih ringan dan total bunga jauh lebih sedikit. Namun jangan menguras semua tabungan untuk DP — sisakan dana darurat minimal 3–6 bulan pengeluaran. Jika setelah DP besar Anda tidak punya tabungan sama sekali, kondisi darurat bisa memaksa Anda berutang lagi dengan bunga yang lebih tinggi.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa persen cicilan yang aman dari penghasilan?</div>
-      <div class="faq-a">Prinsip umum keuangan: total cicilan (KPR + kendaraan + KTA + dll.) sebaiknya tidak melebihi 30–35% dari penghasilan bersih bulanan. Di atas 40% dianggap sudah over-leveraged dan rentan masalah keuangan jika ada kondisi tak terduga. Khusus untuk KPR saja, bank biasanya menerapkan batas 30% dari penghasilan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kapan pelunasan dipercepat paling menguntungkan?</div>
-      <div class="faq-a">Untuk kredit efektif/anuitas: pelunasan dipercepat di awal tenor sangat menguntungkan karena porsi bunga di awal sangat besar. Jika Anda melunasi di bulan ke-12 dari kredit 36 bulan, Anda menghemat bunga 24 bulan yang belum dibayar. Untuk kredit flat: manfaat pelunasan awal lebih kecil karena total bunga sudah dikunci sejak awal. Perhatikan juga penalti pelunasan dipercepat (biasanya 1–3% dari sisa pokok) — pastikan penghematan bunga lebih besar dari penaltinya.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu BI Checking / SLIK OJK dan pengaruhnya pada kredit?</div>
-      <div class="faq-a">SLIK (Sistem Layanan Informasi Keuangan) OJK — sebelumnya disebut BI Checking — adalah sistem rekam jejak kredit yang diperiksa bank dan leasing sebelum menyetujui pengajuan. Kolektibilitas 1 (lancar) adalah yang terbaik; 3–5 (diragukan/macet) bisa menyebabkan penolakan kredit. Rekam jejak kredit buruk bisa bertahan beberapa tahun. Jaga kredit Anda dengan selalu membayar tepat waktu — bahkan keterlambatan beberapa hari sudah bisa tercatat.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu cicilan 0% dan apakah benar-benar gratis?</div>
-      <div class="faq-a">Cicilan 0% dari toko atau kartu kredit tidak selalu benar-benar tanpa biaya. Ada beberapa bentuk: (1) Merchant yang menanggung biaya, sehingga harga barang mungkin sudah dinaikkan, (2) Biaya cicilan dibebankan ke kartu kredit dan merchant membayarnya ke bank, (3) Promosi terbatas yang memang benar-benar gratis sebagai investasi marketing. Selalu cek apakah harga dengan cicilan 0% sama dengan harga cash — jika lebih mahal, cicilan tersebut bukan benar-benar 0%.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara mengecek kemampuan cicilan sebelum mengajukan kredit?</div>
-      <div class="faq-a">Langkah praktis: (1) Hitung penghasilan bersih bulanan, (2) Kalikan 30% untuk batas cicilan aman, (3) Kurangi cicilan yang sudah ada (KPR, kendaraan lain, kartu kredit), (4) Sisanya adalah ruang cicilan baru. Gunakan kalkulator ini untuk mencari kombinasi pokok/tenor/bunga yang menghasilkan cicilan sesuai kemampuan. Ingat juga biaya asuransi dan administrasi yang biasanya ditambahkan ke cicilan pertama.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
-      <a href="/id/kalkulator-cicilan-motor.html" class="related-item"><span class="ri">🏍️</span>Cicilan Motor</a>
-      <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
-      <a href="/id/kalkulator-gaji-bersih.html" class="related-item"><span class="ri">💵</span>Gaji Bersih</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-kpr" class="relc"><div class="relc-ico">🏠</div><div class="relc-nm">KPR</div><div class="relc-ds">Cicilan rumah</div></a>
+        <a href="/id/kalkulator-cicilan-motor" class="relc"><div class="relc-ico">🏍️</div><div class="relc-nm">Cicilan Motor</div><div class="relc-ds">Kredit kendaraan</div></a>
+        <a href="/id/kalkulator-kta" class="relc"><div class="relc-ico">💳</div><div class="relc-nm">KTA</div><div class="relc-ds">Kredit tanpa agunan</div></a>
+        <a href="/id/kalkulator-bunga-pinjol" class="relc"><div class="relc-ico">📱</div><div class="relc-nm">Bunga Pinjol</div><div class="relc-ds">Pinjaman online</div></a>
+      </div>
     </div>
   </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Perbedaan Anuitas dan Flat Rate</h2>
+  <p>Dua metode perhitungan bunga kredit yang paling umum di Indonesia: <strong>anuitas</strong> (cicilan tetap, bunga dari sisa pokok) dan <strong>flat rate</strong> (bunga dari pokok awal, biasa digunakan di kredit barang/leasing).</p>
+  <div class="stw"><table class="stbl">
+    <thead><tr><th>Aspek</th><th>Anuitas</th><th>Flat Rate</th></tr></thead>
+    <tbody>
+      <tr><td>Cicilan bulanan</td><td>Tetap</td><td>Tetap</td></tr>
+      <tr><td>Cara hitung bunga</td><td>Dari sisa pokok (menurun)</td><td>Dari pokok awal (tetap)</td></tr>
+      <tr><td>Bunga efektif</td><td>= tarif yang disebutkan</td><td>~1,8× lebih besar dari tarif flat</td></tr>
+      <tr><td>Digunakan di</td><td>KPR, KTA, kredit bank</td><td>Leasing, kredit barang, cicilan toko</td></tr>
+      <tr><td>Transparansi</td><td>Lebih transparan</td><td>Sering membingungkan konsumen</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Kenapa flat rate 1% terasa lebih mahal dari anuitas 1%?</div><div class="faq-a">Karena flat rate menghitung bunga dari pokok awal setiap bulan, meski pokok sudah berkurang karena pembayaran. Anuitas menghitung bunga dari sisa pokok yang terus menurun. Untuk pinjaman yang sama, flat rate 1%/bulan setara anuitas efektif sekitar 1,8–1,9%/bulan.</div></div>
+  <div class="faq-i"><div class="faq-q">Mana yang lebih baik — anuitas atau flat rate?</div><div class="faq-a">Dari sisi biaya, anuitas hampir selalu lebih murah dari flat rate dengan bunga yang terdengar sama. Namun yang terpenting: hitung bunga efektifnya lalu bandingkan. Gunakan simulator "Anuitas vs Flat Rate" di atas untuk melihat perbandingan langsung.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu KTA dan bagaimana syaratnya?</div><div class="faq-a">KTA (Kredit Tanpa Agunan) adalah pinjaman bank tanpa jaminan aset. Syarat umum: WNI usia 21–55 tahun, karyawan tetap min. 2 tahun atau wirausaha min. 2 tahun, penghasilan min. Rp 3–5 juta/bulan (tergantung bank), dan memiliki rekening di bank terkait. Bunganya biasanya lebih tinggi dari KPR karena tanpa agunan.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-let tenor = 24, metode = 'flat';
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-const fmtShort = n => {
-  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
-  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
-  return fmt(n);
-};
+<script>
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){if(n>=1e9)return'Rp '+(n/1e9).toFixed(1)+' M';if(n>=1e6)return'Rp '+(n/1e6).toFixed(0)+' jt';return rp(n)}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-const METODE_DESC = {
-  flat:    'Flat: bunga dihitung dari pokok awal sepanjang tenor. Cicilan tetap sama tiap bulan. Umum di kredit motor dan barang elektronik.',
-  efektif: 'Efektif/Anuitas: bunga dari sisa pokok. Cicilan tetap, komposisi pokok:bunga berubah tiap bulan. Umum di KPR dan KTA.',
-  menurun: 'Pokok Tetap: pokok per bulan tetap, bunga dari sisa pokok. Cicilan turun tiap bulan. Total bunga paling kecil di antara ketiga metode.',
-};
-
-function setTenor(t, btn) {
-  tenor = t;
-  document.getElementById('tenor').value = t;
-  document.querySelectorAll('#tenor-btns .tenor-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  autoCalc();
-}
-function setMetode(m, btn) {
-  metode = m;
-  ['flat','efektif','menurun'].forEach(k => document.getElementById('btn-'+k).classList.toggle('active', k===m));
-  document.getElementById('metode-desc').textContent = METODE_DESC[m];
-  autoCalc();
-}
-function autoCalc() {
-  const h = parseFloat(document.getElementById('harga').value);
-  const b = parseFloat(document.getElementById('bunga').value);
-  if (h && b) calculate();
+// Anuitas: A = P*r*(1+r)^n / ((1+r)^n-1)
+function calcAn(P,bungaThn,n){
+  const r=bungaThn/100/12;
+  if(r===0||n===0)return{cicilan:P/n,totalBunga:0,totalBayar:P};
+  const cicilan=P*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+  return{cicilan,totalBunga:cicilan*n-P,totalBayar:cicilan*n,r};
 }
 
-// ── Kalkulasi inti ──
-function calcFlat(pokok, r, n) {
-  // r = bunga tahunan / 12 (sebagai desimal), n = tenor bulan
-  const bungaPerBulan = pokok * r;
-  const pokokPerBulan = pokok / n;
-  const cicilan = pokokPerBulan + bungaPerBulan;
-  const totalBunga = bungaPerBulan * n;
-  return { cicilan, totalBunga, totalBayar: cicilan * n };
-}
-
-function calcEfektif(pokok, r, n) {
-  if (r === 0) return { cicilan: pokok/n, totalBunga: 0, totalBayar: pokok };
-  const cicilan = pokok * (r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
-  const totalBunga = cicilan * n - pokok;
-  return { cicilan, totalBunga, totalBayar: cicilan * n };
-}
-
-function calcMenurun(pokok, r, n) {
-  // Pokok per bulan tetap, bunga dari sisa pokok
-  const pokokPerBulan = pokok / n;
-  let totalBunga = 0;
-  let sisa = pokok;
-  const schedule = [];
-  for (let i = 1; i <= n; i++) {
-    const bunga = sisa * r;
-    const cicilan = pokokPerBulan + bunga;
-    totalBunga += bunga;
-    sisa -= pokokPerBulan;
-    schedule.push({ cicilan, pokok: pokokPerBulan, bunga, sisa: Math.max(0, sisa) });
+// Flat rate: cicilan = (P + P*flatPctBln*n) / n
+function calcFlat(P,flatBln,n){
+  const bungaBulanan=P*flatBln/100;
+  const cicilanPokok=P/n;
+  const cicilan=cicilanPokok+bungaBulanan;
+  const totalBunga=bungaBulanan*n;
+  // Konversi ke efektif (aprox dengan IRR binary search)
+  let lo=flatBln/100, hi=flatBln*3/100;
+  for(let i=0;i<50;i++){
+    const mid=(lo+hi)/2;
+    const anCicilan=P*(mid*Math.pow(1+mid,n))/(Math.pow(1+mid,n)-1);
+    if(anCicilan<cicilan)lo=mid;else hi=mid;
   }
-  const cicilanPertama = pokokPerBulan + pokok * r;
-  return { cicilan: cicilanPertama, totalBunga, totalBayar: pokok + totalBunga, schedule };
+  const efektifBln=(lo+hi)/2;
+  return{cicilan,totalBunga,totalBayar:cicilan*n,cicilanPokok,bungaBulanan,efektifBln,efektifThn:efektifBln*12*100};
 }
 
-function getAmortSchedule(pokok, r, n, m) {
-  if (m === 'flat') {
-    const pokokPbln = pokok / n;
-    const bungaPbln = pokok * r;
-    const cicilan = pokokPbln + bungaPbln;
-    let sisa = pokok;
-    return Array.from({length:n}, (_, i) => {
-      sisa -= pokokPbln;
-      return { cicilan, pokok: pokokPbln, bunga: bungaPbln, sisa: Math.max(0, sisa) };
-    });
-  } else if (m === 'efektif') {
-    const cicilan = r === 0 ? pokok/n : pokok * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n) - 1);
-    let sisa = pokok;
-    return Array.from({length:n}, () => {
-      const bunga = sisa * r;
-      const pokokBulan = cicilan - bunga;
-      sisa = Math.max(0, sisa - pokokBulan);
-      return { cicilan, pokok: pokokBulan, bunga, sisa };
-    });
+// ① ANUITAS
+function calcTabAn(){
+  const P=v('a-pokok'),bunga=v('a-bunga'),n=v('a-tenor');
+  if(P<=0||bunga<=0||n<=0)return;
+  const r=calcAn(P,bunga,n);
+  set('a-cicilan',rp(r.cicilan)+'/bulan');
+  set('a-total-bunga',rp(r.totalBunga));set('a-total-bayar',rp(r.totalBayar));
+  set('a-pokok-show',rp(P));set('a-bunga-show',bunga+'%/tahun');
+  set('a-bunga-bln',(bunga/12).toFixed(2)+'%/bulan');
+  set('a-tenor-show',n+' bulan');
+  set('a-bunga-total',rp(r.totalBunga));
+  set('a-bunga-pct',P>0?(r.totalBunga/P*100).toFixed(1)+'% dari pokok':'—');
+  const tot=r.totalBayar;
+  document.getElementById('a-bar-p').style.width=(tot>0?P/tot*100:50)+'%';
+  document.getElementById('a-bar-b').style.width=(tot>0?r.totalBunga/tot*100:50)+'%';
+  // sync sims
+  document.getElementById('cmp-pokok').value=P;document.getElementById('cmp-tenor').value=n;document.getElementById('cmp-anuitas').value=bunga;
+  document.getElementById('tn-pokok').value=P;document.getElementById('tn-bunga').value=bunga;
+  calcCmp();calcTenor();
+}
+
+// ② FLAT
+function calcTabFlat(){
+  const P=v('f-pokok'),flatBln=v('f-bunga'),n=v('f-tenor');
+  if(P<=0||flatBln<=0||n<=0)return;
+  const r=calcFlat(P,flatBln,n);
+  set('f-cicilan',rp(r.cicilan)+'/bulan');
+  set('f-efektif',(r.efektifThn).toFixed(2)+'%/tahun');
+  set('f-total-bunga',rp(r.totalBunga));
+  set('f-bunga-bln',flatBln+'%/bulan (flat)');
+  set('f-bunga-nom',rp(r.bungaBulanan)+'/bulan');
+  set('f-cicilan-pokok',rp(r.cicilanPokok)+'/bulan');
+  set('f-total-bayar',rp(r.totalBayar));
+  set('f-bunga-pct',P>0?(r.totalBunga/P*100).toFixed(1)+'% dari pokok':'—');
+  document.getElementById('cmp-pokok').value=P;document.getElementById('cmp-tenor').value=n;document.getElementById('cmp-flat').value=flatBln;
+  calcCmp();calcTenor();
+}
+
+// ③ PERBANDINGAN
+function calcCmp(){
+  const P=v('cmp-pokok'),n=v('cmp-tenor'),bAn=v('cmp-anuitas'),bFl=v('cmp-flat');
+  if(P<=0||n<=0)return;
+  const an=calcAn(P,bAn,n),fl=calcFlat(P,bFl,n);
+  set('cmp-an-cicilan',rp(an.cicilan)+'/bln');set('cmp-an-bunga',rp(an.totalBunga));
+  set('cmp-fl-cicilan',rp(fl.cicilan)+'/bln');set('cmp-fl-bunga',rp(fl.totalBunga));
+  const selBunga=fl.totalBunga-an.totalBunga;
+  const selCicilan=fl.cicilan-an.cicilan;
+  const box=document.getElementById('cmp-warn-box');
+  const valEl=document.getElementById('cmp-lebih-mahal');
+  const lblEl=document.getElementById('cmp-warn-lbl');
+  if(selBunga>0){
+    if(box){box.style.background='var(--red-b)';box.style.borderColor='#fca5a5';}
+    if(valEl){valEl.textContent=rp(selBunga);valEl.style.color='var(--red)';}
+    if(lblEl)lblEl.textContent='Flat rate lebih mahal — total bunga lebih tinggi dari anuitas';
   } else {
-    // menurun
-    const pokokPbln = pokok / n;
-    let sisa = pokok;
-    return Array.from({length:n}, () => {
-      const bunga = sisa * r;
-      const cicilan = pokokPbln + bunga;
-      sisa = Math.max(0, sisa - pokokPbln);
-      return { cicilan, pokok: pokokPbln, bunga, sisa };
-    });
+    if(box){box.style.background='var(--grn-b)';box.style.borderColor='#86efac';}
+    if(valEl){valEl.textContent=rp(Math.abs(selBunga));valEl.style.color='var(--grn)';}
+    if(lblEl)lblEl.textContent='Anuitas lebih mahal untuk konfigurasi ini';
   }
+  set('cmp-fl-efektif',(fl.efektifThn).toFixed(2)+'%/tahun (setara anuitas)');
+  set('cmp-selisih-bunga',(selBunga>=0?'+':'')+rp(selBunga));
+  set('cmp-selisih-cicilan',(selCicilan>=0?'+':'')+rp(selCicilan)+'/bulan');
 }
 
-function calculate() {
-  const harga  = parseFloat(document.getElementById('harga').value) || 0;
-  const dp     = parseFloat(document.getElementById('dp').value) || 0;
-  const bunga  = parseFloat(document.getElementById('bunga').value);
-  tenor = parseInt(document.getElementById('tenor').value) || 24;
-  if (!harga || isNaN(bunga)) return alert('Lengkapi harga/pinjaman dan bunga.');
-  const pokok = harga - dp;
-  if (pokok <= 0) return alert('Pokok pinjaman harus lebih dari 0.');
-  const r = bunga / 100 / 12;
-
-  const res = metode === 'flat' ? calcFlat(pokok, r, tenor)
-            : metode === 'efektif' ? calcEfektif(pokok, r, tenor)
-            : calcMenurun(pokok, r, tenor);
-
-  // Main display
-  document.getElementById('res-cicilan').textContent = fmt(res.cicilan);
-  document.getElementById('res-cicilan-label').textContent =
-    metode === 'menurun' ? 'Angsuran bulan pertama (menurun)' : 'Angsuran per bulan (tetap)';
-  document.getElementById('s-pokok').textContent = fmtShort(pokok);
-  document.getElementById('s-dp').textContent    = fmtShort(dp);
-  document.getElementById('s-bunga').textContent = fmtShort(res.totalBunga);
-  document.getElementById('s-total').textContent = fmtShort(res.totalBayar);
-
-  // Bar
-  const pokokPct = Math.round(pokok / res.totalBayar * 100);
-  const bungaPct = 100 - pokokPct;
-  const barP = document.getElementById('bar-pokok');
-  const barB = document.getElementById('bar-bunga');
-  barP.style.width = pokokPct + '%'; barP.textContent = pokokPct > 15 ? 'Pokok ' + pokokPct + '%' : '';
-  barB.style.width = bungaPct + '%'; barB.textContent = bungaPct > 15 ? 'Bunga ' + bungaPct + '%' : '';
-
-  // Comparison table
-  const cFlat    = calcFlat(pokok, r, tenor);
-  const cEfektif = calcEfektif(pokok, r, tenor);
-  const cMenurun = calcMenurun(pokok, r, tenor);
-  const compData = [
-    { name:'Flat', d:cFlat },
-    { name:'Efektif (Anuitas)', d:cEfektif },
-    { name:'Pokok Tetap', d:cMenurun },
-  ];
-  const minBunga = Math.min(cFlat.totalBunga, cEfektif.totalBunga, cMenurun.totalBunga);
-  const compTbl = document.getElementById('method-comp');
-  compTbl.innerHTML = `<thead><tr><th>Metode</th><th>Cicilan/bln</th><th>Total Bunga</th><th>Total Bayar</th></tr></thead>`;
-  const tbody = document.createElement('tbody');
-  compData.forEach(({name, d}) => {
-    const tr = document.createElement('tr');
-    if (name.toLowerCase().includes(metode === 'flat' ? 'flat' : metode === 'efektif' ? 'efektif' : 'pokok')) {
-      tr.className = 'chosen';
-    }
-    const bungaClass = d.totalBunga === minBunga ? 'cheaper' : 'pricier';
-    tr.innerHTML = `<td>${name}</td><td>${fmt(d.cicilan)}</td><td class="${bungaClass}">${fmtShort(d.totalBunga)}</td><td>${fmtShort(d.totalBayar)}</td>`;
-    tbody.appendChild(tr);
-  });
-  compTbl.appendChild(tbody);
-
-  // Amortization
-  const schedule = getAmortSchedule(pokok, r, tenor, metode);
-  const amortBody = document.getElementById('amort-body');
-  amortBody.innerHTML = '';
-  schedule.forEach((row, i) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${i+1}</td><td>${fmt(row.cicilan)}</td><td>${fmt(row.pokok)}</td><td style="color:#f97316">${fmt(row.bunga)}</td><td>${fmt(row.sisa)}</td>`;
-    amortBody.appendChild(tr);
-  });
-
-  // Advice
-  const bungaRasio = (res.totalBunga / pokok * 100).toFixed(1);
-  let advice;
-  if (metode === 'flat') {
-    advice = `💡 Dengan bunga flat, total bunga <strong>${fmtShort(res.totalBunga)}</strong> (${bungaRasio}% dari pokok). Ingat: bunga flat ${bunga}%/thn setara efektif ~${(bunga*1.8).toFixed(0)}%/thn. Untuk perbandingan akurat antar penawaran kredit, selalu minta konversi ke bunga efektif/APR.`;
-  } else if (metode === 'efektif') {
-    advice = `✅ Metode efektif/anuitas lebih transparan dari flat. Total bunga <strong>${fmtShort(res.totalBunga)}</strong> (${bungaRasio}% dari pokok). Cicilan tetap ${fmt(res.cicilan)}/bulan — bunga besar di awal, mengecil seiring waktu (lihat tabel angsuran).`;
-  } else {
-    advice = `📉 Pokok tetap: cicilan awal <strong>${fmt(res.cicilan)}</strong> tapi turun setiap bulan. Total bunga <strong>${fmtShort(res.totalBunga)}</strong> — paling sedikit dari ketiga metode. Cocok jika penghasilan Anda cukup kuat di awal tenor.`;
-  }
-  document.getElementById('res-advice').innerHTML = advice;
-
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
+// ④ TENOR CHART
+function calcTenor(){
+  const P=v('tn-pokok'),bunga=v('tn-bunga');
+  const tenors=[6,12,18,24,36,48,60,72,84];
+  const chart=document.getElementById('tn-chart');if(!chart)return;
+  const curTenor=v('a-tenor')||24;
+  const maxBunga=Math.max(...tenors.map(n=>calcAn(P,bunga,n).totalBunga));
+  const maxTotal=Math.max(...tenors.map(n=>calcAn(P,bunga,n).totalBayar));
+  chart.innerHTML=tenors.map(n=>{
+    const r=calcAn(P,bunga,n);
+    const isActive=n===curTenor;
+    const pokPct=maxTotal>0?P/maxTotal*100:50;
+    const bungaPct=maxTotal>0?r.totalBunga/maxTotal*100:50;
+    return`<div class="chart-row${isActive?' hl':''}">
+      <span class="chart-lbl">${n} bln</span>
+      <div class="chart-bar-bg">
+        <div class="chart-bar-pokok" style="width:${pokPct}%"></div>
+        <div class="chart-bar-bunga" style="left:${pokPct}%;width:${bungaPct}%"></div>
+      </div>
+      <span class="chart-val">${rp(r.cicilan)}</span>
+    </div>`;
+  }).join('');
+  const an6=calcAn(P,bunga,6),an60=calcAn(P,bunga,60),an84=calcAn(P,bunga,84);
+  set('tn-min-cicilan',rp(an84.cicilan)+'/bulan (84 bln)');
+  set('tn-min-bunga',rp(an6.totalBunga)+' (6 bulan)');
+  set('tn-selisih',rp(an60.totalBunga-an6.totalBunga));
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['a-pokok','a-bunga','a-tenor'],calcTabAn);
+listen(['f-pokok','f-bunga','f-tenor'],calcTabFlat);
+listen(['cmp-pokok','cmp-tenor','cmp-anuitas','cmp-flat'],calcCmp);
+listen(['tn-pokok','tn-bunga'],calcTenor);
+calcTabAn();calcTabFlat();
 </script>
 </body>
 </html>

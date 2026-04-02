@@ -1,509 +1,556 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator PPN 2026 — Hitung PPN 11% & 12% + Ekstrak PPN | NovaCalcs</title>
-<meta name="description" content="Hitung PPN 11% dan 12% secara instan. Tambahkan PPN ke harga, ekstrak PPN dari harga sudah termasuk pajak, atau bandingkan 11% vs 12% sekaligus. Gratis dan akurat."/>
-<meta name="keywords" content="kalkulator PPN, hitung PPN 11 persen, PPN 12 persen, ekstrak PPN, harga sebelum PPN, PMK 131 2024, PPN 2026, pajak pertambahan nilai"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ppn.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-ppn.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator PPN","url":"https://novacalcs.com/id/kalkulator-ppn.html","description":"Kalkulator PPN 11% dan 12% dengan mode tambah, ekstrak, dan perbandingan","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Mode tabs */
-.ppn-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
-.ppn-tab { padding:8px 14px; font-size:0.78rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; transition:all 0.15s; flex:1; text-align:center; }
-.ppn-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
-.ppn-mode { display:none; }
-.ppn-mode.active { display:block; }
-
-/* Big PPN display */
-.ppn-main { text-align:center; padding:16px 0 10px; }
-.ppn-num { font-size:2.2rem; font-weight:700; color:#f97316; line-height:1; }
-.ppn-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Price bar */
-.ppn-bar-wrap { margin:12px 0 6px; }
-.ppn-bar-track { height:20px; border-radius:10px; overflow:hidden; display:flex; }
-.ppn-bar-dpp { background:#4ade80; transition:width 0.5s; display:flex; align-items:center; padding-left:8px; font-size:0.62rem; font-weight:700; color:#064e3b; }
-.ppn-bar-tax { background:#f97316; transition:width 0.5s; display:flex; align-items:center; justify-content:center; font-size:0.62rem; font-weight:700; color:#431407; }
-.ppn-bar-legend { display:flex; gap:14px; margin-top:5px; font-size:0.72rem; color:var(--text-secondary); }
-.ppn-bar-legend span::before { content:'●'; margin-right:4px; }
-.leg-g::before { color:#4ade80; } .leg-o::before { color:#f97316; }
-
-/* Stats grid */
-.ppn-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.ppn-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.ppn-stat .ps-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
-.ppn-stat .ps-val { font-size:0.95rem; font-weight:700; color:var(--text-primary); }
-.ppn-stat.orange .ps-val { color:#f97316; }
-.ppn-stat.green .ps-val { color:#4ade80; }
-
-/* Compare mode */
-.compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
-.compare-card { border-radius:var(--radius-md); padding:14px; text-align:center; border:1px solid var(--border); }
-.compare-card.c11 { background:rgba(74,222,128,0.08); border-color:rgba(74,222,128,0.3); }
-.compare-card.c12 { background:rgba(249,115,22,0.08); border-color:rgba(249,115,22,0.3); }
-.compare-card .cc-rate { font-size:1.5rem; font-weight:800; margin-bottom:4px; }
-.compare-card.c11 .cc-rate { color:#4ade80; }
-.compare-card.c12 .cc-rate { color:#f97316; }
-.compare-card .cc-row { display:flex; justify-content:space-between; font-size:0.75rem; padding:3px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
-.compare-card .cc-row:last-child { border-bottom:none; font-weight:700; }
-
-/* Multi-item table */
-.item-row { display:flex; gap:6px; align-items:center; margin-bottom:6px; }
-.item-row input { flex:1; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:7px 10px; color:var(--text-primary); font-size:0.82rem; }
-.item-row input:focus { border-color:var(--border-focus); outline:none; }
-.item-row .item-ppn { min-width:90px; text-align:right; font-size:0.78rem; color:#f97316; font-weight:600; }
-.item-row .item-total { min-width:100px; text-align:right; font-size:0.78rem; color:var(--mint); font-weight:600; }
-.add-item-btn { background:var(--bg-input); border:1px dashed var(--border); border-radius:var(--radius-sm); padding:8px; width:100%; font-size:0.78rem; color:var(--text-muted); cursor:pointer; margin-top:4px; transition:all 0.15s; }
-.add-item-btn:hover { border-color:var(--mint); color:var(--mint); }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-
-/* Preset buttons */
-.ppn-preset-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
-.ppn-pre-btn{padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s}
-.ppn-pre-btn:hover,.ppn-pre-btn.active{background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35)}
-
-/* Free PPN cards */
-.free-ppn-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-.free-ppn-card{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:8px;padding:.6rem .7rem}
-.fpc-icon{font-size:1rem;margin-bottom:.15rem}
-.fpc-name{font-size:.75rem;font-weight:700;color:#4ade80}
-.fpc-desc{font-size:.68rem;color:#8fa3b1;line-height:1.4}
-
-/* Copy button */
-.copy-ppn-btn{width:100%;padding:.45rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#c0cdd8;font-size:.78rem;cursor:pointer;font-family:inherit;margin-top:8px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator PPN 11% 2026 — Hitung Pajak Pertambahan Nilai & Cek Faktur | NovaCalcs</title>
+  <meta name="description" content="Kalkulator PPN 11% 2026: tambah PPN ke harga, ekstrak PPN dari harga sudah termasuk pajak, dan simulasi faktur pajak. Sesuai UU HPP No. 7/2021. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-ppn">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px;flex-wrap:wrap}
+    .tbtn{flex:1;min-width:0;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:16px}.rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* FAKTUR */
+    .faktur{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-top:14px}
+    .faktur-head{background:var(--sur2);padding:10px 14px;font-size:11px;font-weight:700;display:flex;justify-content:space-between;border-bottom:1px solid var(--bor)}
+    .faktur-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--bor);font-size:12px}
+    .faktur-row:last-child{border-bottom:none}
+    .faktur-row.total{background:var(--pri-l);font-weight:700}
+    .faktur-row.ppn{background:var(--sur2);color:var(--pri);font-weight:700}
+    .faktur-val{font-family:'DM Mono',monospace;font-weight:600}
+    /* ITEM ROWS */
+    .item-wrap{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-bottom:10px}
+    .item-header{background:var(--sur2);padding:8px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tx3);display:grid;grid-template-columns:1fr 80px 80px 80px;gap:8px}
+    .item-row{display:grid;grid-template-columns:1fr 80px 80px 80px;gap:8px;padding:8px 12px;border-top:1px solid var(--bor);align-items:center}
+    .item-inp{padding:5px 7px;border:1.5px solid var(--bor);border-radius:6px;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;text-align:right;background:var(--sur);outline:none;width:100%;appearance:none}
+    .item-inp:focus{border-color:var(--pri)}
+    .item-name{padding:5px 7px;border:1.5px solid var(--bor);border-radius:6px;font-size:11px;background:var(--sur);outline:none;width:100%}
+    .item-name:focus{border-color:var(--pri)}
+    .item-total{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--pri);text-align:right}
+    /* COMPARE TABLE */
+    .cmp-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .cmp-tbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3)}
+    .cmp-tbl td{padding:8px 10px;border-bottom:1px solid var(--bor);font-family:'DM Mono',monospace;font-weight:600}
+    .cmp-tbl td:first-child{font-family:inherit}
+    .cmp-tbl tr:last-child td{border-bottom:none}
+    .cmp-tbl tr.hl td{background:var(--pri-l);color:var(--pri);font-weight:700}
+    /* BAR */
+    .bw{background:var(--sur2);height:8px;border-radius:4px;margin:12px 0 6px;overflow:hidden;display:flex}
+    .bleg{display:flex;gap:10px;font-size:10px;color:var(--tx3)}
+    .bleg-d{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .add-btn{padding:6px 14px;border:1.5px dashed var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);width:100%;transition:all .15s}
+    .add-btn:hover{border-color:var(--pri);color:var(--pri)}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator PPN</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator PPN 11%</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🧾 PPN 11%</div>
+  <h1 class="hdr-h1">Kalkulator PPN 11% 2026</h1>
+  <p class="hdr-sub">Hitung PPN dengan cepat — tambah PPN ke harga, ekstrak PPN dari harga termasuk pajak, atau buat simulasi faktur pajak. Hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">Tarif PPN <span>11%</span></div>
+    <div class="pchip">UU HPP <span>No. 7/2021</span></div>
+    <div class="pchip">Berlaku <span>April 2022</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🧾 Kalkulator PPN 2026</div>
-      <div class="calc-subtitle">Tambah PPN · Ekstrak PPN · Bandingkan 11% vs 12%</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="ppn-tabs">
-        <div class="ppn-tab active" onclick="switchTab(0,this)">➕ Tambah PPN</div>
-        <div class="ppn-tab" onclick="switchTab(1,this)">🔍 Ekstrak PPN</div>
-        <div class="ppn-tab" onclick="switchTab(2,this)">⚖️ Bandingkan</div>
-        <div class="ppn-tab" onclick="switchTab(3,this)">📋 Multi Item</div>
-      </div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🧾</div>Kalkulator PPN</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="tambah">➕ Tambah PPN ke Harga</button>
+      <button class="tbtn" data-tab="ekstrak">🔍 Ekstrak PPN dari Total</button>
+      <button class="tbtn" data-tab="faktur">🧾 Simulasi Faktur</button>
+    </div>
 
-      <!-- TAB 0: Tambah PPN -->
-      <div class="ppn-mode active" id="tab0">
-        <div class="field">
-          <label>Tarif PPN</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="t0-11" onclick="setTarif0(11,this)">11% (Umum)</div>
-            <div class="radio-btn" id="t0-12" onclick="setTarif0(12,this)">12% (Mewah)</div>
-            <div class="radio-btn" id="t0-0" onclick="setTarif0(0,this)">0% (Ekspor)</div>
-          </div>
-          <p style="font-size:0.7rem;color:var(--text-muted);margin-top:4px">11% = barang/jasa umum (PMK 131/2024). 12% = barang mewah (PPnBM).</p>
-        </div>
-        <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.35rem;font-weight:600">Preset harga umum:</div>
-        <div class="ppn-preset-row">
-          <button class="ppn-pre-btn" onclick="applyPPN(50000,'t0')">Rp 50rb</button>
-          <button class="ppn-pre-btn" onclick="applyPPN(100000,'t0')">Rp 100rb</button>
-          <button class="ppn-pre-btn" onclick="applyPPN(500000,'t0')">Rp 500rb</button>
-          <button class="ppn-pre-btn" onclick="applyPPN(1000000,'t0')">Rp 1 jt</button>
-          <button class="ppn-pre-btn" onclick="applyPPN(5000000,'t0')">Rp 5 jt</button>
-          <button class="ppn-pre-btn" onclick="applyPPN(10000000,'t0')">Rp 10 jt</button>
-        </div>
-        <div class="field">
-          <label>Harga sebelum PPN (DPP) — Rp</label>
-          <input type="number" id="t0-harga" placeholder="Contoh: 1.000.000" oninput="calcTambah()"/>
-        </div>
-        <button class="calc-btn" onclick="calcTambah()">🧾 Hitung PPN</button>
-        <div class="result-box" id="res0" style="display:none">
-          <div class="ppn-main">
-            <div class="ppn-num" id="r0-ppn">—</div>
-            <div class="ppn-label" id="r0-label">Nilai PPN</div>
-          </div>
-          <div class="ppn-bar-wrap">
-            <div class="ppn-bar-track">
-              <div class="ppn-bar-dpp" id="r0-bar-dpp" style="width:91%">Harga DPP</div>
-              <div class="ppn-bar-tax" id="r0-bar-tax" style="width:9%">PPN</div>
-            </div>
-            <div class="ppn-bar-legend">
-              <span class="leg-g">Harga DPP</span>
-              <span class="leg-o">Nilai PPN</span>
-            </div>
-          </div>
-          <div class="ppn-stats">
-            <div class="ppn-stat green"><div class="ps-label">Harga sebelum PPN</div><div class="ps-val" id="r0-sebelum">—</div></div>
-            <div class="ppn-stat orange"><div class="ps-label">Nilai PPN</div><div class="ps-val" id="r0-ppn2">—</div></div>
-            <div class="ppn-stat"><div class="ps-label">Harga total (termasuk PPN)</div><div class="ps-val" id="r0-total">—</div></div>
-            <div class="ppn-stat"><div class="ps-label">Tarif yang berlaku</div><div class="ps-val" id="r0-tarif">—</div></div>
-          </div>
-        </div>
-        <!-- Free PPN quick ref -->
-        <div style="font-size:.75rem;color:#8fa3b1;margin:12px 0 4px;font-weight:600">✅ Barang/Jasa Bebas PPN (tidak dikenakan PPN):</div>
-        <div class="free-ppn-grid">
-          <div class="free-ppn-card"><div class="fpc-icon">🛒</div><div class="fpc-name">Kebutuhan Pokok</div><div class="fpc-desc">Beras, jagung, kedelai, garam, daging, telur, susu, buah & sayur segar</div></div>
-          <div class="free-ppn-card"><div class="fpc-icon">🏥</div><div class="fpc-name">Jasa Kesehatan</div><div class="fpc-desc">RS, klinik, puskesmas, dokter, bidan, apotek (pelayanan)</div></div>
-          <div class="free-ppn-card"><div class="fpc-icon">🎓</div><div class="fpc-name">Jasa Pendidikan</div><div class="fpc-desc">SD–SMA, perguruan tinggi, pesantren yang memenuhi syarat</div></div>
-          <div class="free-ppn-card"><div class="fpc-icon">🚌</div><div class="fpc-name">Angkutan Umum</div><div class="fpc-desc">Bus kota, KRL, MRT, TransJakarta, angkutan laut umum</div></div>
-        </div>
-        <button class="copy-ppn-btn" onclick="copyPPNResult()">📋 Salin Hasil Perhitungan</button>
-      </div>
-
-      <!-- TAB 1: Ekstrak PPN -->
-      <div class="ppn-mode" id="tab1">
-        <div class="field">
-          <label>Tarif PPN yang dikandung</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="t1-11" onclick="setTarif1(11,this)">11%</div>
-            <div class="radio-btn" id="t1-12" onclick="setTarif1(12,this)">12%</div>
-          </div>
-        </div>
-        <div class="field">
-          <label>Harga sudah termasuk PPN — Rp</label>
-          <input type="number" id="t1-harga" placeholder="Contoh: 1.110.000" oninput="calcEkstrak()"/>
-          <p style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">Masukkan angka yang tercetak di struk atau faktur (sudah include PPN)</p>
-        </div>
-        <button class="calc-btn" onclick="calcEkstrak()">🔍 Ekstrak PPN</button>
-        <div class="result-box" id="res1" style="display:none">
-          <div class="ppn-main">
-            <div class="ppn-num" id="r1-ppn">—</div>
-            <div class="ppn-label">Nilai PPN yang terkandung</div>
-          </div>
-          <div class="ppn-stats">
-            <div class="ppn-stat"><div class="ps-label">Harga termasuk PPN</div><div class="ps-val" id="r1-total">—</div></div>
-            <div class="ppn-stat orange"><div class="ps-label">Nilai PPN (diekstrak)</div><div class="ps-val" id="r1-ppn2">—</div></div>
-            <div class="ppn-stat green"><div class="ps-label">Harga sebelum PPN (DPP)</div><div class="ps-val" id="r1-dpp">—</div></div>
-            <div class="ppn-stat"><div class="ps-label">% PPN dari total</div><div class="ps-val" id="r1-pct">—</div></div>
-          </div>
+    <!-- TAB: TAMBAH PPN -->
+    <div class="tpanel on" id="tab-tambah">
+      <div class="fld">
+        <label>Harga Sebelum PPN (Rp)</label>
+        <div class="iw"><input type="number" id="t-harga" value="1000000" min="0" step="10000"></div>
+        <div class="presets">
+          <button class="pb" data-val="100000" data-for="t-harga">100rb</button>
+          <button class="pb" data-val="500000" data-for="t-harga">500rb</button>
+          <button class="pb on" data-val="1000000" data-for="t-harga">1 jt</button>
+          <button class="pb" data-val="5000000" data-for="t-harga">5 jt</button>
+          <button class="pb" data-val="10000000" data-for="t-harga">10 jt</button>
         </div>
       </div>
-
-      <!-- TAB 2: Perbandingan 11% vs 12% -->
-      <div class="ppn-mode" id="tab2">
-        <div class="field">
-          <label>Harga sebelum PPN (DPP) — Rp</label>
-          <input type="number" id="t2-harga" placeholder="Contoh: 5.000.000" oninput="calcBanding()"/>
-        </div>
-        <button class="calc-btn" onclick="calcBanding()">⚖️ Bandingkan Sekarang</button>
-        <div class="result-box" id="res2" style="display:none">
-          <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px;">Perbandingan PPN 11% vs 12%</div>
-          <div class="compare-grid">
-            <div class="compare-card c11">
-              <div class="cc-rate">11%</div>
-              <div style="font-size:0.68rem;color:#4ade80;margin-bottom:8px;">Barang/jasa umum</div>
-              <div class="cc-row"><span>Nilai PPN</span><span id="c11-ppn">—</span></div>
-              <div class="cc-row"><span>Total bayar</span><span id="c11-total">—</span></div>
-            </div>
-            <div class="compare-card c12">
-              <div class="cc-rate">12%</div>
-              <div style="font-size:0.68rem;color:#f97316;margin-bottom:8px;">Barang mewah (PPnBM)</div>
-              <div class="cc-row"><span>Nilai PPN</span><span id="c12-ppn">—</span></div>
-              <div class="cc-row"><span>Total bayar</span><span id="c12-total">—</span></div>
-            </div>
-          </div>
-          <div style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:0.8rem;color:var(--text-secondary);">
-            Selisih PPN 11% vs 12%: <strong id="c-selisih" style="color:#fbbf24">—</strong>
-          </div>
-        </div>
+      <div class="fld">
+        <label>Tarif PPN</label>
+        <div class="iw sw"><select id="t-tarif">
+          <option value="11" selected>11% (standar, UU HPP 2021)</option>
+          <option value="0">0% (ekspor / tertentu)</option>
+          <option value="1.1">1,1% (final PKP tertentu)</option>
+          <option value="12">12% (barang mewah)</option>
+        </select></div>
       </div>
 
-      <!-- TAB 3: Multi Item -->
-      <div class="ppn-mode" id="tab3">
-        <div class="field">
-          <label>Tarif PPN</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="t3-11" onclick="setTarif3(11,this)">11%</div>
-            <div class="radio-btn" id="t3-12" onclick="setTarif3(12,this)">12%</div>
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Harga Termasuk PPN (Total Bayar)</div>
+            <div class="rv lg" id="t-total">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">PPN yang Dibayar</div>
+            <div class="rv sm" id="t-ppn">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Harga Sebelum PPN</div>
+            <div class="rv sm" id="t-dpp">—</div>
           </div>
         </div>
-        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:10px 0 6px;">Daftar Harga Barang (belum PPN)</div>
-        <div style="display:grid;grid-template-columns:1fr auto auto;gap:4px;font-size:0.68rem;color:var(--text-muted);font-weight:600;padding:0 2px 4px;border-bottom:1px solid var(--border);margin-bottom:6px;">
-          <span>Nama / Harga (Rp)</span><span style="text-align:right">PPN</span><span style="text-align:right">Total</span>
+        <div class="bw">
+          <div id="t-bar-harga" style="background:var(--grn);height:100%;transition:width .3s"></div>
+          <div id="t-bar-ppn" style="background:var(--pri);height:100%;transition:width .3s"></div>
         </div>
-        <div id="multi-items"></div>
-        <div class="add-item-btn" onclick="addItem()">+ Tambah Item</div>
-        <button class="calc-btn" style="margin-top:10px" onclick="calcMulti()">📋 Hitung Semua</button>
-        <div class="result-box" id="res3" style="display:none">
-          <div class="ppn-stats">
-            <div class="ppn-stat green"><div class="ps-label">Subtotal (sebelum PPN)</div><div class="ps-val" id="m-sub">—</div></div>
-            <div class="ppn-stat orange"><div class="ps-label">Total PPN</div><div class="ps-val" id="m-ppn">—</div></div>
-            <div class="ppn-stat" style="grid-column:1/-1"><div class="ps-label">Grand Total (termasuk PPN)</div><div class="ps-val" id="m-grand" style="font-size:1.1rem;color:var(--mint)">—</div></div>
-          </div>
+        <div class="bleg">
+          <span><span class="bleg-d" style="background:var(--grn)"></span>Harga dasar (DPP)</span>
+          <span><span class="bleg-d" style="background:var(--pri)"></span>PPN</span>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>DPP (Dasar Pengenaan Pajak)</span><span id="t-dpp2">—</span></div>
+          <div class="rr"><span>Tarif PPN</span><span id="t-tarif-show">11%</span></div>
+          <div class="rr"><span>PPN = DPP × tarif</span><span id="t-ppn2">—</span></div>
+          <div class="rr"><span>Total = DPP + PPN</span><span id="t-total2">—</span></div>
         </div>
       </div>
+    </div>
 
+    <!-- TAB: EKSTRAK PPN -->
+    <div class="tpanel" id="tab-ekstrak">
+      <div class="notice info" style="margin-bottom:16px">🔍 Masukkan <strong>harga yang sudah termasuk PPN</strong> — kalkulator akan memisahkan DPP dan PPN-nya.</div>
+      <div class="fld">
+        <label>Harga Termasuk PPN (Total yang Tertera)</label>
+        <div class="iw"><input type="number" id="e-total" value="1110000" min="0" step="10000"></div>
+        <div class="presets">
+          <button class="pb" data-val="111000" data-for="e-total">111rb</button>
+          <button class="pb" data-val="555000" data-for="e-total">555rb</button>
+          <button class="pb on" data-val="1110000" data-for="e-total">1,11 jt</button>
+          <button class="pb" data-val="5550000" data-for="e-total">5,55 jt</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Tarif PPN yang Digunakan</label>
+        <div class="iw sw"><select id="e-tarif">
+          <option value="11" selected>11%</option>
+          <option value="10">10% (lama, sebelum April 2022)</option>
+          <option value="12">12% (barang mewah)</option>
+        </select></div>
+      </div>
+
+      <div class="lres">
+        <div class="rg">
+          <div class="ri">
+            <div class="rl">Harga Sebelum PPN (DPP)</div>
+            <div class="rv" id="e-dpp">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">PPN di Dalamnya</div>
+            <div class="rv" style="color:var(--red)" id="e-ppn">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Total yang tertera</span><span id="e-total-show">—</span></div>
+          <div class="rr"><span>DPP = Total ÷ (1 + tarif%)</span><span id="e-dpp2">—</span></div>
+          <div class="rr"><span>PPN = Total − DPP</span><span id="e-ppn2">—</span></div>
+          <div class="rr"><span>Verifikasi: DPP × tarif</span><span id="e-verif">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* Rumus ekstrak: DPP = Total ÷ (1 + 0,11). Berguna untuk memisahkan harga asli dari pajak pada struk atau invoice yang sudah include PPN.</div>
+    </div>
+
+    <!-- TAB: FAKTUR PAJAK -->
+    <div class="tpanel" id="tab-faktur">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Simulasi faktur pajak untuk beberapa barang/jasa. Tambah item dan hitung total PPN otomatis.</p>
+      <div class="fld">
+        <label>Tarif PPN</label>
+        <div class="iw sw" style="max-width:200px"><select id="f-tarif" onchange="renderFaktur()">
+          <option value="11" selected>11%</option>
+          <option value="12">12%</option>
+          <option value="0">0%</option>
+        </select></div>
+      </div>
+      <div class="item-wrap">
+        <div class="item-header"><span>Nama Barang/Jasa</span><span>Qty</span><span>Harga/Unit</span><span>Total</span></div>
+        <div id="item-rows"></div>
+      </div>
+      <button class="add-btn" onclick="addItem()">＋ Tambah Item</button>
+
+      <div class="faktur" id="faktur-preview" style="margin-top:16px">
+        <div class="faktur-head"><span>FAKTUR PAJAK (SIMULASI)</span><span>PPN <span id="f-tarif-lbl">11%</span></span></div>
+        <div id="f-item-lines"></div>
+        <div class="faktur-row"><span>Subtotal (DPP)</span><span class="faktur-val" id="f-subtotal">—</span></div>
+        <div class="faktur-row ppn"><span>PPN (<span id="f-ppn-tarif">11%</span>)</span><span class="faktur-val" id="f-ppn">—</span></div>
+        <div class="faktur-row total"><span>TOTAL BAYAR</span><span class="faktur-val" id="f-total">—</span></div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator PPN 2026 — Hitung PPN 11% dan 12%</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung PPN secara instan dalam empat mode: tambahkan PPN ke harga, ekstrak PPN dari harga sudah pajak, bandingkan 11% vs 12%, atau kalkulasikan beberapa item sekaligus. Sesuai PMK 131/2024 yang masih berlaku di 2026.</p>
+<!-- ② SIMULATOR: PERBANDINGAN TARIF -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Simulasi Berbagai Harga &amp; Perbandingan Tarif <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Lihat PPN dan total bayar di berbagai level harga, sekaligus bandingkan dampak tarif 10%, 11%, dan 12%.</p>
+    <div class="fld">
+      <label>Harga Dasar (Rp)</label>
+      <div class="iw"><input type="number" id="cmp-harga" value="1000000" min="0" step="10000"></div>
+      <div class="presets">
+        <button class="pb" data-val="100000" data-for="cmp-harga">100rb</button>
+        <button class="pb" data-val="500000" data-for="cmp-harga">500rb</button>
+        <button class="pb on" data-val="1000000" data-for="cmp-harga">1 jt</button>
+        <button class="pb" data-val="5000000" data-for="cmp-harga">5 jt</button>
+        <button class="pb" data-val="10000000" data-for="cmp-harga">10 jt</button>
+      </div>
+    </div>
 
-    <h2>Tarif PPN di Indonesia 2026 — Penjelasan Lengkap</h2>
-    <p>Berdasarkan UU HPP (UU No. 7/2021), tarif PPN resmi naik dari 11% menjadi 12% per 1 Januari 2025. Namun karena pertimbangan dampak ekonomi, pemerintah menerbitkan PMK No. 131 Tahun 2024 yang mengatur mekanisme khusus:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Jenis Barang/Jasa</th><th>Tarif Resmi</th><th>DPP Efektif</th><th>PPN yang Dibayar</th></tr></thead>
-      <tbody>
-        <tr><td>Barang &amp; jasa umum (non-mewah)</td><td>12%</td><td>11/12 × harga jual</td><td>= 11% dari harga jual</td></tr>
-        <tr><td>Barang mewah (kena PPnBM)</td><td>12%</td><td>Harga jual penuh</td><td>= 12% dari harga jual</td></tr>
-        <tr><td>Ekspor BKP/JKP</td><td>0%</td><td>Harga jual</td><td>= 0%</td></tr>
-        <tr><td>Kebutuhan pokok tertentu</td><td>Bebas PPN</td><td>—</td><td>Rp 0</td></tr>
-      </tbody>
+    <div class="sec-lbl">Dampak Kenaikan Tarif PPN</div>
+    <table class="cmp-tbl">
+      <thead><tr><th>Tarif PPN</th><th>PPN</th><th>Total Bayar</th><th>Selisih vs 11%</th></tr></thead>
+      <tbody id="tarif-cmp-body"></tbody>
     </table>
-    <p>Implikasinya: sebagian besar konsumen tidak merasakan kenaikan harga akibat PPN 12% karena DPP-nya dihitung 11/12 dari harga jual — hasilnya nilai PPN yang dibayar tetap setara 11% dari harga. Tarif 12% penuh hanya dirasakan pembeli barang mewah yang sudah kena PPnBM. PMK 131/2024 ini berlaku sejak 1 Januari 2025 dan masih aktif di 2026.</p>
 
-    <h2>Fitur Kalkulator PPN NovaCalcs</h2>
-    <p>Kalkulator ini hadir dalam empat mode untuk memenuhi berbagai kebutuhan:</p>
-    <ul>
-      <li><strong>Mode Tambah PPN</strong> — Untuk penjual atau orang yang ingin tahu harga akhir setelah ditambah PPN. Masukkan harga DPP, langsung dapat nilai PPN dan total yang harus dibayar konsumen.</li>
-      <li><strong>Mode Ekstrak PPN</strong> — Kebalikannya: untuk pembeli yang ingin tahu nilai PPN yang tersembunyi dalam harga yang sudah termasuk pajak, atau untuk keperluan pembukuan (memisahkan DPP dari PPN di faktur).</li>
-      <li><strong>Mode Perbandingan 11% vs 12%</strong> — Tampilkan kedua tarif secara berdampingan untuk satu harga DPP. Berguna untuk memahami selisih antara barang umum dan barang mewah, atau untuk simulasi perencanaan harga.</li>
-      <li><strong>Mode Multi Item</strong> — Masukkan beberapa nama dan harga barang sekaligus, kalkulator menghitung PPN per item dan grand total — cocok untuk membuat estimasi tagihan atau verifikasi invoice.</li>
-      <li><strong>Visualisasi bar DPP vs PPN</strong> — Bar hijau-oranye memperlihatkan secara intuitif berapa persen dari total bayar yang merupakan nilai PPN.</li>
-      <li><strong>Input real-time</strong> — Hasil diperbarui otomatis saat mengetik, tanpa perlu klik tombol hitung ulang.</li>
-    </ul>
+    <div class="sec-lbl" style="margin-top:18px">PPN di Berbagai Level Harga (tarif 11%)</div>
+    <table class="cmp-tbl">
+      <thead><tr><th>Harga Dasar</th><th>PPN 11%</th><th>Total Bayar</th></tr></thead>
+      <tbody id="harga-cmp-body"></tbody>
+    </table>
+  </div>
+</div>
 
-    <h2>Barang dan Jasa yang Tidak Dikenakan PPN</h2>
-    <p>Berdasarkan UU HPP, berikut yang mendapat fasilitas pembebasan PPN (tarif 0% atau tidak dikenakan PPN):</p>
-    <ul>
-      <li><strong>Kebutuhan pokok</strong> — beras, jagung, sagu, kedelai, garam, daging, telur, susu, buah-buahan segar, dan sayur-sayuran segar</li>
-      <li><strong>Jasa kesehatan</strong> — layanan medis di rumah sakit, klinik, puskesmas, dan fasilitas kesehatan resmi</li>
-      <li><strong>Jasa pendidikan</strong> — layanan pendidikan formal dari SD hingga perguruan tinggi yang memenuhi syarat</li>
-      <li><strong>Jasa keuangan</strong> — deposito, tabungan, giro, kredit bank, dan asuransi</li>
-      <li><strong>Jasa angkutan umum</strong> — angkutan darat, laut, dan udara untuk penumpang umum</li>
-      <li><strong>Buku pelajaran</strong> — buku pelajaran umum, Kitab Suci, dan buku pelajaran agama</li>
-    </ul>
+<!-- ③ SIMULATOR: CEK STRUK -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🔎</div>Kalkulator Balik — Berapa Harga Asli? <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Diberikan target harga total (sudah termasuk PPN), berapa harga asli yang harus Anda set agar pelanggan membayar persis angka itu?</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Target Total Bayar (Rp)</label>
+        <div class="iw"><input type="number" id="bk-target" value="100000" min="0" step="1000"></div>
+        <div class="presets">
+          <button class="pb on" data-val="100000" data-for="bk-target">100rb</button>
+          <button class="pb" data-val="500000" data-for="bk-target">500rb</button>
+          <button class="pb" data-val="1000000" data-for="bk-target">1 jt</button>
+          <button class="pb" data-val="5000000" data-for="bk-target">5 jt</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Tarif PPN</label>
+        <div class="iw sw"><select id="bk-tarif">
+          <option value="11" selected>11%</option>
+          <option value="12">12%</option>
+          <option value="10">10%</option>
+        </select></div>
+      </div>
+    </div>
+    <div class="lres">
+      <div class="rg">
+        <div class="ri s2">
+          <div class="rl">Harga yang Harus Anda Set (Sebelum PPN)</div>
+          <div class="rv lg" id="bk-harga">—</div>
+          <div class="rsub">Agar pelanggan membayar tepat target total</div>
+        </div>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>Harga sebelum PPN (DPP)</span><span id="bk-dpp">—</span></div>
+        <div class="rr"><span>PPN yang ditambahkan</span><span id="bk-ppn">—</span></div>
+        <div class="rr"><span>Total yang dibayar pelanggan</span><span id="bk-total">—</span></div>
+        <div class="rr"><span>Verifikasi harga akhir</span><span id="bk-verif">—</span></div>
+      </div>
+    </div>
+    <div class="notice info" style="margin-top:10px">💡 Berguna untuk pemilik usaha yang ingin menetapkan harga akhir "round number" (misalnya Rp 100.000 pas) — tinggal set harga sebelum PPN ke angka yang dihitung di atas.</div>
+  </div>
+</div>
 
-    <h2>Cara Menggunakan Faktur Pajak (e-Faktur)</h2>
-    <p>Bagi pemilik usaha yang merupakan PKP (Pengusaha Kena Pajak), setiap penyerahan BKP atau JKP wajib disertai faktur pajak. Sejak 2016, DJP mewajibkan penggunaan e-Faktur yang diunggah ke sistem DJP Online. Beberapa hal penting:</p>
-    <ul>
-      <li>PKP adalah pengusaha dengan omzet bruto &gt; Rp 4,8 miliar per tahun — di bawah ini tidak wajib jadi PKP</li>
-      <li>e-Faktur harus dibuat paling lambat pada tanggal yang sama dengan transaksi</li>
-      <li>PPN yang dipungut harus disetorkan paling lambat akhir bulan berikutnya</li>
-      <li>SPT Masa PPN dilaporkan setiap bulan melalui e-SPT atau DJP Online</li>
-    </ul>
+</div><!-- /left-col -->
 
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah PPN sudah naik 12% untuk semua barang?</div>
-      <div class="faq-a">Tidak sepenuhnya. Secara hukum, tarif PPN resmi naik menjadi 12% per 1 Januari 2025 sesuai UU HPP. Namun PMK No. 131/2024 mengatur bahwa untuk barang dan jasa umum (non-mewah), DPP dihitung sebesar 11/12 dari harga jual — sehingga nilai PPN yang dibayar konsumen tetap setara 11% dari harga. Tarif 12% penuh hanya berlaku untuk barang mewah yang sudah dikenai PPnBM. PMK ini masih berlaku di 2026 dan belum ada perubahan kebijakan baru hingga knowledge cutoff.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah semua toko dan penjual wajib memungut PPN?</div>
-      <div class="faq-a">Tidak. Hanya Pengusaha Kena Pajak (PKP) yang wajib memungut PPN. PKP adalah pengusaha yang omzet brutonya melebihi Rp 4,8 miliar per tahun. UMKM dengan omzet di bawah threshold ini tidak wajib menjadi PKP, tidak perlu memungut PPN, dan tidak perlu menerbitkan faktur pajak. Namun mereka bisa memilih untuk dikukuhkan sebagai PKP secara sukarela.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa itu DPP dan mengapa berbeda dari harga jual?</div>
-      <div class="faq-a">DPP (Dasar Pengenaan Pajak) adalah nilai yang dijadikan dasar penghitungan PPN. Untuk barang umum sejak 2025 (PMK 131/2024): DPP = 11/12 × harga jual. PPN = 12% × DPP = 12% × (11/12 × harga) = 11% × harga. Jadi meski tarif resminya 12%, konsumen tetap membayar PPN setara 11% karena DPP-nya lebih kecil dari harga jual. Untuk barang mewah: DPP = harga jual penuh, sehingga PPN = 12% × harga penuh.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan PPN dan PPnBM?</div>
-      <div class="faq-a">PPN (Pajak Pertambahan Nilai) dikenakan atas hampir semua penyerahan barang/jasa kena pajak — tarifnya 11–12%. PPnBM (Pajak Penjualan atas Barang Mewah) hanya dikenakan atas barang mewah tertentu seperti kendaraan bermotor mewah (10–125%), kapal pesiar, dan barang-barang tersier lainnya. PPnBM dikenakan di atas PPN, sehingga barang mewah membayar PPN 12% + PPnBM sesuai tarifnya.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah belanja online dikenakan PPN?</div>
-      <div class="faq-a">Ya. Barang yang dibeli melalui marketplace dikenakan PPN jika penjualnya adalah PKP. Sejak 2020, platform digital luar negeri (seperti Netflix, Spotify, Zoom) juga wajib memungut PPN 11% atas layanan digital impor ke konsumen Indonesia. Barang impor dengan nilai di atas USD 3 per kiriman juga dikenakan bea masuk ditambah PPN impor 11%.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung PPN untuk faktur yang sudah termasuk PPN?</div>
-      <div class="faq-a">Gunakan rumus ekstrak PPN: DPP = Total termasuk PPN ÷ (1 + tarif PPN). Contoh untuk PPN 11%: faktur Rp 1.110.000 (termasuk PPN) → DPP = 1.110.000 ÷ 1,11 = Rp 1.000.000 → PPN = Rp 110.000. Untuk PPN 12%: faktur Rp 1.120.000 → DPP = 1.120.000 ÷ 1,12 = Rp 1.000.000 → PPN = Rp 120.000. Gunakan Mode Ekstrak PPN di kalkulator ini untuk menghitung otomatis.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah service charge di restoran dikenakan PPN?</div>
-      <div class="faq-a">Ya. Service charge (biasanya 5–10%) yang ditambahkan restoran PKP ke tagihan bukan merupakan pajak, melainkan biaya layanan untuk karyawan. Namun service charge itu sendiri dianggap sebagai bagian dari penyerahan jasa dan ikut dikenai PPN 11%. Jadi tagihan final = harga makanan + service charge + PPN 11% dari (harga makanan + service charge).</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
-      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
-      <a href="/id/kalkulator-pph.html" class="related-item"><span class="ri">💼</span>Kalkulator PPh 21</a>
-      <a href="/id/kalkulator-split-bill.html" class="related-item"><span class="ri">👥</span>Split Bill</a>
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Tarif PPN Indonesia</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">PPN Standar</div><div class="fron">Sebagian besar BKP/JKP</div></div></div><div class="fprice">11%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#C0392B"></div><div><div class="fn">PPN Barang Mewah</div><div class="fron">BKP mewah (Jan 2025)</div></div></div><div class="fprice">12%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#1A7F4E"></div><div><div class="fn">PPN Ekspor</div><div class="fron">Barang/jasa ekspor</div></div></div><div class="fprice">0%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#718096"></div><div><div class="fn">Bebas PPN</div><div class="fron">Bahan pokok, kesehatan, dll.</div></div></div><div class="fprice">—</div></div>
+      </div>
+      <div class="notice" style="margin-top:10px">UU HPP No. 7/2021 berlaku April 2022. Tarif 12% hanya untuk barang mewah tertentu sejak Januari 2025.</div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips PPN</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🧾</span><span class="tptx"><strong>Wajib Faktur Pajak</strong> — PKP wajib menerbitkan faktur untuk setiap transaksi BKP/JKP</span></div>
+        <div class="tip"><span class="tpico">📅</span><span class="tptx"><strong>Lapor SPT Masa PPN</strong> setiap bulan, paling lambat akhir bulan berikutnya</span></div>
+        <div class="tip"><span class="tpico">🔢</span><span class="tptx"><strong>Omzet ≥ Rp 4,8 miliar/tahun</strong> — wajib jadi PKP dan pungut PPN</span></div>
+        <div class="tip"><span class="tpico">✅</span><span class="tptx"><strong>PM dapat dikreditkan</strong> — PPN masukan (beli) dikurangi PPN keluaran (jual)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-ppn-12" class="relc"><div class="relc-ico">💎</div><div class="relc-nm">PPN 12%</div><div class="relc-ds">Barang mewah</div></a>
+        <a href="/id/kalkulator-diskon" class="relc"><div class="relc-ico">🏷️</div><div class="relc-nm">Diskon</div><div class="relc-ds">Hitung diskon</div></a>
+        <a href="/id/kalkulator-persen" class="relc"><div class="relc-ico">🔢</div><div class="relc-nm">Persen</div><div class="relc-ds">Kalkulator persentase</div></a>
+        <a href="/id/kalkulator-roi" class="relc"><div class="relc-ico">📈</div><div class="relc-nm">ROI</div><div class="relc-ds">Return on investment</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>PPN 11% — Tarif Berlaku Sejak April 2022</h2>
+  <p>Tarif PPN Indonesia naik dari 10% menjadi <strong>11%</strong> sejak 1 April 2022 berdasarkan UU No. 7 Tahun 2021 tentang Harmonisasi Peraturan Perpajakan (UU HPP). Berlaku untuk sebagian besar Barang Kena Pajak (BKP) dan Jasa Kena Pajak (JKP). Tarif 12% diberlakukan mulai Januari 2025 khusus untuk barang mewah tertentu.</p>
+
+  <h2>Rumus Dasar PPN</h2>
+  <ul>
+    <li><strong>Tambah PPN:</strong> Total = DPP × (1 + 0,11) → DPP + PPN</li>
+    <li><strong>Ekstrak PPN:</strong> DPP = Total ÷ 1,11 → PPN = Total − DPP</li>
+    <li><strong>DPP (Dasar Pengenaan Pajak)</strong> = harga jual sebelum PPN</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa saja yang bebas PPN (tidak dikenakan PPN)?</div><div class="faq-a">Berdasarkan UU HPP, barang dan jasa yang tidak dikenakan PPN meliputi: bahan kebutuhan pokok (beras, jagung, sagu, kedelai, garam, daging, telur, susu, buah, sayur), jasa kesehatan dan pendidikan, jasa keuangan dan asuransi, jasa sosial, serta buku pelajaran. Ekspor BKP dan JKP dikenakan PPN 0%.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu PKP (Pengusaha Kena Pajak)?</div><div class="faq-a">PKP adalah pengusaha yang melakukan penyerahan BKP atau JKP yang wajib memungut, menyetor, dan melaporkan PPN. Kewajiban menjadi PKP berlaku saat omzet melebihi Rp 4,8 miliar per tahun. PKP berhak mengkreditkan PPN Masukan (PM) terhadap PPN Keluaran (PK).</div></div>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan PPN 11% dan 12%?</div><div class="faq-a">PPN 11% adalah tarif standar untuk sebagian besar transaksi BKP dan JKP. PPN 12% diberlakukan mulai Januari 2025 untuk barang mewah (BKP mewah) tertentu yang sebelumnya sudah dikenakan PPnBM. Untuk kebanyakan belanja sehari-hari, tarif yang berlaku tetap 11%.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-let tarif0=11, tarif1=11, tarif3=11;
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+<script>
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-function switchTab(idx, btn) {
-  document.querySelectorAll('.ppn-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.ppn-mode').forEach(m => m.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab'+idx).classList.add('active');
-}
-
-// --- TAB 0 ---
-function setTarif0(t, btn) {
-  tarif0 = t;
-  document.querySelectorAll('#tab0 .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  calcTambah();
-}
-function calcTambah() {
-  const h = parseFloat(document.getElementById('t0-harga').value) || 0;
-  if (!h) return;
-  const ppn = h * tarif0 / 100;
-  const total = h + ppn;
-  const ppnPct = Math.round(ppn / total * 100);
-  document.getElementById('r0-ppn').textContent = fmt(ppn);
-  document.getElementById('r0-label').textContent = `Nilai PPN ${tarif0}%`;
-  document.getElementById('r0-sebelum').textContent = fmt(h);
-  document.getElementById('r0-ppn2').textContent = fmt(ppn);
-  document.getElementById('r0-total').textContent = fmt(total);
-  document.getElementById('r0-tarif').textContent = tarif0 + '%';
-  const dppPct = 100 - ppnPct;
-  document.getElementById('r0-bar-dpp').style.width = dppPct + '%';
-  document.getElementById('r0-bar-dpp').textContent = dppPct > 20 ? 'Harga DPP' : '';
-  document.getElementById('r0-bar-tax').style.width = ppnPct + '%';
-  document.getElementById('r0-bar-tax').textContent = ppnPct > 8 ? 'PPN' : '';
-  document.getElementById('res0').style.display = 'block';
-  document.getElementById('res0').classList.add('show');
+// ① TAMBAH PPN
+function calcTambah(){
+  const harga=v('t-harga');
+  const tarif=parseFloat(document.getElementById('t-tarif')?.value)||11;
+  const ppn=harga*tarif/100, total=harga+ppn;
+  set('t-total',rp(total));set('t-ppn',rp(ppn));set('t-dpp',rp(harga));
+  set('t-dpp2',rp(harga));set('t-tarif-show',tarif+'%');set('t-ppn2',rp(ppn));set('t-total2',rp(total));
+  const pp=total>0?ppn/total*100:0;
+  document.getElementById('t-bar-harga').style.width=(100-pp)+'%';
+  document.getElementById('t-bar-ppn').style.width=pp+'%';
+  // sync comparators
+  document.getElementById('cmp-harga').value=harga;
+  document.getElementById('bk-target').value=Math.round(total);
+  calcCmp();calcBk();
 }
 
-// --- TAB 1 ---
-function setTarif1(t, btn) {
-  tarif1 = t;
-  document.querySelectorAll('#tab1 .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  calcEkstrak();
-}
-function calcEkstrak() {
-  const h = parseFloat(document.getElementById('t1-harga').value) || 0;
-  if (!h) return;
-  const rate = tarif1 / 100;
-  const dpp = h / (1 + rate);
-  const ppn = h - dpp;
-  const ppnPctOfTotal = (ppn / h * 100).toFixed(2);
-  document.getElementById('r1-ppn').textContent = fmt(ppn);
-  document.getElementById('r1-total').textContent = fmt(h);
-  document.getElementById('r1-ppn2').textContent = fmt(ppn);
-  document.getElementById('r1-dpp').textContent = fmt(dpp);
-  document.getElementById('r1-pct').textContent = ppnPctOfTotal + '%';
-  document.getElementById('res1').style.display = 'block';
-  document.getElementById('res1').classList.add('show');
+// ② EKSTRAK PPN
+function calcEkstrak(){
+  const total=v('e-total');
+  const tarif=parseFloat(document.getElementById('e-tarif')?.value)||11;
+  const dpp=total/(1+tarif/100), ppn=total-dpp;
+  set('e-dpp',rp(dpp));set('e-ppn',rp(ppn));
+  set('e-total-show',rp(total));set('e-dpp2',rp(dpp));set('e-ppn2',rp(ppn));
+  set('e-verif',rp(dpp*tarif/100)+' ✓');
 }
 
-// --- TAB 2 ---
-function calcBanding() {
-  const h = parseFloat(document.getElementById('t2-harga').value) || 0;
-  if (!h) return;
-  const ppn11 = h * 0.11;
-  const ppn12 = h * 0.12;
-  document.getElementById('c11-ppn').textContent = fmt(ppn11);
-  document.getElementById('c11-total').textContent = fmt(h + ppn11);
-  document.getElementById('c12-ppn').textContent = fmt(ppn12);
-  document.getElementById('c12-total').textContent = fmt(h + ppn12);
-  document.getElementById('c-selisih').textContent = fmt(ppn12 - ppn11) + ' lebih mahal di tarif 12%';
-  document.getElementById('res2').style.display = 'block';
-  document.getElementById('res2').classList.add('show');
+// ③ FAKTUR
+let items=[{name:'Produk A',qty:1,harga:500000},{name:'Produk B',qty:2,harga:250000}];
+function addItem(){
+  items.push({name:'Item baru',qty:1,harga:100000});
+  renderItemRows();renderFaktur();
+}
+function renderItemRows(){
+  const wrap=document.getElementById('item-rows');if(!wrap)return;
+  wrap.innerHTML=items.map((item,i)=>`
+    <div class="item-row">
+      <input class="item-name" type="text" value="${item.name}" oninput="items[${i}].name=this.value;renderFaktur()">
+      <input class="item-inp" type="number" value="${item.qty}" min="1" oninput="items[${i}].qty=+this.value;updateItemTotal(${i})">
+      <input class="item-inp" type="number" value="${item.harga}" min="0" step="1000" oninput="items[${i}].harga=+this.value;updateItemTotal(${i})">
+      <div class="item-total" id="item-total-${i}">${rp(item.qty*item.harga)}</div>
+    </div>`).join('');
+}
+function updateItemTotal(i){
+  const el=document.getElementById('item-total-'+i);
+  if(el)el.textContent=rp((items[i].qty||0)*(items[i].harga||0));
+  renderFaktur();
+}
+function renderFaktur(){
+  const tarif=parseFloat(document.getElementById('f-tarif')?.value)||11;
+  const subtotal=items.reduce((s,it)=>s+(it.qty||0)*(it.harga||0),0);
+  const ppn=subtotal*tarif/100;
+  const total=subtotal+ppn;
+  set('f-tarif-lbl',tarif+'%');set('f-ppn-tarif',tarif+'%');
+  set('f-subtotal',rp(subtotal));set('f-ppn',rp(ppn));set('f-total',rp(total));
+  const lines=document.getElementById('f-item-lines');
+  if(lines)lines.innerHTML=items.map(it=>{
+    const tot=(it.qty||0)*(it.harga||0);
+    return`<div class="faktur-row"><span>${it.name} (${it.qty||0}×${rp(it.harga||0)})</span><span class="faktur-val">${rp(tot)}</span></div>`;
+  }).join('');
 }
 
-// --- TAB 3 ---
-let itemCount = 0;
-function setTarif3(t, btn) {
-  tarif3 = t;
-  document.querySelectorAll('#tab3 .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  calcMulti();
+// ② PERBANDINGAN
+function calcCmp(){
+  const harga=v('cmp-harga');
+  const rates=[10,11,12];
+  const base11=harga*0.11;
+  const tb=document.getElementById('tarif-cmp-body');
+  if(tb)tb.innerHTML=rates.map(r=>{
+    const ppn=harga*r/100,total=harga+ppn,sel=ppn-base11;
+    const isStd=r===11;
+    return`<tr${isStd?' class="hl"':''}><td>${r}%${isStd?' (saat ini)':''}</td><td>${rp(ppn)}</td><td>${rp(total)}</td><td>${r===11?'—':(sel>0?'+':'')+rp(sel)}</td></tr>`;
+  }).join('');
+
+  const levels=[10000,50000,100000,500000,1000000,5000000,10000000,50000000];
+  const hb=document.getElementById('harga-cmp-body');
+  if(hb)hb.innerHTML=levels.map(l=>{
+    const ppn=l*0.11,tot=l+ppn;
+    const isActive=Math.abs(l-harga)<harga*0.1+10000;
+    return`<tr${isActive?' class="hl"':''}><td>${rp(l)}</td><td>${rp(ppn)}</td><td>${rp(tot)}</td></tr>`;
+  }).join('');
 }
-function addItem() {
-  itemCount++;
-  const row = document.createElement('div');
-  row.className = 'item-row';
-  row.id = 'item-' + itemCount;
-  row.innerHTML = `
-    <input type="number" placeholder="Harga barang (Rp)" oninput="calcMulti()" style="flex:2"/>
-    <span class="item-ppn" id="ppn-${itemCount}">—</span>
-    <span class="item-total" id="tot-${itemCount}">—</span>
-    <span style="cursor:pointer;color:var(--text-muted);padding:0 4px;font-size:1.1rem" onclick="removeItem(${itemCount})">×</span>`;
-  document.getElementById('multi-items').appendChild(row);
+
+// ③ BALIK HITUNG
+function calcBk(){
+  const target=v('bk-target');
+  const tarif=parseFloat(document.getElementById('bk-tarif')?.value)||11;
+  const dpp=target/(1+tarif/100), ppn=target-dpp;
+  set('bk-harga',rp(dpp));set('bk-dpp',rp(dpp));set('bk-ppn',rp(ppn));
+  set('bk-total',rp(target));set('bk-verif','✓ '+rp(target));
 }
-function removeItem(id) {
-  const el = document.getElementById('item-' + id);
-  if (el) el.remove();
-  calcMulti();
-}
-function calcMulti() {
-  let subtotal = 0, totalPpn = 0;
-  document.querySelectorAll('#multi-items .item-row').forEach(row => {
-    const input = row.querySelector('input');
-    const h = parseFloat(input?.value) || 0;
-    const ppn = h * tarif3 / 100;
-    const total = h + ppn;
-    const id = row.id.split('-')[1];
-    const ppnEl = document.getElementById('ppn-' + id);
-    const totEl = document.getElementById('tot-' + id);
-    if (ppnEl) ppnEl.textContent = h > 0 ? fmt(ppn) : '—';
-    if (totEl) totEl.textContent = h > 0 ? fmt(total) : '—';
-    subtotal += h;
-    totalPpn += ppn;
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
   });
-  if (subtotal > 0) {
-    document.getElementById('m-sub').textContent = fmt(subtotal);
-    document.getElementById('m-ppn').textContent = fmt(totalPpn);
-    document.getElementById('m-grand').textContent = fmt(subtotal + totalPpn);
-    document.getElementById('res3').style.display = 'block';
-  }
-}
-
-// Init multi-item with 3 rows
-window.addEventListener('DOMContentLoaded', () => {
-  addItem(); addItem(); addItem();
 });
-
-
-function applyPPN(val, tab) {
-  document.querySelectorAll('.ppn-pre-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  if(tab==='t0'){document.getElementById('t0-harga').value=val;calcTambah();}
-  else if(tab==='t1'){document.getElementById('t1-harga').value=val;calcEkstrak();}
-  else if(tab==='t2'){document.getElementById('t2-harga').value=val;calcBanding();}
-}
-
-function copyPPNResult() {
-  const ppn=document.getElementById('r0-ppn2').textContent;
-  const total=document.getElementById('r0-total').textContent;
-  const sebelum=document.getElementById('r0-sebelum').textContent;
-  const tarif=document.getElementById('r0-tarif').textContent;
-  const text=`🧾 Perhitungan PPN\nHarga sebelum PPN: ${sebelum}\nNilai PPN (${tarif}): ${ppn}\nTotal bayar: ${total}\n\nNovaCalcs.com`;
-  navigator.clipboard?.writeText(text).then(()=>alert('Disalin! 📋')).catch(()=>{
-    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Disalin! 📋');
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
   });
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') { calcTambah(); calcEkstrak(); calcBanding(); calcMulti(); } });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['t-harga','t-tarif'],calcTambah);
+listen(['e-total','e-tarif'],calcEkstrak);
+listen(['cmp-harga'],calcCmp);
+listen(['bk-target','bk-tarif'],calcBk);
+renderItemRows();renderFaktur();calcTambah();calcEkstrak();
 </script>
 </body>
 </html>

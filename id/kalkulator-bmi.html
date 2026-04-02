@@ -1,481 +1,584 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator BMI — Hitung Indeks Massa Tubuh + Berat Ideal | NovaCalcs</title>
-<meta name="description" content="Hitung BMI Anda dan ketahui kategori berat badan, berat ideal, dan berapa kg yang perlu dikurangi atau ditambah. Gratis, akurat, dan dilengkapi panduan kesehatan."/>
-<meta name="keywords" content="kalkulator BMI, hitung BMI, indeks massa tubuh, berat badan ideal, BMI normal Indonesia, cara hitung BMI, BMI Asia"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bmi.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-bmi.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator BMI","url":"https://novacalcs.com/id/kalkulator-bmi.html","description":"Kalkulator BMI gratis dengan gauge visual, berat ideal, dan panduan kesehatan","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* BMI Gauge */
-.bmi-gauge-wrap { margin: 16px 0 8px; }
-.bmi-gauge-track {
-  position: relative; height: 16px; border-radius: 8px; overflow: visible;
-  background: linear-gradient(to right, #60a5fa 0%, #4ade80 25%, #fbbf24 55%, #f97316 75%, #f87171 100%);
-}
-.bmi-gauge-needle {
-  position: absolute; top: -4px; width: 4px; height: 24px;
-  background: var(--text-primary); border-radius: 2px;
-  transform: translateX(-50%); transition: left 0.6s cubic-bezier(.34,1.56,.64,1);
-}
-.bmi-gauge-labels { display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.7rem; color: var(--text-muted); }
-.bmi-gauge-val { text-align: center; font-size: 2rem; font-weight: 700; color: var(--mint); margin: 4px 0 2px; }
-.bmi-gauge-cat { text-align: center; font-size: 0.85rem; font-weight: 600; margin-bottom: 12px; }
-
-/* Goal cards */
-.goal-box { background: var(--bg-input); border-radius: var(--radius-sm); padding: 14px; margin-top: 12px; }
-.goal-box .goal-title { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 10px; }
-.goal-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-.goal-row:last-child { border-bottom: none; }
-.goal-row .gval { font-weight: 700; color: var(--mint); }
-.goal-row .gval.warn { color: #f97316; }
-
-/* Compare box */
-.compare-box { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-.compare-card { background: var(--bg-input); border-radius: var(--radius-sm); padding: 10px 12px; border: 1px solid var(--border); }
-.compare-card .cc-title { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; }
-.compare-card .cc-range { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); }
-.compare-card .cc-note { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
-
-/* Risk bar */
-.risk-bar-wrap { margin: 8px 0; }
-.risk-bar-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 4px; }
-.risk-bar-track { height: 8px; border-radius: 4px; background: var(--bg-input); overflow: hidden; }
-.risk-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
-
-/* Content */
-.bmi-tip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
-.bmi-tip-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; }
-.bmi-tip-card .tip-icon { font-size: 1.4rem; margin-bottom: 6px; }
-.bmi-tip-card .tip-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; color: var(--text-primary); }
-.bmi-tip-card .tip-text { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator BMI 2026 — Indeks Massa Tubuh, Berat Ideal & Simulasi Target | NovaCalcs</title>
+  <meta name="description" content="Kalkulator BMI 2026: hitung indeks massa tubuh, cek kategori (WHO & Asia-Pasifik), simulasi target berat, dan kisaran berat ideal berdasarkan tinggi badan. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-bmi">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--grn-b);color:var(--grn);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--grn);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--grn-b);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--grn);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--grn)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{width:100%;padding:10px 32px 10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;appearance:none;cursor:pointer}
+    .sw select:focus{border-color:var(--grn)}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--grn);color:var(--grn);background:var(--grn-b)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* BMI METER */
+    .bmi-meter-wrap{margin:20px 0 8px}
+    .bmi-scale{height:14px;border-radius:7px;background:linear-gradient(90deg,#3b82f6 0%,#22c55e 25%,#fbbf24 50%,#f97316 65%,#ef4444 80%,#7f1d1d 100%);position:relative;overflow:visible}
+    .bmi-needle{position:absolute;top:-5px;width:4px;height:24px;background:var(--tx);border-radius:2px;transform:translateX(-50%);transition:left .5s ease;box-shadow:0 0 0 2px var(--sur)}
+    .bmi-scale-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:4px;padding:0 2px}
+    /* RESULT */
+    .lres{background:var(--grn-b);border:1.5px solid #86efac;border-radius:var(--r);padding:16px;margin-top:16px}
+    .lres.kurus{background:#eff6ff;border-color:#93c5fd}
+    .lres.berlebih{background:var(--pri-l);border-color:#ffd4b3}
+    .lres.obesitas{background:var(--red-b);border-color:#fca5a5}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--grn);letter-spacing:-.5px}
+    .rv.lg{font-size:32px}.rv.sm{font-size:15px}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #86efac;padding-top:12px}
+    .rrows.kurus{border-color:#93c5fd}
+    .rrows.berlebih{border-color:#ffd4b3}
+    .rrows.obesitas{border-color:#fca5a5}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* KATEGORI BADGE */
+    .kat-badge{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:20px;font-size:14px;font-weight:700;margin:12px 0}
+    /* IDEAL TABLE */
+    .ideal-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .ideal-tbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .ideal-tbl td{padding:8px 10px;border-bottom:1px solid var(--bor)}
+    .ideal-tbl td.mo{font-family:'DM Mono',monospace;font-weight:600;text-align:right}
+    .ideal-tbl tr:last-child td{border-bottom:none}
+    .ideal-tbl tr.current td{background:var(--grn-b);font-weight:700;color:var(--grn)}
+    /* CHART */
+    .chart-wrap{display:flex;flex-direction:column;gap:5px;margin-top:12px}
+    .c-row{display:flex;align-items:center;gap:8px;font-size:10px}
+    .c-lbl{min-width:80px;color:var(--tx2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .c-bg{flex:1;background:var(--sur2);border-radius:3px;height:16px;overflow:hidden;position:relative}
+    .c-fill{height:100%;border-radius:3px;transition:width .4s}
+    .c-marker{position:absolute;top:0;height:100%;width:3px;background:var(--tx);opacity:.5}
+    .c-val{min-width:60px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--grn)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--grn)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--grn-b);color:var(--grn)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a>
-      <span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a>
-      <span class="breadcrumb-sep">›</span>
-      <span>Kalkulator BMI</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator BMI</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">⚕️ Kesehatan</div>
+  <h1 class="hdr-h1">Kalkulator BMI 2026</h1>
+  <p class="hdr-sub">Hitung Indeks Massa Tubuh (IMT/BMI), cek kategori berdasarkan standar WHO &amp; Asia-Pasifik, dan simulasi target berat badan ideal. Hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">Rumus BMI <span>berat ÷ tinggi²</span></div>
+    <div class="pchip">Normal WHO <span>18,5–24,9</span></div>
+    <div class="pchip">Normal Asia-Pasifik <span>18,5–22,9</span></div>
   </div>
 </header>
 
-<main class="calc-page">
+<main class="main">
+<div class="left-col">
 
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">⚖️ Kalkulator BMI</div>
-      <div class="calc-subtitle">Hitung Indeks Massa Tubuh + target berat ideal</div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚖️</div>Hitung BMI Saya</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="hitung">📏 Hitung BMI</button>
+      <button class="tbtn" data-tab="ideal">✅ Berat Ideal</button>
+    </div>
 
-      <div class="unit-toggle">
-        <button class="unit-btn active" onclick="setUnit('metric',this)">Metrik (kg/cm)</button>
-        <button class="unit-btn" onclick="setUnit('imperial',this)">Imperial (lbs/in)</button>
-      </div>
-
-      <div id="metric-fields">
-        <div class="field">
-          <label>Tinggi Badan (cm)</label>
-          <input type="number" id="height-cm" placeholder="Contoh: 165" min="100" max="250" oninput="autoCalc()"/>
-        </div>
-        <div class="field">
+    <!-- HITUNG BMI -->
+    <div class="tpanel on" id="tab-hitung">
+      <div class="g2">
+        <div class="fld">
           <label>Berat Badan (kg)</label>
-          <input type="number" id="weight-kg" placeholder="Contoh: 60" min="20" max="300" oninput="autoCalc()"/>
+          <div class="iw"><input type="number" id="h-berat" value="65" min="20" max="300" step="0.5"><span class="iu">kg</span></div>
+          <div class="presets">
+            <button class="pb" data-val="50" data-for="h-berat">50</button>
+            <button class="pb" data-val="60" data-for="h-berat">60</button>
+            <button class="pb on" data-val="65" data-for="h-berat">65</button>
+            <button class="pb" data-val="75" data-for="h-berat">75</button>
+            <button class="pb" data-val="90" data-for="h-berat">90</button>
+          </div>
+        </div>
+        <div class="fld">
+          <label>Tinggi Badan (cm)</label>
+          <div class="iw"><input type="number" id="h-tinggi" value="165" min="100" max="250" step="0.5"><span class="iu">cm</span></div>
+          <div class="presets">
+            <button class="pb" data-val="155" data-for="h-tinggi">155</button>
+            <button class="pb on" data-val="165" data-for="h-tinggi">165</button>
+            <button class="pb" data-val="170" data-for="h-tinggi">170</button>
+            <button class="pb" data-val="175" data-for="h-tinggi">175</button>
+          </div>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Standar Klasifikasi</label>
+        <div class="sw"><select id="h-standar" onchange="calcBMI()">
+          <option value="asia">Asia-Pasifik (direkomendasikan untuk orang Indonesia)</option>
+          <option value="who">WHO Global</option>
+        </select></div>
+      </div>
+
+      <!-- BMI Meter -->
+      <div class="bmi-meter-wrap">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px;font-weight:600">
+          <span>BMI Anda</span>
+          <span style="font-family:'DM Mono',monospace;font-size:18px;font-weight:800" id="h-bmi-num">—</span>
+        </div>
+        <div class="bmi-scale">
+          <div class="bmi-needle" id="h-needle" style="left:30%"></div>
+        </div>
+        <div class="bmi-scale-labels">
+          <span>15</span><span>18,5</span><span>23</span><span>25</span><span>30</span><span>35</span><span>40</span>
         </div>
       </div>
 
-      <div id="imperial-fields" style="display:none">
-        <div class="field">
-          <label>Tinggi Badan (inci)</label>
-          <input type="number" id="height-in" placeholder="Contoh: 65" min="40" max="100" oninput="autoCalc()"/>
+      <div id="h-badge-wrap" style="text-align:center"></div>
+
+      <div class="lres" id="h-lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Indeks Massa Tubuh (BMI)</div>
+            <div class="rv lg" id="h-bmi">—</div>
+            <div class="rsub" id="h-kategori-sub">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Berat Normal Min</div>
+            <div class="rv sm" id="h-normal-min">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Berat Normal Maks</div>
+            <div class="rv sm" id="h-normal-max">—</div>
+          </div>
         </div>
-        <div class="field">
-          <label>Berat Badan (lbs)</label>
-          <input type="number" id="weight-lbs" placeholder="Contoh: 132" min="44" max="660" oninput="autoCalc()"/>
+        <div class="rrows" id="h-rrows">
+          <div class="rr"><span>Berat badan</span><span id="h-berat-show">—</span></div>
+          <div class="rr"><span>Tinggi badan</span><span id="h-tinggi-show">—</span></div>
+          <div class="rr"><span>BMI = berat ÷ tinggi²</span><span id="h-bmi2">—</span></div>
+          <div class="rr"><span>Kategori</span><span id="h-kategori">—</span></div>
+          <div class="rr" id="h-selisih-row"><span>Selisih dari berat ideal</span><span id="h-selisih">—</span></div>
+        </div>
+      </div>
+      <div class="notice">⚠️ BMI adalah indikator umum, bukan diagnosa medis. BMI tidak membedakan massa otot dan lemak. Atlet dengan massa otot tinggi bisa BMI "berlebih" meski lemak tubuh rendah. Konsultasikan dengan dokter atau ahli gizi untuk penilaian kesehatan yang komprehensif.</div>
+    </div>
+
+    <!-- BERAT IDEAL -->
+    <div class="tpanel" id="tab-ideal">
+      <div class="g2">
+        <div class="fld">
+          <label>Tinggi Badan (cm)</label>
+          <div class="iw"><input type="number" id="i-tinggi" value="165" min="100" max="250" step="0.5"><span class="iu">cm</span></div>
+          <div class="presets">
+            <button class="pb" data-val="155" data-for="i-tinggi">155</button>
+            <button class="pb on" data-val="165" data-for="i-tinggi">165</button>
+            <button class="pb" data-val="170" data-for="i-tinggi">170</button>
+            <button class="pb" data-val="175" data-for="i-tinggi">175</button>
+          </div>
+        </div>
+        <div class="fld">
+          <label>Jenis Kelamin</label>
+          <div class="sw"><select id="i-gender">
+            <option value="pria">Pria</option>
+            <option value="wanita" selected>Wanita</option>
+          </select></div>
         </div>
       </div>
 
-      <div class="field">
-        <label>Jenis Kelamin</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-male" onclick="selectGender('male')">👨 Laki-laki</div>
-          <div class="radio-btn" id="btn-female" onclick="selectGender('female')">👩 Perempuan</div>
+      <div class="lres" id="i-lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Kisaran Berat Badan Ideal</div>
+            <div class="rv lg" id="i-range">—</div>
+            <div class="rsub">(Berdasarkan BMI normal Asia-Pasifik 18,5–22,9)</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Batas bawah berat ideal (BMI 18,5)</span><span id="i-min">—</span></div>
+          <div class="rr"><span>Berat ideal tengah (BMI 21,7)</span><span id="i-mid">—</span></div>
+          <div class="rr"><span>Batas atas berat ideal (BMI 22,9)</span><span id="i-max">—</span></div>
+          <div class="rr"><span>Rumus Broca (tinggi − 100 − 10%)</span><span id="i-broca">—</span></div>
         </div>
       </div>
+      <div class="notice" style="margin-top:10px">* Kisaran berat ideal berdasarkan standar Asia-Pasifik yang lebih tepat untuk tubuh orang Indonesia dan Asia. Rumus Broca adalah pendekatan sederhana yang sering digunakan dokter Indonesia.</div>
+    </div>
+  </div>
+</div>
 
-      <div class="field">
-        <label>Usia (tahun)</label>
-        <input type="number" id="age" placeholder="Contoh: 28" min="2" max="120" oninput="autoCalc()"/>
+<!-- ② SIMULASI TARGET BERAT -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🎯</div>Simulasi Target Berat Badan <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Jika Anda turun atau naik berat badan, BMI Anda akan berubah jadi berapa? Simulasikan berbagai skenario target.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Berat Saat Ini (kg)</label>
+        <div class="iw"><input type="number" id="s-berat" value="65" min="20" max="300" step="0.5"><span class="iu">kg</span></div>
       </div>
+      <div class="fld">
+        <label>Tinggi Badan (cm)</label>
+        <div class="iw"><input type="number" id="s-tinggi" value="165" min="100" max="250" step="0.5"><span class="iu">cm</span></div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Target Berat (kg)</label>
+      <div class="iw"><input type="number" id="s-target" value="58" min="20" max="300" step="0.5"><span class="iu">kg</span></div>
+    </div>
 
-      <button class="calc-btn" onclick="calculate()">⚖️ Hitung BMI Saya</button>
-
-      <div class="result-box" id="result" style="display:none">
-        <!-- Gauge -->
-        <div class="bmi-gauge-wrap">
-          <div class="bmi-gauge-val" id="res-value">—</div>
-          <div class="bmi-gauge-cat" id="res-cat-label">—</div>
-          <div class="bmi-gauge-track">
-            <div class="bmi-gauge-needle" id="gauge-needle" style="left:0%"></div>
-          </div>
-          <div class="bmi-gauge-labels">
-            <span>Kurus</span><span>Normal</span><span>Gemuk</span><span>Obesitas</span>
-          </div>
+    <div class="lres" id="s-lres">
+      <div class="rg">
+        <div class="ri s2">
+          <div class="rl">BMI Target</div>
+          <div class="rv lg" id="s-bmi-target">—</div>
+          <div class="rsub" id="s-kat-target">—</div>
         </div>
+      </div>
+      <div class="rrows" id="s-rrows">
+        <div class="rr"><span>BMI saat ini</span><span id="s-bmi-now">—</span></div>
+        <div class="rr"><span>Kategori saat ini</span><span id="s-kat-now">—</span></div>
+        <div class="rr"><span>Perubahan berat</span><span id="s-diff">—</span></div>
+        <div class="rr"><span>BMI target</span><span id="s-bmi-t2">—</span></div>
+        <div class="rr"><span>Kategori target</span><span id="s-kat-t2">—</span></div>
+      </div>
+    </div>
 
-        <!-- Standar perbandingan -->
-        <div class="compare-box">
-          <div class="compare-card">
-            <div class="cc-title">🌍 Standar WHO</div>
-            <div class="cc-range" id="who-range">—</div>
-            <div class="cc-note" id="who-status">—</div>
-          </div>
-          <div class="compare-card">
-            <div class="cc-title">🇮🇩 Standar Asia</div>
-            <div class="cc-range" id="asia-range">—</div>
-            <div class="cc-note" id="asia-status">—</div>
-          </div>
-        </div>
+    <div class="sec-lbl">Skenario Berbagai Target Berat</div>
+    <div class="chart-wrap" id="s-chart"></div>
+    <div class="notice info" style="margin-top:10px">💡 Penurunan berat badan yang sehat adalah <strong>0,5–1 kg per minggu</strong>. Penurunan terlalu cepat dapat membahayakan kesehatan. Konsultasikan program diet dengan dokter atau ahli gizi sebelum memulai.</div>
+  </div>
+</div>
 
-        <!-- Goals -->
-        <div class="goal-box">
-          <div class="goal-title">📊 Ringkasan & Target</div>
-          <div class="goal-row"><span>Berat sekarang</span><span class="gval" id="res-current">—</span></div>
-          <div class="goal-row"><span>Rentang berat ideal</span><span class="gval" id="res-ideal">—</span></div>
-          <div class="goal-row"><span>Selisih dari ideal</span><span class="gval" id="res-diff">—</span></div>
-          <div class="goal-row"><span>Target berat ideal</span><span class="gval" id="res-target">—</span></div>
-        </div>
+<!-- ③ PERBANDINGAN KLASIFIKASI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Perbandingan Klasifikasi WHO vs Asia-Pasifik <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Standar Asia-Pasifik menggunakan ambang yang lebih rendah karena orang Asia memiliki risiko kesehatan lebih tinggi pada BMI yang sama dibandingkan orang Eropa/Amerika.</p>
+    <div class="fld">
+      <label>BMI Anda</label>
+      <div class="iw"><input type="number" id="cmp-bmi" value="24" min="10" max="50" step="0.1"><span class="iu">BMI</span></div>
+      <div class="presets">
+        <button class="pb" data-val="17" data-for="cmp-bmi">17</button>
+        <button class="pb" data-val="20" data-for="cmp-bmi">20</button>
+        <button class="pb on" data-val="24" data-for="cmp-bmi">24</button>
+        <button class="pb" data-val="27" data-for="cmp-bmi">27</button>
+        <button class="pb" data-val="32" data-for="cmp-bmi">32</button>
+      </div>
+    </div>
+    <table class="ideal-tbl" id="cmp-tbl">
+      <thead><tr><th>Standar</th><th>Kategori</th><th>Rentang BMI</th><th>Risiko</th></tr></thead>
+      <tbody id="cmp-tbody"></tbody>
+    </table>
+    <div class="notice" style="margin-top:10px">Orang Asia — termasuk Indonesia — cenderung memiliki persentase lemak tubuh lebih tinggi pada BMI yang sama dibandingkan orang Eropa, sehingga WHO merekomendasikan ambang batas lebih rendah untuk populasi Asia.</div>
+  </div>
+</div>
 
-        <!-- Faktor risiko -->
-        <div style="margin-top:12px;">
-          <div style="font-size:0.75rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px;">⚠️ Estimasi Risiko Kesehatan</div>
-          <div class="risk-bar-wrap">
-            <div class="risk-bar-label"><span>Diabetes Tipe 2</span><span id="risk-diab">—</span></div>
-            <div class="risk-bar-track"><div class="risk-bar-fill" id="risk-diab-bar" style="width:0%;background:#f97316"></div></div>
-          </div>
-          <div class="risk-bar-wrap">
-            <div class="risk-bar-label"><span>Hipertensi</span><span id="risk-hiper">—</span></div>
-            <div class="risk-bar-track"><div class="risk-bar-fill" id="risk-hiper-bar" style="width:0%;background:#f97316"></div></div>
-          </div>
-          <div class="risk-bar-wrap">
-            <div class="risk-bar-label"><span>Penyakit Jantung</span><span id="risk-jantung">—</span></div>
-            <div class="risk-bar-track"><div class="risk-bar-fill" id="risk-jantung-bar" style="width:0%;background:#f97316"></div></div>
-          </div>
-          <p style="font-size:0.68rem;color:var(--text-muted);margin-top:6px;">* Estimasi berdasarkan BMI saja. Konsultasikan dengan dokter untuk penilaian risiko lengkap.</p>
-        </div>
+</div><!-- /left-col -->
 
-        <!-- Saran -->
-        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;color:var(--text-primary);line-height:1.6;"></div>
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Klasifikasi BMI Asia-Pasifik</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Kurus (Underweight)</div><div class="fron">Risiko kesehatan tertentu</div></div></div><div class="fprice" style="color:#3b82f6">&lt; 18,5</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Normal</div><div class="fron">Rentang ideal</div></div></div><div class="fprice">18,5–22,9</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#fbbf24"></div><div><div class="fn">Berisiko (At Risk)</div><div class="fron">Perlu perhatian</div></div></div><div class="fprice">23–24,9</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Obesitas I</div><div class="fron">Perlu intervensi</div></div></div><div class="fprice">25–29,9</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Obesitas II</div><div class="fron">Risiko tinggi</div></div></div><div class="fprice">≥ 30</div></div>
       </div>
     </div>
   </div>
-
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator BMI — Indeks Massa Tubuh Online Gratis</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung BMI Anda dan ketahui apakah berat badan sudah ideal, kurang, atau berlebih. Dilengkapi perbandingan standar WHO dan Asia, target berat ideal, serta estimasi risiko kesehatan.</p>
-
-    <h2>Apa itu BMI dan Mengapa Penting?</h2>
-    <p>BMI (Body Mass Index) atau Indeks Massa Tubuh adalah angka sederhana yang mengukur proporsionalitas berat badan terhadap tinggi badan. Pertama kali diperkenalkan oleh ahli matematika Belgia Adolphe Quetelet pada 1832, BMI kini menjadi alat skrining standar WHO yang digunakan di seluruh dunia, termasuk Kemenkes RI.</p>
-    <p>Meski bukan diagnosis medis, BMI berguna sebagai sinyal awal. Studi menunjukkan bahwa BMI yang terlalu rendah atau terlalu tinggi berkorelasi dengan peningkatan risiko berbagai penyakit — dari malnutrisi hingga diabetes, penyakit jantung, dan stroke. Di Indonesia, prevalensi obesitas pada orang dewasa terus meningkat, dari 14,8% (2013) menjadi 21,8% (2018) berdasarkan Riskesdas Kemenkes.</p>
-
-    <h2>Rumus BMI dan Cara Menghitung</h2>
-    <p>Rumus BMI sangat sederhana dan bisa dihitung dengan tangan:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Satuan</th><th>Rumus</th></tr></thead>
-      <tbody>
-        <tr><td>Metrik (kg, cm)</td><td>BMI = Berat (kg) ÷ Tinggi² (m)</td></tr>
-        <tr><td>Imperial (lbs, inci)</td><td>BMI = (Berat × 703) ÷ Tinggi² (in)</td></tr>
-      </tbody>
-    </table>
-    <p>Contoh: Perempuan dengan tinggi 160 cm dan berat 55 kg → BMI = 55 ÷ (1,60)² = 55 ÷ 2,56 = <strong>21,5</strong> (Normal ✓)</p>
-
-    <h2>Perbedaan Standar WHO vs Standar Asia</h2>
-    <p>Ini poin penting yang sering diabaikan. WHO menggunakan standar global, tetapi penelitian menunjukkan bahwa orang Asia — termasuk Indonesia — memiliki risiko penyakit metabolik lebih tinggi pada BMI yang sama dibanding orang Barat. Mengapa? Orang Asia cenderung memiliki persentase lemak tubuh dan lemak visceral (perut) lebih tinggi meski BMI-nya sama.</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Kategori</th><th>Standar WHO</th><th>Standar Asia (ID)</th></tr></thead>
-      <tbody>
-        <tr><td>Kekurangan berat badan</td><td>&lt; 18,5</td><td>&lt; 18,5</td></tr>
-        <tr><td>Normal / Ideal</td><td>18,5 – 24,9</td><td>18,5 – 22,9</td></tr>
-        <tr><td>Kelebihan berat badan</td><td>25,0 – 29,9</td><td>23,0 – 24,9</td></tr>
-        <tr><td>Obesitas I</td><td>30,0 – 34,9</td><td>25,0 – 29,9</td></tr>
-        <tr><td>Obesitas II</td><td>≥ 35,0</td><td>≥ 30,0</td></tr>
-      </tbody>
-    </table>
-    <p>Artinya, seseorang dengan BMI 24 mungkin "Normal" menurut WHO, tetapi sudah masuk kategori "Kelebihan berat badan" menurut standar Asia. Kalkulator NovaCalcs menampilkan keduanya agar Anda bisa membuat keputusan lebih baik.</p>
-
-    <h2>Tips Praktis Mencapai BMI Ideal</h2>
-    <div class="bmi-tip-grid">
-      <div class="bmi-tip-card">
-        <div class="tip-icon">🥗</div>
-        <div class="tip-title">Pola Makan Seimbang</div>
-        <div class="tip-text">Terapkan piring sehat Kemenkes: ½ sayur & buah, ¼ karbohidrat, ¼ protein. Batasi gorengan, santan, dan minuman manis.</div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tentang BMI</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>BMI bukan satu-satunya indikator</strong> — lingkar pinggang, persentase lemak tubuh, dan tekanan darah sama pentingnya</span></div>
+        <div class="tip"><span class="tpico">💪</span><span class="tptx"><strong>Atlet & massa otot tinggi</strong> bisa BMI "overweight" meski sehat — BMI kurang akurat untuk mereka</span></div>
+        <div class="tip"><span class="tpico">👴</span><span class="tptx"><strong>Lansia</strong> sering dianjurkan BMI sedikit lebih tinggi (23–27) untuk kepadatan tulang yang lebih baik</span></div>
+        <div class="tip"><span class="tpico">🩺</span><span class="tptx"><strong>Selalu konsultasi dokter</strong> — BMI adalah alat bantu skrining, bukan diagnosis</span></div>
       </div>
-      <div class="bmi-tip-card">
-        <div class="tip-icon">🚶</div>
-        <div class="tip-title">Gerak Minimal 30 Menit</div>
-        <div class="tip-text">WHO merekomendasikan 150 menit aktivitas sedang per minggu. Mulai dari jalan kaki 30 menit/hari — tidak perlu gym mahal.</div>
-      </div>
-      <div class="bmi-tip-card">
-        <div class="tip-icon">💧</div>
-        <div class="tip-title">Cukup Minum Air</div>
-        <div class="tip-text">Sering kita merasa lapar padahal sebenarnya haus. Minum 2–3 liter air putih per hari membantu mengontrol nafsu makan.</div>
-      </div>
-      <div class="bmi-tip-card">
-        <div class="tip-icon">😴</div>
-        <div class="tip-title">Tidur Cukup 7–9 Jam</div>
-        <div class="tip-text">Kurang tidur meningkatkan hormon ghrelin (lapar) dan menurunkan leptin (kenyang), sehingga kalori lebih mudah masuk berlebihan.</div>
-      </div>
-    </div>
-
-    <h2>Fitur Kalkulator BMI NovaCalcs</h2>
-    <p>Kalkulator BMI ini dirancang lebih lengkap dari kalkulator biasa. Berikut yang bisa Anda dapatkan:</p>
-    <ul>
-      <li><strong>Gauge visual real-time</strong> — Jarum penunjuk langsung bergerak saat Anda mengetik berat dan tinggi badan, memperlihatkan posisi BMI Anda dalam spektrum dari kurus hingga obesitas secara intuitif.</li>
-      <li><strong>Dua standar sekaligus</strong> — Hasil BMI Anda ditampilkan berdasarkan standar WHO (global) dan standar Asia yang lebih relevan untuk orang Indonesia. Keduanya ditampilkan berdampingan agar perbandingannya jelas.</li>
-      <li><strong>Target berat ideal otomatis</strong> — Kalkulator langsung menghitung rentang berat ideal Anda (standar Asia 18,5–22,9) dan menampilkan berapa kg yang perlu dikurangi atau ditambahkan.</li>
-      <li><strong>Estimasi risiko kesehatan</strong> — Tiga indikator risiko (diabetes tipe 2, hipertensi, penyakit jantung) divisualisasikan dalam bar berwarna, memberikan gambaran dampak BMI saat ini pada kesehatan jangka panjang.</li>
-      <li><strong>Saran personal</strong> — Setiap kategori BMI menghasilkan saran tindak lanjut yang spesifik dan praktis, bukan sekadar label kategori.</li>
-    </ul>
-
-    <h2>Keterbatasan BMI yang Perlu Diketahui</h2>
-    <p>BMI adalah alat skrining awal, bukan diagnosis. Ada beberapa situasi di mana BMI bisa menyesatkan:</p>
-    <ul>
-      <li><strong>Atlet dan orang berotot</strong> — Otot lebih berat dari lemak. Seorang atlet dengan BMI 27 belum tentu kelebihan berat badan.</li>
-      <li><strong>Lansia</strong> — Seiring bertambah usia, massa otot berkurang dan lemak bertambah. BMI yang sama bisa berarti kondisi berbeda.</li>
-      <li><strong>Ibu hamil</strong> — Peningkatan berat badan selama kehamilan adalah normal dan tidak mencerminkan status lemak tubuh.</li>
-      <li><strong>Distribusi lemak</strong> — Lemak visceral (perut) lebih berbahaya dari lemak subkutan. Ukuran lingkar pinggang (WHR) melengkapi informasi dari BMI.</li>
-    </ul>
-    <p>Untuk gambaran lebih lengkap, kombinasikan BMI dengan pengukuran lingkar pinggang, persentase lemak tubuh, dan pemeriksaan laboratorium rutin.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa BMI ideal untuk orang Indonesia?</div>
-      <div class="faq-a">Berdasarkan standar Asia yang direkomendasikan untuk populasi Indonesia, BMI ideal adalah 18,5–22,9. Standar ini lebih ketat dari WHO (18,5–24,9) karena orang Asia — termasuk orang Indonesia — memiliki risiko metabolik lebih tinggi pada BMI yang sama dibanding orang Barat. Kemenkes RI juga menggunakan standar yang disesuaikan ini dalam program pengendalian obesitas nasional.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">BMI saya 27, apakah harus segera diet?</div>
-      <div class="faq-a">BMI 27 masuk kategori "Kelebihan berat badan" (WHO) atau "Obesitas I" (standar Asia). Ini bukan darurat, tetapi saatnya mulai memperhatikan pola makan dan aktivitas fisik. Langkah pertama yang direkomendasikan adalah konsultasi dengan dokter atau ahli gizi untuk rencana yang sesuai kondisi tubuh Anda — bukan diet ekstrem mandiri. Target penurunan berat badan yang sehat adalah 0,5–1 kg per minggu.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah BMI berlaku untuk anak-anak?</div>
-      <div class="faq-a">BMI anak dihitung dengan rumus yang sama, tetapi interpretasinya berbeda — dibandingkan dengan persentil anak seusia dan jenis kelamin yang sama, bukan angka absolut. Untuk anak 2–5 tahun, Kemenkes RI menggunakan standar pertumbuhan WHO 2006 yang dituangkan dalam KMS (Kartu Menuju Sehat). Kalkulator ini dirancang untuk orang dewasa (18+ tahun).</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Seberapa sering perlu cek BMI?</div>
-      <div class="faq-a">Cukup 1–3 bulan sekali jika Anda sedang dalam program penurunan atau peningkatan berat badan. Pantau tren jangka panjang, bukan fluktuasi harian yang dipengaruhi oleh asupan cairan, waktu makan, atau siklus hormonal. Timbang badan di waktu yang sama (pagi hari sebelum makan) untuk konsistensi.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada cara yang lebih akurat dari BMI?</div>
-      <div class="faq-a">Ada beberapa metode yang lebih akurat namun lebih kompleks: (1) DXA scan — standar emas pengukuran komposisi tubuh, (2) BIA (Bioelectrical Impedance Analysis) — tersedia di timbangan pintar dan sebagian fasilitas kesehatan, (3) Pengukuran lingkar pinggang — lingkar pinggang &gt;90 cm (pria) atau &gt;80 cm (wanita) Asia menandakan risiko metabolik tinggi terlepas dari BMI. Untuk keperluan sehari-hari, BMI tetap alat yang praktis dan cukup informatif.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa kalori yang perlu dikurangi untuk menurunkan BMI?</div>
-      <div class="faq-a">Secara umum, defisit 500 kkal per hari menghasilkan penurunan sekitar 0,5 kg per minggu (karena 1 kg lemak ≈ 7.700 kkal). Misalnya, jika TDEE Anda 2.000 kkal, makan 1.500 kkal/hari — dikombinasikan dengan olahraga — akan menurunkan sekitar 2 kg per bulan secara konsisten. Gunakan <a href="/id/kalkulator-kalori.html">Kalkulator Kalori NovaCalcs</a> untuk menghitung TDEE Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Mengapa BMI pria dan wanita menggunakan kategori yang sama padahal komposisi tubuh berbeda?</div>
-      <div class="faq-a">Ini memang salah satu keterbatasan BMI. Secara biologis, wanita memiliki persentase lemak tubuh 6–11% lebih tinggi dari pria dengan BMI yang sama karena kebutuhan lemak esensial untuk fungsi reproduksi. Meski kategori WHO sama, beberapa panduan klinis menggunakan ambang batas persentase lemak tubuh yang berbeda: pria sehat 15–20%, wanita sehat 20–25%.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🔥</span>Kalkulator Kalori</a>
-      <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
-      <a href="/id/kalkulator-whr.html" class="related-item"><span class="ri">📏</span>Kalkulator WHR</a>
-      <a href="/id/kebutuhan-air.html" class="related-item"><span class="ri">💧</span>Kebutuhan Air</a>
     </div>
   </div>
-
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-kalori" class="relc"><div class="relc-ico">🍽️</div><div class="relc-nm">Kalori</div><div class="relc-ds">Kebutuhan kalori</div></a>
+        <a href="/id/kalkulator-bmr" class="relc"><div class="relc-ico">🔥</div><div class="relc-nm">BMR</div><div class="relc-ds">Metabolisme basal</div></a>
+        <a href="/id/kalkulator-berat-badan-ideal" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">Berat Ideal</div><div class="relc-ds">Target berat badan</div></a>
+        <a href="/id/kalkulator-tensi" class="relc"><div class="relc-ico">💉</div><div class="relc-nm">Tensi</div><div class="relc-ds">Cek tekanan darah</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Apa itu BMI dan Cara Menghitungnya?</h2>
+  <p>BMI (Body Mass Index) atau Indeks Massa Tubuh (IMT) adalah pengukuran sederhana yang menghubungkan berat dan tinggi badan untuk memperkirakan apakah seseorang memiliki berat badan yang sehat. Rumusnya: <strong>BMI = berat badan (kg) ÷ tinggi badan² (m)</strong>. Misalnya, seseorang dengan berat 65 kg dan tinggi 1,65 m memiliki BMI = 65 ÷ (1,65)² = 23,9.</p>
+
+  <h2>Mengapa Standar Asia-Pasifik Berbeda?</h2>
+  <p>WHO dan berbagai penelitian menemukan bahwa orang Asia — termasuk Indonesia — cenderung memiliki persentase lemak tubuh lebih tinggi dan distribusi lemak yang lebih berisiko (terutama lemak visceral/perut) pada BMI yang sama dengan orang Eropa. Karena itu, ambang batas untuk "berisiko" diturunkan dari 25 (WHO global) menjadi 23 untuk populasi Asia-Pasifik.</p>
+
+  <h2>Tabel Klasifikasi BMI</h2>
+  <div class="stw"><table class="stbl">
+    <thead><tr><th>Kategori</th><th>WHO Global</th><th>Asia-Pasifik (Indonesia)</th></tr></thead>
+    <tbody>
+      <tr><td>Kurus (Underweight)</td><td>&lt; 18,5</td><td>&lt; 18,5</td></tr>
+      <tr><td>Normal</td><td>18,5 – 24,9</td><td>18,5 – 22,9</td></tr>
+      <tr><td>Berisiko / Overweight</td><td>25 – 29,9</td><td>23 – 24,9</td></tr>
+      <tr><td>Obesitas Kelas I</td><td>30 – 34,9</td><td>25 – 29,9</td></tr>
+      <tr><td>Obesitas Kelas II+</td><td>≥ 35</td><td>≥ 30</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apakah BMI akurat untuk semua orang?</div><div class="faq-a">BMI adalah alat skrining yang berguna untuk populasi umum, tetapi memiliki keterbatasan. BMI tidak akurat untuk: atlet dengan massa otot tinggi (BMI bisa "overweight" meski lemak rendah), lansia (kehilangan otot membuat BMI tampak normal meski lemak tubuh tinggi), dan ibu hamil. Untuk penilaian lebih lengkap, gunakan kombinasi BMI, lingkar pinggang, dan pemeriksaan medis.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa BMI ideal untuk orang Indonesia?</div><div class="faq-a">Berdasarkan standar Asia-Pasifik yang direkomendasikan untuk orang Indonesia, BMI normal adalah 18,5–22,9. BMI 23–24,9 sudah masuk kategori "berisiko" dan perlu perhatian. BMI di bawah 18,5 adalah kekurangan berat badan. Namun, batas ini bersifat umum — konsultasi dengan dokter untuk penilaian personal.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<style>
-.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-</style>
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-<script defer>
-let currentUnit = 'metric';
-let currentGender = 'male';
+// Klasifikasi BMI
+const KAT_ASIA=[
+  {min:0,max:18.5,nm:'Kurus',color:'#3b82f6',resClass:'kurus',risk:'Risiko kekurangan gizi'},
+  {min:18.5,max:23,nm:'Normal',color:'#22c55e',resClass:'',risk:'Berat badan ideal'},
+  {min:23,max:25,nm:'Berisiko',color:'#fbbf24',resClass:'berlebih',risk:'Perlu perhatian & pemantauan'},
+  {min:25,max:30,nm:'Obesitas I',color:'#f97316',resClass:'berlebih',risk:'Risiko penyakit metabolik meningkat'},
+  {min:30,max:999,nm:'Obesitas II',color:'#ef4444',resClass:'obesitas',risk:'Risiko tinggi, konsultasi dokter'},
+];
+const KAT_WHO=[
+  {min:0,max:18.5,nm:'Kurus (Underweight)',color:'#3b82f6',resClass:'kurus',risk:'Risiko kekurangan gizi'},
+  {min:18.5,max:25,nm:'Normal',color:'#22c55e',resClass:'',risk:'Berat badan ideal'},
+  {min:25,max:30,nm:'Overweight',color:'#fbbf24',resClass:'berlebih',risk:'Perlu perhatian'},
+  {min:30,max:35,nm:'Obesitas I',color:'#f97316',resClass:'berlebih',risk:'Risiko kesehatan meningkat'},
+  {min:35,max:40,nm:'Obesitas II',color:'#ef4444',resClass:'obesitas',risk:'Risiko tinggi'},
+  {min:40,max:999,nm:'Obesitas III',color:'#7f1d1d',resClass:'obesitas',risk:'Risiko sangat tinggi'},
+];
+function getKat(bmi,standar){
+  const list=standar==='asia'?KAT_ASIA:KAT_WHO;
+  return list.find(k=>bmi>=k.min&&bmi<k.max)||list[list.length-1];
+}
+// Needle position on scale (15 to 40)
+function needlePct(bmi){return Math.max(0,Math.min(100,(bmi-15)/(40-15)*100));}
 
-function setUnit(u, btn) {
-  currentUnit = u;
-  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('metric-fields').style.display = u === 'metric' ? '' : 'none';
-  document.getElementById('imperial-fields').style.display = u === 'imperial' ? '' : 'none';
+// ① HITUNG BMI
+function calcBMI(){
+  const berat=v('h-berat'),tinggi=v('h-tinggi'),standar=document.getElementById('h-standar')?.value||'asia';
+  if(berat<=0||tinggi<=0)return;
+  const h=tinggi/100;
+  const bmi=berat/(h*h);
+  const kat=getKat(bmi,standar);
+  const normalMin=standar==='asia'?18.5*h*h:18.5*h*h;
+  const normalMax=standar==='asia'?22.9*h*h:24.9*h*h;
+  const selisih=berat-normalMax;
+
+  // needle
+  const needle=document.getElementById('h-needle');
+  if(needle)needle.style.left=needlePct(bmi)+'%';
+  set('h-bmi-num',bmi.toFixed(1));
+
+  // badge
+  const badge=document.getElementById('h-badge-wrap');
+  if(badge)badge.innerHTML=`<div class="kat-badge" style="background:${kat.color}22;color:${kat.color};border:1.5px solid ${kat.color}44">${kat.nm} — ${kat.risk}</div>`;
+
+  // result box
+  const lres=document.getElementById('h-lres');
+  if(lres)lres.className='lres'+( kat.resClass?' '+kat.resClass:'');
+  const rrows=document.getElementById('h-rrows');
+  if(rrows)rrows.className='rrows'+(kat.resClass?' '+kat.resClass:'');
+  const rv=document.querySelector('#h-lres .rv.lg');
+  if(rv)rv.style.color=kat.color;
+
+  set('h-bmi',bmi.toFixed(1));set('h-kategori-sub',kat.nm+' ('+standar.toUpperCase()+')');
+  set('h-normal-min',normalMin.toFixed(1)+' kg');set('h-normal-max',normalMax.toFixed(1)+' kg');
+  set('h-berat-show',berat+' kg');set('h-tinggi-show',tinggi+' cm');
+  set('h-bmi2',bmi.toFixed(2));set('h-kategori',kat.nm);
+  if(selisih>0.5){set('h-selisih','+'+selisih.toFixed(1)+' kg (perlu turun)');}
+  else if(selisih<-0.5){set('h-selisih',selisih.toFixed(1)+' kg (bisa naik '+Math.abs(selisih).toFixed(1)+' kg)');}
+  else{set('h-selisih','Berat sudah ideal ✅');}
+
+  // sync simulasi
+  document.getElementById('s-berat').value=berat;
+  document.getElementById('s-tinggi').value=tinggi;
+  document.getElementById('cmp-bmi').value=bmi.toFixed(1);
+  calcSimulasi();calcCmp();
 }
 
-function selectGender(g) {
-  currentGender = g;
-  document.getElementById('btn-male').classList.toggle('active', g === 'male');
-  document.getElementById('btn-female').classList.toggle('active', g === 'female');
-  autoCalc();
+// ② BERAT IDEAL
+function calcIdeal(){
+  const tinggi=v('i-tinggi');
+  if(tinggi<=0)return;
+  const h=tinggi/100;
+  const bMin=18.5*h*h,bMid=21.7*h*h,bMax=22.9*h*h;
+  const broca=tinggi>=160?(tinggi-100)*(0.9):(tinggi-100)*(1.0);
+  set('i-range',bMin.toFixed(1)+' – '+bMax.toFixed(1)+' kg');
+  set('i-min',bMin.toFixed(1)+' kg');set('i-mid',bMid.toFixed(1)+' kg');set('i-max',bMax.toFixed(1)+' kg');
+  set('i-broca',broca.toFixed(1)+' kg');
 }
 
-function autoCalc() {
-  const hasData = currentUnit === 'metric'
-    ? (document.getElementById('height-cm').value && document.getElementById('weight-kg').value)
-    : (document.getElementById('height-in').value && document.getElementById('weight-lbs').value);
-  if (hasData) calculate();
+// ③ SIMULASI TARGET
+function calcSimulasi(){
+  const berat=v('s-berat'),tinggi=v('s-tinggi'),target=v('s-target');
+  if(berat<=0||tinggi<=0||target<=0)return;
+  const h=tinggi/100;
+  const bmiNow=berat/(h*h),bmiTarget=target/(h*h);
+  const katNow=getKat(bmiNow,'asia'),katTarget=getKat(bmiTarget,'asia');
+  const diff=target-berat;
+
+  const lres=document.getElementById('s-lres');
+  if(lres)lres.className='lres'+(katTarget.resClass?' '+katTarget.resClass:'');
+  const rv=document.querySelector('#s-lres .rv.lg');
+  if(rv)rv.style.color=katTarget.color;
+
+  set('s-bmi-target',bmiTarget.toFixed(1));set('s-kat-target',katTarget.nm);
+  set('s-bmi-now',bmiNow.toFixed(1)+' ('+katNow.nm+')');set('s-kat-now',katNow.nm);
+  set('s-diff',(diff>=0?'+':'')+diff.toFixed(1)+' kg');
+  set('s-bmi-t2',bmiTarget.toFixed(1));set('s-kat-t2',katTarget.nm);
+
+  // chart: berat dari -20kg ke +10kg dalam 6 steps
+  const beratRange=[-15,-10,-5,0,5,10].map(d=>berat+d).filter(b=>b>0);
+  const chart=document.getElementById('s-chart');if(!chart)return;
+  chart.innerHTML=beratRange.map(b=>{
+    const bmi=b/(h*h);const kat=getKat(bmi,'asia');
+    const pct=Math.max(5,Math.min(100,(bmi-10)/30*100));
+    const isTarget=Math.abs(b-target)<0.5;const isNow=Math.abs(b-berat)<0.5;
+    return`<div class="c-row">
+      <span class="c-lbl">${b.toFixed(0)} kg${isNow?' (saat ini)':isTarget?' ← target':''}</span>
+      <div class="c-bg">
+        <div class="c-fill" style="width:${pct}%;background:${kat.color}"></div>
+        ${isNow?'<div class="c-marker"></div>':''}
+      </div>
+      <span class="c-val" style="color:${kat.color}">${bmi.toFixed(1)} (${kat.nm})</span>
+    </div>`;
+  }).join('');
 }
 
-function calculate() {
-  let heightM, weightKg;
-  if (currentUnit === 'metric') {
-    const h = parseFloat(document.getElementById('height-cm').value);
-    const w = parseFloat(document.getElementById('weight-kg').value);
-    if (!h || !w || h < 100 || h > 250 || w < 20 || w > 300) return;
-    heightM = h / 100; weightKg = w;
-  } else {
-    const h = parseFloat(document.getElementById('height-in').value);
-    const w = parseFloat(document.getElementById('weight-lbs').value);
-    if (!h || !w) return;
-    heightM = h * 0.0254; weightKg = w * 0.453592;
-  }
-
-  const bmi = weightKg / (heightM * heightM);
-  const bmiR = Math.round(bmi * 10) / 10;
-
-  // WHO categories
-  let whoCat, whoColor;
-  if (bmi < 18.5) { whoCat = 'Kekurangan berat badan'; whoColor = '#60a5fa'; }
-  else if (bmi < 25) { whoCat = 'Normal ✓'; whoColor = '#4ade80'; }
-  else if (bmi < 30) { whoCat = 'Kelebihan berat badan'; whoColor = '#fbbf24'; }
-  else if (bmi < 35) { whoCat = 'Obesitas Kelas I'; whoColor = '#f97316'; }
-  else { whoCat = 'Obesitas Kelas II+'; whoColor = '#f87171'; }
-
-  // Asia categories
-  let asiaCat, asiaColor;
-  if (bmi < 18.5) { asiaCat = 'Kekurangan berat badan'; asiaColor = '#60a5fa'; }
-  else if (bmi < 23) { asiaCat = 'Normal ✓'; asiaColor = '#4ade80'; }
-  else if (bmi < 25) { asiaCat = 'Kelebihan berat badan'; asiaColor = '#fbbf24'; }
-  else if (bmi < 30) { asiaCat = 'Obesitas Kelas I'; asiaColor = '#f97316'; }
-  else { asiaCat = 'Obesitas Kelas II+'; asiaColor = '#f87171'; }
-
-  // Gauge needle position (BMI scale: 15 to 40 = 0% to 100%)
-  const needlePct = Math.min(Math.max((bmi - 15) / 25 * 100, 2), 98);
-  document.getElementById('gauge-needle').style.left = needlePct + '%';
-  document.getElementById('res-value').textContent = bmiR;
-  document.getElementById('res-cat-label').style.color = whoColor;
-  document.getElementById('res-cat-label').textContent = whoCat + (whoCat !== asiaCat ? ' (WHO) · ' + asiaCat + ' (Asia)' : '');
-
-  // WHO vs Asia compare
-  document.getElementById('who-range').textContent = whoStatus(bmi, 'who');
-  document.getElementById('who-status').textContent = whoCat;
-  document.getElementById('who-status').style.color = whoColor;
-  document.getElementById('asia-range').textContent = whoStatus(bmi, 'asia');
-  document.getElementById('asia-status').textContent = asiaCat;
-  document.getElementById('asia-status').style.color = asiaColor;
-
-  // Ideal weight
-  const idMin = +(18.5 * heightM * heightM).toFixed(1);
-  const idMax = +(22.9 * heightM * heightM).toFixed(1);
-  const idMid = +((idMin + idMax) / 2).toFixed(1);
-  const diff = +(weightKg - idMax).toFixed(1);
-
-  document.getElementById('res-current').textContent = weightKg.toFixed(1) + ' kg';
-  document.getElementById('res-ideal').textContent = idMin + ' – ' + idMax + ' kg (Asia)';
-  document.getElementById('res-target').textContent = idMid + ' kg (tengah range ideal)';
-
-  const diffEl = document.getElementById('res-diff');
-  if (bmi >= 18.5 && bmi < 23) {
-    diffEl.textContent = '± 0 kg — Sudah ideal 👍';
-    diffEl.className = 'gval';
-  } else if (diff > 0) {
-    diffEl.textContent = '+' + diff + ' kg (kelebihan)';
-    diffEl.className = 'gval warn';
-  } else {
-    diffEl.textContent = Math.abs(diff) + ' kg (kekurangan)';
-    diffEl.className = 'gval';
-  }
-
-  // Risk bars
-  const risks = getRisks(bmi);
-  setRisk('diab', risks.diabetes);
-  setRisk('hiper', risks.hipertensi);
-  setRisk('jantung', risks.jantung);
-
-  // Advice
-  const advice = getAdvice(bmi, bmiR);
-  document.getElementById('res-advice').innerHTML = advice;
-
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
+// ④ COMPARE
+function calcCmp(){
+  const bmi=v('cmp-bmi');
+  const tbody=document.getElementById('cmp-tbody');if(!tbody)return;
+  const katAsia=getKat(bmi,'asia'),katWho=getKat(bmi,'who');
+  tbody.innerHTML=[
+    {std:'Asia-Pasifik',kat:katAsia,ranges:'18,5/23/25/30'},
+    {std:'WHO Global',kat:katWho,ranges:'18,5/25/30/35/40'},
+  ].map(r=>`<tr>
+    <td>${r.std}</td>
+    <td style="color:${r.kat.color};font-weight:700">${r.kat.nm}</td>
+    <td>${r.ranges}</td>
+    <td style="color:${r.kat.color}">${r.kat.risk}</td>
+  </tr>`).join('');
 }
 
-function whoStatus(bmi, std) {
-  if (std === 'who') {
-    if (bmi < 18.5) return '< 18,5';
-    if (bmi < 25) return '18,5 – 24,9';
-    if (bmi < 30) return '25,0 – 29,9';
-    return '≥ 30,0';
-  } else {
-    if (bmi < 18.5) return '< 18,5';
-    if (bmi < 23) return '18,5 – 22,9';
-    if (bmi < 25) return '23,0 – 24,9';
-    if (bmi < 30) return '25,0 – 29,9';
-    return '≥ 30,0';
-  }
-}
-
-function getRisks(bmi) {
-  if (bmi < 18.5) return { diabetes: 15, hipertensi: 10, jantung: 15 };
-  if (bmi < 23)   return { diabetes: 10, hipertensi: 15, jantung: 10 };
-  if (bmi < 25)   return { diabetes: 25, hipertensi: 30, jantung: 20 };
-  if (bmi < 27.5) return { diabetes: 40, hipertensi: 45, jantung: 35 };
-  if (bmi < 30)   return { diabetes: 60, hipertensi: 60, jantung: 50 };
-  if (bmi < 35)   return { diabetes: 80, hipertensi: 75, jantung: 65 };
-  return { diabetes: 90, hipertensi: 85, jantung: 80 };
-}
-
-function setRisk(key, pct) {
-  const labels = { diab: ['Rendah','Sedang','Tinggi'], hiper: ['Rendah','Sedang','Tinggi'], jantung: ['Rendah','Sedang','Tinggi'] };
-  const level = pct < 30 ? 'Rendah' : pct < 60 ? 'Sedang' : 'Tinggi';
-  const color = pct < 30 ? '#4ade80' : pct < 60 ? '#fbbf24' : '#f87171';
-  document.getElementById('risk-' + key).textContent = level;
-  document.getElementById('risk-' + key).style.color = color;
-  document.getElementById('risk-' + key + '-bar').style.width = pct + '%';
-  document.getElementById('risk-' + key + '-bar').style.background = color;
-}
-
-function getAdvice(bmi, bmiR) {
-  if (bmi < 18.5) return `💡 <strong>BMI ${bmiR} — Kekurangan berat badan.</strong> Tingkatkan asupan kalori berkualitas: tambahkan protein (telur, tempe, ikan), karbohidrat kompleks (nasi merah, ubi), dan lemak sehat (alpukat, kacang-kacangan). Konsultasikan dengan dokter atau ahli gizi untuk program penambahan berat badan yang aman.`;
-  if (bmi < 23) return `✅ <strong>BMI ${bmiR} — Berat badan ideal!</strong> Tubuh Anda berada di rentang sehat standar Asia. Pertahankan dengan pola makan seimbang (piring sehat Kemenkes), aktivitas fisik minimal 30 menit/hari, dan pemeriksaan kesehatan rutin tahunan.`;
-  if (bmi < 25) return `⚠️ <strong>BMI ${bmiR} — Kelebihan berat badan (standar Asia).</strong> Meski masih dalam rentang "Normal" WHO, standar Asia merekomendasikan penurunan ringan. Target: kurangi 250–300 kkal/hari dan tambah aktivitas fisik 30 menit/hari. Penurunan 0,5 kg/minggu adalah laju yang sehat dan berkelanjutan.`;
-  if (bmi < 30) return `⚠️ <strong>BMI ${bmiR} — Kelebihan berat badan.</strong> Saatnya bertindak. Risiko diabetes, hipertensi, dan penyakit jantung mulai meningkat. Langkah prioritas: (1) Kurangi konsumsi gula dan gorengan, (2) Olahraga 30–45 menit/hari minimal 5x seminggu, (3) Konsultasi dengan dokter untuk pemeriksaan metabolik dasar.`;
-  return `🔴 <strong>BMI ${bmiR} — Obesitas.</strong> Segera konsultasikan dengan dokter. Risiko kesehatan signifikan. Program penanganan obesitas membutuhkan pendekatan komprehensif: modifikasi diet terstruktur, aktivitas fisik terpandu, dan kemungkinan pendampingan medis. Jangan melakukan diet ekstrem sendiri.`;
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['h-berat','h-tinggi','h-standar'],calcBMI);
+listen(['i-tinggi','i-gender'],calcIdeal);
+listen(['s-berat','s-tinggi','s-target'],calcSimulasi);
+listen(['cmp-bmi'],calcCmp);
+calcBMI();calcIdeal();calcCmp();
 </script>
 </body>
 </html>

@@ -1,343 +1,560 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Pajak Kendaraan (PKB) 2026 — Estimasi STNK & PKB Tahunan | NovaCalcs</title>
-<meta name="description" content="Estimasi Pajak Kendaraan Bermotor (PKB) dan SWDKLLJ tahunan untuk motor dan mobil. Hitung denda keterlambatan dan cek insentif kendaraan listrik 2026."/>
-<meta name="keywords" content="kalkulator pajak kendaraan, PKB motor, PKB mobil, STNK tahunan, SWDKLLJ, denda telat pajak, kendaraan listrik PKB"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pajak-kendaraan.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-pajak-kendaraan.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.info-box{background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;font-size:.82rem;color:#c0cdd8;margin:.75rem 0;line-height:1.6}
-.warning-box{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:.75rem;font-size:.82rem;color:#fca5a5;margin:.75rem 0;line-height:1.6}
-.ev-badge{display:inline-block;background:rgba(0,201,177,.15);color:#00C9B1;border-radius:4px;padding:.1rem .4rem;font-size:.72rem;font-weight:700;margin-left:4px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Pajak Kendaraan 2026 — PKB, BBNKB & Biaya Kepemilikan | NovaCalcs</title>
+  <meta name="description" content="Kalkulator pajak kendaraan 2026: hitung PKB tahunan, BBNKB balik nama, denda pajak telat, dan total biaya kepemilikan kendaraan per tahun. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-pajak-kendaraan">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.red{background:var(--red-b);border-color:#fca5a5}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.red{color:var(--red)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* TCO */
+    .tco-wrap{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+    .tco-row{display:flex;align-items:center;gap:8px;font-size:11px}
+    .tco-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .tco-lbl{flex:1;color:var(--tx2)}
+    .tco-bar-bg{width:100px;height:7px;background:var(--sur2);border-radius:4px;overflow:hidden}
+    .tco-bar-fill{height:100%;border-radius:4px;transition:width .4s}
+    .tco-val{min-width:80px;text-align:right;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--pri)}
+    /* COMPARE TABLE */
+    .cmp-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .cmp-tbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .cmp-tbl td{padding:8px 10px;border-bottom:1px solid var(--bor)}
+    .cmp-tbl td.mo{font-family:'DM Mono',monospace;font-weight:600;text-align:right}
+    .cmp-tbl tr:last-child td{border-bottom:none}
+    /* DENDA TABLE */
+    .denda-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .denda-tbl th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .denda-tbl td{padding:7px 10px;border-bottom:1px solid var(--bor)}
+    .denda-tbl td.mo{font-family:'DM Mono',monospace;font-weight:600;text-align:right}
+    .denda-tbl tr:last-child td{border-bottom:none}
+    .denda-tbl tr.warn td{background:var(--red-b);color:var(--red);font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Pajak Kendaraan</span>
-    </nav>
+
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Pajak Kendaraan</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🚗 Pajak Kendaraan</div>
+  <h1 class="hdr-h1">Kalkulator Pajak Kendaraan 2026</h1>
+  <p class="hdr-sub">Hitung PKB tahunan, BBNKB balik nama, denda telat bayar pajak, dan total biaya kepemilikan kendaraan per tahun. Hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">PKB motor <span>~2% NJKB/thn</span></div>
+    <div class="pchip">PKB mobil <span>~2% NJKB/thn</span></div>
+    <div class="pchip">BBNKB baru <span>~12,5% harga</span></div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🚗 Kalkulator Pajak Kendaraan (PKB)</div>
-      <div class="calc-subtitle">PKB tahunan, denda keterlambatan, dan insentif EV</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-pkb',this)">🚗 PKB Tahunan</button>
-        <button class="tab-btn" onclick="showTab('tab-denda',this)">⚠️ Denda Telat</button>
-        <button class="tab-btn" onclick="showTab('tab-ev',this)">⚡ Kendaraan Listrik</button>
+<main class="main">
+<div class="left-col">
+
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🚗</div>Kalkulator Pajak Kendaraan</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="pkb">📋 PKB Tahunan</button>
+      <button class="tbtn" data-tab="bbnkb">🔄 BBNKB Balik Nama</button>
+    </div>
+
+    <!-- PKB -->
+    <div class="tpanel on" id="tab-pkb">
+      <div class="notice info" style="margin-bottom:16px">ℹ️ PKB (Pajak Kendaraan Bermotor) dihitung dari <strong>NJKB</strong> (Nilai Jual Kendaraan Bermotor) yang ditetapkan Samsat, bukan harga jual. NJKB menurun setiap tahun. Masukkan nilai pajak dari STNK Anda untuk hasil paling akurat, atau estimasi dari NJKB.</div>
+      <div class="fld">
+        <label>NJKB / Nilai Jual Kendaraan (Rp)</label>
+        <div class="iw"><input type="number" id="p-njkb" value="25000000" min="0" step="1000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="10000000" data-for="p-njkb">10 jt</button>
+          <button class="pb on" data-val="25000000" data-for="p-njkb">25 jt</button>
+          <button class="pb" data-val="100000000" data-for="p-njkb">100 jt</button>
+          <button class="pb" data-val="300000000" data-for="p-njkb">300 jt</button>
+          <button class="pb" data-val="500000000" data-for="p-njkb">500 jt</button>
+        </div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">Lihat NJKB di STNK atau cek di situs Samsat daerah Anda.</div>
       </div>
-
-      <!-- TAB 1: PKB TAHUNAN -->
-      <div id="tab-pkb" class="tab-pane active">
-        <div class="field">
+      <div class="g2">
+        <div class="fld">
           <label>Jenis Kendaraan</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="btn-motor" onclick="setType('motor')">🏍️ Motor</div>
-            <div class="radio-btn" id="btn-mobil" onclick="setType('mobil')">🚗 Mobil</div>
-          </div>
+          <div class="iw sw"><select id="p-jenis">
+            <option value="motor">Motor (roda 2)</option>
+            <option value="mobil" selected>Mobil (roda 4)</option>
+            <option value="pickup">Pickup / Niaga</option>
+          </select></div>
         </div>
-        <div class="field">
-          <label>NJKB — Nilai Jual Kendaraan Bermotor (Rp)</label>
-          <input type="number" id="njkb" placeholder="Contoh: 20000000" min="0" oninput="calculate()"/>
-          <small style="color:#7a8fa0">Tercantum di STNK atau cek di website Samsat daerah Anda</small>
-        </div>
-        <div class="field">
+        <div class="fld">
           <label>Kepemilikan ke-</label>
-          <select id="ownership" onchange="calculate()">
-            <option value="1" selected>1 (pertama) — tarif 1,5%</option>
-            <option value="2">2 (kedua) — tarif 2,0%</option>
-            <option value="3">3 (ketiga) — tarif 2,5%</option>
-            <option value="4">4 (keempat+) — tarif 3,0%</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Tahun STNK 5-Tahunan?</label>
-          <div class="radio-group">
-            <div class="radio-btn" id="btn-5ya" onclick="set5Tahunan(true)">Ya (perpanjang + ganti plat)</div>
-            <div class="radio-btn active" id="btn-5no" onclick="set5Tahunan(false)">Tidak (bayar tahunan biasa)</div>
-          </div>
-        </div>
-        <button class="calc-btn" onclick="calculate()">Hitung Pajak</button>
-
-        <div class="result-panel" id="result">
-          <div class="result-main">
-            <div class="result-value" id="res-total">—</div>
-            <div class="result-label">Total yang Dibayar ke Samsat</div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">PKB (Pajak Kendaraan Bermotor)</span><span class="rval" id="res-pkb">—</span></div>
-            <div class="result-row"><span class="rkey">SWDKLLJ (asuransi kecelakaan Jasa Raharja)</span><span class="rval" id="res-swdkllj">—</span></div>
-            <div class="result-row"><span class="rkey">Biaya administrasi STNK</span><span class="rval" id="res-admin">—</span></div>
-            <div class="result-row" id="stnk5-row" style="display:none"><span class="rkey">Biaya cetak STNK + TNKB (5 thn)</span><span class="rval" id="res-stnk5">—</span></div>
-            <div class="result-row"><span class="rkey">Tarif PKB yang berlaku</span><span class="rval" id="res-rate">—</span></div>
-          </div>
+          <div class="iw sw"><select id="p-kepemilikan">
+            <option value="1" selected>1 (pertama)</option>
+            <option value="2">2 (kedua)</option>
+            <option value="3">3 (ketiga+)</option>
+          </select></div>
         </div>
       </div>
+      <div class="fld">
+        <label>Provinsi (tarif PKB)</label>
+        <div class="iw sw"><select id="p-provinsi">
+          <option value="2">DKI Jakarta (2%)</option>
+          <option value="1.5">Jawa Barat (1,5%)</option>
+          <option value="1.5">Jawa Tengah (1,5%)</option>
+          <option value="1.5">Jawa Timur (1,5%)</option>
+          <option value="1.5">Banten (1,5%)</option>
+          <option value="1.75">D.I. Yogyakarta (1,75%)</option>
+          <option value="1.75">Bali (1,75%)</option>
+          <option value="1.75">Sumatera Utara (1,75%)</option>
+          <option value="1.5">Lainnya (~1,5%)</option>
+        </select></div>
+      </div>
 
-      <!-- TAB 2: DENDA TELAT -->
-      <div id="tab-denda" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Hitung estimasi denda keterlambatan pembayaran pajak kendaraan.</p>
-        <div class="field">
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Estimasi PKB per Tahun</div>
+            <div class="rv lg" id="p-pkb">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">SWDKLLJ (Asuransi Jasa Raharja)</div>
+            <div class="rv sm" id="p-swdkllj">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Total Bayar STNK/Tahun</div>
+            <div class="rv sm" id="p-total">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>NJKB (Nilai Jual Kendaraan Bermotor)</span><span id="p-njkb-show">—</span></div>
+          <div class="rr"><span>Tarif PKB provinsi</span><span id="p-tarif">—</span></div>
+          <div class="rr"><span>Koefisien kepemilikan</span><span id="p-koef">—</span></div>
+          <div class="rr"><span>PKB = NJKB × tarif × koefisien</span><span id="p-pkb2">—</span></div>
+          <div class="rr"><span>SWDKLLJ (Jasa Raharja)</span><span id="p-swdkllj2">—</span></div>
+          <div class="rr"><span>Total STNK per tahun</span><span id="p-total2">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* Estimasi. PKB aktual tercantum di STNK Anda. NJKB ditetapkan Samsat dan berbeda dari harga pasar. Koefisien kepemilikan: kendaraan kedua ×1,5, ketiga+ ×2. SWDKLLJ: motor Rp 35rb, mobil Rp 143rb/thn (tarif umum).</div>
+    </div>
+
+    <!-- BBNKB -->
+    <div class="tpanel" id="tab-bbnkb">
+      <div class="fld">
+        <label>Harga Kendaraan / NJKB (Rp)</label>
+        <div class="iw"><input type="number" id="b-harga" value="200000000" min="0" step="5000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="25000000" data-for="b-harga">25 jt (motor)</button>
+          <button class="pb" data-val="100000000" data-for="b-harga">100 jt</button>
+          <button class="pb on" data-val="200000000" data-for="b-harga">200 jt</button>
+          <button class="pb" data-val="500000000" data-for="b-harga">500 jt</button>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>Status Kendaraan</label>
+          <div class="iw sw"><select id="b-status">
+            <option value="baru">Kendaraan Baru</option>
+            <option value="bekas" selected>Kendaraan Bekas / Second</option>
+          </select></div>
+        </div>
+        <div class="fld">
           <label>Jenis Kendaraan</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="btn-d-motor" onclick="setDType('motor')">🏍️ Motor</div>
-            <div class="radio-btn" id="btn-d-mobil" onclick="setDType('mobil')">🚗 Mobil</div>
-          </div>
-        </div>
-        <div class="field">
-          <label>PKB Pokok (Rp)</label>
-          <input type="number" id="d-pkb" placeholder="Contoh: 500000" min="0"/>
-          <small style="color:#7a8fa0">Nilai PKB normal tanpa denda, lihat di STNK tahun sebelumnya</small>
-        </div>
-        <div class="field">
-          <label>Keterlambatan (bulan)</label>
-          <input type="number" id="d-bulan" placeholder="Contoh: 3" min="1" max="24" value="3"/>
-          <small style="color:#7a8fa0">Denda maksimum 24 bulan (48% dari PKB pokok)</small>
-        </div>
-        <button class="calc-btn" onclick="calcDenda()">Hitung Denda</button>
-
-        <div class="result-panel" id="res-denda">
-          <div class="result-main">
-            <div class="result-value" id="d-res-total">—</div>
-            <div class="result-label">Total Tagihan + Denda</div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">PKB pokok</span><span class="rval" id="d-res-pkb">—</span></div>
-            <div class="result-row"><span class="rkey">Denda PKB (2%/bln)</span><span class="rval" id="d-res-denda">—</span></div>
-            <div class="result-row"><span class="rkey">SWDKLLJ</span><span class="rval" id="d-res-swdkllj">—</span></div>
-            <div class="result-row"><span class="rkey">Denda SWDKLLJ</span><span class="rval" id="d-res-denda-sw">—</span></div>
-            <div class="result-row"><span class="rkey">Persentase denda</span><span class="rval" id="d-res-pct">—</span></div>
-          </div>
-        </div>
-        <div class="warning-box" id="denda-warning" style="display:none">
-          ⚠️ Keterlambatan lebih dari 2 tahun: data registrasi kendaraan bisa dihapus oleh Korlantas. Segera bayar untuk menghindari risiko ini.
+          <div class="iw sw"><select id="b-jenis">
+            <option value="motor">Motor</option>
+            <option value="mobil" selected>Mobil</option>
+          </select></div>
         </div>
       </div>
-
-      <!-- TAB 3: KENDARAAN LISTRIK -->
-      <div id="tab-ev" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Hitung estimasi PKB kendaraan listrik dengan insentif pengurangan yang berlaku.</p>
-        <div class="info-box">
-          ⚡ Kendaraan listrik berbasis baterai mendapat <strong>pengurangan PKB</strong> signifikan sebagai insentif pemerintah untuk mendorong transisi energi bersih. Besaran insentif berbeda per provinsi.
-        </div>
-        <div class="field">
-          <label>Jenis Kendaraan Listrik</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="btn-ev-motor" onclick="setEvType('motor')">🛵 Motor Listrik</div>
-            <div class="radio-btn" id="btn-ev-mobil" onclick="setEvType('mobil')">🚗 Mobil Listrik</div>
-          </div>
-        </div>
-        <div class="field">
-          <label>NJKB Kendaraan (Rp)</label>
-          <input type="number" id="ev-njkb" placeholder="Contoh: 300000000" min="0" oninput="calcEV()"/>
-        </div>
-        <div class="field">
-          <label>Insentif Pengurangan PKB</label>
-          <select id="ev-discount" onchange="calcEV()">
-            <option value="0.9">90% (DKI Jakarta, Jawa Barat, dan beberapa provinsi)</option>
-            <option value="0.75">75% (beberapa provinsi lain)</option>
-            <option value="0.5">50% (estimasi minimum)</option>
-          </select>
-        </div>
-        <button class="calc-btn" onclick="calcEV()">Hitung PKB EV</button>
-        <div class="result-panel" id="res-ev">
-          <div class="result-main">
-            <div class="result-value" id="ev-res-total">—</div>
-            <div class="result-label">Total PKB + SWDKLLJ (setelah insentif)</div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">PKB normal (tanpa insentif)</span><span class="rval" id="ev-res-normal">—</span></div>
-            <div class="result-row"><span class="rkey">Pengurangan PKB</span><span class="rval" id="ev-res-disc">—</span></div>
-            <div class="result-row"><span class="rkey">PKB setelah insentif</span><span class="rval" id="ev-res-pkb">—</span></div>
-            <div class="result-row"><span class="rkey">SWDKLLJ</span><span class="rval" id="ev-res-sw">—</span></div>
-            <div class="result-row"><span class="rkey">Hemat vs kendaraan BBM setara</span><span class="rval" id="ev-res-hemat">—</span></div>
-          </div>
-        </div>
+      <div class="fld">
+        <label>Provinsi</label>
+        <div class="iw sw"><select id="b-provinsi">
+          <option value="12.5">DKI Jakarta (12,5% baru / 1% bekas)</option>
+          <option value="12.5">Jawa Barat (12,5% / 1%)</option>
+          <option value="12.5">Jawa Timur (12,5% / 1%)</option>
+          <option value="10">Lainnya (~10–12,5%)</option>
+        </select></div>
       </div>
 
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Total Biaya Balik Nama</div>
+            <div class="rv lg" id="b-total">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>BBNKB (Bea Balik Nama)</span><span id="b-bbnkb">—</span></div>
+          <div class="rr"><span>Tarif BBNKB</span><span id="b-tarif">—</span></div>
+          <div class="rr"><span>Biaya administrasi STNK</span><span id="b-admin">—</span></div>
+          <div class="rr"><span>Biaya administrasi TNKB (pelat)</span><span id="b-tnkb">—</span></div>
+          <div class="rr"><span>PKB tahun pertama (estimasi)</span><span id="b-pkb">—</span></div>
+          <div class="rr"><span>Total biaya balik nama</span><span id="b-total2">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* BBNKB baru: umumnya 12,5% dari NJKB/harga. BBNKB bekas (balik nama 2): umumnya 1% dari NJKB. Biaya administrasi STNK: motor Rp 100rb, mobil Rp 200rb. TNKB (pelat): motor Rp 60rb, mobil Rp 100rb. Tarif aktual tergantung kebijakan provinsi masing-masing.</div>
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator Pajak Kendaraan (PKB) 2026 — Estimasi STNK Tahunan Motor &amp; Mobil</h1>
-    <p class="page-desc">Setiap pemilik kendaraan bermotor di Indonesia wajib membayar PKB setiap tahun. Kalkulator ini membantu memperkirakan besaran pajak berdasarkan NJKB dan kepemilikan, menghitung denda keterlambatan, serta estimasi PKB kendaraan listrik dengan insentif yang berlaku.</p>
+<!-- ② DENDA TELAT BAYAR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📅</div>Simulasi Denda Telat Bayar Pajak <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Telat bayar pajak kendaraan dikenakan denda 2% per bulan dari PKB yang belum dibayar. Lihat akumulasi denda jika telat beberapa bulan.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>PKB yang Harus Dibayar (Rp)</label>
+        <div class="iw"><input type="number" id="d-pkb" value="500000" min="0" step="10000"></div>
+        <div class="presets">
+          <button class="pb" data-val="200000" data-for="d-pkb">200rb</button>
+          <button class="pb on" data-val="500000" data-for="d-pkb">500rb</button>
+          <button class="pb" data-val="1000000" data-for="d-pkb">1 jt</button>
+          <button class="pb" data-val="3000000" data-for="d-pkb">3 jt</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>SWDKLLJ (Jasa Raharja)</label>
+        <div class="iw"><input type="number" id="d-swdkllj" value="143000" min="0" step="1000"></div>
+        <div class="presets">
+          <button class="pb" data-val="35000" data-for="d-swdkllj">35rb (motor)</button>
+          <button class="pb on" data-val="143000" data-for="d-swdkllj">143rb (mobil)</button>
+        </div>
+      </div>
+    </div>
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Apa itu PKB dan Cara Menghitungnya?</h2>
-    <p>PKB (Pajak Kendaraan Bermotor) adalah pajak atas kepemilikan kendaraan bermotor yang dipungut pemerintah daerah berdasarkan UU No. 1 Tahun 2022 tentang HKPD. PKB dihitung dari NJKB (Nilai Jual Kendaraan Bermotor) yang ditetapkan Gubernur — biasanya lebih rendah dari harga pasar dan tertera di STNK. Tarif dasar PKB kepemilikan pertama adalah <strong>1,5%</strong> berdasarkan UU HKPD 2022.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li><strong>Tab PKB Tahunan:</strong> Masukkan NJKB kendaraan dan pilih kepemilikan ke-berapa. Kalkulator menghitung PKB, SWDKLLJ, biaya admin, dan total bayar ke Samsat.</li>
-      <li><strong>Tab Denda Telat:</strong> Masukkan PKB pokok dan jumlah bulan keterlambatan untuk menghitung estimasi denda (2%/bulan, maksimum 24 bulan).</li>
-      <li><strong>Tab Kendaraan Listrik:</strong> Hitung PKB kendaraan listrik setelah insentif pengurangan yang berlaku di berbagai provinsi.</li>
-    </ol>
-
-    <h2>Komponen Biaya di Samsat 2026</h2>
-    <table>
-      <tr><th>Komponen</th><th>Motor</th><th>Mobil</th><th>Dasar Hukum</th></tr>
-      <tr><td>PKB kepemilikan ke-1</td><td colspan="2">1,5% × NJKB</td><td>UU HKPD 2022</td></tr>
-      <tr><td>SWDKLLJ (Jasa Raharja)</td><td>Rp 35.000/thn</td><td>Rp 143.000/thn</td><td>PP 18/2016</td></tr>
-      <tr><td>Admin STNK tahunan</td><td>Rp 25.000</td><td>Rp 50.000</td><td>PP 76/2020</td></tr>
-      <tr><td>Cetak STNK (5 thn)</td><td>Rp 100.000</td><td>Rp 200.000</td><td>PP 76/2020</td></tr>
-      <tr><td>Cetak TNKB/plat (5 thn)</td><td>Rp 60.000</td><td>Rp 100.000</td><td>PP 76/2020</td></tr>
+    <table class="denda-tbl">
+      <thead><tr><th>Telat (bulan)</th><th>Denda (2%×bln)</th><th>Total Bayar</th><th>Keterangan</th></tr></thead>
+      <tbody id="d-tbody"></tbody>
     </table>
+    <div class="notice warn" style="margin-top:10px">⚠️ Setelah 5 tahun tidak bayar pajak, STNK tidak bisa diperpanjang dan kendaraan dianggap bodong. Bayar pajak tepat waktu untuk menghindari denda dan masalah hukum.</div>
+  </div>
+</div>
 
-    <h2>Tarif PKB Progresif</h2>
-    <table>
-      <tr><th>Kepemilikan</th><th>Tarif PKB</th><th>Contoh NJKB Rp 20 juta</th></tr>
-      <tr><td>Pertama</td><td>1,5%</td><td>Rp 300.000</td></tr>
-      <tr><td>Kedua</td><td>2,0%</td><td>Rp 400.000</td></tr>
-      <tr><td>Ketiga</td><td>2,5%</td><td>Rp 500.000</td></tr>
-      <tr><td>Keempat+</td><td>3,0%</td><td>Rp 600.000</td></tr>
-    </table>
+<!-- ③ TOTAL BIAYA KEPEMILIKAN TAHUNAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🔧</div>Total Biaya Kepemilikan Kendaraan per Tahun <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Harga beli kendaraan bukan satu-satunya biaya. Hitung total annual cost of ownership termasuk pajak, asuransi, BBM, dan servis.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Harga / NJKB Kendaraan (Rp)</label>
+        <div class="iw"><input type="number" id="tco-harga" value="200000000" min="0" step="5000000"></div>
+      </div>
+      <div class="fld">
+        <label>Jarak Tempuh per Bulan (km)</label>
+        <div class="iw"><input type="number" id="tco-km" value="1000" min="0" step="100"><span class="iu">km</span></div>
+        <div class="presets">
+          <button class="pb" data-val="500" data-for="tco-km">500</button>
+          <button class="pb on" data-val="1000" data-for="tco-km">1.000</button>
+          <button class="pb" data-val="2000" data-for="tco-km">2.000</button>
+          <button class="pb" data-val="3000" data-for="tco-km">3.000</button>
+        </div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="fld">
+        <label>Jenis Kendaraan</label>
+        <div class="iw sw"><select id="tco-jenis" onchange="calcTCO()">
+          <option value="motor">Motor</option>
+          <option value="mobil" selected>Mobil</option>
+        </select></div>
+      </div>
+      <div class="fld">
+        <label>Harga BBM per Liter (Rp)</label>
+        <div class="iw"><input type="number" id="tco-bbm" value="10000" min="0" step="500"></div>
+      </div>
+    </div>
 
-    <h2>Cara Bayar Pajak Kendaraan Tanpa Antre di Samsat</h2>
-    <p>Pembayaran PKB tahunan kini bisa dilakukan tanpa ke kantor Samsat: aplikasi SIGNAL (Samsat Digital Nasional) resmi Korlantas Polri, Tokopedia, Bukalapak, GoPay, OVO, DANA, atau melalui ATM dan mobile banking beberapa bank. Untuk perpanjangan STNK 5-tahunan (ganti plat), tetap harus datang ke Samsat dengan membawa kendaraan untuk cek fisik.</p>
+    <div class="tco-wrap" id="tco-rows"></div>
 
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Di mana melihat NJKB kendaraan saya?</div>
-    <div class="faq-a">NJKB tertera di STNK kendaraan Anda, biasanya di bagian bawah. Anda juga bisa mengecek di website resmi Samsat atau aplikasi SIGNAL. NJKB diperbarui setiap tahun oleh pemerintah daerah.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu SWDKLLJ?</div>
-    <div class="faq-a">SWDKLLJ (Sumbangan Wajib Dana Kecelakaan Lalu Lintas Jalan) adalah iuran wajib yang dipungut bersamaan dengan PKB dan dikelola Jasa Raharja. Dana ini untuk santunan korban kecelakaan lalu lintas. Motor Rp 35.000/tahun, mobil Rp 143.000/tahun.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa yang terjadi jika telat bayar pajak kendaraan?</div>
-    <div class="faq-a">Keterlambatan dikenakan denda 2% per bulan dari PKB pokok, maksimum 24 bulan (48%). Selain itu STNK kadaluarsa berarti kendaraan tidak boleh beroperasi di jalan dan bisa kena tilang. Jika tidak diperpanjang lebih dari 2 tahun, data registrasi kendaraan bisa dihapus Korlantas.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa insentif PKB kendaraan listrik?</div>
-    <div class="faq-a">Kendaraan listrik berbasis baterai mendapat pengurangan PKB signifikan berdasarkan PP No. 73 Tahun 2019 dan perubahannya. Di DKI Jakarta dan beberapa provinsi, pengurangan mencapai 90% — artinya PKB hanya 10% dari tarif normal. Besaran insentif bisa berbeda per provinsi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya pajak tahunan dan 5-tahunan?</div>
-    <div class="faq-a">Pajak tahunan adalah PKB + SWDKLLJ + admin yang wajib dibayar setiap tahun. Pajak 5-tahunan dilakukan setiap 5 tahun dengan perpanjangan STNK fisik dan penggantian pelat nomor (TNKB), sehingga ada biaya tambahan cetak STNK dan TNKB.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah ada program pemutihan pajak kendaraan?</div>
-    <div class="faq-a">Program pemutihan (penghapusan denda keterlambatan) memang sesekali diadakan oleh pemerintah daerah, biasanya menjelang akhir tahun atau momen tertentu. Namun tidak ada kepastian jadwalnya, sehingga tidak disarankan untuk mengandalkan program ini. Bayar tepat waktu untuk menghindari denda yang terakumulasi.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-cicilan-motor.html" class="related-item"><span class="ri">🏍️</span>Cicilan Motor</a>
-      <a href="/id/kalkulator-bbm.html" class="related-item"><span class="ri">⛽</span>Kalkulator BBM</a>
-      <a href="/id/kalkulator-kpr.html" class="related-item"><span class="ri">🏠</span>Kalkulator KPR</a>
-      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
+    <div class="lres" style="margin-top:14px">
+      <div class="rg">
+        <div class="ri s2">
+          <div class="rl">Total Biaya Kepemilikan per Tahun</div>
+          <div class="rv lg" id="tco-total">—</div>
+        </div>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>Total per tahun</span><span id="tco-total2">—</span></div>
+        <div class="rr"><span>Total per bulan (rata-rata)</span><span id="tco-per-bln">—</span></div>
+        <div class="rr"><span>Biaya per km</span><span id="tco-per-km">—</span></div>
+      </div>
     </div>
   </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Tarif Pajak Kendaraan</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">PKB Jakarta</div><div class="fron">Tarif provinsi</div></div></div><div class="fprice">2%/thn</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#D97706"></div><div><div class="fn">PKB Provinsi lain</div><div class="fron">Tarif umum</div></div></div><div class="fprice">1,5–2%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">BBNKB baru</div><div class="fron">Penyerahan pertama</div></div></div><div class="fprice">~12,5%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">BBNKB balik nama</div><div class="fron">Penyerahan ke-2+</div></div></div><div class="fprice">~1%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Denda telat bayar</div><div class="fron">Per bulan keterlambatan</div></div></div><div class="fprice">2%/bln</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Pajak Kendaraan</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📅</span><span class="tptx"><strong>Catat tanggal jatuh tempo STNK</strong> — biasanya sama bulannya dengan bulan pertama kali STNK dibuat</span></div>
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Bayar online via Samsat Digital</strong> — bisa lewat m-Samsat, Tokopedia, GoPay, atau OVO</span></div>
+        <div class="tip"><span class="tpico">🔄</span><span class="tptx"><strong>Segera balik nama kendaraan bekas</strong> — jika tidak, Anda ikut menanggung pajak progresif pemilik sebelumnya</span></div>
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>NJKB ≠ harga pasar</strong> — NJKB ditetapkan pemerintah dan biasanya lebih rendah dari harga jual aktual</span></div>
+        <div class="tip"><span class="tpico">🎁</span><span class="tptx"><strong>Pantau program pemutihan</strong> — beberapa daerah rutin memberi keringanan denda pajak kendaraan</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-cicilan-motor" class="relc"><div class="relc-ico">🏍️</div><div class="relc-nm">Cicilan Motor</div><div class="relc-ds">Kredit kendaraan</div></a>
+        <a href="/id/kalkulator-bbm" class="relc"><div class="relc-ico">⛽</div><div class="relc-nm">BBM</div><div class="relc-ds">Biaya bahan bakar</div></a>
+        <a href="/id/kalkulator-listrik" class="relc"><div class="relc-ico">⚡</div><div class="relc-nm">Listrik</div><div class="relc-ds">Tagihan listrik</div></a>
+        <a href="/id/kalkulator-ppn" class="relc"><div class="relc-ico">🧾</div><div class="relc-nm">PPN</div><div class="relc-ds">Pajak pertambahan nilai</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Dasar Hukum Pajak Kendaraan Bermotor</h2>
+  <p>PKB (Pajak Kendaraan Bermotor) diatur dalam UU No. 28/2009 tentang Pajak Daerah dan Retribusi Daerah. Tarif PKB ditetapkan oleh masing-masing provinsi, umumnya 1,5–2% dari NJKB. NJKB (Nilai Jual Kendaraan Bermotor) ditetapkan oleh Menteri Dalam Negeri berdasarkan kondisi dan tahun kendaraan, berbeda dari harga pasar.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan NJKB dan harga pasar kendaraan?</div><div class="faq-a">NJKB (Nilai Jual Kendaraan Bermotor) adalah nilai yang ditetapkan pemerintah (Permendagri) sebagai dasar penghitungan pajak — bukan harga jual di pasaran. NJKB biasanya lebih rendah dari harga pasar dan mengalami penyusutan setiap tahun sesuai umur kendaraan. Anda dapat melihat NJKB kendaraan Anda di STNK atau menanyakan ke Samsat.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara bayar pajak kendaraan tanpa antri di Samsat?</div><div class="faq-a">Beberapa opsi bayar pajak kendaraan online: (1) Aplikasi Samsat Digital Nasional (SIGNAL) — bisa untuk perpanjangan STNK tahunan. (2) m-Samsat di beberapa provinsi. (3) E-commerce/fintech: Tokopedia, GoPay, OVO, Dana. (4) ATM/mobile banking beberapa bank. Namun, perpanjangan 5 tahunan (ganti pelat fisik) tetap harus dilakukan di Samsat.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa yang terjadi jika tidak bayar pajak kendaraan lebih dari 5 tahun?</div><div class="faq-a">Data kendaraan di Kepolisian akan dihapus (kendaraan menjadi bodong) dan STNK tidak dapat diperpanjang. Sanksi berlaku sesuai UU LLAJ. Namun, beberapa daerah rutin mengadakan program pemutihan pajak yang memberi keringanan denda — pantau pengumuman resmi Samsat daerah Anda.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-let vType = 'motor', is5Tahunan = false, dType = 'motor', evType = 'motor';
 
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-function setType(t) {
-  vType = t;
-  document.getElementById('btn-motor').classList.toggle('active', t==='motor');
-  document.getElementById('btn-mobil').classList.toggle('active', t==='mobil');
-  calculate();
-}
-function set5Tahunan(v) {
-  is5Tahunan = v;
-  document.getElementById('btn-5ya').classList.toggle('active', v);
-  document.getElementById('btn-5no').classList.toggle('active', !v);
-  document.getElementById('stnk5-row').style.display = v ? '' : 'none';
-  calculate();
-}
-function setDType(t) {
-  dType = t;
-  document.getElementById('btn-d-motor').classList.toggle('active', t==='motor');
-  document.getElementById('btn-d-mobil').classList.toggle('active', t==='mobil');
-}
-function setEvType(t) {
-  evType = t;
-  document.getElementById('btn-ev-motor').classList.toggle('active', t==='motor');
-  document.getElementById('btn-ev-mobil').classList.toggle('active', t==='mobil');
-  calcEV();
-}
-const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+<script>
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){if(n>=1e6)return'Rp '+(n/1e6).toFixed(1)+' jt';return rp(n)}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
+const COLORS=['#E85D04','#1A7F4E','#C0392B','#3b82f6','#D97706','#8b5cf6'];
 
-function calculate() {
-  const njkb = parseFloat(document.getElementById('njkb').value);
-  const own  = parseInt(document.getElementById('ownership').value);
-  if (!njkb||njkb<=0) return;
-  const rates = {1:0.015, 2:0.020, 3:0.025, 4:0.030};
-  const rate  = rates[own]||0.015;
-  const pkb   = njkb * rate;
-  const sw    = vType==='motor' ? 35000 : 143000;
-  const adm   = vType==='motor' ? 25000 : 50000;
-  const stnk5 = is5Tahunan ? (vType==='motor' ? 160000 : 300000) : 0;
-  const total = pkb + sw + adm + stnk5;
-  document.getElementById('res-total').textContent    = fmt(total);
-  document.getElementById('res-pkb').textContent      = fmt(pkb);
-  document.getElementById('res-swdkllj').textContent  = fmt(sw)+'/tahun';
-  document.getElementById('res-admin').textContent    = fmt(adm);
-  document.getElementById('res-stnk5').textContent    = fmt(stnk5);
-  document.getElementById('res-rate').textContent     = (rate*100).toFixed(1).replace('.',',')+' % dari NJKB';
-  document.getElementById('result').classList.add('show');
+// SWDKLLJ standar
+function swdkllj(jenis){return jenis==='motor'?35000:143000;}
+
+// ① PKB
+function calcPKB(){
+  const njkb=v('p-njkb'),jenis=document.getElementById('p-jenis')?.value||'mobil';
+  const kepemilikan=parseInt(document.getElementById('p-kepemilikan')?.value)||1;
+  const tarif=parseFloat(document.getElementById('p-provinsi')?.value)||2;
+  const koef=kepemilikan===1?1:kepemilikan===2?1.5:2;
+  const pkb=njkb*tarif/100*koef;
+  const sw=swdkllj(jenis);
+  const total=pkb+sw;
+  set('p-pkb',rp(pkb)+'/thn');set('p-swdkllj',rp(sw));set('p-total',rp(total)+'/thn');
+  set('p-njkb-show',rpM(njkb));set('p-tarif',tarif+'%');
+  set('p-koef',koef+'× (kepemilikan ke-'+kepemilikan+')');
+  set('p-pkb2',rp(pkb));set('p-swdkllj2',rp(sw));set('p-total2',rp(total));
+  // sync TCO
+  document.getElementById('tco-harga').value=njkb;
+  document.getElementById('tco-jenis').value=jenis;
+  calcDenda();calcTCO();
 }
 
-function calcDenda() {
-  const pkb    = parseFloat(document.getElementById('d-pkb').value);
-  const bulan  = Math.min(parseInt(document.getElementById('d-bulan').value)||1, 24);
-  if (!pkb||pkb<=0) { alert('Masukkan PKB pokok yang valid.'); return; }
-  const sw     = dType==='motor' ? 35000 : 143000;
-  const dendaPkb = pkb * 0.02 * bulan;
-  const dendaSw  = sw * 0.02 * bulan;
-  const total    = pkb + dendaPkb + sw + dendaSw;
-  document.getElementById('d-res-total').textContent    = fmt(total);
-  document.getElementById('d-res-pkb').textContent      = fmt(pkb);
-  document.getElementById('d-res-denda').textContent    = fmt(dendaPkb)+' ('+bulan+' bln × 2%)';
-  document.getElementById('d-res-swdkllj').textContent  = fmt(sw);
-  document.getElementById('d-res-denda-sw').textContent = fmt(dendaSw);
-  document.getElementById('d-res-pct').textContent      = (bulan*2)+'% dari PKB pokok';
-  document.getElementById('res-denda').classList.add('show');
-  document.getElementById('denda-warning').style.display = bulan >= 24 ? '' : 'none';
+// ② BBNKB
+function calcBBNKB(){
+  const harga=v('b-harga'),status=document.getElementById('b-status')?.value||'bekas',jenis=document.getElementById('b-jenis')?.value||'mobil';
+  const tarifBaru=parseFloat(document.getElementById('b-provinsi')?.value)||12.5;
+  const tarifBekas=1; // 1% untuk penyerahan ke-2
+  const tarif=status==='baru'?tarifBaru:tarifBekas;
+  const bbnkb=harga*tarif/100;
+  const adminStnk=jenis==='motor'?100000:200000;
+  const tnkb=jenis==='motor'?60000:100000;
+  const pkbEst=harga*0.02;
+  const total=bbnkb+adminStnk+tnkb+pkbEst;
+  set('b-bbnkb',rp(bbnkb));set('b-tarif',tarif+'% ('+(status==='baru'?'kendaraan baru':'balik nama bekas')+')');
+  set('b-admin',rp(adminStnk));set('b-tnkb',rp(tnkb));set('b-pkb',rp(pkbEst)+' (est.)');
+  set('b-total',rp(total));set('b-total2',rp(total));
 }
 
-function calcEV() {
-  const njkb    = parseFloat(document.getElementById('ev-njkb').value);
-  const disc    = parseFloat(document.getElementById('ev-discount').value);
-  if (!njkb||njkb<=0) return;
-  const pkbNormal  = njkb * 0.015;
-  const reduction  = pkbNormal * disc;
-  const pkbAfter   = pkbNormal - reduction;
-  const sw         = evType==='motor' ? 35000 : 143000;
-  const total      = pkbAfter + sw;
-  document.getElementById('ev-res-total').textContent  = fmt(total);
-  document.getElementById('ev-res-normal').textContent = fmt(pkbNormal);
-  document.getElementById('ev-res-disc').textContent   = '− '+fmt(reduction)+' ('+Math.round(disc*100)+'%)';
-  document.getElementById('ev-res-pkb').textContent    = fmt(pkbAfter);
-  document.getElementById('ev-res-sw').textContent     = fmt(sw);
-  document.getElementById('ev-res-hemat').textContent  = fmt(reduction)+'/tahun vs kendaraan BBM setara';
-  document.getElementById('res-ev').classList.add('show');
+// ③ DENDA
+function calcDenda(){
+  const pkb=v('d-pkb'),sw=v('d-swdkllj');
+  const bulan=[0,1,2,3,4,5,6,9,12,24];
+  const tbody=document.getElementById('d-tbody');if(!tbody)return;
+  tbody.innerHTML=bulan.map(b=>{
+    const denda=pkb*0.02*b;
+    const total=pkb+sw+denda;
+    const warn=b>=12;
+    return`<tr${warn?' class="warn"':''}><td>${b===0?'Tepat waktu':b+' bulan'}</td><td class="mo">${b===0?'—':rp(denda)}</td><td class="mo">${rp(total)}</td><td>${b===0?'✅ Tidak ada denda':b<6?'Denda '+b+'×2%':b<12?'⚠️ Denda besar':'🚨 Segera bayar!'}</td></tr>`;
+  }).join('');
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key==='Enter') calculate(); });
+// ④ TCO
+function calcTCO(){
+  const harga=v('tco-harga'),km=v('tco-km'),jenis=document.getElementById('tco-jenis')?.value||'mobil',bbmRp=v('tco-bbm');
+  const isMotor=jenis==='motor';
+  const pkb=harga*0.02;
+  const sw=swdkllj(jenis);
+  const asuransi=isMotor?harga*0.01:harga*0.015;
+  const efis=isMotor?45:12;
+  const bbmBln=km/efis*bbmRp;
+  const bbmThn=bbmBln*12;
+  const servisThn=isMotor?600000:2000000;
+  const banThn=isMotor?600000/2:1500000/2;
+  const penyusutan=harga*0.1;
+  const items=[
+    {lbl:'PKB (pajak tahunan)',val:pkb+sw,col:COLORS[0]},
+    {lbl:'Asuransi kendaraan (~1,5%)',val:asuransi,col:COLORS[3]},
+    {lbl:'BBM ('+km+' km/bln, '+efis+' km/L)',val:bbmThn,col:COLORS[1]},
+    {lbl:'Servis & oli',val:servisThn,col:COLORS[4]},
+    {lbl:'Ban & sparepart',val:banThn,col:COLORS[2]},
+    {lbl:'Penyusutan nilai (~10%/thn)',val:penyusutan,col:COLORS[5]},
+  ];
+  const total=items.reduce((s,i)=>s+i.val,0);
+  const wrap=document.getElementById('tco-rows');
+  if(wrap)wrap.innerHTML=items.map(i=>{
+    const pct=total>0?(i.val/total*100).toFixed(0):0;
+    return`<div class="tco-row">
+      <div class="tco-dot" style="background:${i.col}"></div>
+      <span class="tco-lbl">${i.lbl}</span>
+      <div class="tco-bar-bg"><div class="tco-bar-fill" style="width:${pct}%;background:${i.col}"></div></div>
+      <span class="tco-val">${rp(i.val)}</span>
+    </div>`;
+  }).join('');
+  set('tco-total',rp(total)+'/tahun');set('tco-total2',rp(total)+'/tahun');
+  set('tco-per-bln',rp(total/12)+'/bulan');
+  set('tco-per-km',(km*12>0?'Rp '+(total/(km*12)).toFixed(0)+'/km':'—'));
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['p-njkb','p-jenis','p-kepemilikan','p-provinsi'],calcPKB);
+listen(['b-harga','b-status','b-jenis','b-provinsi'],calcBBNKB);
+listen(['d-pkb','d-swdkllj'],calcDenda);
+listen(['tco-harga','tco-km','tco-bbm'],calcTCO);
+calcPKB();calcBBNKB();calcTCO();
 </script>
 </body>
 </html>

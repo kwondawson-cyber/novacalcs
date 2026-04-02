@@ -1,355 +1,612 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator ROI 2026 — Hitung Return on Investment Online | NovaCalcs</title>
-<meta name="description" content="Hitung ROI (Return on Investment) investasi Anda secara akurat. Bandingkan hingga 4 investasi sekaligus, hitung CAGR, dan cek ROI riil setelah inflasi."/>
-<meta name="keywords" content="kalkulator ROI, return on investment, hitung keuntungan investasi, CAGR, ROI riil inflasi, perbandingan investasi Indonesia"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-roi.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-roi.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.roi-gauge{margin:.75rem 0}
-.gauge-track{height:18px;border-radius:9px;background:linear-gradient(to right,#ef4444 0%,#f59e0b 35%,#34d399 50%,#00C9B1 75%,#3b82f6 100%);position:relative}
-.gauge-marker{position:absolute;top:-5px;width:4px;height:28px;background:#fff;border-radius:2px;box-shadow:0 0 6px rgba(0,0,0,.5);transform:translateX(-50%);transition:left .5s}
-.gauge-labels{display:flex;justify-content:space-between;font-size:.67rem;color:#6b7c8d;margin-top:.25rem}
-.inv-row{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:.75rem;margin-bottom:.6rem}
-.inv-row label{font-size:.75rem;color:#8fa3b1;display:block;margin-bottom:.25rem}
-.inv-row input{width:100%;margin-bottom:.35rem}
-.inv-row:last-child{margin-bottom:0}
-.cmp-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.75rem}
-.cmp-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.4rem .5rem;text-align:left}
-.cmp-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
-.cmp-table tr.best-row td{color:#00C9B1;font-weight:600}
-.riil-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin:.45rem 0}
-.riil-card h4{margin:0 0 .3rem;font-size:.88rem}
-.riil-card p{margin:0;font-size:.82rem;color:#8fa3b1;line-height:1.5}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator ROI 2026 — Return on Investment, Payback Period & Analisis Bisnis | NovaCalcs</title>
+  <meta name="description" content="Kalkulator ROI 2026: hitung return on investment, ROI tahunan, payback period, dan break-even. Cocok untuk investasi & bisnis. Bandingkan dengan inflasi. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-roi">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--grn-b);color:var(--grn);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--grn);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--grn-b);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--grn);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--grn)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--grn);color:var(--grn);background:var(--grn-b)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT */
+    .lres{background:var(--grn-b);border:1.5px solid #86efac;border-radius:var(--r);padding:16px;margin-top:16px}
+    .lres.neg{background:var(--red-b);border-color:#fca5a5}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--grn);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.red{color:var(--red)}.rv.pri{color:var(--pri)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #86efac;padding-top:12px}
+    .rrows.neg{border-color:#fca5a5}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* ROI METER */
+    .roi-meter{background:linear-gradient(90deg,var(--red) 0%,#fbbf24 33%,var(--grn) 66%,#1e40af 100%);height:10px;border-radius:5px;position:relative;margin:12px 0 20px}
+    .roi-needle{position:absolute;top:-3px;width:16px;height:16px;border-radius:50%;background:var(--tx);border:3px solid var(--sur);transition:left .4s;transform:translateX(-50%)}
+    .roi-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:-14px}
+    /* BAR CHART */
+    .chart-wrap{display:flex;flex-direction:column;gap:5px;margin-top:12px}
+    .c-row{display:flex;align-items:center;gap:8px;font-size:10px}
+    .c-lbl{min-width:100px;color:var(--tx2);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .c-bg{flex:1;background:var(--sur2);border-radius:3px;height:18px;overflow:hidden}
+    .c-fill{height:100%;border-radius:3px;background:var(--grn);transition:width .4s}
+    .c-val{min-width:60px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--grn)}
+    .c-row.neg .c-fill{background:var(--red)}.c-row.neg .c-val{color:var(--red)}
+    /* PAYBACK */
+    .payback-vis{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+    .pb-yr{display:flex;align-items:center;gap:8px;font-size:11px}
+    .pb-lbl{min-width:44px;color:var(--tx3);font-family:'DM Mono',monospace}
+    .pb-bar-bg{flex:1;background:var(--sur2);border-radius:3px;height:18px;overflow:hidden}
+    .pb-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+    .pb-val{min-width:80px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--grn)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--grn)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--grn-b);color:var(--grn)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .sep{border:none;border-top:1px solid var(--bor);margin:14px 0}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator ROI</span>
-    </nav>
+
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator ROI</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">💹 Return on Investment</div>
+  <h1 class="hdr-h1">Kalkulator ROI 2026</h1>
+  <p class="hdr-sub">Hitung Return on Investment (ROI), ROI tahunan, payback period &amp; break-even untuk investasi maupun bisnis. Hasil tampil otomatis.</p>
+  <div class="pstrip">
+    <div class="pchip">Rumus ROI <span>(Laba ÷ Modal) × 100%</span></div>
+    <div class="pchip">ROI Tahunan <span>CAGR formula</span></div>
+    <div class="pchip">Payback <span>Modal ÷ Laba/thn</span></div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">💹 Kalkulator ROI</div>
-      <div class="calc-subtitle">Return on Investment — hitung, bandingkan, dan analisis</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-dasar',this)">📊 ROI Dasar</button>
-        <button class="tab-btn" onclick="showTab('tab-banding',this)">⚖️ Bandingkan Investasi</button>
-        <button class="tab-btn" onclick="showTab('tab-riil',this)">📉 ROI vs Inflasi</button>
+<main class="main">
+<div class="left-col">
+
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">💹</div>Hitung ROI</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="investasi">📈 Investasi / Aset</button>
+      <button class="tbtn" data-tab="bisnis">🏪 Bisnis / Usaha</button>
+    </div>
+
+    <!-- INVESTASI -->
+    <div class="tpanel on" id="tab-investasi">
+      <div class="fld">
+        <label>Modal Awal / Biaya Investasi (Rp)</label>
+        <div class="iw"><input type="number" id="i-modal" value="10000000" min="0" step="1000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="5000000" data-for="i-modal">5 jt</button>
+          <button class="pb on" data-val="10000000" data-for="i-modal">10 jt</button>
+          <button class="pb" data-val="50000000" data-for="i-modal">50 jt</button>
+          <button class="pb" data-val="100000000" data-for="i-modal">100 jt</button>
+        </div>
       </div>
-
-      <!-- TAB 1: ROI DASAR -->
-      <div id="tab-dasar" class="tab-pane active">
-        <div class="field"><label>Modal Awal / Biaya Investasi (Rp)</label><input type="number" id="cost" placeholder="Contoh: 10000000" min="0"/></div>
-        <div class="field"><label>Nilai Akhir / Total Pendapatan (Rp)</label><input type="number" id="ret" placeholder="Contoh: 13500000" min="0"/></div>
-        <div class="field"><label>Periode Investasi (tahun) — opsional, untuk menghitung CAGR</label><input type="number" id="years" placeholder="Contoh: 3" min="0" step="0.1"/></div>
-        <button class="calc-btn" onclick="calculateRoi()">Hitung ROI</button>
-
-        <div class="result-panel" id="res-dasar">
-          <div class="result-main">
-            <div class="result-value" id="r-roi">—</div>
-            <div class="result-label">ROI (Return on Investment)</div>
-            <div class="result-badge" id="r-badge"></div>
-          </div>
-          <div class="roi-gauge" id="gauge-wrap" style="display:none">
-            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.3rem" id="gauge-label">ROI Anda</div>
-            <div class="gauge-track"><div class="gauge-marker" id="gauge-marker" style="left:50%"></div></div>
-            <div class="gauge-labels"><span>−100%</span><span>0%</span><span>+50%</span><span>+150%+</span></div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">Keuntungan / Kerugian Bersih</span><span class="rval" id="r-profit">—</span></div>
-            <div class="result-row"><span class="rkey">ROI per tahun (CAGR)</span><span class="rval" id="r-cagr">—</span></div>
-            <div class="result-row"><span class="rkey">Estimasi waktu balik modal</span><span class="rval" id="r-payback">—</span></div>
-          </div>
+      <div class="fld">
+        <label>Masukkan Nilai Akhir atau Keuntungan</label>
+        <div style="display:flex;gap:8px;margin-bottom:8px">
+          <button class="pb on" id="i-btn-akhir" onclick="setIMode('akhir')">💰 Nilai Akhir</button>
+          <button class="pb" id="i-btn-laba" onclick="setIMode('laba')">📊 Keuntungan Bersih</button>
+        </div>
+      </div>
+      <div id="i-field-akhir">
+        <div class="fld">
+          <label>Nilai Akhir Investasi (Rp)</label>
+          <div class="iw"><input type="number" id="i-akhir" value="13000000" min="0" step="1000000"></div>
+        </div>
+      </div>
+      <div id="i-field-laba" style="display:none">
+        <div class="fld">
+          <label>Keuntungan Bersih (Rp)</label>
+          <div class="iw"><input type="number" id="i-laba" value="3000000" min="0" step="100000"></div>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Durasi Investasi</label>
+        <div class="g2">
+          <div class="iw"><input type="number" id="i-thn" value="1" min="0" step="1"><span class="iu">thn</span></div>
+          <div class="iw"><input type="number" id="i-bln" value="0" min="0" max="11" step="1"><span class="iu">bln</span></div>
+        </div>
+        <div class="presets">
+          <button class="pb" data-thn="0" data-bln="6">6 bln</button>
+          <button class="pb on" data-thn="1" data-bln="0">1 thn</button>
+          <button class="pb" data-thn="2" data-bln="0">2 thn</button>
+          <button class="pb" data-thn="3" data-bln="0">3 thn</button>
+          <button class="pb" data-thn="5" data-bln="0">5 thn</button>
         </div>
       </div>
 
-      <!-- TAB 2: PERBANDINGAN MULTI-INVESTASI -->
-      <div id="tab-banding" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Masukkan hingga 4 opsi investasi untuk dibandingkan secara langsung.</p>
-        <div id="inv-list">
-          <div class="inv-row">
-            <label>Investasi 1 — Nama (contoh: Deposito)</label>
-            <input type="text" id="inv1-name" placeholder="Nama investasi" value="Deposito"/>
-            <label>Modal Awal (Rp)</label>
-            <input type="number" id="inv1-cost" placeholder="Contoh: 10000000" min="0"/>
-            <label>Nilai Akhir (Rp)</label>
-            <input type="number" id="inv1-ret" placeholder="Contoh: 10500000" min="0"/>
-            <label>Periode (tahun)</label>
-            <input type="number" id="inv1-yrs" placeholder="1" min="0" step="0.1" value="1"/>
+      <!-- ROI Meter -->
+      <div class="roi-meter"><div class="roi-needle" id="i-needle" style="left:50%"></div></div>
+      <div class="roi-labels"><span>Rugi</span><span>Impas</span><span>Bagus</span><span>Luar biasa</span></div>
+
+      <div class="lres" id="i-lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">ROI (Return on Investment)</div>
+            <div class="rv lg" id="i-roi">—</div>
           </div>
-          <div class="inv-row">
-            <label>Investasi 2 — Nama</label>
-            <input type="text" id="inv2-name" placeholder="Nama investasi" value="Reksa Dana Saham"/>
-            <label>Modal Awal (Rp)</label>
-            <input type="number" id="inv2-cost" placeholder="Contoh: 10000000" min="0"/>
-            <label>Nilai Akhir (Rp)</label>
-            <input type="number" id="inv2-ret" placeholder="Contoh: 11200000" min="0"/>
-            <label>Periode (tahun)</label>
-            <input type="number" id="inv2-yrs" placeholder="1" min="0" step="0.1" value="1"/>
+          <div class="ri">
+            <div class="rl">ROI Tahunan (CAGR)</div>
+            <div class="rv sm" id="i-cagr">—</div>
           </div>
-          <div class="inv-row">
-            <label>Investasi 3 — Nama (opsional)</label>
-            <input type="text" id="inv3-name" placeholder="Nama investasi"/>
-            <label>Modal Awal (Rp)</label>
-            <input type="number" id="inv3-cost" placeholder="Opsional" min="0"/>
-            <label>Nilai Akhir (Rp)</label>
-            <input type="number" id="inv3-ret" placeholder="Opsional" min="0"/>
-            <label>Periode (tahun)</label>
-            <input type="number" id="inv3-yrs" placeholder="1" min="0" step="0.1" value="1"/>
-          </div>
-          <div class="inv-row">
-            <label>Investasi 4 — Nama (opsional)</label>
-            <input type="text" id="inv4-name" placeholder="Nama investasi"/>
-            <label>Modal Awal (Rp)</label>
-            <input type="number" id="inv4-cost" placeholder="Opsional" min="0"/>
-            <label>Nilai Akhir (Rp)</label>
-            <input type="number" id="inv4-ret" placeholder="Opsional" min="0"/>
-            <label>Periode (tahun)</label>
-            <input type="number" id="inv4-yrs" placeholder="1" min="0" step="0.1" value="1"/>
+          <div class="ri">
+            <div class="rl">Keuntungan Bersih</div>
+            <div class="rv sm" id="i-untung">—</div>
           </div>
         </div>
-        <button class="calc-btn" onclick="calculateBanding()">Bandingkan</button>
-        <div id="res-banding" style="display:none;margin-top:1rem">
-          <div id="banding-winner" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
-          <table class="cmp-table" id="cmp-table"></table>
+        <div class="rrows" id="i-rrows">
+          <div class="rr"><span>Modal awal</span><span id="i-modal-show">—</span></div>
+          <div class="rr"><span>Nilai akhir</span><span id="i-akhir-show">—</span></div>
+          <div class="rr"><span>Keuntungan bersih</span><span id="i-laba-show">—</span></div>
+          <div class="rr"><span>Durasi</span><span id="i-dur-show">—</span></div>
+          <div class="rr"><span>ROI total</span><span id="i-roi2">—</span></div>
+          <div class="rr"><span>ROI tahunan (CAGR)</span><span id="i-cagr2">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* ROI total = (Keuntungan ÷ Modal) × 100%. ROI tahunan = menggunakan formula CAGR: ((Nilai Akhir ÷ Modal)^(1/tahun) − 1) × 100%. Untuk investasi &lt; 1 tahun, ROI tahunan disetahunkan.</div>
+    </div>
+
+    <!-- BISNIS -->
+    <div class="tpanel" id="tab-bisnis">
+      <div class="fld">
+        <label>Modal Awal / Investasi Bisnis (Rp)</label>
+        <div class="iw"><input type="number" id="b-modal" value="50000000" min="0" step="5000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="20000000" data-for="b-modal">20 jt</button>
+          <button class="pb on" data-val="50000000" data-for="b-modal">50 jt</button>
+          <button class="pb" data-val="100000000" data-for="b-modal">100 jt</button>
+          <button class="pb" data-val="500000000" data-for="b-modal">500 jt</button>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>Pendapatan per Bulan (Rp)</label>
+          <div class="iw"><input type="number" id="b-pendapatan" value="15000000" min="0" step="500000"></div>
+        </div>
+        <div class="fld">
+          <label>Biaya Operasional per Bulan (Rp)</label>
+          <div class="iw"><input type="number" id="b-biaya" value="8000000" min="0" step="500000"></div>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Periode Evaluasi (Bulan)</label>
+        <div class="iw"><input type="number" id="b-periode" value="12" min="1" max="120"><span class="iu">bln</span></div>
+        <div class="presets">
+          <button class="pb" data-val="6" data-for="b-periode">6 bln</button>
+          <button class="pb on" data-val="12" data-for="b-periode">12 bln</button>
+          <button class="pb" data-val="24" data-for="b-periode">24 bln</button>
+          <button class="pb" data-val="36" data-for="b-periode">36 bln</button>
         </div>
       </div>
 
-      <!-- TAB 3: ROI VS INFLASI -->
-      <div id="tab-riil" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Hitung ROI riil setelah dikurangi inflasi — menunjukkan pertumbuhan daya beli sesungguhnya.</p>
-        <div class="field"><label>Modal Awal (Rp)</label><input type="number" id="ri-cost" placeholder="Contoh: 50000000" min="0"/></div>
-        <div class="field"><label>Nilai Akhir (Rp)</label><input type="number" id="ri-ret" placeholder="Contoh: 65000000" min="0"/></div>
-        <div class="field"><label>Periode Investasi (tahun)</label><input type="number" id="ri-years" placeholder="Contoh: 5" min="0" step="0.1" value="5"/></div>
-        <div class="field"><label>Asumsi Inflasi Tahunan (%)</label><input type="number" id="ri-inf" placeholder="Contoh: 4" min="0" max="30" step="0.1" value="4"/></div>
-        <button class="calc-btn" onclick="calculateRiil()">Hitung ROI Riil</button>
-        <div id="res-riil" style="display:none;margin-top:1rem">
-          <div id="riil-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
-          <div id="riil-cards"></div>
+      <div class="lres" id="b-lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">ROI Bisnis (periode evaluasi)</div>
+            <div class="rv lg" id="b-roi">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Laba Bersih / Bulan</div>
+            <div class="rv sm" id="b-laba-bln">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Payback Period</div>
+            <div class="rv sm pri" id="b-payback">—</div>
+          </div>
+        </div>
+        <div class="rrows" id="b-rrows">
+          <div class="rr"><span>Modal awal</span><span id="b-modal-show">—</span></div>
+          <div class="rr"><span>Pendapatan per bulan</span><span id="b-pend-show">—</span></div>
+          <div class="rr"><span>Biaya operasional per bulan</span><span id="b-biaya-show">—</span></div>
+          <div class="rr"><span>Laba bersih per bulan</span><span id="b-laba-show">—</span></div>
+          <div class="rr"><span>Total laba selama evaluasi</span><span id="b-laba-total">—</span></div>
+          <div class="rr"><span>Margin laba (%)</span><span id="b-margin">—</span></div>
+          <div class="rr"><span>Payback period</span><span id="b-payback2">—</span></div>
         </div>
       </div>
-
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator ROI — Hitung Return on Investment untuk Saham, Properti, dan Bisnis</h1>
-    <p class="page-desc">ROI (Return on Investment) adalah metrik keuangan paling fundamental untuk mengevaluasi seberapa efisien sebuah investasi menghasilkan keuntungan. Kalkulator ini membantu menghitung ROI total, CAGR tahunan, membandingkan beberapa investasi, dan mengukur ROI riil setelah inflasi.</p>
+<!-- ② PERBANDINGAN ROI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚖️</div>Perbandingan ROI vs Instrumen Lain <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Apakah ROI Anda lebih baik dari deposito, reksa dana, atau inflasi? Bandingkan di sini.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>ROI Anda (%/tahun)</label>
+        <div class="iw"><input type="number" id="cmp-roi" value="30" min="-100" max="1000" step="1"><span class="iu">%/thn</span></div>
+      </div>
+      <div class="fld">
+        <label>Modal Awal (Rp)</label>
+        <div class="iw"><input type="number" id="cmp-modal" value="10000000" min="0" step="1000000"></div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Jangka Waktu (Tahun)</label>
+      <div class="iw"><input type="number" id="cmp-thn" value="3" min="1" max="30"><span class="iu">thn</span></div>
+      <div class="presets">
+        <button class="pb" data-val="1" data-for="cmp-thn">1</button>
+        <button class="pb on" data-val="3" data-for="cmp-thn">3</button>
+        <button class="pb" data-val="5" data-for="cmp-thn">5</button>
+        <button class="pb" data-val="10" data-for="cmp-thn">10</button>
+      </div>
+    </div>
+    <div class="chart-wrap" id="cmp-chart"></div>
+    <div class="notice" style="margin-top:10px">* Return instrumen bersifat estimasi historis. ROI bisnis/investasi yang tinggi biasanya disertai risiko lebih besar. Return aktual dapat berbeda.</div>
+  </div>
+</div>
 
-    <div class="ad-slot">Advertisement</div>
+<!-- ③ PAYBACK PERIOD & BREAK-EVEN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⏱️</div>Payback Period &amp; Break-even <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Kapan modal kembali? Di titik penjualan berapa bisnis mulai untung? Simulasikan skenario berbeda.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Modal / Biaya Tetap (Rp)</label>
+        <div class="iw"><input type="number" id="be-modal" value="50000000" min="0" step="5000000"></div>
+      </div>
+      <div class="fld">
+        <label>Laba Bersih per Bulan (Rp)</label>
+        <div class="iw"><input type="number" id="be-laba" value="7000000" min="0" step="500000"></div>
+        <div class="presets">
+          <button class="pb" data-val="3000000" data-for="be-laba">3 jt</button>
+          <button class="pb" data-val="5000000" data-for="be-laba">5 jt</button>
+          <button class="pb on" data-val="7000000" data-for="be-laba">7 jt</button>
+          <button class="pb" data-val="10000000" data-for="be-laba">10 jt</button>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Harga Jual per Unit (Rp) — untuk Break-even Unit</label>
+      <div class="iw"><input type="number" id="be-harga" value="50000" min="0" step="1000"></div>
+    </div>
+    <div class="fld">
+      <label>Biaya Variabel per Unit (Rp)</label>
+      <div class="iw"><input type="number" id="be-hvcost" value="20000" min="0" step="1000"></div>
+    </div>
 
-    <h2>Apa itu ROI dan Mengapa Penting?</h2>
-    <p>ROI (Return on Investment) adalah persentase keuntungan atau kerugian dibandingkan dengan modal yang diinvestasikan. ROI positif berarti investasi menguntungkan, ROI negatif berarti merugi. Keunggulan utama ROI adalah universalitasnya: dengan ROI, Anda bisa membandingkan efisiensi berbagai jenis investasi yang sangat berbeda — apakah lebih baik investasi di saham, properti, deposito, atau membuka bisnis sendiri. Semuanya bisa dibandingkan dengan satu angka yang sama.</p>
+    <div class="lres" style="margin-top:14px">
+      <div class="rg">
+        <div class="ri s2">
+          <div class="rl">Payback Period</div>
+          <div class="rv lg" id="be-payback">—</div>
+        </div>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>Payback period</span><span id="be-pay2">—</span></div>
+        <div class="rr"><span>Break-even unit (titik impas penjualan)</span><span id="be-unit">—</span></div>
+        <div class="rr"><span>Kontribusi margin per unit</span><span id="be-contrib">—</span></div>
+        <div class="rr"><span>Modal kembali dalam</span><span id="be-modal-kembali">—</span></div>
+      </div>
+    </div>
 
-    <h2>Cara Menggunakan Kalkulator ROI Ini</h2>
-    <ol>
-      <li><strong>Tab ROI Dasar:</strong> Masukkan modal awal, nilai akhir (termasuk semua pendapatan seperti dividen atau sewa), dan periode investasi. Lihat ROI total, CAGR tahunan, dan visualisasi posisi ROI Anda.</li>
-      <li><strong>Tab Bandingkan Investasi:</strong> Masukkan hingga 4 opsi investasi dengan detail modal, nilai akhir, dan periode masing-masing. Lihat perbandingan lengkap dan investasi mana yang terbaik berdasarkan CAGR.</li>
-      <li><strong>Tab ROI vs Inflasi:</strong> Hitung ROI riil setelah dikurangi inflasi untuk mengetahui pertumbuhan daya beli sesungguhnya dari investasi Anda.</li>
-    </ol>
+    <div class="sec-lbl">Akumulasi Laba vs Modal per Tahun</div>
+    <div class="payback-vis" id="be-chart"></div>
+  </div>
+</div>
 
-    <h2>Rumus ROI dan CAGR</h2>
-    <table>
-      <tr><th>Metrik</th><th>Rumus</th><th>Kegunaan</th></tr>
-      <tr><td>ROI Total</td><td>(Nilai Akhir − Modal) ÷ Modal × 100%</td><td>Return keseluruhan periode</td></tr>
-      <tr><td>CAGR</td><td>(Nilai Akhir ÷ Modal)^(1/tahun) − 1</td><td>Return tahunan yang disetarakan</td></tr>
-      <tr><td>ROI Riil</td><td>((1 + ROI nominal) ÷ (1 + inflasi)) − 1</td><td>Return setelah dikurangi inflasi</td></tr>
-    </table>
-    <p style="margin-top:.75rem">Contoh: Modal Rp 10.000.000, nilai akhir setelah 3 tahun Rp 13.500.000. ROI total = (13,5 − 10) ÷ 10 × 100% = <strong>35%</strong>. CAGR = (1,35)^(1/3) − 1 = <strong>10,5%/tahun</strong>.</p>
+</div><!-- /left-col -->
 
-    <h2>Patokan ROI Berbagai Jenis Investasi di Indonesia 2026</h2>
-    <table>
-      <tr><th>Jenis Investasi</th><th>ROI Tahunan Khas</th><th>Risiko</th></tr>
-      <tr><td>Tabungan bank</td><td>1–3%</td><td>Sangat rendah</td></tr>
-      <tr><td>Deposito</td><td>4–6%</td><td>Sangat rendah</td></tr>
-      <tr><td>ORI / SBR / Sukuk pemerintah</td><td>5–7%</td><td>Rendah</td></tr>
-      <tr><td>Reksa dana pendapatan tetap</td><td>6–9%</td><td>Rendah–Sedang</td></tr>
-      <tr><td>Reksa dana saham (jangka panjang)</td><td>10–15%</td><td>Tinggi</td></tr>
-      <tr><td>Properti sewa (sewa + apresiasi)</td><td>8–15%</td><td>Sedang</td></tr>
-      <tr><td>Bisnis sendiri</td><td>20–100%+</td><td>Sangat tinggi</td></tr>
-    </table>
-
-    <h2>ROI vs Metrik Investasi Lainnya</h2>
-    <p>ROI memiliki keterbatasan karena tidak memperhitungkan faktor waktu secara penuh. Untuk analisis lebih komprehensif, gunakan kombinasi metrik: CAGR untuk membandingkan investasi dengan periode berbeda, IRR (Internal Rate of Return) untuk arus kas yang bervariasi, NPV (Net Present Value) untuk memperhitungkan nilai waktu uang, dan Payback Period untuk menilai risiko likuiditas. ROI paling berguna sebagai metrik perbandingan cepat dan komunikasi yang mudah dipahami oleh semua pihak.</p>
-
-    <h2>ROI Riil vs ROI Nominal: Apa Bedanya?</h2>
-    <p>ROI nominal adalah angka yang langsung dihitung dari modal dan nilai akhir tanpa mempertimbangkan inflasi. ROI riil adalah ROI setelah dikurangi dampak inflasi, yang menunjukkan pertumbuhan daya beli sesungguhnya. Dengan inflasi Indonesia sekitar 3–5% per tahun, investasi dengan ROI nominal 6% sebenarnya hanya menghasilkan ROI riil sekitar 1–3%. Investasi dengan ROI di bawah tingkat inflasi berarti daya beli Anda sebenarnya berkurang meskipun secara nominal bertambah.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa ROI yang dianggap bagus di Indonesia?</div><div class="faq-a">Tidak ada angka universal, karena ROI yang "bagus" sangat bergantung pada jenis investasi dan risiko yang ditanggung. Patokan umum: ROI di atas inflasi (3–5%) sudah positif secara riil. ROI 10–15% per tahun dianggap sangat baik untuk investasi pasar modal. Bisnis dengan ROI di atas 20–30% per tahun umumnya dianggap sangat menarik. Yang terpenting, selalu bandingkan ROI dengan risikonya — ROI tinggi hampir selalu disertai risiko yang lebih tinggi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya ROI dan CAGR?</div><div class="faq-a">ROI adalah total return selama seluruh periode investasi, sedangkan CAGR (Compound Annual Growth Rate) adalah return tahunan yang disetarakan. Contoh: ROI 50% dalam 5 tahun setara CAGR sekitar 8,45% per tahun (bukan 10%). CAGR jauh lebih berguna untuk membandingkan investasi dengan periode yang berbeda — misalnya membandingkan investasi A yang memberikan ROI 30% dalam 2 tahun vs investasi B yang memberikan ROI 80% dalam 7 tahun.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah dividen saham harus dimasukkan dalam perhitungan ROI?</div><div class="faq-a">Ya, untuk ROI yang lengkap dan akurat, semua sumber pendapatan dari investasi harus dimasukkan ke nilai akhir. Untuk saham, nilai akhir = harga jual saham + total dividen yang diterima selama periode investasi. Untuk properti, nilai akhir = harga jual properti + total pendapatan sewa bersih. Mengabaikan dividen atau pendapatan sewa akan membuat ROI tampak lebih kecil dari yang sebenarnya.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung ROI properti sewa?</div><div class="faq-a">ROI properti memerlukan perhitungan komprehensif: nilai akhir = harga jual + total sewa bersih (sewa kotor dikurangi biaya perawatan, pajak, dan vacancy rate). Modal awal = harga beli + biaya renovasi + biaya KPR (bunga yang dibayar jika ada). ROI properti Indonesia biasanya 8–12% per tahun untuk properti di lokasi strategis yang menghasilkan pendapatan sewa. Jangan lupa memperhitungkan pajak atas keuntungan penjualan (PPh atas pengalihan hak atas tanah/bangunan 2,5%).</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bisakah ROI negatif? Apa artinya?</div><div class="faq-a">Ya, ROI bisa negatif jika nilai akhir lebih kecil dari modal awal — artinya investasi menghasilkan kerugian. ROI −20% berarti Anda kehilangan 20% dari modal. Ini bisa terjadi pada investasi saham yang turun harga, bisnis yang merugi, atau properti yang nilainya turun. ROI negatif bukan selalu berarti keputusan buruk sejak awal — terkadang kondisi pasar berubah secara tidak terduga. Yang penting adalah mempelajari penyebabnya untuk keputusan investasi berikutnya.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah ROI mempertimbangkan inflasi?</div><div class="faq-a">ROI biasa adalah ROI nominal yang belum memperhitungkan inflasi. Untuk mendapatkan ROI riil (pertumbuhan daya beli sesungguhnya): ROI Riil = ((1 + ROI Nominal) ÷ (1 + Inflasi)) − 1. Contoh: ROI nominal 8% dengan inflasi 4% = ROI riil sekitar 3,8% — bukan sekadar 8% − 4% = 4% (pendekatan sederhana yang sedikit kurang tepat). Investasi dengan ROI di bawah inflasi berarti daya beli Anda sebenarnya berkurang.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Investasi</a>
-      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
-      <a href="/id/kalkulator-payback.html" class="related-item"><span class="ri">⏳</span>Payback Period</a>
-      <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Benchmark ROI</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--tx3)"></div><div><div class="fn">Inflasi Indonesia</div><div class="fron">Minimal harus kalahkan ini</div></div></div><div class="fprice">~3,5%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Deposito / SBN</div><div class="fron">Return aman</div></div></div><div class="fprice">5–7%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Reksa Dana Saham</div><div class="fron">Jangka panjang</div></div></div><div class="fprice">10–18%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Bisnis retail/kuliner</div><div class="fron">Rata-rata per tahun</div></div></div><div class="fprice">20–50%</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#D97706"></div><div><div class="fn">ROI "layak" bisnis</div><div class="fron">Benchmark umum</div></div></div><div class="fprice">&gt; 20%</div></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Analisis ROI</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">⏰</span><span class="tptx"><strong>Selalu hitung ROI tahunan</strong> — ROI 30% dalam 3 tahun ≠ ROI 30%/tahun</span></div>
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>ROI bukan satu-satunya metrik</strong> — pertimbangkan juga risiko, likuiditas, dan opportunity cost</span></div>
+        <div class="tip"><span class="tpico">💰</span><span class="tptx"><strong>Payback &lt; 2–3 tahun</strong> dianggap baik untuk kebanyakan bisnis UMKM</span></div>
+        <div class="tip"><span class="tpico">🔢</span><span class="tptx"><strong>Hitung semua biaya</strong> — jangan lupakan biaya implisit seperti waktu dan tenaga sendiri</span></div>
+        <div class="tip"><span class="tpico">📈</span><span class="tptx"><strong>Bandingkan dengan benchmark</strong> — ROI yang "bagus" bergantung pada industri dan tingkat risikonya</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-investasi" class="relc"><div class="relc-ico">📈</div><div class="relc-nm">Investasi</div><div class="relc-ds">Return investasi</div></a>
+        <a href="/id/kalkulator-inflasi" class="relc"><div class="relc-ico">📊</div><div class="relc-nm">Inflasi</div><div class="relc-ds">Dampak inflasi</div></a>
+        <a href="/id/kalkulator-tabungan" class="relc"><div class="relc-ico">🏦</div><div class="relc-nm">Tabungan</div><div class="relc-ds">Simulasi tabungan</div></a>
+        <a href="/id/kalkulator-persen" class="relc"><div class="relc-ico">🔢</div><div class="relc-nm">Persen</div><div class="relc-ds">Kalkulator persentase</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Rumus ROI dan Cara Menghitungnya</h2>
+  <p>ROI (Return on Investment) mengukur efisiensi sebuah investasi atau bisnis. Rumus dasar: <strong>ROI = (Keuntungan Bersih ÷ Modal) × 100%</strong>. ROI tahunan menggunakan formula CAGR: ((Nilai Akhir ÷ Modal)^(1/tahun) − 1) × 100%.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Berapa ROI yang dianggap bagus untuk bisnis?</div><div class="faq-a">Tidak ada standar universal, karena bergantung pada industri dan risiko. Umumnya: ROI > inflasi (3,5%) berarti tidak merugi secara riil. ROI > 20%/tahun dianggap menarik untuk kebanyakan bisnis UMKM. ROI > 30%/tahun sangat baik. Bisnis dengan risiko tinggi seharusnya menawarkan ROI lebih besar sebagai kompensasi risiko.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan ROI dan CAGR?</div><div class="faq-a">ROI total adalah persentase keuntungan dari modal awal tanpa mempertimbangkan waktu. CAGR (Compound Annual Growth Rate) adalah ROI yang disetahunkan — lebih berguna untuk membandingkan investasi dengan durasi berbeda. Misalnya: ROI 50% dalam 3 tahun = CAGR (1,50^(1/3)−1) = 14,5%/tahun.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu payback period dan mengapa penting?</div><div class="faq-a">Payback period adalah waktu yang dibutuhkan untuk memperoleh kembali modal awal dari laba bersih. Rumus: Modal ÷ Laba Bersih per Periode. Penting karena: (1) menunjukkan seberapa cepat risiko modal berkurang; (2) bisnis dengan payback pendek lebih likuid dan fleksibel; (3) umumnya payback &lt; 2 tahun dianggap sangat baik untuk UMKM.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+
+<script>
+function rp(n){if(!isFinite(n)||n<0&&n>-1e15)return'Rp 0';if(n<0)return'-Rp '+Math.round(-n).toLocaleString('id-ID');return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){const abs=Math.abs(n);const sign=n<0?'-':'';if(abs>=1e9)return sign+'Rp '+(abs/1e9).toFixed(2)+' M';if(abs>=1e6)return sign+'Rp '+(abs/1e6).toFixed(1)+' jt';return rp(n)}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
+
+const CMP_ITEMS=[
+  {nm:'Inflasi',rate:3.5,ico:'📈',col:'#ef4444'},
+  {nm:'Deposito',rate:5.5,ico:'🏦',col:'#3b82f6'},
+  {nm:'SBN/ORI',rate:6.5,ico:'📋',col:'#8b5cf6'},
+  {nm:'RD Saham',rate:14,ico:'📊',col:var_grn()},
+  {nm:'Investasi Anda',rate:0,ico:'⭐',col:'var(--pri)',custom:true},
+];
+function var_grn(){return getComputedStyle(document.documentElement).getPropertyValue('--grn').trim()||'#1A7F4E'}
+
+let iMode='akhir';
+function setIMode(m){
+  iMode=m;
+  document.getElementById('i-btn-akhir')?.classList.toggle('on',m==='akhir');
+  document.getElementById('i-btn-laba')?.classList.toggle('on',m==='laba');
+  document.getElementById('i-field-akhir').style.display=m==='akhir'?'block':'none';
+  document.getElementById('i-field-laba').style.display=m==='laba'?'block':'none';
+  calcInvestasi();
 }
-function fmt(n) { return 'Rp ' + Math.round(Math.abs(n)).toLocaleString('id-ID'); }
-function fmtPct(n) { return (n >= 0 ? '+' : '') + n.toFixed(2).replace('.', ',') + '%'; }
 
-function calculateRoi() {
-  const cost  = parseFloat(document.getElementById('cost').value);
-  const ret   = parseFloat(document.getElementById('ret').value);
-  const years = parseFloat(document.getElementById('years').value) || null;
-  if (!cost || !ret || cost <= 0) { alert('Masukkan modal awal dan nilai akhir yang valid.'); return; }
-
-  const profit = ret - cost;
-  const roi    = profit / cost * 100;
-
-  let badgeText, badgeClass;
-  if (roi > 20)       { badgeText = '🏆 Sangat Bagus'; badgeClass = 'badge-normal'; }
-  else if (roi > 0)   { badgeText = '✅ Untung'; badgeClass = 'badge-normal'; }
-  else if (roi === 0) { badgeText = '➡️ Break Even'; badgeClass = 'badge-overweight'; }
-  else                { badgeText = '❌ Rugi'; badgeClass = 'badge-obese'; }
-
-  document.getElementById('r-roi').textContent   = fmtPct(roi);
-  const badge = document.getElementById('r-badge');
-  badge.textContent = badgeText;
-  badge.className   = 'result-badge ' + badgeClass;
-  document.getElementById('r-profit').textContent = (profit >= 0 ? '+' : '−') + fmt(profit);
-
-  if (years && years > 0 && ret > 0) {
-    const cagr = (Math.pow(ret / cost, 1 / years) - 1) * 100;
-    document.getElementById('r-cagr').textContent = fmtPct(cagr) + ' per tahun';
+// ① INVESTASI
+function calcInvestasi(){
+  const modal=v('i-modal'),thnRaw=v('i-thn'),blnRaw=v('i-bln');
+  const years=thnRaw+blnRaw/12;
+  let akhir,laba;
+  if(iMode==='akhir'){
+    akhir=v('i-akhir');laba=akhir-modal;
   } else {
-    document.getElementById('r-cagr').textContent = '— (isi periode untuk menghitung)';
+    laba=v('i-laba');akhir=modal+laba;
   }
+  const roi=modal>0?(laba/modal)*100:0;
+  const cagr=years>0&&modal>0?((Math.pow(akhir/modal,1/years))-1)*100:roi;
+  const isPos=roi>=0;
 
-  if (roi > 0 && years) {
-    const annualProfit = profit / years;
-    const payback = cost / annualProfit;
-    document.getElementById('r-payback').textContent = payback.toFixed(1).replace('.', ',') + ' tahun';
-  } else if (roi <= 0) {
-    document.getElementById('r-payback').textContent = 'Tidak ada (investasi merugi)';
-  } else {
-    document.getElementById('r-payback').textContent = '— (isi periode untuk menghitung)';
-  }
+  const lresEl=document.getElementById('i-lres');
+  const rrowsEl=document.getElementById('i-rrows');
+  if(lresEl){lresEl.className='lres'+(isPos?'':' neg');}
+  if(rrowsEl)rrowsEl.className='rrows'+(isPos?'':' neg');
 
-  // Gauge: map roi -100..+150 → 0..100%
-  const gaugePct = Math.max(2, Math.min(98, (roi + 100) / 250 * 100));
-  document.getElementById('gauge-marker').style.left = gaugePct + '%';
-  document.getElementById('gauge-label').textContent = 'ROI Anda: ' + fmtPct(roi);
-  document.getElementById('gauge-wrap').style.display = '';
-  document.getElementById('res-dasar').classList.add('show');
+  const color=roi<0?'var(--red)':roi<10?'var(--pri)':roi<30?'#D97706':'var(--grn)';
+  document.querySelectorAll('#i-lres .rv').forEach(el=>el.style.color=color);
+
+  set('i-roi',(roi>=0?'+':'')+roi.toFixed(2)+'%');
+  set('i-cagr',(cagr>=0?'+':'')+cagr.toFixed(2)+'%/thn');
+  set('i-untung',(laba>=0?'+':'')+rpM(laba));
+  set('i-modal-show',rpM(modal));set('i-akhir-show',rpM(akhir));set('i-laba-show',(laba>=0?'+':'')+rpM(laba));
+  const durStr=thnRaw>0?(blnRaw>0?`${thnRaw} thn ${blnRaw} bln`:`${thnRaw} tahun`):`${blnRaw} bulan`;
+  set('i-dur-show',durStr);set('i-roi2',(roi>=0?'+':'')+roi.toFixed(2)+'%');
+  set('i-cagr2',(cagr>=0?'+':'')+cagr.toFixed(2)+'%/tahun');
+
+  // ROI meter
+  const clamp=Math.max(-100,Math.min(100,roi));
+  const pct=Math.max(0,Math.min(100,(clamp+100)/2));
+  const needle=document.getElementById('i-needle');
+  if(needle)needle.style.left=pct+'%';
+
+  // sync cmp
+  document.getElementById('cmp-roi').value=cagr.toFixed(1);
+  document.getElementById('cmp-modal').value=modal;
+  calcCmp();
 }
 
-function calculateBanding() {
-  const invs = [];
-  for (let i = 1; i <= 4; i++) {
-    const name = document.getElementById('inv' + i + '-name').value.trim();
-    const cost = parseFloat(document.getElementById('inv' + i + '-cost').value);
-    const ret  = parseFloat(document.getElementById('inv' + i + '-ret').value);
-    const yrs  = parseFloat(document.getElementById('inv' + i + '-yrs').value) || 1;
-    if (name && cost > 0 && ret > 0) {
-      const roi  = (ret - cost) / cost * 100;
-      const cagr = (Math.pow(ret / cost, 1 / yrs) - 1) * 100;
-      invs.push({ name, cost, ret, yrs, roi, cagr });
-    }
-  }
-  if (invs.length < 2) { alert('Masukkan setidaknya 2 opsi investasi yang valid.'); return; }
+// ② BISNIS
+function calcBisnis(){
+  const modal=v('b-modal'),pend=v('b-pendapatan'),biaya=v('b-biaya'),n=v('b-periode');
+  const labaBln=pend-biaya;
+  const labaTotal=labaBln*n;
+  const roi=modal>0?(labaTotal/modal)*100:0;
+  const paybackBln=labaBln>0?Math.ceil(modal/labaBln):Infinity;
+  const payThn=Math.floor(paybackBln/12),payBln=paybackBln%12;
+  const payStr=paybackBln===Infinity?'Tidak balik modal':payThn>0?(payBln>0?`${payThn} thn ${payBln} bln`:`${payThn} tahun`):`${paybackBln} bulan`;
 
-  invs.sort((a, b) => b.cagr - a.cagr);
-  const best = invs[0];
+  const isPos=roi>=0&&labaBln>=0;
+  const lresEl=document.getElementById('b-lres');
+  if(lresEl)lresEl.className='lres'+(isPos?'':' neg');
 
-  document.getElementById('banding-winner').innerHTML =
-    `🏆 <strong>${best.name}</strong> menghasilkan CAGR tertinggi: <strong style="color:#00C9B1">${fmtPct(best.cagr)}/tahun</strong>.`;
-  document.getElementById('banding-winner').style.background = 'rgba(0,201,177,.08)';
-  document.getElementById('banding-winner').style.border     = '1px solid rgba(0,201,177,.2)';
+  set('b-roi',(roi>=0?'+':'')+roi.toFixed(1)+'%');
+  set('b-laba-bln',rpM(labaBln)+'/bln');set('b-payback',payStr);
+  set('b-modal-show',rpM(modal));set('b-pend-show',rpM(pend)+'/bln');set('b-biaya-show',rpM(biaya)+'/bln');
+  set('b-laba-show',rpM(labaBln)+'/bln');set('b-laba-total',rpM(labaTotal));
+  set('b-margin',pend>0?(labaBln/pend*100).toFixed(1)+'%':'—');set('b-payback2',payStr);
 
-  let rows = `<thead><tr><th>Nama</th><th>Modal</th><th>Nilai Akhir</th><th>ROI Total</th><th>CAGR/Tahun</th></tr></thead><tbody>`;
-  invs.forEach((inv, idx) => {
-    rows += `<tr class="${idx === 0 ? 'best-row' : ''}">
-      <td>${idx === 0 ? '🥇 ' : ''}${inv.name}</td>
-      <td>${fmt(inv.cost)}</td>
-      <td>${fmt(inv.ret)}</td>
-      <td>${fmtPct(inv.roi)}</td>
-      <td>${fmtPct(inv.cagr)}</td>
-    </tr>`;
-  });
-  rows += '</tbody>';
-  document.getElementById('cmp-table').innerHTML = rows;
-  document.getElementById('res-banding').style.display = 'block';
+  // sync payback sim
+  document.getElementById('be-modal').value=modal;document.getElementById('be-laba').value=labaBln>0?labaBln:7000000;
+  calcBreakeven();
 }
 
-function calculateRiil() {
-  const cost  = parseFloat(document.getElementById('ri-cost').value);
-  const ret   = parseFloat(document.getElementById('ri-ret').value);
-  const years = parseFloat(document.getElementById('ri-years').value) || 1;
-  const inf   = parseFloat(document.getElementById('ri-inf').value) / 100;
-  if (!cost || !ret || cost <= 0) { alert('Masukkan data yang valid.'); return; }
-
-  const roiNominal = (ret - cost) / cost * 100;
-  const cagrNominal = (Math.pow(ret / cost, 1 / years) - 1) * 100;
-  const cagrRiil    = ((1 + cagrNominal / 100) / (1 + inf) - 1) * 100;
-  const roiRiilTotal = (Math.pow(1 + cagrRiil / 100, years) - 1) * 100;
-  const nilaiRiil   = cost * Math.pow(1 + cagrRiil / 100, years);
-  const isBeating   = cagrRiil > 0;
-
-  const sumColor = isBeating ? '#00C9B1' : '#ef4444';
-  document.getElementById('riil-summary').innerHTML =
-    `${isBeating ? '✅' : '❌'} ROI nominal <strong>${fmtPct(cagrNominal)}/tahun</strong> − inflasi <strong>${(inf * 100).toFixed(1).replace('.', ',')}%</strong> = ROI riil <strong style="color:${sumColor}">${fmtPct(cagrRiil)}/tahun</strong>. ${isBeating ? 'Investasi ini <strong>mengalahkan inflasi</strong>.' : 'Investasi ini <strong>tidak mengalahkan inflasi</strong> — daya beli Anda menyusut.'}`;
-  document.getElementById('riil-summary').style.background = `rgba(${isBeating ? '0,201,177' : '239,68,68'},.08)`;
-  document.getElementById('riil-summary').style.border     = `1px solid rgba(${isBeating ? '0,201,177' : '239,68,68'},.2)`;
-
-  const cards = [
-    ['📊 ROI Nominal', `Total: <strong>${fmtPct(roiNominal)}</strong> | Per tahun (CAGR): <strong>${fmtPct(cagrNominal)}</strong> | Nilai akhir nominal: ${fmt(ret)}`],
-    ['📉 ROI Riil (setelah inflasi ' + (inf * 100).toFixed(1) + '%/tahun)', `Total: <strong style="color:${sumColor}">${fmtPct(roiRiilTotal)}</strong> | Per tahun: <strong style="color:${sumColor}">${fmtPct(cagrRiil)}</strong> | Nilai akhir riil: ${fmt(nilaiRiil)}`],
-    ['💡 Interpretasi', isBeating
-      ? `Investasi Anda tumbuh lebih cepat dari inflasi — daya beli nyata meningkat. Modal Rp ${fmt(cost)} setara dengan ${fmt(nilaiRiil)} dalam nilai uang saat ini setelah ${years} tahun.`
-      : `Meski secara nominal untung, daya beli riil Anda menyusut. Untuk mengalahkan inflasi ${(inf * 100).toFixed(1)}%/tahun, dibutuhkan ROI nominal minimal ${((1 + inf) * 100 - 100).toFixed(1)}% per tahun.`],
+// ③ CMP
+function calcCmp(){
+  const roiUser=v('cmp-roi'),modal=v('cmp-modal'),thn=v('cmp-thn');
+  const items=[
+    {nm:'Inflasi',rate:3.5,ico:'📈',col:'#ef4444'},
+    {nm:'Deposito',rate:5.5,ico:'🏦',col:'#3b82f6'},
+    {nm:'SBN/ORI',rate:6.5,ico:'📋',col:'#8b5cf6'},
+    {nm:'RD Saham',rate:14,ico:'📊',col:var_grn()||'#1A7F4E'},
+    {nm:'ROI Anda',rate:roiUser,ico:'⭐',col:'var(--pri)'},
   ];
-
-  document.getElementById('riil-cards').innerHTML = cards.map(([h4, p]) =>
-    `<div class="riil-card"><h4 style="color:#00C9B1">${h4}</h4><p>${p}</p></div>`
-  ).join('');
-  document.getElementById('res-riil').style.display = 'block';
+  const maxFV=Math.max(...items.map(i=>modal*Math.pow(1+i.rate/100,thn)));
+  const chart=document.getElementById('cmp-chart');if(!chart)return;
+  chart.innerHTML=items.map(i=>{
+    const fv=modal*Math.pow(1+i.rate/100,thn);
+    const ret=fv-modal;
+    const pct=maxFV>0?fv/maxFV*100:50;
+    const isUser=i.nm==='ROI Anda';
+    return`<div class="c-row${ret<0?' neg':''}">
+      <span class="c-lbl">${i.ico} ${i.nm} (${i.rate}%)</span>
+      <div class="c-bg"><div class="c-fill" style="width:${Math.max(0,pct)}%;background:${i.col}"></div></div>
+      <span class="c-val" style="color:${isUser?'var(--pri)':i.col}">${rpM(fv)}</span>
+    </div>`;
+  }).join('');
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculateRoi(); });
+// ④ BREAKEVEN
+function calcBreakeven(){
+  const modal=v('be-modal'),laba=v('be-laba'),harga=v('be-harga'),hvcost=v('be-hvcost');
+  const paybackBln=laba>0?Math.ceil(modal/laba):Infinity;
+  const payThn=Math.floor(paybackBln/12),payBln=paybackBln%12;
+  const payStr=paybackBln===Infinity?'Tidak balik modal':payThn>0?(payBln>0?`${payThn} thn ${payBln} bln`:`${payThn} tahun`):`${paybackBln} bulan`;
+  const contrib=harga-hvcost;
+  const beUnit=contrib>0?Math.ceil(modal/contrib):Infinity;
+
+  set('be-payback',payStr);set('be-pay2',payStr);
+  set('be-unit',beUnit===Infinity?'—':beUnit.toLocaleString('id-ID')+' unit');
+  set('be-contrib',contrib>0?rp(contrib)+'/unit':'—');
+  set('be-modal-kembali',payStr);
+
+  // visual
+  const years=Math.min(Math.ceil(paybackBln/12)+2,7);
+  const vis=document.getElementById('be-chart');if(!vis)return;
+  vis.innerHTML=Array.from({length:years},(_,i)=>{
+    const y=i+1,acc=laba*12*y;
+    const pct=modal>0?Math.min(100,acc/modal*100):50;
+    const done=acc>=modal;
+    return`<div class="pb-yr">
+      <span class="pb-lbl">Thn ${y}</span>
+      <div class="pb-bar-bg"><div class="pb-bar-fill" style="width:${pct}%;background:${done?'var(--grn)':'var(--pri)'}"></div></div>
+      <span class="pb-val" style="color:${done?'var(--grn)':'var(--pri)'}">${done?'✅ ':''} ${rpM(acc)}</span>
+    </div>`;
+  }).join('');
+}
+
+// TENOR PRESETS (custom)
+document.querySelectorAll('[data-thn]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const tEl=document.getElementById('i-thn'),bEl=document.getElementById('i-bln');
+    if(tEl)tEl.value=b.dataset.thn;if(bEl)bEl.value=b.dataset.bln;
+    document.querySelectorAll('[data-thn]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');calcInvestasi();
+  });
+});
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb:not([data-thn])').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['i-modal','i-akhir','i-laba','i-thn','i-bln'],calcInvestasi);
+listen(['b-modal','b-pendapatan','b-biaya','b-periode'],calcBisnis);
+listen(['cmp-roi','cmp-modal','cmp-thn'],calcCmp);
+listen(['be-modal','be-laba','be-harga','be-hvcost'],calcBreakeven);
+calcInvestasi();calcBisnis();calcBreakeven();
 </script>
 </body>
 </html>

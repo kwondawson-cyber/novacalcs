@@ -1,384 +1,614 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Tabungan Haji 2026 — Setoran Awal, Antrian & Estimasi Berangkat | NovaCalcs</title>
-<meta name="description" content="Hitung berapa lama nabung untuk setoran awal haji Rp 25 juta, estimasi tahun keberangkatan berdasarkan antrian provinsi, dan perkiraan biaya pelunasan BPIH saat berangkat."/>
-<meta name="keywords" content="kalkulator tabungan haji 2026, biaya haji 2026, setoran awal haji 25 juta, antrian haji provinsi, BPIH 2026, estimasi berangkat haji, daftar haji"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tabungan-haji.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-tabungan-haji.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Tabungan Haji","url":"https://novacalcs.com/id/kalkulator-tabungan-haji.html","description":"Kalkulator tabungan haji 2026 — setoran awal, antrian, dan estimasi keberangkatan","applicationCategory":"FinanceApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Progress bar menuju setoran awal */
-.haji-progress-wrap { margin:14px 0 8px; }
-.hp-label { display:flex; justify-content:space-between; font-size:.72rem; color:var(--text-secondary); margin-bottom:5px; }
-.hp-track { height:16px; background:var(--bg-input); border-radius:8px; overflow:hidden; }
-.hp-fill  { height:100%; background:var(--mint); border-radius:8px; transition:width .7s ease; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#001a17; }
-
-/* Big countdown */
-.haji-main { text-align:center; padding:16px 0 8px; }
-.haji-num  { font-size:2.2rem; font-weight:700; color:var(--mint); line-height:1; }
-.haji-label{ font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Stats */
-.haji-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.hs-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.hs-card .hc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
-.hs-card .hc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
-.hs-card.green .hc-val { color:var(--mint); }
-.hs-card.warn  .hc-val { color:#fbbf24; }
-
-/* Timeline milestones */
-.timeline { margin-top:14px; position:relative; padding-left:24px; }
-.timeline::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:2px; background:var(--border); }
-.tl-item { position:relative; margin-bottom:14px; }
-.tl-dot  { position:absolute; left:-20px; top:2px; width:14px; height:14px; border-radius:50%; border:2px solid var(--border); background:var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:.55rem; }
-.tl-dot.done   { background:var(--mint); border-color:var(--mint); }
-.tl-dot.active { background:#fbbf24; border-color:#fbbf24; }
-.tl-dot.future { background:var(--bg-input); }
-.tl-year  { font-size:.68rem; color:var(--text-muted); margin-bottom:2px; }
-.tl-event { font-size:.82rem; font-weight:600; color:var(--text-primary); }
-.tl-sub   { font-size:.72rem; color:var(--text-secondary); }
-
-/* Savings plan cards */
-.plan-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
-.plan-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.plan-card .pgc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
-.plan-card .pgc-val   { font-size:.85rem; font-weight:700; color:var(--mint); }
-.plan-card .pgc-sub   { font-size:.65rem; color:var(--text-muted); margin-top:2px; }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Tabungan Haji 2026 — Simulasi BPIH, Antrian & Persiapan Dana | NovaCalcs</title>
+  <meta name="description" content="Kalkulator tabungan haji 2026: simulasi menabung untuk biaya haji (BIPIH), estimasi antrian per provinsi, dampak kenaikan biaya, dan persiapan untuk keluarga. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-tabungan-haji">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--emas:#92400e;--emas-l:#fef3c7}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--emas-l);color:var(--emas);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--emas);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--emas-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--emas);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.iw select{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus,.iw select:focus{border-color:var(--emas)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{padding-right:32px;cursor:pointer}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--emas);color:var(--emas);background:var(--emas-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT — gold theme */
+    .lres{background:var(--emas-l);border:1.5px solid #fbbf24;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--emas);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #fbbf24;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* PROGRESS */
+    .prog-bar{height:8px;background:var(--sur2);border-radius:4px;overflow:hidden;margin:12px 0 6px}
+    .prog-fill{height:100%;border-radius:4px;background:#fbbf24;transition:width .4s}
+    /* CHART */
+    .chart-wrap{display:flex;flex-direction:column;gap:5px;margin-top:12px}
+    .c-row{display:flex;align-items:center;gap:8px;font-size:10px}
+    .c-lbl{min-width:90px;color:var(--tx2);font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .c-bg{flex:1;background:var(--sur2);border-radius:3px;height:16px;overflow:hidden}
+    .c-fill{height:100%;border-radius:3px;background:#fbbf24;transition:width .4s}
+    .c-val{min-width:70px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--emas)}
+    /* FAMILY TABLE */
+    .fam-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .fam-tbl th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .fam-tbl td{padding:7px 10px;border-bottom:1px solid var(--bor)}
+    .fam-tbl td.mo{font-family:'DM Mono',monospace;font-weight:600;text-align:right}
+    .fam-tbl tr:last-child td{border-bottom:none}
+    .fam-tbl tr.total td{background:var(--emas-l);font-weight:700;color:var(--emas)}
+    .fam-tbl tr.total td.mo{color:var(--emas)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs);border:1.5px solid transparent}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--emas)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--emas)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--emas-l);color:var(--emas)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Tabungan Haji</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Tabungan Haji</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🕌 Perencanaan Haji</div>
+  <h1 class="hdr-h1">Kalkulator Tabungan Haji 2026</h1>
+  <p class="hdr-sub">Simulasi menabung untuk biaya haji (BIPIH), estimasi kenaikan biaya selama antrian, dan perencanaan untuk keluarga. Mulai persiapkan sejak dini.</p>
+  <div class="pstrip">
+    <div class="pchip">BIPIH 2025 <span>~Rp 55–60 juta</span></div>
+    <div class="pchip">Setoran awal <span>Rp 25 juta</span></div>
+    <div class="pchip">Antrian <span>20–40+ tahun</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🕋 Kalkulator Tabungan Haji 2026</div>
-      <div class="calc-subtitle">Setoran awal · Antrian · Timeline keberangkatan</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="field"><label>Tabungan Haji yang Sudah Dimiliki (Rp)</label>
-        <input type="number" id="current-saving" value="0" min="0" placeholder="0 = belum punya" oninput="autoCalc()"/>
-      </div>
-      <div class="field"><label>Kemampuan Menabung per Bulan (Rp)</label>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
-          <div class="radio-btn" onclick="setSaving(300000,this)" style="font-size:.72rem">Rp 300rb</div>
-          <div class="radio-btn" onclick="setSaving(500000,this)" style="font-size:.72rem">Rp 500rb</div>
-          <div class="radio-btn" onclick="setSaving(1000000,this)" style="font-size:.72rem">Rp 1 jt</div>
-          <div class="radio-btn" onclick="setSaving(2000000,this)" style="font-size:.72rem">Rp 2 jt</div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🕌</div>Simulasi Tabungan Haji</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="personal">👤 Sendiri</button>
+      <button class="tbtn" data-tab="keluarga">👨‍👩‍👧 Keluarga</button>
+    </div>
+
+    <!-- PERSONAL -->
+    <div class="tpanel on" id="tab-personal">
+      <div class="fld">
+        <label>Target Biaya Haji / BIPIH (Rp)</label>
+        <div class="iw"><input type="number" id="p-target" value="60000000" min="0" step="1000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="55000000" data-for="p-target">55 jt</button>
+          <button class="pb on" data-val="60000000" data-for="p-target">60 jt</button>
+          <button class="pb" data-val="70000000" data-for="p-target">70 jt</button>
+          <button class="pb" data-val="80000000" data-for="p-target">80 jt</button>
         </div>
-        <input type="number" id="monthly-saving" placeholder="Contoh: 1.000.000" min="0" oninput="autoCalc()"/>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">BIPIH 2025: ~Rp 55–60 juta. Biasanya naik 3–7% per tahun. Lihat estimasi kenaikan di simulator bawah.</div>
       </div>
-      <div class="field"><label>Jenis Haji</label>
-        <select id="haji-type" onchange="autoCalc()">
-          <option value="reguler">Haji Reguler — setoran awal Rp 25 juta</option>
-          <option value="plus">Haji Plus / ONH Plus — ~Rp 150–200 juta</option>
-          <option value="furoda">Haji Furoda / Mujamalah — Rp 250–400 juta+</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Estimasi Antrian Provinsi Anda (tahun)</label>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
-          <div class="radio-btn" onclick="setAntrian(10,this)" style="font-size:.72rem">10 thn</div>
-          <div class="radio-btn" onclick="setAntrian(20,this)" style="font-size:.72rem">20 thn</div>
-          <div class="radio-btn active" onclick="setAntrian(25,this)" style="font-size:.72rem">25 thn</div>
-          <div class="radio-btn" onclick="setAntrian(35,this)" style="font-size:.72rem">35 thn</div>
-          <div class="radio-btn" onclick="setAntrian(45,this)" style="font-size:.72rem">45 thn</div>
-        </div>
-        <input type="number" id="waiting-years" value="25" min="0" max="100" placeholder="Contoh: 25" oninput="autoCalc()"/>
-        <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px">Cek antrian terkini: <strong>haji.kemenag.go.id</strong> · Rata-rata nasional ~20–45 tahun</p>
-      </div>
-      <div class="field"><label>Usia Anda Saat Ini (tahun)</label>
-        <input type="number" id="age" placeholder="Contoh: 35" min="15" max="80" oninput="autoCalc()"/>
-      </div>
-
-      <button class="calc-btn" onclick="calculate()">🕋 Hitung Rencana Haji</button>
-
-      <div class="result-box" id="result" style="display:none">
-
-        <!-- Progress bar setoran awal -->
-        <div class="haji-progress-wrap">
-          <div class="hp-label">
-            <span>Progress menuju setoran awal</span>
-            <span id="hp-pct-label" style="color:var(--mint);font-weight:700">—%</span>
-          </div>
-          <div class="hp-track"><div class="hp-fill" id="hp-fill" style="width:0%">—</div></div>
-          <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-muted);margin-top:3px">
-            <span id="hp-current-label">—</span><span id="hp-target-label">—</span>
+      <div class="g2">
+        <div class="fld">
+          <label>Tabungan Haji yang Sudah Ada (Rp)</label>
+          <div class="iw"><input type="number" id="p-ada" value="0" min="0" step="1000000"></div>
+          <div class="presets">
+            <button class="pb on" data-val="0" data-for="p-ada">Belum ada</button>
+            <button class="pb" data-val="25000000" data-for="p-ada">25 jt (sudah daftar)</button>
           </div>
         </div>
-
-        <!-- Main countdown -->
-        <div class="haji-main">
-          <div class="haji-num" id="res-months">—</div>
-          <div class="haji-label" id="res-months-label">Bulan lagi mencapai setoran awal</div>
+        <div class="fld">
+          <label>Tabungan Rutin per Bulan (Rp)</label>
+          <div class="iw"><input type="number" id="p-rutin" value="1000000" min="0" step="100000"></div>
+          <div class="presets">
+            <button class="pb" data-val="500000" data-for="p-rutin">500rb</button>
+            <button class="pb on" data-val="1000000" data-for="p-rutin">1 jt</button>
+            <button class="pb" data-val="2000000" data-for="p-rutin">2 jt</button>
+            <button class="pb" data-val="3000000" data-for="p-rutin">3 jt</button>
+          </div>
         </div>
-
-        <!-- Stats -->
-        <div class="haji-stats">
-          <div class="hs-card"><div class="hc-label">Setoran awal dibutuhkan</div><div class="hc-val" id="s-setoran">—</div></div>
-          <div class="hs-card green"><div class="hc-label">Sisa yang perlu dikumpulkan</div><div class="hc-val" id="s-sisa">—</div></div>
-          <div class="hs-card"><div class="hc-label">Estimasi daftar (dapat nomor porsi)</div><div class="hc-val" id="s-daftar">—</div></div>
-          <div class="hs-card warn"><div class="hc-label">Estimasi berangkat</div><div class="hc-val" id="s-berangkat">—</div></div>
+      </div>
+      <div class="fld">
+        <label>Nisbah / Bunga Tabungan Haji (%/thn)</label>
+        <div class="iw"><input type="number" id="p-bunga" value="4" min="0" max="20" step="0.5"><span class="iu">%/thn</span></div>
+        <div class="presets">
+          <button class="pb" data-val="3" data-for="p-bunga">3%</button>
+          <button class="pb on" data-val="4" data-for="p-bunga">4%</button>
+          <button class="pb" data-val="5" data-for="p-bunga">5%</button>
         </div>
+      </div>
 
-        <!-- Savings acceleration plans -->
-        <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px;">💡 Simulasi Akselerasi Setoran</div>
-        <div class="plan-grid" id="plan-grid"></div>
+      <!-- Progress bar -->
+      <div style="font-size:11px;font-weight:600;margin-bottom:4px;margin-top:12px">Progress Menuju Setoran Awal (Rp 25 juta)</div>
+      <div class="prog-bar"><div class="prog-fill" id="p-prog" style="width:0%"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-bottom:12px">
+        <span id="p-prog-lbl">—</span><span>Target: Rp 25 juta</span>
+      </div>
 
-        <!-- Timeline -->
-        <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:14px 0 6px;">🗓️ Timeline Perjalanan Haji Anda</div>
-        <div class="timeline" id="timeline"></div>
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">Waktu Capai Target BIPIH</div>
+            <div class="rv lg" id="p-waktu">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Capai Setoran Awal (25 jt)</div>
+            <div class="rv sm" id="p-waktu-daftar">—</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Total Tabungan di Akhir</div>
+            <div class="rv sm" id="p-total">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Target biaya haji</span><span id="p-target-show">—</span></div>
+          <div class="rr"><span>Tabungan awal</span><span id="p-ada-show">—</span></div>
+          <div class="rr"><span>Setoran rutin per bulan</span><span id="p-rutin-show">—</span></div>
+          <div class="rr"><span>Nisbah/bunga per tahun</span><span id="p-bunga-show">—</span></div>
+          <div class="rr"><span>Total disetorkan</span><span id="p-setor">—</span></div>
+          <div class="rr"><span>Bunga/bagi hasil yang diperoleh</span><span id="p-bunga-dapat">—</span></div>
+        </div>
+      </div>
+      <div class="notice info" style="margin-top:10px">💡 Setelah terkumpul Rp 25 juta, segera daftarkan di bank penerima setoran BPIH (BSI, BRI Syariah, BTN Syariah, dll.) untuk mendapatkan nomor porsi haji. Nomor porsi = posisi dalam antrian.</div>
+    </div>
 
-        <!-- Advice -->
-        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
+    <!-- KELUARGA -->
+    <div class="tpanel" id="tab-keluarga">
+      <div class="fld">
+        <label>BIPIH per Orang (Rp)</label>
+        <div class="iw"><input type="number" id="k-bipih" value="60000000" min="0" step="1000000"></div>
+      </div>
+      <div class="fld">
+        <label>Anggota Keluarga yang Akan Berangkat</label>
+      </div>
+      <div style="background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-bottom:14px">
+        <div style="display:grid;grid-template-columns:1fr 100px 100px;background:var(--sur2);padding:7px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)">
+          <span>Anggota</span><span style="text-align:center">Sudah Ada (Rp)</span><span style="text-align:center">Rutin/bln</span>
+        </div>
+        <div id="k-members"></div>
+      </div>
+      <div class="fld">
+        <label>Nisbah Tabungan (%/thn)</label>
+        <div class="iw"><input type="number" id="k-bunga" value="4" min="0" max="20" step="0.5"><span class="iu">%</span></div>
+      </div>
+
+      <table class="fam-tbl" id="k-result-tbl">
+        <thead><tr><th>Anggota</th><th style="text-align:right">Target</th><th style="text-align:right">Waktu Capai</th><th style="text-align:right">Rutin/bln</th></tr></thead>
+        <tbody id="k-tbody"></tbody>
+      </table>
+      <div class="lres" style="margin-top:14px">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Total Tabungan Rutin per Bulan (Semua Anggota)</div>
+            <div class="rv lg" id="k-total-rutin">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Total target BIPIH keluarga</span><span id="k-total-target">—</span></div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Tabungan Haji 2026 — Setoran Awal, Antrian & Estimasi Keberangkatan</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Rencanakan perjalanan ibadah haji Anda dengan kalkulator yang menghitung berapa lama menabung untuk setoran awal Rp 25 juta, kapan bisa mendaftar, dan estimasi tahun keberangkatan berdasarkan antrian provinsi.</p>
-
-    <h2>Biaya Haji Reguler Indonesia 2026</h2>
-    <p>Biaya haji terdiri dari dua komponen utama:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Komponen</th><th>Jumlah</th><th>Keterangan</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Setoran Awal</strong></td><td>Rp 25.000.000</td><td>Dibayar saat mendaftar untuk mendapat nomor porsi. Dikelola BPIH dan mendapat bagi hasil.</td></tr>
-        <tr><td><strong>Bipih (biaya jemaah)</strong></td><td>~Rp 55,4 juta</td><td>Total biaya yang ditanggung jemaah. Pelunasan dibayarkan mendekati tahun keberangkatan.</td></tr>
-        <tr><td>Subsidi dari BPIH</td><td>~Rp 40–50 juta</td><td>Ditanggung dari hasil pengelolaan dana haji nasional (BPIH)</td></tr>
-        <tr><td><strong>Haji Plus (ONH+)</strong></td><td>Rp 150–200 juta</td><td>Layanan premium, antrian 5–7 tahun</td></tr>
-        <tr><td><strong>Haji Furoda</strong></td><td>Rp 250–400 juta+</td><td>Visa mujamalah, tanpa antrian resmi</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:.78rem;color:var(--text-muted)">*Bipih ditetapkan setiap tahun oleh pemerintah dan berubah mengikuti inflasi dan nilai tukar. Angka di atas berdasarkan penetapan 2025 yang diperkirakan berlaku serupa di 2026. Setoran awal Rp 25 juta berlaku sejak 2020 dan tidak berubah.</p>
-
-    <h2>Antrian Haji Reguler per Provinsi 2026</h2>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Provinsi</th><th>Estimasi Antrian</th><th>Catatan</th></tr></thead>
-      <tbody>
-        <tr><td>Sulawesi Selatan</td><td>~45–50 tahun</td><td>Antrian terpanjang di Indonesia</td></tr>
-        <tr><td>Kalimantan Selatan</td><td>~40–45 tahun</td><td>Permintaan sangat tinggi</td></tr>
-        <tr><td>Jawa Timur</td><td>~28–35 tahun</td><td></td></tr>
-        <tr><td>Jawa Barat</td><td>~25–35 tahun</td><td></td></tr>
-        <tr><td>Jawa Tengah</td><td>~25–30 tahun</td><td></td></tr>
-        <tr><td>DKI Jakarta</td><td>~15–25 tahun</td><td></td></tr>
-        <tr><td>Sumatera Utara / Riau</td><td>~20–30 tahun</td><td></td></tr>
-        <tr><td>NTT / Maluku / Papua</td><td>~5–15 tahun</td><td>Antrian lebih pendek</td></tr>
-        <tr><td>Kalimantan Utara</td><td>~5–10 tahun</td><td>Antrian terpendek</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:.78rem;color:var(--text-muted)">*Antrian berubah setiap tahun. Cek status antrian terkini dan nomor porsi di <strong>haji.kemenag.go.id</strong>.</p>
-
-    <h2>Fitur Kalkulator Tabungan Haji NovaCalcs</h2>
-    <ul>
-      <li><strong>Progress bar setoran awal</strong> — Visualisasikan seberapa jauh tabungan Anda dari target Rp 25 juta. Bar hijau bergerak seiring masukan yang diisi.</li>
-      <li><strong>Simulasi akselerasi</strong> — Secara otomatis menampilkan 4 skenario tabungan: nabung Rp 500rb, 1 jt, 2 jt, dan 3 jt per bulan — sehingga Anda bisa melihat berapa bulan lebih cepat mencapai setoran awal jika menaikkan jumlah tabungan.</li>
-      <li><strong>Timeline visual</strong> — Grafik garis waktu dari sekarang hingga keberangkatan: mulai menabung → capai setoran awal → daftar → antrian → berangkat haji. Membantu memahami rentang waktu yang realistis.</li>
-      <li><strong>Estimasi pelunasan BPIH</strong> — Biaya pelunasan saat berangkat diestimasi menggunakan inflasi 3,5%/tahun dari Bipih 2026, sehingga Anda bisa mempersiapkan dana pelunasan jauh-jauh hari.</li>
-      <li><strong>Preset antrian provinsi</strong> — Tombol cepat untuk antrian 10, 20, 25, 35, dan 45 tahun sesuai estimasi provinsi umum.</li>
-      <li><strong>Usia saat berangkat</strong> — Masukkan usia sekarang dan kalkulator menampilkan estimasi usia saat berangkat haji.</li>
-    </ul>
-
-    <h2>Cara Mempersiapkan Tabungan Haji Sejak Dini</h2>
-    <p>Dengan antrian haji reguler rata-rata 20–45 tahun, semakin awal mendaftar semakin baik. Berikut langkah-langkah yang direkomendasikan:</p>
-    <ul>
-      <li><strong>Buka rekening tabungan haji di bank syariah</strong> — Tersedia di BSI, BRI Syariah, Mandiri Syariah, BTN Syariah, Muamalat, dan berbagai bank daerah. Sebagian besar menawarkan fitur autodebet cicilan bulanan.</li>
-      <li><strong>Segera setorkan Rp 25 juta untuk dapat nomor porsi</strong> — Semakin cepat mendapat nomor porsi, semakin awal posisi antrian. Dana setoran awal dikelola BPIH dan mendapat bagi hasil yang dikreditkan ke rekening Anda.</li>
-      <li><strong>Lanjutkan menabung untuk pelunasan</strong> — Setelah mendapat nomor porsi, lanjutkan menabung untuk biaya pelunasan yang akan ditagihkan mendekati tahun keberangkatan.</li>
-      <li><strong>Pantau perkembangan antrian</strong> — Cek estimasi keberangkatan secara berkala di haji.kemenag.go.id menggunakan nomor porsi Anda.</li>
-    </ul>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa setoran awal untuk mendaftar haji 2026?</div>
-      <div class="faq-a">Setoran awal haji reguler adalah <strong>Rp 25.000.000</strong> per jemaah — tidak berubah sejak 2020. Setoran ini dibayarkan ke BPS-BPIH (Bank Penerima Setoran BPIH) yang ditunjuk Kemenag: BSI, BRI, BNI, Mandiri (divisi syariah), BTN Syariah, Muamalat, dan bank daerah tertentu. Setelah setoran, Anda mendapat bukti setoran dan nomor porsi untuk memantau posisi antrian.</div>
+<!-- ② SIMULATOR: KENAIKAN BIAYA HAJI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📈</div>Simulasi Kenaikan Biaya Haji &amp; Dampak Antrian <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:16px">Biaya haji (BIPIH) naik rata-rata 5–10% per tahun. Saat Anda berangkat 20–30 tahun lagi, biayanya bisa jauh lebih besar. Siapkan lebih awal!</p>
+    <div class="g2">
+      <div class="fld">
+        <label>BIPIH Saat Ini (Rp)</label>
+        <div class="iw"><input type="number" id="kn-bipih" value="60000000" min="0" step="1000000"></div>
+      </div>
+      <div class="fld">
+        <label>Estimasi Kenaikan BIPIH (%/thn)</label>
+        <div class="iw"><input type="number" id="kn-naik" value="5" min="0" max="20" step="0.5"><span class="iu">%/thn</span></div>
+        <div class="presets">
+          <button class="pb" data-val="3" data-for="kn-naik">3%</button>
+          <button class="pb on" data-val="5" data-for="kn-naik">5%</button>
+          <button class="pb" data-val="7" data-for="kn-naik">7%</button>
+          <button class="pb" data-val="10" data-for="kn-naik">10%</button>
+        </div>
+      </div>
     </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan haji reguler, plus, dan furoda?</div>
-      <div class="faq-a">Haji Reguler diselenggarakan pemerintah (Kemenag), biaya paling terjangkau ~Rp 55 juta, namun antrian 15–50 tahun tergantung provinsi. Haji Plus (ONH Plus) diselenggarakan travel berizin Kemenag dengan fasilitas lebih baik, biaya Rp 150–200 juta, antrian 5–7 tahun. Haji Furoda menggunakan visa mujamalah (undangan pemerintah Saudi), bisa berangkat tanpa antrian resmi, namun biaya sangat tinggi (Rp 250–400 juta+) dan legalitas/keamanannya harus diteliti sebelum mendaftar.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah uang setoran awal bisa diambil kembali?</div>
-      <div class="faq-a">Ya, setoran awal bisa ditarik kapan saja dengan konsekuensi kehilangan nomor porsi. Dana pokok dikembalikan bersama bagi hasil yang telah dikreditkan. Jika suatu saat kondisi keuangan berubah dan ingin membatalkan rencana haji, Anda bisa mengajukan pembatalan ke BPS-BPIH atau Kemenag setempat.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah ada batas usia untuk mendaftar haji?</div>
-      <div class="faq-a">Tidak ada batas usia minimum untuk mendaftar nomor porsi. Namun untuk keberangkatan, jemaah harus berusia minimal 12 tahun. Mendaftarkan anak sejak kecil sangat dianjurkan mengingat panjangnya antrian — anak yang didaftarkan hari ini mungkin baru berangkat saat usia dewasa. Perlu dicatat bahwa jemaah berusia lanjut (>75 tahun) diatur khusus dan bisa menggunakan hak prioritas dalam kondisi tertentu.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa estimasi biaya haji saat tahun keberangkatan?</div>
-      <div class="faq-a">Bipih (biaya yang ditanggung jemaah) pada 2026 sekitar Rp 55,4 juta. Karena biaya ini naik setiap tahun rata-rata 3–7% mengikuti inflasi dan nilai tukar rupiah-riyal, jemaah yang baru berangkat 20–30 tahun lagi perlu mempersiapkan dana yang lebih besar. Kalkulator ini menggunakan asumsi inflasi 3,5%/tahun sebagai estimasi konservatif. Namun setoran awal yang dikelola BPIH juga bertumbuh dengan bagi hasil, sehingga tidak perlu menyiapkan selisih penuh dari kantong sendiri.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara cek antrian haji dan nomor porsi?</div>
-      <div class="faq-a">Cara cek antrian: (1) Kunjungi <strong>haji.kemenag.go.id</strong>, pilih menu "Estimasi Keberangkatan", masukkan nomor porsi Anda. (2) Bisa juga melalui aplikasi Pusaka (Kemenag) di smartphone. Antrian diperbarui berkala mengikuti kuota haji Indonesia yang ditetapkan Arab Saudi setiap tahun. Kuota haji Indonesia sekitar 221.000 jemaah per tahun (2024–2026).</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah tabungan haji mendapat bagi hasil?</div>
-      <div class="faq-a">Ya. Dana setoran awal yang disimpan di BPS-BPIH dikelola oleh BPIH (Badan Pengelola Keuangan Haji) dan mendapat manfaat (bagi hasil/imbal investasi) yang dikreditkan ke rekening tabungan haji Anda secara berkala. Bagi hasil ini membantu meringankan biaya pelunasan saat tahun keberangkatan. Nilai bagi hasil bervariasi tergantung hasil pengelolaan dana haji nasional.</div>
+    <div class="fld">
+      <label>Estimasi Tahun Keberangkatan</label>
+      <div class="iw"><input type="number" id="kn-tahun" value="25" min="1" max="50"><span class="iu">tahun lagi</span></div>
+      <div class="presets">
+        <button class="pb" data-val="10" data-for="kn-tahun">10 thn</button>
+        <button class="pb" data-val="15" data-for="kn-tahun">15 thn</button>
+        <button class="pb on" data-val="25" data-for="kn-tahun">25 thn</button>
+        <button class="pb" data-val="30" data-for="kn-tahun">30 thn</button>
+        <button class="pb" data-val="40" data-for="kn-tahun">40 thn</button>
+      </div>
     </div>
 
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-zakat.html" class="related-item"><span class="ri">🌙</span>Kalkulator Zakat</a>
-      <a href="/id/kalkulator-tabungan.html" class="related-item"><span class="ri">🏦</span>Kalkulator Tabungan</a>
-      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Inflasi</a>
-      <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Investasi</a>
+    <div class="lres">
+      <div class="rg">
+        <div class="ri s2">
+          <div class="rl">Estimasi BIPIH saat Anda Berangkat</div>
+          <div class="rv lg" id="kn-bipih-future">—</div>
+        </div>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>BIPIH saat ini</span><span id="kn-now">—</span></div>
+        <div class="rr"><span>Kenaikan per tahun</span><span id="kn-naik-show">—</span></div>
+        <div class="rr"><span>Dalam berapa tahun</span><span id="kn-thn-show">—</span></div>
+        <div class="rr"><span>Kenaikan nominal</span><span id="kn-naik-nom">—</span></div>
+        <div class="rr"><span>Tabungan rutin yang disarankan (untuk BIPIH proyeksi)</span><span id="kn-rutin-ideal">—</span></div>
+      </div>
+    </div>
+
+    <div class="sec-lbl">Proyeksi BIPIH per Tahun Keberangkatan</div>
+    <div class="chart-wrap" id="kn-chart"></div>
+    <div class="notice warn" style="margin-top:10px">⚠️ Semakin lama antrian, semakin besar biaya haji yang harus disiapkan. Daftar lebih awal dan menabung konsisten adalah kunci.</div>
+  </div>
+</div>
+
+<!-- ③ SIMULATOR: PERBANDINGAN PROVINSI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🗺️</div>Estimasi Antrian Haji per Provinsi <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Waktu tunggu haji sangat berbeda antar provinsi. Pilih provinsi untuk lihat estimasi BIPIH saat berangkat dan berapa harus ditabung per bulan.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Pilih Provinsi</label>
+        <div class="iw sw"><select id="prov-sel" onchange="calcProvinsi()">
+          <option value="7">DKI Jakarta (~7 thn)</option>
+          <option value="10">Jawa Barat (~10 thn)</option>
+          <option value="11">Jawa Tengah (~11 thn)</option>
+          <option value="8">Jawa Timur (~8 thn)</option>
+          <option value="20">Sumatera Utara (~20 thn)</option>
+          <option value="25">Sulawesi Selatan (~25 thn)</option>
+          <option value="28">Kalimantan Selatan (~28 thn)</option>
+          <option value="35">Sulawesi Tengah (~35 thn)</option>
+          <option value="40">Papua (~40 thn)</option>
+        </select></div>
+      </div>
+      <div class="fld">
+        <label>BIPIH Saat Ini (Rp)</label>
+        <div class="iw"><input type="number" id="prov-bipih" value="60000000" min="0" step="1000000"></div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="fld">
+        <label>Kenaikan BIPIH (%/thn)</label>
+        <div class="iw"><input type="number" id="prov-naik" value="5" min="0" max="20" step="0.5"><span class="iu">%</span></div>
+      </div>
+      <div class="fld">
+        <label>Tabungan yang Sudah Ada (Rp)</label>
+        <div class="iw"><input type="number" id="prov-ada" value="0" min="0" step="1000000"></div>
+      </div>
+    </div>
+    <div class="lres">
+      <div class="rg">
+        <div class="ri s2">
+          <div class="rl">Tabungan Rutin per Bulan yang Disarankan</div>
+          <div class="rv lg" id="prov-rutin">—</div>
+        </div>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>Estimasi antrian tunggu</span><span id="prov-antrian">—</span></div>
+        <div class="rr"><span>Estimasi BIPIH saat berangkat</span><span id="prov-bipih-future">—</span></div>
+        <div class="rr"><span>Kekurangan dari tabungan ada</span><span id="prov-kekurangan">—</span></div>
+      </div>
+    </div>
+
+    <div class="sec-lbl" style="margin-top:16px">Perbandingan Semua Provinsi (BIPIH Proyeksi)</div>
+    <div class="chart-wrap" id="prov-chart"></div>
+    <div class="notice" style="margin-top:10px">* Data antrian bersifat estimasi berdasarkan statistik SISKOHAT terbaru. Antrian aktual dapat berubah sesuai kebijakan pemerintah. Cek siskohat.kemenag.go.id untuk data terkini.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Info BPIH 2025</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#fbbf24"></div><div><div class="fn">BIPIH (biaya jamaah)</div><div class="fron">Dibayar calon jamaah</div></div></div><div class="fprice">~55–60 jt</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Setoran awal pendaftaran</div><div class="fron">Untuk dapat nomor porsi</div></div></div><div class="fprice">Rp 25 jt</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Nisbah tabungan haji</div><div class="fron">Bank syariah (estimasi)</div></div></div><div class="fprice">3–5%/thn</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Kenaikan BIPIH historis</div><div class="fron">Rata-rata per tahun</div></div></div><div class="fprice">5–10%/thn</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#718096"></div><div><div class="fn">Antrian nasional rata-rata</div><div class="fron">Bervariasi per provinsi</div></div></div><div class="fprice">20–40 thn</div></div>
+      </div>
+      <div class="notice" style="margin-top:10px">BPIH = BIPIH + komponen subsidi pemerintah (dari nilai manfaat dana haji yang dikelola BPIH).</div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Persiapan Haji</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">⏳</span><span class="tptx"><strong>Daftar lebih awal</strong> — antrian 20–40 tahun, semakin cepat daftar semakin cepat giliran</span></div>
+        <div class="tip"><span class="tpico">🏦</span><span class="tptx"><strong>Gunakan bank syariah resmi</strong> (BSI, BTN Syariah, BRI Syariah) yang jadi bank penerima BPIH</span></div>
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Pantau nomor porsi</strong> via SISKOHAT Kemenag di siskohat.kemenag.go.id</span></div>
+        <div class="tip"><span class="tpico">💰</span><span class="tptx"><strong>Targetkan lebih dari BIPIH</strong> — siapkan buffer 20–30% untuk kenaikan biaya dan biaya pribadi</span></div>
+        <div class="tip"><span class="tpico">👨‍👩‍👧</span><span class="tptx"><strong>Daftarkan suami/istri bersamaan</strong> — agar selisih antrian tidak terlalu jauh untuk berangkat bersama</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-tabungan" class="relc"><div class="relc-ico">🏦</div><div class="relc-nm">Tabungan</div><div class="relc-ds">Simulasi tabungan</div></a>
+        <a href="/id/kalkulator-investasi" class="relc"><div class="relc-ico">📈</div><div class="relc-nm">Investasi</div><div class="relc-ds">Return investasi</div></a>
+        <a href="/id/kalkulator-inflasi" class="relc"><div class="relc-ico">📊</div><div class="relc-nm">Inflasi</div><div class="relc-ds">Dampak inflasi</div></a>
+        <a href="/id/kalkulator-zakat" class="relc"><div class="relc-ico">☪️</div><div class="relc-nm">Zakat Maal</div><div class="relc-ds">Hitung zakat harta</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Biaya Haji (BPIH) Indonesia 2025–2026</h2>
+  <p>BPIH (Biaya Penyelenggaraan Ibadah Haji) terdiri dari BIPIH (porsi yang dibayar jamaah, ~Rp 55–60 juta di 2025) dan komponen subsidi dari nilai manfaat dana haji yang dikelola BPIH. Setoran awal pendaftaran adalah Rp 25 juta, yang diserahkan ke bank penerima BPIH untuk mendapatkan nomor porsi dalam antrian.</p>
+
+  <h2>Proses Pendaftaran Haji Indonesia</h2>
+  <ul>
+    <li>Siapkan setoran awal Rp 25 juta dan dokumen (KTP, KK, akta lahir/nikah, pas foto)</li>
+    <li>Datang ke bank penerima setoran BPIH (BSI, BRI Syariah, BTN Syariah, dll.)</li>
+    <li>Isi formulir pendaftaran dan lakukan verifikasi data</li>
+    <li>Dapatkan Nomor Porsi Haji — posisi Anda dalam antrian nasional</li>
+    <li>Pantau perkiraan keberangkatan di SISKOHAT (siskohat.kemenag.go.id)</li>
+    <li>Lunasi sisa BIPIH saat dipanggil oleh Kemenag (biasanya 1 tahun sebelum berangkat)</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Berapa biaya haji 2025 yang harus disiapkan?</div><div class="faq-a">BIPIH 2025 sekitar Rp 55–60 juta per orang, tergantung embarkasi. Namun karena antrian 20–40 tahun, biaya saat berangkat bisa jauh lebih besar akibat kenaikan tahunan. Gunakan simulator Kenaikan Biaya Haji di atas untuk memperkirakan biaya saat giliran Anda tiba.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa yang terjadi pada uang setoran Rp 25 juta setelah mendaftar?</div><div class="faq-a">Setoran awal Rp 25 juta dikelola oleh BPIH (Badan Pengelola Keuangan Haji). Dana ini diinvestasikan secara syariah dan menghasilkan nilai manfaat yang digunakan untuk mensubsidi biaya penyelenggaraan haji. Jamaah tidak mendapat bunga langsung, tapi nilai manfaat ini yang membantu menekan BIPIH agar tidak terlalu mahal.</div></div>
+  <div class="faq-i"><div class="faq-q">Bisakah mendaftar haji untuk anak yang masih kecil?</div><div class="faq-a">Bisa, dengan syarat anak sudah memiliki KTP (usia 17 tahun) atau bisa menggunakan KK. Namun, mendaftar sangat muda berarti baru berangkat saat anak berusia 50–60 tahun — karena antrian bisa 30–40 tahun. Pertimbangkan juga bahwa antrian bisa dipercepat dengan kebijakan kuota yang berubah.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-const BPIH       = { reguler:55431750,  plus:175000000, furoda:300000000 };
-const SETORAN    = { reguler:25000000,  plus:50000000,  furoda:100000000 };
-const INFLASI    = 0.035; // 3,5% per tahun — konsisten antara UI dan JS
+<script>
+function rp(n){if(!isFinite(n)||n<0)return'Rp 0';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){if(n>=1e9)return'Rp '+(n/1e9).toFixed(2)+' M';if(n>=1e6)return'Rp '+(n/1e6).toFixed(1)+' jt';return rp(n)}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-const fmt  = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-const fmtM = n => {
-  if (n >= 1e9) return 'Rp ' + (n/1e9).toFixed(2) + ' M';
-  if (n >= 1e6) return 'Rp ' + (n/1e6).toFixed(1) + ' jt';
-  return fmt(n);
-};
-
-function setSaving(v, btn) {
-  document.getElementById('monthly-saving').value = v;
-  btn.closest('.field').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  autoCalc();
+function fvCalc(awal, rutin, ratePct, years){
+  const r=ratePct/100/12, n=years*12;
+  if(r===0)return awal+rutin*n;
+  return awal*Math.pow(1+r,n)+rutin*(Math.pow(1+r,n)-1)/r;
 }
-function setAntrian(v, btn) {
-  document.getElementById('waiting-years').value = v;
-  btn.closest('.field').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  autoCalc();
+function pmtForFV(FV, ratePct, years, PV=0){
+  const r=ratePct/100/12, n=years*12;
+  if(r===0||n===0)return Math.max(0,FV-PV)/n;
+  const fvPV=PV*Math.pow(1+r,n);
+  return Math.max(0,FV-fvPV)*r/(Math.pow(1+r,n)-1);
 }
-function autoCalc() {
-  const m = document.getElementById('monthly-saving').value;
-  if (m) calculate();
-}
-
-function calculate() {
-  const currentSaving  = parseFloat(document.getElementById('current-saving').value) || 0;
-  const monthlySaving  = parseFloat(document.getElementById('monthly-saving').value) || 0;
-  const hajiType       = document.getElementById('haji-type').value;
-  const waitingYears   = parseInt(document.getElementById('waiting-years').value) || 25;
-  const age            = parseInt(document.getElementById('age').value) || 0;
-  if (!monthlySaving || monthlySaving <= 0) return;
-
-  const setoranAwal    = SETORAN[hajiType];
-  const bpih           = BPIH[hajiType];
-  const sisaSetoran    = Math.max(0, setoranAwal - currentSaving);
-  const monthsNeeded   = sisaSetoran > 0 ? Math.ceil(sisaSetoran / monthlySaving) : 0;
-  const yearsNeeded    = monthsNeeded / 12;
-  const CURRENT_YEAR   = 2026;
-  const daftarYear     = CURRENT_YEAR + Math.ceil(yearsNeeded);
-  const berangkatYear  = daftarYear + waitingYears;
-  const ageBerangkat   = age > 0 ? age + Math.ceil(yearsNeeded) + waitingYears : null;
-  const totalWaitYrs   = Math.ceil(yearsNeeded) + waitingYears;
-  const pelunasanEst   = bpih * Math.pow(1 + INFLASI, totalWaitYrs);
-
-  // Progress bar
-  const pct = Math.min(100, Math.round(currentSaving / setoranAwal * 100));
-  document.getElementById('hp-fill').style.width    = pct + '%';
-  document.getElementById('hp-fill').textContent    = pct > 12 ? pct + '%' : '';
-  document.getElementById('hp-pct-label').textContent = pct + '%';
-  document.getElementById('hp-current-label').textContent = 'Tabungan saat ini: ' + fmtM(currentSaving);
-  document.getElementById('hp-target-label').textContent  = 'Target: ' + fmtM(setoranAwal);
-
-  // Main
-  if (monthsNeeded === 0) {
-    document.getElementById('res-months').textContent = '✅ Siap Daftar!';
-    document.getElementById('res-months-label').textContent = 'Tabungan sudah mencukupi setoran awal';
-  } else {
-    document.getElementById('res-months').textContent = monthsNeeded + ' bulan';
-    document.getElementById('res-months-label').textContent = `(${yearsNeeded.toFixed(1).replace('.',',')} tahun) lagi mencapai setoran awal`;
+function monthsToTarget(target, ada, rutin, bunga){
+  if(ada>=target)return 0;
+  for(let m=1;m<=600;m++){
+    const r=bunga/100/12;
+    const fv=r>0?ada*Math.pow(1+r,m)+rutin*(Math.pow(1+r,m)-1)/r:ada+rutin*m;
+    if(fv>=target)return m;
   }
+  return 600;
+}
 
-  // Stats
-  document.getElementById('s-setoran').textContent   = fmt(setoranAwal);
-  document.getElementById('s-sisa').textContent      = sisaSetoran > 0 ? fmt(sisaSetoran) : '✅ Sudah terpenuhi';
-  document.getElementById('s-daftar').textContent    = 'Tahun ' + daftarYear;
-  document.getElementById('s-berangkat').textContent = 'Estimasi tahun ' + berangkatYear + (ageBerangkat ? ` (usia ${ageBerangkat} thn)` : '');
+// ① PERSONAL
+function calcPersonal(){
+  const target=v('p-target'),ada=v('p-ada'),rutin=v('p-rutin'),bunga=v('p-bunga');
+  // time to target
+  const months=monthsToTarget(target,ada,rutin,bunga);
+  const thn=Math.floor(months/12),bln=months%12;
+  const label=months===0?'Sudah tercapai!':thn>0?(bln>0?`${thn} thn ${bln} bln`:`${thn} tahun`):`${months} bulan`;
+  set('p-waktu',label);
+  // time to setoran awal (25jt)
+  const months25=monthsToTarget(25000000,ada,rutin,bunga);
+  const t25=Math.floor(months25/12),b25=months25%12;
+  set('p-waktu-daftar',months25===0?'Sudah bisa daftar!':t25>0?(b25>0?`${t25} thn ${b25} bln`:`${t25} tahun`):`${months25} bulan`);
+  const fv=fvCalc(ada,rutin,bunga,months/12);
+  const setor=ada+rutin*months;
+  set('p-total',rpM(fv));set('p-target-show',rpM(target));set('p-ada-show',rpM(ada));
+  set('p-rutin-show',rp(rutin)+'/bulan');set('p-bunga-show',bunga+'%/tahun');
+  set('p-setor',rpM(setor));set('p-bunga-dapat',rpM(Math.max(0,fv-setor)));
+  // progress
+  const pct=Math.min(100,ada/25000000*100);
+  const progEl=document.getElementById('p-prog');if(progEl)progEl.style.width=pct+'%';
+  set('p-prog-lbl',rp(ada)+' dari Rp 25 juta ('+pct.toFixed(0)+'%)');
+  // sync
+  document.getElementById('kn-bipih').value=target;
+  calcKenaikan();
+}
 
-  // Savings acceleration plans
-  const planGrid = document.getElementById('plan-grid');
-  const plans = [500000, 1000000, 2000000, 3000000];
-  planGrid.innerHTML = plans.map(p => {
-    const bulanP = sisaSetoran > 0 ? Math.ceil(sisaSetoran / p) : 0;
-    const lebihCepat = bulanP > 0 ? Math.max(0, monthsNeeded - bulanP) : 0;
-    return `<div class="plan-card">
-      <div class="pgc-label">Nabung ${fmtM(p)}/bln</div>
-      <div class="pgc-val">${bulanP === 0 ? 'Siap!' : bulanP + ' bulan'}</div>
-      <div class="pgc-sub">${lebihCepat > 0 ? `${lebihCepat} bln lebih cepat` : (bulanP === 0 ? 'Sudah cukup' : 'Sama')}</div>
+// ② KELUARGA
+const MEMBERS=[
+  {nm:'Ayah',ada:0,rutin:1000000},
+  {nm:'Ibu',ada:0,rutin:1000000},
+  {nm:'Anggota 3',ada:0,rutin:500000},
+];
+function renderMembers(){
+  const wrap=document.getElementById('k-members');if(!wrap)return;
+  wrap.innerHTML=MEMBERS.map((m,i)=>`
+    <div style="display:grid;grid-template-columns:1fr 100px 100px;padding:8px 12px;border-top:1px solid var(--bor);gap:8px;align-items:center">
+      <span style="font-size:12px;font-weight:600">${m.nm}</span>
+      <input type="number" value="${m.ada}" min="0" step="1000000" style="padding:5px 6px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:11px;text-align:right;background:var(--sur);outline:none;width:100%" oninput="MEMBERS[${i}].ada=+this.value;calcKeluarga()">
+      <input type="number" value="${m.rutin}" min="0" step="100000" style="padding:5px 6px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:11px;text-align:right;background:var(--sur);outline:none;width:100%" oninput="MEMBERS[${i}].rutin=+this.value;calcKeluarga()">
+    </div>`).join('');
+}
+function calcKeluarga(){
+  const bipih=v('k-bipih'),bunga=v('k-bunga');
+  const tbody=document.getElementById('k-tbody');if(!tbody)return;
+  let totalRuntin=0;
+  tbody.innerHTML=MEMBERS.map(m=>{
+    const months=monthsToTarget(bipih,m.ada,m.rutin,bunga);
+    const thn=Math.floor(months/12),bln=months%12;
+    const label=months===0?'Sudah!':thn>0?(bln>0?`${thn}t ${bln}b`:`${thn} thn`):`${months} bln`;
+    totalRuntin+=m.rutin;
+    return`<tr><td>${m.nm}</td><td class="mo">${rpM(bipih)}</td><td class="mo">${label}</td><td class="mo">${rp(m.rutin)}</td></tr>`;
+  }).join('')+`<tr class="total"><td>Total Keluarga</td><td class="mo">${rpM(bipih*MEMBERS.length)}</td><td class="mo">—</td><td class="mo">${rp(totalRuntin)}/bln</td></tr>`;
+  set('k-total-rutin',rp(totalRuntin)+'/bulan');set('k-total-target',rpM(bipih*MEMBERS.length));
+}
+
+// ③ KENAIKAN BIAYA
+function calcKenaikan(){
+  const bipih=v('kn-bipih'),naik=v('kn-naik'),thn=v('kn-tahun');
+  const future=bipih*Math.pow(1+naik/100,thn);
+  const rutin=pmtForFV(future,4,thn,0);
+  set('kn-bipih-future',rpM(future));set('kn-now',rpM(bipih));
+  set('kn-naik-show',naik+'%/tahun');set('kn-thn-show',thn+' tahun lagi');
+  set('kn-naik-nom','+'+rpM(future-bipih));set('kn-rutin-ideal',rp(rutin)+'/bulan');
+  const maxFV=bipih*Math.pow(1+naik/100,40);
+  const milestones=[5,10,15,20,25,30,35,40];
+  const chart=document.getElementById('kn-chart');if(!chart)return;
+  chart.innerHTML=milestones.map(y=>{
+    const fv=bipih*Math.pow(1+naik/100,y);
+    const pct=maxFV>0?fv/maxFV*100:50;
+    const isActive=y===thn;
+    return`<div class="c-row${isActive?' ':{}}">
+      <span class="c-lbl">${y} thn lagi</span>
+      <div class="c-bg"><div class="c-fill" style="width:${pct}%;background:${isActive?'var(--pri)':'#fbbf24'}"></div></div>
+      <span class="c-val" style="color:${isActive?'var(--pri)':'var(--emas)'}">${rpM(fv)}</span>
     </div>`;
   }).join('');
-
-  // Timeline
-  const tlEl = document.getElementById('timeline');
-  const tlItems = [
-    { year: CURRENT_YEAR, event: 'Mulai menabung', sub: `Target setoran awal ${fmt(setoranAwal)}`, status: 'active' },
-    { year: daftarYear, event: 'Daftar & dapat nomor porsi', sub: `Setor ${fmt(setoranAwal)} ke BPS-BPIH`, status: 'future' },
-    { year: daftarYear + Math.floor(waitingYears * 0.5), event: 'Pelunasan BPIH dibuka', sub: 'Pelunasan biasanya 1–2 tahun sebelum berangkat', status: 'future' },
-    { year: berangkatYear, event: '🕋 Berangkat Haji', sub: `Estimasi biaya pelunasan: ${fmtM(pelunasanEst)} (inflasi ${(INFLASI*100).toFixed(1)}%/thn)` + (ageBerangkat ? ` · Usia ${ageBerangkat} tahun` : ''), status: 'future' },
-  ];
-  tlEl.innerHTML = tlItems.map(item => `
-    <div class="tl-item">
-      <div class="tl-dot ${item.status}"></div>
-      <div class="tl-year">${item.year}</div>
-      <div class="tl-event">${item.event}</div>
-      <div class="tl-sub">${item.sub}</div>
-    </div>`).join('');
-
-  // Advice
-  let advice;
-  if (monthsNeeded === 0) {
-    advice = `✅ <strong>Tabungan Anda sudah cukup untuk mendaftar!</strong> Segera kunjungi BPS-BPIH terdekat (BSI, BRI, BNI, Mandiri, BTN Syariah) untuk melakukan setoran awal dan mendapatkan nomor porsi. Semakin cepat mendaftar, semakin awal posisi antrian Anda.`;
-  } else if (monthsNeeded <= 12) {
-    advice = `🎯 Anda hanya butuh <strong>${monthsNeeded} bulan lagi</strong> untuk mencapai setoran awal! Pertimbangkan untuk menaikkan jumlah tabungan sementara agar bisa mendaftar lebih cepat. Jika bisa nabung ${fmtM(Math.ceil(sisaSetoran/6))}/bulan, bisa daftar dalam 6 bulan.`;
-  } else {
-    advice = `📅 Dengan tabungan <strong>${fmt(monthlySaving)}/bulan</strong>, Anda diestimasi bisa mendaftar di tahun <strong>${daftarYear}</strong> dan berangkat sekitar tahun <strong>${berangkatYear}</strong>. Estimasi biaya pelunasan saat berangkat: <strong>${fmtM(pelunasanEst)}</strong> (asumsi inflasi ${(INFLASI*100).toFixed(1)}%/tahun). Mulai juga menabung untuk pelunasan setelah mendapat nomor porsi.`;
-  }
-  document.getElementById('res-advice').innerHTML = advice;
-
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+// ④ PROVINSI
+const PROVINCES=[
+  {nm:'DKI Jakarta',thn:7},{nm:'Jawa Barat',thn:10},{nm:'Jawa Tengah',thn:11},
+  {nm:'Jawa Timur',thn:8},{nm:'Sumatera Utara',thn:20},{nm:'Sulawesi Selatan',thn:25},
+  {nm:'Kalimantan Selatan',thn:28},{nm:'Sulawesi Tengah',thn:35},{nm:'Papua',thn:40}
+];
+function calcProvinsi(){
+  const antrian=parseFloat(document.getElementById('prov-sel')?.value)||25;
+  const bipih=v('prov-bipih'),naik=v('prov-naik'),ada=v('prov-ada');
+  const future=bipih*Math.pow(1+naik/100,antrian);
+  const rutin=pmtForFV(future,4,antrian,ada);
+  const kekurangan=Math.max(0,future-ada);
+  set('prov-antrian','~'+antrian+' tahun');
+  set('prov-bipih-future',rpM(future));set('prov-kekurangan',rpM(kekurangan));
+  set('prov-rutin',rp(rutin)+'/bulan');
+  // chart all provinces
+  const bpihNow=bipih,naikR=naik;
+  const maxFV=Math.max(...PROVINCES.map(p=>bpihNow*Math.pow(1+naikR/100,p.thn)));
+  const chart=document.getElementById('prov-chart');if(!chart)return;
+  chart.innerHTML=PROVINCES.map(p=>{
+    const fv=bpihNow*Math.pow(1+naikR/100,p.thn);
+    const pct=maxFV>0?fv/maxFV*100:50;
+    const isActive=p.thn===antrian;
+    return`<div class="c-row">
+      <span class="c-lbl">${p.nm}</span>
+      <div class="c-bg"><div class="c-fill" style="width:${pct}%;background:${isActive?'var(--pri)':'#fbbf24'}"></div></div>
+      <span class="c-val" style="color:${isActive?'var(--pri)':'var(--emas)'}">${rpM(fv)}</span>
+    </div>`;
+  }).join('');
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
+listen(['p-target','p-ada','p-rutin','p-bunga'],calcPersonal);
+listen(['k-bipih','k-bunga'],calcKeluarga);
+listen(['kn-bipih','kn-naik','kn-tahun'],calcKenaikan);
+listen(['prov-bipih','prov-naik','prov-ada'],calcProvinsi);
+renderMembers();calcPersonal();calcKeluarga();calcProvinsi();
 </script>
 </body>
 </html>
