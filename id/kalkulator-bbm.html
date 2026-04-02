@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kalkulator BBM 2026 — Hitung Biaya Bensin & Solar per Perjalanan | NovaCalcs</title>
-  <meta name="description" content="Kalkulator BBM online terlengkap 2026. Hitung biaya bensin Pertalite, Pertamax, Solar untuk perjalanan Anda. Update harga BBM terbaru Maret 2026. Gratis & akurat." />
+  <title>Kalkulator BBM 2026 — Berapa Biaya Bensin Perjalanan Anda? Hitung Gratis</title>
+  <meta name="description" content="Hitung biaya BBM perjalanan dalam 10 detik ✓ Harga Pertalite Rp10.000, Pertamax Rp12.300 terbaru April 2026 ✓ Kalkulator mudik, bulanan & perbandingan BBM. Gratis & akurat." />
   <link rel="canonical" href="https://novacalcs.com/id/kalkulator-bbm" />
-  <meta property="og:title" content="Kalkulator BBM 2026 — Hitung Biaya Bahan Bakar Perjalanan" />
-  <meta property="og:description" content="Hitung estimasi biaya BBM perjalanan Anda. Pilih jenis BBM, masukkan jarak & konsumsi kendaraan. Update harga terbaru." />
+  <meta property="og:title" content="Kalkulator BBM 2026 — Hitung Biaya Bensin & Mudik Gratis" />
+  <meta property="og:description" content="Hitung biaya Pertalite, Pertamax, Solar untuk perjalanan & mudik lebaran. Harga BBM terbaru April 2026. Gratis, cepat, akurat." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -441,6 +441,7 @@
 
         <div class="tab-bar">
           <button class="tab-btn active" data-tab="perjalanan">Perjalanan</button>
+          <button class="tab-btn" data-tab="mudik">🚗 Mudik</button>
           <button class="tab-btn" data-tab="bulanan">Bulanan</button>
           <button class="tab-btn" data-tab="perbandingan">Perbandingan</button>
         </div>
@@ -539,6 +540,139 @@
 
           <div class="notice">
             ⚠️ <strong>Catatan:</strong> Harga BBM berdasarkan data Pertamina berlaku 2 Maret 2026 untuk wilayah Jawa, Madura, Bali. Harga di luar Jawa bisa berbeda. Konsumsi BBM aktual bervariasi tergantung kondisi jalan, muatan, dan gaya berkendara.
+          </div>
+        </div>
+
+        <!-- TAB: MUDIK -->
+        <div class="tab-panel" id="tab-mudik">
+          <div style="background:var(--primary-light);border:1.5px solid #ffd4b3;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;color:var(--primary);font-weight:600;margin-bottom:18px;">
+            🏠 Kalkulator khusus mudik lebaran — hitung total biaya BBM + estimasi tol pulang pergi
+          </div>
+
+          <div class="field">
+            <label>Rute Mudik</label>
+            <div class="select-wrap">
+              <select id="mudikRoute">
+                <option value="" disabled selected>— Pilih rute populer —</option>
+                <option value="700|12000">Jakarta → Surabaya (±700 km · Tol ~Rp585.000)</option>
+                <option value="420|8500">Jakarta → Semarang (±420 km · Tol ~Rp375.000)</option>
+                <option value="150|3000">Jakarta → Bandung (±150 km · Tol ~Rp60.000)</option>
+                <option value="310|5500">Jakarta → Yogyakarta (±310 km · Tol ~Rp290.000)</option>
+                <option value="540|9000">Jakarta → Solo (±540 km · Tol ~Rp420.000)</option>
+                <option value="280|4500">Surabaya → Malang (±280 km PP · Tol ~Rp90.000)</option>
+                <option value="0|0">Isi manual di bawah ↓</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field">
+              <label>Jarak Satu Arah</label>
+              <div class="input-wrap">
+                <input type="number" id="mudikDist" placeholder="700" min="1" />
+                <span class="input-unit">km</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Estimasi Biaya Tol (PP)</label>
+              <div class="input-wrap">
+                <input type="number" id="mudikToll" placeholder="0" min="0" />
+                <span class="input-unit">Rp</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Jenis BBM</label>
+            <div class="select-wrap">
+              <select id="mudikFuel">
+                <option value="10000" selected>⛽ Pertalite — Rp10.000/L</option>
+                <option value="12300">⛽ Pertamax — Rp12.300/L</option>
+                <option value="13000">⛽ Pertamax Green 95 — Rp13.000/L</option>
+                <option value="13100">⛽ Pertamax Turbo — Rp13.100/L</option>
+                <option value="6800">🚛 Solar Subsidi — Rp6.800/L</option>
+                <option value="14200">🚛 Dexlite — Rp14.200/L</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Konsumsi BBM Kendaraan</label>
+            <div class="input-wrap">
+              <input type="number" id="mudikEff" placeholder="Contoh: 12" min="1" step="0.5" />
+              <span class="input-unit">km/L</span>
+            </div>
+            <div class="presets">
+              <button class="preset-btn" data-target="mudikEff" data-val="8">Motor besar (8)</button>
+              <button class="preset-btn" data-target="mudikEff" data-val="12">Avanza/Xenia (12)</button>
+              <button class="preset-btn" data-target="mudikEff" data-val="18">Brio/Agya (18)</button>
+              <button class="preset-btn" data-target="mudikEff" data-val="40">Motor matic (40)</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Jumlah Penumpang (untuk bagi rata)</label>
+            <div class="input-wrap">
+              <input type="number" id="mudikPax" value="4" min="1" max="10" />
+              <span class="input-unit">orang</span>
+            </div>
+            <div class="presets">
+              <button class="preset-btn" data-target="mudikPax" data-val="1">1 (motor)</button>
+              <button class="preset-btn" data-target="mudikPax" data-val="2">2 orang</button>
+              <button class="preset-btn" data-target="mudikPax" data-val="4">4 orang</button>
+              <button class="preset-btn" data-target="mudikPax" data-val="6">6 orang</button>
+            </div>
+          </div>
+
+          <button class="btn-calc" id="calcBtnMudik">🏠 Hitung Biaya Mudik</button>
+
+          <div class="result-box" id="resultBoxMudik">
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;text-transform:uppercase;letter-spacing:.4px">Estimasi Biaya Mudik (Pulang Pergi)</div>
+            <div class="result-main">
+              <div class="result-item" style="grid-column:1/-1">
+                <div class="result-item-label">Total Biaya (BBM + Tol) PP</div>
+                <div class="result-item-val big" id="mudikTotal">—</div>
+                <div class="result-item-sub" id="mudikPerOrang">— per orang</div>
+              </div>
+              <div class="result-item">
+                <div class="result-item-label">Biaya BBM (PP)</div>
+                <div class="result-item-val" id="mudikBbm">—</div>
+                <div class="result-item-sub">pulang pergi</div>
+              </div>
+              <div class="result-item">
+                <div class="result-item-label">Biaya Tol (PP)</div>
+                <div class="result-item-val" id="mudikTolOut">—</div>
+                <div class="result-item-sub">estimasi</div>
+              </div>
+              <div class="result-item">
+                <div class="result-item-label">BBM Dibutuhkan</div>
+                <div class="result-item-val" id="mudikLiter">—</div>
+                <div class="result-item-sub">liter (PP)</div>
+              </div>
+              <div class="result-item">
+                <div class="result-item-label">Jarak Total (PP)</div>
+                <div class="result-item-val" id="mudikKm">—</div>
+                <div class="result-item-sub">kilometer</div>
+              </div>
+            </div>
+            <div class="result-detail">
+              <div class="result-row">
+                <span class="result-row-label">Biaya BBM per orang</span>
+                <span class="result-row-val" id="mudikBbmPax">—</span>
+              </div>
+              <div class="result-row">
+                <span class="result-row-label">Biaya tol per orang</span>
+                <span class="result-row-val" id="mudikTolPax">—</span>
+              </div>
+              <div class="result-row" style="border-top:1px solid #ffd4b3;margin-top:6px;padding-top:8px">
+                <span class="result-row-label" style="font-weight:700;color:var(--text)">Total per orang</span>
+                <span class="result-row-val" style="color:var(--primary)" id="mudikTotalPax">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="notice">
+            ⚠️ Estimasi biaya tol berdasarkan tarif normal non-peak. Saat mudik lebaran, beberapa ruas tol menerapkan tarif berbeda. Harga BBM berlaku April 2026 wilayah Jawa-Bali.
           </div>
         </div>
 
@@ -1058,6 +1192,48 @@
     roundtrip = 1;
     this.classList.add('active');
     document.getElementById('btnSekali').classList.remove('active');
+  });
+
+  /* ========= MUDIK ROUTE AUTO-FILL ========= */
+  document.getElementById('mudikRoute').addEventListener('change', function () {
+    const val = this.value;
+    if (!val) return;
+    const [dist, toll] = val.split('|');
+    document.getElementById('mudikDist').value = dist;
+    document.getElementById('mudikToll').value = toll;
+  });
+
+  /* ========= TAB MUDIK ========= */
+  document.getElementById('calcBtnMudik').addEventListener('click', function () {
+    const price = parseFloat(document.getElementById('mudikFuel').value);
+    const dist = parseFloat(document.getElementById('mudikDist').value);
+    const eff = parseFloat(document.getElementById('mudikEff').value);
+    const toll = parseFloat(document.getElementById('mudikToll').value) || 0;
+    const pax = parseFloat(document.getElementById('mudikPax').value) || 1;
+
+    if (!dist || !eff || dist <= 0 || eff <= 0) {
+      alert('Harap isi jarak dan konsumsi BBM.');
+      return;
+    }
+
+    const totalDist = dist * 2; // PP
+    const liters = totalDist / eff;
+    const bbmCost = liters * price;
+    const totalCost = bbmCost + toll;
+    const totalPax = totalCost / pax;
+
+    document.getElementById('mudikTotal').textContent = fmt(totalCost);
+    document.getElementById('mudikPerOrang').textContent = fmt(totalPax) + ' / orang';
+    document.getElementById('mudikBbm').textContent = fmt(bbmCost);
+    document.getElementById('mudikTolOut').textContent = toll > 0 ? fmt(toll) : 'Tidak diisi';
+    document.getElementById('mudikLiter').textContent = liters.toFixed(1);
+    document.getElementById('mudikKm').textContent = totalDist.toLocaleString('id-ID');
+    document.getElementById('mudikBbmPax').textContent = fmt(bbmCost / pax);
+    document.getElementById('mudikTolPax').textContent = toll > 0 ? fmt(toll / pax) : '—';
+    document.getElementById('mudikTotalPax').textContent = fmt(totalPax);
+
+    document.getElementById('resultBoxMudik').classList.add('show');
+    document.getElementById('resultBoxMudik').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 
   /* ========= TAB 1: PERJALANAN ========= */
