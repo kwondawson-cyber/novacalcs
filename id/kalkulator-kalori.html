@@ -1,405 +1,480 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Kalori Harian — TDEE, BMR & Makro Nutrisi | NovaCalcs</title>
-<meta name="description" content="Hitung kebutuhan kalori harian (TDEE), kalori basal (BMR), dan distribusi makronutrisi (protein, karbohidrat, lemak) berdasarkan tujuan diet Anda. Gratis dan akurat."/>
-<meta name="keywords" content="kalkulator kalori, TDEE, BMR, kebutuhan kalori harian, kalori untuk diet, makronutrisi, protein karbohidrat lemak"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kalori.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-kalori.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Goal selector */
-.goal-tabs { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0; }
-.goal-tab { flex:1; min-width:80px; padding:8px 6px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-input); color:var(--text-secondary); font-size:0.75rem; font-weight:600; text-align:center; cursor:pointer; transition:all 0.15s; }
-.goal-tab.active { border-color:var(--mint); background:var(--mint-dim); color:var(--mint); }
-
-/* TDEE big number */
-.tdee-display { text-align:center; padding:20px 16px 12px; }
-.tdee-num { font-size:2.8rem; font-weight:700; color:var(--mint); line-height:1; }
-.tdee-unit { font-size:0.8rem; color:var(--text-secondary); margin-top:2px; }
-.tdee-label { font-size:0.75rem; color:var(--text-muted); margin-top:4px; }
-
-/* Macro bars */
-.macro-section { margin-top:14px; }
-.macro-title { font-size:0.75rem; color:var(--text-secondary); font-weight:600; margin-bottom:10px; }
-.macro-bar-wrap { margin-bottom:10px; }
-.macro-bar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:0.8rem; }
-.macro-bar-name { font-weight:600; }
-.macro-bar-val { color:var(--mint); font-weight:700; }
-.macro-track { height:10px; background:var(--bg-input); border-radius:5px; overflow:hidden; }
-.macro-fill { height:100%; border-radius:5px; transition:width 0.5s ease; }
-.macro-fill.protein { background:#60a5fa; }
-.macro-fill.karbo { background:#4ade80; }
-.macro-fill.lemak { background:#fbbf24; }
-
-/* Macro legend */
-.macro-legend { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:8px; }
-.legend-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 8px; text-align:center; }
-.legend-g { font-size:1.1rem; font-weight:700; }
-.legend-label { font-size:0.68rem; color:var(--text-muted); margin-top:2px; }
-
-/* Goal breakdown */
-.goal-breakdown { background:var(--bg-input); border-radius:var(--radius-sm); padding:12px 14px; margin-top:12px; }
-.gb-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border); font-size:0.82rem; }
-.gb-row:last-child { border-bottom:none; }
-.gb-val { font-weight:700; color:var(--mint); }
-.gb-note { font-size:0.7rem; color:var(--text-muted); }
-
-/* Quick calorie table */
-.calorie-search { width:100%; padding:10px 12px; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text-primary); font-size:0.9rem; margin-bottom:10px; }
-.calorie-search:focus { border-color:var(--border-focus); outline:none; }
-.calorie-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; }
-.cal-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 12px; display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; }
-.cal-card .cal-name { color:var(--text-primary); }
-.cal-card .cal-num { font-weight:700; color:var(--mint); white-space:nowrap; margin-left:8px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Kalori Harian 2026 — Kebutuhan Kalori, Makro & Target Diet | NovaCalcs</title>
+  <meta name="description" content="Kalkulator kalori harian 2026: hitung kebutuhan kalori berdasarkan TDEE, makronutrien (protein/karbo/lemak), dan target kalori untuk diet, maintenance, atau bulking. Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kalori">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--grn-b);color:var(--grn);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--grn);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--grn-b);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--grn);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--grn)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{width:100%;padding:10px 32px 10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;appearance:none;cursor:pointer}
+    .sw select:focus{border-color:var(--grn)}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--grn);color:var(--grn);background:var(--grn-b)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    .gender-toggle{display:flex;gap:8px;margin-bottom:14px}
+    .gender-btn{flex:1;padding:10px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center}
+    .gender-btn.on{border-color:var(--grn);color:var(--grn);background:var(--grn-b)}
+    .act-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}
+    .act-card{border:1.5px solid var(--bor);border-radius:var(--rs);padding:10px 8px;cursor:pointer;transition:all .15s;text-align:center}
+    .act-card:hover,.act-card.on{border-color:var(--grn);background:var(--grn-b)}
+    .act-ico{font-size:16px;margin-bottom:3px}
+    .act-nm{font-size:10px;font-weight:700}
+    .act-factor{font-family:'DM Mono',monospace;font-size:10px;color:var(--grn);margin-top:2px}
+    /* RESULT */
+    .lres{background:var(--grn-b);border:1.5px solid #86efac;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--grn);letter-spacing:-.5px}
+    .rv.lg{font-size:28px}.rv.sm{font-size:15px}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #86efac;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.04)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* MACRO BARS */
+    .macro-wrap{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+    .macro-row{display:flex;align-items:center;gap:8px}
+    .macro-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .macro-lbl{min-width:80px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .macro-bar-bg{flex:1;background:var(--sur2);border-radius:4px;height:10px;overflow:hidden}
+    .macro-bar-fill{height:100%;border-radius:4px;transition:width .4s}
+    .macro-val{min-width:90px;text-align:right;font-family:'DM Mono',monospace;font-size:11px;font-weight:700}
+    /* TUJUAN CARDS */
+    .tujuan-grid{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+    .tujuan-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-radius:var(--rs);border:1.5px solid var(--bor)}
+    .tujuan-lbl{font-size:12px;font-weight:700}
+    .tujuan-sub{font-size:10px;color:var(--tx3)}
+    .tujuan-kal{font-family:'DM Mono',monospace;font-size:14px;font-weight:800}
+    /* FOOD */
+    .food-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:12px}
+    .food-card{background:var(--sur2);border-radius:var(--rs);padding:12px;text-align:center;border:1px solid var(--bor)}
+    .food-ico{font-size:22px;margin-bottom:5px}
+    .food-nm{font-size:11px;font-weight:700}
+    .food-kal{font-family:'DM Mono',monospace;font-size:13px;font-weight:800;color:var(--grn);margin-top:3px}
+    .food-unit{font-size:9px;color:var(--tx3)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--grn)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--grn)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--grn-b);color:var(--grn)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Kalori</span>
+</div></nav>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Kalori</span>
-    </nav>
+<header class="hdr">
+  <div class="hdr-tag">🍽️ Kalori Harian</div>
+  <h1 class="hdr-h1">Kalkulator Kalori Harian 2026</h1>
+  <p class="hdr-sub">Hitung kebutuhan kalori harian (TDEE) berdasarkan usia, berat, tinggi, dan aktivitas. Lihat distribusi makronutrien dan target kalori untuk diet, maintenance, atau bulking.</p>
+  <div class="pstrip">
+    <div class="pchip">Rumus <span>Mifflin-St Jeor</span></div>
+    <div class="pchip">Makro <span>protein/karbo/lemak</span></div>
+    <div class="pchip">Target <span>diet/maintenance/bulking</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🔥 Kalkulator Kalori</div>
-      <div class="calc-subtitle">TDEE, BMR & distribusi makronutrisi</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="field">
-        <label>Jenis Kelamin</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-male" onclick="selectGender('male',this)">👨 Laki-laki</div>
-          <div class="radio-btn" id="btn-female" onclick="selectGender('female',this)">👩 Perempuan</div>
+<div class="card">
+  <div class="card-h"><div class="card-ico">🍽️</div>Hitung Kebutuhan Kalori</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="tdee">🔥 TDEE & Kalori</button>
+      <button class="tbtn" data-tab="makro">🥩 Makronutrien</button>
+    </div>
+
+    <!-- TDEE -->
+    <div class="tpanel on" id="tab-tdee">
+      <div class="fld"><label>Jenis Kelamin</label>
+        <div class="gender-toggle">
+          <button class="gender-btn on" id="g-pria" onclick="setGender('pria')">👨 Pria</button>
+          <button class="gender-btn" id="g-wanita" onclick="setGender('wanita')">👩 Wanita</button>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Usia</label>
+          <div class="iw"><input type="number" id="h-usia" value="28" min="15" max="100"><span class="iu">thn</span></div>
+        </div>
+        <div class="fld"><label>Berat Badan</label>
+          <div class="iw"><input type="number" id="h-bb" value="65" min="20" max="300" step="0.5"><span class="iu">kg</span></div>
+        </div>
+      </div>
+      <div class="fld"><label>Tinggi Badan</label>
+        <div class="iw"><input type="number" id="h-tb" value="165" min="100" max="250" step="0.5"><span class="iu">cm</span></div>
+      </div>
+      <div class="fld"><label>Tingkat Aktivitas</label>
+        <div class="act-grid" id="act-grid"></div>
+      </div>
+
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">TDEE — Kebutuhan Kalori Harian</div>
+            <div class="rv lg" id="h-tdee">—</div>
+            <div class="rsub">kkal/hari</div>
+          </div>
+          <div class="ri"><div class="rl">BMR</div><div class="rv sm" id="h-bmr">—</div><div class="rsub">kal istirahat</div></div>
+          <div class="ri"><div class="rl">Faktor Aktivitas</div><div class="rv sm" id="h-factor">—</div></div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>BMR (Mifflin-St Jeor)</span><span id="h-bmr2">—</span></div>
+          <div class="rr"><span>TDEE = BMR × faktor</span><span id="h-tdee2">—</span></div>
+          <div class="rr"><span>Kalori per kg berat badan</span><span id="h-per-kg">—</span></div>
         </div>
       </div>
 
-      <div class="field"><label>Usia (tahun)</label><input type="number" id="age" placeholder="25" min="10" max="100"/></div>
-      <div class="field"><label>Tinggi Badan (cm)</label><input type="number" id="height" placeholder="165" min="100" max="250"/></div>
-      <div class="field"><label>Berat Badan (kg)</label><input type="number" id="weight" placeholder="60" min="20" max="300"/></div>
+      <div class="sec-lbl">Target Kalori per Tujuan</div>
+      <div class="tujuan-grid" id="tujuan-grid"></div>
+      <div class="notice">* TDEE adalah estimasi berdasarkan rumus Mifflin-St Jeor (1990). Akurasi ±10–15%. Untuk program diet serius, konsultasikan dengan ahli gizi.</div>
+    </div>
 
-      <div class="field">
-        <label>Tingkat Aktivitas</label>
-        <select id="activity">
-          <option value="1.2">Sangat jarang bergerak — duduk seharian, tidak olahraga</option>
-          <option value="1.375">Sedikit aktif — olahraga ringan 1–3x/minggu</option>
-          <option value="1.55" selected>Cukup aktif — olahraga sedang 3–5x/minggu</option>
-          <option value="1.725">Sangat aktif — olahraga berat 6–7x/minggu</option>
-          <option value="1.9">Atlet/kerja fisik berat — latihan 2x sehari</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>Tujuan</label>
-        <div class="goal-tabs" id="goal-tabs">
-          <div class="goal-tab" onclick="setGoal(-500,this)">Turun Cepat<br><span style="font-weight:400;font-size:0.68rem">−0,5 kg/mgg</span></div>
-          <div class="goal-tab" onclick="setGoal(-250,this)">Turun Pelan<br><span style="font-weight:400;font-size:0.68rem">−0,25 kg/mgg</span></div>
-          <div class="goal-tab active" onclick="setGoal(0,this)">Jaga BB<br><span style="font-weight:400;font-size:0.68rem">stabil</span></div>
-          <div class="goal-tab" onclick="setGoal(250,this)">Naik Pelan<br><span style="font-weight:400;font-size:0.68rem">+0,25 kg/mgg</span></div>
-          <div class="goal-tab" onclick="setGoal(500,this)">Naik Cepat<br><span style="font-weight:400;font-size:0.68rem">+0,5 kg/mgg</span></div>
+    <!-- MAKRO -->
+    <div class="tpanel" id="tab-makro">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Distribusi makronutrien ideal bergantung pada tujuan. Masukkan target kalori harian untuk melihat anjuran gram protein, karbo, dan lemak.</p>
+      <div class="fld"><label>Target Kalori Harian (kkal)</label>
+        <div class="iw"><input type="number" id="m-kal" value="2000" min="500" max="6000" step="50"></div>
+        <div class="presets">
+          <button class="pb" data-val="1500" data-for="m-kal">1.500</button>
+          <button class="pb on" data-val="2000" data-for="m-kal">2.000</button>
+          <button class="pb" data-val="2500" data-for="m-kal">2.500</button>
+          <button class="pb" data-val="3000" data-for="m-kal">3.000</button>
         </div>
       </div>
+      <div class="fld"><label>Tujuan / Profil</label>
+        <div class="sw"><select id="m-tujuan" onchange="calcMakro()">
+          <option value="balance">Seimbang (40/30/30)</option>
+          <option value="diet">Diet / Turun Berat (35/40/25)</option>
+          <option value="muscle">Bangun Otot (40/30/30 + protein tinggi)</option>
+          <option value="lowcarb">Low Carb / Keto (70/5/25)</option>
+          <option value="highcarb">High Carb / Endurance (25/55/20)</option>
+        </select></div>
+      </div>
 
-      <button class="calc-btn" onclick="calculate()">🔥 Hitung Kebutuhan Kalori</button>
-
-      <div class="result-box" id="result" style="display:none">
-        <!-- TDEE display -->
-        <div class="tdee-display">
-          <div class="tdee-num" id="res-target-kcal">—</div>
-          <div class="tdee-unit">kkal/hari</div>
-          <div class="tdee-label" id="res-goal-label">Target kalori sesuai tujuan Anda</div>
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri"><div class="rl">Protein</div><div class="rv sm" id="m-protein" style="color:#3b82f6">—</div><div class="rsub" id="m-p-kal">—</div></div>
+          <div class="ri"><div class="rl">Karbohidrat</div><div class="rv sm" id="m-karbo" style="color:var(--pri)">—</div><div class="rsub" id="m-k-kal">—</div></div>
+          <div class="ri"><div class="rl">Lemak</div><div class="rv sm" id="m-lemak" style="color:var(--grn)">—</div><div class="rsub" id="m-l-kal">—</div></div>
         </div>
-
-        <!-- Breakdown -->
-        <div class="goal-breakdown">
-          <div class="gb-row">
-            <span>BMR (kalori basal)</span>
-            <div><span class="gb-val" id="res-bmr">—</span><br><span class="gb-note">kalori istirahat total</span></div>
-          </div>
-          <div class="gb-row">
-            <span>TDEE (dengan aktivitas)</span>
-            <div><span class="gb-val" id="res-tdee">—</span><br><span class="gb-note">kebutuhan aktual harian</span></div>
-          </div>
-          <div class="gb-row">
-            <span>Penyesuaian tujuan</span>
-            <span class="gb-val" id="res-adj">—</span>
-          </div>
+        <div class="rrows">
+          <div class="rr"><span>Total kalori</span><span id="m-total">—</span></div>
+          <div class="rr"><span>Protein (4 kkal/g)</span><span id="m-p-gram">—</span></div>
+          <div class="rr"><span>Karbohidrat (4 kkal/g)</span><span id="m-k-gram">—</span></div>
+          <div class="rr"><span>Lemak (9 kkal/g)</span><span id="m-l-gram">—</span></div>
         </div>
+      </div>
 
-        <!-- Macro bars -->
-        <div class="macro-section">
-          <div class="macro-title">🥩 Distribusi Makronutrisi Harian</div>
-          <div class="macro-bar-wrap">
-            <div class="macro-bar-header">
-              <span class="macro-bar-name" style="color:#60a5fa">Protein</span>
-              <span class="macro-bar-val" id="m-protein-g">— g</span>
-            </div>
-            <div class="macro-track"><div class="macro-fill protein" id="m-protein-bar" style="width:0%"></div></div>
-          </div>
-          <div class="macro-bar-wrap">
-            <div class="macro-bar-header">
-              <span class="macro-bar-name" style="color:#4ade80">Karbohidrat</span>
-              <span class="macro-bar-val" id="m-karbo-g">— g</span>
-            </div>
-            <div class="macro-track"><div class="macro-fill karbo" id="m-karbo-bar" style="width:0%"></div></div>
-          </div>
-          <div class="macro-bar-wrap">
-            <div class="macro-bar-header">
-              <span class="macro-bar-name" style="color:#fbbf24">Lemak</span>
-              <span class="macro-bar-val" id="m-lemak-g">— g</span>
-            </div>
-            <div class="macro-track"><div class="macro-fill lemak" id="m-lemak-bar" style="width:0%"></div></div>
-          </div>
-          <div class="macro-legend">
-            <div class="legend-card"><div class="legend-g" style="color:#60a5fa" id="m-protein-pct">—%</div><div class="legend-label">Protein<br><span id="m-protein-kcal">— kkal</span></div></div>
-            <div class="legend-card"><div class="legend-g" style="color:#4ade80" id="m-karbo-pct">—%</div><div class="legend-label">Karbo<br><span id="m-karbo-kcal">— kkal</span></div></div>
-            <div class="legend-card"><div class="legend-g" style="color:#fbbf24" id="m-lemak-pct">—%</div><div class="legend-label">Lemak<br><span id="m-lemak-kcal">— kkal</span></div></div>
-          </div>
-          <p style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;" id="macro-note"></p>
+      <div class="macro-wrap" id="macro-bars"></div>
+      <div class="notice info" style="margin-top:10px">💡 <strong>Protein:</strong> 1,6–2,2 g/kg BB untuk yang aktif olahraga. <strong>Lemak:</strong> minimal 0,5 g/kg BB untuk fungsi hormonal. <strong>Karbo:</strong> sisanya, sesuaikan dengan aktivitas dan preferensi.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ② SUMBER KALORI MAKANAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🥗</div>Referensi Kalori Makanan Indonesia <span class="nbadge" style="margin-left:6px">Referensi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan target kalori untuk melihat berapa banyak setiap makanan yang bisa dikonsumsi dalam sehari.</p>
+    <div class="fld"><label>Target Kalori (kkal)</label>
+      <div class="iw"><input type="number" id="f-kal" value="2000" min="500" max="5000"><span class="iu">kkal</span></div>
+    </div>
+    <div class="food-grid" id="food-grid"></div>
+  </div>
+</div>
+
+<!-- ③ SIMULASI BERAT BADAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Simulasi Perubahan Berat Badan <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Jika Anda makan X kalori per hari dengan TDEE Y, berapa perubahan berat badan yang terjadi dalam 1–6 bulan?</p>
+    <div class="g2">
+      <div class="fld"><label>TDEE Anda (kkal/hari)</label>
+        <div class="iw"><input type="number" id="sim-tdee" value="2100" min="500" max="6000" step="50"></div>
+      </div>
+      <div class="fld"><label>Kalori yang Dikonsumsi (kkal/hari)</label>
+        <div class="iw"><input type="number" id="sim-makan" value="1700" min="500" max="6000" step="50"></div>
+        <div class="presets">
+          <button class="pb" onclick="simDeficit(500)">-500 kal</button>
+          <button class="pb" onclick="simDeficit(0)">Sama (maintenance)</button>
+          <button class="pb" onclick="simDeficit(-500)">+500 kal</button>
         </div>
+      </div>
+    </div>
+    <div id="sim-result"></div>
+    <div class="notice info" style="margin-top:10px">💡 1 kg lemak ≈ 7.700 kkal. Defisit 500 kkal/hari = -0,5 kg/minggu secara teoritis. Tubuh beradaptasi — hasil nyata bervariasi. Defisit &gt;1.000 kkal/hari tidak disarankan tanpa pengawasan medis.</div>
+  </div>
+</div>
 
-        <!-- Advice -->
-        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
+</div><!-- /left-col -->
+
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Kebutuhan Kalori Rata-rata</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Pria dewasa aktif</div><div class="fron">Usia 19–50 thn</div></div></div><div class="fprice">2.200–2.800</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Wanita dewasa aktif</div><div class="fron">Usia 19–50 thn</div></div></div><div class="fprice">1.800–2.200</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Pria sedentary</div><div class="fron">Tidak banyak gerak</div></div></div><div class="fprice">1.800–2.200</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#D97706"></div><div><div class="fn">Wanita sedentary</div><div class="fron">Tidak banyak gerak</div></div></div><div class="fprice">1.400–1.800</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#8b5cf6"></div><div><div class="fn">Ibu hamil</div><div class="fron">+300 kkal/hari</div></div></div><div class="fprice">+300 kkal</div></div>
       </div>
     </div>
   </div>
-
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Kalori Harian — TDEE, BMR & Makro Nutrisi</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung berapa kalori yang tubuh Anda butuhkan setiap hari, distribusi makronutrisi yang tepat, dan target kalori sesuai tujuan — turun, jaga, atau naik berat badan.</p>
-
-    <h2>Apa itu BMR dan TDEE?</h2>
-    <p><strong>BMR (Basal Metabolic Rate)</strong> adalah jumlah kalori minimal yang dibutuhkan tubuh untuk bertahan hidup dalam keadaan istirahat total — untuk bernapas, jantung berdetak, dan organ berfungsi. BMR seseorang dengan tinggi 165 cm, berat 60 kg, usia 28 tahun (perempuan) sekitar 1.385 kkal/hari.</p>
-    <p><strong>TDEE (Total Daily Energy Expenditure)</strong> adalah total kalori yang benar-benar dibutuhkan per hari setelah memperhitungkan aktivitas. TDEE = BMR × faktor aktivitas. Ini angka yang Anda gunakan untuk mengatur pola makan. Jika makan sesuai TDEE, berat badan stabil; di bawah TDEE, berat turun; di atas TDEE, berat naik.</p>
-
-    <h2>Rumus Mifflin-St Jeor yang Digunakan</h2>
-    <p>Kalkulator ini menggunakan rumus Mifflin-St Jeor (1990), yang diakui oleh Academy of Nutrition and Dietetics sebagai rumus paling akurat untuk populasi umum (rata-rata selisih hanya ±10% dari kalorimetri langsung):</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Jenis Kelamin</th><th>Rumus BMR</th></tr></thead>
-      <tbody>
-        <tr><td>Laki-laki</td><td>BMR = (10 × BB) + (6,25 × TB) − (5 × Usia) + 5</td></tr>
-        <tr><td>Perempuan</td><td>BMR = (10 × BB) + (6,25 × TB) − (5 × Usia) − 161</td></tr>
-      </tbody>
-    </table>
-    <p>Keterangan: BB = Berat Badan (kg), TB = Tinggi Badan (cm)</p>
-
-    <h2>Panduan Makronutrisi (Protein, Karbo, Lemak)</h2>
-    <p>Kalori saja tidak cukup — komposisi makronutrisi menentukan apakah penurunan berat badan Anda berasal dari lemak (ideal) atau otot (tidak ideal). Kalkulator ini menggunakan distribusi makro yang dioptimalkan berdasarkan tujuan:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Tujuan</th><th>Protein</th><th>Karbohidrat</th><th>Lemak</th></tr></thead>
-      <tbody>
-        <tr><td>Turun berat badan</td><td>35%</td><td>40%</td><td>25%</td></tr>
-        <tr><td>Menjaga berat badan</td><td>25%</td><td>50%</td><td>25%</td></tr>
-        <tr><td>Naik berat badan (lean bulk)</td><td>30%</td><td>45%</td><td>25%</td></tr>
-      </tbody>
-    </table>
-    <p>Protein yang lebih tinggi saat diet membantu mempertahankan massa otot dan meningkatkan rasa kenyang. Setiap gram protein dan karbohidrat mengandung 4 kkal; setiap gram lemak mengandung 9 kkal.</p>
-
-    <h2>Referensi Kalori Makanan Indonesia</h2>
-    <p>Gunakan kolom pencarian di bawah untuk cek kalori makanan favorit Anda (data TKPI — Tabel Komposisi Pangan Indonesia, Kemenkes RI):</p>
-
-    <input class="calorie-search" type="text" id="food-search" placeholder="🔍 Cari makanan... contoh: nasi, mie, bakso" oninput="filterFood()"/>
-    <div class="calorie-grid" id="food-grid"></div>
-
-    <h2>Fitur Kalkulator Kalori NovaCalcs</h2>
-    <p>Kalkulator kalori ini jauh lebih dari sekadar menghitung TDEE. Berikut fitur-fitur yang tersedia:</p>
-    <ul>
-      <li><strong>5 pilihan tujuan</strong> — Turun cepat, turun pelan, jaga berat badan, naik pelan, atau naik cepat. Pilih satu dan target kalori langsung menyesuaikan otomatis.</li>
-      <li><strong>Distribusi makronutrisi otomatis</strong> — Bukan hanya total kalori, kalkulator ini menghitung berapa gram protein, karbohidrat, dan lemak yang Anda butuhkan per hari sesuai tujuan. Divisualisasikan dengan bar berwarna yang mudah dipahami.</li>
-      <li><strong>Panduan protein per kg berat badan</strong> — Setiap hasil dilengkapi pengecekan apakah asupan protein Anda mencukupi standar minimal untuk mencegah kehilangan massa otot saat diet.</li>
-      <li><strong>Database kalori makanan Indonesia</strong> — 40+ makanan Indonesia (nasi goreng, mie ayam, bakso, gado-gado, dll.) dengan data TKPI Kemenkes RI. Cari dengan kolom pencarian dan bandingkan pilihan menu Anda.</li>
-      <li><strong>Saran personal per tujuan</strong> — Setiap target kalori dilengkapi panduan praktis spesifik, bukan hanya angka.</li>
-    </ul>
-
-    <h2>Cara Praktis Menerapkan Target Kalori</h2>
-    <ul>
-      <li><strong>Mulai dari TDEE</strong> — Ini angka keseimbangan Anda. Makan sesuai TDEE selama 2 minggu sambil menimbang badan untuk memvalidasi akurasi kalkulasi.</li>
-      <li><strong>Defisit kalori yang sehat</strong> — Kurangi maksimal 500 kkal/hari dari TDEE. Defisit lebih besar berisiko kehilangan otot, kekurangan nutrisi, dan efek yo-yo.</li>
-      <li><strong>Pantau kemajuan mingguan</strong> — Timbang badan setiap pagi sebelum makan, rata-rata 7 hari. Fluktuasi harian hingga 2 kg adalah normal (air, makanan, siklus hormon).</li>
-      <li><strong>Perbarui perhitungan</strong> — Setiap kali berat badan berubah ±3 kg, hitung ulang TDEE karena BMR berubah seiring perubahan berat badan.</li>
-      <li><strong>Prioritaskan protein</strong> — Targetkan minimal 1,6–2 g protein per kg berat badan, terutama saat defisit kalori, untuk mempertahankan massa otot.</li>
-    </ul>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa kalori minimum yang aman untuk diet?</div>
-      <div class="faq-a">Secara umum, perempuan tidak disarankan di bawah 1.200 kkal/hari dan laki-laki di bawah 1.500 kkal/hari. Di bawah angka ini, metabolisme melambat dan tubuh mulai mengambil energi dari otot. Defisit kalori yang terlalu besar juga meningkatkan risiko kekurangan mikronutrisi penting. Target yang lebih realistis dan berkelanjutan adalah defisit 300–500 kkal dari TDEE.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kenapa berat badan tidak turun padahal sudah hitung kalori?</div>
-      <div class="faq-a">Ada beberapa penyebab umum: (1) Perkiraan kalori makanan yang tidak akurat — coba timbang makanan dengan timbangan dapur selama seminggu untuk gambaran lebih tepat, (2) Aktivitas fisik sehari-hari yang ternyata lebih rendah dari yang dipilih, (3) Retensi air — terutama saat baru mulai olahraga atau saat siklus menstruasi, (4) Plateau metabolik — setelah 3–4 bulan diet, tubuh beradaptasi. Solusi: variasikan asupan kalori (refeed day) atau ubah jenis latihan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah kalori dari semua makanan sama?</div>
-      <div class="faq-a">Dari sisi energi, 1 kkal tetap 1 kkal. Tapi efek pada tubuh sangat berbeda. Protein memiliki thermic effect of food (TEF) 25–30% — artinya 100 kkal protein hanya memberikan 70–75 kkal neto setelah proses pencernaan. Karbo kompleks dan serat memperlambat penyerapan gula darah. Lemak memperlambat pengosongan lambung sehingga lebih mengenyangkan. Untuk diet, prioritaskan protein dan serat; batasi gula sederhana dan minyak berlebih.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa kalori yang terbakar saat olahraga?</div>
-      <div class="faq-a">Estimasi kasar untuk orang dengan berat 65 kg: Jalan santai 30 menit ≈ 120 kkal, Jalan cepat 30 menit ≈ 180 kkal, Jogging 30 menit ≈ 280 kkal, Bersepeda santai 30 menit ≈ 200 kkal, Renang 30 menit ≈ 250 kkal, Senam aerobik 30 menit ≈ 220 kkal. Perlu diingat bahwa olahraga meningkatkan nafsu makan — jangan kompensasi berlebihan dengan makan lebih banyak setelah olahraga.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung kalori makanan Indonesia yang tidak ada di aplikasi?</div>
-      <div class="faq-a">Gunakan Tabel Komposisi Pangan Indonesia (TKPI) yang diterbitkan Kemenkes RI — tersedia gratis online. Untuk masakan campuran (soto, nasi goreng), kalkulasikan bahan-bahan penyusunnya satu per satu. Sebagai panduan umum: 100g nasi putih matang ≈ 130 kkal, 100g tempe goreng ≈ 250 kkal, 100g ayam kampung goreng ≈ 230 kkal, 100g sayur tumis ≈ 80 kkal.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa bedanya BMR dengan TDEE dan mana yang harus saya gunakan?</div>
-      <div class="faq-a">BMR adalah kalori minimal tubuh Anda saat istirahat total — seperti berbaring diam sepanjang hari. TDEE adalah kalori yang benar-benar Anda butuhkan dengan memperhitungkan aktivitas harian. Gunakan TDEE sebagai target kalori harian Anda. Makan di bawah TDEE = berat turun; di atas = berat naik; sama dengan TDEE = berat stabil. Jangan makan di bawah BMR karena itu sama dengan membiarkan tubuh kekurangan energi dasar.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah perlu menghitung makro atau cukup kalori saja?</div>
-      <div class="faq-a">Untuk pemula, fokus pada total kalori sudah cukup untuk memulai. Setelah terbiasa (2–4 minggu), tambahkan target protein harian minimal 1,6 g per kg berat badan — ini terbukti membantu mempertahankan otot saat diet dan meningkatkan rasa kenyang. Menghitung makro secara detail lebih relevan untuk atlet, binaragawan, atau orang dengan target performa spesifik.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
-      <a href="/id/kalkulator-kalori-makanan-indonesia.html" class="related-item"><span class="ri">🍛</span>Kalori Makanan ID</a>
-      <a href="/id/kalkulator-kalori-olahraga.html" class="related-item"><span class="ri">🏃</span>Kalori Olahraga</a>
-      <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Atur Kalori</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🥗</span><span class="tptx"><strong>Prioritaskan protein</strong> — protein membuat kenyang lebih lama dan mencegah kehilangan otot saat diet</span></div>
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Tracking makanan</strong> di aplikasi (seperti MyFitnessPal) lebih akurat dari estimasi kasar</span></div>
+        <div class="tip"><span class="tpico">🚫</span><span class="tptx"><strong>Hindari defisit terlalu besar</strong> — tubuh akan menurunkan metabolisme sebagai respons pertahanan</span></div>
+        <div class="tip"><span class="tpico">💧</span><span class="tptx"><strong>Minum air sebelum makan</strong> — 500 ml air 30 menit sebelum makan bisa kurangi asupan sekitar 13%</span></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-bmr" class="relc"><div class="relc-ico">🔥</div><div class="relc-nm">BMR & TDEE</div><div class="relc-ds">Metabolisme basal</div></a>
+        <a href="/id/kalkulator-bmi" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">BMI</div><div class="relc-ds">Indeks massa tubuh</div></a>
+        <a href="/id/kalkulator-kalori-olahraga" class="relc"><div class="relc-ico">🏃</div><div class="relc-nm">Kalori Olahraga</div><div class="relc-ds">Kalori terbakar</div></a>
+        <a href="/id/berat-badan-ideal" class="relc"><div class="relc-ico">🎯</div><div class="relc-nm">Berat Ideal</div><div class="relc-ds">Target berat badan</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2025 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Cara Menghitung Kebutuhan Kalori Harian</h2>
+  <p>Kebutuhan kalori harian dihitung dalam dua langkah: (1) hitung BMR (Basal Metabolic Rate) — kalori yang dibutuhkan saat istirahat total menggunakan rumus Mifflin-St Jeor; (2) kalikan dengan faktor aktivitas untuk mendapatkan TDEE (Total Daily Energy Expenditure). TDEE inilah angka kalori yang perlu Anda makan untuk mempertahankan berat badan.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Berapa kalori yang harus saya makan untuk turun berat badan?</div><div class="faq-a">Kurangi 300–500 kkal dari TDEE Anda untuk penurunan berat badan 0,3–0,5 kg per minggu. Misalnya, jika TDEE Anda 2.100 kkal, makan 1.600–1.800 kkal/hari. Jangan makan di bawah 1.200 kkal (wanita) atau 1.500 kkal (pria) tanpa pengawasan medis. Defisit besar menyebabkan kehilangan massa otot dan efek yo-yo.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa bedanya kalori kosong dan kalori bergizi?</div><div class="faq-a">Kalori "kosong" adalah kalori dari makanan yang minim nutrisi selain energi — seperti gula pasir, minuman manis, dan makanan ultra-proses. Kalori "bergizi" berasal dari makanan yang kaya protein, serat, vitamin, dan mineral. Secara teknis 100 kkal gula dan 100 kkal ayam rebus sama dari sisi energi, tapi dampak kenyang, metabolisme, dan kesehatan jangka panjangnya sangat berbeda.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<style>
-.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-</style>
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
 
-<script defer>
-let gender = 'male';
-let goalAdj = 0;
-
-function selectGender(g, btn) {
-  gender = g;
-  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-function setGoal(adj, btn) {
-  goalAdj = adj;
-  document.querySelectorAll('.goal-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-function calculate() {
-  const age = parseFloat(document.getElementById('age').value);
-  const h = parseFloat(document.getElementById('height').value);
-  const w = parseFloat(document.getElementById('weight').value);
-  const act = parseFloat(document.getElementById('activity').value);
-  if (!age || !h || !w) return alert('Lengkapi semua data terlebih dahulu.');
-
-  // Mifflin-St Jeor
-  const bmr = Math.round(gender === 'male'
-    ? (10 * w) + (6.25 * h) - (5 * age) + 5
-    : (10 * w) + (6.25 * h) - (5 * age) - 161);
-  const tdee = Math.round(bmr * act);
-  const target = tdee + goalAdj;
-
-  document.getElementById('res-target-kcal').textContent = target.toLocaleString('id-ID');
-  document.getElementById('res-bmr').textContent = bmr.toLocaleString('id-ID') + ' kkal';
-  document.getElementById('res-tdee').textContent = tdee.toLocaleString('id-ID') + ' kkal';
-
-  const adjLabel = goalAdj > 0 ? '+' + goalAdj + ' kkal (surplus)' : goalAdj < 0 ? goalAdj + ' kkal (defisit)' : '± 0 kkal (maintenance)';
-  document.getElementById('res-adj').textContent = adjLabel;
-
-  const goalLabels = { '-500':'Turun cepat −0,5 kg/minggu', '-250':'Turun pelan −0,25 kg/minggu', '0':'Menjaga berat badan', '250':'Naik pelan +0,25 kg/minggu', '500':'Naik cepat +0,5 kg/minggu' };
-  document.getElementById('res-goal-label').textContent = goalLabels[String(goalAdj)] || 'Target kalori';
-
-  // Macro ratios based on goal
-  let pPct, cPct, fPct;
-  if (goalAdj < 0) { pPct = 35; cPct = 40; fPct = 25; }
-  else if (goalAdj === 0) { pPct = 25; cPct = 50; fPct = 25; }
-  else { pPct = 30; cPct = 45; fPct = 25; }
-
-  const pKcal = Math.round(target * pPct / 100);
-  const cKcal = Math.round(target * cPct / 100);
-  const fKcal = Math.round(target * fPct / 100);
-  const pG = Math.round(pKcal / 4);
-  const cG = Math.round(cKcal / 4);
-  const fG = Math.round(fKcal / 9);
-
-  document.getElementById('m-protein-g').textContent = pG + ' g';
-  document.getElementById('m-karbo-g').textContent = cG + ' g';
-  document.getElementById('m-lemak-g').textContent = fG + ' g';
-  document.getElementById('m-protein-bar').style.width = pPct + '%';
-  document.getElementById('m-karbo-bar').style.width = cPct + '%';
-  document.getElementById('m-lemak-bar').style.width = fPct + '%';
-  document.getElementById('m-protein-pct').textContent = pPct + '%';
-  document.getElementById('m-karbo-pct').textContent = cPct + '%';
-  document.getElementById('m-lemak-pct').textContent = fPct + '%';
-  document.getElementById('m-protein-kcal').textContent = pKcal + ' kkal';
-  document.getElementById('m-karbo-kcal').textContent = cKcal + ' kkal';
-  document.getElementById('m-lemak-kcal').textContent = fKcal + ' kkal';
-
-  const pPerKg = (pG / w).toFixed(1);
-  document.getElementById('macro-note').textContent = `Protein ${pG}g = ${pPerKg}g per kg berat badan. Rekomendasi untuk menjaga otot saat diet: ≥1,6g/kg (min ${Math.round(w * 1.6)}g/hari).`;
-
-  // Advice
-  let advice;
-  if (goalAdj <= -500) advice = `💡 <strong>Target ${target.toLocaleString('id-ID')} kkal/hari</strong> — defisit 500 kkal dari TDEE. Ini laju penurunan ~0,5 kg/minggu. Pastikan protein cukup (${pG}g/hari) untuk melindungi massa otot. Minum air putih 2–3 liter/hari dan pertimbangkan latihan kekuatan agar penurunan dari lemak, bukan otot.`;
-  else if (goalAdj < 0) advice = `💡 <strong>Target ${target.toLocaleString('id-ID')} kkal/hari</strong> — defisit 250 kkal. Penurunan pelan ~0,25 kg/minggu ini lebih mudah dipertahankan jangka panjang dan risiko yo-yo lebih rendah. Ideal untuk yang ingin menjaga massa otot atau baru mulai program diet.`;
-  else if (goalAdj === 0) advice = `✅ <strong>Target ${target.toLocaleString('id-ID')} kkal/hari</strong> — ini TDEE Anda (maintenance). Makan di angka ini menjaga berat badan stabil. Validasi selama 2 minggu: jika berat berubah, sesuaikan angka ini ±100–200 kkal.`;
-  else if (goalAdj <= 250) advice = `💡 <strong>Target ${target.toLocaleString('id-ID')} kkal/hari</strong> — surplus 250 kkal. Kenaikan pelan ~0,25 kg/minggu ideal untuk lean bulk (naik otot minimal lemak). Prioritaskan protein tinggi (${pG}g/hari) dan latihan beban progressif untuk memaksimalkan penambahan otot.`;
-  else advice = `💡 <strong>Target ${target.toLocaleString('id-ID')} kkal/hari</strong> — surplus 500 kkal untuk kenaikan ~0,5 kg/minggu. Pastikan latihan beban intensitas tinggi untuk memastikan kalori ekstra digunakan membangun otot, bukan tersimpan sebagai lemak.`;
-
-  document.getElementById('res-advice').innerHTML = advice;
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
-}
-
-// Food database (TKPI - corrected values)
-const FOODS = [
-  {n:'Nasi putih',u:'100g matang',k:130},{n:'Nasi merah',u:'100g matang',k:126},{n:'Nasi goreng',u:'1 piring',k:580},
-  {n:'Nasi goreng kampung',u:'1 piring',k:460},{n:'Nasi uduk',u:'1 porsi',k:450},{n:'Nasi padang (+ lauk)',u:'1 porsi',k:680},
-  {n:'Bubur ayam',u:'1 mangkuk',k:300},{n:'Mie goreng',u:'1 piring',k:480},{n:'Mie ayam',u:'1 mangkuk',k:350},
-  {n:'Mie instan rebus',u:'1 bungkus',k:330},{n:'Bakso (5 butir)',u:'1 mangkuk',k:270},{n:'Soto ayam',u:'1 mangkuk',k:200},
-  {n:'Soto betawi',u:'1 mangkuk',k:320},{n:'Gado-gado',u:'1 porsi',k:380},{n:'Pecel lele',u:'1 porsi',k:520},
-  {n:'Ayam goreng',u:'1 potong paha',k:250},{n:'Rendang',u:'1 potong',k:320},{n:'Ikan goreng',u:'1 ekor sedang',k:200},
-  {n:'Tempe goreng',u:'2 potong',k:160},{n:'Tahu goreng',u:'2 potong',k:110},{n:'Tempe bacem',u:'2 potong',k:140},
-  {n:'Sayur sop',u:'1 mangkuk',k:80},{n:'Sayur asem',u:'1 mangkuk',k:90},{n:'Tumis kangkung',u:'1 porsi',k:110},
-  {n:'Pisang ambon',u:'1 buah',k:95},{n:'Pisang goreng',u:'1 buah',k:140},{n:'Roti tawar',u:'1 lembar',k:70},
-  {n:'Roti goreng isi',u:'1 buah',k:180},{n:'Martabak manis',u:'1 potong',k:350},{n:'Martabak telur',u:'1 potong',k:280},
-  {n:'Gorengan (tahu isi)',u:'1 buah',k:120},{n:'Risoles',u:'1 buah',k:130},{n:'Donat',u:'1 buah',k:270},
-  {n:'Es teh manis',u:'1 gelas',k:120},{n:'Kopi susu',u:'1 gelas 250ml',k:80},{n:'Jus jeruk',u:'1 gelas 250ml',k:110},
-  {n:'Susu full cream',u:'1 gelas 250ml',k:150},{n:'Telur ayam goreng',u:'1 butir',k:110},{n:'Telur rebus',u:'1 butir',k:80},
+let gender='pria';
+const ACTS=[
+  {key:'sedentary',ico:'🪑',nm:'Sedentary',desc:'Tidak olahraga',factor:1.2},
+  {key:'light',ico:'🚶',nm:'Ringan',desc:'1–3 hr/minggu',factor:1.375},
+  {key:'moderate',ico:'🏃',nm:'Moderat',desc:'3–5 hr/minggu',factor:1.55},
+  {key:'active',ico:'🏋️',nm:'Aktif',desc:'6–7 hr/minggu',factor:1.725},
 ];
+let selAct='moderate';
 
-function renderFood(list) {
-  document.getElementById('food-grid').innerHTML = list.slice(0,20).map(f =>
-    `<div class="cal-card"><span class="cal-name">${f.n}<br><span style="font-size:0.7rem;color:var(--text-muted)">${f.u}</span></span><span class="cal-num">${f.k} kkal</span></div>`
-  ).join('');
+function setGender(g){gender=g;document.getElementById('g-pria').classList.toggle('on',g==='pria');document.getElementById('g-wanita').classList.toggle('on',g==='wanita');calcTDEE();}
+function renderActs(){
+  const wrap=document.getElementById('act-grid');if(!wrap)return;
+  wrap.innerHTML=ACTS.map(a=>`<div class="act-card${selAct===a.key?' on':''}" onclick="selAct='${a.key}';renderActs();calcTDEE()">
+    <div class="act-ico">${a.ico}</div><div class="act-nm">${a.nm}</div>
+    <div class="act-factor">×${a.factor}</div>
+  </div>`).join('');
 }
 
-function filterFood() {
-  const q = document.getElementById('food-search').value.toLowerCase();
-  renderFood(q ? FOODS.filter(f => f.n.toLowerCase().includes(q)) : FOODS);
+function calcTDEE(){
+  const usia=v('h-usia'),bb=v('h-bb'),tb=v('h-tb');
+  const bmr=gender==='pria'?(10*bb+6.25*tb-5*usia+5):(10*bb+6.25*tb-5*usia-161);
+  const act=ACTS.find(a=>a.key===selAct)||ACTS[2];
+  const tdee=bmr*act.factor;
+  set('h-tdee',Math.round(tdee)+' kkal');set('h-bmr',Math.round(bmr)+' kkal');
+  set('h-factor','×'+act.factor);set('h-bmr2',Math.round(bmr)+' kkal');
+  set('h-tdee2',Math.round(tdee)+' kkal');set('h-per-kg',(tdee/bb).toFixed(1)+' kkal/kg');
+  // tujuan
+  const goals=[
+    {ico:'📉',nm:'Penurunan Ekstrem',desc:'−1 kg/minggu',kal:tdee-1000,col:'#ef4444'},
+    {ico:'🔽',nm:'Penurunan Normal',desc:'−0,5 kg/minggu',kal:tdee-500,col:'#f97316'},
+    {ico:'⚖️',nm:'Maintenance',desc:'Pertahankan berat',kal:tdee,col:'var(--grn)'},
+    {ico:'🔼',nm:'Naik Berat',desc:'+0,5 kg/minggu',kal:tdee+500,col:'#3b82f6'},
+  ];
+  const wrap=document.getElementById('tujuan-grid');if(wrap)wrap.innerHTML=goals.map(g=>`<div class="tujuan-row" style="background:${g.col}11;border-color:${g.col}44">
+    <div><div class="tujuan-lbl">${g.ico} ${g.nm}</div><div class="tujuan-sub">${g.desc}</div></div>
+    <div class="tujuan-kal" style="color:${g.col}">${Math.round(g.kal)} kkal</div>
+  </div>`).join('');
+  // sync
+  document.getElementById('m-kal').value=Math.round(tdee);
+  document.getElementById('sim-tdee').value=Math.round(tdee);
+  document.getElementById('sim-makan').value=Math.round(tdee-500);
+  document.getElementById('f-kal').value=Math.round(tdee);
+  calcMakro();calcFood();calcSim();
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+function calcMakro(){
+  const kal=v('m-kal');
+  const tujuan=document.getElementById('m-tujuan')?.value||'balance';
+  const ratios={balance:[0.3,0.4,0.3],diet:[0.4,0.35,0.25],muscle:[0.35,0.4,0.25],lowcarb:[0.25,0.05,0.7],highcarb:[0.2,0.55,0.25]};
+  const [p,k,l]=ratios[tujuan]||ratios.balance;
+  const pKal=kal*p,kKal=kal*k,lKal=kal*l;
+  const pG=pKal/4,kG=kKal/4,lG=lKal/9;
+  set('m-protein',pG.toFixed(0)+'g');set('m-p-kal',pKal.toFixed(0)+' kkal ('+Math.round(p*100)+'%)');
+  set('m-karbo',kG.toFixed(0)+'g');set('m-k-kal',kKal.toFixed(0)+' kkal ('+Math.round(k*100)+'%)');
+  set('m-lemak',lG.toFixed(0)+'g');set('m-l-kal',lKal.toFixed(0)+' kkal ('+Math.round(l*100)+'%)');
+  set('m-total',kal+' kkal');
+  set('m-p-gram',pG.toFixed(0)+' g protein');set('m-k-gram',kG.toFixed(0)+' g karbohidrat');set('m-l-gram',lG.toFixed(0)+' g lemak');
+  const bars=document.getElementById('macro-bars');
+  if(bars)bars.innerHTML=[
+    {lbl:'Protein',g:pG,kal:pKal,pct:p*100,col:'#3b82f6'},
+    {lbl:'Karbohidrat',g:kG,kal:kKal,pct:k*100,col:'var(--pri)'},
+    {lbl:'Lemak',g:lG,kal:lKal,pct:l*100,col:'var(--grn)'},
+  ].map(m=>`<div class="macro-row">
+    <div class="macro-dot" style="background:${m.col}"></div>
+    <span class="macro-lbl">${m.lbl}</span>
+    <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:${m.pct}%;background:${m.col}"></div></div>
+    <span class="macro-val" style="color:${m.col}">${m.g.toFixed(0)}g (${Math.round(m.pct)}%)</span>
+  </div>`).join('');
+}
 
-renderFood(FOODS);
+const FOODS=[
+  {ico:'🍚',nm:'Nasi putih',kal:175,unit:'porsi (150g)'},
+  {ico:'🍳',nm:'Telur ayam',kal:74,unit:'butir'},
+  {ico:'🍗',nm:'Dada ayam rebus',kal:165,unit:'100g'},
+  {ico:'🥚',nm:'Tempe goreng',kal:190,unit:'potong (100g)'},
+  {ico:'🥬',nm:'Sayur tumis',kal:80,unit:'porsi'},
+  {ico:'🍌',nm:'Pisang',kal:90,unit:'buah sedang'},
+  {ico:'🥤',nm:'Susu sapi',kal:120,unit:'gelas (200ml)'},
+  {ico:'🍜',nm:'Mi instan',kal:330,unit:'bungkus'},
+];
+function calcFood(){
+  const kal=v('f-kal');
+  const wrap=document.getElementById('food-grid');if(!wrap)return;
+  wrap.innerHTML=FOODS.map(f=>{
+    const qty=(kal/f.kal).toFixed(1);
+    return`<div class="food-card"><div class="food-ico">${f.ico}</div><div class="food-nm">${f.nm}</div><div class="food-kal">${qty}×</div><div class="food-unit">${f.unit}</div></div>`;
+  }).join('');
+}
+
+function simDeficit(def){
+  const tdee=v('sim-tdee');
+  document.getElementById('sim-makan').value=Math.round(tdee-def);
+  calcSim();
+}
+function calcSim(){
+  const tdee=v('sim-tdee'),makan=v('sim-makan');
+  const delta=makan-tdee;
+  const per_mgg=delta*7/7700;
+  const wrap=document.getElementById('sim-result');if(!wrap)return;
+  const months=[1,2,3,6];
+  const cols=delta<0?'var(--grn)':delta>0?'var(--pri)':'var(--tx3)';
+  wrap.innerHTML=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0">
+    ${months.map(m=>{
+      const kg=per_mgg*m*4.3;
+      return`<div style="background:${delta<0?'var(--grn-b)':delta>0?'var(--pri-l)':'var(--sur2)'};border-radius:var(--rs);padding:12px;text-align:center;border:1px solid var(--bor)">
+        <div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;margin-bottom:4px">${m} bulan</div>
+        <div style="font-family:'DM Mono',monospace;font-size:18px;font-weight:800;color:${cols}">${kg>=0?'+':''}${kg.toFixed(1)} kg</div>
+      </div>`;
+    }).join('')}
+  </div>
+  <div style="font-size:12px;color:var(--tx2);text-align:center">${delta===0?'Maintenance — berat terjaga':delta<0?'Defisit '+Math.abs(delta)+' kkal/hari = penurunan ±'+Math.abs(per_mgg).toFixed(2)+' kg/minggu':'Surplus '+delta+' kkal/hari = kenaikan ±'+per_mgg.toFixed(2)+' kg/minggu'}</div>`;
+}
+
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);}});}
+listen(['h-usia','h-bb','h-tb'],calcTDEE);
+listen(['m-kal'],calcMakro);
+listen(['f-kal'],calcFood);
+listen(['sim-tdee','sim-makan'],calcSim);
+renderActs();calcTDEE();
 </script>
 </body>
 </html>

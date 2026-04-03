@@ -1,294 +1,423 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Kolesterol — Cek LDL, HDL & Trigliserida | NovaCalcs</title>
-<meta name="description" content="Cek kolesterol total, LDL, HDL, dan trigliserida Anda. Interpretasi risiko jantung berdasarkan standar ACC/AHA dan PERKI, lengkap dengan indikator visual dan saran perbaikan."/>
-<meta name="keywords" content="kalkulator kolesterol, kadar kolesterol normal, kolesterol LDL, kolesterol HDL, trigliserida, risiko penyakit jantung, kolesterol tinggi"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kolesterol.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-kolesterol.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Kolesterol","url":"https://novacalcs.com/id/kalkulator-kolesterol.html","description":"Cek kadar kolesterol total, LDL, HDL, dan trigliserida","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<style>
-/* Gauge bars per parameter */
-.chol-param{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.75rem;margin-bottom:.5rem}
-.cp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
-.cp-name{font-size:.82rem;font-weight:600;color:#fff}
-.cp-val{font-size:.92rem;font-weight:700}
-.cp-badge{font-size:.72rem;padding:.15rem .5rem;border-radius:20px;font-weight:600;margin-left:.4rem}
-.cp-bar-bg{height:8px;border-radius:4px;background:rgba(255,255,255,.07);overflow:hidden;position:relative;margin:.2rem 0}
-.cp-bar-fill{height:100%;border-radius:4px;transition:width .5s}
-.cp-range{display:flex;justify-content:space-between;font-size:.62rem;color:#6b7c8d}
-.cp-normal{font-size:.7rem;color:#6b7c8d;margin-top:.15rem}
-
-/* Risk summary */
-.risk-summary{border-radius:10px;padding:.85rem;font-size:.85rem;margin-top:.5rem;line-height:1.5}
-.risk-low{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2)}
-.risk-med{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2)}
-.risk-hi{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2)}
-
-/* Tips section */
-.tips-box{margin-top:.75rem;display:none}
-.tips-title{font-size:.78rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem}
-.tip-item{display:flex;gap:.5rem;align-items:flex-start;font-size:.78rem;color:#c0cdd8;margin-bottom:.3rem;line-height:1.4}
-.tip-item .tip-icon{flex-shrink:0;font-size:.9rem}
-
-.cb-ok  {background:rgba(74,222,128,.15);color:#4ade80}
-.cb-warn{background:rgba(251,191,36,.15);color:#fbbf24}
-.cb-bad {background:rgba(248,113,113,.15);color:#f87171}
-.ref-table{width:100%;border-collapse:collapse;font-size:.8rem}
-.ref-table th{background:var(--bg-input);color:var(--text-secondary);padding:8px 10px;text-align:left;font-weight:600}
-.ref-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
-.t-ok{color:#4ade80}.t-warn{color:#fbbf24}.t-bad{color:#f87171}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Kolesterol 2026 — Cek LDL, HDL, Trigliserida & Risiko Jantung | NovaCalcs</title>
+  <meta name="description" content="Kalkulator kolesterol 2026: cek kategori LDL, HDL, trigliserida, dan kolesterol total berdasarkan panduan AHA/ACC. Hitung rasio kolesterol dan risiko kardiovaskular. Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kolesterol">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--red-b);color:var(--red);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--red);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--red-b);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--red);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--red)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:52px}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* STATUS GRID */
+    .status-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+    .stat-box{border-radius:var(--rs);padding:14px;border:1.5px solid}
+    .stat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px}
+    .stat-val{font-family:'DM Mono',monospace;font-size:24px;font-weight:800;line-height:1}
+    .stat-unit{font-size:10px;color:var(--tx3);margin-top:2px}
+    .stat-cat{font-size:11px;font-weight:700;margin-top:5px}
+    /* RISK METER */
+    .risk-meter{height:12px;border-radius:6px;background:linear-gradient(90deg,#22c55e 0%,#fbbf24 40%,#f97316 65%,#ef4444 80%,#7f1d1d 100%);position:relative;margin:10px 0 4px}
+    .risk-needle{position:absolute;top:-4px;width:4px;height:20px;background:var(--tx);border-radius:2px;transform:translateX(-50%);transition:left .5s;box-shadow:0 0 0 2px var(--sur)}
+    .risk-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--tx3)}
+    /* LRES */
+    .lres{border-radius:var(--r);padding:14px;border:1.5px solid;margin-top:14px}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* REF TABLE */
+    .ref-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+    .ref-tbl th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .ref-tbl td{padding:7px 10px;border-bottom:1px solid var(--bor)}
+    .ref-tbl tr:last-child td{border-bottom:none}
+    .ref-tbl tr.current td{font-weight:700}
+    /* TIPS */
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--red)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .stw{overflow-x:auto;margin:10px 0}
+    .stbl{width:100%;border-collapse:collapse;font-size:13px}
+    .stbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .stbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .stbl tr:last-child td{border-bottom:none}.stbl td:first-child{font-weight:600;color:var(--tx)}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--red-b);color:var(--red)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Kolesterol</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Kolesterol</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🩸 Kolesterol</div>
+  <h1 class="hdr-h1">Kalkulator Kolesterol 2026</h1>
+  <p class="hdr-sub">Cek kategori LDL, HDL, trigliserida, dan kolesterol total berdasarkan panduan AHA/ACC. Hitung rasio kolesterol dan estimasi risiko kardiovaskular.</p>
+  <div class="pstrip">
+    <div class="pchip">LDL ideal <span>&lt; 100 mg/dL</span></div>
+    <div class="pchip">HDL ideal <span>&gt; 60 mg/dL</span></div>
+    <div class="pchip">Total ideal <span>&lt; 200 mg/dL</span></div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🫀 Kalkulator Kolesterol</div>
-      <div class="calc-subtitle">Masukkan hasil lab dan cek kondisi kolesterol Anda</div>
 
-      <div class="field"><label>Kolesterol Total (mg/dL)</label>
-        <input type="number" id="total" placeholder="Contoh: 190" min="50" max="600" oninput="calculate()"/>
-      </div>
-      <div class="field"><label>Kolesterol LDL — "Jahat" (mg/dL)</label>
-        <input type="number" id="ldl" placeholder="Contoh: 110" min="10" max="400" oninput="calculate()"/>
-      </div>
-      <div class="field"><label>Kolesterol HDL — "Baik" (mg/dL)</label>
-        <input type="number" id="hdl" placeholder="Contoh: 55" min="10" max="150" oninput="calculate()"/>
-      </div>
-      <div class="field"><label>Trigliserida (mg/dL) <span style="color:#6b7c8d;font-weight:400">(opsional)</span></label>
-        <input type="number" id="trig" placeholder="Contoh: 140" min="20" max="1000" oninput="calculate()"/>
-      </div>
-      <button class="calc-btn" onclick="calculate()">🫀 Cek Kolesterol Saya</button>
+<main class="main">
+<div class="left-col">
 
-      <div class="result-box" id="result">
-        <div id="param-cards"></div>
-        <div id="risk-summary-box"></div>
-        <div class="tips-box" id="tips-box">
-          <div class="tips-title">💡 Saran Perbaikan Berdasarkan Hasil Anda:</div>
-          <div id="tips-content"></div>
-        </div>
-      </div>
+<!-- ① MAIN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🩸</div>Cek Kadar Kolesterol</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="cek">🩸 Cek Kolesterol</button>
+      <button class="tbtn" data-tab="rasio">📊 Rasio & Risiko</button>
     </div>
 
-    <!-- Tabel referensi -->
-    <div class="calc-widget" style="margin-top:16px">
-      <div style="font-weight:700;color:var(--text-primary);font-size:.9rem;margin-bottom:12px">📊 Panduan Nilai Kolesterol (ACC/AHA &amp; PERKI)</div>
-      <table class="ref-table">
-        <thead><tr><th>Parameter</th><th>Optimal</th><th>Batas Tinggi</th><th>Tinggi / Rendah</th></tr></thead>
+    <!-- CEK -->
+    <div class="tpanel on" id="tab-cek">
+      <div class="notice info" style="margin-bottom:16px">ℹ️ Masukkan hasil tes laboratorium darah Anda. Semua nilai dalam satuan <strong>mg/dL</strong>. Nilai LDL biasanya sudah tertera di hasil lab, atau bisa dihitung otomatis di tab Rasio & Risiko.</div>
+      <div class="g2">
+        <div class="fld"><label>Kolesterol Total (mg/dL)</label>
+          <div class="iw"><input type="number" id="c-total" value="195" min="50" max="600"><span class="iu">mg/dL</span></div>
+        </div>
+        <div class="fld"><label>LDL ("Jahat") (mg/dL)</label>
+          <div class="iw"><input type="number" id="c-ldl" value="120" min="10" max="400"><span class="iu">mg/dL</span></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>HDL ("Baik") (mg/dL)</label>
+          <div class="iw"><input type="number" id="c-hdl" value="55" min="10" max="150"><span class="iu">mg/dL</span></div>
+        </div>
+        <div class="fld"><label>Trigliserida (mg/dL)</label>
+          <div class="iw"><input type="number" id="c-tg" value="130" min="10" max="2000"><span class="iu">mg/dL</span></div>
+        </div>
+      </div>
+
+      <div class="status-grid">
+        <div class="stat-box" id="box-total" style="background:var(--grn-b);border-color:#86efac">
+          <div class="stat-label" style="color:var(--grn)">Kolesterol Total</div>
+          <div class="stat-val" id="sv-total" style="color:var(--grn)">—</div>
+          <div class="stat-unit">mg/dL</div>
+          <div class="stat-cat" id="sc-total">—</div>
+        </div>
+        <div class="stat-box" id="box-ldl" style="background:var(--grn-b);border-color:#86efac">
+          <div class="stat-label" style="color:var(--grn)">LDL ("Kolesterol Jahat")</div>
+          <div class="stat-val" id="sv-ldl" style="color:var(--grn)">—</div>
+          <div class="stat-unit">mg/dL</div>
+          <div class="stat-cat" id="sc-ldl">—</div>
+        </div>
+        <div class="stat-box" id="box-hdl" style="background:var(--grn-b);border-color:#86efac">
+          <div class="stat-label" style="color:var(--grn)">HDL ("Kolesterol Baik")</div>
+          <div class="stat-val" id="sv-hdl" style="color:var(--grn)">—</div>
+          <div class="stat-unit">mg/dL</div>
+          <div class="stat-cat" id="sc-hdl">—</div>
+        </div>
+        <div class="stat-box" id="box-tg" style="background:var(--grn-b);border-color:#86efac">
+          <div class="stat-label" style="color:var(--grn)">Trigliserida</div>
+          <div class="stat-val" id="sv-tg" style="color:var(--grn)">—</div>
+          <div class="stat-unit">mg/dL</div>
+          <div class="stat-cat" id="sc-tg">—</div>
+        </div>
+      </div>
+      <div class="notice" id="overall-notice">Masukkan nilai untuk melihat ringkasan.</div>
+    </div>
+
+    <!-- RASIO & RISIKO -->
+    <div class="tpanel" id="tab-rasio">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Rasio kolesterol adalah indikator risiko penyakit jantung yang lebih akurat dari nilai tunggal. Masukkan nilai yang sama di tab Cek Kolesterol.</p>
+
+      <div class="fld"><label>Kalkulasi LDL otomatis (Friedewald)</label>
+        <div style="font-size:11px;color:var(--tx3);padding:8px 12px;background:var(--sur2);border-radius:var(--rs)">LDL = Total − HDL − (Trigliserida ÷ 5) &nbsp;·&nbsp; Nilai: <strong id="ldl-calc">—</strong></div>
+      </div>
+
+      <!-- Risk meter -->
+      <div class="sec-lbl">Estimasi Risiko Kardiovaskular</div>
+      <div class="risk-meter"><div class="risk-needle" id="risk-needle" style="left:15%"></div></div>
+      <div class="risk-labels"><span>Rendah</span><span>Sedang</span><span>Tinggi</span><span>Sangat Tinggi</span></div>
+      <div id="risk-badge" style="text-align:center;margin:10px 0"></div>
+
+      <div class="lres" id="rasio-lres" style="background:var(--grn-b);border-color:#86efac">
+        <div class="rrows">
+          <div class="rr"><span>Rasio Total/HDL (ideal &lt; 4,0)</span><span id="r-total-hdl">—</span></div>
+          <div class="rr"><span>Rasio LDL/HDL (ideal &lt; 3,5)</span><span id="r-ldl-hdl">—</span></div>
+          <div class="rr"><span>Rasio TG/HDL (ideal &lt; 2,0)</span><span id="r-tg-hdl">—</span></div>
+          <div class="rr"><span>LDL dihitung (Friedewald)</span><span id="r-ldl-calc">—</span></div>
+          <div class="rr"><span>Non-HDL kolesterol</span><span id="r-non-hdl">—</span></div>
+        </div>
+      </div>
+
+      <div class="sec-lbl" style="margin-top:16px">Tabel Referensi Rasio Kolesterol</div>
+      <table class="ref-tbl">
+        <thead><tr><th>Rasio</th><th>Baik</th><th>Batas</th><th>Tinggi Risiko</th></tr></thead>
         <tbody>
-          <tr><td>Total</td><td class="t-ok">&lt; 200</td><td class="t-warn">200–239</td><td class="t-bad">≥ 240</td></tr>
-          <tr><td>LDL</td><td class="t-ok">&lt; 100</td><td class="t-warn">130–159</td><td class="t-bad">≥ 160</td></tr>
-          <tr><td>HDL</td><td class="t-ok">≥ 60</td><td class="t-warn">41–59</td><td class="t-bad">≤ 40</td></tr>
-          <tr><td>Trigliserida</td><td class="t-ok">&lt; 150</td><td class="t-warn">150–199</td><td class="t-bad">≥ 200</td></tr>
-          <tr><td>Non-HDL</td><td class="t-ok">&lt; 130</td><td class="t-warn">130–159</td><td class="t-bad">≥ 160</td></tr>
+          <tr><td>Total / HDL</td><td style="color:var(--grn)">&lt; 4,0</td><td style="color:#ca8a04">4,0 – 5,0</td><td style="color:var(--red)">&gt; 5,0</td></tr>
+          <tr><td>LDL / HDL</td><td style="color:var(--grn)">&lt; 3,5</td><td style="color:#ca8a04">3,5 – 4,5</td><td style="color:var(--red)">&gt; 4,5</td></tr>
+          <tr><td>TG / HDL</td><td style="color:var(--grn)">&lt; 2,0</td><td style="color:#ca8a04">2,0 – 4,0</td><td style="color:var(--red)">&gt; 4,0</td></tr>
         </tbody>
       </table>
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator Kolesterol</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px">Interpretasi lengkap hasil pemeriksaan kolesterol darah Anda: total, LDL, HDL, trigliserida, dan Non-HDL, berdasarkan panduan PERKI (Perhimpunan Kardiologi Indonesia) dan ACC/AHA.</p>
+<!-- ② TABEL REFERENSI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📋</div>Tabel Klasifikasi Kolesterol (AHA/ACC) <span class="nbadge" style="margin-left:6px">Referensi</span></div>
+  <div class="card-b">
+    <div class="stw"><table class="stbl">
+      <thead><tr><th>Komponen</th><th>Kategori</th><th>Nilai (mg/dL)</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4">Kolesterol Total</td><td style="color:var(--grn)">Optimal</td><td>&lt; 200</td><td>Diinginkan</td></tr>
+        <tr><td style="color:#ca8a04">Batas Tinggi</td><td>200 – 239</td><td>Perlu perhatian</td></tr>
+        <tr><td style="color:var(--red)">Tinggi</td><td>≥ 240</td><td>Konsultasi dokter</td></tr>
+        <tr><td style="color:#3b82f6">Rendah</td><td>&lt; 160</td><td>Jarang terjadi masalah</td></tr>
+        <tr><td rowspan="4" style="border-top:2px solid var(--bor)">LDL</td><td style="color:var(--grn)">Optimal</td><td>&lt; 100</td><td>Terbaik</td></tr>
+        <tr><td style="color:#22c55e">Hampir Optimal</td><td>100 – 129</td><td>Baik</td></tr>
+        <tr><td style="color:#ca8a04">Batas Tinggi</td><td>130 – 159</td><td>Perlu pantau</td></tr>
+        <tr><td style="color:var(--red)">Tinggi / Sangat Tinggi</td><td>≥ 160</td><td>Konsultasi dokter</td></tr>
+        <tr><td rowspan="3" style="border-top:2px solid var(--bor)">HDL</td><td style="color:var(--red)">Rendah (Buruk)</td><td>&lt; 40</td><td>Faktor risiko</td></tr>
+        <tr><td style="color:#22c55e">Normal</td><td>40 – 59</td><td>Cukup</td></tr>
+        <tr><td style="color:var(--grn)">Tinggi (Baik)</td><td>≥ 60</td><td>Protektif jantung</td></tr>
+        <tr><td rowspan="4" style="border-top:2px solid var(--bor)">Trigliserida</td><td style="color:var(--grn)">Normal</td><td>&lt; 150</td><td>Optimal</td></tr>
+        <tr><td style="color:#ca8a04">Batas Tinggi</td><td>150 – 199</td><td>Perlu perhatian</td></tr>
+        <tr><td style="color:var(--red)">Tinggi</td><td>200 – 499</td><td>Konsultasi dokter</td></tr>
+        <tr><td style="color:#7f1d1d">Sangat Tinggi</td><td>≥ 500</td><td>Darurat medis</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
 
-    <h2>Mengenal Jenis-Jenis Kolesterol</h2>
-    <p>Kolesterol adalah senyawa lemak yang diproduksi hati dan diperoleh dari makanan. Meskipun sering dianggap negatif, kolesterol penting untuk fungsi tubuh — membantu membuat hormon, vitamin D, dan asam empedu. Ada tiga komponen utama yang dipantau:</p>
-    <ul>
-      <li><strong>LDL (Low-Density Lipoprotein)</strong> — Kolesterol "jahat" yang dapat menumpuk di dinding pembuluh darah (plak) dan menyebabkan penyempitan arteri, berujung pada serangan jantung atau stroke.</li>
-      <li><strong>HDL (High-Density Lipoprotein)</strong> — Kolesterol "baik" yang membawa kolesterol berlebih kembali ke hati untuk dibuang. Semakin tinggi HDL, semakin baik untuk kesehatan jantung.</li>
-      <li><strong>Trigliserida</strong> — Jenis lemak lain dalam darah. Kadar tinggi dikombinasikan dengan LDL tinggi dan HDL rendah sangat meningkatkan risiko kardiovaskular.</li>
-    </ul>
+</div><!-- /left-col -->
 
-    <h2>Cara Membaca Hasil Pemeriksaan Kolesterol</h2>
-    <ol>
-      <li>Siapkan hasil lab lengkap yang memuat kolesterol total, LDL, HDL, dan trigliserida</li>
-      <li>Masukkan setiap nilai pada kolom yang tersedia — hasil langsung tampil saat mengetik</li>
-      <li>Lihat indikator visual bar untuk setiap parameter sekaligus saran perbaikan yang dipersonalisasi</li>
-    </ol>
-    <p>Pemeriksaan kolesterol sebaiknya dilakukan dalam keadaan <strong>puasa 10–12 jam</strong> untuk hasil yang akurat, terutama untuk LDL dan trigliserida.</p>
-
-    <h2>Faktor Risiko Kolesterol Tinggi di Indonesia</h2>
-    <p>Berdasarkan data Riskesdas 2018, prevalensi hiperkolesterolemia di Indonesia mencapai 28,8%. Faktor risiko utama meliputi: pola makan tinggi lemak jenuh (gorengan, santan, jeroan); gaya hidup sedentari; kegemukan terutama lemak perut; merokok yang menurunkan HDL secara signifikan; faktor genetik (hiperkolesterolemia familial); serta usia dan jenis kelamin — pria lebih berisiko di usia muda, wanita risikonya meningkat pasca-menopause.</p>
-
-    <h2>Makanan yang Mempengaruhi Kadar Kolesterol</h2>
-    <p><strong>❌ Batasi — tingkatkan LDL atau trigliserida:</strong> lemak trans (margarin padat, gorengan fast food), lemak jenuh berlebih (santan kental, kulit ayam, jeroan), dan gula tambahan tinggi (minuman manis, kue — meningkatkan trigliserida).</p>
-    <p><strong>✅ Perbanyak — turunkan LDL atau tingkatkan HDL:</strong> serat larut (oatmeal, kacang, apel, jambu biji), lemak tak jenuh (alpukat, ikan kembung/sarden, almond, minyak zaitun), sterol nabati dari tempe dan tahu yang memblokir penyerapan kolesterol, dan teh hijau yang antioksidan EGCG-nya membantu menurunkan LDL.</p>
-
-    <h2>Kapan Harus Mulai Minum Obat Kolesterol (Statin)?</h2>
-    <p>Keputusan menggunakan statin bergantung pada kombinasi kadar kolesterol dan risiko kardiovaskular total. Panduan umum: LDL >190 mg/dL hampir selalu direkomendasikan statin; usia 40–75 tahun dengan diabetes direkomendasikan statin meski LDL masih normal; risiko kardiovaskular 10 tahun >7,5% berdasarkan Framingham Score. Statin generik (simvastatin, atorvastatin) tersedia di puskesmas dan ditanggung BPJS Kesehatan.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa kadar kolesterol yang normal untuk orang Indonesia?</div>
-    <div class="faq-a">Panduan PERKI dan ACC/AHA: kolesterol total idealnya di bawah 200 mg/dL, LDL di bawah 100 mg/dL (atau < 70 mg/dL untuk pasien risiko tinggi), HDL di atas 60 mg/dL, dan trigliserida di bawah 150 mg/dL. Tidak ada perbedaan standar khusus untuk ras Asia dalam panduan ini.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah kolesterol tinggi selalu memerlukan obat?</div>
-    <div class="faq-a">Tidak selalu. Keputusan menggunakan statin bergantung pada kadar kolesterol dan faktor risiko kardiovaskular lain. Untuk kolesterol tinggi tanpa faktor risiko lain, modifikasi gaya hidup selama 3–6 bulan biasanya dicoba terlebih dahulu. Konsultasikan dengan dokter untuk evaluasi risiko total Anda.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Makanan apa yang paling efektif menurunkan kolesterol?</div>
-    <div class="faq-a">Makanan yang terbukti menurunkan LDL: oatmeal dan gandum utuh (beta-glukan mengikat kolesterol di usus), kacang-kacangan (almond, walnut), ikan berlemak (salmon, sarden — kaya omega-3), minyak zaitun extra virgin, alpukat, tempe, dan tahu. Hindari gorengan, jeroan, dan produk tinggi lemak jenuh.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah boleh makan telur jika kolesterol tinggi?</div>
-    <div class="faq-a">Penelitian terbaru menunjukkan konsumsi telur moderat (1 butir per hari) tidak secara signifikan meningkatkan risiko penyakit jantung pada kebanyakan orang. Lemak jenuh dari daging berlemak dan gorengan lebih berpengaruh terhadap kolesterol darah daripada kolesterol makanan dari telur. Penderita diabetes atau risiko kardiovaskular tinggi sebaiknya berkonsultasi dengan dokter.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Seberapa sering harus cek kolesterol?</div>
-    <div class="faq-a">Untuk orang dewasa sehat tanpa faktor risiko, pemeriksaan profil lipid dianjurkan setiap 4–6 tahun. Jika ada faktor risiko (kolesterol pernah tinggi, diabetes, hipertensi, merokok, obesitas, riwayat keluarga penyakit jantung dini), pemeriksaan dilakukan setiap 1–2 tahun sesuai rekomendasi dokter.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu Non-HDL kolesterol?</div>
-    <div class="faq-a">Non-HDL kolesterol = Kolesterol Total − HDL. Ini mengukur semua kolesterol "berbahaya" (LDL, VLDL, IDL) sekaligus dan dianggap prediktor risiko kardiovaskular yang lebih baik dari LDL saja, terutama pada penderita diabetes atau trigliserida tinggi. Target Non-HDL: &lt; 130 mg/dL untuk risiko rendah, &lt; 100 mg/dL untuk risiko tinggi.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-tensi.html" class="related-item"><span class="ri">🩺</span>Kalkulator Tensi</a>
-      <a href="/id/kalkulator-gula-darah.html" class="related-item"><span class="ri">🩸</span>Kalkulator Gula Darah</a>
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
-      <a href="/id/kalkulator-whr.html" class="related-item"><span class="ri">📏</span>Kalkulator WHR</a>
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Ringkasan Target</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Total kolesterol</div></div></div><div class="fprice" style="color:var(--grn)">&lt; 200</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">LDL (jahat)</div></div></div><div class="fprice" style="color:var(--grn)">&lt; 100</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">HDL (baik)</div></div></div><div class="fprice" style="color:var(--grn)">&gt; 60</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Trigliserida</div></div></div><div class="fprice" style="color:var(--grn)">&lt; 150</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Rasio Total/HDL</div></div></div><div class="fprice" style="color:var(--grn)">&lt; 4,0</div></div>
+      </div>
     </div>
   </div>
-</main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
-</footer>
-<script defer>
-// Parameter config: [name, unit, badOK, badWarn, isHDL, maxScale]
-// For each: getStatus returns {label, cls, pct}
-function getStatus(key, val) {
-  if (key === 'total') {
-    if (val < 200) return {label:'Optimal', cls:'cb-ok', pct: val/240*100};
-    if (val < 240) return {label:'Batas Tinggi', cls:'cb-warn', pct: val/300*100};
-    return {label:'Tinggi', cls:'cb-bad', pct: Math.min(val/300*100, 100)};
-  }
-  if (key === 'ldl') {
-    if (val < 100) return {label:'Optimal', cls:'cb-ok', pct: val/200*100};
-    if (val < 130) return {label:'Di Atas Optimal', cls:'cb-warn', pct: val/200*100};
-    if (val < 160) return {label:'Batas Tinggi', cls:'cb-warn', pct: val/200*100};
-    if (val < 190) return {label:'Tinggi', cls:'cb-bad', pct: val/200*100};
-    return {label:'Sangat Tinggi', cls:'cb-bad', pct: 100};
-  }
-  if (key === 'hdl') {
-    if (val < 40) return {label:'Rendah — Risiko Tinggi', cls:'cb-bad', pct: val/80*100};
-    if (val < 60) return {label:'Normal', cls:'cb-warn', pct: val/80*100};
-    return {label:'Optimal', cls:'cb-ok', pct: Math.min(val/80*100, 100)};
-  }
-  if (key === 'trig') {
-    if (val < 150) return {label:'Normal', cls:'cb-ok', pct: val/500*100};
-    if (val < 200) return {label:'Batas Tinggi', cls:'cb-warn', pct: val/500*100};
-    if (val < 500) return {label:'Tinggi', cls:'cb-bad', pct: val/500*100};
-    return {label:'Sangat Tinggi', cls:'cb-bad', pct: 100};
-  }
-  if (key === 'nonhdl') {
-    if (val < 130) return {label:'Optimal', cls:'cb-ok', pct: val/200*100};
-    if (val < 160) return {label:'Batas Tinggi', cls:'cb-warn', pct: val/200*100};
-    return {label:'Tinggi', cls:'cb-bad', pct: Math.min(val/200*100, 100)};
-  }
-}
-
-function renderBar(key, val, normal, isHDL) {
-  const st    = getStatus(key, val);
-  const color = st.cls === 'cb-ok' ? '#4ade80' : st.cls === 'cb-warn' ? '#fbbf24' : '#f87171';
-  // For HDL, invert bar logic (higher = better, so don't show as "filling up to danger")
-  const pct = Math.max(2, Math.min(100, st.pct)).toFixed(1);
-  return `<div class="chol-param">
-    <div class="cp-header">
-      <span class="cp-name">${key === 'nonhdl' ? 'Non-HDL Kolesterol' : key.toUpperCase().replace('TRIG','Trigliserida').replace('TOTAL','Kolesterol Total').replace('HDL','HDL (Baik)').replace('LDL','LDL (Jahat)')}</span>
-      <span><span class="cp-val" style="color:${color}">${val}</span> <span style="font-size:.7rem;color:#6b7c8d">mg/dL</span>
-      <span class="cp-badge ${st.cls}">${st.label}</span></span>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Kendalikan Kolesterol</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🥗</span><span class="tptx"><strong>Kurangi lemak jenuh & trans</strong> — gorengan, santan berlebihan, dan makanan ultra-proses meningkatkan LDL</span></div>
+        <div class="tip"><span class="tpico">🐟</span><span class="tptx"><strong>Konsumsi ikan berlemak</strong> 2x/minggu — omega-3 meningkatkan HDL dan menurunkan trigliserida</span></div>
+        <div class="tip"><span class="tpico">🏃</span><span class="tptx"><strong>Olahraga aerobik</strong> 150 menit/minggu — terbukti meningkatkan HDL dan menurunkan LDL & trigliserida</span></div>
+        <div class="tip"><span class="tpico">🚭</span><span class="tptx"><strong>Berhenti merokok</strong> — meningkatkan HDL secara signifikan dalam waktu singkat</span></div>
+      </div>
     </div>
-    <div class="cp-bar-bg"><div class="cp-bar-fill" style="width:${pct}%;background:${color}"></div></div>
-    <div class="cp-normal">Target: ${normal}</div>
-  </div>`;
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-tensi" class="relc"><div class="relc-ico">💉</div><div class="relc-nm">Tensi</div><div class="relc-ds">Tekanan darah</div></a>
+        <a href="/id/kalkulator-bmi" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">BMI</div><div class="relc-ds">Indeks massa tubuh</div></a>
+        <a href="/id/kalkulator-gula-darah" class="relc"><div class="relc-ico">🩸</div><div class="relc-nm">Gula Darah</div><div class="relc-ds">Cek gula darah</div></a>
+        <a href="/id/kalkulator-kalori" class="relc"><div class="relc-ico">🍽️</div><div class="relc-nm">Kalori</div><div class="relc-ds">Kebutuhan kalori</div></a>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+<div class="seo">
+  <h2>Memahami Hasil Tes Kolesterol</h2>
+  <p>Tes kolesterol darah (lipid panel) mengukur empat komponen utama: kolesterol total, LDL (low-density lipoprotein / "kolesterol jahat"), HDL (high-density lipoprotein / "kolesterol baik"), dan trigliserida. LDL yang tinggi berkontribusi pada penumpukan plak di arteri, sementara HDL yang tinggi justru membantu membuang kolesterol berlebih dari aliran darah.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan LDL dan HDL?</div><div class="faq-a">LDL (Low-Density Lipoprotein) membawa kolesterol ke sel-sel tubuh. Jika berlebihan, LDL menumpuk di dinding arteri dan membentuk plak yang bisa menyebabkan penyakit jantung — karena itu disebut "kolesterol jahat". HDL (High-Density Lipoprotein) sebaliknya — mengambil kolesterol dari arteri dan membawanya ke hati untuk dibuang. HDL tinggi bersifat protektif terhadap penyakit jantung.</div></div>
+  <div class="faq-i"><div class="faq-q">Seberapa sering harus cek kolesterol?</div><div class="faq-a">Panduan umum: dewasa sehat mulai usia 20 tahun: setiap 4–6 tahun. Jika ada faktor risiko (diabetes, hipertensi, riwayat keluarga penyakit jantung, obesitas): setiap 1–2 tahun. Usia 40 tahun ke atas atau sudah terdiagnosis dislipidemia: sesuai anjuran dokter. Pemeriksaan dilakukan setelah puasa 9–12 jam untuk hasil trigliserida yang akurat.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
+</footer>
+
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+
+// Category functions
+function totalCat(val){
+  if(val<200)return{nm:'Optimal',col:'#1A7F4E',bg:'var(--grn-b)',bc:'#86efac'};
+  if(val<240)return{nm:'Batas Tinggi',col:'#ca8a04',bg:'#fefce8',bc:'#fde047'};
+  return{nm:'Tinggi',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5'};
+}
+function ldlCat(val){
+  if(val<100)return{nm:'Optimal',col:'#1A7F4E',bg:'var(--grn-b)',bc:'#86efac'};
+  if(val<130)return{nm:'Hampir Optimal',col:'#22c55e',bg:'#f0fdf4',bc:'#86efac'};
+  if(val<160)return{nm:'Batas Tinggi',col:'#ca8a04',bg:'#fefce8',bc:'#fde047'};
+  if(val<190)return{nm:'Tinggi',col:'#ea580c',bg:'#fff7ed',bc:'#fdba74'};
+  return{nm:'Sangat Tinggi',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5'};
+}
+function hdlCat(val){
+  if(val<40)return{nm:'Rendah (Faktor Risiko)',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5'};
+  if(val<60)return{nm:'Normal',col:'#22c55e',bg:'#f0fdf4',bc:'#86efac'};
+  return{nm:'Tinggi (Protektif)',col:'#1A7F4E',bg:'var(--grn-b)',bc:'#86efac'};
+}
+function tgCat(val){
+  if(val<150)return{nm:'Normal',col:'#1A7F4E',bg:'var(--grn-b)',bc:'#86efac'};
+  if(val<200)return{nm:'Batas Tinggi',col:'#ca8a04',bg:'#fefce8',bc:'#fde047'};
+  if(val<500)return{nm:'Tinggi',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5'};
+  return{nm:'Sangat Tinggi',col:'#7f1d1d',bg:'#fef2f2',bc:'#f87171'};
 }
 
-function calculate() {
-  const total = parseFloat(document.getElementById('total').value);
-  const ldl   = parseFloat(document.getElementById('ldl').value);
-  const hdl   = parseFloat(document.getElementById('hdl').value);
-  const trig  = parseFloat(document.getElementById('trig').value);
+function applyBox(boxId,svId,scId,val,catFn){
+  const cat=catFn(val);
+  const box=document.getElementById(boxId);
+  if(box){box.style.background=cat.bg;box.style.borderColor=cat.bc;}
+  const sv=document.getElementById(svId);if(sv){sv.textContent=val;sv.style.color=cat.col;}
+  const lbl=box?.querySelector('.stat-label');if(lbl)lbl.style.color=cat.col;
+  set(scId,cat.nm);
+}
 
-  if (isNaN(total) || isNaN(ldl) || isNaN(hdl)) return;
+function calcCek(){
+  const total=v('c-total'),ldl=v('c-ldl'),hdl=v('c-hdl'),tg=v('c-tg');
+  applyBox('box-total','sv-total','sc-total',total,totalCat);
+  applyBox('box-ldl','sv-ldl','sc-ldl',ldl,ldlCat);
+  applyBox('box-hdl','sv-hdl','sc-hdl',hdl,hdlCat);
+  applyBox('box-tg','sv-tg','sc-tg',tg,tgCat);
 
-  let html = '';
-  html += renderBar('total', total, '< 200 mg/dL');
-  html += renderBar('ldl',   ldl,   '< 100 mg/dL');
-  html += renderBar('hdl',   hdl,   '≥ 60 mg/dL', true);
-  if (!isNaN(trig)) html += renderBar('trig', trig, '< 150 mg/dL');
+  // overall notice
+  const notice=document.getElementById('overall-notice');
+  const issues=[];
+  if(total>=240)issues.push('kolesterol total sangat tinggi');
+  if(ldl>=160)issues.push('LDL tinggi');
+  if(hdl<40)issues.push('HDL rendah (faktor risiko)');
+  if(tg>=200)issues.push('trigliserida tinggi');
+  if(notice){
+    if(issues.length===0){
+      notice.className='notice';notice.textContent='✅ Semua nilai dalam kisaran normal atau baik. Pertahankan pola hidup sehat!';
+    } else {
+      notice.className='notice warn';notice.textContent='⚠️ Perlu perhatian: '+issues.join(', ')+'. Konsultasikan dengan dokter.';
+    }
+  }
+  calcRasio();
+}
 
-  // Non-HDL
-  const nonHDL = total - hdl;
-  html += renderBar('nonhdl', nonHDL, '< 130 mg/dL');
+function calcRasio(){
+  const total=v('c-total'),ldl=v('c-ldl'),hdl=v('c-hdl'),tg=v('c-tg');
+  if(hdl===0)return;
+  const ldlCalc=total-hdl-(tg/5);
+  const rTotalHdl=total/hdl;
+  const rLdlHdl=ldl/hdl;
+  const rTgHdl=tg/hdl;
+  const nonHdl=total-hdl;
 
-  // Ratio Total/HDL
-  const ratio = (total/hdl).toFixed(1);
-  const ratioNote = ratio < 3.5 ? 'Sangat Baik' : ratio < 5 ? 'Normal' : 'Berisiko Tinggi';
-  const ratioCls  = ratio < 3.5 ? 'cb-ok' : ratio < 5 ? 'cb-warn' : 'cb-bad';
-  html += `<div class="chol-param"><div class="cp-header"><span class="cp-name">Rasio Total/HDL</span>
-    <span><span class="cp-val">${ratio}</span> <span class="cp-badge ${ratioCls}">${ratioNote}</span></span></div>
-    <div class="cp-normal">Ideal: &lt; 3,5</div></div>`;
+  set('ldl-calc',ldlCalc.toFixed(1)+' mg/dL');
+  set('r-total-hdl',rTotalHdl.toFixed(2)+(rTotalHdl<4?' ✅':rTotalHdl<5?' ⚠️':' 🔴'));
+  set('r-ldl-hdl',rLdlHdl.toFixed(2)+(rLdlHdl<3.5?' ✅':rLdlHdl<4.5?' ⚠️':' 🔴'));
+  set('r-tg-hdl',rTgHdl.toFixed(2)+(rTgHdl<2?' ✅':rTgHdl<4?' ⚠️':' 🔴'));
+  set('r-ldl-calc',ldlCalc.toFixed(1)+' mg/dL');
+  set('r-non-hdl',nonHdl.toFixed(0)+' mg/dL (ideal <130)');
 
-  document.getElementById('param-cards').innerHTML = html;
+  // Risk score (simple)
+  let riskScore=0;
+  if(rTotalHdl>5)riskScore+=3;else if(rTotalHdl>4)riskScore+=2;else riskScore+=0;
+  if(ldl>=160)riskScore+=3;else if(ldl>=130)riskScore+=2;else if(ldl>=100)riskScore+=1;
+  if(hdl<40)riskScore+=3;else if(hdl<60)riskScore+=1;
+  if(tg>=200)riskScore+=2;else if(tg>=150)riskScore+=1;
+  const maxScore=11;
+  const riskPct=Math.min(95,riskScore/maxScore*100);
+  const needle=document.getElementById('risk-needle');if(needle)needle.style.left=riskPct+'%';
 
-  // Risk score
-  let riskScore = 0;
-  [getStatus('total',total), getStatus('ldl',ldl), getStatus('hdl',hdl), getStatus('nonhdl',nonHDL)].forEach(s => {
-    if (s.cls==='cb-bad') riskScore += 2;
-    else if (s.cls==='cb-warn') riskScore += 1;
+  let riskNm,riskCol,riskBg,riskBc;
+  if(riskScore<=2){riskNm='Risiko Rendah';riskCol='#1A7F4E';riskBg='var(--grn-b)';riskBc='#86efac';}
+  else if(riskScore<=5){riskNm='Risiko Sedang';riskCol='#ca8a04';riskBg='#fefce8';riskBc='#fde047';}
+  else if(riskScore<=8){riskNm='Risiko Tinggi';riskCol='#ea580c';riskBg='#fff7ed';riskBc='#fdba74';}
+  else{riskNm='Risiko Sangat Tinggi';riskCol='#dc2626';riskBg='var(--red-b)';riskBc='#fca5a5';}
+
+  const badge=document.getElementById('risk-badge');
+  if(badge)badge.innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;background:${riskBg};color:${riskCol};border:1.5px solid ${riskBc}">${riskNm}</div>`;
+  const lres=document.getElementById('rasio-lres');
+  if(lres){lres.style.background=riskBg;lres.style.borderColor=riskBc;}
+}
+
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
   });
-  if (!isNaN(trig)) { const s=getStatus('trig',trig); riskScore += s.cls==='cb-bad'?2:s.cls==='cb-warn'?1:0; }
-
-  const summaryText = riskScore === 0
-    ? '✅ Profil kolesterol Anda sangat baik. Pertahankan gaya hidup sehat dan cek kembali dalam 1–2 tahun!'
-    : riskScore <= 3
-    ? '⚠️ Beberapa parameter perlu perhatian. Lakukan perubahan pola makan dan olahraga, lalu konsultasikan dengan dokter.'
-    : '🔴 Profil kolesterol Anda menunjukkan risiko kardiovaskular. Segera konsultasikan dengan dokter untuk evaluasi lebih lanjut.';
-  const summaryClass = riskScore === 0 ? 'risk-low' : riskScore <= 3 ? 'risk-med' : 'risk-hi';
-
-  document.getElementById('risk-summary-box').innerHTML =
-    `<div class="risk-summary ${summaryClass}">${summaryText}</div>`;
-
-  // Personalized tips
-  const tips = [];
-  if (getStatus('ldl', ldl).cls !== 'cb-ok') {
-    tips.push({icon:'🥣', text:'Ganti sarapan dengan oatmeal 2–3 kali seminggu — beta-glukan terbukti menurunkan LDL 5–10%'});
-    tips.push({icon:'🐟', text:'Makan ikan berlemak (sarden, kembung, tuna) minimal 2× seminggu untuk omega-3'});
-    tips.push({icon:'🍳', text:'Kurangi gorengan dan santan kental yang mengandung lemak jenuh tinggi'});
-  }
-  if (getStatus('hdl', hdl).cls !== 'cb-ok') {
-    tips.push({icon:'🏃', text:'Olahraga aerobik 30 menit/hari, 5×/minggu adalah cara paling efektif meningkatkan HDL'});
-    tips.push({icon:'🚭', text:'Berhenti merokok — HDL mulai meningkat dalam beberapa minggu setelah berhenti'});
-  }
-  if (!isNaN(trig) && getStatus('trig', trig).cls !== 'cb-ok') {
-    tips.push({icon:'🧃', text:'Kurangi gula tambahan dan minuman manis — penyebab utama trigliserida tinggi'});
-    tips.push({icon:'⚖️', text:'Turunkan berat badan 5–10% jika kelebihan berat — langsung turunkan trigliserida'});
-  }
-  if (tips.length > 0) {
-    document.getElementById('tips-content').innerHTML = tips.map(t =>
-      `<div class="tip-item"><span class="tip-icon">${t.icon}</span><span>${t.text}</span></div>`
-    ).join('');
-    document.getElementById('tips-box').style.display = '';
-  } else {
-    document.getElementById('tips-box').style.display = 'none';
-  }
-
-  document.getElementById('result').classList.add('show');
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if(e.key==='Enter') calculate(); });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+['c-total','c-ldl','c-hdl','c-tg'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',calcCek);
+});
+calcCek();
 </script>
 </body>
 </html>

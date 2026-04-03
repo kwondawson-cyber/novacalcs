@@ -1,292 +1,340 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator WHR 2026 — Rasio Pinggang-Pinggul & Risiko Kesehatan | NovaCalcs</title>
-<meta name="description" content="Hitung WHR (Waist-Hip Ratio) atau rasio pinggang-pinggul dan ketahui risiko penyakit jantung serta diabetes. Lengkap dengan indikator risiko lingkar pinggang dan target ideal."/>
-<meta name="keywords" content="kalkulator WHR, rasio pinggang pinggul, waist hip ratio, lingkar pinggang, obesitas sentral, risiko kesehatan, lemak perut"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-whr.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-whr.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* WHR gauge bar */
-.whr-gauge-wrap{margin:14px 0 6px}
-.whr-gauge{height:14px;border-radius:7px;overflow:hidden;display:flex;position:relative}
-.whr-seg-low{flex:2;background:rgba(74,222,128,.35)}
-.whr-seg-med{flex:1;background:rgba(251,191,36,.35)}
-.whr-seg-hi {flex:1;background:rgba(248,113,113,.35)}
-.whr-needle{position:absolute;top:-3px;bottom:-3px;width:4px;border-radius:2px;background:#fff;box-shadow:0 0 5px rgba(0,0,0,.4);transform:translateX(-50%);transition:left .4s}
-.whr-gauge-labels{display:flex;justify-content:space-between;font-size:.65rem;color:#6b7c8d;margin-top:4px}
-/* Waist risk bar */
-.waist-bar{height:10px;border-radius:5px;background:rgba(255,255,255,.07);overflow:hidden;margin:.3rem 0}
-.waist-fill{height:100%;border-radius:5px;transition:width .4s}
-/* Body shape visual */
-.shape-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.shape-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.75rem;text-align:center}
-.shape-card.active-shape{border-color:rgba(0,201,177,.35);background:rgba(0,201,177,.07)}
-.shape-emoji{font-size:2rem;margin-bottom:.25rem}
-.shape-title{font-size:.8rem;font-weight:700;color:#fff}
-.shape-desc{font-size:.7rem;color:#8fa3b1;margin-top:.15rem;line-height:1.4}
-/* Target calculator */
-.target-box{background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-top:10px;font-size:.82rem;line-height:1.6;display:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator WHR 2026 — Rasio Pinggang Pinggul & Risiko Kesehatan | NovaCalcs</title>
+  <meta name="description" content="Kalkulator WHR (Waist-Hip Ratio) 2026: hitung rasio pinggang-pinggul, cek risiko kardiovaskular dan metabolik, bandingkan dengan lingkar pinggang ideal. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-whr">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--grn-b);color:var(--grn);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--grn);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--grn-b);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--grn)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    .gender-toggle{display:flex;gap:8px;margin-bottom:14px}
+    .gender-btn{flex:1;padding:10px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center}
+    .gender-btn.on{border-color:var(--grn);color:var(--grn);background:var(--grn-b)}
+    /* RESULT */
+    .result-big{border-radius:var(--r);padding:20px;text-align:center;margin:14px 0;border:1.5px solid}
+    .rb-val{font-family:'DM Mono',monospace;font-size:52px;font-weight:800;line-height:1}
+    .rb-cat{font-size:18px;font-weight:800;margin-top:8px}
+    .rb-sub{font-size:12px;color:var(--tx3);margin-top:4px}
+    /* GAUGE */
+    .gauge-wrap{margin:10px 0 6px}
+    .gauge-bar{height:12px;border-radius:6px;background:linear-gradient(90deg,#22c55e 0%,#fbbf24 45%,#f97316 65%,#ef4444 82%,#7f1d1d 100%);position:relative}
+    .gauge-needle{position:absolute;top:-4px;width:4px;height:20px;background:var(--tx);border-radius:2px;transform:translateX(-50%);transition:left .5s;box-shadow:0 0 0 2px var(--sur)}
+    .gauge-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:3px}
+    /* LRES */
+    .lres{border-radius:var(--r);padding:14px;border:1.5px solid}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* COMPARE CARDS */
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+    @media(max-width:420px){.compare-grid{grid-template-columns:1fr 1fr}}
+    .comp-card{border-radius:var(--rs);padding:12px;text-align:center;border:1.5px solid var(--bor)}
+    .comp-card.ok{background:var(--grn-b);border-color:#86efac}
+    .comp-card.warn{background:var(--pri-l);border-color:#ffd4b3}
+    .comp-card.bad{background:var(--red-b);border-color:#fca5a5}
+    .comp-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:5px}
+    .comp-val{font-family:'DM Mono',monospace;font-size:17px;font-weight:800}
+    .comp-sub{font-size:9px;margin-top:3px;color:var(--tx3)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--grn)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--grn)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--grn-b);color:var(--grn)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .meas-card{background:var(--sur2);border-radius:var(--rs);padding:14px;border:1px solid var(--bor);margin-top:14px}
+    .meas-steps{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+    .meas-step{display:flex;gap:8px;font-size:11px;color:var(--tx2)}
+    .meas-num{width:18px;height:18px;border-radius:50%;background:var(--grn);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator WHR</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator WHR</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">📏 Komposisi Tubuh</div>
+  <h1 class="hdr-h1">Kalkulator WHR 2026</h1>
+  <p class="hdr-sub">Hitung Waist-Hip Ratio (rasio pinggang-pinggul) dan cek risiko kardiovaskular & metabolik. WHR lebih akurat dari BMI untuk mendeteksi risiko lemak perut berlebihan.</p>
+  <div class="pstrip">
+    <div class="pchip">WHR ideal pria <span>&lt; 0,90</span></div>
+    <div class="pchip">WHR ideal wanita <span>&lt; 0,85</span></div>
+    <div class="pchip">Lingkar pinggang pria <span>&lt; 90 cm</span></div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">📏 Kalkulator WHR (Rasio Pinggang-Pinggul)</div>
-      <div class="calc-subtitle">Ukur risiko kesehatan berdasarkan distribusi lemak tubuh</div>
 
-      <div class="field"><label>Jenis Kelamin</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-male" onclick="selectGender('male')">👨 Laki-laki</div>
-          <div class="radio-btn" id="btn-female" onclick="selectGender('female')">👩 Perempuan</div>
-        </div>
+<main class="main">
+<div class="left-col">
+
+<div class="card">
+  <div class="card-h"><div class="card-ico">📏</div>Hitung WHR & Risiko Kesehatan</div>
+  <div class="card-b">
+    <div class="fld"><label>Jenis Kelamin</label>
+      <div class="gender-toggle">
+        <button class="gender-btn on" id="g-pria" onclick="setGender('pria')">👨 Pria</button>
+        <button class="gender-btn" id="g-wanita" onclick="setGender('wanita')">👩 Wanita</button>
       </div>
-      <div class="field">
-        <label>Lingkar Pinggang (cm) <small>— ukur di bagian tersempit perut, setelah napas biasa</small></label>
-        <input type="number" id="waist" placeholder="Contoh: 82" min="40" max="200" step="0.1" oninput="calculate()"/>
+    </div>
+    <div class="g2">
+      <div class="fld"><label>Lingkar Pinggang (cm)</label>
+        <div class="iw"><input type="number" id="w-pinggang" value="82" min="40" max="200" step="0.5"><span class="iu">cm</span></div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">Diukur setinggi pusar atau titik terkecil</div>
       </div>
-      <div class="field">
-        <label>Lingkar Pinggul (cm) <small>— ukur di bagian terlebar pinggul</small></label>
-        <input type="number" id="hip" placeholder="Contoh: 96" min="50" max="250" step="0.1" oninput="calculate()"/>
+      <div class="fld"><label>Lingkar Pinggul (cm)</label>
+        <div class="iw"><input type="number" id="w-pinggul" value="95" min="40" max="250" step="0.5"><span class="iu">cm</span></div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">Titik terlebar di area pinggul/bokong</div>
       </div>
-      <button class="calc-btn" onclick="calculate()">Hitung WHR Saya</button>
+    </div>
 
-      <div class="result-panel" id="result">
-        <!-- WHR value + badge -->
-        <div class="result-main">
-          <div class="result-value" id="res-whr">—</div>
-          <div class="result-label">Rasio Pinggang-Pinggul (WHR)</div>
-          <div class="result-badge" id="res-badge"></div>
-        </div>
+    <div class="gauge-wrap">
+      <div class="gauge-bar"><div class="gauge-needle" id="w-needle" style="left:30%"></div></div>
+      <div class="gauge-labels"><span>Rendah</span><span>Normal</span><span>Tinggi</span><span>Sangat Tinggi</span></div>
+    </div>
 
-        <!-- WHR gauge bar -->
-        <div class="whr-gauge-wrap">
-          <div class="whr-gauge">
-            <div class="whr-seg-low"></div>
-            <div class="whr-seg-med"></div>
-            <div class="whr-seg-hi"></div>
-            <div class="whr-needle" id="whr-needle" style="left:25%"></div>
-          </div>
-          <div class="whr-gauge-labels">
-            <span id="lbl-low">↑ Rendah</span>
-            <span id="lbl-med">Sedang</span>
-            <span id="lbl-hi">Tinggi ↑</span>
-          </div>
-        </div>
+    <div class="result-big" id="w-result-box" style="background:var(--grn-b);border-color:#86efac">
+      <div class="rb-val" id="w-whr" style="color:var(--grn)">—</div>
+      <div class="rb-cat" id="w-cat" style="color:var(--grn)">—</div>
+      <div class="rb-sub" id="w-sub">—</div>
+    </div>
 
-        <!-- Waist circumference risk -->
-        <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 3px;font-weight:600" id="waist-risk-title"></div>
-        <div class="waist-bar"><div class="waist-fill" id="waist-fill" style="width:0%"></div></div>
-        <div style="font-size:.72rem;color:#6b7c8d;margin-bottom:8px" id="waist-risk-note"></div>
+    <div class="lres" id="w-lres" style="background:var(--grn-b);border-color:#86efac">
+      <div class="rrows">
+        <div class="rr"><span>WHR = Pinggang ÷ Pinggul</span><span id="w-r1">—</span></div>
+        <div class="rr"><span>Lingkar pinggang</span><span id="w-r2">—</span></div>
+        <div class="rr"><span>Lingkar pinggul</span><span id="w-r3">—</span></div>
+        <div class="rr"><span>Batas WHR ideal</span><span id="w-r4">—</span></div>
+        <div class="rr"><span>Status lingkar pinggang</span><span id="w-r5">—</span></div>
+        <div class="rr"><span>Risiko metabolik</span><span id="w-r6">—</span></div>
+      </div>
+    </div>
 
-        <!-- Body shape cards -->
-        <div class="shape-cards">
-          <div class="shape-card" id="shape-apple">
-            <div class="shape-emoji">🍎</div>
-            <div class="shape-title">Bentuk Apel</div>
-            <div class="shape-desc">Lemak terkumpul di perut. Risiko kardiovaskular lebih tinggi.</div>
-          </div>
-          <div class="shape-card" id="shape-pear">
-            <div class="shape-emoji">🍐</div>
-            <div class="shape-title">Bentuk Pir</div>
-            <div class="shape-desc">Lemak di pinggul &amp; paha. Lebih aman secara metabolik.</div>
-          </div>
-        </div>
+    <div class="sec-lbl">Perbandingan 3 Indikator Komposisi Tubuh</div>
+    <div class="compare-grid" id="compare-grid"></div>
 
-        <div class="result-rows">
-          <div class="result-row"><span class="rkey">Kategori risiko</span><span class="rval" id="res-cat">—</span></div>
-          <div class="result-row"><span class="rkey">WHR ideal (WHO)</span><span class="rval" id="res-ideal">—</span></div>
-          <div class="result-row"><span class="rkey">Selisih dari batas ideal</span><span class="rval" id="res-diff">—</span></div>
-        </div>
+    <div class="meas-card">
+      <div style="font-size:12px;font-weight:700;margin-bottom:2px">📏 Cara Ukur yang Benar</div>
+      <div class="meas-steps">
+        <div class="meas-step"><span class="meas-num">1</span><span><strong>Pinggang:</strong> Berdiri tegak, ukur melingkar setinggi pusar atau titik terkecil pinggang, setelah menghembuskan napas normal</span></div>
+        <div class="meas-step"><span class="meas-num">2</span><span><strong>Pinggul:</strong> Ukur pada titik terlebar di area bokong/pinggul — biasanya 20 cm di bawah pinggang</span></div>
+        <div class="meas-step"><span class="meas-num">3</span><span>Pastikan pita pengukur sejajar lantai dan tidak terlalu kencang atau terlalu longgar</span></div>
+      </div>
+    </div>
+    <div class="notice">⚕️ WHR adalah alat skrining, bukan diagnosis medis. Untuk penilaian risiko kardiovaskular yang komprehensif, konsultasikan dengan dokter. Faktor lain seperti tekanan darah, kolesterol, dan riwayat keluarga juga sangat penting.</div>
+  </div>
+</div>
 
-        <!-- Target pinggang calculator -->
-        <div class="target-box" id="target-box"></div>
+<!-- ② TABEL REFERENSI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📋</div>Klasifikasi WHR & Lingkar Pinggang <span class="nbadge" style="margin-left:6px">WHO & IDF</span></div>
+  <div class="card-b">
+    <div class="sec-lbl">Klasifikasi WHR (WHO)</div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead><tr style="background:var(--sur2)">
+          <th style="padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)">Kategori</th>
+          <th style="padding:7px 10px;text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)">Pria</th>
+          <th style="padding:7px 10px;text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)">Wanita</th>
+          <th style="padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)">Risiko</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:7px 10px;border-bottom:1px solid var(--bor);color:var(--grn);font-weight:700">Rendah</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-family:'DM Mono',monospace">&lt; 0,85</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-family:'DM Mono',monospace">&lt; 0,75</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor)">Risiko rendah</td></tr>
+          <tr><td style="padding:7px 10px;border-bottom:1px solid var(--bor);color:#22c55e;font-weight:700">Normal</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-family:'DM Mono',monospace">0,85–0,90</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-family:'DM Mono',monospace">0,75–0,85</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor)">Risiko rata-rata</td></tr>
+          <tr><td style="padding:7px 10px;border-bottom:1px solid var(--bor);color:#ca8a04;font-weight:700">Tinggi</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-family:'DM Mono',monospace">0,90–0,95</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-family:'DM Mono',monospace">0,85–0,90</td><td style="padding:7px 10px;border-bottom:1px solid var(--bor)">Risiko moderat</td></tr>
+          <tr><td style="padding:7px 10px;color:#dc2626;font-weight:700">Sangat Tinggi</td><td style="padding:7px 10px;text-align:center;font-family:'DM Mono',monospace">&gt; 0,95</td><td style="padding:7px 10px;text-align:center;font-family:'DM Mono',monospace">&gt; 0,90</td><td style="padding:7px 10px">Risiko tinggi</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sec-lbl" style="margin-top:16px">Batas Lingkar Pinggang (IDF — Asia)</div>
+    <div class="flist">
+      <div class="frow" style="background:var(--grn-b)"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Pria (Asia)</div><div class="fron">IDF cut-off untuk Asia</div></div></div><div class="fprice">&lt; 90 cm</div></div>
+      <div class="frow" style="background:var(--grn-b)"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Wanita (Asia)</div><div class="fron">IDF cut-off untuk Asia</div></div></div><div class="fprice">&lt; 80 cm</div></div>
+    </div>
+    <div class="notice" style="margin-top:10px">Batas IDF untuk Asia lebih ketat dari populasi Eropa (pria &lt;94, wanita &lt;80 cm) karena orang Asia memiliki risiko metabolik lebih tinggi pada lingkar pinggang yang sama.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Target WHR Ideal</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Pria (WHR)</div><div class="fron">Target ideal</div></div></div><div class="fprice">&lt; 0,90</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Wanita (WHR)</div><div class="fron">Target ideal</div></div></div><div class="fprice" style="color:#3b82f6">&lt; 0,85</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Pinggang pria</div><div class="fron">IDF Asia</div></div></div><div class="fprice">&lt; 90 cm</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Pinggang wanita</div><div class="fron">IDF Asia</div></div></div><div class="fprice" style="color:#3b82f6">&lt; 80 cm</div></div>
       </div>
     </div>
   </div>
-
-  <div class="content-area">
-    <h1>Kalkulator WHR — Rasio Pinggang-Pinggul &amp; Analisis Risiko Kesehatan</h1>
-    <p class="page-desc">WHR (Waist-Hip Ratio) adalah ukuran yang lebih baik dari BMI untuk menilai risiko penyakit metabolik karena memperhitungkan distribusi lemak tubuh — terutama lemak perut yang paling berbahaya bagi kesehatan jantung dan metabolisme.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Apa itu WHR dan Mengapa Lebih Penting dari BMI?</h2>
-    <p>WHR adalah perbandingan antara lingkar pinggang dan lingkar pinggul. Ukuran ini mengukur seberapa banyak lemak yang tersimpan di area perut (lemak visceral) dibandingkan lemak di pinggul dan paha. Penelitian menunjukkan bahwa lemak visceral jauh lebih berbahaya daripada lemak di bagian tubuh lain karena melepaskan zat inflamasi dan mempengaruhi resistensi insulin, sehingga meningkatkan risiko penyakit jantung, diabetes tipe 2, dan stroke.</p>
-    <p>Seseorang bisa memiliki berat badan normal namun tetap berisiko tinggi jika punya banyak lemak perut — kondisi yang disebut <strong>MONW (Metabolically Obese Normal Weight)</strong> atau "skinny fat".</p>
-
-    <h2>Cara Mengukur Pinggang dan Pinggul dengan Benar</h2>
-    <ol>
-      <li>Gunakan pita ukur fleksibel (seperti pita jahit)</li>
-      <li><strong>Lingkar pinggang:</strong> letakkan pita di titik tersempit perut, di antara tulang rusuk bawah dan pusar. Ukur setelah menghembuskan napas secara alami — jangan menyedot perut</li>
-      <li><strong>Lingkar pinggul:</strong> letakkan pita di titik terlebar pinggul, sekitar tonjolan tulang pinggul paling besar</li>
-      <li>Pastikan pita sejajar horizontal, tidak terlalu ketat atau longgar</li>
-    </ol>
-
-    <h2>Tabel Kategori WHR menurut WHO</h2>
-    <table>
-      <tr><th>Kategori Risiko</th><th>WHR Laki-laki</th><th>WHR Perempuan</th></tr>
-      <tr><td>✅ Risiko Rendah</td><td>&lt; 0,90</td><td>&lt; 0,80</td></tr>
-      <tr><td>⚠️ Risiko Sedang</td><td>0,90 – 0,99</td><td>0,80 – 0,85</td></tr>
-      <tr><td>🔴 Risiko Tinggi</td><td>≥ 1,00</td><td>≥ 0,86</td></tr>
-    </table>
-    <p>Berdasarkan WHO Technical Report Series 894. Catatan tambahan: untuk populasi Asia (termasuk Indonesia), beberapa penelitian merekomendasikan batas lingkar pinggang yang lebih ketat — pria di atas 90 cm dan wanita di atas 80 cm sudah dianggap berisiko, karena orang Asia cenderung menyimpan lebih banyak lemak visceral pada BMI yang lebih rendah.</p>
-
-    <h2>Bentuk Tubuh Apel vs Pir</h2>
-    <p><strong>Bentuk Apel (Apple Shape)</strong> — WHR tinggi, pinggang lebih besar relatif terhadap pinggul. Lemak terkumpul di perut. Lebih banyak ditemukan pada pria. Risiko penyakit kardiovaskular lebih tinggi secara metabolik.</p>
-    <p><strong>Bentuk Pir (Pear Shape)</strong> — WHR rendah, pinggul lebih besar dari pinggang. Lemak terkumpul di pinggul dan paha. Lebih banyak ditemukan pada wanita. Secara metabolik lebih aman, meski total lemak tubuh berlebih tetap perlu dijaga.</p>
-
-    <h2>Cara Menurunkan WHR dan Lemak Perut</h2>
-    <p>Tidak ada olahraga yang bisa "spot reduce" lemak di satu area saja, namun beberapa pendekatan terbukti paling efektif mengurangi lemak visceral: olahraga aerobik intensitas sedang (jalan cepat, bersepeda, renang) 150–300 menit per minggu; HIIT (High Intensity Interval Training) 20–30 menit yang efisien dengan efek afterburn lebih lama; dan latihan kekuatan (resistance training) yang meningkatkan massa otot sehingga metabolisme basal naik. Dari sisi pola makan, kurangi gula tambahan, makanan ultra-proses, dan minuman beralkohol yang berkontribusi besar pada penumpukan lemak perut. Tidur cukup 7–8 jam dan manajemen stres juga penting karena hormon kortisol dari stres kronis mendorong penyimpanan lemak di perut.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah WHR lebih baik dari BMI?</div>
-    <div class="faq-a">WHR dan BMI mengukur hal yang berbeda dan keduanya memiliki nilai diagnostik. WHR lebih baik dalam mendeteksi risiko metabolik dan kardiovaskular karena memperhitungkan distribusi lemak. BMI lebih mudah diukur. Para ahli kesehatan sering merekomendasikan penggunaan keduanya bersama-sama untuk gambaran kesehatan yang lebih lengkap.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa lingkar pinggang yang berbahaya?</div>
-    <div class="faq-a">WHO menetapkan: pria di atas 94 cm berisiko sedang, di atas 102 cm berisiko tinggi. Wanita di atas 80 cm berisiko sedang, di atas 88 cm berisiko tinggi. Untuk populasi Asia termasuk Indonesia, beberapa penelitian merekomendasikan batas yang lebih ketat: pria di atas 90 cm dan wanita di atas 80 cm sudah perlu diwaspadai.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah bentuk tubuh bisa diubah?</div>
-    <div class="faq-a">Sebagian besar bentuk tubuh ditentukan genetik dan hormon. Anda tidak bisa sepenuhnya mengubah distribusi lemak tubuh, tetapi bisa mengurangi total lemak perut melalui pola makan sehat dan olahraga rutin. Menurunkan persentase lemak tubuh secara keseluruhan akan ikut mengurangi lemak visceral.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Olahraga apa yang paling efektif kurangi lemak perut?</div>
-    <div class="faq-a">Kombinasi olahraga kardio intensitas sedang-tinggi (jogging, HIIT, bersepeda) dan latihan beban adalah pendekatan paling efektif untuk mengurangi lemak visceral. HIIT terbukti sangat efektif mengurangi lemak perut dalam waktu lebih singkat dibandingkan kardio steady-state. Lakukan 3–5 kali seminggu untuk hasil optimal.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Seberapa sering harus mengukur WHR?</div>
-    <div class="faq-a">Mengukur WHR setiap 1–3 bulan sudah cukup untuk memantau perkembangan. Perubahan signifikan biasanya baru terlihat setelah 4–8 minggu program diet dan olahraga yang konsisten. Hindari mengukur terlalu sering karena fluktuasi harian bisa menyesatkan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">WHR vs Lingkar Pinggang — mana yang lebih baik dipantau?</div>
-    <div class="faq-a">Keduanya penting. Lingkar pinggang saja sudah memberikan gambaran risiko yang baik dan mudah diukur tanpa mengukur pinggul. WHR menambahkan konteks distribusi tubuh. Untuk pemantauan rutin mandiri, lingkar pinggang sering lebih praktis. Untuk evaluasi klinis lebih lengkap, gunakan WHR bersama dengan BMI dan lingkar pinggang.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
-      <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
-      <a href="/id/kalkulator-bmr.html" class="related-item"><span class="ri">🔥</span>Kalkulator BMR</a>
-      <a href="/id/kalkulator-kolesterol.html" class="related-item"><span class="ri">🫀</span>Kalkulator Kolesterol</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>WHR vs BMI vs Lingkar Pinggang</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>WHR lebih baik dari BMI</strong> untuk memprediksi risiko penyakit jantung karena mendeteksi distribusi lemak, bukan sekadar total lemak</span></div>
+        <div class="tip"><span class="tpico">🍎</span><span class="tptx"><strong>Bentuk tubuh "apel"</strong> (lemak di perut) lebih berisiko dari bentuk "pir" (lemak di pinggul) untuk penyakit kardiovaskular & metabolik</span></div>
+        <div class="tip"><span class="tpico">📏</span><span class="tptx"><strong>Lingkar pinggang saja</strong> cukup praktis — pantau secara berkala, target turun 2–3 cm per bulan untuk hasilkan dampak kesehatan nyata</span></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-bmi" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">BMI</div><div class="relc-ds">Indeks massa tubuh</div></a>
+        <a href="/id/berat-badan-ideal" class="relc"><div class="relc-ico">🎯</div><div class="relc-nm">Berat Ideal</div><div class="relc-ds">Target berat badan</div></a>
+        <a href="/id/kalkulator-tensi" class="relc"><div class="relc-ico">💉</div><div class="relc-nm">Tensi</div><div class="relc-ds">Tekanan darah</div></a>
+        <a href="/id/kalkulator-kolesterol" class="relc"><div class="relc-ico">🩸</div><div class="relc-nm">Kolesterol</div><div class="relc-ds">Cek kolesterol</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Apa itu WHR dan Mengapa Lebih Baik dari BMI?</h2>
+  <p>WHR (Waist-Hip Ratio / Rasio Pinggang-Pinggul) adalah perbandingan lingkar pinggang dengan lingkar pinggul. Rumusnya sederhana: <strong>WHR = Lingkar Pinggang ÷ Lingkar Pinggul</strong>. WHR dianggap lebih akurat dari BMI untuk menilai risiko kesehatan karena mendeteksi distribusi lemak — khususnya lemak visceral (perut) yang lebih berbahaya dibandingkan lemak di pinggul atau paha.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa bedanya bentuk tubuh "apel" dan "pir" dalam konteks kesehatan?</div><div class="faq-a">Orang dengan lemak terpusat di perut (bentuk "apel") memiliki WHR tinggi dan risiko lebih besar untuk penyakit jantung, diabetes tipe 2, hipertensi, dan sindrom metabolik. Orang dengan lemak di pinggul/paha (bentuk "pir") memiliki WHR lebih rendah dan risiko metabolik yang lebih kecil. Lemak visceral (di sekitar organ dalam perut) secara metabolis lebih aktif dan berbahaya daripada lemak subkutan di pinggul.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara menurunkan lingkar pinggang secara efektif?</div><div class="faq-a">Kombinasi yang terbukti efektif: defisit kalori 300–500 kkal/hari, latihan kardio (minimal 150 menit/minggu), dan latihan kekuatan untuk meningkatkan massa otot. Kurangi konsumsi gula tambahan, karbohidrat olahan, dan alkohol yang secara khusus mendorong penumpukan lemak visceral. Tidur cukup (7–9 jam) dan manajemen stres juga kritis — kortisol tinggi akibat stres kronis meningkatkan penumpukan lemak perut.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-let gender = 'male';
 
-function selectGender(g) {
-  gender = g;
-  document.getElementById('btn-male').classList.toggle('active', g==='male');
-  document.getElementById('btn-female').classList.toggle('active', g==='female');
-  calculate();
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+
+let gender='pria';
+function setGender(g){
+  gender=g;
+  document.getElementById('g-pria').classList.toggle('on',g==='pria');
+  document.getElementById('g-wanita').classList.toggle('on',g==='wanita');
+  calcWHR();
 }
 
-function calculate() {
-  const waist = parseFloat(document.getElementById('waist').value);
-  const hip   = parseFloat(document.getElementById('hip').value);
-  if (!waist || !hip || waist < 40 || hip < 50) return;
-  if (waist >= hip * 1.5) return;
-
-  const whr      = waist / hip;
-  const whrRound = Math.round(whr * 100) / 100;
-
-  // WHO categories
-  let cat, badgeClass, idealWHR;
-  if (gender === 'male') {
-    if (whr < 0.90)      { cat = 'Risiko Rendah ✓'; badgeClass = 'badge-normal'; }
-    else if (whr < 1.00) { cat = 'Risiko Sedang';    badgeClass = 'badge-overweight'; }
-    else                 { cat = 'Risiko Tinggi ⚠️'; badgeClass = 'badge-obese'; }
-    idealWHR = 0.90;
+function getWHRCat(whr,g){
+  if(g==='pria'){
+    if(whr<0.85)return{nm:'Rendah',sub:'Distribusi lemak sangat baik',col:'#1A7F4E',bg:'var(--grn-b)',bc:'#86efac',pct:15,risk:'Rendah'};
+    if(whr<=0.90)return{nm:'Normal',sub:'Distribusi lemak normal',col:'#22c55e',bg:'#f0fdf4',bc:'#86efac',pct:40,risk:'Rata-rata'};
+    if(whr<=0.95)return{nm:'Tinggi',sub:'Perlu perhatian — lemak perut berlebih',col:'#ca8a04',bg:'#fefce8',bc:'#fde047',pct:65,risk:'Moderat'};
+    return{nm:'Sangat Tinggi',sub:'Risiko kardiovaskular & metabolik meningkat',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5',pct:87,risk:'Tinggi'};
   } else {
-    if (whr < 0.80)      { cat = 'Risiko Rendah ✓'; badgeClass = 'badge-normal'; }
-    else if (whr < 0.86) { cat = 'Risiko Sedang';    badgeClass = 'badge-overweight'; }
-    else                 { cat = 'Risiko Tinggi ⚠️'; badgeClass = 'badge-obese'; }
-    idealWHR = 0.80;
+    if(whr<0.75)return{nm:'Rendah',sub:'Distribusi lemak sangat baik',col:'#1A7F4E',bg:'var(--grn-b)',bc:'#86efac',pct:15,risk:'Rendah'};
+    if(whr<=0.85)return{nm:'Normal',sub:'Distribusi lemak normal',col:'#22c55e',bg:'#f0fdf4',bc:'#86efac',pct:40,risk:'Rata-rata'};
+    if(whr<=0.90)return{nm:'Tinggi',sub:'Perlu perhatian — lemak perut berlebih',col:'#ca8a04',bg:'#fefce8',bc:'#fde047',pct:65,risk:'Moderat'};
+    return{nm:'Sangat Tinggi',sub:'Risiko kardiovaskular & metabolik meningkat',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5',pct:87,risk:'Tinggi'};
   }
-
-  // Gauge needle position
-  // Scale: male 0.6–1.2 range (0.6=0%, 0.9=50%, 1.0=75%, 1.2=100%)
-  // female 0.5–1.0 range (0.5=0%, 0.8=50%, 0.86=75%, 1.0=100%)
-  const [scaleMin, bndLow, bndHi, scaleMax] = gender === 'male'
-    ? [0.60, 0.90, 1.00, 1.20]
-    : [0.50, 0.80, 0.86, 1.00];
-  const range = scaleMax - scaleMin;
-  const needlePct = Math.max(0, Math.min(100, (whr - scaleMin) / range * 100));
-  document.getElementById('whr-needle').style.left = needlePct.toFixed(1) + '%';
-
-  // Gauge labels with thresholds
-  const fmt = n => n.toFixed(2).replace('.', ',');
-  document.getElementById('lbl-low').textContent = `< ${fmt(bndLow)} Rendah`;
-  document.getElementById('lbl-med').textContent = `${fmt(bndLow)}–${fmt(bndHi)}`;
-  document.getElementById('lbl-hi').textContent  = `≥ ${fmt(bndHi)} Tinggi`;
-
-  // Waist risk
-  // Asia-specific: male risk >90, female >80
-  const waistRiskMax = gender === 'male' ? 102 : 88;
-  const waistRiskMed = gender === 'male' ? 90  : 80;
-  const waistPct = Math.min(waist / waistRiskMax * 100, 100).toFixed(1);
-  const waistColor = waist < waistRiskMed ? '#4ade80' : waist < waistRiskMax ? '#fbbf24' : '#f87171';
-  document.getElementById('waist-fill').style.width      = waistPct + '%';
-  document.getElementById('waist-fill').style.background = waistColor;
-  document.getElementById('waist-risk-title').textContent = `📐 Lingkar Pinggang: ${waist} cm`;
-  const waistNote = waist < waistRiskMed
-    ? `✅ Dalam batas aman (batas Asia: ${waistRiskMed} cm)`
-    : waist < waistRiskMax
-    ? `⚠️ Melebihi batas risiko Asia (${waistRiskMed} cm). WHO batas tinggi: ${waistRiskMax} cm`
-    : `🔴 Melebihi batas risiko tinggi WHO (${waistRiskMax} cm)`;
-  document.getElementById('waist-risk-note').textContent = waistNote;
-
-  // Body shape cards
-  const isApple = whr >= (gender === 'male' ? 0.90 : 0.80);
-  document.getElementById('shape-apple').classList.toggle('active-shape', isApple);
-  document.getElementById('shape-pear').classList.toggle('active-shape', !isApple);
-
-  // Results
-  document.getElementById('res-whr').textContent  = whrRound.toFixed(2).replace('.', ',');
-  const badge = document.getElementById('res-badge');
-  badge.textContent = cat; badge.className = 'result-badge ' + badgeClass;
-  document.getElementById('res-cat').textContent   = cat;
-  document.getElementById('res-ideal').textContent = gender === 'male' ? '< 0,90 (WHO — risiko rendah)' : '< 0,80 (WHO — risiko rendah)';
-
-  const diff = whr - idealWHR;
-  document.getElementById('res-diff').textContent = diff <= 0
-    ? `${Math.abs(diff).toFixed(2).replace('.', ',')} di bawah batas — ✅ aman`
-    : `+${diff.toFixed(2).replace('.', ',')} di atas batas — perlu diturunkan`;
-
-  // Target pinggang calculator (hanya jika di atas ideal)
-  const tb = document.getElementById('target-box');
-  if (diff > 0) {
-    const targetWaist = idealWHR * hip;
-    const kgToLose    = (waist - targetWaist) / 1.5; // ~1.5cm per kg lemak perut
-    tb.innerHTML = `🎯 <strong>Target Pinggang Ideal:</strong> ${targetWaist.toFixed(1).replace('.', ',')} cm (saat ini ${waist} cm)<br>
-    Perlu mengurangi ±${(waist - targetWaist).toFixed(1).replace('.', ',')} cm lingkar pinggang.<br>
-    Estimasi setara ±${kgToLose.toFixed(1).replace('.', ',')} kg penurunan lemak perut melalui kombinasi diet dan olahraga.`;
-    tb.style.display = '';
-  } else {
-    tb.style.display = 'none';
-  }
-
-  document.getElementById('result').classList.add('show');
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key==='Enter') calculate(); });
+function calcWHR(){
+  const pinggang=v('w-pinggang'),pinggul=v('w-pinggul');
+  if(pinggul<=0||pinggang<=0)return;
+  const whr=pinggang/pinggul;
+  const cat=getWHRCat(whr,gender);
+
+  document.getElementById('w-needle').style.left=cat.pct+'%';
+  const box=document.getElementById('w-result-box');
+  if(box){box.style.background=cat.bg;box.style.borderColor=cat.bc;}
+  const whrEl=document.getElementById('w-whr');if(whrEl){whrEl.textContent=whr.toFixed(2);whrEl.style.color=cat.col;}
+  const catEl=document.getElementById('w-cat');if(catEl){catEl.textContent=cat.nm;catEl.style.color=cat.col;}
+  set('w-sub',cat.sub);
+  const lres=document.getElementById('w-lres');if(lres){lres.style.background=cat.bg;lres.style.borderColor=cat.bc;}
+
+  const batasWHR=gender==='pria'?'< 0,90':'< 0,85';
+  const batasPinggang=gender==='pria'?90:80;
+  const pinggangStatus=pinggang<batasPinggang?'✅ Normal ('+pinggang+' cm)':'⚠️ Melebihi batas ('+pinggang+' cm)';
+
+  set('w-r1',whr.toFixed(3));set('w-r2',pinggang+' cm');set('w-r3',pinggul+' cm');
+  set('w-r4',batasWHR);set('w-r5',pinggangStatus);set('w-r6',cat.risk);
+
+  // Compare grid
+  // BMI proxy (need height - not available, show pinggang only)
+  const pinggangIdeal=batasPinggang;
+  const selisihPinggang=pinggang-pinggangIdeal;
+  const grid=document.getElementById('compare-grid');
+  if(grid)grid.innerHTML=[
+    {lbl:'WHR Anda',val:whr.toFixed(2),sub:'Ideal: '+batasWHR,ok:cat.nm==='Rendah'||cat.nm==='Normal',warn:cat.nm==='Tinggi',bad:cat.nm==='Sangat Tinggi'},
+    {lbl:'Lingkar Pinggang',val:pinggang+' cm',sub:'Ideal: <'+batasPinggang+' cm',ok:pinggang<batasPinggang,warn:pinggang<batasPinggang+10&&pinggang>=batasPinggang,bad:pinggang>=batasPinggang+10},
+    {lbl:'Selisih Pinggang',val:(selisihPinggang<=0?'Sudah ideal':('+'+selisihPinggang.toFixed(1)+' cm')),sub:selisihPinggang>0?'Perlu dikurangi':'Pertahankan',ok:selisihPinggang<=0,warn:selisihPinggang>0&&selisihPinggang<=10,bad:selisihPinggang>10},
+  ].map(c=>`<div class="comp-card${c.ok?' ok':c.bad?' bad':' warn'}">
+    <div class="comp-lbl">${c.lbl}</div>
+    <div class="comp-val" style="color:${c.ok?'var(--grn)':c.bad?'var(--red)':'var(--pri)'}">${c.val}</div>
+    <div class="comp-sub">${c.sub}</div>
+  </div>`).join('');
+}
+
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+['w-pinggang','w-pinggul'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcWHR));
+calcWHR();
 </script>
 </body>
 </html>

@@ -1,507 +1,434 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Kehamilan — Usia Kandungan, HPL & Perkembangan Janin | NovaCalcs</title>
-<meta name="description" content="Hitung usia kandungan dan HPL secara akurat. Lihat perkembangan janin per minggu, progress trimester, dan panduan pemeriksaan ANC untuk ibu hamil Indonesia."/>
-<meta name="keywords" content="kalkulator kehamilan, usia kandungan, HPL, HPHT, trimester, perkembangan janin, ANC, pemeriksaan kehamilan"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kehamilan.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-kehamilan.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Kehamilan","url":"https://novacalcs.com/id/kalkulator-kehamilan.html","description":"Hitung usia kehamilan, HPL, dan perkembangan janin mingguan","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Trimester progress */
-.trim-progress { margin:14px 0 6px; }
-.trim-track { height:18px; border-radius:9px; background:var(--bg-input); overflow:hidden; position:relative; display:flex; }
-.trim-fill-t1 { background:#60a5fa; transition:width 0.7s ease; height:100%; }
-.trim-fill-t2 { background:#4ade80; transition:width 0.7s ease; height:100%; }
-.trim-fill-t3 { background:#fbbf24; transition:width 0.7s ease; height:100%; }
-.trim-fill-rest { background:rgba(255,255,255,0.04); flex:1; height:100%; }
-.trim-labels { display:flex; justify-content:space-between; margin-top:5px; font-size:0.68rem; color:var(--text-muted); }
-.trim-pct { text-align:center; font-size:0.78rem; color:var(--text-secondary); margin-top:4px; }
-
-/* Baby size card */
-.baby-card { background:var(--mint-dim); border:1px solid rgba(0,201,177,0.2); border-radius:var(--radius-md); padding:14px; margin:12px 0; text-align:center; }
-.baby-emoji { font-size:2.4rem; margin-bottom:6px; }
-.baby-size-label { font-size:0.78rem; color:var(--text-secondary); }
-.baby-size-val { font-size:1rem; font-weight:700; color:var(--mint); }
-
-/* Result rows enhanced */
-.preg-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0; }
-.preg-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px; text-align:center; border:1px solid var(--border); }
-.preg-stat .ps-num { font-size:1.15rem; font-weight:700; color:var(--mint); }
-.preg-stat .ps-label { font-size:0.68rem; color:var(--text-muted); margin-top:2px; }
-
-/* Trimester milestone row */
-.milestone-row { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.8rem; }
-.milestone-row:last-child { border-bottom:none; }
-.milestone-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-.milestone-dot.done { background:var(--mint); }
-.milestone-dot.now { background:#fbbf24; box-shadow:0 0 0 3px rgba(251,191,36,0.2); }
-.milestone-dot.future { background:var(--border); }
-
-/* ANC checklist */
-.anc-grid { display:grid; grid-template-columns:1fr; gap:6px; margin:12px 0; }
-.anc-item { display:flex; align-items:flex-start; gap:10px; padding:10px 12px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:0.8rem; }
-.anc-badge { flex-shrink:0; padding:2px 8px; border-radius:10px; font-size:0.68rem; font-weight:700; }
-.anc-badge.t1 { background:rgba(96,165,250,0.15); color:#60a5fa; }
-.anc-badge.t2 { background:rgba(74,222,128,0.15); color:#4ade80; }
-.anc-badge.t3 { background:rgba(251,191,36,0.15); color:#fbbf24; }
-
-/* Week development table */
-.dev-table { width:100%; border-collapse:collapse; font-size:0.8rem; }
-.dev-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.dev-table td { padding:8px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
-.dev-table tr:last-child td { border-bottom:none; }
-.dev-week { font-weight:700; color:var(--mint); white-space:nowrap; }
-.date-picker{display:grid;grid-template-columns:60px 1fr 80px;gap:6px}
-.dp-day,.dp-year{border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.95rem;width:100%}
-.dp-month{border:1px solid var(--border);border-radius:8px;padding:9px 8px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.9rem;width:100%}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Kehamilan 2026 — Usia Kehamilan, Trimester & Perkembangan Janin | NovaCalcs</title>
+  <meta name="description" content="Kalkulator kehamilan 2026: hitung usia kehamilan, trimester, HPL (hari perkiraan lahir), dan perkembangan janin per minggu. Berdasarkan HPHT atau USG. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kehamilan">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--pink:#db2777;--pink-l:#fdf2f8}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pink);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pink-l);color:var(--pink);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pink);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pink-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input[type=date],.iw input[type=number]{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pink)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* HPL DISPLAY */
+    .hpl-big{background:var(--pink-l);border:1.5px solid #fbcfe8;border-radius:var(--r);padding:20px;text-align:center;margin:14px 0}
+    .hpl-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--pink);margin-bottom:6px}
+    .hpl-val{font-family:'DM Mono',monospace;font-size:28px;font-weight:800;color:var(--pink);letter-spacing:-.5px;line-height:1.2}
+    .hpl-sub{font-size:12px;color:var(--tx3);margin-top:5px}
+    /* TRIMESTER BAR */
+    .trim-wrap{margin:14px 0}
+    .trim-bar{height:14px;background:linear-gradient(90deg,#fde68a 0%,#86efac 33%,#93c5fd 66%,#fca5a5 100%);border-radius:7px;position:relative}
+    .trim-needle{position:absolute;top:-5px;width:4px;height:24px;background:var(--pink);border-radius:2px;transform:translateX(-50%);transition:left .5s;box-shadow:0 0 0 2px white}
+    .trim-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:3px}
+    /* STAT CARDS */
+    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    @media(max-width:420px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+    .stat-card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);padding:12px;text-align:center}
+    .stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}
+    .stat-val{font-family:'DM Mono',monospace;font-size:17px;font-weight:800;color:var(--pink)}
+    /* LRES */
+    .lres{background:var(--pink-l);border:1.5px solid #fbcfe8;border-radius:var(--r);padding:14px}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* JANIN CARD */
+    .janin-card{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r);padding:16px;margin-top:14px}
+    .janin-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .janin-ico{font-size:28px}
+    .janin-title{font-size:14px;font-weight:800;color:var(--pink)}
+    .janin-week{font-size:11px;color:var(--tx3);margin-top:2px}
+    .janin-body{font-size:12px;color:var(--tx2);line-height:1.7}
+    .janin-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+    .janin-stat{background:var(--sur);border-radius:var(--rs);padding:8px;text-align:center;border:1px solid var(--bor)}
+    .janin-stat-lbl{font-size:9px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+    .janin-stat-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:800;color:var(--pink)}
+    /* WEEK SELECTOR */
+    .week-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:10px;max-height:180px;overflow-y:auto}
+    .week-btn{padding:5px 2px;border:1.5px solid var(--bor);border-radius:var(--rs);font-size:10px;font-weight:700;text-align:center;cursor:pointer;transition:all .15s;background:none;font-family:inherit;color:var(--tx3)}
+    .week-btn:hover,.week-btn.on{border-color:var(--pink);color:var(--pink);background:var(--pink-l)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pink)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pink)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pink-l);color:var(--pink)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Kehamilan</span>
+</div></nav>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Kehamilan</span>
-    </nav>
+<header class="hdr">
+  <div class="hdr-tag">🤰 Kehamilan</div>
+  <h1 class="hdr-h1">Kalkulator Kehamilan 2026</h1>
+  <p class="hdr-sub">Hitung usia kehamilan, trimester, HPL (Hari Perkiraan Lahir), dan perkembangan janin per minggu. Berdasarkan HPHT atau hasil USG.</p>
+  <div class="pstrip">
+    <div class="pchip">Kehamilan normal <span>280 hari / 40 minggu</span></div>
+    <div class="pchip">HPL <span>HPHT + 280 hari</span></div>
+    <div class="pchip">Trimester <span>T1: 1–12 | T2: 13–27 | T3: 28–40</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🤰 Kalkulator Kehamilan</div>
-      <div class="calc-subtitle">Usia kandungan, HPL & perkembangan janin</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="field">
-        <label>Metode perhitungan</label>
-        <div class="radio-group" style="flex-wrap:wrap;gap:6px">
-          <div class="radio-btn active" id="btn-hpht" onclick="setMethod('hpht',this)">Dari HPHT</div>
-          <div class="radio-btn" id="btn-konsepsi" onclick="setMethod('konsepsi',this)">Dari Konsepsi</div>
-          <div class="radio-btn" id="btn-usg" onclick="setMethod('usg',this)">Dari USG</div>
+<div class="card">
+  <div class="card-h"><div class="card-ico">🤰</div>Kalkulator Usia Kehamilan & HPL</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="hpht">📅 Dari HPHT</button>
+      <button class="tbtn" data-tab="usg">🔬 Dari Usia USG</button>
+    </div>
+
+    <!-- HPHT -->
+    <div class="tpanel on" id="tab-hpht">
+      <div class="notice info" style="margin-bottom:14px">ℹ️ <strong>HPHT</strong> = Hari Pertama Haid Terakhir. Ini adalah cara paling umum menghitung usia kehamilan dan HPL. Kehamilan dihitung <strong>40 minggu (280 hari)</strong> sejak HPHT.</div>
+      <div class="g2">
+        <div class="fld"><label>Tanggal HPHT</label>
+          <div class="iw"><input type="date" id="h-hpht" onchange="calcHPHT()"></div>
+        </div>
+        <div class="fld"><label>Hitung per Tanggal</label>
+          <div class="iw"><input type="date" id="h-today" onchange="calcHPHT()"></div>
         </div>
       </div>
 
-      <div id="field-hpht">
-        <div class="field">
-          <label>Hari Pertama Haid Terakhir (HPHT)</label>
-          <div class="date-picker">
-          <input type="number" class="dp-day" id="hpht-date-d" placeholder="Tgl" min="1" max="31" oninput="autoCalc()"/>
-          <select class="dp-month" id="hpht-date-m" onchange="autoCalc()">
-            <option value="">Bulan</option>
-            <option value="1">Januari</option><option value="2">Februari</option>
-            <option value="3">Maret</option><option value="4">April</option>
-            <option value="5">Mei</option><option value="6">Juni</option>
-            <option value="7">Juli</option><option value="8">Agustus</option>
-            <option value="9">September</option><option value="10">Oktober</option>
-            <option value="11">November</option><option value="12">Desember</option>
-          </select>
-          <input type="number" class="dp-year" id="hpht-date-y" placeholder="Tahun" min="1900" max="2100" oninput="autoCalc()"/>
+      <div class="trim-wrap">
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:6px">
+          <span style="color:var(--pink)">Progres Kehamilan</span>
+          <span id="h-pct-show" style="font-family:'DM Mono',monospace;color:var(--pink)">—</span>
         </div>
-        </div>
-        <div class="field">
-          <label>Siklus haid rata-rata (hari)</label>
-          <input type="number" id="cycle" value="28" min="20" max="45" oninput="autoCalc()"/>
-        </div>
-      </div>
-      <div id="field-konsepsi" style="display:none">
-        <div class="field">
-          <label>Tanggal Perkiraan Konsepsi</label>
-          <div class="date-picker">
-          <input type="number" class="dp-day" id="konsepsi-date-d" placeholder="Tgl" min="1" max="31" oninput="autoCalc()"/>
-          <select class="dp-month" id="konsepsi-date-m" onchange="autoCalc()">
-            <option value="">Bulan</option>
-            <option value="1">Januari</option><option value="2">Februari</option>
-            <option value="3">Maret</option><option value="4">April</option>
-            <option value="5">Mei</option><option value="6">Juni</option>
-            <option value="7">Juli</option><option value="8">Agustus</option>
-            <option value="9">September</option><option value="10">Oktober</option>
-            <option value="11">November</option><option value="12">Desember</option>
-          </select>
-          <input type="number" class="dp-year" id="konsepsi-date-y" placeholder="Tahun" min="1900" max="2100" oninput="autoCalc()"/>
-        </div>
-        </div>
-      </div>
-      <div id="field-usg" style="display:none">
-        <div class="field">
-          <label>Tanggal USG dilakukan</label>
-          <div class="date-picker">
-          <input type="number" class="dp-day" id="usg-date-d" placeholder="Tgl" min="1" max="31" oninput="autoCalc()"/>
-          <select class="dp-month" id="usg-date-m" onchange="autoCalc()">
-            <option value="">Bulan</option>
-            <option value="1">Januari</option><option value="2">Februari</option>
-            <option value="3">Maret</option><option value="4">April</option>
-            <option value="5">Mei</option><option value="6">Juni</option>
-            <option value="7">Juli</option><option value="8">Agustus</option>
-            <option value="9">September</option><option value="10">Oktober</option>
-            <option value="11">November</option><option value="12">Desember</option>
-          </select>
-          <input type="number" class="dp-year" id="usg-date-y" placeholder="Tahun" min="1900" max="2100" oninput="autoCalc()"/>
-        </div>
-        </div>
-        <div class="field">
-          <label>Usia kandungan saat USG (minggu)</label>
-          <input type="number" id="usg-weeks" placeholder="Contoh: 12" min="4" max="40" oninput="autoCalc()"/>
-        </div>
+        <div class="trim-bar"><div class="trim-needle" id="h-needle" style="left:0%"></div></div>
+        <div class="trim-labels"><span>Minggu 1</span><span>T1</span><span>T2</span><span>T3</span><span>Minggu 40</span></div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">🤰 Hitung Kehamilan Saya</button>
+      <div class="hpl-big">
+        <div class="hpl-lbl">🎉 Hari Perkiraan Lahir (HPL)</div>
+        <div class="hpl-val" id="h-hpl">—</div>
+        <div class="hpl-sub" id="h-hpl-sub">—</div>
+      </div>
 
-      <div class="result-box" id="result" style="display:none">
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-lbl">Usia Kehamilan</div><div class="stat-val" id="h-usia">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Trimester</div><div class="stat-val" id="h-trim">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Sisa Minggu</div><div class="stat-val" id="h-sisa">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total Hari</div><div class="stat-val" id="h-hari">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Sisa Hari</div><div class="stat-val" id="h-sisa-hari">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Progres</div><div class="stat-val" id="h-pct">—</div></div>
+      </div>
 
-        <!-- Baby size card -->
-        <div class="baby-card">
-          <div class="baby-emoji" id="baby-emoji">🫐</div>
-          <div class="baby-size-label">Janin Anda sekarang sebesar</div>
-          <div class="baby-size-val" id="baby-size">—</div>
+      <div class="lres">
+        <div class="rrows">
+          <div class="rr"><span>HPHT</span><span id="h-r1">—</span></div>
+          <div class="rr"><span>HPL (HPHT + 280 hari)</span><span id="h-r2">—</span></div>
+          <div class="rr"><span>Usia kehamilan</span><span id="h-r3">—</span></div>
+          <div class="rr"><span>Trimester</span><span id="h-r4">—</span></div>
+          <div class="rr"><span>Akhir Trimester 1</span><span id="h-r5">—</span></div>
+          <div class="rr"><span>Akhir Trimester 2</span><span id="h-r6">—</span></div>
         </div>
+      </div>
+    </div>
 
-        <!-- Trimester progress -->
-        <div class="trim-progress">
-          <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:6px;" id="trim-label">—</div>
-          <div class="trim-track">
-            <div class="trim-fill-t1" id="bar-t1" style="width:0%"></div>
-            <div class="trim-fill-t2" id="bar-t2" style="width:0%"></div>
-            <div class="trim-fill-t3" id="bar-t3" style="width:0%"></div>
-            <div class="trim-fill-rest" id="bar-rest"></div>
+    <!-- USG -->
+    <div class="tpanel" id="tab-usg">
+      <div class="notice info" style="margin-bottom:14px">ℹ️ Jika hasil USG menunjukkan usia kehamilan berbeda dari perhitungan HPHT, gunakan hasil USG (terutama di trimester pertama) untuk menghitung HPL yang lebih akurat.</div>
+      <div class="g2">
+        <div class="fld"><label>Tanggal USG</label>
+          <div class="iw"><input type="date" id="u-tgl-usg" onchange="calcUSG()"></div>
+        </div>
+        <div class="fld"><label>Usia Kehamilan saat USG</label>
+          <div style="display:flex;gap:6px">
+            <div class="iw"><input type="number" id="u-minggu-usg" value="10" min="4" max="42" onchange="calcUSG()"><span class="iu">mgg</span></div>
+            <div class="iw"><input type="number" id="u-hari-usg" value="0" min="0" max="6" onchange="calcUSG()"><span class="iu">hr</span></div>
           </div>
-          <div class="trim-labels">
-            <span>🔵 T1 (1-12)</span>
-            <span>🟢 T2 (13-27)</span>
-            <span>🟡 T3 (28-40)</span>
-          </div>
-          <div class="trim-pct" id="trim-pct">—</div>
         </div>
+      </div>
+      <div class="fld"><label>Hitung per Tanggal</label>
+        <div class="iw"><input type="date" id="u-today" onchange="calcUSG()"></div>
+      </div>
 
-        <!-- Stats grid -->
-        <div class="preg-stats">
-          <div class="preg-stat"><div class="ps-num" id="res-weeks">—</div><div class="ps-label">Minggu kehamilan</div></div>
-          <div class="preg-stat"><div class="ps-num" id="res-days-num">—</div><div class="ps-label">Hari kehamilan</div></div>
-          <div class="preg-stat"><div class="ps-num" id="res-remaining">—</div><div class="ps-label">Hari menuju HPL</div></div>
-          <div class="preg-stat"><div class="ps-num" id="res-remaining-weeks">—</div><div class="ps-label">Minggu menuju HPL</div></div>
+      <div class="hpl-big">
+        <div class="hpl-lbl">🎉 HPL (berdasarkan USG)</div>
+        <div class="hpl-val" id="u-hpl">—</div>
+        <div class="hpl-sub" id="u-hpl-sub">—</div>
+      </div>
+
+      <div class="lres">
+        <div class="rrows">
+          <div class="rr"><span>Tanggal USG</span><span id="u-r1">—</span></div>
+          <div class="rr"><span>Usia saat USG</span><span id="u-r2">—</span></div>
+          <div class="rr"><span>HPL (berdasarkan USG)</span><span id="u-r3">—</span></div>
+          <div class="rr"><span>Usia kehamilan sekarang</span><span id="u-r4">—</span></div>
+          <div class="rr"><span>Sisa minggu</span><span id="u-r5">—</span></div>
         </div>
-
-        <!-- Key dates -->
-        <div style="background:var(--bg-input);border-radius:var(--radius-sm);padding:12px 14px;margin-top:8px;">
-          <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:8px;">📅 Tanggal Penting</div>
-          <div class="milestone-row"><div class="milestone-dot done"></div><div><div style="font-weight:600">HPL (Hari Perkiraan Lahir)</div><div style="color:var(--mint);font-weight:700" id="res-hpl">—</div></div></div>
-          <div class="milestone-row"><div class="milestone-dot" id="dot-t1"></div><div><div>Trimester 1 selesai</div><div style="color:var(--text-secondary);font-size:0.75rem" id="res-t1">—</div></div></div>
-          <div class="milestone-row"><div class="milestone-dot" id="dot-t2"></div><div><div>Trimester 2 selesai</div><div style="color:var(--text-secondary);font-size:0.75rem" id="res-t2">—</div></div></div>
-          <div class="milestone-row"><div class="milestone-dot" id="dot-t3"></div><div><div>Masa viabilitas janin (28 minggu)</div><div style="color:var(--text-secondary);font-size:0.75rem" id="res-viab">—</div></div></div>
-        </div>
-
-        <!-- Dev highlight -->
-        <div id="dev-highlight" style="margin-top:10px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Kehamilan — Usia Kandungan, HPL & Perkembangan Janin</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung usia kehamilan secara akurat, perkiraan tanggal lahir (HPL), dan lihat perkembangan janin per minggu. Dilengkapi panduan pemeriksaan ANC untuk ibu hamil di Indonesia.</p>
+<!-- ② PERKEMBANGAN JANIN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">👶</div>Perkembangan Janin per Minggu <span class="nbadge" style="margin-left:6px">Referensi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Pilih minggu kehamilan untuk melihat ukuran, berat, dan perkembangan janin. Data berdasarkan rata-rata klinis.</p>
+    <div class="fld"><label>Pilih Minggu Kehamilan</label>
+      <div class="week-grid" id="week-grid"></div>
+    </div>
+    <div class="janin-card" id="janin-card"></div>
+  </div>
+</div>
 
-    <h2>Apa itu HPHT dan Mengapa Jadi Patokan Utama?</h2>
-    <p>HPHT (Hari Pertama Haid Terakhir) adalah tanggal mulainya menstruasi terakhir sebelum kehamilan terjadi. Meski kehamilan sebenarnya baru dimulai saat pembuahan (~2 minggu setelah HPHT), standar medis internasional — termasuk yang digunakan dokter kandungan dan bidan di Indonesia — tetap memakai HPHT sebagai titik nol karena dua alasan praktis:</p>
-    <ul>
-      <li><strong>Lebih mudah diingat</strong> — Tanggal menstruasi biasanya dicatat atau diingat, sedangkan tanggal persis pembuahan jarang diketahui.</li>
-      <li><strong>Konsisten secara klinis</strong> — Seluruh pedoman WHO, Kemenkes RI, dan panduan obstetrik global menggunakan HPHT sebagai dasar perhitungan, sehingga antar dokter bisa berkomunikasi dengan angka yang sama.</li>
-    </ul>
-    <p>Akibatnya, saat dokter menyatakan "kehamilan 6 minggu", sebenarnya janin baru berusia sekitar 4 minggu sejak pembuahan — ini hal yang normal dan bukan kesalahan perhitungan.</p>
+</div><!-- /left-col -->
 
-    <h2>Cara Menghitung HPL dengan Rumus Naegele</h2>
-    <p>Rumus Naegele, dikembangkan oleh Franz Karl Naegele pada 1812, adalah metode standar yang digunakan secara global untuk menghitung Hari Perkiraan Lahir:</p>
-    <ul>
-      <li>Tambahkan <strong>7 hari</strong> ke tanggal HPHT</li>
-      <li>Tambahkan <strong>9 bulan</strong> (atau kurangi 3 bulan dan tambahkan 1 tahun)</li>
-    </ul>
-    <p><strong>Contoh:</strong> HPHT = 10 Maret 2025 → HPL = (10+7) Maret = 17 Maret → +9 bulan = <strong>17 Desember 2025</strong></p>
-    <p>Versi yang lebih mudah: HPL ≈ HPHT + 280 hari (40 minggu penuh). Kalkulator ini juga menyesuaikan siklus haid Anda — jika siklus berbeda dari 28 hari standar, hasilnya lebih akurat.</p>
-
-    <h2>Perkembangan Janin per Minggu — Dari Sel hingga Siap Lahir</h2>
-    <table class="dev-table">
-      <thead><tr><th>Minggu</th><th>Ukuran</th><th>Perkembangan Utama</th></tr></thead>
-      <tbody>
-        <tr><td class="dev-week">4–5</td><td>Biji wijen 🌱</td><td>Jantung mulai berdetak, tabung saraf terbentuk</td></tr>
-        <tr><td class="dev-week">8</td><td>Frambus/raspberry 🫐</td><td>Semua organ vital sudah ada dalam bentuk dasar, tangan dan kaki terbentuk</td></tr>
-        <tr><td class="dev-week">12</td><td>Jeruk nipis 🍋</td><td>Reflex jari muncul, dapat terdeteksi dengan Doppler. Risiko keguguran menurun signifikan</td></tr>
-        <tr><td class="dev-week">16</td><td>Alpukat 🥑</td><td>Ibu mulai merasakan gerakan pertama (quickening). Kelamin bisa terlihat di USG</td></tr>
-        <tr><td class="dev-week">20</td><td>Pisang 🍌</td><td>Indera pendengaran berkembang — janin bisa mendengar suara ibu. USG anatomi dilakukan</td></tr>
-        <tr><td class="dev-week">24</td><td>Jagung 🌽</td><td>Paru-paru mulai memproduksi surfaktan. Batas viabilitas (kemungkinan hidup di luar rahim)</td></tr>
-        <tr><td class="dev-week">28</td><td>Terong 🍆</td><td>Mata mulai terbuka. Otak berkembang pesat. Janin berbalik posisi kepala ke bawah</td></tr>
-        <tr><td class="dev-week">32</td><td>Labu kecil 🎃</td><td>Tulang mengeras, lemak tubuh bertambah. Siklus tidur-bangun sudah terbentuk</td></tr>
-        <tr><td class="dev-week">36</td><td>Pepaya muda 🍈</td><td>Kepala turun ke panggul (engagement). Persiapan akhir untuk kelahiran</td></tr>
-        <tr><td class="dev-week">40</td><td>Semangka kecil 🍉</td><td>Janin siap lahir. Rata-rata berat 3,0–3,5 kg, panjang 48–53 cm</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Fitur Kalkulator Kehamilan NovaCalcs</h2>
-    <p>Kalkulator kehamilan ini dirancang lebih lengkap dari yang biasa Anda temukan. Berikut yang Anda dapatkan:</p>
-    <ul>
-      <li><strong>3 metode perhitungan</strong> — Dari HPHT (standar), dari tanggal konsepsi, atau dari hasil USG. Pilih yang paling sesuai dengan data yang Anda miliki.</li>
-      <li><strong>Penyesuaian siklus haid</strong> — Siklus 28 hari adalah asumsi standar, tetapi siklus Anda bisa berbeda. Kalkulator ini memperhitungkan panjang siklus aktual untuk HPL yang lebih akurat.</li>
-      <li><strong>Progress bar trimester</strong> — Visualisasi tiga warna menunjukkan seberapa jauh kehamilan Anda dari masing-masing trimester dan keseluruhan 40 minggu.</li>
-      <li><strong>Perbandingan ukuran janin</strong> — Setiap minggu kehamilan ditampilkan perbandingan ukuran janin dengan buah atau sayuran yang familiar bagi ibu Indonesia.</li>
-      <li><strong>Informasi perkembangan mingguan</strong> — Highlight perkembangan utama janin di minggu kehamilan Anda saat ini.</li>
-      <li><strong>Tanggal milestone lengkap</strong> — HPL, batas trimester, dan tanggal viabilitas janin (28 minggu) ditampilkan sekaligus.</li>
-    </ul>
-
-    <h2>Jadwal Pemeriksaan ANC (Antenatal Care) di Indonesia</h2>
-    <p>Kemenkes RI merekomendasikan minimal <strong>6 kali pemeriksaan kehamilan (ANC)</strong> selama 9 bulan — lebih sering dari rekomendasi lama yang hanya 4 kali. Ini disebut program ANC terpadu:</p>
-    <div class="anc-grid">
-      <div class="anc-item"><div><div class="anc-badge t1">T1</div></div><div><strong>Kontak 1–2 (1×)</strong> — Sebelum minggu ke-12. Konfirmasi kehamilan, USG pertama, cek golongan darah, HbSAg, HIV, anemia. Mulai asam folat dan zat besi.</div></div>
-      <div class="anc-item"><div><div class="anc-badge t2">T2</div></div><div><strong>Kontak 3–4 (2×)</strong> — Minggu ke-13 s/d 27. USG anatomi janin (~minggu 20), pemantauan tekanan darah dan berat badan, tes toleransi glukosa (jika perlu).</div></div>
-      <div class="anc-item"><div><div class="anc-badge t3">T3</div></div><div><strong>Kontak 5–6 (3×)</strong> — Minggu ke-28 s/d 40. Lebih sering karena risiko meningkat: pantau posisi janin, tekanan darah, tanda-tanda preeklamsia. USG terakhir sebelum persalinan.</div></div>
-    </div>
-    <p>Selain jadwal rutin, segera ke dokter/bidan jika: perdarahan, nyeri perut hebat, gerakan janin berkurang drastis, demam, atau keluar cairan dari vagina sebelum waktunya.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Seberapa akurat HPL dari kalkulator ini?</div>
-      <div class="faq-a">Kalkulator ini menggunakan metode Naegele yang sama dengan yang digunakan dokter. Namun perlu diingat bahwa hanya sekitar 5% bayi lahir tepat pada HPL. Sebagian besar bayi lahir dalam rentang 2 minggu sebelum atau sesudah HPL — ini sepenuhnya normal. Untuk akurasi tertinggi, USG di trimester pertama (sebelum minggu ke-14) adalah metode terbaik karena mengukur langsung panjang janin (CRL).</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Saya tidak ingat HPHT, apa yang harus dilakukan?</div>
-      <div class="faq-a">Gunakan metode "Dari USG" di kalkulator ini. Masukkan tanggal USG terakhir dan usia kehamilan saat itu — kalkulator akan menghitung mundur untuk menemukan estimasi HPHT dan HPL. Alternatif lain, segera lakukan USG pertama karena USG di trimester pertama (6–13 minggu) dapat menentukan usia kehamilan dengan akurasi ±1 minggu.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah siklus haid mempengaruhi HPL?</div>
-      <div class="faq-a">Ya, signifikan. Rumus Naegele standar mengasumsikan siklus 28 hari dan ovulasi di hari ke-14. Jika siklus Anda 35 hari (ovulasi di hari ke-21), sebenarnya pembuahan terjadi 7 hari lebih lambat — artinya HPL mundur 7 hari dari perhitungan standar. Kalkulator NovaCalcs memperhitungkan koreksi ini otomatis berdasarkan input siklus Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kapan waktu terbaik pemeriksaan USG pertama?</div>
-      <div class="faq-a">USG pertama idealnya dilakukan antara minggu ke-8 hingga ke-13. Pada usia ini, pengukuran panjang mahkota-bokong (Crown-Rump Length/CRL) adalah cara paling akurat menentukan usia kehamilan — akurasi ±5–7 hari. USG sebelum minggu ke-8 mungkin belum mendeteksi detak jantung janin, sementara USG setelah minggu ke-14 keakuratannya menurun karena posisi janin mulai bervariasi.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa saja tanda bahaya kehamilan yang harus segera ditangani?</div>
-      <div class="faq-a">Segera ke dokter atau UGD rumah sakit jika mengalami: (1) perdarahan dari vagina kapan saja selama kehamilan, (2) nyeri perut yang hebat atau tidak tertahankan, (3) gerakan janin berkurang drastis atau tidak terasa sama sekali setelah minggu ke-28, (4) sakit kepala berat disertai penglihatan kabur (tanda preeklamsia), (5) bengkak mendadak di wajah, tangan, atau kaki, (6) demam tinggi (>38°C), atau (7) keluarnya cairan dari vagina sebelum waktunya (kemungkinan ketuban pecah).</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa kenaikan berat badan yang normal selama kehamilan?</div>
-      <div class="faq-a">Panduan WHO berdasarkan BMI sebelum hamil: BMI normal (18,5–24,9): naik 11,5–16 kg total. BMI rendah (&lt;18,5): naik 12,5–18 kg. Kelebihan berat badan (25–29,9): naik 7–11,5 kg. Obesitas (≥30): naik 5–9 kg. Kenaikan berat badan biasanya sangat minimal di trimester 1 (0,5–2 kg), kemudian sekitar 0,4–0,5 kg per minggu di trimester 2 dan 3.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan antara minggu kehamilan dan usia janin?</div>
-      <div class="faq-a">Minggu kehamilan dihitung dari HPHT, sedangkan usia janin (usia sejak pembuahan) biasanya 2 minggu lebih sedikit. Jadi saat dokter menyebut "kehamilan 12 minggu", janin sebenarnya berusia sekitar 10 minggu sejak pembuahan. Dalam komunikasi medis, selalu digunakan hitungan dari HPHT (minggu kehamilan) untuk konsistensi.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-hpl.html" class="related-item"><span class="ri">📅</span>Kalkulator HPL</a>
-      <a href="/id/kalkulator-masa-subur.html" class="related-item"><span class="ri">🌸</span>Masa Subur</a>
-      <a href="/id/kalkulator-kehamilan-bb.html" class="related-item"><span class="ri">⚖️</span>BB Kehamilan</a>
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">📊</span>Kalkulator BMI</a>
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Milestone Kehamilan</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#fbbf24"></div><div><div class="fn">Detak jantung</div><div class="fron">Pertama kali terdeteksi</div></div></div><div class="fprice" style="color:#ca8a04">Minggu 6</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#22c55e"></div><div><div class="fn">Risiko keguguran turun</div><div class="fron">Setelah USG normal</div></div></div><div class="fprice" style="color:var(--grn)">Minggu 12</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Gerakan janin</div><div class="fron">Quickening</div></div></div><div class="fprice" style="color:#3b82f6">Minggu 16–20</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pink)"></div><div><div class="fn">Jenis kelamin</div><div class="fron">Bisa dideteksi USG</div></div></div><div class="fprice" style="color:var(--pink)">Minggu 18–20</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Bayi viable</div><div class="fron">Bisa bertahan di luar</div></div></div><div class="fprice" style="color:var(--grn)">Minggu 24</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#8b5cf6"></div><div><div class="fn">Full term</div><div class="fron">Siap lahir</div></div></div><div class="fprice" style="color:#8b5cf6">Minggu 37–40</div></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Kehamilan Sehat</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">💊</span><span class="tptx"><strong>Asam folat 400 mcg/hari</strong> sejak merencanakan kehamilan — mencegah cacat tabung saraf</span></div>
+        <div class="tip"><span class="tpico">🥛</span><span class="tptx"><strong>Kalsium & zat besi</strong> meningkat dibutuhkan — susu, ikan kecil, bayam, daging merah</span></div>
+        <div class="tip"><span class="tpico">🚫</span><span class="tptx"><strong>Hindari: rokok, alkohol, kafein berlebihan</strong>, ikan tinggi merkuri, dan makanan mentah</span></div>
+        <div class="tip"><span class="tpico">🏥</span><span class="tptx"><strong>ANC rutin</strong> sesuai jadwal dokter/bidan — minimal 6 kali selama kehamilan (standar Kemenkes)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-hpl" class="relc"><div class="relc-ico">📅</div><div class="relc-nm">HPL</div><div class="relc-ds">Hari Perkiraan Lahir</div></a>
+        <a href="/id/kalkulator-masa-subur" class="relc"><div class="relc-ico">🌸</div><div class="relc-nm">Masa Subur</div><div class="relc-ds">Kalkulasi ovulasi</div></a>
+        <a href="/id/kalkulator-berat-bayi" class="relc"><div class="relc-ico">👶</div><div class="relc-nm">Berat Bayi</div><div class="relc-ds">Kurva pertumbuhan</div></a>
+        <a href="/id/kalkulator-bmi" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">BMI</div><div class="relc-ds">Indeks massa tubuh</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Cara Menghitung Usia Kehamilan dan HPL</h2>
+  <p>Usia kehamilan dihitung dari Hari Pertama Haid Terakhir (HPHT), bukan dari tanggal pembuahan. Kehamilan penuh berlangsung selama 40 minggu (280 hari) sejak HPHT. HPL = HPHT + 280 hari. Rumus Naegele: HPL = HPHT + 7 hari − 3 bulan + 1 tahun (berlaku untuk siklus haid 28 hari).</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan usia kehamilan dari HPHT dan USG?</div><div class="faq-a">Usia kehamilan dari HPHT dihitung dari hari pertama haid terakhir dan mengasumsikan ovulasi terjadi pada hari ke-14 siklus. USG di trimester pertama (7–13 minggu) mengukur panjang mahkota-bokong (CRL) janin yang memberikan perkiraan usia kehamilan lebih akurat karena tidak bergantung pada ingatan tentang HPHT. Jika ada perbedaan lebih dari 5–7 hari antara keduanya, biasanya dokter akan menggunakan hasil USG sebagai acuan HPL.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu trimester dan kapan masing-masing dimulai?</div><div class="faq-a">Kehamilan dibagi tiga trimester: Trimester 1 (minggu 1–12) — pembentukan organ vital, risiko keguguran tertinggi, sering terjadi mual/morning sickness. Trimester 2 (minggu 13–27) — janin berkembang pesat, ibu biasanya merasa lebih nyaman, gerakan janin mulai terasa. Trimester 3 (minggu 28–40) — persiapan lahir, paru-paru janin matang, bayi mendapatkan antibodi dari ibu.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<style>
-.dev-table { width:100%; border-collapse:collapse; font-size:0.8rem; }
-.dev-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.dev-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.dev-table tr:last-child td { border-bottom:none; }
-.dev-week { font-weight:700; color:var(--mint); white-space:nowrap; }
-</style>
+<script>
+const DAYS_ID=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const MONTHS_ID=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const today=new Date();today.setHours(0,0,0,0);
 
-<script defer>
-let method = 'hpht';
+function fmtDate(d){if(!d||isNaN(d))return'—';return d.getDate()+' '+MONTHS_ID[d.getMonth()]+' '+d.getFullYear();}
+function fmtInput(d){if(!d||isNaN(d))return'';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function parseD(id){const el=document.getElementById(id);if(!el||!el.value)return null;const d=new Date(el.value+'T00:00:00');return isNaN(d)?null:d;}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
 
-// Baby size data per week
-const BABY_DATA = {
-  4:  {e:'🌱',s:'Biji poppy (1-2 mm)'},
-  5:  {e:'🫐',s:'Biji wijen (5 mm)'},
-  6:  {e:'🫐',s:'Kacang polong (6 mm)'},
-  7:  {e:'🍓',s:'Frambus (13 mm)'},
-  8:  {e:'🫐',s:'Kacang merah (16 mm)'},
-  9:  {e:'🍇',s:'Buah anggur (22 mm)'},
-  10: {e:'🍓',s:'Stroberi (31 mm)'},
-  11: {e:'🫚',s:'Buah ara/tin (41 mm)'},
-  12: {e:'🍋',s:'Jeruk nipis (55 mm)'},
-  13: {e:'🫘',s:'Kacang edamame (74 mm)'},
-  14: {e:'🍑',s:'Buah peach kecil (90 mm)'},
-  15: {e:'🍊',s:'Jeruk mandarin (104 mm)'},
-  16: {e:'🥑',s:'Alpukat (11,6 cm)'},
-  17: {e:'🍐',s:'Buah pir (13 cm)'},
-  18: {e:'🫑',s:'Cabai merah (14,2 cm)'},
-  19: {e:'🍅',s:'Tomat besar (15,3 cm)'},
-  20: {e:'🍌',s:'Pisang (16,4 cm)'},
-  21: {e:'🥕',s:'Wortel (26,7 cm)'},
-  22: {e:'🌽',s:'Jagung (27,8 cm)'},
-  23: {e:'🥥',s:'Kelapa muda kecil (28,9 cm)'},
-  24: {e:'🌽',s:'Jagung besar (30 cm)'},
-  25: {e:'🥦',s:'Brokoli (34,6 cm)'},
-  26: {e:'🥬',s:'Selada besar (35,6 cm)'},
-  27: {e:'🥦',s:'Kembang kol (36,6 cm)'},
-  28: {e:'🍆',s:'Terong (37,6 cm)'},
-  29: {e:'🎃',s:'Labu kecil (38,6 cm)'},
-  30: {e:'🥒',s:'Mentimun besar (39,9 cm)'},
-  31: {e:'🥥',s:'Kelapa (41,1 cm)'},
-  32: {e:'🥬',s:'Kubis besar (42,4 cm)'},
-  33: {e:'🍍',s:'Nanas (43,7 cm)'},
-  34: {e:'🎃',s:'Labu sedang (45 cm)'},
-  35: {e:'🍈',s:'Melon kecil (46,2 cm)'},
-  36: {e:'🍈',s:'Pepaya muda (47,4 cm)'},
-  37: {e:'🍉',s:'Semangka kecil (48,6 cm)'},
-  38: {e:'🍉',s:'Semangka sedang (49,8 cm)'},
-  39: {e:'🍉',s:'Semangka besar (50,7 cm)'},
-  40: {e:'🍉',s:'Semangka (51,2 cm, ~3,4 kg)'},
+function getTrimester(week){
+  if(week<=12)return{n:1,nm:'Trimester 1',col:'#fbbf24'};
+  if(week<=27)return{n:2,nm:'Trimester 2',col:'#22c55e'};
+  return{n:3,nm:'Trimester 3',col:'#3b82f6'};
+}
+
+// ① HPHT
+function calcHPHT(){
+  const hpht=parseD('h-hpht'),tgl=parseD('h-today');
+  if(!hpht||!tgl)return;
+  const hpl=new Date(hpht);hpl.setDate(hpl.getDate()+280);
+  const totalHariKehamilan=Math.round((tgl-hpht)/(1000*60*60*24));
+  const mingguKehamilan=Math.floor(totalHariKehamilan/7);
+  const hariSisa=totalHariKehamilan%7;
+  const sisaMinggu=40-mingguKehamilan;
+  const sisaHari=Math.max(0,Math.round((hpl-tgl)/(1000*60*60*24)));
+  const pct=Math.max(0,Math.min(100,totalHariKehamilan/280*100));
+  const trim=getTrimester(mingguKehamilan);
+  const endT1=new Date(hpht);endT1.setDate(endT1.getDate()+84);
+  const endT2=new Date(hpht);endT2.setDate(endT2.getDate()+189);
+
+  document.getElementById('h-needle').style.left=Math.min(97,pct)+'%';
+  set('h-pct-show',pct.toFixed(0)+'%');
+  set('h-hpl',fmtDate(hpl)+' ('+DAYS_ID[hpl.getDay()]+')');
+  set('h-hpl-sub',sisaHari>0?sisaHari+' hari lagi ('+Math.floor(sisaHari/7)+' minggu '+sisaHari%7+' hari)':'HPL sudah terlewati atau hari ini');
+  set('h-usia',mingguKehamilan+'m'+hariSisa+'h');
+  document.getElementById('h-trim').style.color=trim.col;
+  document.getElementById('h-trim').textContent='T'+trim.n;
+  set('h-sisa',sisaMinggu>0?sisaMinggu+'mgg':'Selesai');
+  set('h-hari',totalHariKehamilan+' hari');
+  set('h-sisa-hari',sisaHari+' hari');
+  set('h-pct',pct.toFixed(1)+'%');
+  set('h-r1',fmtDate(hpht)+' ('+DAYS_ID[hpht.getDay()]+')');
+  set('h-r2',fmtDate(hpl)+' ('+DAYS_ID[hpl.getDay()]+')');
+  set('h-r3',mingguKehamilan+' minggu '+hariSisa+' hari');
+  set('h-r4',trim.nm+' (Minggu '+mingguKehamilan+')');
+  set('h-r5',fmtDate(endT1)+' (akhir Minggu 12)');
+  set('h-r6',fmtDate(endT2)+' (akhir Minggu 27)');
+
+  // Sync janin week
+  selWeek=Math.min(40,Math.max(4,mingguKehamilan));
+  renderWeekGrid();renderJanin();
+}
+
+// ② USG
+function calcUSG(){
+  const tglUSG=parseD('u-tgl-usg'),tglNow=parseD('u-today');
+  if(!tglUSG||!tglNow)return;
+  const minggUSG=parseInt(document.getElementById('u-minggu-usg')?.value)||10;
+  const hariUSG=parseInt(document.getElementById('u-hari-usg')?.value)||0;
+  const totalDaysUSG=minggUSG*7+hariUSG;
+  const hphtEst=new Date(tglUSG);hphtEst.setDate(hphtEst.getDate()-totalDaysUSG);
+  const hpl=new Date(hphtEst);hpl.setDate(hpl.getDate()+280);
+  const daysSinceUSG=Math.round((tglNow-tglUSG)/(1000*60*60*24));
+  const totalDaysNow=totalDaysUSG+daysSinceUSG;
+  const mingguNow=Math.floor(totalDaysNow/7);
+  const sisaHari=Math.max(0,Math.round((hpl-tglNow)/(1000*60*60*24)));
+  const sisaMinggu=Math.ceil(sisaHari/7);
+  set('u-hpl',fmtDate(hpl)+' ('+DAYS_ID[hpl.getDay()]+')');
+  set('u-hpl-sub',sisaHari>0?sisaHari+' hari lagi':'HPL sudah terlewati atau hari ini');
+  set('u-r1',fmtDate(tglUSG));set('u-r2',minggUSG+' minggu '+hariUSG+' hari');
+  set('u-r3',fmtDate(hpl)+' ('+DAYS_ID[hpl.getDay()]+')');
+  set('u-r4',mingguNow+' minggu '+totalDaysNow%7+' hari');
+  set('u-r5',sisaMinggu+' minggu ('+sisaHari+' hari)');
+}
+
+// ③ JANIN
+const JANIN_DATA={
+  4:{ico:'🌱',nm:'Embrio',desc:'Embrio sebesar biji poppy (~1-2 mm). Sel-sel mulai membentuk tiga lapisan yang akan menjadi organ.',ukuran:'1-2 mm',berat:'< 1 g',feature:'Pembentukan lapisan embrionik'},
+  6:{ico:'🫘',nm:'Biji Lentil',desc:'Janin sepanjang ~6 mm, seperti biji lentil. Detak jantung sudah bisa terdeteksi via USG (100-160 bpm).',ukuran:'6 mm',berat:'< 1 g',feature:'Detak jantung terdeteksi'},
+  8:{ico:'🫐',nm:'Blueberry',desc:'Ukuran blueberry (~16 mm). Semua organ vital sudah mulai terbentuk, lengan dan kaki kecil terlihat.',ukuran:'16 mm',berat:'1 g',feature:'Organ vital mulai terbentuk'},
+  10:{ico:'🍓',nm:'Stroberi kecil',desc:'Panjang ~3 cm. Wajah mulai terbentuk, tangan dan kaki lebih jelas, kuku jari mulai tumbuh.',ukuran:'3 cm',berat:'4 g',feature:'Wajah dan anggota badan terbentuk'},
+  12:{ico:'🍋',nm:'Jeruk kecil',desc:'Sekitar 5-6 cm, berat ~14 g. Organ vital sudah terbentuk semua. Risiko keguguran menurun signifikan.',ukuran:'5.4 cm',berat:'14 g',feature:'Trimester 1 hampir selesai'},
+  16:{ico:'🥑',nm:'Alpukat',desc:'Panjang ~12 cm, berat ~100 g. Gerakan janin mungkin sudah terasa (quickening). Jenis kelamin bisa dilihat USG.',ukuran:'12 cm',berat:'100 g',feature:'Gerakan janin mulai terasa'},
+  20:{ico:'🍌',nm:'Pisang',desc:'Panjang ~25 cm (dari kepala ke kaki), berat ~300 g. Janin bisa mendengar suara. Rambutnya mulai tumbuh.',ukuran:'25 cm',berat:'300 g',feature:'Dapat mendengar suara luar'},
+  24:{ico:'🌽',nm:'Jagung',desc:'Panjang ~30 cm, berat ~600 g. Paru-paru mulai berkembang. Janin dianggap "viable" (bisa bertahan di luar kandungan).',ukuran:'30 cm',berat:'600 g',feature:'Viable — bisa bertahan di luar'},
+  28:{ico:'🍆',nm:'Terong',desc:'Panjang ~35 cm, berat ~1 kg. Matanya bisa membuka. Pola tidur-bangun mulai terbentuk.',ukuran:'35 cm',berat:'1 kg',feature:'Masuk Trimester 3'},
+  32:{ico:'🥦',nm:'Brokoli besar',desc:'Panjang ~40 cm, berat ~1,7 kg. Tulang semakin keras. Janin berlatih bernapas dengan cairan ketuban.',ukuran:'40 cm',berat:'1.7 kg',feature:'Latihan bernapas'},
+  36:{ico:'🥬',nm:'Kepala selada',desc:'Panjang ~47 cm, berat ~2,6 kg. Dianggap "early term". Kebanyakan bayi sudah dalam posisi kepala di bawah.',ukuran:'47 cm',berat:'2.6 kg',feature:'Posisi kepala di bawah'},
+  40:{ico:'🎃',nm:'Semangka kecil',desc:'Panjang ~50 cm, berat ~3,3 kg. Full term! Semua sistem organ siap. Perkiraan hari lahir.',ukuran:'50-51 cm',berat:'~3.3 kg',feature:'Full term — siap lahir! 🎉'},
 };
 
-// Dev highlights per trimester stage
-const DEV_NOTES = {
-  1:  '💡 Minggu awal kehamilan — asam folat sangat penting untuk mencegah cacat tabung saraf. Mulai konsumsi suplemen jika belum.',
-  8:  '💡 Semua organ vital sudah terbentuk dalam bentuk dasar. Risiko keguguran mulai menurun setelah minggu ke-8.',
-  12: '✅ Selamat melewati trimester pertama! Risiko keguguran turun drastis. Waktu yang tepat untuk umumkan kehamilan.',
-  16: '🎉 Banyak ibu mulai merasakan gerakan pertama janin di minggu ini — seperti kupu-kupu di perut. Normal jika belum terasa, biasanya antara 16-25 minggu.',
-  20: '📋 Minggu ke-20 adalah waktu ideal untuk USG anatomi lengkap — memeriksa kelengkapan organ janin dan posisi plasenta.',
-  24: '⚠️ Milestone viabilitas: janin mulai memiliki kemungkinan bertahan hidup di luar rahim dengan bantuan intensif jika terpaksa lahir.',
-  28: '🎯 Masuk trimester 3! Otak berkembang pesat, paru-paru hampir matang. Kunjungan ANC semakin sering (tiap 2 minggu).',
-  36: '🏁 Hampir tiba! Kepala janin biasanya sudah turun ke panggul. Siapkan tas persalinan dan rencana kelahiran Anda.',
-  40: '🤱 Sudah mencapai HPL! Setiap saat bisa terjadi persalinan. Tetap tenang dan pantau tanda-tanda kontraksi aktif.',
-};
+let selWeek=12;
+function renderWeekGrid(){
+  const wrap=document.getElementById('week-grid');if(!wrap)return;
+  const weeks=[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,32,34,36,38,40];
+  wrap.innerHTML=weeks.map(w=>`<button class="week-btn${w===selWeek?' on':''}" onclick="selWeek=${w};renderWeekGrid();renderJanin()">Mgg ${w}</button>`).join('');
+}
+function renderJanin(){
+  const wrap=document.getElementById('janin-card');if(!wrap)return;
+  const keys=Object.keys(JANIN_DATA).map(Number).sort((a,b)=>a-b);
+  const matchKey=keys.reduce((best,k)=>k<=selWeek?k:best,keys[0]);
+  const d=JANIN_DATA[matchKey];
+  const trim=getTrimester(selWeek);
+  wrap.innerHTML=`<div class="janin-header">
+    <div class="janin-ico">${d.ico}</div>
+    <div><div class="janin-title">Minggu ${selWeek}: Sebesar ${d.nm}</div><div class="janin-week" style="color:${trim.col}">${trim.nm} · ${d.feature}</div></div>
+  </div>
+  <div class="janin-body">${d.desc}</div>
+  <div class="janin-stats">
+    <div class="janin-stat"><div class="janin-stat-lbl">Panjang</div><div class="janin-stat-val">${d.ukuran}</div></div>
+    <div class="janin-stat"><div class="janin-stat-lbl">Berat Est.</div><div class="janin-stat-val">${d.berat}</div></div>
+    <div class="janin-stat"><div class="janin-stat-lbl">Minggu</div><div class="janin-stat-val">${selWeek}/40</div></div>
+  </div>`;
+}
 
-const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const fmt = d => `${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
+// Init
+document.getElementById('h-today').value=fmtInput(today);
+document.getElementById('u-today').value=fmtInput(today);
+document.getElementById('u-tgl-usg').value=fmtInput(today);
+const defHPHT=new Date(today);defHPHT.setDate(defHPHT.getDate()-84);
+document.getElementById('h-hpht').value=fmtInput(defHPHT);
 
-window.addEventListener('DOMContentLoaded', () => {
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
 });
-
-function setMethod(m, btn) {
-  method = m;
-  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('field-hpht').style.display = m === 'hpht' ? '' : 'none';
-  document.getElementById('field-konsepsi').style.display = m === 'konsepsi' ? '' : 'none';
-  document.getElementById('field-usg').style.display = m === 'usg' ? '' : 'none';
-}
-
-function autoCalc() {
-  try { calculate(); } catch(e) {}
-}
-
-function dpGetDate(id) {
-  const d = parseInt(document.getElementById(id+'-d').value);
-  const m = parseInt(document.getElementById(id+'-m').value);
-  const y = parseInt(document.getElementById(id+'-y').value);
-  if (!d||!m||!y||y<1900||y>2100) return null;
-  const dt = new Date(y, m-1, d);
-  return dt.getDate()===d ? dt : null;
-}
-function calculate() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  let lmp;
-
-  if (method === 'hpht') {
-    const d = dpGetDate('hpht-date');
-    if (!d) return;
-    const cycle = parseInt(document.getElementById('cycle').value) || 28;
-    lmp = new Date(d);
-    lmp.setDate(lmp.getDate() - (28 - cycle));
-  } else if (method === 'konsepsi') {
-    const d = dpGetDate('konsepsi-date');
-    if (!d) return;
-    lmp = new Date(d);
-    lmp.setDate(lmp.getDate() - 14);
-  } else {
-    const d = dpGetDate('usg-date');
-    const w = parseFloat(document.getElementById('usg-weeks').value);
-    if (!d || !w) return;
-    lmp = new Date(d);
-    lmp.setDate(lmp.getDate() - Math.round(w * 7));
-  }
-
-  const diffDays = Math.floor((today - lmp) / 86400000);
-  if (diffDays < 0 || diffDays > 300) return;
-
-  const weeks = Math.floor(diffDays / 7);
-  const dayRem = diffDays % 7;
-
-  const hpl = new Date(lmp); hpl.setDate(hpl.getDate() + 280);
-  const remaining = Math.ceil((hpl - today) / 86400000);
-  const remainingWeeks = remaining > 0 ? Math.floor(remaining / 7) : 0;
-
-  // Milestone dates
-  const t1End = new Date(lmp); t1End.setDate(t1End.getDate() + 84);
-  const t2End = new Date(lmp); t2End.setDate(t2End.getDate() + 189);
-  const viab  = new Date(lmp); viab.setDate(viab.getDate() + 196); // 28 weeks
-
-  // Trimester progress bars (out of 40 weeks = 280 days)
-  const pct = Math.min(diffDays / 280 * 100, 100);
-  const t1Pct = Math.min(diffDays / 280 * 100, 12/40*100); // up to 30%
-  const t2Pct = weeks >= 12 ? Math.min((diffDays - 84) / 280 * 100, 15/40*100) : 0;
-  const t3Pct = weeks >= 27 ? Math.min((diffDays - 189) / 280 * 100, 13/40*100) : 0;
-
-  document.getElementById('bar-t1').style.width = (Math.min(weeks, 12) / 40 * 100) + '%';
-  document.getElementById('bar-t2').style.width = (Math.min(Math.max(weeks - 12, 0), 15) / 40 * 100) + '%';
-  document.getElementById('bar-t3').style.width = (Math.min(Math.max(weeks - 27, 0), 13) / 40 * 100) + '%';
-
-  let trimLabel, trimPct;
-  if (weeks < 13) { trimLabel = '🔵 Trimester 1 (Minggu 1–12)'; trimPct = `${weeks}/12 minggu T1 selesai`; }
-  else if (weeks < 28) { trimLabel = '🟢 Trimester 2 (Minggu 13–27)'; trimPct = `${weeks - 12}/15 minggu T2 selesai`; }
-  else { trimLabel = '🟡 Trimester 3 (Minggu 28–40)'; trimPct = `${Math.min(weeks - 27, 13)}/13 minggu T3 selesai`; }
-
-  document.getElementById('trim-label').textContent = trimLabel + ` — Minggu ${weeks} + ${dayRem} hari`;
-  document.getElementById('trim-pct').textContent = `${pct.toFixed(0)}% kehamilan selesai`;
-
-  // Stats
-  document.getElementById('res-weeks').textContent = weeks;
-  document.getElementById('res-days-num').textContent = diffDays;
-  document.getElementById('res-remaining').textContent = remaining > 0 ? remaining : 'Sudah HPL';
-  document.getElementById('res-remaining-weeks').textContent = remaining > 0 ? remainingWeeks : '—';
-  document.getElementById('res-hpl').textContent = fmt(hpl);
-  document.getElementById('res-t1').textContent = fmt(t1End) + (today > t1End ? ' ✓' : '');
-  document.getElementById('res-t2').textContent = fmt(t2End) + (today > t2End ? ' ✓' : '');
-  document.getElementById('res-viab').textContent = fmt(viab) + (today > viab ? ' ✓' : '');
-
-  // Milestone dots
-  const dotT1 = document.getElementById('dot-t1');
-  const dotT2 = document.getElementById('dot-t2');
-  const dotT3 = document.getElementById('dot-t3');
-  dotT1.className = 'milestone-dot ' + (today > t1End ? 'done' : weeks >= 10 ? 'now' : 'future');
-  dotT2.className = 'milestone-dot ' + (today > t2End ? 'done' : weeks >= 24 ? 'now' : 'future');
-  dotT3.className = 'milestone-dot ' + (today > viab ? 'done' : weeks >= 26 ? 'now' : 'future');
-
-  // Baby size
-  const clampedWeek = Math.max(4, Math.min(weeks, 40));
-  const baby = BABY_DATA[clampedWeek] || BABY_DATA[40];
-  document.getElementById('baby-emoji').textContent = baby.e;
-  document.getElementById('baby-size').textContent = baby.s;
-
-  // Dev highlight
-  let devNote = '';
-  if (weeks >= 40) devNote = DEV_NOTES[40];
-  else if (weeks >= 36) devNote = DEV_NOTES[36];
-  else if (weeks >= 28) devNote = DEV_NOTES[28];
-  else if (weeks >= 24) devNote = DEV_NOTES[24];
-  else if (weeks >= 20) devNote = DEV_NOTES[20];
-  else if (weeks >= 16) devNote = DEV_NOTES[16];
-  else if (weeks >= 12) devNote = DEV_NOTES[12];
-  else if (weeks >= 8)  devNote = DEV_NOTES[8];
-  else devNote = DEV_NOTES[1];
-
-  document.getElementById('dev-highlight').innerHTML = devNote;
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+renderWeekGrid();renderJanin();calcHPHT();calcUSG();
 </script>
 </body>
 </html>
