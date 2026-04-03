@@ -1,479 +1,467 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator BMR 2026 — Hitung Metabolisme Basal + TDEE & Target Kalori | NovaCalcs</title>
-<meta name="description" content="Hitung BMR (metabolisme basal) dan TDEE Anda dengan rumus Mifflin-St Jeor dan Harris-Benedict. Bandingkan keduanya, lihat target kalori per tujuan, dan distribusi makro."/>
-<meta name="keywords" content="kalkulator BMR, basal metabolic rate, metabolisme basal, TDEE, kebutuhan kalori dasar, mifflin st jeor, harris benedict, hitung BMR 2026"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bmr.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-bmr.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator BMR","url":"https://novacalcs.com/id/kalkulator-bmr.html","description":"Kalkulator BMR gratis dengan dua rumus, perbandingan otomatis, dan target kalori per tujuan","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* BMR big display */
-.bmr-main { text-align:center; padding:16px 0 8px; }
-.bmr-num { font-size:2.4rem; font-weight:700; color:var(--mint); line-height:1; }
-.bmr-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* TDEE bar */
-.tdee-bar-wrap { margin:12px 0 6px; }
-.tdee-bar-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:5px; }
-.tdee-bar-track { height:18px; border-radius:9px; background:var(--bg-input); overflow:hidden; position:relative; }
-.tdee-bar-bmr   { background:var(--mint); height:100%; transition:width 0.7s ease; display:flex; align-items:center; padding-left:8px; font-size:0.62rem; font-weight:700; color:#001a17; }
-.tdee-bar-act   { background:#60a5fa; height:100%; transition:width 0.7s ease; display:flex; align-items:center; padding-left:6px; font-size:0.62rem; font-weight:700; color:#0c1a2e; }
-.tdee-bar-legend { display:flex; gap:14px; margin-top:5px; font-size:0.72rem; color:var(--text-secondary); }
-.tdee-bar-legend span::before { content:'●'; margin-right:4px; }
-.leg-g::before { color:var(--mint); } .leg-b::before { color:#60a5fa; }
-
-/* Stats grid */
-.bmr-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.bs-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.bs-card .bc-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
-.bs-card .bc-val   { font-size:0.92rem; font-weight:700; color:var(--text-primary); }
-.bs-card.green .bc-val { color:var(--mint); }
-.bs-card.blue  .bc-val { color:#60a5fa; }
-
-/* Formula comparison */
-.formula-comp { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0; }
-.fc-card { border-radius:var(--radius-md); padding:12px 14px; border:1px solid var(--border); }
-.fc-card.mifflin { background:rgba(0,201,177,0.07); border-color:rgba(0,201,177,0.3); }
-.fc-card.harris  { background:rgba(96,165,250,0.07); border-color:rgba(96,165,250,0.3); }
-.fc-card .fc-name { font-size:0.72rem; font-weight:700; margin-bottom:4px; }
-.fc-card.mifflin .fc-name { color:var(--mint); }
-.fc-card.harris  .fc-name { color:#60a5fa; }
-.fc-card .fc-val  { font-size:1.2rem; font-weight:700; color:var(--text-primary); }
-.fc-card .fc-sub  { font-size:0.68rem; color:var(--text-muted); margin-top:3px; }
-
-/* Goal tabs */
-.goal-tabs { display:flex; border-bottom:1px solid var(--border); margin:12px 0 10px; }
-.goal-tab { flex:1; padding:7px 8px; font-size:0.72rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all 0.15s; }
-.goal-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
-
-/* Goal result card */
-.goal-result { background:var(--bg-input); border-radius:var(--radius-sm); padding:12px 14px; border:1px solid var(--border); }
-.gr-target { font-size:1.6rem; font-weight:700; color:var(--mint); margin-bottom:4px; }
-.gr-unit { font-size:0.75rem; color:var(--text-secondary); }
-.gr-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border); font-size:0.8rem; }
-.gr-row:last-child { border-bottom:none; }
-.gr-val { font-weight:700; color:var(--text-primary); }
-
-/* Macro bars */
-.macro-section { margin-top:12px; }
-.macro-title { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:8px; }
-.macro-row { margin-bottom:8px; }
-.macro-header { display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:3px; }
-.macro-track { height:9px; background:var(--bg-input); border-radius:4px; overflow:hidden; }
-.macro-fill { height:100%; border-radius:4px; transition:width 0.5s; }
-.macro-legend { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:8px; }
-.ml-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:8px; text-align:center; }
-.ml-gram { font-size:1rem; font-weight:700; }
-.ml-label { font-size:0.65rem; color:var(--text-muted); margin-top:2px; }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator BMR 2026 — Metabolisme Basal, TDEE & Kalori Harian | NovaCalcs</title>
+  <meta name="description" content="Kalkulator BMR 2026: hitung metabolisme basal (BMR) dan total kalori harian (TDEE) dengan rumus Mifflin-St Jeor. Simulasi kalori untuk diet, naik berat, atau maintenance. Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-bmr">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{width:100%;padding:10px 32px 10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;appearance:none;cursor:pointer}
+    .sw select:focus{border-color:var(--pri)}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* GENDER TOGGLE */
+    .gender-toggle{display:flex;gap:8px;margin-bottom:14px}
+    .gender-btn{flex:1;padding:10px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center}
+    .gender-btn.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    /* ACTIVITY CARDS */
+    .act-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}
+    @media(max-width:420px){.act-grid{grid-template-columns:1fr}}
+    .act-card{border:1.5px solid var(--bor);border-radius:var(--rs);padding:10px;cursor:pointer;transition:all .15s}
+    .act-card:hover{border-color:var(--pri)}
+    .act-card.on{border-color:var(--pri);background:var(--pri-l)}
+    .act-ico{font-size:16px;margin-bottom:3px}
+    .act-nm{font-size:11px;font-weight:700}
+    .act-desc{font-size:9px;color:var(--tx3);margin-top:1px;line-height:1.3}
+    .act-factor{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--pri);margin-top:3px}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:28px}.rv.sm{font-size:15px}.rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* TUJUAN CARDS */
+    .tujuan-grid{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+    .tujuan-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-radius:var(--rs);border:1.5px solid var(--bor)}
+    .tujuan-lbl{font-size:12px;font-weight:700}
+    .tujuan-sub{font-size:10px;color:var(--tx3)}
+    .tujuan-kal{font-family:'DM Mono',monospace;font-size:14px;font-weight:800;color:var(--pri)}
+    /* COMPARE TABLE */
+    .cmp-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .cmp-tbl th{background:var(--sur2);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .cmp-tbl td{padding:8px 10px;border-bottom:1px solid var(--bor)}
+    .cmp-tbl td.mo{font-family:'DM Mono',monospace;font-weight:700;text-align:right;color:var(--pri)}
+    .cmp-tbl tr:last-child td{border-bottom:none}
+    /* AGE CHART */
+    .chart-wrap{display:flex;flex-direction:column;gap:5px;margin-top:12px}
+    .c-row{display:flex;align-items:center;gap:8px;font-size:10px}
+    .c-lbl{min-width:50px;color:var(--tx3);text-align:right;font-family:'DM Mono',monospace}
+    .c-bg{flex:1;background:var(--sur2);border-radius:3px;height:16px;overflow:hidden}
+    .c-fill{height:100%;border-radius:3px;background:var(--pri);transition:width .4s}
+    .c-val{min-width:60px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--pri)}
+    .c-row.hl .c-lbl{color:var(--pri);font-weight:800}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo ul{padding-left:18px;margin-bottom:10px}
+    .seo ul li{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:3px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator BMR</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator BMR</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🔥 Metabolisme Basal</div>
+  <h1 class="hdr-h1">Kalkulator BMR 2026</h1>
+  <p class="hdr-sub">Hitung Basal Metabolic Rate (BMR) dan Total Daily Energy Expenditure (TDEE) dengan rumus Mifflin-St Jeor. Ketahui kebutuhan kalori harian untuk diet, maintenance, atau bulking.</p>
+  <div class="pstrip">
+    <div class="pchip">Rumus <span>Mifflin-St Jeor</span></div>
+    <div class="pchip">BMR rata-rata pria <span>1.600–1.900 kal</span></div>
+    <div class="pchip">BMR rata-rata wanita <span>1.300–1.600 kal</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🔥 Kalkulator BMR 2026</div>
-      <div class="calc-subtitle">Metabolisme basal + TDEE + target kalori per tujuan</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="field">
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🔥</div>Hitung BMR & TDEE</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="bmr">🔥 BMR & TDEE</button>
+      <button class="tbtn" data-tab="rumus">📐 Perbandingan Rumus</button>
+    </div>
+
+    <!-- BMR & TDEE -->
+    <div class="tpanel on" id="tab-bmr">
+      <!-- Gender -->
+      <div class="fld">
         <label>Jenis Kelamin</label>
-        <div class="radio-group">
-          <div class="radio-btn active" id="btn-male"   onclick="selectGender('male')">👨 Laki-laki</div>
-          <div class="radio-btn"        id="btn-female" onclick="selectGender('female')">👩 Perempuan</div>
+        <div class="gender-toggle">
+          <button class="gender-btn on" id="g-pria" onclick="setGender('pria')">👨 Pria</button>
+          <button class="gender-btn" id="g-wanita" onclick="setGender('wanita')">👩 Wanita</button>
         </div>
       </div>
-      <div class="field"><label>Usia (tahun)</label>
-        <input type="number" id="age" placeholder="Contoh: 30" min="15" max="100" oninput="autoCalc()"/>
+      <div class="g2">
+        <div class="fld">
+          <label>Berat Badan (kg)</label>
+          <div class="iw"><input type="number" id="b-berat" value="70" min="20" max="300" step="0.5"><span class="iu">kg</span></div>
+        </div>
+        <div class="fld">
+          <label>Tinggi Badan (cm)</label>
+          <div class="iw"><input type="number" id="b-tinggi" value="170" min="100" max="250" step="0.5"><span class="iu">cm</span></div>
+        </div>
       </div>
-      <div class="field"><label>Tinggi Badan (cm)</label>
-        <input type="number" id="height" placeholder="Contoh: 170" min="100" max="250" oninput="autoCalc()"/>
+      <div class="fld">
+        <label>Usia</label>
+        <div class="iw"><input type="number" id="b-usia" value="30" min="15" max="100" step="1"><span class="iu">thn</span></div>
+        <div class="presets">
+          <button class="pb" data-val="20" data-for="b-usia">20</button>
+          <button class="pb on" data-val="30" data-for="b-usia">30</button>
+          <button class="pb" data-val="40" data-for="b-usia">40</button>
+          <button class="pb" data-val="50" data-for="b-usia">50</button>
+        </div>
       </div>
-      <div class="field"><label>Berat Badan (kg)</label>
-        <input type="number" id="weight" placeholder="Contoh: 65" min="20" max="300" oninput="autoCalc()"/>
-      </div>
-      <div class="field"><label>Tingkat Aktivitas</label>
-        <select id="activity" onchange="autoCalc()">
-          <option value="1.2">Sangat jarang olahraga — duduk sepanjang hari</option>
-          <option value="1.375">Olahraga ringan 1–3x/minggu</option>
-          <option value="1.55" selected>Olahraga sedang 3–5x/minggu</option>
-          <option value="1.725">Olahraga berat 6–7x/minggu</option>
-          <option value="1.9">Atlet / pekerjaan fisik berat setiap hari</option>
-        </select>
+      <div class="fld">
+        <label>Tingkat Aktivitas Fisik</label>
+        <div class="act-grid" id="act-grid"></div>
       </div>
 
-      <button class="calc-btn" onclick="calculate()">🔥 Hitung BMR Saya</button>
-
-      <div class="result-box" id="result" style="display:none">
-
-        <!-- Main BMR -->
-        <div class="bmr-main">
-          <div class="bmr-num" id="res-bmr">—</div>
-          <div class="bmr-label">BMR — kalori dasar saat istirahat total</div>
-        </div>
-
-        <!-- TDEE bar (BMR + aktivitas) -->
-        <div class="tdee-bar-wrap">
-          <div class="tdee-bar-title">Komposisi TDEE Anda</div>
-          <div class="tdee-bar-track" style="display:flex">
-            <div class="tdee-bar-bmr" id="bar-bmr" style="width:65%">BMR</div>
-            <div class="tdee-bar-act" id="bar-act" style="width:35%">Aktivitas</div>
+      <div class="lres">
+        <div class="rg rg3">
+          <div class="ri s2">
+            <div class="rl">TDEE — Total Kalori Harian</div>
+            <div class="rv lg" id="b-tdee">—</div>
+            <div class="rsub" id="b-tdee-sub">kalori/hari</div>
           </div>
-          <div class="tdee-bar-legend">
-            <span class="leg-g">BMR (fungsi dasar tubuh)</span>
-            <span class="leg-b">Kalori aktivitas fisik</span>
+          <div class="ri">
+            <div class="rl">BMR (Kalori Istirahat)</div>
+            <div class="rv sm" id="b-bmr">—</div>
+            <div class="rsub">kal/hari</div>
+          </div>
+          <div class="ri">
+            <div class="rl">Faktor Aktivitas</div>
+            <div class="rv sm" id="b-factor">—</div>
           </div>
         </div>
-
-        <!-- Stats -->
-        <div class="bmr-stats">
-          <div class="bs-card green"><div class="bc-label">BMR (istirahat total)</div><div class="bc-val" id="s-bmr">—</div></div>
-          <div class="bs-card blue"><div class="bc-label">TDEE (dengan aktivitas)</div><div class="bc-val" id="s-tdee">—</div></div>
+        <div class="rrows">
+          <div class="rr"><span>BMR (Mifflin-St Jeor)</span><span id="b-bmr2">—</span></div>
+          <div class="rr"><span>Faktor aktivitas</span><span id="b-factor2">—</span></div>
+          <div class="rr"><span>TDEE = BMR × faktor</span><span id="b-tdee2">—</span></div>
+          <div class="rr"><span>Kalori per kg berat badan</span><span id="b-kal-kg">—</span></div>
+          <div class="rr"><span>Rumus yang digunakan</span><span>Mifflin-St Jeor 1990</span></div>
         </div>
+      </div>
+      <div class="notice">* BMR adalah kalori yang dibutuhkan tubuh saat istirahat total (hanya untuk fungsi vital: pernapasan, sirkulasi, dll). TDEE adalah kebutuhan kalori nyata berdasarkan aktivitas harian. Gunakan TDEE sebagai acuan kebutuhan makan, bukan BMR.</div>
+    </div>
 
-        <!-- Formula comparison -->
-        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px;">🔬 Perbandingan Dua Rumus</div>
-        <div class="formula-comp">
-          <div class="fc-card mifflin">
-            <div class="fc-name">Mifflin-St Jeor ⭐</div>
-            <div class="fc-val" id="fc-mifflin-bmr">—</div>
-            <div class="fc-sub" id="fc-mifflin-tdee">TDEE: —</div>
-            <div class="fc-sub" style="margin-top:3px;color:var(--mint);font-size:0.65rem">Lebih akurat (direkomendasikan)</div>
-          </div>
-          <div class="fc-card harris">
-            <div class="fc-name">Harris-Benedict</div>
-            <div class="fc-val" id="fc-harris-bmr">—</div>
-            <div class="fc-sub" id="fc-harris-tdee">TDEE: —</div>
-            <div class="fc-sub" style="margin-top:3px;color:#60a5fa;font-size:0.65rem">Rumus klasik 1919/1984</div>
-          </div>
-        </div>
-        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px" id="fc-diff-note">—</div>
+    <!-- PERBANDINGAN RUMUS -->
+    <div class="tpanel" id="tab-rumus">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Ada beberapa rumus perhitungan BMR yang umum digunakan. Mifflin-St Jeor (1990) adalah yang paling akurat menurut penelitian terkini.</p>
+      <table class="cmp-tbl" id="rumus-tbl">
+        <thead><tr><th>Rumus</th><th>Tahun</th><th>BMR (kal/hari)</th><th>Keunggulan</th></tr></thead>
+        <tbody id="rumus-tbody"></tbody>
+      </table>
+      <div class="notice info" style="margin-top:10px">💡 Semua rumus BMR adalah estimasi. Akurasi nyata ±10–15%. Untuk hasil paling akurat, lakukan pengukuran komposisi tubuh (DEXA scan atau bioimpedance) di fasilitas kesehatan.</div>
+    </div>
+  </div>
+</div>
 
-        <!-- Goal tabs + kalori -->
-        <div class="goal-tabs">
-          <div class="goal-tab active"  onclick="setGoal(-500,this)">Turun BB</div>
-          <div class="goal-tab"         onclick="setGoal(0,this)">Jaga BB</div>
-          <div class="goal-tab"         onclick="setGoal(500,this)">Naik BB</div>
-        </div>
+<!-- ② KALORI UNTUK TUJUAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🎯</div>Kalori untuk Setiap Tujuan <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">TDEE adalah titik nol. Kurangi untuk turun berat, tambah untuk naik berat. 1 kg lemak ≈ 7.700 kalori.</p>
+    <div class="tujuan-grid" id="tujuan-grid"></div>
+    <div class="lres" style="margin-top:14px">
+      <div class="rrows" style="border:none;padding:0">
+        <div class="rr"><span>TDEE Anda (maintenance)</span><span id="tj-tdee">—</span></div>
+        <div class="rr"><span>Defisit untuk turun 0,5 kg/minggu</span><span id="tj-def05">—</span></div>
+        <div class="rr"><span>Defisit untuk turun 1 kg/minggu</span><span id="tj-def1">—</span></div>
+        <div class="rr"><span>Surplus untuk naik 0,5 kg/minggu</span><span id="tj-sur05">—</span></div>
+      </div>
+    </div>
+    <div class="notice info" style="margin-top:10px">💡 <strong>1 kg lemak ≈ 7.700 kal.</strong> Defisit 500 kal/hari = −0,5 kg/minggu secara teoritis. Namun tubuh beradaptasi — hasil nyata bervariasi. Defisit &gt;1.000 kal/hari tidak disarankan tanpa pengawasan medis.</div>
+  </div>
+</div>
 
-        <div class="goal-result">
-          <div class="gr-target" id="gr-target">—</div>
-          <div class="gr-unit"   id="gr-unit">kkal/hari</div>
-          <div style="margin-top:10px">
-            <div class="gr-row"><span>TDEE (maintenance)</span><span class="gr-val" id="gr-tdee">—</span></div>
-            <div class="gr-row"><span>Penyesuaian</span><span class="gr-val" id="gr-adj">—</span></div>
-            <div class="gr-row"><span>Target kalori</span><span class="gr-val" id="gr-final">—</span></div>
-            <div class="gr-row"><span>Estimasi perubahan BB</span><span class="gr-val" id="gr-change">—</span></div>
-          </div>
-        </div>
+<!-- ③ BMR BERUBAH SEIRING USIA -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Perubahan BMR seiring Usia <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">BMR menurun seiring bertambahnya usia — rata-rata 1–2% per dekade setelah usia 30. Lihat proyeksi BMR Anda dari usia 20 hingga 70 tahun.</p>
+    <div class="chart-wrap" id="age-chart"></div>
+    <div class="notice" style="margin-top:10px">* Penurunan BMR seiring usia disebabkan berkurangnya massa otot (sarkopenia). Latihan kekuatan (resistance training) terbukti memperlambat penurunan ini dengan mempertahankan massa otot.</div>
+  </div>
+</div>
 
-        <!-- Macro distribution -->
-        <div class="macro-section">
-          <div class="macro-title">🥩 Distribusi Makronutrisi Harian</div>
-          <div class="macro-row">
-            <div class="macro-header">
-              <span style="font-weight:600;color:#60a5fa">Protein</span>
-              <span id="m-protein-val" style="color:#60a5fa;font-weight:700">— g</span>
-            </div>
-            <div class="macro-track"><div class="macro-fill" id="m-protein-bar" style="width:0%;background:#60a5fa"></div></div>
-          </div>
-          <div class="macro-row">
-            <div class="macro-header">
-              <span style="font-weight:600;color:#4ade80">Karbohidrat</span>
-              <span id="m-karbo-val" style="color:#4ade80;font-weight:700">— g</span>
-            </div>
-            <div class="macro-track"><div class="macro-fill" id="m-karbo-bar" style="width:0%;background:#4ade80"></div></div>
-          </div>
-          <div class="macro-row">
-            <div class="macro-header">
-              <span style="font-weight:600;color:#fbbf24">Lemak</span>
-              <span id="m-lemak-val" style="color:#fbbf24;font-weight:700">— g</span>
-            </div>
-            <div class="macro-track"><div class="macro-fill" id="m-lemak-bar" style="width:0%;background:#fbbf24"></div></div>
-          </div>
-          <div class="macro-legend">
-            <div class="ml-card"><div class="ml-gram" style="color:#60a5fa" id="ml-protein">—%</div><div class="ml-label">Protein</div></div>
-            <div class="ml-card"><div class="ml-gram" style="color:#4ade80" id="ml-karbo">—%</div><div class="ml-label">Karbo</div></div>
-            <div class="ml-card"><div class="ml-gram" style="color:#fbbf24" id="ml-lemak">—%</div><div class="ml-label">Lemak</div></div>
-          </div>
-        </div>
+</div><!-- /left-col -->
 
-        <!-- Advice -->
-        <div id="res-advice" style="margin-top:12px;padding:12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,0.2);border-radius:var(--radius-sm);font-size:0.82rem;line-height:1.6;"></div>
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Faktor Aktivitas TDEE</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#94a3b8"></div><div><div class="fn">Sedentary</div><div class="fron">Tidak olahraga</div></div></div><div class="fprice">×1,2</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#22c55e"></div><div><div class="fn">Ringan</div><div class="fron">1–3 hari/minggu</div></div></div><div class="fprice">×1,375</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Moderat</div><div class="fron">3–5 hari/minggu</div></div></div><div class="fprice">×1,55</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Aktif</div><div class="fron">6–7 hari/minggu</div></div></div><div class="fprice">×1,725</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#7f1d1d"></div><div><div class="fn">Sangat Aktif</div><div class="fron">Atlet / kerja fisik</div></div></div><div class="fprice">×1,9</div></div>
       </div>
     </div>
   </div>
-
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator BMR 2026 — Metabolisme Basal, TDEE & Target Kalori</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung BMR (Basal Metabolic Rate) dan TDEE Anda menggunakan dua rumus ilmiah terpercaya. Bandingkan hasil Mifflin-St Jeor vs Harris-Benedict, dan dapatkan target kalori spesifik sesuai tujuan — turun, jaga, atau naik berat badan.</p>
-
-    <h2>Apa itu BMR dan Mengapa Penting?</h2>
-    <p>BMR (Basal Metabolic Rate) atau Laju Metabolisme Basal adalah jumlah kalori yang dibutuhkan tubuh Anda setiap hari hanya untuk menjalankan fungsi-fungsi dasar kehidupan — bernapas, memompa jantung, menjaga suhu tubuh, memproduksi hormon, dan memperbaiki sel — tanpa aktivitas fisik apapun.</p>
-    <p>Sederhananya: BMR adalah kalori yang dibutuhkan jika Anda berbaring diam selama 24 jam penuh. Angka ini bisa menyumbang <strong>60–75% dari total pengeluaran energi harian</strong>, menjadikannya fondasi terpenting dalam manajemen berat badan. Tanpa mengetahui BMR, program diet atau penambahan berat badan Anda hanya menebak-nebak.</p>
-
-    <h2>Dua Rumus BMR yang Digunakan dan Perbandingannya</h2>
-    <p>Kalkulator ini menggunakan dan membandingkan dua rumus ilmiah utama secara bersamaan:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Rumus</th><th>Laki-laki</th><th>Perempuan</th><th>Akurasi</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Mifflin-St Jeor (1990)</strong> ⭐ Direkomendasikan</td>
-          <td style="font-size:0.78rem">(10×BB) + (6,25×TB) − (5×usia) + 5</td>
-          <td style="font-size:0.78rem">(10×BB) + (6,25×TB) − (5×usia) − 161</td>
-          <td>~90%</td>
-        </tr>
-        <tr>
-          <td><strong>Harris-Benedict (Revisi 1984)</strong></td>
-          <td style="font-size:0.78rem">88,362 + (13,397×BB) + (4,799×TB) − (5,677×usia)</td>
-          <td style="font-size:0.78rem">447,593 + (9,247×BB) + (3,098×TB) − (4,330×usia)</td>
-          <td>~80%</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>Keterangan: BB = berat badan (kg), TB = tinggi badan (cm). Penelitian modern secara konsisten menunjukkan Mifflin-St Jeor lebih akurat untuk populasi saat ini. Namun keduanya hanya estimasi — untuk akurasi laboratorium dibutuhkan indirect calorimetry.</p>
-
-    <h2>Fitur Kalkulator BMR NovaCalcs</h2>
-    <ul>
-      <li><strong>Dua rumus sekaligus</strong> — Mifflin-St Jeor dan Harris-Benedict dihitung bersamaan dan ditampilkan berdampingan. Anda bisa melihat selisih di antara keduanya untuk memahami rentang estimasi BMR Anda.</li>
-      <li><strong>Visualisasi BMR vs aktivitas</strong> — Bar dua warna menunjukkan proporsi BMR (metabolisme dasar) vs kalori dari aktivitas fisik dalam total TDEE — memberikan gambaran intuitif seberapa besar aktivitas Anda berkontribusi pada kebutuhan kalori.</li>
-      <li><strong>Target kalori per tujuan</strong> — Tiga tab (Turun BB / Jaga BB / Naik BB) menampilkan target kalori harian beserta estimasi perubahan berat badan per minggu yang realistis.</li>
-      <li><strong>Distribusi makronutrisi otomatis</strong> — Berdasarkan target kalori dan tujuan, kalkulator menghitung distribusi protein, karbohidrat, dan lemak yang optimal dalam gram dan persen.</li>
-      <li><strong>Input real-time</strong> — Hasil diperbarui otomatis saat mengetik tanpa perlu klik ulang.</li>
-      <li><strong>Saran personal</strong> — Setiap hasil dilengkapi panduan tindak lanjut spesifik berdasarkan kondisi Anda.</li>
-    </ul>
-
-    <h2>BMR vs TDEE — Perbedaan dan Cara Menggunakannya</h2>
-    <p>Dua angka paling penting dalam manajemen kalori:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Konsep</th><th>Definisi</th><th>Cara Menggunakan</th></tr></thead>
-      <tbody>
-        <tr><td><strong>BMR</strong></td><td>Kalori minimal untuk bertahan hidup saat istirahat penuh</td><td>Jangan makan di bawah angka ini dalam jangka panjang</td></tr>
-        <tr><td><strong>TDEE</strong></td><td>Total kalori yang dibutuhkan dengan aktivitas nyata sehari-hari</td><td>Gunakan ini sebagai acuan target kalori harian Anda</td></tr>
-        <tr><td>TDEE − 500 kkal</td><td>Defisit kalori untuk turun berat</td><td>Penurunan ~0,5 kg/minggu yang sehat</td></tr>
-        <tr><td>TDEE + 500 kkal</td><td>Surplus kalori untuk naik berat</td><td>Penambahan ~0,5 kg/minggu (lean bulk)</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Faktor yang Mempengaruhi BMR</h2>
-    <ul>
-      <li><strong>Massa otot</strong> — Otot membakar lebih banyak kalori daripada lemak bahkan saat istirahat. Seseorang berotot memiliki BMR lebih tinggi dengan berat yang sama.</li>
-      <li><strong>Usia</strong> — BMR cenderung menurun 1–2% per dekade setelah usia 30 tahun seiring berkurangnya massa otot secara alami.</li>
-      <li><strong>Hormon tiroid</strong> — Hipotiroidisme (tiroid kurang aktif) menurunkan BMR; hipertiroidisme meningkatkannya.</li>
-      <li><strong>Jenis kelamin</strong> — Pria umumnya memiliki BMR lebih tinggi karena massa otot lebih besar dan persentase lemak lebih rendah secara biologis.</li>
-      <li><strong>Genetik</strong> — Ada variasi BMR antar individu yang tidak sepenuhnya bisa dijelaskan oleh faktor-faktor di atas.</li>
-    </ul>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa BMR normal untuk orang Indonesia?</div>
-      <div class="faq-a">BMR rata-rata untuk pria Indonesia dewasa berkisar antara 1.500–1.900 kkal/hari, sedangkan wanita antara 1.200–1.600 kkal/hari. Angka ini bervariasi tergantung usia, tinggi, berat badan, dan komposisi massa otot. Orang dengan tinggi dan massa otot lebih besar akan memiliki BMR lebih tinggi.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah BMR bisa ditingkatkan?</div>
-      <div class="faq-a">Ya, dan ini sering diabaikan. Cara paling efektif meningkatkan BMR: (1) Latihan beban untuk membangun massa otot — otot membakar 3× lebih banyak kalori daripada lemak bahkan saat istirahat, (2) Hindari diet sangat rendah kalori dalam waktu lama — tubuh beradaptasi dengan menurunkan BMR, (3) Cukup tidur — kurang tidur kronis menurunkan metabolisme dan meningkatkan hormon kelaparan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Mana yang lebih akurat, Mifflin-St Jeor atau Harris-Benedict?</div>
-      <div class="faq-a">Penelitian modern secara konsisten menunjukkan Mifflin-St Jeor (1990) lebih akurat untuk populasi umum saat ini, dengan tingkat prediksi sekitar 90% dibandingkan 80% Harris-Benedict. Perbedaan ini terjadi karena Harris-Benedict dikembangkan pada 1919 dan direvisi 1984 menggunakan sampel populasi berbeda. Untuk keputusan klinis, selalu gunakan Mifflin-St Jeor — namun tetap validasi dengan data aktual berat badan Anda selama 2–4 minggu.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah boleh makan di bawah BMR saat diet?</div>
-      <div class="faq-a">Tidak disarankan dalam jangka panjang. Makan di bawah BMR secara konsisten menyebabkan: penurunan massa otot (tubuh membakar otot untuk energi), perlambatan metabolisme (adaptive thermogenesis), kekurangan nutrisi mikro, kelelahan kronis, dan gangguan hormonal. Panduan umum: wanita tidak di bawah 1.200 kkal/hari, pria tidak di bawah 1.500 kkal/hari. Defisit yang aman adalah 300–500 kkal dari TDEE.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Mengapa TDEE saya berbeda dengan yang saya hitung di kalkulator lain?</div>
-      <div class="faq-a">Perbedaan TDEE antar kalkulator bisa berasal dari: (1) Pilihan rumus BMR yang berbeda (Mifflin vs Harris), (2) Nilai multiplier aktivitas yang berbeda, (3) Cara menghitung rentang aktivitas. Kalkulator ini menggunakan multiplier aktivitas standar dari penelitian original: 1,2 / 1,375 / 1,55 / 1,725 / 1,9. Perbedaan kecil adalah normal — yang penting konsisten menggunakan satu kalkulator dan validasi dengan memantau perubahan berat badan nyata selama 2–3 minggu.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa defisit kalori yang aman untuk turun berat badan?</div>
-      <div class="faq-a">Defisit yang aman dan berkelanjutan adalah 300–500 kkal/hari dari TDEE. Ini menghasilkan penurunan berat badan sekitar 0,3–0,5 kg per minggu — laju yang cukup untuk menghindari kehilangan massa otot dan perlambatan metabolisme. Defisit lebih dari 1.000 kkal/hari umumnya kontraproduktif karena tubuh beradaptasi dengan menurunkan TDEE (adaptive thermogenesis) dan mulai membakar otot sebagai sumber energi.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah BMR berubah setelah turun berat badan?</div>
-      <div class="faq-a">Ya, dan ini penting untuk diketahui. Saat berat badan turun, BMR juga turun karena tubuh Anda lebih kecil dan membutuhkan lebih sedikit kalori. Ini sebabnya banyak orang mengalami plateau diet setelah beberapa bulan — TDEE mereka sudah turun, tapi target kalori diet tidak disesuaikan. Solusi: hitung ulang BMR dan TDEE menggunakan berat badan terbaru setiap 3–5 kg penurunan berat badan.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-kalori.html" class="related-item"><span class="ri">🍽️</span>Kalkulator Kalori TDEE</a>
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
-      <a href="/id/berat-badan-ideal.html" class="related-item"><span class="ri">🏋️</span>Berat Badan Ideal</a>
-      <a href="/id/kalkulator-kalori-olahraga.html" class="related-item"><span class="ri">🏃</span>Kalori Olahraga</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Meningkatkan Metabolisme</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">💪</span><span class="tptx"><strong>Latihan kekuatan</strong> membangun massa otot yang meningkatkan BMR bahkan saat istirahat</span></div>
+        <div class="tip"><span class="tpico">🍳</span><span class="tptx"><strong>Makan cukup protein</strong> (1,6–2,2 g/kg) — proses pencernaan protein membakar lebih banyak kalori (TEF tinggi)</span></div>
+        <div class="tip"><span class="tpico">😴</span><span class="tptx"><strong>Tidur cukup 7–9 jam</strong> — kurang tidur menurunkan metabolisme dan meningkatkan hormon lapar</span></div>
+        <div class="tip"><span class="tpico">🚫</span><span class="tptx"><strong>Jangan diet terlalu ekstrem</strong> — defisit kalori besar membuat tubuh menurunkan BMR sebagai mekanisme pertahanan</span></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-kalori" class="relc"><div class="relc-ico">🍽️</div><div class="relc-nm">Kalori</div><div class="relc-ds">Kebutuhan kalori</div></a>
+        <a href="/id/kalkulator-bmi" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">BMI</div><div class="relc-ds">Indeks massa tubuh</div></a>
+        <a href="/id/berat-badan-ideal" class="relc"><div class="relc-ico">🎯</div><div class="relc-nm">Berat Ideal</div><div class="relc-ds">Target berat badan</div></a>
+        <a href="/id/kalkulator-kalori-olahraga" class="relc"><div class="relc-ico">🏃</div><div class="relc-nm">Kalori Olahraga</div><div class="relc-ds">Kalori terbakar</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Apa itu BMR dan Mengapa Penting?</h2>
+  <p>BMR (Basal Metabolic Rate) atau Laju Metabolisme Basal adalah jumlah kalori yang dibutuhkan tubuh untuk menjalankan fungsi vital saat beristirahat total — termasuk pernapasan, sirkulasi darah, pengaturan suhu tubuh, dan fungsi organ. BMR menyumbang 60–75% dari total pengeluaran energi harian.</p>
+  <p>TDEE (Total Daily Energy Expenditure) adalah kalori yang dibutuhkan tubuh dalam sehari dengan mempertimbangkan aktivitas fisik. TDEE = BMR × faktor aktivitas. Ini adalah angka yang paling relevan untuk mengatur pola makan.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan BMR, TDEE, dan kebutuhan kalori harian?</div><div class="faq-a">BMR adalah kalori minimum untuk fungsi vital saat istirahat total. TDEE adalah kalori yang benar-benar dibutuhkan sesuai tingkat aktivitas (BMR × faktor aktivitas). Kebutuhan kalori harian = TDEE yang disesuaikan dengan tujuan: defisit kalori untuk turun berat badan, kalori sesuai TDEE untuk maintenance, atau surplus untuk menambah massa otot.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa kalori yang harus saya makan untuk turun berat badan?</div><div class="faq-a">Defisit 500 kalori per hari dari TDEE secara teoritis menghasilkan penurunan ~0,5 kg per minggu (karena 1 kg lemak ≈ 7.700 kal). Untuk penurunan 1 kg/minggu, defisit ~1.000 kal/hari. Namun, jangan makan di bawah 1.200 kal/hari (wanita) atau 1.500 kal/hari (pria) tanpa pengawasan medis. Penurunan berat terlalu cepat berisiko kehilangan massa otot.</div></div>
+  <div class="faq-i"><div class="faq-q">Mengapa BMR saya menurun seiring usia?</div><div class="faq-a">BMR menurun rata-rata 1–2% per dekade setelah usia 30, terutama karena kehilangan massa otot (sarkopenia) dan perubahan hormonal. Massa otot membakar lebih banyak kalori daripada lemak bahkan saat istirahat. Cara paling efektif mempertahankan BMR: latihan kekuatan (angkat beban) secara konsisten untuk mempertahankan atau membangun massa otot.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-let gender = 'male';
-let goalAdj = -500;
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
-function selectGender(g) {
-  gender = g;
-  document.getElementById('btn-male').classList.toggle('active',   g === 'male');
-  document.getElementById('btn-female').classList.toggle('active', g === 'female');
-  autoCalc();
+let gender='pria';
+const ACTIVITIES=[
+  {key:'sedentary',ico:'🪑',nm:'Sedentary',desc:'Kerja kantoran, tidak olahraga',factor:1.2},
+  {key:'light',ico:'🚶',nm:'Ringan',desc:'Olahraga ringan 1–3 hr/minggu',factor:1.375},
+  {key:'moderate',ico:'🏃',nm:'Moderat',desc:'Olahraga 3–5 hr/minggu',factor:1.55},
+  {key:'active',ico:'🏋️',nm:'Aktif',desc:'Olahraga intensif 6–7 hr/minggu',factor:1.725},
+  {key:'vactive',ico:'⚡',nm:'Sangat Aktif',desc:'Atlet / pekerjaan fisik berat',factor:1.9},
+];
+let selAct='moderate';
+
+function setGender(g){
+  gender=g;
+  document.getElementById('g-pria').classList.toggle('on',g==='pria');
+  document.getElementById('g-wanita').classList.toggle('on',g==='wanita');
+  calcBMR();
 }
 
-function setGoal(adj, btn) {
-  goalAdj = adj;
-  document.querySelectorAll('.goal-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  // Re-render goal section without full recalculate
-  const tdeeEl = document.getElementById('s-tdee');
-  if (tdeeEl.textContent !== '—') renderGoal(lastTDEE);
+function renderActivities(){
+  const wrap=document.getElementById('act-grid');if(!wrap)return;
+  wrap.innerHTML=ACTIVITIES.map(a=>`
+    <div class="act-card${selAct===a.key?' on':''}" onclick="selAct='${a.key}';renderActivities();calcBMR()">
+      <div class="act-ico">${a.ico}</div>
+      <div class="act-nm">${a.nm}</div>
+      <div class="act-desc">${a.desc}</div>
+      <div class="act-factor">×${a.factor}</div>
+    </div>`).join('');
 }
 
-let lastTDEE = 0;
-
-function autoCalc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const h   = parseFloat(document.getElementById('height').value);
-  const w   = parseFloat(document.getElementById('weight').value);
-  if (age && h && w) calculate();
+// Mifflin-St Jeor
+function mifflin(berat,tinggi,usia,gen){
+  return gen==='pria'?(10*berat+6.25*tinggi-5*usia+5):(10*berat+6.25*tinggi-5*usia-161);
+}
+// Harris-Benedict
+function harris(berat,tinggi,usia,gen){
+  return gen==='pria'?(88.362+13.397*berat+4.799*tinggi-5.677*usia):(447.593+9.247*berat+3.098*tinggi-4.330*usia);
+}
+// Katch-McArdle (butuh lean body mass — estimasi)
+function katch(berat,bf=0.2){
+  const lbm=berat*(1-bf);
+  return 370+21.6*lbm;
 }
 
-function calcBMR(w, h, age, g, formula) {
-  if (formula === 'mifflin') {
-    return g === 'male'
-      ? 10*w + 6.25*h - 5*age + 5
-      : 10*w + 6.25*h - 5*age - 161;
-  } else {
-    return g === 'male'
-      ? 88.362 + 13.397*w + 4.799*h - 5.677*age
-      : 447.593 + 9.247*w + 3.098*h - 4.330*age;
-  }
+function calcBMR(){
+  const berat=v('b-berat'),tinggi=v('b-tinggi'),usia=v('b-usia');
+  if(berat<=0||tinggi<=0||usia<=0)return;
+  const act=ACTIVITIES.find(a=>a.key===selAct)||ACTIVITIES[2];
+  const bmr=mifflin(berat,tinggi,usia,gender);
+  const tdee=bmr*act.factor;
+
+  set('b-bmr',Math.round(bmr)+' kal');set('b-bmr2',Math.round(bmr)+' kal/hari');
+  set('b-tdee',Math.round(tdee)+' kal/hari');set('b-factor','×'+act.factor);
+  set('b-factor2','×'+act.factor+' ('+act.nm+')');
+  set('b-tdee2',Math.round(tdee)+' kal/hari');
+  set('b-kal-kg',(tdee/berat).toFixed(1)+' kal/kg');
+
+  // sync
+  calcTujuan(tdee);calcAgechart(berat,tinggi,usia);calcRumus(berat,tinggi,usia);
 }
 
-function renderGoal(tdee) {
-  lastTDEE = tdee;
-  const target = Math.round(tdee + goalAdj);
-  document.getElementById('gr-target').textContent = target.toLocaleString('id-ID');
-  document.getElementById('gr-unit').textContent   = 'kkal/hari';
-  document.getElementById('gr-tdee').textContent   = Math.round(tdee).toLocaleString('id-ID') + ' kkal';
-  const adjLabel = goalAdj === 0 ? '± 0 (maintenance)' : (goalAdj > 0 ? '+' : '') + goalAdj + ' kkal';
-  document.getElementById('gr-adj').textContent    = adjLabel;
-  document.getElementById('gr-final').textContent  = target.toLocaleString('id-ID') + ' kkal/hari';
-  const changePerWeek = (goalAdj / 7700 * 7).toFixed(2);
-  const changeLabel = goalAdj === 0 ? 'Berat badan stabil'
-    : (goalAdj < 0 ? `Turun ~${Math.abs(changePerWeek)} kg/minggu` : `Naik ~${changePerWeek} kg/minggu`);
-  document.getElementById('gr-change').textContent = changeLabel;
+function calcTujuan(tdee){
+  set('tj-tdee',Math.round(tdee)+' kal/hari');
+  set('tj-def05',Math.round(tdee-500)+' kal/hari (−500 kal)');
+  set('tj-def1',Math.round(tdee-1000)+' kal/hari (−1.000 kal)');
+  set('tj-sur05',Math.round(tdee+500)+' kal/hari (+500 kal)');
 
-  // Macros
-  let pPct, cPct, fPct;
-  if (goalAdj < 0)     { pPct = 35; cPct = 40; fPct = 25; }
-  else if (goalAdj===0){ pPct = 25; cPct = 50; fPct = 25; }
-  else                  { pPct = 30; cPct = 45; fPct = 25; }
-
-  const pG = Math.round(target * pPct / 100 / 4);
-  const cG = Math.round(target * cPct / 100 / 4);
-  const fG = Math.round(target * fPct / 100 / 9);
-
-  document.getElementById('m-protein-val').textContent = pG + ' g';
-  document.getElementById('m-karbo-val').textContent   = cG + ' g';
-  document.getElementById('m-lemak-val').textContent   = fG + ' g';
-  document.getElementById('m-protein-bar').style.width = pPct + '%';
-  document.getElementById('m-karbo-bar').style.width   = cPct + '%';
-  document.getElementById('m-lemak-bar').style.width   = fPct + '%';
-  document.getElementById('ml-protein').textContent    = pPct + '%';
-  document.getElementById('ml-karbo').textContent      = cPct + '%';
-  document.getElementById('ml-lemak').textContent      = fPct + '%';
+  const goals=[
+    {ico:'📉',nm:'Penurunan Berat Ekstrem',desc:'−1 kg/minggu (defisit 1.000 kal)',kal:tdee-1000,col:'#ef4444'},
+    {ico:'🔽',nm:'Penurunan Berat Normal',desc:'−0,5 kg/minggu (defisit 500 kal)',kal:tdee-500,col:'#f97316'},
+    {ico:'⚖️',nm:'Maintenance',desc:'Pertahankan berat badan',kal:tdee,col:'var(--grn)'},
+    {ico:'🔼',nm:'Naik Berat Lean',desc:'+0,5 kg/minggu (surplus 500 kal)',kal:tdee+500,col:'#3b82f6'},
+  ];
+  const wrap=document.getElementById('tujuan-grid');if(!wrap)return;
+  wrap.innerHTML=goals.map(g=>`
+    <div class="tujuan-row" style="background:${g.col}11;border-color:${g.col}44">
+      <div><div class="tujuan-lbl">${g.ico} ${g.nm}</div><div class="tujuan-sub">${g.desc}</div></div>
+      <div class="tujuan-kal" style="color:${g.col}">${Math.round(g.kal)} kal</div>
+    </div>`).join('');
 }
 
-function calculate() {
-  const age      = parseFloat(document.getElementById('age').value);
-  const h        = parseFloat(document.getElementById('height').value);
-  const w        = parseFloat(document.getElementById('weight').value);
-  const activity = parseFloat(document.getElementById('activity').value);
-
-  if (!age || !h || !w || age < 15 || age > 100 || h < 100 || w < 20) return;
-
-  const bmrMifflin = calcBMR(w, h, age, gender, 'mifflin');
-  const bmrHarris  = calcBMR(w, h, age, gender, 'harris');
-  const tdeeMifflin = bmrMifflin * activity;
-  const tdeeHarris  = bmrHarris  * activity;
-
-  // Main — use Mifflin as primary
-  document.getElementById('res-bmr').textContent = Math.round(bmrMifflin).toLocaleString('id-ID') + ' kkal';
-
-  // TDEE bar
-  const bmrPct = Math.round(bmrMifflin / tdeeMifflin * 100);
-  const actPct = 100 - bmrPct;
-  document.getElementById('bar-bmr').style.width = bmrPct + '%';
-  document.getElementById('bar-bmr').textContent = bmrPct > 15 ? 'BMR ' + bmrPct + '%' : '';
-  document.getElementById('bar-act').style.width = actPct + '%';
-  document.getElementById('bar-act').textContent = actPct > 10 ? 'Aktivitas ' + actPct + '%' : '';
-
-  // Stats
-  document.getElementById('s-bmr').textContent  = Math.round(bmrMifflin).toLocaleString('id-ID') + ' kkal';
-  document.getElementById('s-tdee').textContent = Math.round(tdeeMifflin).toLocaleString('id-ID') + ' kkal/hari';
-
-  // Formula comparison
-  document.getElementById('fc-mifflin-bmr').textContent  = Math.round(bmrMifflin).toLocaleString('id-ID') + ' kkal';
-  document.getElementById('fc-mifflin-tdee').textContent = 'TDEE: ' + Math.round(tdeeMifflin).toLocaleString('id-ID') + ' kkal';
-  document.getElementById('fc-harris-bmr').textContent   = Math.round(bmrHarris).toLocaleString('id-ID') + ' kkal';
-  document.getElementById('fc-harris-tdee').textContent  = 'TDEE: ' + Math.round(tdeeHarris).toLocaleString('id-ID') + ' kkal';
-  const diffBMR = Math.abs(Math.round(bmrMifflin - bmrHarris));
-  document.getElementById('fc-diff-note').textContent =
-    `Selisih kedua rumus: ${diffBMR} kkal BMR (${(diffBMR/bmrMifflin*100).toFixed(1)}%). Mifflin-St Jeor lebih direkomendasikan untuk orang dewasa modern.`;
-
-  // Goal section
-  renderGoal(tdeeMifflin);
-
-  // Advice
-  let advice;
-  if (bmrMifflin < 1200) {
-    advice = `⚠️ BMR Anda <strong>${Math.round(bmrMifflin).toLocaleString('id-ID')} kkal</strong> — tergolong rendah. Jangan makan di bawah angka ini. Untuk meningkatkan metabolisme, prioritaskan latihan beban untuk membangun massa otot.`;
-  } else if (bmrMifflin < 1500) {
-    advice = `💡 BMR Anda <strong>${Math.round(bmrMifflin).toLocaleString('id-ID')} kkal</strong>, TDEE dengan aktivitas saat ini <strong>${Math.round(tdeeMifflin).toLocaleString('id-ID')} kkal/hari</strong>. Angka ini adalah kalori "keseimbangan" — makan sesuai TDEE untuk berat badan stabil.`;
-  } else {
-    advice = `✅ BMR Anda <strong>${Math.round(bmrMifflin).toLocaleString('id-ID')} kkal</strong> — metabolisme tergolong baik. TDEE dengan aktivitas saat ini <strong>${Math.round(tdeeMifflin).toLocaleString('id-ID')} kkal/hari</strong>. Gunakan target kalori di atas sesuai tujuan Anda dan perbarui setiap kali berat badan berubah ±3 kg.`;
-  }
-  document.getElementById('res-advice').innerHTML = advice;
-
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
+function calcAgechart(berat,tinggi,curUsia){
+  const ages=[20,25,30,35,40,45,50,55,60,65,70];
+  const chart=document.getElementById('age-chart');if(!chart)return;
+  const maxBmr=mifflin(berat,tinggi,20,gender);
+  chart.innerHTML=ages.map(a=>{
+    const bmr=mifflin(berat,tinggi,a,gender);
+    const pct=Math.max(40,bmr/maxBmr*100);
+    const hl=Math.abs(a-curUsia)<=2;
+    return`<div class="c-row${hl?' hl':''}">
+      <span class="c-lbl">${a} thn</span>
+      <div class="c-bg"><div class="c-fill" style="width:${pct}%;background:${hl?'var(--pri-d)':'var(--pri)'}"></div></div>
+      <span class="c-val">${Math.round(bmr)} kal</span>
+    </div>`;
+  }).join('');
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+function calcRumus(berat,tinggi,usia){
+  const tbody=document.getElementById('rumus-tbody');if(!tbody)return;
+  const bmrM=mifflin(berat,tinggi,usia,gender);
+  const bmrH=harris(berat,tinggi,usia,gender);
+  const bmrK=katch(berat,0.2);
+  tbody.innerHTML=[
+    {nm:'Mifflin-St Jeor',thn:'1990',bmr:bmrM,note:'Paling akurat, direkomendasikan',best:true},
+    {nm:'Harris-Benedict (revisi)',thn:'1984',bmr:bmrH,note:'Klasik, sedikit lebih tinggi'},
+    {nm:'Katch-McArdle',thn:'1975',bmr:bmrK,note:'Butuh data lemak tubuh (estimasi 20%)'},
+  ].map(r=>`<tr${r.best?' style="background:var(--grn-b)"':''}>
+    <td style="${r.best?'font-weight:700;color:var(--grn)':''}">⭐ ${r.nm}</td>
+    <td>${r.thn}</td>
+    <td class="mo">${Math.round(r.bmr)}</td>
+    <td style="font-size:10px;color:var(--tx3)">${r.note}</td>
+  </tr>`).join('');
+}
+
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);}});}
+listen(['b-berat','b-tinggi','b-usia'],calcBMR);
+renderActivities();calcBMR();
 </script>
 </body>
 </html>

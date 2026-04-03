@@ -1,442 +1,547 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Split Bill — Bagi Tagihan Makan Bareng | NovaCalcs</title>
-<meta name="description" content="Bagi tagihan makan bareng secara adil — rata atau sesuai pesanan. Kalkulator tip, pelacak siapa belum bayar, dan preset restoran café/mall/fine dining."/>
-<meta name="keywords" content="kalkulator split bill, bagi tagihan makan, dutch treat, patungan makan, hitung tagihan restoran, tip restoran, split bill arisan"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-split-bill.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-split-bill.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Split Bill","url":"https://novacalcs.com/id/kalkulator-split-bill.html","description":"Hitung pembagian tagihan makan atau patungan secara adil","applicationCategory":"UtilitiesApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1rem}
-.tab-btn{flex:1;padding:.5rem .3rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.8rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:.75rem}
-.preset-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.5rem .4rem;text-align:center;cursor:pointer;transition:all .15s}
-.preset-card:hover,.preset-card.active{background:rgba(0,201,177,.1);border-color:rgba(0,201,177,.3)}
-.preset-card .pc-icon{font-size:1.1rem}
-.preset-card .pc-name{font-size:.7rem;font-weight:600;color:#fff;margin:.15rem 0}
-.preset-card .pc-sub{font-size:.62rem;color:#8fa3b1}
-.debt-row{display:flex;align-items:center;gap:8px;padding:.45rem .5rem;border-radius:8px;margin-bottom:5px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);font-size:.82rem;transition:all .2s}
-.debt-row.paid{opacity:.5}
-.debt-name{flex:1;font-weight:600}
-.debt-amount{color:var(--mint);font-weight:700;margin-right:4px}
-.debt-check{accent-color:var(--mint);width:18px;height:18px;flex-shrink:0;cursor:pointer}
-.debt-progress{height:6px;border-radius:3px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:6px}
-.debt-progress-fill{height:100%;border-radius:3px;background:var(--mint);transition:width .4s}
-.tip-stars{display:flex;gap:6px;margin:.5rem 0}
-.tip-star{font-size:1.4rem;cursor:pointer;opacity:.3;transition:all .15s}
-.tip-star.active{opacity:1}
-.tip-result-box{background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-top:.75rem;text-align:center}
-.tip-main{font-size:1.5rem;font-weight:700;color:var(--mint)}
-.copy-btn{width:100%;padding:.5rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#c0cdd8;font-size:.8rem;cursor:pointer;font-family:inherit;margin-top:8px}
-.person-row{background:var(--bg-input);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px}
-.person-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.item-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
-.item-row input[type=text]{flex:2;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;color:var(--text-primary);font-size:.82rem}
-.item-row input[type=number]{flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;color:var(--text-primary);font-size:.82rem;text-align:right}
-.del-btn{color:var(--text-muted);cursor:pointer;font-size:.85rem;padding:0 4px}.del-btn:hover{color:#f87171}
-.cu-person-result{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.875rem}
-.cu-person-result:last-child{border-bottom:none}
-.bank-btn{padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s}
-.bank-btn:hover,.bank-btn.active{background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Split Bill 2026 — Bagi Tagihan, Siapa Bayar Siapa & Tip | NovaCalcs</title>
+  <meta name="description" content="Kalkulator split bill 2026: bagi tagihan makan/nongkrong secara rata atau custom, hitung siapa bayar siapa (debt settlement), dan tambahkan tip & pajak. Gratis & mudah.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-split-bill">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:4px 11px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* BIG RESULT */
+    .big-result{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:20px;text-align:center;margin:14px 0}
+    .big-result.grn{background:var(--grn-b);border-color:#86efac}
+    .br-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--pri);margin-bottom:6px}
+    .big-result.grn .br-lbl{color:var(--grn)}
+    .br-val{font-family:'DM Mono',monospace;font-size:40px;font-weight:800;color:var(--pri);letter-spacing:-.5px;line-height:1}
+    .big-result.grn .br-val{color:var(--grn)}
+    .br-sub{font-size:12px;color:var(--tx3);margin-top:5px}
+    /* PERSON ROWS */
+    .person-wrap{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-bottom:14px}
+    .person-head{background:var(--sur2);display:grid;grid-template-columns:1fr 110px 110px 36px;gap:6px;padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .person-row{display:grid;grid-template-columns:1fr 110px 110px 36px;gap:6px;padding:8px 14px;border-bottom:1px solid var(--bor);align-items:center}
+    .person-row:last-child{border-bottom:none}
+    .p-inp{padding:5px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:12px;font-weight:600;background:var(--sur);outline:none;appearance:none;width:100%}
+    .p-inp:focus{border-color:var(--pri)}
+    .p-inp.mono{font-family:'DM Mono',monospace;font-weight:700;text-align:right}
+    .p-del{background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);padding:3px;border-radius:4px}
+    .p-del:hover{color:var(--red);background:var(--red-b)}
+    .add-btn{padding:7px 14px;border:1.5px dashed var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);width:100%;transition:all .15s}
+    .add-btn:hover{border-color:var(--pri);color:var(--pri)}
+    /* LRES */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:14px}
+    .lres.grn{background:var(--grn-b);border-color:#86efac}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* SETTLEMENT */
+    .settlement-wrap{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+    .settle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:var(--rs);background:var(--sur2);border:1px solid var(--bor)}
+    .settle-from{font-size:12px;font-weight:700}
+    .settle-arr{font-size:16px;color:var(--tx3);margin:0 8px}
+    .settle-to{font-size:12px;font-weight:700}
+    .settle-amt{font-family:'DM Mono',monospace;font-size:14px;font-weight:800;color:var(--grn)}
+    .settle-empty{text-align:center;padding:16px;font-size:12px;color:var(--tx3)}
+    /* EXPENSE ROWS */
+    .exp-wrap{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-bottom:14px}
+    .exp-head{background:var(--sur2);display:grid;grid-template-columns:1fr 100px 120px 36px;gap:6px;padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .exp-row{display:grid;grid-template-columns:1fr 100px 120px 36px;gap:6px;padding:8px 14px;border-bottom:1px solid var(--bor);align-items:center;font-size:12px}
+    .exp-row:last-child{border-bottom:none}
+    .exp-sel{padding:5px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:11px;font-weight:600;background:var(--sur);outline:none;appearance:none;width:100%;cursor:pointer}
+    .exp-sel:focus{border-color:var(--pri)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .cb-wrap{display:flex;align-items:center;gap:8px;padding:6px 0}
+    .cb-wrap input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pri)}
+    .cb-wrap label{font-size:12px;font-weight:600;cursor:pointer}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#utilitas">Utilitas</a><span class="breadcrumb-sep">›</span>
-      <span>Split Bill</span>
-    </nav>
+
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Split Bill</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🧾 Bagi Tagihan</div>
+  <h1 class="hdr-h1">Kalkulator Split Bill 2026</h1>
+  <p class="hdr-sub">Bagi tagihan makan, nongkrong, atau liburan secara rata atau custom per orang. Hitung siapa harus bayar siapa setelah ada yang sudah bayar lebih dulu.</p>
+  <div class="pstrip">
+    <div class="pchip">Split rata <span>otomatis per orang</span></div>
+    <div class="pchip">Split custom <span>tiap orang beda menu</span></div>
+    <div class="pchip">Debt settlement <span>siapa bayar siapa</span></div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🧾 Kalkulator Split Bill</div>
-      <div class="calc-subtitle">Bagi tagihan · Hitung tip · Cek siapa belum bayar</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-equal',this)">🟰 Bagi Rata</button>
-        <button class="tab-btn" onclick="showTab('tab-custom',this)">📋 Per Pesanan</button>
-        <button class="tab-btn" onclick="showTab('tab-tip',this)">💝 Tip</button>
+<main class="main">
+<div class="left-col">
+
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🧾</div>Split Bill</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="rata">⚖️ Split Rata</button>
+      <button class="tbtn" data-tab="custom">🍽️ Split Custom</button>
+    </div>
+
+    <!-- SPLIT RATA -->
+    <div class="tpanel on" id="tab-rata">
+      <div class="fld">
+        <label>Total Tagihan (Rp)</label>
+        <div class="iw"><input type="number" id="r-tagihan" value="350000" min="0" step="1000"></div>
+        <div class="presets">
+          <button class="pb" data-val="100000" data-for="r-tagihan">100rb</button>
+          <button class="pb" data-val="200000" data-for="r-tagihan">200rb</button>
+          <button class="pb on" data-val="350000" data-for="r-tagihan">350rb</button>
+          <button class="pb" data-val="500000" data-for="r-tagihan">500rb</button>
+          <button class="pb" data-val="1000000" data-for="r-tagihan">1 jt</button>
+        </div>
       </div>
-
-      <!-- TAB 1: BAGI RATA -->
-      <div id="tab-equal" class="tab-pane active">
-        <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.4rem;font-weight:600">Preset Cepat:</div>
-        <div class="preset-grid">
-          <div class="preset-card" onclick="applyPreset(false,0,this)"><div class="pc-icon">☕</div><div class="pc-name">Kafe/Warung</div><div class="pc-sub">Tanpa pajak</div></div>
-          <div class="preset-card" onclick="applyPreset(true,5,this)"><div class="pc-icon">🏬</div><div class="pc-name">Restoran Mall</div><div class="pc-sub">PPN+SC 5%</div></div>
-          <div class="preset-card" onclick="applyPreset(true,10,this)"><div class="pc-icon">🍽️</div><div class="pc-name">Fine Dining</div><div class="pc-sub">PPN+SC 10%</div></div>
-        </div>
-
-        <div class="field">
-          <label>Total Tagihan (Rp)</label>
-          <input type="number" id="eq-total" placeholder="Contoh: 350000" min="0" step="500" oninput="calcEqual()"/>
-        </div>
-        <div class="field">
+      <div class="g2">
+        <div class="fld">
           <label>Jumlah Orang</label>
-          <div style="display:flex;align-items:center;gap:12px">
-            <button onclick="adjustPeople(-1)" style="width:40px;height:40px;border-radius:50%;background:var(--bg-input);border:1px solid var(--border);font-size:1.2rem;color:var(--text-primary);cursor:pointer">−</button>
-            <span id="people-count" style="font-size:1.5rem;font-weight:700;min-width:30px;text-align:center">4</span>
-            <button onclick="adjustPeople(1)" style="width:40px;height:40px;border-radius:50%;background:var(--bg-input);border:1px solid var(--border);font-size:1.2rem;color:var(--text-primary);cursor:pointer">+</button>
+          <div class="iw"><input type="number" id="r-orang" value="4" min="1" max="50"><span class="iu">org</span></div>
+          <div class="presets">
+            <button class="pb" data-val="2" data-for="r-orang">2</button>
+            <button class="pb" data-val="3" data-for="r-orang">3</button>
+            <button class="pb on" data-val="4" data-for="r-orang">4</button>
+            <button class="pb" data-val="5" data-for="r-orang">5</button>
+            <button class="pb" data-val="6" data-for="r-orang">6</button>
           </div>
         </div>
-        <div class="field">
-          <label>Biaya Tambahan</label>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <label style="display:flex;align-items:center;justify-content:space-between;font-size:.875rem;font-weight:400;color:var(--text-primary)">
-              <span>🧾 PPN (11%)</span>
-              <input type="checkbox" id="eq-ppn" onchange="calcEqual()" style="width:auto;accent-color:var(--mint)"/>
-            </label>
-            <label style="display:flex;align-items:center;justify-content:space-between;font-size:.875rem;font-weight:400;color:var(--text-primary)">
-              <span>🍽️ Service charge</span>
-              <div style="display:flex;align-items:center;gap:4px">
-                <input type="number" id="eq-sc" value="5" min="0" max="20" style="width:50px;text-align:center;padding:4px 6px" oninput="calcEqual()"/>
-                <span style="color:var(--text-muted)">%</span>
-              </div>
-            </label>
-            <label style="display:flex;align-items:center;justify-content:space-between;font-size:.875rem;font-weight:400;color:var(--text-primary)">
-              <span>🛵 Biaya antar/parkir (Rp)</span>
-              <input type="number" id="eq-extra" placeholder="0" min="0" step="500" style="width:100px;text-align:right;padding:4px 8px" oninput="calcEqual()"/>
-            </label>
+        <div class="fld">
+          <label>Tip (%)</label>
+          <div class="iw"><input type="number" id="r-tip" value="0" min="0" max="50"><span class="iu">%</span></div>
+          <div class="presets">
+            <button class="pb on" data-val="0" data-for="r-tip">Tidak ada</button>
+            <button class="pb" data-val="5" data-for="r-tip">5%</button>
+            <button class="pb" data-val="10" data-for="r-tip">10%</button>
           </div>
         </div>
+      </div>
+      <div class="cb-wrap">
+        <input type="checkbox" id="r-ppn" onchange="calcRata()">
+        <label for="r-ppn">Tambahkan PPN 11% (jika belum termasuk)</label>
+      </div>
+      <div class="cb-wrap">
+        <input type="checkbox" id="r-roundup" checked onchange="calcRata()">
+        <label for="r-roundup">Bulatkan ke atas (ke ribuan terdekat)</label>
+      </div>
 
-        <div class="result-box" id="eq-result">
-          <div class="result-main">
-            <span class="result-label">Per Orang</span>
-            <span class="result-value" id="eq-per-person">Rp 0</span>
+      <div class="big-result grn">
+        <div class="br-lbl">Bayar per Orang</div>
+        <div class="br-val" id="r-per-orang">—</div>
+        <div class="br-sub" id="r-sub">—</div>
+      </div>
+
+      <div class="lres grn">
+        <div class="rrows">
+          <div class="rr"><span>Tagihan dasar</span><span id="r-dasar">—</span></div>
+          <div class="rr"><span>PPN 11%</span><span id="r-ppn-show">—</span></div>
+          <div class="rr"><span>Tip</span><span id="r-tip-show">—</span></div>
+          <div class="rr"><span>Total tagihan</span><span id="r-total">—</span></div>
+          <div class="rr"><span>Jumlah orang</span><span id="r-orang-show">—</span></div>
+          <div class="rr"><span>Per orang (tepat)</span><span id="r-exact">—</span></div>
+          <div class="rr"><span>Per orang (dibulatkan)</span><span id="r-rounded">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPLIT CUSTOM -->
+    <div class="tpanel" id="tab-custom">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Setiap orang pesan menu berbeda harga? Masukkan tagihan per orang, tambahkan tip/pajak, dan lihat berapa yang harus dibayar masing-masing.</p>
+      <div class="fld">
+        <label>Tip untuk Semua (%)</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="iw" style="max-width:120px"><input type="number" id="c-tip" value="0" min="0" max="50"><span class="iu">%</span></div>
+          <div class="cb-wrap" style="padding:0">
+            <input type="checkbox" id="c-ppn" onchange="renderCustom()">
+            <label for="c-ppn">+PPN 11%</label>
           </div>
-          <div class="result-rows">
-            <div class="result-row"><span>Subtotal</span><span id="eq-sub">—</span></div>
-            <div class="result-row" id="eq-ppn-row" style="display:none"><span>PPN 11%</span><span id="eq-ppn-val">—</span></div>
-            <div class="result-row" id="eq-sc-row" style="display:none"><span>Service Charge</span><span id="eq-sc-val">—</span></div>
-            <div class="result-row" id="eq-extra-row" style="display:none"><span>Biaya Tambahan</span><span id="eq-extra-val">—</span></div>
-            <div class="result-row"><span>Total Akhir</span><span id="eq-grand" style="font-weight:700">—</span></div>
-            <div class="result-row"><span>÷ <span id="eq-people-txt">4</span> orang</span><span id="eq-each" style="color:var(--mint);font-weight:700">—</span></div>
-          </div>
-          <div style="font-size:.75rem;color:#8fa3b1;margin:12px 0 5px;font-weight:600">📋 Siapa yang Sudah Bayar?</div>
-          <div id="debt-list"></div>
-          <div class="debt-progress"><div class="debt-progress-fill" id="debt-fill" style="width:0%"></div></div>
-          <div style="font-size:.72rem;color:#8fa3b1;margin-top:3px" id="debt-status">0 dari 0 sudah bayar</div>
-          <button class="copy-btn" onclick="copySummary()">📋 Salin Ringkasan untuk WhatsApp</button>
         </div>
       </div>
 
-      <!-- TAB 2: PER PESANAN -->
-      <div id="tab-custom" class="tab-pane">
-        <div id="person-list"></div>
-        <button onclick="addPerson()" style="width:100%;padding:10px;margin-top:8px;border:1px dashed var(--border);border-radius:var(--radius-sm);color:var(--text-secondary);font-size:.875rem;cursor:pointer;background:transparent">+ Tambah Orang</button>
-        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
-          <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:.85rem;color:var(--text-secondary)">
-            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;color:var(--text-primary)">
-              <input type="checkbox" id="cu-ppn" onchange="calcCustom()" style="width:auto;accent-color:var(--mint)"/> PPN 11%
-            </label>
-            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;color:var(--text-primary)">
-              <input type="checkbox" id="cu-sc" onchange="calcCustom()" style="width:auto;accent-color:var(--mint)"/>
-              SC <input type="number" id="cu-sc-pct" value="5" min="0" max="20" style="width:40px;text-align:center;padding:2px 4px" oninput="calcCustom()"/>%
-            </label>
-          </div>
-          <button class="calc-btn" onclick="calcCustom()">🧾 Hitung Tagihan</button>
+      <div class="person-wrap">
+        <div class="person-head">
+          <span>Nama</span><span style="text-align:right">Tagihan (Rp)</span><span style="text-align:right">Total Bayar</span><span></span>
         </div>
-        <div class="result-box" id="cu-result" style="margin-top:12px">
-          <div id="cu-result-content"></div>
-          <button class="copy-btn" id="cu-copy-btn" style="display:none" onclick="copyCustomSummary()">📋 Salin Ringkasan untuk WhatsApp</button>
-        </div>
+        <div id="c-rows"></div>
+      </div>
+      <button class="add-btn" onclick="addCustomPerson()">＋ Tambah Orang</button>
+
+      <div class="big-result grn" style="margin-top:14px">
+        <div class="br-lbl">Total Tagihan + Tip</div>
+        <div class="br-val" id="c-total">—</div>
+        <div class="br-sub" id="c-sub">—</div>
       </div>
 
-      <!-- TAB 3: TIP -->
-      <div id="tab-tip" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Berapa tip yang layak? Tip via aplikasi tidak dipotong platform — 100% langsung ke staf.</p>
-        <div class="field">
-          <label>Total Tagihan (Rp)</label>
-          <input type="number" id="tip-total" placeholder="Contoh: 200000" oninput="calcTip()"/>
-        </div>
-        <div class="field">
-          <label>Jumlah Orang</label>
-          <div style="display:flex;align-items:center;gap:12px">
-            <button onclick="adjustTipPeople(-1)" style="width:36px;height:36px;border-radius:50%;background:var(--bg-input);border:1px solid var(--border);font-size:1.1rem;color:var(--text-primary);cursor:pointer">−</button>
-            <span id="tip-people-count" style="font-size:1.3rem;font-weight:700;min-width:24px;text-align:center">2</span>
-            <button onclick="adjustTipPeople(1)" style="width:36px;height:36px;border-radius:50%;background:var(--bg-input);border:1px solid var(--border);font-size:1.1rem;color:var(--text-primary);cursor:pointer">+</button>
-          </div>
-        </div>
-        <div class="field">
-          <label>Kualitas Pelayanan</label>
-          <div class="tip-stars" id="tip-stars">
-            <span class="tip-star" onclick="setStars(1)">⭐</span>
-            <span class="tip-star" onclick="setStars(2)">⭐</span>
-            <span class="tip-star" onclick="setStars(3)">⭐</span>
-            <span class="tip-star" onclick="setStars(4)">⭐</span>
-            <span class="tip-star" onclick="setStars(5)">⭐</span>
-          </div>
-          <div style="font-size:.72rem;color:#8fa3b1" id="tip-rating-lbl">Klik bintang untuk pilih</div>
-        </div>
-        <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.4rem;font-weight:600">Atau pilih persentase:</div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.75rem">
-          <button class="bank-btn" onclick="setTipPct(5,this)">5%</button>
-          <button class="bank-btn active" onclick="setTipPct(10,this)">10%</button>
-          <button class="bank-btn" onclick="setTipPct(15,this)">15%</button>
-          <button class="bank-btn" onclick="setTipPct(20,this)">20%</button>
-          <button class="bank-btn" onclick="setTipPct(0,this)">Bebas</button>
-        </div>
-        <div class="field" id="tip-custom-field" style="display:none">
-          <label>Nominal Tip (Rp)</label>
-          <input type="number" id="tip-custom" placeholder="Masukkan nominal tip" min="0" step="1000" oninput="calcTip()"/>
-        </div>
-
-        <div id="tip-result" style="display:none">
-          <div class="tip-result-box">
-            <div style="font-size:.78rem;color:#6b7c8d;margin-bottom:.2rem">Total tip</div>
-            <div class="tip-main" id="tip-total-display">—</div>
-            <div style="font-size:.82rem;color:#8fa3b1;margin-top:.25rem" id="tip-per-person-display">— per orang</div>
-          </div>
-          <div class="result-rows" style="margin-top:.5rem">
-            <div class="result-row"><span>Total tagihan</span><span id="tip-bill-display">—</span></div>
-            <div class="result-row"><span>Tip (%)</span><span id="tip-pct-display">—</span></div>
-            <div class="result-row"><span>Total + tip</span><span id="tip-grand-display" style="color:var(--mint);font-weight:700">—</span></div>
-            <div class="result-row"><span>Per orang (termasuk tip)</span><span id="tip-each-display">—</span></div>
-          </div>
-          <div style="background:rgba(255,255,255,.04);border-radius:9px;padding:.65rem;margin-top:.6rem;font-size:.78rem;color:#8fa3b1;line-height:1.5" id="tip-advice"></div>
+      <div class="lres grn" style="margin-top:0">
+        <div class="rrows">
+          <div class="rr"><span>Sub-total semua orang</span><span id="c-subtotal">—</span></div>
+          <div class="rr"><span>PPN 11%</span><span id="c-ppn-show">—</span></div>
+          <div class="rr"><span>Tip</span><span id="c-tip-show">—</span></div>
+          <div class="rr"><span>Total</span><span id="c-total2">—</span></div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator Split Bill</h1>
-    <p class="page-desc">Tidak ada lagi drama "siapa bayar berapa". Bagi tagihan rata atau per pesanan, hitung tip yang layak, dan lacak siapa yang sudah dan belum bayar.</p>
+<!-- ② DEBT SETTLEMENT (SIAPA BAYAR SIAPA) -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">💸</div>Siapa Bayar Siapa? (Debt Settlement) <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Ada yang sudah bayar lebih dulu untuk kelompok? Masukkan siapa sudah bayar berapa, lalu lihat instruksi transfer yang paling efisien.</p>
 
-    <div class="ad-slot">Advertisement</div>
+    <div class="fld">
+      <label>Total Tagihan Bersama (Rp)</label>
+      <div class="iw"><input type="number" id="ds-total" value="400000" min="0" step="10000"></div>
+    </div>
 
-    <h2>Tiga Fitur Kalkulator Split Bill Ini</h2>
-    <p><strong>Tab Bagi Rata</strong> — Gunakan preset cepat (Kafe, Restoran Mall, Fine Dining) untuk mengisi PPN dan service charge otomatis. Setelah hitung, centang "siapa yang sudah bayar" dan salin ringkasan ke WhatsApp grup dengan satu klik. <strong>Tab Per Pesanan</strong> — Setiap orang input pesanannya masing-masing, lebih adil jika nilai pesanan berbeda jauh. <strong>Tab Tip</strong> — Pilih kualitas pelayanan atau persentase manual, lihat berapa tip per orang.</p>
+    <div class="sec-lbl">Siapa Sudah Bayar Berapa?</div>
+    <div class="person-wrap">
+      <div class="person-head">
+        <span>Nama</span><span style="text-align:right">Sudah Bayar (Rp)</span><span style="text-align:right">Porsi Ideal</span><span></span>
+      </div>
+      <div id="ds-rows"></div>
+    </div>
+    <button class="add-btn" onclick="addDSPerson()">＋ Tambah Orang</button>
 
-    <h2>Mengenal PPN dan Service Charge di Restoran</h2>
-    <p>PPN 11% diwajibkan pemerintah untuk restoran yang sudah PKP (Pengusaha Kena Pajak). Service charge (5–10%) adalah biaya tambahan dari restoran untuk staf — wajib jika tertera di menu, berbeda dari tip yang sifatnya sukarela. PB1 (Pajak Barang dan Jasa Tertentu) masih diterapkan di beberapa kota, biasanya 10%.</p>
+    <div class="sec-lbl">📋 Instruksi Settlement (Transfer Minimal)</div>
+    <div class="settlement-wrap" id="settlement-wrap">
+      <div class="settle-empty">Masukkan data di atas untuk melihat instruksi settlement.</div>
+    </div>
 
-    <h2>Tips Agar Split Bill Tidak Canggung</h2>
-    <p>Tentukan metode di awal sebelum memesan. Foto struk dan share ke grup WhatsApp untuk transparansi. Gunakan e-wallet (GoPay/OVO/Dana) — lebih cepat dan ada bukti. Untuk grup besar, satu orang bayar dulu lalu sisanya transfer.</p>
+    <div class="notice info" style="margin-top:10px">💡 Algoritma ini meminimalkan jumlah transaksi yang diperlukan. Daripada semua orang transfer ke satu orang, hanya yang perlu bayar yang mentransfer ke yang perlu menerima.</div>
+  </div>
+</div>
 
-    <h2>Etika dan Budaya Split Bill di Indonesia</h2>
-    <p>Dalam budaya Indonesia terutama generasi lebih tua, ada ekspektasi bahwa orang yang mengundang yang membayar. Di kalangan milenial dan Gen Z, split bill sudah lebih normal dan diterima. Sampaikan "kita split ya?" di awal makan untuk menghindari rasa canggung di kasir.</p>
+<!-- ③ SPLIT LIBURAN / MULTI PENGELUARAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">✈️</div>Split Pengeluaran Liburan Bersama <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Tracking semua pengeluaran selama liburan bersama. Setiap item dicatat siapa yang bayar, lalu dihitung siapa yang hutang ke siapa.</p>
 
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah service charge sama dengan tip?</div>
-    <div class="faq-a">Tidak. Service charge wajib dibayar jika tertera di menu dan masuk ke penerimaan restoran. Tip adalah pemberian sukarela langsung ke staf. Di banyak restoran besar, service charge tidak seluruhnya sampai ke staf. Untuk apresiasi langsung ke pelayan, tip tunai lebih terjamin.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Restoran mana yang biasanya mengenakan PPN dan service charge?</div>
-    <div class="faq-a">Restoran di mall, hotel, dan fine dining yang terdaftar sebagai PKP wajib mengenakan PPN. Service charge umumnya di restoran menengah ke atas. Warung makan dan warteg biasanya tidak mengenakan keduanya. Cek menu sebelum memesan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika ada yang tidak mau membayar saat split bill?</div>
-    <div class="faq-a">Bayar dulu untuk menghindari situasi tidak nyaman, lalu tagih via chat dengan bukti foto struk. Gunakan Splitwise untuk mencatat hutang. Jika jumlahnya kecil dan demi hubungan, terkadang tidak menagih lebih bijak.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa tip yang wajar di restoran Indonesia?</div>
-    <div class="faq-a">Tidak ada aturan baku. Panduan umum: 5–10% untuk pelayanan bagus, 10–15% untuk pelayanan sangat baik, 15–20% untuk luar biasa. Untuk kafe kasual, Rp 5.000–20.000 sudah sangat diapresiasi. Yang terpenting adalah ketulusan, bukan nominal.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah bisa minta kasir restoran untuk split payment?</div>
-    <div class="faq-a">Bisa, tapi tidak semua restoran mengizinkan. Tanyakan ke staf sebelum makan, bukan setelah selesai. Jika tidak bisa, satu orang bayar dulu dan sisanya transfer via e-wallet.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara adil membagi biaya liburan bersama?</div>
-    <div class="faq-a">Buat kas bersama di awal untuk pengeluaran bersama (hotel, transport, makan bareng). Gunakan Splitwise untuk mencatat siapa bayar apa. Bedakan pengeluaran bersama dengan pengeluaran pribadi. Settle di akhir perjalanan sebelum pulang.</div></div>
+    <div class="sec-lbl">Anggota Grup</div>
+    <div id="trip-members-wrap" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input type="text" id="trip-new-member" placeholder="Nama anggota baru..." style="flex:1;padding:8px 12px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:13px;outline:none">
+      <button onclick="addTripMember()" style="padding:8px 14px;background:var(--pri);color:white;border:none;border-radius:var(--rs);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">Tambah</button>
+    </div>
 
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-tip-ojol.html" class="related-item"><span class="ri">🛵</span>Tip Ojol</a>
-      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
-      <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
-      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
+    <div class="sec-lbl">Daftar Pengeluaran</div>
+    <div class="exp-wrap">
+      <div class="exp-head"><span>Keterangan</span><span style="text-align:right">Jumlah (Rp)</span><span>Dibayar oleh</span><span></span></div>
+      <div id="trip-exp-rows"></div>
+    </div>
+    <button class="add-btn" onclick="addTripExpense()">＋ Tambah Pengeluaran</button>
+
+    <div class="sec-lbl">📋 Ringkasan & Settlement</div>
+    <div id="trip-summary"></div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Split Bill</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Foto struk dulu</strong> sebelum bayar — memudahkan mencocokkan tagihan per orang</span></div>
+        <div class="tip"><span class="tpico">🔄</span><span class="tptx"><strong>Tunjuk satu kasir</strong> untuk bayar terlebih dahulu, lalu teman-teman transfer — menghindari kebingungan</span></div>
+        <div class="tip"><span class="tpico">💰</span><span class="tptx"><strong>Bulatkan ke atas</strong> — daripada ribet kembalian, bulatkan Rp 87.500 jadi Rp 88.000 atau Rp 90.000</span></div>
+        <div class="tip"><span class="tpico">🧾</span><span class="tptx"><strong>Cek service charge</strong> — beberapa restoran sudah tambahkan 5–10%, jangan double tip</span></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-tip" class="relc"><div class="relc-ico">💰</div><div class="relc-nm">Tip Restoran</div><div class="relc-ds">Hitung jumlah tip</div></a>
+        <a href="/id/kalkulator-tip-ojol" class="relc"><div class="relc-ico">🛵</div><div class="relc-nm">Tip Ojol</div><div class="relc-ds">Tip driver ojek</div></a>
+        <a href="/id/kalkulator-ppn" class="relc"><div class="relc-ico">🧾</div><div class="relc-nm">PPN</div><div class="relc-ds">Pajak 11%</div></a>
+        <a href="/id/kalkulator-persen" class="relc"><div class="relc-ico">%</div><div class="relc-nm">Persen</div><div class="relc-ds">Kalkulator %</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
-</footer>
-<script defer>
-let people=4, tipPeople=2, tipPct=10, customTipMode=false;
-let persons=[{name:'Orang 1',items:[{desc:'',amount:''}]},{name:'Orang 2',items:[{desc:'',amount:''}]}];
-let lastEqResult=null, lastCuResult=null;
-const fmt=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
 
-function showTab(id,btn){
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active'); btn.classList.add('active');
-  if(id==='tab-custom') renderPersons();
+<div class="seo">
+  <h2>Cara Split Bill yang Adil dan Efisien</h2>
+  <p>Split bill (bagi tagihan) adalah praktik membagi total tagihan secara adil antar anggota kelompok. Ada dua pendekatan: split rata (setiap orang bayar sama) dan split custom (setiap orang bayar sesuai pesanan). Untuk kelompok yang sudah saling kenal, split rata lebih praktis. Untuk acara formal atau pesanan yang sangat berbeda nilainya, split custom lebih adil.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara termudah split bill di restoran?</div><div class="faq-a">Cara paling efisien: satu orang bayar semua (jadi "kasir"), lalu yang lain transfer. Gunakan kalkulator ini untuk tahu berapa yang harus ditransfer. Alternatif: minta kasir restoran untuk memisahkan tagihan per orang (tidak semua restoran bisa), atau gunakan aplikasi seperti SplitWise untuk tracking utang jangka panjang.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu debt settlement dalam split bill?</div><div class="faq-a">Debt settlement adalah algoritma untuk meminimalkan jumlah transaksi yang diperlukan dalam sebuah kelompok. Misalnya, dalam grup 5 orang, daripada 4 orang mentransfer ke satu kasir (4 transaksi), algoritma bisa menguranginya menjadi 2–3 transaksi saja dengan cara mengarahkan pembayaran langsung antar anggota yang tepat.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
+</footer>
+
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+function rp(n){if(!isFinite(n))return'—';return'Rp '+Math.round(n).toLocaleString('id-ID');}
+function roundUp(n,to=1000){return Math.ceil(n/to)*to;}
+
+// ① SPLIT RATA
+function calcRata(){
+  const tagihan=v('r-tagihan'),orang=v('r-orang')||1,tip=v('r-tip');
+  const ppn=document.getElementById('r-ppn')?.checked?0.11:0;
+  const doRound=document.getElementById('r-roundup')?.checked;
+  const ppnAmt=tagihan*ppn;
+  const tipAmt=tagihan*tip/100;
+  const total=tagihan+ppnAmt+tipAmt;
+  const perOrang=total/orang;
+  const perOrangRound=doRound?roundUp(perOrang):Math.ceil(perOrang);
+  set('r-per-orang',rp(perOrangRound));
+  set('r-sub',orang+' orang × '+rp(perOrangRound));
+  set('r-dasar',rp(tagihan));set('r-ppn-show',ppn>0?rp(ppnAmt):'—');set('r-tip-show',tip>0?rp(tipAmt):'—');
+  set('r-total',rp(total));set('r-orang-show',orang+' orang');
+  set('r-exact',rp(perOrang));set('r-rounded',rp(perOrangRound));
 }
-function applyPreset(ppn,sc,card){
-  document.querySelectorAll('.preset-card').forEach(c=>c.classList.remove('active'));
-  card.classList.add('active');
-  document.getElementById('eq-ppn').checked=ppn;
-  document.getElementById('eq-sc').value=sc;
-  calcEqual();
+
+// ② SPLIT CUSTOM
+let customPeople=[
+  {nm:'Budi',tagihan:120000},
+  {nm:'Ani',tagihan:85000},
+  {nm:'Citra',tagihan:95000},
+  {nm:'Doni',tagihan:50000},
+];
+function renderCustom(){
+  const tip=v('c-tip');const ppn=document.getElementById('c-ppn')?.checked?0.11:0;
+  const wrap=document.getElementById('c-rows');if(!wrap)return;
+  const subtotal=customPeople.reduce((s,p)=>s+p.tagihan,0);
+  wrap.innerHTML=customPeople.map((p,i)=>{
+    const bayar=p.tagihan*(1+ppn)*(1+tip/100);
+    return`<div class="person-row">
+      <input class="p-inp" value="${p.nm}" oninput="customPeople[${i}].nm=this.value">
+      <input class="p-inp mono" type="number" value="${p.tagihan}" min="0" step="1000" oninput="customPeople[${i}].tagihan=+this.value;renderCustom()">
+      <span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--grn);text-align:right">${rp(bayar)}</span>
+      <button class="p-del" onclick="customPeople.splice(${i},1);renderCustom()">✕</button>
+    </div>`;
+  }).join('');
+  const ppnAmt=subtotal*ppn;const tipAmt=subtotal*tip/100;
+  const total=subtotal+ppnAmt+tipAmt;
+  set('c-total',rp(total));set('c-sub',(customPeople.length)+' orang, termasuk tip&pajak');
+  set('c-subtotal',rp(subtotal));set('c-ppn-show',ppn>0?rp(ppnAmt):'—');
+  set('c-tip-show',tip>0?rp(tipAmt):'—');set('c-total2',rp(total));
 }
-function adjustPeople(d){people=Math.max(2,Math.min(50,people+d));document.getElementById('people-count').textContent=people;calcEqual();}
-function calcEqual(){
-  const sub=parseFloat(document.getElementById('eq-total').value)||0;
-  if(!sub){document.getElementById('eq-result').classList.remove('show');return;}
-  const ppn=document.getElementById('eq-ppn').checked?sub*0.11:0;
-  const scPct=parseFloat(document.getElementById('eq-sc').value)||0;
-  const sc=sub*scPct/100;
-  const extra=parseFloat(document.getElementById('eq-extra').value)||0;
-  const grand=sub+ppn+sc+extra;
-  const each=Math.ceil(grand/people/500)*500;
-  document.getElementById('eq-sub').textContent=fmt(sub);
-  document.getElementById('eq-ppn-row').style.display=ppn>0?'':'none';
-  document.getElementById('eq-ppn-val').textContent=fmt(ppn);
-  document.getElementById('eq-sc-row').style.display=sc>0?'':'none';
-  document.getElementById('eq-sc-val').textContent=fmt(sc)+' ('+scPct+'%)';
-  document.getElementById('eq-extra-row').style.display=extra>0?'':'none';
-  document.getElementById('eq-extra-val').textContent=fmt(extra);
-  document.getElementById('eq-grand').textContent=fmt(grand);
-  document.getElementById('eq-people-txt').textContent=people;
-  document.getElementById('eq-each').textContent=fmt(each);
-  document.getElementById('eq-per-person').textContent=fmt(each);
-  lastEqResult={sub,ppn,sc,extra,grand,each,people};
-  renderDebtTracker(each,people);
-  document.getElementById('eq-result').classList.add('show');
+function addCustomPerson(){customPeople.push({nm:'Orang '+(customPeople.length+1),tagihan:50000});renderCustom();}
+document.getElementById('c-tip')?.addEventListener('input',renderCustom);
+
+// ③ DEBT SETTLEMENT
+let dsPeople=[
+  {nm:'Budi',paid:400000},
+  {nm:'Ani',paid:0},
+  {nm:'Citra',paid:0},
+  {nm:'Doni',paid:0},
+];
+function renderDS(){
+  const total=v('ds-total');const n=dsPeople.length||1;
+  const share=total/n;
+  const wrap=document.getElementById('ds-rows');if(!wrap)return;
+  wrap.innerHTML=dsPeople.map((p,i)=>`<div class="person-row">
+    <input class="p-inp" value="${p.nm}" oninput="dsPeople[${i}].nm=this.value;calcSettlement()">
+    <input class="p-inp mono" type="number" value="${p.paid}" min="0" step="1000" oninput="dsPeople[${i}].paid=+this.value;calcSettlement()">
+    <span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--tx3);text-align:right">${rp(share)}</span>
+    <button class="p-del" onclick="dsPeople.splice(${i},1);renderDS();calcSettlement()">✕</button>
+  </div>`).join('');
+  calcSettlement();
 }
-function renderDebtTracker(each,count){
-  const list=document.getElementById('debt-list');
-  const existing=[];
-  document.querySelectorAll('.debt-row').forEach(row=>{
-    existing.push({name:row.querySelector('.debt-name').textContent,paid:row.querySelector('.debt-check').checked});
-  });
-  list.innerHTML='';
-  for(let i=0;i<count;i++){
-    const name=existing[i]?.name||'Orang '+(i+1);
-    const paid=existing[i]?.paid||false;
-    const row=document.createElement('div');
-    row.className='debt-row'+(paid?' paid':'');
-    row.innerHTML=`<input type="checkbox" class="debt-check" ${paid?'checked':''} onchange="updateDebtTracker(this)"/><span class="debt-name" contenteditable="true" spellcheck="false">${name}</span><span class="debt-amount">${fmt(each)}</span>`;
-    list.appendChild(row);
+function addDSPerson(){dsPeople.push({nm:'Orang '+(dsPeople.length+1),paid:0});renderDS();}
+function calcSettlement(){
+  const total=v('ds-total');const n=dsPeople.length||1;const share=total/n;
+  // balances: positive = owed money back, negative = owes money
+  let balances=dsPeople.map(p=>({nm:p.nm,bal:p.paid-share}));
+  // greedy settlement
+  const transactions=[];
+  let debtors=balances.filter(b=>b.bal<-0.5).map(b=>({...b}));
+  let creditors=balances.filter(b=>b.bal>0.5).map(b=>({...b}));
+  debtors.sort((a,b)=>a.bal-b.bal);creditors.sort((a,b)=>b.bal-a.bal);
+  let di=0,ci=0;
+  while(di<debtors.length&&ci<creditors.length){
+    const d=debtors[di],c=creditors[ci];
+    const amt=Math.min(-d.bal,c.bal);
+    if(amt>0.5)transactions.push({from:d.nm,to:c.nm,amt:Math.round(amt)});
+    d.bal+=amt;c.bal-=amt;
+    if(Math.abs(d.bal)<0.5)di++;
+    if(Math.abs(c.bal)<0.5)ci++;
   }
-  updateDebtProgress();
-}
-function updateDebtTracker(cb){cb.closest('.debt-row').classList.toggle('paid',cb.checked);updateDebtProgress();}
-function updateDebtProgress(){
-  const rows=document.querySelectorAll('.debt-row');
-  const paid=document.querySelectorAll('.debt-row.paid').length;
-  const total=rows.length;
-  document.getElementById('debt-fill').style.width=total>0?(paid/total*100)+'%':'0%';
-  document.getElementById('debt-status').textContent=paid+' dari '+total+' sudah bayar';
-}
-function copySummary(){
-  if(!lastEqResult) return;
-  const {sub,ppn,sc,extra,grand,each,people}=lastEqResult;
-  const names=[];
-  document.querySelectorAll('.debt-row').forEach(r=>names.push(r.querySelector('.debt-name').textContent.trim()));
-  let text='🧾 *Split Bill* ('+people+' orang)\n';
-  text+='Subtotal: '+fmt(sub)+'\n';
-  if(ppn>0) text+='PPN 11%: '+fmt(ppn)+'\n';
-  if(sc>0) text+='Service charge: '+fmt(sc)+'\n';
-  if(extra>0) text+='Biaya lain: '+fmt(extra)+'\n';
-  text+='*Total: '+fmt(grand)+'*\n\n';
-  text+='💰 Per orang: *'+fmt(each)+'*\n\n';
-  names.forEach((n,i)=>{text+=''+(i+1)+'. '+n+' — '+fmt(each)+'\n';});
-  text+='\nDibuat dengan NovaCalcs.com';
-  navigator.clipboard?.writeText(text).then(()=>alert('Ringkasan berhasil disalin! 📋')).catch(()=>{
-    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Ringkasan berhasil disalin! 📋');
-  });
-}
-function addPerson(){persons.push({name:'Orang '+(persons.length+1),items:[{desc:'',amount:''}]});renderPersons();}
-function addItem(pi){persons[pi].items.push({desc:'',amount:''});renderPersons();}
-function removeItem(pi,ii){persons[pi].items.splice(ii,1);if(!persons[pi].items.length)persons[pi].items.push({desc:'',amount:''});renderPersons();}
-function removePerson(pi){if(persons.length<=2)return alert('Minimal 2 orang.');persons.splice(pi,1);renderPersons();}
-function syncPersons(){
-  persons.forEach((p,pi)=>{
-    const n=document.getElementById('pname-'+pi);if(n)p.name=n.value||('Orang '+(pi+1));
-    p.items.forEach((item,ii)=>{const d=document.getElementById('pdesc-'+pi+'-'+ii);const a=document.getElementById('pamt-'+pi+'-'+ii);if(d)item.desc=d.value;if(a)item.amount=a.value;});
-  });
-}
-function renderPersons(){
-  syncPersons();
-  document.getElementById('person-list').innerHTML=persons.map((p,pi)=>`
-    <div class="person-row"><div class="person-header">
-      <input id="pname-${pi}" type="text" value="${p.name}" placeholder="Nama" style="background:transparent;border:none;color:var(--text-primary);font-weight:600;font-size:.875rem;width:120px;outline:none"/>
-      <span class="del-btn" onclick="removePerson(${pi})">✕ Hapus</span></div>
-      ${p.items.map((item,ii)=>`<div class="item-row">
-        <input id="pdesc-${pi}-${ii}" type="text" placeholder="Pesanan..." value="${item.desc}" oninput="syncPersons()"/>
-        <input id="pamt-${pi}-${ii}" type="number" placeholder="Rp" value="${item.amount}" min="0" step="500" oninput="syncPersons()"/>
-        <span class="del-btn" onclick="removeItem(${pi},${ii})">✕</span></div>`).join('')}
-      <button onclick="addItem(${pi})" style="font-size:.78rem;color:var(--mint);cursor:pointer;background:none;border:none;padding:2px 0">+ Tambah item</button>
+  const wrap=document.getElementById('settlement-wrap');if(!wrap)return;
+  if(transactions.length===0){
+    wrap.innerHTML='<div class="settle-empty">✅ Semua sudah bayar sesuai porsi — tidak ada yang perlu transfer!</div>';
+  } else {
+    wrap.innerHTML=transactions.map(t=>`<div class="settle-row">
+      <span class="settle-from">👤 ${t.from}</span>
+      <span class="settle-arr">→</span>
+      <span class="settle-to">👤 ${t.to}</span>
+      <span class="settle-amt">${rp(t.amt)}</span>
     </div>`).join('');
+  }
 }
-function calcCustom(){
-  syncPersons();
-  const ppn=document.getElementById('cu-ppn').checked;
-  const useSC=document.getElementById('cu-sc').checked;
-  const scPct=parseFloat(document.getElementById('cu-sc-pct').value)||0;
-  const subtotals=persons.map(p=>p.items.reduce((s,i)=>s+(parseFloat(i.amount)||0),0));
-  const grandSub=subtotals.reduce((s,v)=>s+v,0);
-  if(!grandSub)return alert('Masukkan harga pesanan masing-masing orang.');
-  const ppnAmt=ppn?grandSub*0.11:0;
-  const scAmt=useSC?grandSub*scPct/100:0;
-  const grand=grandSub+ppnAmt+scAmt;
-  const taxRatio=grand/grandSub;
-  const shares=persons.map((_,pi)=>Math.round(subtotals[pi]*taxRatio/500)*500);
-  let html=`<div style="font-size:.85rem;color:var(--text-secondary);margin-bottom:10px">Tagihan Per Orang</div>`;
-  persons.forEach((p,pi)=>{html+=`<div class="cu-person-result"><div><div style="font-weight:600">${p.name}</div><div style="font-size:.75rem;color:var(--text-muted)">Pesanan: ${fmt(subtotals[pi])}</div></div><div style="font-weight:700;color:var(--mint)">${fmt(shares[pi])}</div></div>`;});
-  html+=`<div style="display:flex;justify-content:space-between;padding-top:10px;margin-top:4px;border-top:1px solid var(--border);font-weight:700"><span>Total</span><span>${fmt(Math.round(grand/500)*500)}</span></div>`;
-  if(ppn||useSC) html+=`<div style="font-size:.75rem;color:var(--text-muted);margin-top:8px">Termasuk: ${ppn?'PPN 11% ('+fmt(ppnAmt)+')':''}${ppn&&useSC?' + ':''}${useSC?'SC '+scPct+'% ('+fmt(scAmt)+')':''}</div>`;
-  lastCuResult={persons:persons.map((p,pi)=>({name:p.name,amount:shares[pi]})),grand};
-  document.getElementById('cu-result-content').innerHTML=html;
-  document.getElementById('cu-result').classList.add('show');
-  document.getElementById('cu-copy-btn').style.display='';
+
+// ④ TRIP SPLIT
+let tripMembers=['Adi','Bela','Ciko'];
+let tripExpenses=[
+  {nm:'Hotel 2 malam',amt:600000,payer:'Adi'},
+  {nm:'Makan malam',amt:240000,payer:'Bela'},
+  {nm:'Bensin',amt:150000,payer:'Ciko'},
+];
+function renderTripMembers(){
+  const wrap=document.getElementById('trip-members-wrap');if(!wrap)return;
+  wrap.innerHTML=tripMembers.map((m,i)=>`<div style="display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--sur2);border:1px solid var(--bor);border-radius:20px;font-size:12px;font-weight:600">
+    ${m}<button onclick="tripMembers.splice(${i},1);renderTripMembers();renderTripExpenses();calcTripSettlement()" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--tx3);padding:0 0 0 4px">✕</button>
+  </div>`).join('');
 }
-function copyCustomSummary(){
-  if(!lastCuResult)return;
-  let text='🧾 *Split Bill per Pesanan*\n\n';
-  lastCuResult.persons.forEach(p=>{text+=p.name+': *'+fmt(p.amount)+'*\n';});
-  text+='\n💰 *Total: '+fmt(lastCuResult.grand)+'*\n\nDibuat dengan NovaCalcs.com';
-  navigator.clipboard?.writeText(text).then(()=>alert('Ringkasan berhasil disalin! 📋')).catch(()=>{
-    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Ringkasan berhasil disalin! 📋');
+function addTripMember(){
+  const inp=document.getElementById('trip-new-member');if(!inp||!inp.value.trim())return;
+  tripMembers.push(inp.value.trim());inp.value='';renderTripMembers();renderTripExpenses();calcTripSettlement();
+}
+function renderTripExpenses(){
+  const wrap=document.getElementById('trip-exp-rows');if(!wrap)return;
+  if(tripExpenses.length===0){wrap.innerHTML='<div style="padding:14px;text-align:center;color:var(--tx3);font-size:12px">Belum ada pengeluaran</div>';return;}
+  wrap.innerHTML=tripExpenses.map((e,i)=>`<div class="exp-row">
+    <input class="p-inp" value="${e.nm}" oninput="tripExpenses[${i}].nm=this.value;calcTripSettlement()">
+    <input class="p-inp mono" type="number" value="${e.amt}" min="0" step="1000" oninput="tripExpenses[${i}].amt=+this.value;calcTripSettlement()">
+    <select class="exp-sel" onchange="tripExpenses[${i}].payer=this.value;calcTripSettlement()">
+      ${tripMembers.map(m=>`<option value="${m}"${e.payer===m?' selected':''}>${m}</option>`).join('')}
+    </select>
+    <button class="p-del" onclick="tripExpenses.splice(${i},1);renderTripExpenses();calcTripSettlement()">✕</button>
+  </div>`).join('');
+  calcTripSettlement();
+}
+function addTripExpense(){
+  tripExpenses.push({nm:'Pengeluaran '+(tripExpenses.length+1),amt:100000,payer:tripMembers[0]||'Seseorang'});
+  renderTripExpenses();
+}
+function calcTripSettlement(){
+  const total=tripExpenses.reduce((s,e)=>s+e.amt,0);
+  const n=tripMembers.length||1;const share=total/n;
+  const paid={};tripMembers.forEach(m=>paid[m]=0);
+  tripExpenses.forEach(e=>{if(paid[e.payer]!==undefined)paid[e.payer]+=e.amt;});
+  let balances=tripMembers.map(m=>({nm:m,bal:paid[m]-share}));
+  let debtors=balances.filter(b=>b.bal<-0.5).map(b=>({...b}));
+  let creditors=balances.filter(b=>b.bal>0.5).map(b=>({...b}));
+  debtors.sort((a,b)=>a.bal-b.bal);creditors.sort((a,b)=>b.bal-a.bal);
+  const transactions=[];let di=0,ci=0;
+  while(di<debtors.length&&ci<creditors.length){
+    const d=debtors[di],c=creditors[ci];const amt=Math.min(-d.bal,c.bal);
+    if(amt>0.5)transactions.push({from:d.nm,to:c.nm,amt:Math.round(amt)});
+    d.bal+=amt;c.bal-=amt;if(Math.abs(d.bal)<0.5)di++;if(Math.abs(c.bal)<0.5)ci++;
+  }
+  const wrap=document.getElementById('trip-summary');if(!wrap)return;
+  const memberSummary=tripMembers.map(m=>`<div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid var(--bor)">
+    <span>${m}</span>
+    <span>Bayar ${rp(paid[m]||0)} | Porsi ${rp(share)} | <span style="color:${(paid[m]||0)-share>=0?'var(--grn)':'var(--red)'}; font-weight:700">${(paid[m]||0)-share>=0?'dapat kembali':'harus bayar'} ${rp(Math.abs((paid[m]||0)-share))}</span></span>
+  </div>`).join('');
+  const txHtml=transactions.length===0?'<div style="color:var(--grn);font-weight:700;font-size:12px;padding:6px 0">✅ Semua sudah bayar porsinya!</div>':transactions.map(t=>`<div class="settle-row" style="margin-top:6px">
+    <span class="settle-from">👤 ${t.from}</span><span class="settle-arr">→</span><span class="settle-to">👤 ${t.to}</span><span class="settle-amt">${rp(t.amt)}</span>
+  </div>`).join('');
+  wrap.innerHTML=`<div style="background:var(--sur2);border-radius:var(--rs);padding:12px;margin-bottom:10px">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:6px">Total: ${rp(total)} | Per orang: ${rp(share)}</div>
+    ${memberSummary}
+  </div>
+  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:6px">Transfer yang diperlukan:</div>
+  ${txHtml}`;
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
   });
-}
-function adjustTipPeople(d){tipPeople=Math.max(1,Math.min(30,tipPeople+d));document.getElementById('tip-people-count').textContent=tipPeople;calcTip();}
-function setStars(n){
-  document.querySelectorAll('.tip-star').forEach((s,i)=>s.classList.toggle('active',i<n));
-  const labels=['😕 Biasa saja — tip kecil pertimbangkan','😊 Cukup bagus — tip 5–10% wajar','😃 Bagus — tip 10% direkomendasikan','🌟 Sangat bagus — tip 15% layak','🏆 Luar biasa — tip 15–20% sangat pantas'];
-  document.getElementById('tip-rating-lbl').textContent=labels[n-1]||'Klik bintang untuk pilih';
-  if(!customTipMode){tipPct=[5,7,10,15,20][n-1]||10;calcTip();}
-}
-function setTipPct(pct,btn){
-  document.querySelectorAll('.bank-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
-  customTipMode=pct===0;
-  document.getElementById('tip-custom-field').style.display=pct===0?'':'none';
-  if(pct>0){tipPct=pct;calcTip();}
-}
-function calcTip(){
-  const bill=parseFloat(document.getElementById('tip-total').value)||0;
-  if(!bill)return;
-  let tipAmt;
-  if(customTipMode){tipAmt=parseFloat(document.getElementById('tip-custom').value)||0;tipPct=bill>0?Math.round(tipAmt/bill*100):0;}
-  else{tipAmt=Math.round(bill*tipPct/100/500)*500;}
-  const grand=bill+tipAmt;
-  const each=Math.ceil(grand/tipPeople/500)*500;
-  const tipEach=Math.round(tipAmt/tipPeople/500)*500;
-  document.getElementById('tip-total-display').textContent=fmt(tipAmt);
-  document.getElementById('tip-per-person-display').textContent=fmt(tipEach)+' per orang';
-  document.getElementById('tip-bill-display').textContent=fmt(bill);
-  document.getElementById('tip-pct-display').textContent=tipPct+'%';
-  document.getElementById('tip-grand-display').textContent=fmt(grand);
-  document.getElementById('tip-each-display').textContent=fmt(each);
-  document.getElementById('tip-advice').textContent=tipPct<=5?'Tip 5% adalah minimal yang umum di restoran kasual.':tipPct<=10?'Tip 10% adalah standar untuk pelayanan yang bagus.':tipPct<=15?'Tip 15% menunjukkan apresiasi tinggi untuk pelayanan memuaskan.':'Tip 20%+ adalah apresiasi luar biasa — staf Anda pasti sangat menghargai ini! 🙏';
-  document.getElementById('tip-result').style.display='';
-}
-renderPersons();
-function toggleFaq(el){el.closest('.faq-item').classList.toggle('open');}
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+['r-tagihan','r-orang','r-tip'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcRata));
+document.getElementById('ds-total')?.addEventListener('input',()=>{renderDS();});
+document.getElementById('trip-new-member')?.addEventListener('keydown',e=>{if(e.key==='Enter')addTripMember();});
+calcRata();renderCustom();renderDS();renderTripMembers();renderTripExpenses();
 </script>
 </body>
 </html>

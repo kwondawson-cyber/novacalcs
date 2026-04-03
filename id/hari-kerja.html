@@ -1,653 +1,572 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Hari Kerja 2026 — Hitung Hari Kerja + Libur Nasional | NovaCalcs</title>
-<meta name="description" content="Hitung hari kerja (Senin–Jumat) antara dua tanggal, atau cari tanggal setelah N hari kerja dari sekarang. Lengkap dengan kalender libur nasional Indonesia 2026."/>
-<meta name="keywords" content="kalkulator hari kerja, hitung hari kerja 2026, libur nasional 2026, hari bisnis, working days, SLA hari kerja, deadline proyek"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/hari-kerja.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/hari-kerja.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Hari Kerja","url":"https://novacalcs.com/id/hari-kerja.html","description":"Kalkulator hari kerja 2026 dengan libur nasional dan mode tambah hari kerja","applicationCategory":"UtilitiesApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Tabs */
-.hk-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
-.hk-tab  { flex:1; padding:8px 6px; font-size:.75rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
-.hk-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
-.hk-panel { display:none; }
-.hk-panel.active { display:block; }
-
-/* Big result */
-.hk-main  { text-align:center; padding:14px 0 8px; }
-.hk-num   { font-size:2.4rem; font-weight:700; color:var(--mint); line-height:1; }
-.hk-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Breakdown bar */
-.hk-bar-wrap  { margin:12px 0 6px; }
-.hk-bar-track { height:18px; border-radius:9px; overflow:hidden; display:flex; }
-.hkb-work { background:var(--mint); transition:width .6s; display:flex; align-items:center; padding-left:8px; font-size:.62rem; font-weight:700; color:#001a17; }
-.hkb-wknd { background:#60a5fa; transition:width .6s; display:flex; align-items:center; padding-left:5px; font-size:.62rem; font-weight:700; color:#0c1a2e; }
-.hkb-holi { background:#f97316; transition:width .6s; display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:700; color:#431407; }
-.hk-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:5px; font-size:.72rem; color:var(--text-secondary); }
-.hk-legend span::before { content:'●'; margin-right:4px; }
-.leg-m::before { color:var(--mint); } .leg-b::before { color:#60a5fa; } .leg-o::before { color:#f97316; }
-
-/* Stats */
-.hk-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.hks-card { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.hks-card .hc-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
-.hks-card .hc-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
-.hks-card.green .hc-val { color:var(--mint); }
-.hks-card.blue  .hc-val { color:#60a5fa; }
-.hks-card.orange .hc-val { color:#f97316; }
-
-/* Month breakdown */
-.month-breakdown { margin-top:10px; }
-.mb-row { display:flex; align-items:center; gap:8px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,.03); font-size:.78rem; }
-.mb-row:last-child { border-bottom:none; }
-.mb-month { min-width:100px; color:var(--text-secondary); font-size:.72rem; }
-.mb-track { flex:1; height:7px; background:var(--bg-card); border-radius:3px; overflow:hidden; }
-.mb-fill  { height:100%; border-radius:3px; background:var(--mint); }
-.mb-val   { min-width:60px; text-align:right; font-weight:600; color:var(--mint); font-size:.75rem; }
-
-/* Holiday list */
-.holiday-list { margin-top:10px; }
-.hl-item { display:flex; gap:10px; align-items:center; padding:5px 0; border-bottom:1px solid var(--border); font-size:.8rem; cursor:pointer; }
-.hl-item:last-child { border-bottom:none; }
-.hl-item input[type=checkbox] { accent-color:var(--mint); width:14px; height:14px; flex-shrink:0; }
-.hl-date { min-width:100px; color:var(--text-muted); font-size:.72rem; }
-.hl-name { flex:1; color:var(--text-primary); }
-.hl-day  { font-size:.68rem; padding:1px 6px; border-radius:4px; }
-.hl-day.weekday { background:rgba(0,201,177,.15); color:var(--mint); }
-.hl-day.weekend { background:rgba(96,165,250,.15); color:#60a5fa; }
-
-/* Add-workdays result */
-.add-result-box { background:var(--mint-dim); border:1px solid rgba(0,201,177,.25); border-radius:var(--radius-sm); padding:14px; margin-top:10px; }
-.arb-date  { font-size:1.6rem; font-weight:700; color:var(--mint); margin-bottom:4px; }
-.arb-sub   { font-size:.78rem; color:var(--text-secondary); }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-
-/* Preset buttons */
-.hk-preset-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
-.hk-pre-btn{padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all .15s}
-.hk-pre-btn:hover,.hk-pre-btn.active{background:var(--mint-dim);color:var(--mint);border-color:rgba(0,201,177,.35)}
-
-/* Action cards */
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
-.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
-.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
-.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
-.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
-
-/* Libur dalam rentang */
-.libur-list{margin-top:10px}
-.libur-item{display:flex;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.78rem}
-.libur-item:last-child{border-bottom:none}
-.libur-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Hari Kerja 2026 — Hitung Hari Kerja, Deadline & Sisa Cuti | NovaCalcs</title>
+  <meta name="description" content="Kalkulator hari kerja 2026: hitung jumlah hari kerja antara dua tanggal (minus libur nasional Indonesia), hitung deadline kerja, dan simulasi cuti. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/hari-kerja">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input[type=date],.iw input[type=number],.iw input[type=text]{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{width:100%;padding:10px 32px 10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;appearance:none;cursor:pointer}
+    .sw select:focus{border-color:var(--pri)}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* BIG RESULT */
+    .big-result{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:20px;text-align:center;margin:14px 0}
+    .big-result.grn{background:var(--grn-b);border-color:#86efac}
+    .br-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--pri);margin-bottom:6px}
+    .big-result.grn .br-lbl{color:var(--grn)}
+    .br-val{font-family:'DM Mono',monospace;font-size:42px;font-weight:800;color:var(--pri);letter-spacing:-.5px;line-height:1}
+    .big-result.grn .br-val{color:var(--grn)}
+    .br-sub{font-size:12px;color:var(--tx3);margin-top:5px}
+    /* STAT CARDS */
+    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    @media(max-width:420px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+    .stat-card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);padding:12px;text-align:center}
+    .stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}
+    .stat-val{font-family:'DM Mono',monospace;font-size:18px;font-weight:800;color:var(--pri)}
+    /* LRES */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px}
+    .lres.grn{background:var(--grn-b);border-color:#86efac}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* HOLIDAY CHECKS */
+    .hol-wrap{display:flex;flex-direction:column;gap:4px;margin:10px 0}
+    .hol-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--rs);font-size:11px}
+    .hol-row.include{background:var(--red-b);color:var(--red)}
+    .hol-row.exclude{background:var(--sur2);color:var(--tx3)}
+    /* CUTI */
+    .cuti-bar{height:16px;background:var(--sur2);border-radius:8px;overflow:hidden;margin:6px 0 2px}
+    .cuti-fill{height:100%;border-radius:8px;transition:width .4s}
+    /* DEADLINE TABLE */
+    .dl-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .dl-tbl th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .dl-tbl td{padding:7px 10px;border-bottom:1px solid var(--bor)}
+    .dl-tbl td.mo{font-family:'DM Mono',monospace;font-weight:700;text-align:right}
+    .dl-tbl tr:last-child td{border-bottom:none}
+    .dl-tbl tr.near td{background:var(--red-b);color:var(--red)}
+    .dl-tbl tr.ok td{background:var(--grn-b);color:var(--grn)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#tanggal">Tanggal</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Hari Kerja</span>
-    </nav>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Hari Kerja</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">💼 Hari Kerja</div>
+  <h1 class="hdr-h1">Kalkulator Hari Kerja 2026</h1>
+  <p class="hdr-sub">Hitung jumlah hari kerja antara dua tanggal (tidak termasuk akhir pekan &amp; libur nasional Indonesia), hitung deadline proyek, dan pantau sisa cuti tahunan.</p>
+  <div class="pstrip">
+    <div class="pchip">Libur nasional <span>Indonesia 2026</span></div>
+    <div class="pchip">Senin–Jumat <span>hari kerja</span></div>
+    <div class="pchip">Cuti tahunan <span>12 hari (UU Tenaga Kerja)</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">📋 Kalkulator Hari Kerja 2026</div>
-      <div class="calc-subtitle">Hitung hari kerja · Tambah hari kerja · Libur nasional</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="hk-tabs">
-        <div class="hk-tab active" onclick="switchTab(0,this)">📅 Hitung Rentang</div>
-        <div class="hk-tab" onclick="switchTab(1,this)">➕ Tambah Hari Kerja</div>
-        <div class="hk-tab" onclick="switchTab(2,this)">🗓️ Libur 2026</div>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📅</div>Kalkulator Hari Kerja</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="hitung">📊 Hitung Hari Kerja</button>
+      <button class="tbtn" data-tab="tambah">➕ Tambah Hari Kerja</button>
+    </div>
+
+    <!-- HITUNG HARI KERJA -->
+    <div class="tpanel on" id="tab-hitung">
+      <div class="g2">
+        <div class="fld">
+          <label>Tanggal Mulai</label>
+          <div class="iw"><input type="date" id="h-mulai"></div>
+          <div class="presets">
+            <button class="pb" onclick="setToday('h-mulai')">Hari ini</button>
+            <button class="pb" onclick="setFirstDay('h-mulai')">Awal bulan</button>
+          </div>
+        </div>
+        <div class="fld">
+          <label>Tanggal Akhir</label>
+          <div class="iw"><input type="date" id="h-akhir"></div>
+          <div class="presets">
+            <button class="pb" onclick="setEndMonth('h-akhir')">Akhir bulan</button>
+            <button class="pb" onclick="setEndYear('h-akhir')">Akhir tahun</button>
+          </div>
+        </div>
       </div>
-
-      <!-- TAB 0: Hitung hari kerja -->
-      <div class="hk-panel active" id="hk0">
-        <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">Preset Cepat:</div>
-        <div class="hk-preset-row">
-          <button class="hk-pre-btn" onclick="applyPreset('week',this)">Minggu ini</button>
-          <button class="hk-pre-btn" onclick="applyPreset('month',this)">Bulan ini</button>
-          <button class="hk-pre-btn" onclick="applyPreset('q1',this)">Q1 2026</button>
-          <button class="hk-pre-btn" onclick="applyPreset('q2',this)">Q2 2026</button>
-          <button class="hk-pre-btn" onclick="applyPreset('q3',this)">Q3 2026</button>
-          <button class="hk-pre-btn" onclick="applyPreset('q4',this)">Q4 2026</button>
-          <button class="hk-pre-btn" onclick="applyPreset('year',this)">Tahun 2026</button>
-        </div>
-        <div class="field"><label>Tanggal Mulai</label>
-          <div id="start-picker"></div>
-        </div>
-        <div class="field"><label>Tanggal Akhir</label>
-          <div id="end-picker"></div>
-        </div>
-        <div class="field">
-          <label>Kurangi Hari Libur Nasional</label>
-          <p style="font-size:.7rem;color:var(--text-muted);margin:4px 0 8px">Centang libur yang jatuh di hari kerja dalam rentang Anda:</p>
-          <div id="holiday-checkboxes" style="max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm);padding:4px 8px;"></div>
-          <p style="font-size:.7rem;color:var(--text-muted);margin-top:4px">Atau masukkan manual: <input type="number" id="holidays-manual" value="0" min="0" max="30" style="width:50px;display:inline-block;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;padding:3px 6px;color:var(--text-primary);font-size:.82rem"/> hari libur</p>
-        </div>
-        <button class="calc-btn" onclick="calcRentang()">📅 Hitung Hari Kerja</button>
-
-        <div class="result-box" id="res0" style="display:none">
-          <div class="hk-main">
-            <div class="hk-num" id="r0-workdays">—</div>
-            <div class="hk-label" id="r0-label">hari kerja efektif</div>
-          </div>
-          <div class="hk-bar-wrap">
-            <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin-bottom:5px">Komposisi total hari kalender</div>
-            <div class="hk-bar-track">
-              <div class="hkb-work" id="r0-bar-w" style="width:70%">Kerja</div>
-              <div class="hkb-wknd" id="r0-bar-e" style="width:25%">Akhir Pekan</div>
-              <div class="hkb-holi" id="r0-bar-h" style="width:5%"></div>
-            </div>
-            <div class="hk-legend">
-              <span class="leg-m">Hari kerja</span>
-              <span class="leg-b">Akhir pekan</span>
-              <span class="leg-o">Libur nasional</span>
-            </div>
-          </div>
-          <div class="hk-stats">
-            <div class="hks-card"><div class="hc-label">Total hari kalender</div><div class="hc-val" id="r0-total">—</div></div>
-            <div class="hks-card blue"><div class="hc-label">Akhir pekan (Sab+Min)</div><div class="hc-val" id="r0-wknd">—</div></div>
-            <div class="hks-card orange"><div class="hc-label">Libur nasional dikurangi</div><div class="hc-val" id="r0-holi">—</div></div>
-            <div class="hks-card green"><div class="hc-label">Hari kerja efektif</div><div class="hc-val" id="r0-eff">—</div></div>
-          </div>
-          <div class="month-breakdown" id="r0-month-breakdown"></div>
-          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
-
-          <!-- Libur dalam rentang -->
-          <div id="libur-dalam-rentang" style="display:none;margin-top:10px">
-            <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.4rem">🗓️ Libur nasional dalam rentang ini:</div>
-            <div class="libur-list" id="libur-list-items"></div>
-          </div>
-
-          <!-- Action cards -->
-          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips untuk Anda:</div>
-          <div class="action-grid" id="r0-action-cards"></div>
+      <div class="fld">
+        <label>Libur Nasional</label>
+        <div style="display:flex;gap:6px">
+          <button class="pb on" id="libur-inc-btn" onclick="setLiburMode(true)">✅ Termasuk libur nasional</button>
+          <button class="pb" id="libur-exc-btn" onclick="setLiburMode(false)">❌ Hanya akhir pekan saja</button>
         </div>
       </div>
 
-      <!-- TAB 1: Tambah N hari kerja -->
-      <div class="hk-panel" id="hk1">
-        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
-          Cari tahu tanggal setelah N hari kerja dari tanggal tertentu — berguna untuk menghitung deadline SLA.
+      <div class="big-result">
+        <div class="br-lbl">Hari Kerja</div>
+        <div class="br-val" id="h-hk">—</div>
+        <div class="br-sub" id="h-hk-sub">hari kerja efektif</div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-lbl">Total Hari</div><div class="stat-val" id="h-total">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Akhir Pekan</div><div class="stat-val" id="h-weekend">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Libur Nasional</div><div class="stat-val" id="h-libur">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Minggu Kerja</div><div class="stat-val" id="h-mgg-kerja">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Bulan (est.)</div><div class="stat-val" id="h-bln-est">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Hari Kerja/Mgg</div><div class="stat-val">5</div></div>
+      </div>
+
+      <div class="sec-lbl" id="hol-in-range-lbl" style="display:none">📌 Libur Nasional dalam Periode Ini</div>
+      <div class="hol-wrap" id="hol-in-range"></div>
+
+      <div class="lres" style="margin-top:0">
+        <div class="rrows">
+          <div class="rr"><span>Tanggal mulai</span><span id="h-mulai-show">—</span></div>
+          <div class="rr"><span>Tanggal akhir</span><span id="h-akhir-show">—</span></div>
+          <div class="rr"><span>Total hari (kalender)</span><span id="h-total2">—</span></div>
+          <div class="rr"><span>Akhir pekan (Sabtu+Minggu)</span><span id="h-weekend2">—</span></div>
+          <div class="rr"><span>Libur nasional (hari kerja)</span><span id="h-libur2">—</span></div>
+          <div class="rr"><span>Hari kerja efektif</span><span id="h-hk2">—</span></div>
         </div>
-        <div class="field"><label>Tanggal Mulai</label>
-          <div id="add-start-picker"></div>
+      </div>
+    </div>
+
+    <!-- TAMBAH HARI KERJA -->
+    <div class="tpanel" id="tab-tambah">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Mulai dari tanggal tertentu, tambahkan sejumlah hari kerja (melewati akhir pekan & libur nasional) untuk menemukan tanggal deadline.</p>
+      <div class="g2">
+        <div class="fld">
+          <label>Tanggal Mulai</label>
+          <div class="iw"><input type="date" id="t-mulai"></div>
+          <div class="presets">
+            <button class="pb" onclick="setToday('t-mulai')">Hari ini</button>
+          </div>
         </div>
-        <div class="field"><label>Tambah Berapa Hari Kerja?</label>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
-            <div class="radio-btn" onclick="setAddDays(3,this)" style="font-size:.72rem">3 HK</div>
-            <div class="radio-btn" onclick="setAddDays(5,this)" style="font-size:.72rem">5 HK</div>
-            <div class="radio-btn" onclick="setAddDays(7,this)" style="font-size:.72rem">7 HK</div>
-            <div class="radio-btn" onclick="setAddDays(14,this)" style="font-size:.72rem">14 HK</div>
-            <div class="radio-btn" onclick="setAddDays(30,this)" style="font-size:.72rem">30 HK</div>
+        <div class="fld">
+          <label>Tambah Hari Kerja</label>
+          <div class="iw"><input type="number" id="t-hari" value="10" min="1" max="500"><span class="iu">hk</span></div>
+          <div class="presets">
+            <button class="pb" data-val="5" data-for="t-hari">5 hk</button>
+            <button class="pb on" data-val="10" data-for="t-hari">10 hk</button>
+            <button class="pb" data-val="20" data-for="t-hari">20 hk</button>
+            <button class="pb" data-val="30" data-for="t-hari">30 hk</button>
           </div>
-          <input type="number" id="add-days" value="7" min="1" max="365" oninput="calcAddDays()"/>
         </div>
-        <button class="calc-btn" onclick="calcAddDays()">➕ Cari Tanggal Deadline</button>
-        <div class="result-box" id="res1" style="display:none">
-          <div class="add-result-box">
-            <div class="arb-date" id="r1-date">—</div>
-            <div class="arb-sub" id="r1-day-name">—</div>
-          </div>
-          <div class="hk-stats" style="margin-top:10px">
-            <div class="hks-card"><div class="hc-label">Tanggal mulai</div><div class="hc-val" id="r1-start">—</div></div>
-            <div class="hks-card green"><div class="hc-label">Hari kerja ditambahkan</div><div class="hc-val" id="r1-added">—</div></div>
-            <div class="hks-card"><div class="hc-label">Hari kalender berlalu</div><div class="hc-val" id="r1-calendar">—</div></div>
-            <div class="hks-card"><div class="hc-label">Akhir pekan dilewati</div><div class="hc-val" id="r1-wknd">—</div></div>
-          </div>
-          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
-          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Tips SLA & Deadline:</div>
-          <div class="action-grid" id="r1-action-cards"></div>
+      </div>
+      <div class="fld">
+        <label>Sertakan Libur Nasional</label>
+        <div style="display:flex;gap:6px">
+          <button class="pb on" id="t-libur-inc" onclick="setTLibur(true)">✅ Ya (lewati libur)</button>
+          <button class="pb" id="t-libur-exc" onclick="setTLibur(false)">❌ Tidak</button>
         </div>
       </div>
 
-      <!-- TAB 2: Libur Nasional 2026 -->
-      <div class="hk-panel" id="hk2">
-        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:10px;line-height:1.5">
-          Daftar hari libur nasional Indonesia 2026. Libur yang jatuh di hari kerja (Senin–Jumat) ditandai hijau.
-        </div>
-        <div id="full-holiday-list" class="holiday-list"></div>
-        <div style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.78rem;color:var(--text-muted);line-height:1.5">
-          ⚠️ Tanggal hari raya Islam bersifat estimasi karena bergantung pada penentuan hilal. Konfirmasi jadwal resmi di <strong>kemenpan.go.id</strong> atau SKB 3 Menteri.
-        </div>
+      <div class="big-result grn">
+        <div class="br-lbl">Tanggal Deadline</div>
+        <div class="br-val" id="t-result">—</div>
+        <div class="br-sub" id="t-sub">—</div>
       </div>
 
+      <div class="lres grn">
+        <div class="rrows">
+          <div class="rr"><span>Mulai dari</span><span id="t-mulai-show">—</span></div>
+          <div class="rr"><span>Ditambah</span><span id="t-hari-show">—</span></div>
+          <div class="rr"><span>Tanggal deadline</span><span id="t-deadline-show">—</span></div>
+          <div class="rr"><span>Hari dalam seminggu</span><span id="t-dow-show">—</span></div>
+          <div class="rr"><span>Total hari kalender (termasuk weekend)</span><span id="t-kalender-show">—</span></div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Hari Kerja 2026 — Hitung Hari Senin–Jumat + Deadline</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung jumlah hari kerja antara dua tanggal, atau cari tahu tanggal setelah N hari kerja dari sekarang. Dilengkapi kalender libur nasional Indonesia 2026 dan breakdown per bulan.</p>
-
-    <h2>Hari Libur Nasional Indonesia 2026</h2>
-    <p>Berikut estimasi hari libur nasional 2026 berdasarkan kalender Masehi dan Hijriyah. Tanggal hari raya Islam dihitung berdasarkan konversi kalender Hijriyah 1447H — bersifat estimasi dan harus dikonfirmasi melalui pengumuman resmi pemerintah:</p>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Tanggal (Est.)</th><th>Nama Hari Libur</th><th>Hari</th></tr></thead>
-      <tbody>
-        <tr><td>1 Jan 2026</td><td>Tahun Baru Masehi</td><td>Kamis</td></tr>
-        <tr><td>27 Jan 2026</td><td>Tahun Baru Imlek 2577</td><td>Selasa</td></tr>
-        <tr><td>~18 Feb 2026</td><td>Isra Miraj Nabi Muhammad 1447H</td><td>Rabu (est.)</td></tr>
-        <tr><td>3 Apr 2026</td><td>Jumat Agung (Wafat Isa Almasih)</td><td>Jumat</td></tr>
-        <tr><td>~20 Mar 2026</td><td>Idul Fitri 1447H (hari pertama)</td><td>Jumat (est.)</td></tr>
-        <tr><td>~21 Mar 2026</td><td>Idul Fitri 1447H (hari kedua)</td><td>Sabtu (est.)</td></tr>
-        <tr><td>1 Mei 2026</td><td>Hari Buruh Internasional</td><td>Jumat</td></tr>
-        <tr><td>14 Mei 2026</td><td>Kenaikan Yesus Kristus</td><td>Kamis</td></tr>
-        <tr><td>~27 Mei 2026</td><td>Idul Adha 1447H</td><td>Rabu (est.)</td></tr>
-        <tr><td>1 Jun 2026</td><td>Hari Lahir Pancasila</td><td>Senin</td></tr>
-        <tr><td>~17 Jun 2026</td><td>Tahun Baru Islam 1448H</td><td>Rabu (est.)</td></tr>
-        <tr><td>5 Jun 2026</td><td>Hari Raya Waisak</td><td>Jumat</td></tr>
-        <tr><td>17 Agt 2026</td><td>HUT ke-81 Kemerdekaan RI</td><td>Senin</td></tr>
-        <tr><td>~5 Sep 2026</td><td>Maulid Nabi Muhammad 1448H</td><td>Sabtu (est.)</td></tr>
-        <tr><td>25 Des 2026</td><td>Hari Natal</td><td>Jumat</td></tr>
-      </tbody>
+<!-- ② DEADLINE PROYEK -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🎯</div>Simulasi Deadline Proyek <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan tanggal deadline dan lihat berapa hari kerja tersisa. Tambahkan beberapa deadline sekaligus untuk tracking proyek.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Nama Proyek / Tugas</label>
+        <div class="iw"><input type="text" id="dl-nama" value="Sprint Review" style="font-size:14px"></div>
+      </div>
+      <div class="fld">
+        <label>Tanggal Deadline</label>
+        <div class="iw"><input type="date" id="dl-tgl"></div>
+      </div>
+    </div>
+    <button onclick="addDeadline()" style="padding:8px 16px;background:var(--pri);color:white;border:none;border-radius:var(--rs);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;width:100%;margin-bottom:12px">＋ Tambah Deadline</button>
+    <table class="dl-tbl" id="dl-tbl">
+      <thead><tr><th>Proyek/Tugas</th><th>Deadline</th><th class="mo">Sisa HK</th><th>Status</th></tr></thead>
+      <tbody id="dl-tbody"></tbody>
     </table>
-    <p style="font-size:.78rem;color:var(--text-muted)">*Tanggal bertanda (est.) bergantung pada penentuan hilal/rukyat. Jadwal resmi dikonfirmasi melalui SKB 3 Menteri dan kemenpan.go.id. Total hari libur nasional 2026 diperkirakan sekitar 16–17 hari (belum termasuk cuti bersama).</p>
+    <div style="font-size:11px;color:var(--tx3);margin-top:8px">Klik baris untuk menghapus deadline.</div>
+  </div>
+</div>
 
-    <h2>Fitur Kalkulator Hari Kerja NovaCalcs</h2>
-    <ul>
-      <li><strong>Mode Hitung Rentang</strong> — Hitung hari kerja (Senin–Jumat) antara dua tanggal. Centang libur nasional yang ingin dikurangi langsung dari daftar, atau masukkan angka manual. Visualisasi bar menunjukkan proporsi hari kerja, akhir pekan, dan hari libur dari total kalender.</li>
-      <li><strong>Mode Tambah Hari Kerja</strong> — Masukkan tanggal mulai dan jumlah hari kerja yang ingin ditambahkan — kalkulator menampilkan tanggal hasil dan nama harinya. Berguna untuk menghitung deadline SLA, tenggat proyek, atau masa berlaku dokumen.</li>
-      <li><strong>Kalender Libur 2026</strong> — Tab terpisah menampilkan seluruh libur nasional 2026 lengkap dengan hari dan warna penanda apakah jatuh di hari kerja (hijau) atau akhir pekan (biru).</li>
-      <li><strong>Breakdown per bulan</strong> — Setelah menghitung rentang, hasil menampilkan estimasi hari kerja per bulan dalam rentang yang dipilih.</li>
-    </ul>
-
-    <h2>Cara Kerja Perhitungan Hari Kerja</h2>
-    <p>Kalkulator ini menghitung hari kerja dengan algoritma sebagai berikut:</p>
-    <ul>
-      <li>Iterasi setiap hari dalam rentang tanggal yang dipilih</li>
-      <li>Tandai hari Sabtu (getDay()=6) dan Minggu (getDay()=0) sebagai akhir pekan</li>
-      <li>Hari selain Sabtu-Minggu dihitung sebagai hari kerja</li>
-      <li>Kurangi jumlah libur nasional yang jatuh di hari kerja (sesuai input pengguna)</li>
-      <li>Hasilnya adalah hari kerja efektif</li>
-    </ul>
-
-    <h2>Referensi Cepat: Hari Kerja per Periode</h2>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Rentang Waktu</th><th>Hari Kalender</th><th>Hari Kerja (est.)</th><th>Hari Kerja Efektif 2026</th></tr></thead>
-      <tbody>
-        <tr><td>1 minggu</td><td>7</td><td>5</td><td>4–5 (tergantung libur)</td></tr>
-        <tr><td>1 bulan</td><td>28–31</td><td>20–23</td><td>18–22</td></tr>
-        <tr><td>1 kuartal</td><td>90–92</td><td>62–66</td><td>58–63</td></tr>
-        <tr><td>1 tahun (2026)</td><td>365</td><td>261</td><td>~244–246 (setelah ~16 libur)</td></tr>
-      </tbody>
-    </table>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa hari kerja dalam 1 bulan rata-rata?</div>
-      <div class="faq-a">Rata-rata 21–23 hari kerja per bulan, bergantung pada bulan dan hari mulai tanggal 1. Dalam 1 tahun penuh ada sekitar 261 hari kerja (365 − 104 akhir pekan). Setelah dikurangi sekitar 16 libur nasional yang jatuh di hari kerja, tersisa sekitar 245 hari kerja efektif per tahun.</div>
+<!-- ③ KALKULATOR CUTI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🏖️</div>Kalkulator Cuti Tahunan <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Pantau sisa cuti tahunan Anda. Hak cuti minimum per UU Ketenagakerjaan: 12 hari/tahun setelah 12 bulan bekerja.</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Total Jatah Cuti (hari/tahun)</label>
+        <div class="iw"><input type="number" id="cu-total" value="12" min="1" max="60"><span class="iu">hari</span></div>
+        <div class="presets">
+          <button class="pb on" data-val="12" data-for="cu-total">12 (min. UU)</button>
+          <button class="pb" data-val="14" data-for="cu-total">14</button>
+          <button class="pb" data-val="18" data-for="cu-total">18</button>
+          <button class="pb" data-val="24" data-for="cu-total">24</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Cuti Sudah Diambil (hari)</label>
+        <div class="iw"><input type="number" id="cu-diambil" value="4" min="0"><span class="iu">hari</span></div>
+        <div class="presets">
+          <button class="pb on" data-val="4" data-for="cu-diambil">4</button>
+          <button class="pb" data-val="6" data-for="cu-diambil">6</button>
+          <button class="pb" data-val="8" data-for="cu-diambil">8</button>
+          <button class="pb" data-val="10" data-for="cu-diambil">10</button>
+        </div>
+      </div>
     </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung SLA 3 hari kerja?</div>
-      <div class="faq-a">SLA 3 hari kerja berarti layanan diselesaikan dalam 3 hari Senin–Jumat, tidak termasuk akhir pekan dan libur nasional. Contoh: pengajuan masuk hari Kamis → hari kerja ke-1 = Jumat, ke-2 = Senin minggu depan, ke-3 = Selasa. Batas SLA adalah hari Selasa. Gunakan Mode "Tambah Hari Kerja" di kalkulator ini untuk menghitung deadline SLA secara otomatis.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah hari Sabtu termasuk hari kerja?</div>
-      <div class="faq-a">Untuk instansi pemerintah dan sebagian besar perusahaan formal, Sabtu bukan hari kerja — mereka menggunakan 5 hari kerja (Senin–Jumat), 37,5–40 jam/minggu. Namun sektor ritel, hospitality, manufaktur, dan beberapa perusahaan swasta menerapkan 6 hari kerja (Senin–Sabtu). Kalkulator ini menggunakan standar 5 hari kerja. Jika perusahaan Anda memakai 6 hari, tambahkan jumlah Sabtu dalam rentang secara manual ke kolom libur nasional dengan tanda negatif.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kapan Idul Fitri 2026?</div>
-      <div class="faq-a">Idul Fitri 1447H diperkirakan jatuh sekitar tanggal <strong>20–21 Maret 2026</strong>, berdasarkan perhitungan kalender Hijriyah. Setiap tahun Idul Fitri mundur sekitar 11 hari di kalender Masehi (karena kalender Islam lebih pendek 11 hari). Idul Fitri 2025 sekitar 30–31 Maret, sehingga 2026 sekitar 19–20 Maret. Tanggal pasti ditentukan melalui sidang isbat (penetapan hilal) pemerintah menjelang akhir Ramadan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung sisa cuti tahunan?</div>
-      <div class="faq-a">Untuk setiap periode cuti yang sudah diambil, hitung hari kerjanya menggunakan Mode Hitung Rentang. Jumlahkan semua hari kerja cuti yang sudah diambil, kurangi dari jatah cuti tahunan (umumnya 12 hari kerja/tahun sesuai UU Ketenagakerjaan). Penting: hari libur nasional yang jatuh di tengah periode cuti Anda tidak memotong jatah cuti — sehingga centang libur nasional di kalkulator ini saat menghitung periode cuti.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah cuti bersama memotong jatah cuti karyawan?</div>
-      <div class="faq-a">Ya. Cuti bersama yang ditetapkan pemerintah secara hukum memotong jatah cuti tahunan karyawan — bukan merupakan hari libur nasional tambahan yang gratis. Jika perusahaan memberlakukan cuti bersama sebagai hari tidak masuk yang dipotong cuti, kurangi dari jatah cuti tahunan Anda. Jumlah cuti bersama 2026 diperkirakan 6–8 hari, sehingga hari libur efektif (libur + cuti bersama) sekitar 22–25 hari.</div>
+    <div class="fld">
+      <label>Cuti Sudah Direncanakan (hari)</label>
+      <div class="iw"><input type="number" id="cu-plan" value="3" min="0"><span class="iu">hari</span></div>
     </div>
 
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/selisih-tanggal.html" class="related-item"><span class="ri">📆</span>Selisih Tanggal</a>
-      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
-      <a href="/id/kalkulator-thr.html" class="related-item"><span class="ri">🎁</span>Kalkulator THR</a>
-      <a href="/id/kalkulator-pesangon.html" class="related-item"><span class="ri">📋</span>Pesangon</a>
+    <div class="lres grn" style="margin-top:0">
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--grn);margin-bottom:6px">Sisa Cuti Efektif</div>
+        <div style="font-family:'DM Mono',monospace;font-size:32px;font-weight:800;color:var(--grn)" id="cu-sisa">—</div>
+        <div class="cuti-bar"><div class="cuti-fill" id="cu-bar" style="width:0%;background:var(--grn)"></div></div>
+        <div style="font-size:10px;color:var(--tx3)" id="cu-pct">—</div>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>Total jatah cuti</span><span id="cu-total-show">—</span></div>
+        <div class="rr"><span>Sudah diambil</span><span id="cu-diambil-show">—</span></div>
+        <div class="rr"><span>Sudah direncanakan</span><span id="cu-plan-show">—</span></div>
+        <div class="rr"><span>Sisa efektif</span><span id="cu-sisa2">—</span></div>
+      </div>
+    </div>
+    <div class="notice info" style="margin-top:10px">💡 Berdasarkan UU Ketenagakerjaan No. 13/2003 Pasal 79, pekerja berhak mendapat cuti minimum <strong>12 hari kerja per tahun</strong> setelah bekerja minimal 12 bulan. Cuti biasanya tidak bisa dikumpulkan melebihi batas tertentu — cek aturan perusahaan Anda.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Libur Nasional Indonesia 2026</div>
+    <div class="card-b">
+      <div class="flist" id="sb-libur-list"></div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Manajemen Waktu</div>
+    <div class="card-b">
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;gap:9px;font-size:12px"><span style="font-size:15px;flex-shrink:0">📅</span><span style="color:var(--tx2);line-height:1.5"><strong>Deadline kerja</strong> selalu hitung hari kerja, bukan hari kalender — "10 hari" bisa berarti 2 minggu kalender jika ada libur</span></div>
+        <div style="display:flex;gap:9px;font-size:12px"><span style="font-size:15px;flex-shrink:0">🏖️</span><span style="color:var(--tx2);line-height:1.5"><strong>Cuti bridge/jepit</strong> — cuti 1–2 hari setelah libur nasional bisa dapat long weekend 4–5 hari</span></div>
+        <div style="display:flex;gap:9px;font-size:12px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="color:var(--tx2);line-height:1.5"><strong>Masa percobaan (probation)</strong> — 3 bulan = ±65 hari kerja, bukan 90 hari kalender</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/selisih-tanggal" class="relc"><div class="relc-ico">📐</div><div class="relc-nm">Selisih Tanggal</div><div class="relc-ds">Perbedaan tanggal</div></a>
+        <a href="/id/kalkulator-thr" class="relc"><div class="relc-ico">💰</div><div class="relc-nm">THR</div><div class="relc-ds">Hitung THR</div></a>
+        <a href="/id/kalkulator-pesangon" class="relc"><div class="relc-ico">📜</div><div class="relc-nm">Pesangon</div><div class="relc-ds">Hitung pesangon</div></a>
+        <a href="/id/kalkulator-gaji-bersih" class="relc"><div class="relc-ico">💵</div><div class="relc-nm">Gaji Bersih</div><div class="relc-ds">Take-home pay</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Libur Nasional Indonesia &amp; Cara Hitung Hari Kerja</h2>
+  <p>Hari kerja di Indonesia adalah Senin–Jumat, tidak termasuk hari Sabtu, Minggu, dan hari libur nasional yang ditetapkan pemerintah. Untuk menghitung hari kerja antara dua tanggal, hitung semua hari dalam rentang tersebut, lalu kurangi jumlah hari Sabtu, Minggu, dan hari libur nasional yang jatuh pada hari kerja.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Berapa hari kerja dalam sebulan dan setahun?</div><div class="faq-a">Rata-rata: 1 bulan memiliki 20–23 hari kerja (tergantung libur nasional dan komposisi akhir pekan). Satu tahun memiliki sekitar 240–250 hari kerja setelah dikurangi akhir pekan dan libur nasional. Tahun 2026 diperkirakan memiliki sekitar 245–248 hari kerja efektif.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah Sabtu termasuk hari kerja di Indonesia?</div><div class="faq-a">Tergantung kebijakan perusahaan. Secara umum, sistem 5 hari kerja (Senin–Jumat) adalah yang paling umum. Beberapa perusahaan dan instansi pemerintah masih menerapkan 6 hari kerja (Senin–Sabtu) dengan jam kerja lebih pendek. Kalkulator ini menggunakan standar 5 hari kerja (Senin–Jumat).</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-// ── Libur Nasional 2026 (tanggal Islam = estimasi) ──
-const HOLIDAYS_2026 = [
-  { date:'2026-01-01', name:'Tahun Baru Masehi' },
-  { date:'2026-01-27', name:'Tahun Baru Imlek 2577' },
-  { date:'2026-02-18', name:'Isra Miraj 1447H (est.)' },
-  { date:'2026-03-20', name:'Idul Fitri 1447H — Hari 1 (est.)' },
-  { date:'2026-03-21', name:'Idul Fitri 1447H — Hari 2 (est.)' },
-  { date:'2026-04-03', name:'Jumat Agung (Wafat Isa Almasih)' },
-  { date:'2026-05-01', name:'Hari Buruh Internasional' },
-  { date:'2026-05-14', name:'Kenaikan Yesus Kristus' },
-  { date:'2026-05-27', name:'Idul Adha 1447H (est.)' },
-  { date:'2026-06-01', name:'Hari Lahir Pancasila' },
-  { date:'2026-06-05', name:'Hari Raya Waisak 2570' },
-  { date:'2026-06-17', name:'Tahun Baru Islam 1448H (est.)' },
-  { date:'2026-08-17', name:'HUT ke-81 Kemerdekaan RI' },
-  { date:'2026-09-05', name:'Maulid Nabi Muhammad 1448H (est.)' },
-  { date:'2026-12-25', name:'Hari Natal' },
+<script>
+const DAYS_ID=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const MONTHS_ID=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const today=new Date();today.setHours(0,0,0,0);
+
+// Libur nasional Indonesia 2026 (hari kerja yang libur)
+const LIBUR_2026=[
+  {tgl:'2026-01-01',nm:'Tahun Baru 2026',ico:'🎊'},
+  {tgl:'2026-01-27',nm:'Isra Mi\'raj',ico:'🕌'},
+  {tgl:'2026-01-29',nm:'Tahun Baru Imlek',ico:'🏮'},
+  {tgl:'2026-03-19',nm:'Cuti Bersama Idul Fitri',ico:'🕌'},
+  {tgl:'2026-03-20',nm:'Idul Fitri 1 Syawal 1447 H',ico:'🕌'},
+  {tgl:'2026-03-21',nm:'Idul Fitri 2 Syawal 1447 H',ico:'🕌'},
+  {tgl:'2026-03-22',nm:'Cuti Bersama Idul Fitri',ico:'🕌'},
+  {tgl:'2026-03-23',nm:'Cuti Bersama Idul Fitri',ico:'🕌'},
+  {tgl:'2026-03-28',nm:'Hari Suci Nyepi',ico:'🌸'},
+  {tgl:'2026-04-03',nm:'Jumat Agung',ico:'✝️'},
+  {tgl:'2026-04-06',nm:'Paskah',ico:'✝️'},
+  {tgl:'2026-05-01',nm:'Hari Buruh Internasional',ico:'👷'},
+  {tgl:'2026-05-12',nm:'Waisak 2570 BE',ico:'☸️'},
+  {tgl:'2026-05-21',nm:'Kenaikan Yesus Kristus',ico:'✝️'},
+  {tgl:'2026-05-27',nm:'Idul Adha 1447 H',ico:'🕌'},
+  {tgl:'2026-06-01',nm:'Hari Lahir Pancasila',ico:'🇮🇩'},
+  {tgl:'2026-06-17',nm:'Tahun Baru Islam 1448 H',ico:'🕌'},
+  {tgl:'2026-08-17',nm:'HUT Kemerdekaan RI ke-81',ico:'🇮🇩'},
+  {tgl:'2026-09-25',nm:'Maulid Nabi Muhammad SAW',ico:'🕌'},
+  {tgl:'2026-12-25',nm:'Hari Natal',ico:'🎄'},
 ];
+const LIBUR_SET=new Set(LIBUR_2026.map(l=>l.tgl));
 
-const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni',
-                'Juli','Agustus','September','Oktober','November','Desember'];
-const DAYS   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+function isWeekend(d){return d.getDay()===0||d.getDay()===6;}
+function isLibur(d){return LIBUR_SET.has(fmtInput(d));}
+function isHoliday(d){return isWeekend(d)||isLibur(d);}
 
-const fmt    = n => n.toLocaleString('id-ID');
-const fmtDate = d => `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+function fmtDate(d){if(!d||isNaN(d))return'—';return d.getDate()+' '+MONTHS_ID[d.getMonth()]+' '+d.getFullYear();}
+function fmtInput(d){if(!d||isNaN(d))return'';const m=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');return d.getFullYear()+'-'+m+'-'+dy;}
+function parseInput(id){const el=document.getElementById(id);if(!el||!el.value)return null;const d=new Date(el.value+'T00:00:00');return isNaN(d)?null:d;}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+function setToday(id){const el=document.getElementById(id);if(el){el.value=fmtInput(today);el.dispatchEvent(new Event('change'));}}
+function setFirstDay(id){const d=new Date(today.getFullYear(),today.getMonth(),1);const el=document.getElementById(id);if(el){el.value=fmtInput(d);el.dispatchEvent(new Event('change'));}}
+function setEndMonth(id){const d=new Date(today.getFullYear(),today.getMonth()+1,0);const el=document.getElementById(id);if(el){el.value=fmtInput(d);el.dispatchEvent(new Event('change'));}}
+function setEndYear(id){const d=new Date(today.getFullYear(),11,31);const el=document.getElementById(id);if(el){el.value=fmtInput(d);el.dispatchEvent(new Event('change'));}}
 
-// Build date picker
-function dpHTML(prefix) {
-  const yr  = new Date().getFullYear();
-  const opts = MONTHS.map((m,i) => `<option value="${i+1}">${m}</option>`).join('');
-  return `<div style="display:flex;gap:6px">
-    <input type="number" id="${prefix}-d" placeholder="Tgl" min="1" max="31" style="flex:1;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px;color:var(--text-primary);font-size:.875rem"/>
-    <select id="${prefix}-m" style="flex:1.5;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px;color:var(--text-primary);font-size:.875rem">
-      <option value="">Bulan</option>${opts}
-    </select>
-    <input type="number" id="${prefix}-y" placeholder="Tahun" min="2020" max="2035" style="flex:1.3;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px;color:var(--text-primary);font-size:.875rem"/>
-  </div>`;
-}
-function dpSet(prefix, date) {
-  document.getElementById(prefix+'-d').value = date.getDate();
-  document.getElementById(prefix+'-m').value = date.getMonth()+1;
-  document.getElementById(prefix+'-y').value = date.getFullYear();
-}
-function dpGet(prefix) {
-  const d = parseInt(document.getElementById(prefix+'-d').value);
-  const m = parseInt(document.getElementById(prefix+'-m').value);
-  const y = parseInt(document.getElementById(prefix+'-y').value);
-  if (!d||!m||!y) return null;
-  const dt = new Date(y, m-1, d);
-  return dt.getDate() === d ? dt : null;
-}
+let includeLibur=true;
+function setLiburMode(inc){includeLibur=inc;document.getElementById('libur-inc-btn').classList.toggle('on',inc);document.getElementById('libur-exc-btn').classList.toggle('on',!inc);calcHitung();}
 
-
-function applyPreset(type, btn) {
-  document.querySelectorAll('.hk-pre-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const now = new Date();
-  const yr = 2026;
-  let s, e;
-  if (type==='week') {
-    const day = now.getDay(); // 0=sun
-    s = new Date(now); s.setDate(now.getDate()-(day===0?6:day-1));
-    e = new Date(s); e.setDate(s.getDate()+6);
-  } else if (type==='month') {
-    s = new Date(now.getFullYear(), now.getMonth(), 1);
-    e = new Date(now.getFullYear(), now.getMonth()+1, 0);
-  } else if (type==='q1') { s=new Date(yr,0,1); e=new Date(yr,2,31); }
-  else if (type==='q2') { s=new Date(yr,3,1); e=new Date(yr,5,30); }
-  else if (type==='q3') { s=new Date(yr,6,1); e=new Date(yr,8,30); }
-  else if (type==='q4') { s=new Date(yr,9,1); e=new Date(yr,11,31); }
-  else { s=new Date(yr,0,1); e=new Date(yr,11,31); }
-  dpSet('start', s); dpSet('end', e);
-  calcRentang();
-}
-
-function showLiburDalamRentang(start, end) {
-  const inRange = HOLIDAYS_2026.filter(h => {
-    const d = new Date(h.date);
-    return d >= start && d < end;
-  });
-  const el = document.getElementById('libur-dalam-rentang');
-  if (inRange.length === 0) { el.style.display='none'; return; }
-  document.getElementById('libur-list-items').innerHTML = inRange.map(h => {
-    const d = new Date(h.date);
-    const wkd = isWeekday(d);
-    return `<div class="libur-item">
-      <div class="libur-dot" style="background:${wkd?'#f97316':'#60a5fa'}"></div>
-      <span style="color:var(--text-muted);font-size:.7rem;min-width:110px">${fmtDate(d)}</span>
-      <span style="flex:1">${h.name}</span>
-      <span style="font-size:.68rem;color:${wkd?'#f97316':'#60a5fa'}">${wkd?'Hari kerja':'Akhir pekan'}</span>
-    </div>`;
-  }).join('');
-  el.style.display='';
-}
-
-function buildHKActionCards(workdays, totalDays, holidays, containerId) {
-  let cards;
-  const perWeek = (workdays / (totalDays / 7)).toFixed(1);
-  if (totalDays <= 7) {
-    cards = [
-      {icon:'⏰',title:'Deadline minggu ini',desc:`${workdays} hari kerja tersisa minggu ini. Rencanakan prioritas tugas dari yang paling kritis.`},
-      {icon:'📋',title:'Cek SLA layanan',desc:'SLA 3 hari kerja dari hari ini? Gunakan tab "Tambah Hari Kerja" untuk cari tanggal deadline.'},
-      {icon:'🎯',title:'Focus time Selasa-Kamis',desc:'Senin & Jumat sering terganggu rapat. Selasa-Kamis adalah waktu kerja paling produktif.'},
-      {icon:'📱',title:'Set reminder deadline',desc:'Tandai deadline di kalender dengan alarm H-1 hari kerja agar tidak terlewat.'},
-    ];
-  } else if (totalDays <= 31) {
-    cards = [
-      {icon:'📅',title:perWeek+' hari kerja/minggu rata-rata',desc:`${workdays} hari kerja dalam ${totalDays} hari kalender. ${holidays} hari libur mengurangi produktivitas.`},
-      {icon:'🏖️',title:'Hitung sisa cuti',desc:'Libur nasional dalam rentang ini tidak memotong cuti. Cek tab libur untuk lihat mana yang jatuh di hari kerja.'},
-      {icon:'📊',title:'Rencanakan sprint',desc:'Dengan '+workdays+' hari kerja, bisa bagi menjadi '+Math.ceil(workdays/5)+' sprint @5 hari kerja untuk manajemen proyek.'},
-      {icon:'🗓️',title:'Booking meeting jauh hari',desc:'Hindari jadwal meeting di hari Senin setelah libur panjang — biasanya banyak backlog email.'},
-    ];
-  } else {
-    cards = [
-      {icon:'📊',title:workdays+' hari kerja efektif',desc:`Dalam ${Math.round(totalDays/30)} bulan ini, ada ${workdays} hari kerja produktif setelah dikurangi ${holidays} hari libur.`},
-      {icon:'🎯',title:'Tetapkan OKR per kuartal',desc:'Bagi target tahunan menjadi kuartal. Q1-Q4 2026 masing-masing punya ~60 hari kerja efektif.'},
-      {icon:'✈️',title:'Optimalkan cuti bersama',desc:'Cuti di jeda libur panjang (sebelum/sesudah Idul Fitri) bisa dapat 9–12 hari libur dengan hanya 3–4 hari cuti.'},
-      {icon:'📋',title:'Rencanakan project timeline',desc:'Gunakan hari kerja efektif (bukan hari kalender) untuk estimasi timeline proyek yang lebih akurat.'},
-    ];
-  }
-  const el = document.getElementById(containerId);
-  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
-}
-
-function buildSLAActionCards(days, endDate) {
-  const dayName = DAYS[endDate.getDay()];
-  const cards = [
-    {icon:'📋',title:'SLA '+days+' HK = '+fmtDate(endDate),desc:`Deadline jatuh hari ${dayName}. ${dayName==='Jumat'?'⚠️ Jumat sore bisa sibuk — usahakan kirim Kamis malam.':dayName==='Senin'?'Senin pagi banyak email backlog — kirim lebih awal.':'Hari yang baik untuk deadline.'}`},
-    {icon:'📧',title:'Kirim konfirmasi H-1',desc:'Kirim reminder ke pihak terkait H-1 hari kerja sebelum deadline agar tidak ada yang terkejut.'},
-    {icon:'⚡',title:'Buffer 1 hari kerja',desc:'Untuk SLA penting, tambahkan buffer 1 hari kerja ekstra untuk antisipasi masalah tak terduga.'},
-    {icon:'🗓️',title:'Catat di kalender tim',desc:'Share deadline ke Google Calendar tim sehingga semua orang bisa mempersiapkan diri dengan baik.'},
-  ];
-  const el = document.getElementById('r1-action-cards');
-  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
-}
-
-function switchTab(idx, btn) {
-  document.querySelectorAll('.hk-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.hk-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('hk' + idx).classList.add('active');
-}
-
-function isWeekday(date) { const d = date.getDay(); return d !== 0 && d !== 6; }
-
-// Build holiday checkboxes
-function buildHolidayCheckboxes() {
-  const container = document.getElementById('holiday-checkboxes');
-  container.innerHTML = HOLIDAYS_2026.map((h, i) => {
-    const d = new Date(h.date);
-    const wkday = isWeekday(d);
-    return `<label class="hl-item">
-      <input type="checkbox" id="hchk-${i}" onchange="calcRentang()"/>
-      <span class="hl-date">${fmtDate(d)}</span>
-      <span class="hl-name">${h.name}</span>
-      <span class="hl-day ${wkday ? 'weekday' : 'weekend'}">${DAYS[d.getDay()]}</span>
-    </label>`;
-  }).join('');
-}
-
-// Build full holiday list (tab 3)
-function buildFullHolidayList() {
-  const container = document.getElementById('full-holiday-list');
-  container.innerHTML = HOLIDAYS_2026.map(h => {
-    const d = new Date(h.date);
-    const wkday = isWeekday(d);
-    return `<div class="hl-item" style="cursor:default">
-      <span class="hl-date">${fmtDate(d)}</span>
-      <span class="hl-name">${h.name}</span>
-      <span class="hl-day ${wkday ? 'weekday' : 'weekend'}">${DAYS[d.getDay()]}</span>
-    </div>`;
-  }).join('');
-}
-
-// ── TAB 0: Hitung Rentang ──
-function calcRentang() {
-  const s = dpGet('start'), e = dpGet('end');
-  if (!s || !e) return;
-
-  const start = s <= e ? s : e;
-  const end   = s <= e ? e : s;
-
-  // Count checked holidays in range
-  let checkedHolidays = 0;
-  HOLIDAYS_2026.forEach((h, i) => {
-    const hd = new Date(h.date);
-    const chk = document.getElementById('hchk-' + i);
-    if (chk && chk.checked && hd >= start && hd < end && isWeekday(hd)) checkedHolidays++;
-  });
-  const manualHolidays = parseInt(document.getElementById('holidays-manual').value) || 0;
-  const totalHolidays  = checkedHolidays + manualHolidays;
-
-  const totalDays = Math.round((end - start) / 86400000);
-  let workdays = 0, weekends = 0;
-  const cur = new Date(start);
-  while (cur < end) {
-    if (isWeekday(cur)) workdays++; else weekends++;
-    cur.setDate(cur.getDate() + 1);
-  }
-  const effective = Math.max(0, workdays - totalHolidays);
-
-  document.getElementById('r0-workdays').textContent = fmt(effective);
-  document.getElementById('r0-label').textContent    = 'hari kerja efektif';
-  document.getElementById('r0-total').textContent    = fmt(totalDays) + ' hari';
-  document.getElementById('r0-wknd').textContent     = fmt(weekends) + ' hari';
-  document.getElementById('r0-holi').textContent     = fmt(totalHolidays) + ' hari';
-  document.getElementById('r0-eff').textContent      = fmt(effective) + ' hari';
-
-  // Bar
-  const wPct = Math.round(workdays / totalDays * 100);
-  const ePct = Math.round(weekends / totalDays * 100);
-  const hPct = 100 - wPct - ePct;
-  document.getElementById('r0-bar-w').style.width = wPct + '%';
-  document.getElementById('r0-bar-w').textContent = wPct > 12 ? 'Kerja ' + wPct + '%' : '';
-  document.getElementById('r0-bar-e').style.width = ePct + '%';
-  document.getElementById('r0-bar-e').textContent = ePct > 10 ? 'Weekend ' + ePct + '%' : '';
-  document.getElementById('r0-bar-h').style.width = hPct + '%';
-  document.getElementById('r0-bar-h').textContent = hPct > 5 ? 'Libur' : '';
-
-  // Monthly breakdown
-  const months = {};
-  const cur2   = new Date(start);
-  while (cur2 < end) {
-    if (isWeekday(cur2)) {
-      const key = `${cur2.getFullYear()}-${cur2.getMonth()}`;
-      months[key] = (months[key] || 0) + 1;
+// ① HITUNG HARI KERJA
+function calcHitung(){
+  const d1=parseInput('h-mulai'),d2=parseInput('h-akhir');
+  if(!d1||!d2)return;
+  const totalHari=Math.round((d2-d1)/(1000*60*60*24))+1;
+  let weekend=0,libur=0,hk=0;
+  const liburInRange=[];
+  const cur=new Date(d1);
+  while(cur<=d2){
+    if(cur.getDay()===0||cur.getDay()===6)weekend++;
+    else{
+      if(includeLibur&&isLibur(cur)){libur++;liburInRange.push({...LIBUR_2026.find(l=>l.tgl===fmtInput(cur))});}
+      else hk++;
     }
-    cur2.setDate(cur2.getDate() + 1);
+    cur.setDate(cur.getDate()+1);
   }
-  const mbEl = document.getElementById('r0-month-breakdown');
-  const mKeys = Object.keys(months);
-  if (mKeys.length > 1) {
-    const maxM = Math.max(...Object.values(months));
-    mbEl.innerHTML = '<div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin:12px 0 6px">Breakdown per Bulan</div>' +
-      mKeys.map(k => {
-        const [yr, mo] = k.split('-').map(Number);
-        const v = months[k];
-        return `<div class="mb-row">
-          <span class="mb-month">${MONTHS[mo]} ${yr}</span>
-          <div class="mb-track"><div class="mb-fill" style="width:${(v/maxM*100).toFixed(0)}%"></div></div>
-          <span class="mb-val">${v} HK</span>
-        </div>`;
-      }).join('');
-  } else {
-    mbEl.innerHTML = '';
+  if(!includeLibur)hk=totalHari-weekend;
+
+  set('h-hk',hk.toLocaleString('id-ID'));
+  set('h-hk-sub','dari '+totalHari+' hari kalender');
+  set('h-total',totalHari.toLocaleString('id-ID'));
+  set('h-weekend',weekend.toLocaleString('id-ID'));
+  set('h-libur',includeLibur?libur.toLocaleString('id-ID'):'—');
+  set('h-mgg-kerja',Math.floor(hk/5).toLocaleString('id-ID'));
+  set('h-bln-est',(hk/21).toFixed(1));
+  set('h-mulai-show',fmtDate(d1)+' ('+DAYS_ID[d1.getDay()]+')');
+  set('h-akhir-show',fmtDate(d2)+' ('+DAYS_ID[d2.getDay()]+')');
+  set('h-total2',totalHari+' hari');set('h-weekend2',weekend+' hari');
+  set('h-libur2',includeLibur?libur+' hari':'Tidak dihitung');set('h-hk2',hk+' hari');
+
+  // Show holidays in range
+  const lbl=document.getElementById('hol-in-range-lbl');
+  const wrap=document.getElementById('hol-in-range');
+  if(lbl&&wrap){
+    if(liburInRange.length>0&&includeLibur){
+      lbl.style.display='block';
+      wrap.innerHTML=liburInRange.map(l=>`<div class="hol-row include">${l.ico||'📅'} ${l.nm} — ${l.tgl}</div>`).join('');
+    } else {lbl.style.display='none';wrap.innerHTML='';}
   }
-
-  document.getElementById('r0-advice').innerHTML =
-    `📅 Rentang <strong>${fmtDate(start)}</strong> – <strong>${fmtDate(end)}</strong>: total <strong>${fmt(totalDays)} hari kalender</strong>, <strong>${fmt(workdays)} hari kerja</strong> (sebelum libur), <strong>${fmt(effective)} hari kerja efektif</strong> setelah dikurangi ${fmt(totalHolidays)} hari libur.`;
-
-  showLiburDalamRentang(start, end);
-  buildHKActionCards(effective, totalDays, totalHolidays, 'r0-action-cards');
-  document.getElementById('res0').style.display = 'block';
-  document.getElementById('res0').classList.add('show');
 }
 
-// ── TAB 1: Tambah Hari Kerja ──
-function setAddDays(n, btn) {
-  document.getElementById('add-days').value = n;
-  document.querySelectorAll('#hk1 .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  calcAddDays();
-}
-
-function calcAddDays() {
-  const start = dpGet('add-start');
-  const days  = parseInt(document.getElementById('add-days').value) || 7;
-  if (!start) return;
-
-  let added = 0, calDays = 0;
-  const cur = new Date(start);
-  while (added < days) {
-    cur.setDate(cur.getDate() + 1);
-    calDays++;
-    if (isWeekday(cur)) added++;
+// ② TAMBAH HARI KERJA
+let tLibur=true;
+function setTLibur(inc){tLibur=inc;document.getElementById('t-libur-inc').classList.toggle('on',inc);document.getElementById('t-libur-exc').classList.toggle('on',!inc);calcTambah();}
+function calcTambah(){
+  const d=parseInput('t-mulai');
+  const hk=parseInt(document.getElementById('t-hari')?.value)||0;
+  if(!d)return;
+  let count=0,cur=new Date(d);cur.setDate(cur.getDate()+1);
+  let kalender=0;
+  while(count<hk){
+    kalender++;
+    if(!isWeekend(cur)&&(!tLibur||!isLibur(cur)))count++;
+    if(count<hk)cur.setDate(cur.getDate()+1);
   }
-  const weekendsSkipped = calDays - added;
-
-  document.getElementById('r1-date').textContent    = fmtDate(cur);
-  document.getElementById('r1-day-name').textContent = DAYS[cur.getDay()] + ' — ' + days + ' hari kerja dari tanggal mulai';
-  document.getElementById('r1-start').textContent   = fmtDate(start);
-  document.getElementById('r1-added').textContent   = days + ' hari kerja';
-  document.getElementById('r1-calendar').textContent = calDays + ' hari kalender';
-  document.getElementById('r1-wknd').textContent    = weekendsSkipped + ' hari';
-
-  document.getElementById('r1-advice').innerHTML =
-    `🗓️ <strong>${days} hari kerja</strong> dari <strong>${fmtDate(start)}</strong> jatuh pada <strong>${fmtDate(cur)} (${DAYS[cur.getDay()]})</strong>. Secara kalender, ini berarti ${calDays} hari (termasuk ${weekendsSkipped} hari akhir pekan yang dilewati).`;
-
-  buildSLAActionCards(days, cur);
-  document.getElementById('res1').style.display = 'block';
-  document.getElementById('res1').classList.add('show');
+  set('t-result',fmtDate(cur));
+  set('t-sub',DAYS_ID[cur.getDay()]);
+  set('t-mulai-show',fmtDate(d));
+  set('t-hari-show','+'+hk+' hari kerja');
+  set('t-deadline-show',fmtDate(cur)+' ('+DAYS_ID[cur.getDay()]+')');
+  set('t-dow-show',DAYS_ID[cur.getDay()]);
+  set('t-kalender-show',kalender+' hari');
 }
 
-// Init
-window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('start-picker').innerHTML    = dpHTML('start');
-  document.getElementById('end-picker').innerHTML      = dpHTML('end');
-  document.getElementById('add-start-picker').innerHTML = dpHTML('add-start');
+// ③ DEADLINE PROYEK
+let deadlines=[];
+function addDeadline(){
+  const nm=document.getElementById('dl-nama')?.value||'Deadline';
+  const tgl=parseInput('dl-tgl');
+  if(!tgl)return;
+  deadlines.push({nm,tgl});
+  renderDeadlines();
+}
+function renderDeadlines(){
+  const tbody=document.getElementById('dl-tbody');if(!tbody)return;
+  tbody.innerHTML=deadlines.map((d,i)=>{
+    let hkSisa=0;const cur=new Date(today);
+    if(d.tgl>today){while(cur<=d.tgl){if(!isWeekend(cur)&&!isLibur(cur))hkSisa++;cur.setDate(cur.getDate()+1);}}
+    const past=d.tgl<today;
+    const near=hkSisa<=3&&!past;
+    return`<tr class="${past?'':''}${near?' near':''}${hkSisa>5&&!past?' ok':''}" onclick="deadlines.splice(${i},1);renderDeadlines()" style="cursor:pointer" title="Klik untuk hapus">
+      <td>${d.nm}</td>
+      <td>${fmtDate(d.tgl)}</td>
+      <td class="mo">${past?'Lewat':hkSisa}</td>
+      <td style="font-size:10px">${past?'⏰ Sudah lewat':near?'🔴 Segera!':hkSisa<=10?'🟡 Segera':'🟢 Aman'}</td>
+    </tr>`;
+  }).join('');
+  if(deadlines.length===0)tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--tx3);padding:14px">Belum ada deadline. Tambahkan di atas.</td></tr>';
+}
 
-  const today = new Date();
-  dpSet('end', today);
-  const monthAgo = new Date(today); monthAgo.setMonth(today.getMonth() - 1);
-  dpSet('start', monthAgo);
-  dpSet('add-start', today);
+// ④ CUTI
+function calcCuti(){
+  const total=parseInt(document.getElementById('cu-total')?.value)||12;
+  const diambil=parseInt(document.getElementById('cu-diambil')?.value)||0;
+  const plan=parseInt(document.getElementById('cu-plan')?.value)||0;
+  const sisa=total-diambil-plan;
+  const pct=total>0?((diambil+plan)/total*100).toFixed(0):0;
+  set('cu-sisa',Math.max(0,sisa)+' hari');
+  const bar=document.getElementById('cu-bar');
+  if(bar){bar.style.width=Math.min(100,pct)+'%';bar.style.background=sisa<=2?'var(--red)':sisa<=5?'var(--pri)':'var(--grn)';}
+  set('cu-pct',pct+'% cuti sudah digunakan/direncanakan');
+  set('cu-total-show',total+' hari');set('cu-diambil-show',diambil+' hari');
+  set('cu-plan-show',plan+' hari');set('cu-sisa2',Math.max(0,sisa)+' hari');
+}
 
-  buildHolidayCheckboxes();
-  buildFullHolidayList();
+// Sidebar libur list
+function renderSbLibur(){
+  const wrap=document.getElementById('sb-libur-list');if(!wrap)return;
+  wrap.innerHTML=LIBUR_2026.slice(0,8).map(l=>`<div class="frow">
+    <div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn" style="font-size:11px">${l.ico} ${l.nm}</div></div></div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--pri)">${l.tgl.slice(5).replace('-','/')}</div>
+  </div>`).join('')+'<div style="font-size:10px;color:var(--tx3);margin-top:6px;padding:0 11px">+'+( LIBUR_2026.length-8)+' lainnya</div>';
+}
+
+// Default dates
+setToday('h-mulai');
+setEndMonth('h-akhir');
+setToday('t-mulai');
+(function(){const dl=new Date(today);dl.setDate(dl.getDate()+7);const el=document.getElementById('dl-tgl');if(el)el.value=fmtInput(dl);}());
+
+// Tabs
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
 });
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.querySelectorAll('.pb[data-for]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+document.getElementById('h-mulai')?.addEventListener('change',calcHitung);
+document.getElementById('h-akhir')?.addEventListener('change',calcHitung);
+document.getElementById('t-mulai')?.addEventListener('change',calcTambah);
+document.getElementById('t-hari')?.addEventListener('input',calcTambah);
+['cu-total','cu-diambil','cu-plan'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcCuti));
+renderDeadlines();renderSbLibur();calcHitung();calcTambah();calcCuti();
 </script>
 </body>
 </html>

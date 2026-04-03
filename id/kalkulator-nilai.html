@@ -1,431 +1,546 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Nilai Rata-rata 2026 — Hitung Rata-rata Nilai Ujian & Rapor | NovaCalcs</title>
-<meta name="description" content="Hitung rata-rata nilai ujian, rapor, atau UTS/UAS dengan bobot berbeda. Cari nilai minimum yang dibutuhkan untuk mencapai target, dan simulasi skenario nilai."/>
-<meta name="keywords" content="kalkulator nilai, rata-rata nilai, hitung nilai rapor, nilai akhir semester, weighted average, rata-rata tertimbang, target nilai UAS"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-nilai.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-nilai.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.score-row{display:grid;grid-template-columns:1fr 80px 80px 36px;gap:8px;align-items:center;margin-bottom:8px}
-.score-row input{width:100%}
-.del-btn{background:#ff4d4d22;border:1px solid #ff4d4d44;color:#ff7777;border-radius:6px;cursor:pointer;font-size:1.1rem;padding:6px}
-.add-score-btn{background:transparent;border:1px dashed #00C9B1;color:#00C9B1;border-radius:8px;padding:8px;width:100%;cursor:pointer;font-size:.9rem;margin-bottom:12px;font-family:inherit}
-.score-header{display:grid;grid-template-columns:1fr 80px 80px 36px;gap:8px;font-size:.75rem;color:#6b7c8d;margin-bottom:4px}
-.mode-info{font-size:.8rem;color:#8fa3b1;margin-bottom:.6rem;padding:.4rem .6rem;background:rgba(255,255,255,.04);border-radius:6px}
-.grade-bar-wrap{margin:.7rem 0}
-.grade-bar{height:14px;border-radius:7px;overflow:hidden;background:rgba(255,255,255,.07);margin:.3rem 0}
-.grade-fill{height:100%;border-radius:7px;transition:width .5s}
-.grade-markers{position:relative;height:10px;margin-top:2px}
-.gm{position:absolute;top:0;width:1px;height:6px;background:rgba(255,255,255,.2)}
-.gm-label{position:absolute;top:6px;font-size:.6rem;color:#6b7c8d;transform:translateX(-50%)}
-.target-row{display:grid;grid-template-columns:1fr 80px 80px;gap:8px;align-items:center;margin-bottom:8px;font-size:.83rem}
-.target-row.heading{font-size:.75rem;color:#6b7c8d;margin-bottom:4px}
-.target-done{color:#00C9B1}.target-missing{color:#ef4444}
-.sim-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.75rem;margin:.4rem 0}
-.sim-card.pass{border-color:rgba(0,201,177,.3);background:rgba(0,201,177,.06)}
-.sim-card.fail{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.06)}
-.sim-card h4{margin:0 0 .25rem;font-size:.85rem}
-.sim-card p{margin:0;font-size:.78rem;color:#8fa3b1}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Nilai 2026 — Hitung Nilai Akhir, Nilai Minimal UAS & Konversi Huruf | NovaCalcs</title>
+  <meta name="description" content="Kalkulator nilai 2026: hitung nilai akhir berdasarkan komponen tugas/UTS/UAS, cek apakah lulus KKM, hitung nilai minimal yang dibutuhkan, dan konversi ke huruf/GPA. Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-nilai">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:40px}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* KOMPONEN ROWS */
+    .komp-wrap{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-bottom:14px}
+    .komp-head{background:var(--sur2);display:grid;grid-template-columns:1fr 80px 80px 36px;gap:8px;padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .komp-row{display:grid;grid-template-columns:1fr 80px 80px 36px;gap:8px;padding:8px 14px;border-bottom:1px solid var(--bor);align-items:center}
+    .komp-row:last-child{border-bottom:none}
+    .komp-nm{font-size:12px;font-weight:600}
+    .komp-inp{padding:5px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:13px;font-weight:700;text-align:center;background:var(--sur);outline:none;appearance:none;width:100%}
+    .komp-inp:focus{border-color:var(--pri)}
+    .komp-del{background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);padding:2px;border-radius:4px;transition:all .15s}
+    .komp-del:hover{color:var(--red);background:var(--red-b)}
+    .add-komp-btn{padding:7px 14px;border:1.5px dashed var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);width:100%;transition:all .15s}
+    .add-komp-btn:hover{border-color:var(--pri);color:var(--pri)}
+    /* SCORE DISPLAY */
+    .score-big{text-align:center;padding:20px;background:var(--sur2);border-radius:var(--r);margin:14px 0}
+    .score-num{font-family:'DM Mono',monospace;font-size:56px;font-weight:800;line-height:1;transition:color .3s}
+    .score-grade{font-size:24px;font-weight:800;margin-top:4px}
+    .score-status{font-size:13px;font-weight:700;margin-top:6px;padding:4px 14px;border-radius:20px;display:inline-block}
+    /* PROGRESS BAR */
+    .score-bar-wrap{margin:6px 0 14px}
+    .score-bar-bg{height:10px;background:var(--sur2);border-radius:5px;overflow:hidden}
+    .score-bar-fill{height:100%;border-radius:5px;transition:width .4s,background .3s}
+    /* RESULT */
+    .lres{border-radius:var(--r);padding:16px;border:1.5px solid;margin-top:0}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none;font-weight:700;padding-top:8px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* KONVERSI TABLE */
+    .conv-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .conv-tbl th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .conv-tbl td{padding:7px 10px;border-bottom:1px solid var(--bor)}
+    .conv-tbl tr:last-child td{border-bottom:none}
+    .conv-tbl tr.current td{font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    /* MULTI MAPEL */
+    .mapel-row{display:grid;grid-template-columns:1fr 70px 70px 36px;gap:8px;padding:8px 0;border-bottom:1px solid var(--bor);align-items:center;font-size:12px}
+    .mapel-row:last-child{border-bottom:none}
+    .mapel-inp{padding:5px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:12px;font-weight:700;text-align:center;background:var(--sur);outline:none;appearance:none;width:100%}
+    .mapel-inp:focus{border-color:var(--pri)}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Nilai</span>
-    </nav>
+
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Nilai</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">📚 Pendidikan</div>
+  <h1 class="hdr-h1">Kalkulator Nilai 2026</h1>
+  <p class="hdr-sub">Hitung nilai akhir berdasarkan komponen tugas/UTS/UAS, cek apakah lulus KKM, hitung nilai minimal yang dibutuhkan di ujian, dan konversi ke huruf. Cocok untuk SD, SMP, SMA, dan kuliah.</p>
+  <div class="pstrip">
+    <div class="pchip">KKM <span>Nilai minimum lulus</span></div>
+    <div class="pchip">Tugas/UTS/UAS <span>bobot custom</span></div>
+    <div class="pchip">Predikat <span>A–E / 4.0 GPA</span></div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">📝 Kalkulator Nilai</div>
-      <div class="calc-subtitle">Hitung nilai akhir, cari target, dan simulasi skenario</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-nilai',this)">📊 Nilai Akhir</button>
-        <button class="tab-btn" onclick="showTab('tab-target',this)">🎯 Target Nilai</button>
-        <button class="tab-btn" onclick="showTab('tab-sim',this)">🔮 Simulator</button>
-      </div>
+<main class="main">
+<div class="left-col">
 
-      <!-- TAB 1: NILAI AKHIR -->
-      <div id="tab-nilai" class="tab-pane active">
-        <div class="field">
-          <label>Mode Perhitungan</label>
-          <div class="radio-group">
-            <div class="radio-btn active" id="btn-simple" onclick="setMode('simple')">Rata-rata Biasa</div>
-            <div class="radio-btn" id="btn-weighted" onclick="setMode('weighted')">Rata-rata Berbobot</div>
-          </div>
-        </div>
-        <p class="mode-info" id="mode-desc">Rata-rata semua nilai dengan bobot yang sama</p>
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📝</div>Kalkulator Nilai Akhir</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="akhir">📊 Nilai Akhir</button>
+      <button class="tbtn" data-tab="minimal">🎯 Nilai Minimal UAS</button>
+    </div>
 
-        <div id="scores">
-          <div class="score-header">
-            <span>Komponen / Ujian</span>
-            <span>Nilai (0–100)</span>
-            <span id="weight-header" style="display:none">Bobot (%)</span>
-            <span></span>
-          </div>
-        </div>
-        <button class="add-score-btn" onclick="addScore()">+ Tambah Komponen</button>
-        <button class="calc-btn" onclick="calculate()">Hitung Nilai Akhir</button>
-
-        <div class="result-panel" id="result">
-          <div class="result-main">
-            <div class="result-value" id="res-avg">—</div>
-            <div class="result-label">Nilai Rata-rata Akhir</div>
-            <div class="result-badge" id="res-badge"></div>
-          </div>
-
-          <!-- Grade Bar -->
-          <div class="grade-bar-wrap">
-            <div class="grade-bar">
-              <div class="grade-fill" id="grade-fill" style="width:0%;background:#00C9B1"></div>
-            </div>
-            <div class="grade-markers">
-              <div class="gm" style="left:60%"><div class="gm-label" style="left:0">60</div></div>
-              <div class="gm" style="left:70%"><div class="gm-label" style="left:0">70</div></div>
-              <div class="gm" style="left:80%"><div class="gm-label" style="left:0">80</div></div>
-              <div class="gm" style="left:90%"><div class="gm-label" style="left:0">90</div></div>
-            </div>
-          </div>
-
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">Nilai tertinggi</span><span class="rval" id="res-max">—</span></div>
-            <div class="result-row"><span class="rkey">Nilai terendah</span><span class="rval" id="res-min">—</span></div>
-            <div class="result-row"><span class="rkey">Jumlah komponen</span><span class="rval" id="res-count">—</span></div>
-            <div class="result-row" id="weight-row" style="display:none"><span class="rkey">Total bobot</span><span class="rval" id="res-weight">—</span></div>
-          </div>
+    <!-- NILAI AKHIR -->
+    <div class="tpanel on" id="tab-akhir">
+      <div class="fld">
+        <label>KKM / Nilai Minimum Lulus</label>
+        <div class="iw"><input type="number" id="a-kkm" value="75" min="0" max="100" step="1"><span class="iu">/ 100</span></div>
+        <div class="presets">
+          <button class="pb" data-val="65" data-for="a-kkm">65</button>
+          <button class="pb" data-val="70" data-for="a-kkm">70</button>
+          <button class="pb on" data-val="75" data-for="a-kkm">75</button>
+          <button class="pb" data-val="80" data-for="a-kkm">80</button>
         </div>
       </div>
 
-      <!-- TAB 2: TARGET NILAI -->
-      <div id="tab-target" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:.75rem">Cari tahu nilai minimum yang dibutuhkan pada komponen yang belum selesai agar mencapai nilai target.</p>
-        <div class="field"><label>Target Nilai Akhir</label><input type="number" id="tg-target" placeholder="Contoh: 80" min="0" max="100" value="80"/></div>
+      <div class="sec-lbl">Komponen Nilai & Bobot</div>
+      <div class="komp-wrap">
+        <div class="komp-head">
+          <span>Komponen</span><span style="text-align:center">Nilai</span><span style="text-align:center">Bobot%</span><span></span>
+        </div>
+        <div id="komp-rows"></div>
+      </div>
+      <button class="add-komp-btn" onclick="addKomp()">＋ Tambah Komponen</button>
+      <div id="bobot-warning" class="notice warn" style="display:none;margin-top:8px">⚠️ Total bobot harus 100%. Saat ini: <span id="bobot-total">0</span>%</div>
 
-        <div id="tg-scores">
-          <div class="target-row heading">
-            <span>Komponen</span><span>Nilai</span><span>Bobot (%)</span>
+      <!-- Score Display -->
+      <div class="score-big" id="a-score-big">
+        <div class="score-num" id="a-score-num" style="color:var(--grn)">—</div>
+        <div class="score-grade" id="a-score-grade" style="color:var(--grn)">—</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar-bg" style="margin:8px 0 4px">
+            <div class="score-bar-fill" id="a-score-bar" style="width:0%;background:var(--grn)"></div>
           </div>
         </div>
-        <button class="add-score-btn" onclick="addTargetRow()">+ Tambah Komponen</button>
-        <small style="color:#7a8fa0;display:block;margin-bottom:.75rem">Komponen yang belum selesai: kosongkan kolom Nilai, isi Bobot</small>
-        <button class="calc-btn" onclick="calculateTarget()">Cari Nilai Minimum</button>
+        <div class="score-status" id="a-score-status">—</div>
+      </div>
 
-        <div id="tg-result" style="display:none;margin-top:1rem">
-          <div id="tg-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.6rem;line-height:1.5"></div>
-          <div id="tg-cards"></div>
+      <div class="lres" id="a-lres" style="background:var(--grn-b);border-color:#86efac">
+        <div class="rrows">
+          <div class="rr"><span>Nilai akhir tertimbang</span><span id="a-final">—</span></div>
+          <div class="rr"><span>Predikat</span><span id="a-predikat">—</span></div>
+          <div class="rr"><span>KKM</span><span id="a-kkm-show">—</span></div>
+          <div class="rr"><span>Status</span><span id="a-status">—</span></div>
+          <div class="rr"><span>Selisih dari KKM</span><span id="a-selisih">—</span></div>
+        </div>
+      </div>
+      <div class="notice">* Bobot total harus 100%. Nilai akhir = Σ(nilai × bobot/100). Pastikan bobot sesuai silabus atau peraturan sekolah/kampus Anda.</div>
+    </div>
+
+    <!-- NILAI MINIMAL UAS -->
+    <div class="tpanel" id="tab-minimal">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Berapa nilai minimum yang harus kamu capai di UAS agar mendapat nilai akhir sesuai target?</p>
+      <div class="fld">
+        <label>Nilai Tugas / Harian</label>
+        <div class="iw"><input type="number" id="m-tugas" value="80" min="0" max="100" step="0.5"><span class="iu">/ 100</span></div>
+      </div>
+      <div class="fld">
+        <label>Nilai UTS</label>
+        <div class="iw"><input type="number" id="m-uts" value="75" min="0" max="100" step="0.5"><span class="iu">/ 100</span></div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>Bobot Tugas (%)</label>
+          <div class="iw"><input type="number" id="m-w-tugas" value="30" min="0" max="100"><span class="iu">%</span></div>
+        </div>
+        <div class="fld">
+          <label>Bobot UTS (%)</label>
+          <div class="iw"><input type="number" id="m-w-uts" value="30" min="0" max="100"><span class="iu">%</span></div>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Target Nilai Akhir</label>
+        <div class="iw"><input type="number" id="m-target" value="80" min="0" max="100" step="1"><span class="iu">/ 100</span></div>
+        <div class="presets">
+          <button class="pb" data-val="75" data-for="m-target">KKM (75)</button>
+          <button class="pb on" data-val="80" data-for="m-target">B (80)</button>
+          <button class="pb" data-val="85" data-for="m-target">B+ (85)</button>
+          <button class="pb" data-val="90" data-for="m-target">A (90)</button>
         </div>
       </div>
 
-      <!-- TAB 3: SIMULATOR -->
-      <div id="tab-sim" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:.75rem">Simulasikan berbagai skenario nilai untuk melihat dampaknya terhadap nilai akhir.</p>
-        <div class="field"><label>Sistem Penilaian</label>
-          <select id="sim-system" onchange="loadSimPreset()">
-            <option value="kampus">Kampus Umum (Tugas 20%, UTS 30%, UAS 50%)</option>
-            <option value="sma">SMA (Tugas 20%, PTS 30%, PAS 50%)</option>
-            <option value="sma3">SMA 3 komponen (Ulangan 40%, PTS 30%, PAS 30%)</option>
-            <option value="custom">Custom</option>
-          </select>
+      <div class="lres" id="m-lres" style="background:var(--pri-l);border-color:#ffd4b3;margin-top:14px">
+        <div style="text-align:center;padding:10px 0 14px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--pri);margin-bottom:6px">Nilai Minimal UAS yang Dibutuhkan</div>
+          <div style="font-family:'DM Mono',monospace;font-size:42px;font-weight:800;color:var(--pri)" id="m-uas-min">—</div>
+          <div style="font-size:11px;color:var(--tx3);margin-top:4px" id="m-uas-sub">—</div>
         </div>
-        <div id="sim-rows" style="margin-bottom:.75rem"></div>
-        <button class="calc-btn" onclick="runSimulator()">Simulasikan</button>
-        <div id="sim-result" style="display:none;margin-top:1rem">
-          <div id="sim-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.6rem;line-height:1.5"></div>
-          <div id="sim-scenarios"></div>
+        <div class="rrows">
+          <div class="rr"><span>Nilai sebelum UAS</span><span id="m-sebelum">—</span></div>
+          <div class="rr"><span>Bobot UAS tersisa</span><span id="m-w-uas-show">—</span></div>
+          <div class="rr"><span>Target nilai akhir</span><span id="m-target-show">—</span></div>
+          <div class="rr"><span>Nilai UAS minimal</span><span id="m-uas-min2">—</span></div>
         </div>
       </div>
-
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator Nilai Rata-rata — Hitung Nilai Rapor, UTS/UAS, dan Nilai Akhir Semester</h1>
-    <p class="page-desc">Kalkulator nilai ini membantu siswa dan mahasiswa menghitung nilai akhir dengan mudah, mencari nilai minimum yang dibutuhkan untuk lulus, dan mensimulasikan berbagai skenario nilai berdasarkan bobot komponen.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Rata-rata Biasa vs Rata-rata Berbobot — Apa Bedanya?</h2>
-    <p>Rata-rata biasa menganggap semua nilai memiliki bobot yang sama — cocok untuk menghitung rata-rata nilai kuis atau latihan. Rata-rata berbobot memberikan bobot persentase berbeda untuk setiap komponen, mencerminkan sistem penilaian nyata di sekolah dan kampus di mana UAS biasanya berbobot lebih besar dari tugas harian.</p>
-    <p>Contoh umum sistem penilaian kampus: Tugas 20%, UTS 30%, UAS 50%. Jika nilai Anda Tugas 90, UTS 75, UAS 80, maka nilai akhir = (90×20% + 75×30% + 80×50%) = 18 + 22,5 + 40 = <strong>80,5</strong>.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li><strong>Tab Nilai Akhir:</strong> Pilih mode rata-rata biasa atau berbobot, tambahkan komponen nilai, lalu hitung nilai akhir beserta nilai hurufnya.</li>
-      <li><strong>Tab Target Nilai:</strong> Masukkan target nilai akhir dan komponen yang sudah selesai. Kalkulator akan menghitung nilai minimum yang dibutuhkan pada komponen yang belum selesai.</li>
-      <li><strong>Tab Simulator:</strong> Pilih sistem penilaian (kampus, SMA, atau custom) dan simulasikan berbagai skenario nilai untuk melihat dampaknya terhadap nilai akhir.</li>
-    </ol>
-
-    <h2>Rumus Perhitungan Nilai</h2>
-    <table>
-      <tr><th>Jenis</th><th>Rumus</th></tr>
-      <tr><td>Rata-rata Biasa</td><td>Nilai Akhir = Jumlah Semua Nilai ÷ Jumlah Komponen</td></tr>
-      <tr><td>Rata-rata Berbobot</td><td>Nilai Akhir = Σ (Nilai × Bobot%) ÷ 100</td></tr>
-      <tr><td>Nilai Minimum (target)</td><td>Nilai Min = (Target − Σ nilai_selesai × bobot_selesai) ÷ bobot_sisa</td></tr>
+<!-- ② KONVERSI NILAI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🔡</div>Konversi Nilai ke Huruf & GPA <span class="nbadge" style="margin-left:6px">Referensi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan nilai angka untuk melihat predikat huruf dan konversi GPA. Baris yang disorot = nilai Anda.</p>
+    <div class="fld">
+      <label>Nilai Angka (0–100)</label>
+      <div class="iw"><input type="number" id="k-nilai" value="82" min="0" max="100" step="0.5"><span class="iu">/ 100</span></div>
+    </div>
+    <div class="g2" style="margin-bottom:10px">
+      <div class="fld" style="margin-bottom:0">
+        <label>Sistem Predikat</label>
+        <div style="display:flex;gap:6px;margin-top:4px">
+          <button class="pb on" id="sys-sma" onclick="setSys('sma')">SMA/SMP</button>
+          <button class="pb" id="sys-pt" onclick="setSys('pt')">Perguruan Tinggi</button>
+        </div>
+      </div>
+    </div>
+    <table class="conv-tbl" id="conv-tbl">
+      <thead id="conv-head"></thead>
+      <tbody id="conv-tbody"></tbody>
     </table>
+  </div>
+</div>
 
-    <h2>Tabel Konversi Nilai Angka ke Huruf</h2>
-    <table>
-      <tr><th>Rentang Nilai</th><th>Huruf</th><th>Keterangan</th></tr>
-      <tr><td>90 – 100</td><td>A</td><td>Sangat Baik / Istimewa</td></tr>
-      <tr><td>80 – 89</td><td>B</td><td>Baik</td></tr>
-      <tr><td>70 – 79</td><td>C</td><td>Cukup</td></tr>
-      <tr><td>60 – 69</td><td>D</td><td>Kurang</td></tr>
-      <tr><td>&lt; 60</td><td>E / F</td><td>Tidak Lulus</td></tr>
-    </table>
+<!-- ③ RATA-RATA BANYAK MAPEL -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📋</div>Rata-rata Banyak Mata Pelajaran <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Hitung rata-rata nilai dari beberapa mata pelajaran sekaligus — dengan opsi SKS (bobot) untuk kuliah.</p>
+    <div style="border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;padding:0 14px">
+      <div style="background:var(--sur2);padding:7px 0 7px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor);margin:0 -14px;padding:7px 14px;display:grid;grid-template-columns:1fr 70px 70px 36px;gap:8px">
+        <span>Mata Pelajaran / Mata Kuliah</span><span style="text-align:center">Nilai</span><span style="text-align:center">SKS/Bobot</span><span></span>
+      </div>
+      <div id="mapel-rows"></div>
+    </div>
+    <button class="add-komp-btn" style="margin-top:8px" onclick="addMapel()">＋ Tambah Mapel/MK</button>
 
-    <h2>Sistem Penilaian di Berbagai Jenjang Pendidikan Indonesia 2026</h2>
-    <table>
-      <tr><th>Jenjang</th><th>Sistem Penilaian</th><th>Nilai Minimum Lulus</th></tr>
-      <tr><td>SD–SMA (Kurikulum Merdeka)</td><td>Angka 0–100</td><td>70 (KKM tergantung sekolah)</td></tr>
-      <tr><td>Perguruan Tinggi (S1)</td><td>Huruf A/B/C/D/E atau angka 0–4</td><td>C (2,00) umumnya</td></tr>
-      <tr><td>SNBT/UTBK</td><td>Skor standar komposit</td><td>Bergantung prodi &amp; PTN</td></tr>
-      <tr><td>TOEFL IBT</td><td>Skor 0–120</td><td>80 (LPDP), 79 (umum kampus S2)</td></tr>
-    </table>
-
-    <h2>Tips Memaksimalkan Nilai Akhir Semester</h2>
-    <p>Pahami dulu bobot setiap komponen penilaian — fokuskan persiapan lebih ke komponen berbobot besar (biasanya UAS). Aktif mengerjakan tugas dan kuis kecil karena nilai tugas yang terkumpul bisa menjadi penyangga jika nilai ujian kurang memuaskan. Gunakan Tab Target Nilai di atas untuk menghitung berapa nilai minimum yang perlu diraih di UAS agar mencapai nilai akhir yang diinginkan.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Nilai berapa yang perlu untuk mendapat A?</div>
-    <div class="faq-a">Secara umum nilai 90–100 mendapat predikat A. Namun setiap institusi bisa berbeda — beberapa kampus menggunakan nilai 85+ untuk A, sementara SMA menggunakan KKM yang berbeda per mata pelajaran. Cek buku panduan akademik atau tanyakan ke guru/dosen.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa nilai minimum untuk lulus mata kuliah?</div>
-    <div class="faq-a">Sebagian besar perguruan tinggi menetapkan nilai minimum kelulusan mata kuliah adalah C (nilai angka 60–70, atau nilai huruf 2,00). Beberapa mata kuliah wajib program studi mungkin mensyaratkan nilai minimum B. Mahasiswa yang tidak memenuhi syarat biasanya harus mengulang mata kuliah di semester berikutnya.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung nilai minimum yang dibutuhkan di UAS?</div>
-    <div class="faq-a">Gunakan Tab Target Nilai di atas. Masukkan target nilai akhir, isi nilai komponen yang sudah ada (Tugas, UTS), kosongkan nilai UAS, dan isi bobot semua komponen. Kalkulator otomatis menghitung nilai minimum UAS yang dibutuhkan. Jika hasilnya di atas 100, target tidak dapat dicapai dengan sisa komponen.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa yang dimaksud dengan remedial?</div>
-    <div class="faq-a">Remedial adalah kesempatan perbaikan nilai bagi siswa yang belum mencapai KKM. Di tingkat sekolah, siswa bisa mengikuti ujian ulang atau mengerjakan tugas tambahan. Di perguruan tinggi, sistem ini berbeda — biasanya mahasiswa harus mengulang seluruh mata kuliah di semester berikutnya.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana sistem penilaian Kurikulum Merdeka?</div>
-    <div class="faq-a">Kurikulum Merdeka menggunakan penilaian berbasis kompetensi dengan nilai akhir 0–100 sekaligus deskripsi kualitatif. Penilaian mencakup pengetahuan, keterampilan, dan sikap/profil pelajar Pancasila. Laporan hasil belajar tidak hanya menampilkan angka, tetapi juga deskripsi pencapaian kompetensi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah kehadiran mempengaruhi nilai akhir?</div>
-    <div class="faq-a">Di banyak institusi, kehadiran bisa mempengaruhi nilai secara tidak langsung. Beberapa kampus tidak mengizinkan mahasiswa dengan kehadiran kurang dari 75% mengikuti UAS, yang otomatis memengaruhi nilai akhir. Beberapa SMA juga memiliki komponen nilai sikap/kehadiran dalam sistem penilaian Kurikulum Merdeka.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-ipk.html" class="related-item"><span class="ri">🎓</span>Kalkulator IPK</a>
-      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata &amp; Statistik</a>
-      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
-      <a href="/id/kalkulator-proporsi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator Proporsi</a>
+    <div class="lres" id="mapel-lres" style="background:var(--pri-l);border-color:#ffd4b3;margin-top:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor);text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px">Rata-rata Sederhana</div>
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:800;color:var(--pri)" id="mapel-avg">—</div>
+        </div>
+        <div style="background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor);text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px">Rata-rata Tertimbang (SKS)</div>
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:800;color:var(--pri)" id="mapel-wavg">—</div>
+        </div>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>Jumlah mapel/MK</span><span id="mapel-count">—</span></div>
+        <div class="rr"><span>Total SKS</span><span id="mapel-sks">—</span></div>
+        <div class="rr"><span>Nilai tertinggi</span><span id="mapel-max">—</span></div>
+        <div class="rr"><span>Nilai terendah</span><span id="mapel-min">—</span></div>
+      </div>
     </div>
   </div>
+</div>
+
+</div><!-- /left-col -->
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Predikat Nilai SMA/Sederajat</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#22c55e"></div><div><div class="fn">A / Sangat Baik</div><div class="fron">Kurikulum Merdeka</div></div></div><div class="fprice" style="color:#22c55e">90–100</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">B / Baik</div><div class="fron"></div></div></div><div class="fprice">80–89</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">C / Cukup</div><div class="fron"></div></div></div><div class="fprice" style="color:var(--pri)">70–79</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#D97706"></div><div><div class="fn">D / Perlu Bimbingan</div><div class="fron"></div></div></div><div class="fprice" style="color:#D97706">60–69</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">E / Tidak Lulus</div><div class="fron"></div></div></div><div class="fprice" style="color:var(--red)">&lt; 60</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🎓</div>Bobot Umum Komponen</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📘</span><span class="tptx"><strong>SMA/SMP umum:</strong> Tugas/Harian 40%, UTS 30%, UAS 30%</span></div>
+        <div class="tip"><span class="tpico">🎓</span><span class="tptx"><strong>Kuliah (umum):</strong> Tugas 20–30%, UTS 30–35%, UAS 35–40%</span></div>
+        <div class="tip"><span class="tpico">📝</span><span class="tptx"><strong>Kurikulum Merdeka:</strong> Formatif (40%) + Sumatif Tengah (20%) + Sumatif Akhir (40%)</span></div>
+        <div class="tip"><span class="tpico">⚠️</span><span class="tptx">Bobot berbeda tiap sekolah/kampus/dosen — selalu cek RPS atau kontrak kuliah</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-ipk" class="relc"><div class="relc-ico">🎓</div><div class="relc-nm">IPK</div><div class="relc-ds">Indeks Prestasi Kumulatif</div></a>
+        <a href="/id/kalkulator-persen" class="relc"><div class="relc-ico">%</div><div class="relc-nm">Persen</div><div class="relc-ds">Kalkulator %</div></a>
+        <a href="/id/kalkulator-rata-rata" class="relc"><div class="relc-ico">📊</div><div class="relc-nm">Rata-rata</div><div class="relc-ds">Hitung rata-rata</div></a>
+        <a href="/id/kalkulator-split-bill" class="relc"><div class="relc-ico">🧾</div><div class="relc-nm">Split Bill</div><div class="relc-ds">Bagi tagihan</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Cara Menghitung Nilai Akhir Berbobot</h2>
+  <p>Nilai akhir dihitung dengan rata-rata tertimbang: <strong>Nilai Akhir = (Nilai Tugas × Bobot Tugas%) + (Nilai UTS × Bobot UTS%) + (Nilai UAS × Bobot UAS%)</strong>. Contoh: Tugas 85 (bobot 30%), UTS 78 (bobot 30%), UAS 82 (bobot 40%) = (85×0,3) + (78×0,3) + (82×0,4) = 25,5 + 23,4 + 32,8 = 81,7.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa itu KKM dan bagaimana cara mengetahuinya?</div><div class="faq-a">KKM (Kriteria Ketuntasan Minimal) adalah nilai minimum yang harus dicapai siswa untuk dinyatakan lulus suatu mata pelajaran. Setiap sekolah dan mata pelajaran memiliki KKM berbeda — biasanya antara 65–80. KKM ditetapkan oleh sekolah berdasarkan kompleksitas materi, kemampuan rata-rata siswa, dan sarana pendukung. Tanyakan kepada guru atau lihat di buku panduan sekolah.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara menghitung nilai yang dibutuhkan agar lulus?</div><div class="faq-a">Gunakan rumus: Nilai UAS minimal = (Target Nilai Akhir − Nilai Sebelum UAS × (Bobot Tugas+UTS)) ÷ Bobot UAS. Contoh: Target 75, nilai tugas 80 (bobot 40%), UTS 70 (bobot 30%), UAS bobot 30%. Nilai sebelum UAS = (80×0,4)+(70×0,3) = 32+21 = 53. UAS minimal = (75−53) ÷ 0,3 = 73,3.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-let mode = 'simple', scoreCount = 0, tgCount = 0;
 
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
+
+// GRADE SYSTEMS
+let gradeSys='sma';
+const GRADES_SMA=[
+  {min:90,max:100,huruf:'A',predikat:'Sangat Baik',gpa:4.0,col:'#22c55e'},
+  {min:80,max:89.99,huruf:'B',predikat:'Baik',gpa:3.0,col:'#1A7F4E'},
+  {min:70,max:79.99,huruf:'C',predikat:'Cukup',gpa:2.0,col:'#E85D04'},
+  {min:60,max:69.99,huruf:'D',predikat:'Perlu Bimbingan',gpa:1.0,col:'#D97706'},
+  {min:0,max:59.99,huruf:'E',predikat:'Tidak Lulus',gpa:0.0,col:'#C0392B'},
+];
+const GRADES_PT=[
+  {min:85,max:100,huruf:'A',predikat:'Sangat Baik',gpa:4.0,col:'#22c55e'},
+  {min:80,max:84.99,huruf:'A-',predikat:'Sangat Baik',gpa:3.7,col:'#22c55e'},
+  {min:75,max:79.99,huruf:'B+',predikat:'Baik',gpa:3.3,col:'#1A7F4E'},
+  {min:70,max:74.99,huruf:'B',predikat:'Baik',gpa:3.0,col:'#1A7F4E'},
+  {min:65,max:69.99,huruf:'B-',predikat:'Cukup Baik',gpa:2.7,col:'#E85D04'},
+  {min:60,max:64.99,huruf:'C+',predikat:'Cukup',gpa:2.3,col:'#E85D04'},
+  {min:55,max:59.99,huruf:'C',predikat:'Cukup',gpa:2.0,col:'#D97706'},
+  {min:40,max:54.99,huruf:'D',predikat:'Kurang',gpa:1.0,col:'#D97706'},
+  {min:0,max:39.99,huruf:'E',predikat:'Tidak Lulus',gpa:0.0,col:'#C0392B'},
+];
+function getGrade(nilai,sys){
+  const list=sys==='sma'?GRADES_SMA:GRADES_PT;
+  return list.find(g=>nilai>=g.min&&nilai<=g.max)||list[list.length-1];
+}
+function setSys(s){
+  gradeSys=s;
+  document.getElementById('sys-sma').classList.toggle('on',s==='sma');
+  document.getElementById('sys-pt').classList.toggle('on',s==='pt');
+  renderConvTable(v('k-nilai'));
 }
 
-function setMode(m) {
-  mode = m;
-  document.getElementById('btn-simple').classList.toggle('active', m === 'simple');
-  document.getElementById('btn-weighted').classList.toggle('active', m === 'weighted');
-  document.getElementById('mode-desc').textContent = m === 'simple'
-    ? 'Rata-rata semua nilai dengan bobot yang sama'
-    : 'Setiap komponen memiliki persentase bobot berbeda (total harus 100%)';
-  document.getElementById('weight-header').style.display = m === 'weighted' ? '' : 'none';
-  document.getElementById('weight-row').style.display = m === 'weighted' ? '' : 'none';
-  document.querySelectorAll('.weight-input').forEach(el => el.style.display = m === 'weighted' ? '' : 'none');
+// ① KOMPONEN
+let kompData=[
+  {nm:'Tugas / Harian',nilai:82,bobot:40},
+  {nm:'UTS',nilai:78,bobot:30},
+  {nm:'UAS',nilai:85,bobot:30},
+];
+function renderKomp(){
+  const wrap=document.getElementById('komp-rows');if(!wrap)return;
+  wrap.innerHTML=kompData.map((k,i)=>`<div class="komp-row">
+    <input style="border:none;background:none;font-family:inherit;font-size:12px;font-weight:600;width:100%;outline:none" value="${k.nm}" oninput="kompData[${i}].nm=this.value">
+    <input class="komp-inp" type="number" value="${k.nilai}" min="0" max="100" step="0.5" oninput="kompData[${i}].nilai=+this.value;calcAkhir()">
+    <input class="komp-inp" type="number" value="${k.bobot}" min="0" max="100" step="1" oninput="kompData[${i}].bobot=+this.value;calcAkhir()">
+    <button class="komp-del" onclick="delKomp(${i})" title="Hapus">✕</button>
+  </div>`).join('');
 }
+function addKomp(){kompData.push({nm:'Komponen '+(kompData.length+1),nilai:80,bobot:0});renderKomp();calcAkhir();}
+function delKomp(i){if(kompData.length<=1)return;kompData.splice(i,1);renderKomp();calcAkhir();}
 
-function addScore() {
-  scoreCount++;
-  const div = document.createElement('div');
-  div.className = 'score-row'; div.id = 'score-' + scoreCount;
-  div.innerHTML = `<input type="text" placeholder="Komponen ${scoreCount}" style="font-size:.83rem"/>
-    <input type="number" placeholder="Nilai" min="0" max="100" class="score-input"/>
-    <input type="number" placeholder="%" min="0" max="100" class="weight-input" style="display:${mode==='weighted'?'':'none'}"/>
-    <button class="del-btn" onclick="document.getElementById('score-${scoreCount}').remove()">×</button>`;
-  document.getElementById('scores').appendChild(div);
-}
+function calcAkhir(){
+  const kkm=v('a-kkm');
+  const totalBobot=kompData.reduce((s,k)=>s+k.bobot,0);
+  const warn=document.getElementById('bobot-warning');
+  const totalEl=document.getElementById('bobot-total');
+  if(totalEl)totalEl.textContent=totalBobot;
+  if(warn)warn.style.display=Math.abs(totalBobot-100)>0.5?'block':'none';
 
-function getGrade(avg) {
-  if (avg >= 90) return ['A — Sangat Baik 🏆', 'badge-normal', '#00C9B1'];
-  if (avg >= 80) return ['B — Baik ⭐', 'badge-normal', '#3b82f6'];
-  if (avg >= 70) return ['C — Cukup', 'badge-overweight', '#f59e0b'];
-  if (avg >= 60) return ['D — Kurang', 'badge-overweight', '#f97316'];
-  return ['E — Tidak Lulus', 'badge-obese', '#ef4444'];
-}
+  const final=totalBobot>0?kompData.reduce((s,k)=>s+(k.nilai*(k.bobot/totalBobot)),0):0;
+  const grade=getGrade(final,'sma');
+  const lulus=final>=kkm;
 
-function calculate() {
-  const scoreInputs  = document.querySelectorAll('.score-input');
-  const weightInputs = document.querySelectorAll('.weight-input');
-  let scores = [], weights = [];
-  scoreInputs.forEach((el, i) => {
-    const v = parseFloat(el.value);
-    if (!isNaN(v)) { scores.push(v); if (mode === 'weighted') weights.push(parseFloat(weightInputs[i].value) || 0); }
-  });
-  if (!scores.length) { alert('Tambahkan minimal satu nilai.'); return; }
-  let avg;
-  if (mode === 'simple') {
-    avg = scores.reduce((a, b) => a + b, 0) / scores.length;
-  } else {
-    const tw = weights.reduce((a, b) => a + b, 0);
-    if (Math.abs(tw - 100) > 1) { alert('Total bobot harus 100%. Saat ini: ' + tw.toFixed(0) + '%'); return; }
-    avg = scores.reduce((s, v, i) => s + v * weights[i], 0) / 100;
+  const numEl=document.getElementById('a-score-num');
+  const gradeEl=document.getElementById('a-score-grade');
+  const barEl=document.getElementById('a-score-bar');
+  const statusEl=document.getElementById('a-score-status');
+  if(numEl){numEl.textContent=final.toFixed(1);numEl.style.color=grade.col;}
+  if(gradeEl){gradeEl.textContent=grade.huruf+' — '+grade.predikat;gradeEl.style.color=grade.col;}
+  if(barEl){barEl.style.width=final+'%';barEl.style.background=grade.col;}
+  if(statusEl){
+    statusEl.textContent=lulus?'✅ LULUS (≥ KKM '+kkm+')':'❌ BELUM LULUS (< KKM '+kkm+')';
+    statusEl.style.background=lulus?'#dcfce7':'#fee2e2';
+    statusEl.style.color=lulus?'#166534':'#991b1b';
   }
-  const [grade, badgeClass, color] = getGrade(avg);
-  document.getElementById('res-avg').textContent = (Math.round(avg * 100) / 100).toString().replace('.', ',');
-  const badge = document.getElementById('res-badge');
-  badge.textContent = grade; badge.className = 'result-badge ' + badgeClass;
-  document.getElementById('res-max').textContent   = Math.max(...scores);
-  document.getElementById('res-min').textContent   = Math.min(...scores);
-  document.getElementById('res-count').textContent = scores.length + ' komponen';
-  if (mode === 'weighted') document.getElementById('res-weight').textContent = weights.reduce((a,b)=>a+b,0).toFixed(0) + '%';
-  document.getElementById('grade-fill').style.width      = Math.min(avg, 100) + '%';
-  document.getElementById('grade-fill').style.background = color;
-  document.getElementById('result').classList.add('show');
+  const lres=document.getElementById('a-lres');
+  if(lres){lres.style.background=lulus?'var(--grn-b)':'var(--red-b)';lres.style.borderColor=lulus?'#86efac':'#fca5a5';}
+
+  set('a-final',final.toFixed(2));set('a-predikat',grade.huruf+' ('+grade.predikat+')');
+  set('a-kkm-show',kkm);
+  set('a-status',lulus?'✅ LULUS':'❌ Belum Lulus — Remedial');
+  const sel=final-kkm;
+  set('a-selisih',(sel>=0?'+':'')+sel.toFixed(1)+' poin dari KKM');
+
+  // sync
+  document.getElementById('k-nilai').value=final.toFixed(1);
+  renderConvTable(final);
 }
 
-// Tab 2: Target
-function addTargetRow() {
-  tgCount++;
-  const div = document.createElement('div');
-  div.className = 'target-row'; div.id = 'tg-' + tgCount;
-  div.innerHTML = `<input type="text" placeholder="Komponen ${tgCount}" style="font-size:.82rem;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
-    <input type="number" placeholder="Kosongkan jika belum" min="0" max="100" class="tg-val" style="border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
-    <input type="number" placeholder="%" min="0" max="100" class="tg-w" style="border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>`;
-  document.getElementById('tg-scores').appendChild(div);
-}
+// ② NILAI MINIMAL
+function calcMinimal(){
+  const tugas=v('m-tugas'),uts=v('m-uts'),wTugas=v('m-w-tugas'),wUts=v('m-w-uts'),target=v('m-target');
+  const wUas=100-wTugas-wUts;
+  const sebelum=(tugas*wTugas+uts*wUts)/100;
+  const uasMin=wUas>0?(target-sebelum)/(wUas/100):999;
+  const feasible=uasMin<=100;
 
-function calculateTarget() {
-  const target  = parseFloat(document.getElementById('tg-target').value);
-  const vals    = document.querySelectorAll('.tg-val');
-  const weights = document.querySelectorAll('.tg-w');
-  if (!target || target <= 0) { alert('Masukkan target nilai yang valid.'); return; }
-
-  let donePts = 0, doneW = 0, missingW = 0, missingNames = [];
-  vals.forEach((el, i) => {
-    const v = parseFloat(el.value), w = parseFloat(weights[i].value) || 0;
-    const name = document.querySelectorAll('#tg-scores .target-row:not(.heading) input[type="text"]')[i]?.value || 'Komponen ' + (i+1);
-    if (!isNaN(v)) { donePts += v * w; doneW += w; }
-    else if (w > 0) { missingW += w; missingNames.push({name, w}); }
-  });
-
-  const totalW = doneW + missingW;
-  if (Math.abs(totalW - 100) > 1 && totalW > 0) {
-    const warn = document.getElementById('tg-result');
-    warn.style.display = 'block';
-    document.getElementById('tg-summary').innerHTML = `⚠️ Total bobot saat ini <strong>${totalW}%</strong>. Pastikan total bobot = 100%.`;
-    document.getElementById('tg-summary').style.background = 'rgba(245,158,11,.08)';
-    document.getElementById('tg-summary').style.border = '1px solid rgba(245,158,11,.2)';
-    document.getElementById('tg-summary').style.borderRadius = '10px';
-    document.getElementById('tg-summary').style.padding = '.85rem';
-    return;
+  const lres=document.getElementById('m-lres');
+  if(lres){lres.style.background=feasible?'var(--pri-l)':'var(--red-b)';lres.style.borderColor=feasible?'#ffd4b3':'#fca5a5';}
+  const minEl=document.getElementById('m-uas-min');
+  if(minEl){
+    minEl.textContent=feasible?uasMin.toFixed(1):'> 100';
+    minEl.style.color=feasible?(uasMin<=85?'var(--grn)':'var(--pri)'):'var(--red)';
   }
+  const sub=document.getElementById('m-uas-sub');
+  if(sub)sub.textContent=feasible?(uasMin<=100?'Masih bisa dicapai ✅':'Sudah melampaui batas'):'Tidak mungkin tercapai — perbaiki nilai lain';
 
-  const remaining = target * 100 - donePts;
-  const res = document.getElementById('tg-result');
-  res.style.display = 'block';
-
-  let cardsHtml = '';
-  if (!missingNames.length) {
-    const current = donePts / 100;
-    const [grade, , color] = getGrade(current);
-    document.getElementById('tg-summary').innerHTML = `✅ Semua komponen sudah terisi. Nilai akhir saat ini: <strong style="color:${color}">${current.toFixed(1).replace('.',',')} (${grade})</strong>.`;
-  } else {
-    missingNames.forEach(({name, w}) => {
-      const minVal = (remaining / missingW) * (missingW / w > 1 ? 1 : missingW / w);
-      const needed = remaining / missingW;
-      const isAchievable = needed <= 100;
-      cardsHtml += `<div class="sim-card ${isAchievable ? 'pass' : 'fail'}">
-        <h4 style="color:${isAchievable ? '#00C9B1' : '#ef4444'}">${name} (bobot ${w}%)</h4>
-        <p>Nilai minimum dibutuhkan: <strong style="color:${isAchievable ? '#00C9B1' : '#ef4444'};font-size:1rem">${needed.toFixed(1).replace('.',',')} / 100</strong> ${isAchievable ? '✅ Bisa dicapai' : '❌ Target tidak dapat dicapai'}</p>
-      </div>`;
-    });
-    document.getElementById('tg-summary').innerHTML = `🎯 Untuk mencapai nilai akhir <strong>${target}</strong>, nilai minimum yang dibutuhkan:`;
-    document.getElementById('tg-summary').style.background = 'rgba(0,201,177,.08)';
-    document.getElementById('tg-summary').style.border = '1px solid rgba(0,201,177,.2)';
-    document.getElementById('tg-summary').style.borderRadius = '10px';
-    document.getElementById('tg-summary').style.padding = '.85rem';
-  }
-  document.getElementById('tg-cards').innerHTML = cardsHtml;
+  set('m-sebelum',sebelum.toFixed(2)+' poin terkumpul');
+  set('m-w-uas-show',wUas+'%');
+  set('m-target-show',target);
+  set('m-uas-min2',feasible?uasMin.toFixed(1):'Tidak mungkin');
 }
 
-// Tab 3: Simulator
-const SIM_PRESETS = {
-  kampus: [{name:'Tugas',w:20},{name:'UTS',w:30},{name:'UAS',w:50}],
-  sma:    [{name:'Tugas/Ulangan',w:20},{name:'PTS',w:30},{name:'PAS',w:50}],
-  sma3:   [{name:'Ulangan Harian',w:40},{name:'PTS',w:30},{name:'PAS',w:30}],
-  custom: [{name:'Komponen 1',w:33},{name:'Komponen 2',w:33},{name:'Komponen 3',w:34}],
-};
-
-function loadSimPreset() {
-  const key    = document.getElementById('sim-system').value;
-  const preset = SIM_PRESETS[key];
-  document.getElementById('sim-rows').innerHTML = preset.map((p, i) => `
-    <div style="display:grid;grid-template-columns:1fr 80px 80px;gap:8px;margin-bottom:8px;align-items:center;font-size:.83rem">
-      <input type="text" value="${p.name}" class="sim-name" style="border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
-      <input type="number" placeholder="Nilai" min="0" max="100" class="sim-val" style="border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
-      <input type="number" value="${p.w}" class="sim-w" style="border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.35rem .5rem;background:rgba(255,255,255,.05);color:#c0cdd8"/>
-    </div>`).join('');
+// ③ KONVERSI TABLE
+function renderConvTable(curNilai){
+  const list=gradeSys==='sma'?GRADES_SMA:GRADES_PT;
+  const head=document.getElementById('conv-head');
+  const tbody=document.getElementById('conv-tbody');
+  if(head)head.innerHTML=`<tr><th>Rentang Nilai</th><th>Huruf</th><th>Predikat</th><th>GPA</th></tr>`;
+  if(!tbody)return;
+  tbody.innerHTML=list.map(g=>{
+    const isCur=curNilai>=g.min&&curNilai<=g.max;
+    return`<tr${isCur?` style="background:${g.col}22;font-weight:700"`:''}><td>${g.min}–${g.max}</td><td style="color:${g.col};font-weight:700">${g.huruf}</td><td>${g.predikat}</td><td style="font-family:'DM Mono',monospace">${g.gpa.toFixed(1)}</td></tr>`;
+  }).join('');
 }
 
-function runSimulator() {
-  const names  = [...document.querySelectorAll('.sim-name')].map(el => el.value);
-  const vals   = [...document.querySelectorAll('.sim-val')].map(el => parseFloat(el.value));
-  const weights= [...document.querySelectorAll('.sim-w')].map(el => parseFloat(el.value) || 0);
-  const filledIdx = vals.reduce((acc, v, i) => { if (!isNaN(v)) acc.push(i); return acc; }, []);
-  if (!filledIdx.length) { alert('Isi setidaknya satu nilai untuk disimulasikan.'); return; }
+// ④ MULTI MAPEL
+let mapelData=[
+  {nm:'Matematika',nilai:82,sks:3},
+  {nm:'Bahasa Indonesia',nilai:88,sks:2},
+  {nm:'IPA / Fisika',nilai:76,sks:3},
+  {nm:'Bahasa Inggris',nilai:90,sks:2},
+];
+function renderMapel(){
+  const wrap=document.getElementById('mapel-rows');if(!wrap)return;
+  wrap.innerHTML=mapelData.map((m,i)=>`<div class="mapel-row">
+    <input style="border:none;background:none;font-family:inherit;font-size:12px;font-weight:600;width:100%;outline:none" value="${m.nm}" oninput="mapelData[${i}].nm=this.value">
+    <input class="mapel-inp" type="number" value="${m.nilai}" min="0" max="100" step="0.5" oninput="mapelData[${i}].nilai=+this.value;calcMapel()">
+    <input class="mapel-inp" type="number" value="${m.sks}" min="1" max="10" step="1" oninput="mapelData[${i}].sks=+this.value;calcMapel()">
+    <button class="komp-del" onclick="delMapel(${i})">✕</button>
+  </div>`).join('');
+}
+function addMapel(){mapelData.push({nm:'Mapel '+(mapelData.length+1),nilai:80,sks:2});renderMapel();calcMapel();}
+function delMapel(i){if(mapelData.length<=1)return;mapelData.splice(i,1);renderMapel();calcMapel();}
+function calcMapel(){
+  const n=mapelData.length;if(n===0)return;
+  const avg=mapelData.reduce((s,m)=>s+m.nilai,0)/n;
+  const totalSks=mapelData.reduce((s,m)=>s+m.sks,0);
+  const wavg=totalSks>0?mapelData.reduce((s,m)=>s+m.nilai*m.sks,0)/totalSks:avg;
+  const vals=mapelData.map(m=>m.nilai);
+  set('mapel-avg',avg.toFixed(2));set('mapel-wavg',wavg.toFixed(2));
+  set('mapel-count',n+' mapel');set('mapel-sks',totalSks+' SKS');
+  set('mapel-max',Math.max(...vals).toFixed(1));set('mapel-min',Math.min(...vals).toFixed(1));
+}
 
-  const donePts = filledIdx.reduce((s, i) => s + vals[i] * weights[i], 0);
-  const doneW   = filledIdx.reduce((s, i) => s + weights[i], 0);
-  const missIdx = vals.map((v,i) => i).filter(i => isNaN(v) || v === null);
-
-  // Simulate 3 scenarios for missing: all 60, all 75, all 90
-  const scenarios = [{label:'Skenario Pesimis (nilai komponen kosong = 60)',fill:60},{label:'Skenario Moderat (nilai komponen kosong = 75)',fill:75},{label:'Skenario Optimis (nilai komponen kosong = 90)',fill:90}];
-  let html = '';
-  scenarios.forEach(({label, fill}) => {
-    const extra = missIdx.reduce((s, i) => s + fill * weights[i], 0);
-    const total = (donePts + extra) / 100;
-    const [grade, , color] = getGrade(total);
-    html += `<div class="sim-card ${total >= 70 ? 'pass' : 'fail'}">
-      <h4 style="color:${color}">${label}</h4>
-      <p>Nilai akhir: <strong style="color:${color};font-size:1rem">${total.toFixed(1).replace('.',',')} — ${grade}</strong></p>
-    </div>`;
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
   });
-
-  document.getElementById('sim-summary').innerHTML = filledIdx.length === vals.length
-    ? `✅ Semua komponen terisi.`
-    : `📊 Simulasi berdasarkan nilai yang sudah ada (${filledIdx.map(i => names[i]).join(', ')}).`;
-  document.getElementById('sim-summary').style.cssText = 'border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.6rem;background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2)';
-  document.getElementById('sim-scenarios').innerHTML = html;
-  document.getElementById('sim-result').style.display = 'block';
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-
-// Init
-for (let i = 0; i < 4; i++) addScore();
-for (let i = 0; i < 3; i++) addTargetRow();
-loadSimPreset();
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);}});}
+listen(['a-kkm'],calcAkhir);
+listen(['m-tugas','m-uts','m-w-tugas','m-w-uts','m-target'],calcMinimal);
+listen(['k-nilai'],()=>renderConvTable(v('k-nilai')));
+renderKomp();calcAkhir();calcMinimal();renderConvTable(82);renderMapel();calcMapel();
 </script>
 </body>
 </html>
