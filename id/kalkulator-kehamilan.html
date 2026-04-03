@@ -39,8 +39,16 @@
     .fld{margin-bottom:14px}
     .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
     .iw{position:relative}
-    .iw input[type=date],.iw input[type=number]{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw .iw input[type=number]{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
     .iw input:focus{border-color:var(--pink)}
+    .date-sel{display:flex;gap:6px}
+    .date-sel select{padding:10px 26px 10px 10px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;cursor:pointer;transition:border-color .15s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;width:100%}
+    .date-sel select:focus{border-color:var(--pink)}
+    .date-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:520px){.date-row{grid-template-columns:1fr}}
+    .date-sel .sel-tgl{flex:0 0 64px;min-width:64px}
+    .date-sel .sel-bln{flex:1 1 0;min-width:110px}
+    .date-sel .sel-thn{flex:0 0 80px;min-width:80px}
     .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
     .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     @media(max-width:480px){.g2{grid-template-columns:1fr}}
@@ -103,6 +111,11 @@
     .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
     .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
     .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .seo-tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .seo-tbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .seo-tbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .seo-tbl tr:last-child td{border-bottom:none}
+    .seo-tbl td:first-child{font-weight:600;color:var(--tx)}
     .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
     .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
     .faq-q::after{content:'＋';color:var(--tx3)}
@@ -148,12 +161,20 @@
     <!-- HPHT -->
     <div class="tpanel on" id="tab-hpht">
       <div class="notice info" style="margin-bottom:14px">ℹ️ <strong>HPHT</strong> = Hari Pertama Haid Terakhir. Ini adalah cara paling umum menghitung usia kehamilan dan HPL. Kehamilan dihitung <strong>40 minggu (280 hari)</strong> sejak HPHT.</div>
-      <div class="g2">
+      <div class="date-row">
         <div class="fld"><label>Tanggal HPHT</label>
-          <div class="iw"><input type="date" id="h-hpht" onchange="calcHPHT()"></div>
+          <div class="date-sel">
+            <select class="sel-tgl" id="h-hpht-d" onchange="calcHPHT()"></select>
+            <select class="sel-bln" id="h-hpht-m" onchange="calcHPHT()"></select>
+            <select class="sel-thn" id="h-hpht-y" onchange="calcHPHT()"></select>
+          </div>
         </div>
         <div class="fld"><label>Hitung per Tanggal</label>
-          <div class="iw"><input type="date" id="h-today" onchange="calcHPHT()"></div>
+          <div class="date-sel">
+            <select class="sel-tgl" id="h-today-d" onchange="calcHPHT()"></select>
+            <select class="sel-bln" id="h-today-m" onchange="calcHPHT()"></select>
+            <select class="sel-thn" id="h-today-y" onchange="calcHPHT()"></select>
+          </div>
         </div>
       </div>
 
@@ -263,12 +284,59 @@
 </main>
 
 <div class="seo">
-  <h2>Cara Menghitung Usia Kehamilan dan HPL</h2>
-  <p>Usia kehamilan dihitung dari Hari Pertama Haid Terakhir (HPHT), bukan dari tanggal pembuahan. Kehamilan penuh berlangsung selama 40 minggu (280 hari) sejak HPHT. HPL = HPHT + 280 hari. Rumus Naegele: HPL = HPHT + 7 hari − 3 bulan + 1 tahun (berlaku untuk siklus haid 28 hari).</p>
 
-  <h2>FAQ</h2>
-  <div class="faq-i"><div class="faq-q">Apa perbedaan usia kehamilan dari HPHT dan USG?</div><div class="faq-a">Usia kehamilan dari HPHT dihitung dari hari pertama haid terakhir dan mengasumsikan ovulasi terjadi pada hari ke-14 siklus. USG di trimester pertama (7–13 minggu) mengukur panjang mahkota-bokong (CRL) janin yang memberikan perkiraan usia kehamilan lebih akurat karena tidak bergantung pada ingatan tentang HPHT. Jika ada perbedaan lebih dari 5–7 hari antara keduanya, biasanya dokter akan menggunakan hasil USG sebagai acuan HPL.</div></div>
-  <div class="faq-i"><div class="faq-q">Apa itu trimester dan kapan masing-masing dimulai?</div><div class="faq-a">Kehamilan dibagi tiga trimester: Trimester 1 (minggu 1–12) — pembentukan organ vital, risiko keguguran tertinggi, sering terjadi mual/morning sickness. Trimester 2 (minggu 13–27) — janin berkembang pesat, ibu biasanya merasa lebih nyaman, gerakan janin mulai terasa. Trimester 3 (minggu 28–40) — persiapan lahir, paru-paru janin matang, bayi mendapatkan antibodi dari ibu.</div></div>
+  <h2>Kalkulator Kehamilan 2026 — Usia Kandungan, Perkembangan Janin & HPL</h2>
+  <p>Kalkulator kehamilan di atas menghitung usia kehamilan dalam minggu dan hari berdasarkan <strong>HPHT (Hari Pertama Haid Terakhir)</strong>, memperkirakan HPL (Hari Perkiraan Lahir), dan menampilkan perkembangan janin serta gejala umum per minggu. Usia kehamilan dihitung dari HPHT, bukan dari tanggal pembuahan — ini adalah standar medis internasional yang digunakan seluruh dokter dan bidan di Indonesia. Alasannya: tanggal pembuahan sulit diketahui dengan pasti, sementara HPHT biasanya lebih mudah diingat.</p>
+  <p>Kehamilan penuh berlangsung selama <strong>40 minggu (280 hari)</strong> sejak HPHT. HPL dihitung dengan <strong>Rumus Naegele</strong>: HPL = HPHT + 7 hari − 3 bulan + 1 tahun (untuk siklus 28 hari). Contoh: HPHT 1 Januari 2026 → HPL = 8 Oktober 2026. Namun HPL bukan tanggal pasti melahirkan — hanya sekitar 5% bayi lahir tepat pada HPL. Persalinan yang terjadi antara minggu ke-37 hingga ke-42 dianggap normal (aterm). Jika HPL sudah lewat lebih dari 2 minggu, dokter akan merekomendasikan induksi untuk keselamatan ibu dan bayi.</p>
+
+  <h2>Perkembangan Janin Per Trimester — Milestones Penting yang Perlu Diketahui</h2>
+  <p><strong>Trimester 1 (Minggu 1–12)</strong> adalah periode paling kritis dalam perkembangan janin. Seluruh organ vital terbentuk pada trimester ini — jantung mulai berdetak pada minggu ke-6, otak dan sumsum tulang belakang mulai terbentuk sejak minggu ke-3, dan anggota tubuh mulai terbentuk pada minggu ke-8. Pada akhir trimester 1 (minggu ke-12), janin sudah berukuran ~5–6 cm dan berat ~14 gram. Semua refleks dasar sudah ada meski sangat kecil. Risiko keguguran tertinggi di trimester ini (~80% dari semua keguguran terjadi di trimester 1), terutama dalam 8 minggu pertama.</p>
+  <p><strong>Trimester 2 (Minggu 13–27)</strong> sering disebut "trimester terbaik" — morning sickness biasanya mereda, energi kembali, dan perut mulai terlihat. Gerakan janin pertama kali dirasakan (quickening) antara minggu 18–22 untuk kehamilan pertama, dan lebih awal untuk kehamilan berikutnya. Pada minggu ke-20, USG anatomi lengkap dilakukan untuk memeriksa organ-organ janin dan bisa mengetahui jenis kelamin. Di akhir trimester 2 (minggu ke-27), janin berukuran ~37 cm dan berat ~900 gram. <strong>Trimester 3 (Minggu 28–40)</strong> adalah fase pematangan — paru-paru matang, otak berkembang pesat, janin menambah lemak subkutan untuk termoregulasi. Pada minggu ke-36, janin umumnya sudah berada dalam posisi kepala di bawah siap lahir.</p>
+  <div class="stw"><table class="seo-tbl">
+    <thead><tr><th>Trimester</th><th>Minggu</th><th>Ukuran Janin</th><th>Milestone Penting</th></tr></thead>
+    <tbody>
+      <tr><td>Trimester 1</td><td>1–12</td><td>Sel → 5–6 cm</td><td>Pembentukan organ vital, jantung berdetak (mg 6), USG pertama</td></tr>
+      <tr><td>Trimester 2 (awal)</td><td>13–20</td><td>6–25 cm</td><td>Gerakan janin pertama, USG anatomi (mg 18–20)</td></tr>
+      <tr><td>Trimester 2 (akhir)</td><td>21–27</td><td>25–37 cm</td><td>Janin mulai bisa mendengar, mata terbuka (mg 26)</td></tr>
+      <tr><td>Trimester 3 (awal)</td><td>28–34</td><td>37–45 cm</td><td>Paru-paru matang bertahap, posisi kepala mulai ke bawah</td></tr>
+      <tr><td>Trimester 3 (akhir)</td><td>35–40</td><td>45–51 cm</td><td>Siap lahir, antibodi ibu ditransfer, berat ideal 2,5–4 kg</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Gejala Kehamilan Per Trimester — Normal vs Perlu Diwaspadai</h2>
+  <p>Setiap trimester membawa perubahan fisik dan emosional yang berbeda. <strong>Trimester 1</strong>: morning sickness (mual dan muntah, bisa sepanjang hari bukan hanya pagi hari) dialami oleh 70–80% ibu hamil, biasanya memuncak di minggu ke-8–10 dan mereda di minggu ke-12–14. Kelelahan ekstrem, nyeri payudara, dan sering buang air kecil juga sangat umum. Pusing ringan karena penurunan tekanan darah adalah normal. <strong>Tanda bahaya trimester 1</strong>: perdarahan lebih dari flek ringan, nyeri perut hebat satu sisi (bisa menandakan kehamilan ektopik), dan hiperemesis gravidarum (muntah berlebihan sampai dehidrasi) — semua perlu evaluasi medis segera.</p>
+  <p><strong>Trimester 2</strong>: energi kembali untuk kebanyakan ibu, perut semakin membesar, dan kadang terasa kram ringan di ligamen (round ligament pain) saat bergerak — normal. Hidung tersumbat, gusi berdarah, dan varises kecil adalah efek hormonal yang umum. <strong>Trimester 3</strong>: sesak napas karena rahim menekan diafragma, sulit tidur, nyeri punggung, dan kontraksi Braxton Hicks (kontraksi palsu, tidak teratur, tidak semakin kuat) adalah normal. <strong>Tanda bahaya yang harus segera ke IGD</strong>: perdarahan hebat, kontraksi teratur dan kuat sebelum minggu ke-37, penurunan atau berhentinya gerakan janin, sakit kepala hebat dengan gangguan penglihatan (tanda preeklamsia), dan pecah ketuban.</p>
+
+  <h2>Pemeriksaan Kehamilan yang Direkomendasikan — Jadwal ANC Standar Indonesia</h2>
+  <p>Kemenkes Indonesia merekomendasikan minimal <strong>6 kali kunjungan ANC (Antenatal Care)</strong> selama kehamilan berdasarkan panduan terbaru: 2 kali di trimester 1, 1 kali di trimester 2, dan 3 kali di trimester 3. Pemeriksaan rutin meliputi pengukuran tinggi fundus uteri, detak jantung janin, tekanan darah ibu, berat badan, dan pemeriksaan laboratorium dasar. USG direkomendasikan minimal 3 kali: trimester 1 (konfirmasi kehamilan dan usia gestasi), trimester 2 (USG morfologi/anatomi lengkap minggu 18–22), dan trimester 3 (posisi janin dan estimasi berat lahir).</p>
+  <p>Suplemen penting selama kehamilan: <strong>Asam folat</strong> (400–800 mcg/hari) sangat penting sejak sebelum hamil hingga minimal minggu ke-12 untuk mencegah cacat tabung saraf seperti spina bifida. <strong>Zat besi</strong> (60 mg/hari) untuk mencegah anemia — sangat umum pada ibu hamil Indonesia dan meningkatkan risiko berat lahir rendah. <strong>Kalsium</strong> (1.000 mg/hari) untuk pembentukan tulang janin. <strong>Yodium</strong> penting untuk perkembangan otak janin — gunakan garam beryodium. Vitamin D juga direkomendasikan terutama untuk yang jarang terpapar sinar matahari.</p>
+  <div class="stw"><table class="seo-tbl">
+    <thead><tr><th>Suplemen</th><th>Dosis Harian</th><th>Fungsi Utama</th><th>Dimulai Sejak</th></tr></thead>
+    <tbody>
+      <tr><td>Asam folat</td><td>400–800 mcg</td><td>Cegah cacat tabung saraf</td><td>Sebelum hamil → minggu ke-12</td></tr>
+      <tr><td>Zat besi</td><td>60 mg</td><td>Cegah anemia, pertumbuhan janin</td><td>Trimester 1 → persalinan</td></tr>
+      <tr><td>Kalsium</td><td>1.000 mg</td><td>Pembentukan tulang dan gigi janin</td><td>Trimester 2–3</td></tr>
+      <tr><td>Yodium</td><td>220 mcg</td><td>Perkembangan otak janin</td><td>Seluruh kehamilan</td></tr>
+      <tr><td>Vitamin D</td><td>600–1.000 IU</td><td>Absorpsi kalsium, imunitas</td><td>Seluruh kehamilan</td></tr>
+      <tr><td>Omega-3 (DHA)</td><td>200–300 mg DHA</td><td>Perkembangan otak dan mata janin</td><td>Trimester 2–3</td></tr>
+    </tbody>
+  </table></div>
+
+
+  <h2>Nutrisi Ibu Hamil — Kebutuhan Kalori dan Gizi Tambahan</h2>
+  <p>Kebutuhan kalori ibu hamil meningkat secara bertahap: <strong>tidak ada tambahan</strong> di trimester 1 (janin masih sangat kecil), <strong>+340 kalori/hari</strong> di trimester 2, dan <strong>+450 kalori/hari</strong> di trimester 3. Ini setara dengan 1–2 camilan bergizi tambahan, bukan "makan untuk dua orang". Mitos "makan dua kali lipat saat hamil" adalah salah satu penyebab utama kenaikan berat badan berlebih yang meningkatkan risiko diabetes gestasional dan preeklamsia.</p>
+  <p>Makanan yang perlu dihindari selama kehamilan: ikan tinggi merkuri (ikan hiu, ikan pedang, king mackerel), daging mentah atau setengah matang (risiko toksoplasmosis dan Listeria), telur mentah (risiko Salmonella), produk susu tidak pasteurisasi, dan alkohol (tidak ada dosis aman). Batasi kafein maksimal 200mg/hari (~2 cangkir kopi). Hindari jamu-jamuan yang tidak terjamin keamanannya selama kehamilan — beberapa tanaman obat tradisional Indonesia bisa memicu kontraksi atau bersifat teratogenik.</p>
+
+  <h2>Pertanyaan Umum (FAQ) Kehamilan 2026</h2>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara menghitung usia kehamilan dari HPHT?</div><div class="faq-a">Usia kehamilan = jumlah hari sejak HPHT dibagi 7 (untuk minggu) atau dibagi 30 (untuk bulan). Rumus HPL Naegele: tambahkan 7 hari ke tanggal HPHT, kurangi 3 bulan, tambah 1 tahun. Contoh: HPHT 15 Januari 2026 + 7 = 22, bulan 1 − 3 = bulan 10, tahun +1 = 2026 → HPL 22 Oktober 2026. Ingat: untuk siklus haid ≠28 hari, penyesuaian diperlukan. USG trimester 1 memberikan estimasi usia gestasi yang lebih akurat.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan HPL dari HPHT dan HPL dari USG?</div><div class="faq-a">HPL dari HPHT mengasumsikan ovulasi terjadi tepat hari ke-14 siklus 28 hari — tidak akurat untuk yang siklus haidnya tidak teratur. HPL dari USG trimester 1 (7–13 minggu) didasarkan pada pengukuran fisik janin (CRL — Crown-Rump Length) yang jauh lebih akurat. Jika ada perbedaan &gt;5–7 hari antara keduanya, dokter umumnya menggunakan HPL dari USG trimester 1 sebagai acuan karena lebih presisi.</div></div>
+  <div class="faq-i"><div class="faq-q">Kapan gerakan janin pertama kali dirasakan?</div><div class="faq-a">Gerakan janin pertama (quickening) umumnya dirasakan antara minggu 18–22 untuk kehamilan pertama, dan bisa lebih awal (minggu 16–18) untuk kehamilan kedua dan seterusnya karena ibu sudah mengenali sensasinya. Awalnya terasa seperti gelembung atau sentakan halus. Jika sudah minggu ke-24 belum ada gerakan yang dirasakan, konsultasikan ke dokter. Setelah minggu ke-28, idealnya bayi bergerak minimal 10 kali dalam 2 jam.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah morning sickness berbahaya bagi janin?</div><div class="faq-a">Morning sickness ringan hingga sedang (mual, kadang muntah) umumnya tidak berbahaya bagi janin — janin mendapat nutrisi dari cadangan ibu di trimester 1 saat ukurannya masih sangat kecil. Bahkan beberapa penelitian mengaitkan morning sickness moderat dengan kehamilan yang lebih sehat karena menandakan kadar hormon kehamilan (hCG) yang baik. Yang berbahaya adalah hiperemesis gravidarum (muntah sangat parah, tidak bisa makan/minum, kehilangan berat &gt;5%) — perlu penanganan medis segera untuk mencegah dehidrasi dan kekurangan nutrisi.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa kali sebaiknya USG selama kehamilan?</div><div class="faq-a">Minimal 3 kali berdasarkan panduan POGI (Perkumpulan Obstetri dan Ginekologi Indonesia): (1) Trimester 1 (7–13 minggu) — konfirmasi kehamilan, usia gestasi, detak jantung janin, dan skrining kromosom awal. (2) Trimester 2 (18–22 minggu) — USG morfologi/anatomi lengkap, jenis kelamin janin bisa dilihat. (3) Trimester 3 (30–34 minggu) — posisi janin, estimasi berat, cairan ketuban. Ibu berisiko tinggi mungkin memerlukan USG lebih sering sesuai rekomendasi dokter.</div></div>
+  <div class="faq-i"><div class="faq-q">Kapan harus ke IGD saat hamil?</div><div class="faq-a">Segera ke IGD jika: perdarahan vagina (lebih dari flek kecil), nyeri perut hebat, kontraksi teratur dan semakin kuat sebelum minggu ke-37, gerakan janin berkurang drastis atau berhenti, sakit kepala parah dengan gangguan penglihatan atau bengkak wajah/tangan (tanda preeklamsia), demam tinggi &gt;38,5°C, ketuban pecah (cairan bening mengalir dari vagina). Di trimester 1, nyeri hebat satu sisi perut bisa menandakan kehamilan ektopik — kedaruratan bedah.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah olahraga aman saat hamil?</div><div class="faq-a">Untuk kehamilan normal tanpa komplikasi, olahraga 150 menit/minggu intensitas sedang sangat direkomendasikan. Pilihan aman: jalan kaki, berenang, yoga kehamilan, senam hamil, bersepeda stasioner. Hindari: olahraga kontak (risiko benturan perut), aktivitas dengan risiko jatuh tinggi, olahraga berbaring telentang setelah trimester 1 (menekan pembuluh darah besar). Hentikan olahraga dan hubungi dokter jika ada kontraksi, pendarahan, sesak napas mendadak, atau pusing berlebihan saat berolahraga.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa saja pantangan makanan yang harus dihindari ibu hamil?</div><div class="faq-a">Hindari: (1) Ikan tinggi merkuri (ikan hiu, ikan pedang, king mackerel, tuna sirip biru). (2) Daging, ikan, dan telur mentah atau setengah matang (risiko toksoplasmosis, Listeria, Salmonella). (3) Produk susu tidak pasteurisasi. (4) Alkohol — tidak ada batas aman. (5) Kafein berlebih — maks 200mg/hari (~2 cangkir kopi). (6) Jamu-jamuan yang tidak terjamin keamanannya. Pilih nasi matang penuh, ikan yang dimasak sempurna, dan hindari lalapan mentah yang tidak dicuci bersih dari warung.</div></div>
+
 </div>
 
 <footer>
@@ -283,6 +351,44 @@ const today=new Date();today.setHours(0,0,0,0);
 
 function fmtDate(d){if(!d||isNaN(d))return'—';return d.getDate()+' '+MONTHS_ID[d.getMonth()]+' '+d.getFullYear();}
 function fmtInput(d){if(!d||isNaN(d))return'';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+const BULAN_ID=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+function buildDateSels(){
+  const curY=today.getFullYear();
+  ['h-hpht','h-today'].forEach(prefix=>{
+    const sd=document.getElementById(prefix+'-d');
+    const sm=document.getElementById(prefix+'-m');
+    const sy=document.getElementById(prefix+'-y');
+    if(!sd||!sm||!sy)return;
+    // Tanggal 1-31
+    sd.innerHTML='<option value="">Tgl</option>'+Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+    // Bulan
+    sm.innerHTML='<option value="">Bulan</option>'+BULAN_ID.map((b,i)=>`<option value="${i+1}">${b}</option>`).join('');
+    // Tahun (5 tahun ke belakang - 2 tahun ke depan)
+    const years=[];for(let y=curY-5;y<=curY+2;y++)years.push(y);
+    sy.innerHTML='<option value="">Tahun</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
+  });
+}
+
+function setDateSel(prefix,d){
+  const sd=document.getElementById(prefix+'-d');
+  const sm=document.getElementById(prefix+'-m');
+  const sy=document.getElementById(prefix+'-y');
+  if(!sd||!sm||!sy||!d||isNaN(d))return;
+  sd.value=d.getDate();
+  sm.value=d.getMonth()+1;
+  sy.value=d.getFullYear();
+}
+
+function parseSel(prefix){
+  const d=document.getElementById(prefix+'-d');
+  const m=document.getElementById(prefix+'-m');
+  const y=document.getElementById(prefix+'-y');
+  if(!d||!m||!y||!d.value||!m.value||!y.value)return null;
+  const dt=new Date(parseInt(y.value),parseInt(m.value)-1,parseInt(d.value));
+  return isNaN(dt)?null:dt;
+}
+
 function parseD(id){const el=document.getElementById(id);if(!el||!el.value)return null;const d=new Date(el.value+'T00:00:00');return isNaN(d)?null:d;}
 function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
 
@@ -294,7 +400,7 @@ function getTrimester(week){
 
 // ① HPHT
 function calcHPHT(){
-  const hpht=parseD('h-hpht'),tgl=parseD('h-today');
+  const hpht=parseSel('h-hpht'),tgl=parseSel('h-today');
   if(!hpht||!tgl)return;
   const hpl=new Date(hpht);hpl.setDate(hpl.getDate()+280);
   const totalHariKehamilan=Math.round((tgl-hpht)/(1000*60*60*24));
@@ -372,11 +478,10 @@ function renderJanin(){
 }
 
 // Init
-document.getElementById('h-today').value=fmtInput(today);
-document.getElementById('u-today').value=fmtInput(today);
-document.getElementById('u-tgl-usg').value=fmtInput(today);
+buildDateSels();
 const defHPHT=new Date(today);defHPHT.setDate(defHPHT.getDate()-84);
-document.getElementById('h-hpht').value=fmtInput(defHPHT);
+setDateSel('h-today',today);
+setDateSel('h-hpht',defHPHT);
 
 document.querySelectorAll('.tbtn').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -386,7 +491,7 @@ document.querySelectorAll('.tbtn').forEach(btn=>{
   });
 });
 document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
-renderWeekGrid();renderJanin();calcHPHT();calcUSG();
+renderWeekGrid();renderJanin();calcHPHT();
 
 // GEJALA & TIPS TRIMESTER
 const GEJALA_DATA = {
