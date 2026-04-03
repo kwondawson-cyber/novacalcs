@@ -1,319 +1,52 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Konversi Kecepatan 2026 — Ubah km/jam, mph, m/s, knot Online | NovaCalcs</title>
-<meta name="description" content="Konversi satuan kecepatan secara instan: km/jam, mph, m/s, knot, Mach. Lengkap dengan kalkulator waktu perjalanan dan pace lari olahraga."/>
-<meta name="keywords" content="konversi kecepatan, ubah km jam ke mph, m per detik, knot, mach, kalkulator waktu perjalanan, pace lari"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-kecepatan.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/konversi-kecepatan.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.75rem}
-.preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.5rem .5rem;cursor:pointer;font-size:.77rem;color:#c0cdd8;text-align:left;transition:all .2s;font-family:inherit}
-.preset-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.35);color:#00C9B1}
-.preset-btn strong{display:block;font-size:.83rem;color:#fff;margin-bottom:.1rem}
-.result-highlight{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-bottom:.5rem}
-.tool-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin-bottom:.6rem}
-.tool-card h4{margin:0 0 .5rem;color:#00C9B1;font-size:.88rem}
-.tool-result{background:rgba(0,201,177,.07);border-radius:7px;padding:.5rem .7rem;margin-top:.5rem;font-size:.85rem;color:#c0cdd8;display:none;line-height:1.6}
-.ref-table{width:100%;border-collapse:collapse;font-size:.82rem}
-.ref-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.4rem .5rem;text-align:left;font-size:.78rem}
-.ref-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
-.ref-table tr:last-child td{border-bottom:none}
-</style>
-</head>
-<body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#konversi">Konversi</a><span class="breadcrumb-sep">›</span>
-      <span>Konversi Kecepatan</span>
-    </nav>
-  </div>
-</header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">💨 Konversi Kecepatan</div>
-      <div class="calc-subtitle">km/jam, mph, m/s, knot, Mach &amp; lebih</div>
-
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-konversi',this)">🔄 Konversi</button>
-        <button class="tab-btn" onclick="showTab('tab-perjalanan',this)">🚗 Waktu Perjalanan</button>
-        <button class="tab-btn" onclick="showTab('tab-referensi',this)">📋 Referensi</button>
-      </div>
-
-      <!-- TAB 1: KONVERSI -->
-      <div id="tab-konversi" class="tab-pane active">
-        <div class="field"><label>Nilai</label>
-          <input type="number" id="input-val" placeholder="Masukkan angka" step="any" oninput="convert()"/>
-        </div>
-        <div class="field"><label>Dari Satuan</label>
-          <select id="from-unit" onchange="convert()">
-            <option value="kmh">km/jam (km/h)</option>
-            <option value="mph">mph (mil per jam)</option>
-            <option value="ms">m/s (meter per detik)</option>
-            <option value="knot">Knot (kn)</option>
-            <option value="mach">Mach (Ma)</option>
-            <option value="fts">ft/s (kaki per detik)</option>
-            <option value="cms">cm/s (cm per detik)</option>
-          </select>
-        </div>
-
-        <div style="font-size:.78rem;font-weight:600;color:#8fa3b1;margin:.6rem 0 .35rem">⚡ Konversi Populer</div>
-        <div class="preset-grid" id="preset-grid"></div>
-        <div id="preset-result" style="display:none;margin-bottom:.6rem">
-          <div class="result-highlight" id="preset-highlight"></div>
-          <div class="result-rows" id="preset-rows"></div>
-        </div>
-
-        <button class="calc-btn" onclick="convert()">Konversi</button>
-        <div class="result-panel" id="result">
-          <div class="result-rows" id="result-rows">
-            <div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 2: KALKULATOR PERJALANAN -->
-      <div id="tab-perjalanan" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:.75rem">Hitung waktu perjalanan, jarak, atau kecepatan dari dua variabel yang diketahui.</p>
-
-        <!-- Kalkulator jarak/waktu/kecepatan -->
-        <div class="tool-card">
-          <h4>🚗 Hitung Waktu / Jarak / Kecepatan</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.45rem">
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Jarak (km)</label><input type="number" id="tr-dist" placeholder="Kosongkan untuk hitung" min="0" step="any"/></div>
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Kecepatan (km/jam)</label><input type="number" id="tr-speed" placeholder="Kosongkan untuk hitung" min="0" step="any"/></div>
-          </div>
-          <div class="field" style="margin:.4rem 0 0"><label style="font-size:.75rem">Waktu (jam) — atau kosongkan untuk hitung</label><input type="number" id="tr-time" placeholder="Kosongkan untuk hitung" min="0" step="any"/></div>
-          <button style="width:100%;margin-top:.5rem;padding:.45rem;background:rgba(0,201,177,.15);border:1px solid rgba(0,201,177,.3);color:#00C9B1;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.83rem" onclick="calculateTravel()">Hitung</button>
-          <div class="tool-result" id="tr-result"></div>
-        </div>
-
-        <!-- Pace lari -->
-        <div class="tool-card">
-          <h4>🏃 Kalkulator Pace Lari</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.45rem">
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Kecepatan lari (km/jam)</label><input type="number" id="pace-speed" placeholder="Contoh: 10" min="1" step="0.1" oninput="calculatePace()"/></div>
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Target jarak</label>
-              <select id="pace-dist">
-                <option value="1">1 km</option>
-                <option value="5">5 km</option>
-                <option value="10">10 km</option>
-                <option value="21.0975">Half Marathon (21,1 km)</option>
-                <option value="42.195">Full Marathon (42,2 km)</option>
-              </select>
-            </div>
-          </div>
-          <div class="tool-result" id="pace-result"></div>
-        </div>
-      </div>
-
-      <!-- TAB 3: REFERENSI -->
-      <div id="tab-referensi" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Referensi kecepatan berbagai kendaraan dan aktivitas.</p>
-        <table class="ref-table">
-          <thead><tr><th>Aktivitas / Kendaraan</th><th>km/jam</th><th>m/s</th></tr></thead>
-          <tbody>
-            <tr><td>🚶 Jalan kaki santai</td><td>4–5</td><td>1,1–1,4</td></tr>
-            <tr><td>🏃 Lari jogging</td><td>8–12</td><td>2,2–3,3</td></tr>
-            <tr><td>🚴 Sepeda santai</td><td>15–20</td><td>4,2–5,6</td></tr>
-            <tr><td>🛵 Motor di dalam kota</td><td>40–60</td><td>11,1–16,7</td></tr>
-            <tr><td>🚗 Tol dalam kota</td><td>60–80</td><td>16,7–22,2</td></tr>
-            <tr><td>🚗 Tol luar kota (maks)</td><td>100</td><td>27,8</td></tr>
-            <tr><td>🚄 Kereta Whoosh (KCJB)</td><td>350</td><td>97,2</td></tr>
-            <tr><td>✈️ Pesawat komersial</td><td>~880</td><td>244,4</td></tr>
-            <tr><td>🔊 Kecepatan suara (20°C)</td><td>1.235 (Mach 1)</td><td>343</td></tr>
-            <tr><td>💡 Kecepatan cahaya</td><td>1.080.000.000</td><td>299.792.458</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="content-area">
-    <h1>Konversi Satuan Kecepatan — km/jam, mph, m/s, Knot, Mach</h1>
-    <p class="page-desc">Konverter kecepatan lengkap untuk mengubah km/jam ke mph, m/s, knot, Mach, dan satuan lainnya. Berguna untuk pengemudi, pilot, pelaut, atlet, dan pelajar fisika. Dilengkapi kalkulator waktu perjalanan dan pace lari.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Satuan Kecepatan yang Umum Digunakan</h2>
-    <p>Di Indonesia, km/jam adalah satuan kecepatan utama untuk lalu lintas darat, batas kecepatan jalan, dan speedometer kendaraan. Knot digunakan dalam navigasi laut dan penerbangan internasional. Di negara berbahasa Inggris seperti AS dan Inggris, mph (miles per hour) adalah standar untuk lalu lintas darat. Dalam fisika dan sains, m/s (meter per detik) adalah satuan SI yang paling tepat secara ilmiah.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li><strong>Tab Konversi:</strong> Masukkan nilai kecepatan, pilih satuan asal, dan semua hasil langsung tampil. Gunakan preset konversi populer untuk akses lebih cepat.</li>
-      <li><strong>Tab Waktu Perjalanan:</strong> Hitung waktu, jarak, atau kecepatan dari dua variabel yang diketahui. Juga tersedia kalkulator pace lari untuk pelari.</li>
-      <li><strong>Tab Referensi:</strong> Lihat tabel kecepatan berbagai kendaraan dan aktivitas sebagai perbandingan.</li>
-    </ol>
-
-    <h2>Tabel Konversi Kecepatan</h2>
-    <table>
-      <tr><th>Satuan</th><th>Setara dalam m/s</th><th>Setara dalam km/jam</th></tr>
-      <tr><td>1 m/s</td><td>1</td><td>3,6</td></tr>
-      <tr><td>1 km/jam</td><td>0,2778</td><td>1</td></tr>
-      <tr><td>1 mph</td><td>0,4470</td><td>1,6093</td></tr>
-      <tr><td>1 knot</td><td>0,5144</td><td>1,852</td></tr>
-      <tr><td>1 Mach (udara 20°C)</td><td>343</td><td>1.235</td></tr>
-      <tr><td>1 ft/s</td><td>0,3048</td><td>1,0973</td></tr>
-    </table>
-
-    <h2>Cara Cepat Konversi Kecepatan Secara Manual</h2>
-    <p>Rumus konversi yang bisa dihafal untuk kebutuhan sehari-hari: km/jam ke m/s → bagi dengan 3,6. m/s ke km/jam → kalikan dengan 3,6. km/jam ke mph → bagi dengan 1,609 (atau kalikan 0,621). mph ke km/jam → kalikan dengan 1,609. knot ke km/jam → kalikan dengan 1,852.</p>
-
-    <h2>Kecepatan dalam Kehidupan Sehari-hari Indonesia</h2>
-    <table>
-      <tr><th>Situasi</th><th>Kecepatan (km/jam)</th><th>Dasar Hukum</th></tr>
-      <tr><td>Kawasan perumahan / sekolah</td><td>25–30</td><td>PP No. 79/2013</td></tr>
-      <tr><td>Jalan dalam kota</td><td>maks 50</td><td>PP No. 79/2013</td></tr>
-      <tr><td>Jalan tol dalam kota</td><td>60–80 (min 60)</td><td>PP No. 79/2013</td></tr>
-      <tr><td>Jalan tol luar kota</td><td>60–100 (min 60)</td><td>PP No. 79/2013</td></tr>
-      <tr><td>Kereta Whoosh KCJB</td><td>maks 350</td><td>Operasional 2023</td></tr>
-    </table>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">100 km/jam berapa mph?</div><div class="faq-a">100 km/jam ≈ 62,14 mph. Konversi: 1 km/jam = 0,6214 mph. Batas kecepatan tol Indonesia 100 km/jam setara sekitar 62 mph — sedikit di bawah batas tol umum di AS (65–70 mph). Cara cepat: km/jam × 0,6 ≈ mph.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu knot dan kenapa digunakan di laut?</div><div class="faq-a">Knot adalah satuan kecepatan setara dengan 1 mil laut per jam (1,852 km/jam). Digunakan dalam navigasi laut dan udara karena mil laut berhubungan langsung dengan koordinat geografis — 1 mil laut = 1 menit busur lingkaran besar bumi. Kapal pesiar biasanya berlayar 18–22 knot (33–41 km/jam).</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mach 1 berapa km/jam?</div><div class="faq-a">Mach 1 = kecepatan suara ≈ 1.235 km/jam pada kondisi standar (udara 20°C, tekanan permukaan laut). Nilai pastinya 343 m/s = 1.235 km/jam. Di ketinggian jelajah pesawat (~10.000 m), kecepatan suara lebih rendah (~1.062 km/jam) karena udara lebih dingin. Pesawat komersial terbang di Mach 0,80–0,85.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa kecepatan maksimum di jalan tol Indonesia?</div><div class="faq-a">Batas kecepatan maksimum di jalan tol Indonesia adalah 100 km/jam sesuai PP No. 79 Tahun 2013, kecuali ditentukan lain oleh rambu. Kecepatan minimum di tol adalah 60 km/jam. Beberapa ruas tol bisa memiliki batas lebih rendah (80 km/jam) tergantung kondisi geometri jalan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa kecepatan suara disebut Mach?</div><div class="faq-a">Mach diambil dari nama fisikawan Austria Ernst Mach yang mempelajari aerodinamika. Bilangan Mach adalah rasio kecepatan benda terhadap kecepatan suara di medium sekitarnya. Mach 2 = dua kali kecepatan suara. Pesawat tempur modern seperti F-22 bisa mencapai Mach 2+.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa kecepatan lari manusia tercepat?</div><div class="faq-a">Usain Bolt memegang rekor dunia 100m dengan waktu 9,58 detik (2009), setara kecepatan puncak sekitar 44,7 km/jam (12,4 m/s). Kecepatan rata-rata sepanjang 100m sekitar 37,6 km/jam. Pelari maraton elite berlari rata-rata sekitar 20 km/jam — sangat konsisten selama 42 km.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/konversi-panjang.html" class="related-item"><span class="ri">📏</span>Konversi Panjang</a>
-      <a href="/id/konversi-waktu.html" class="related-item"><span class="ri">⏱️</span>Konversi Waktu</a>
-      <a href="/id/kalkulator-kalori-olahraga.html" class="related-item"><span class="ri">🏃</span>Kalori Olahraga</a>
-      <a href="/id/selisih-tanggal.html" class="related-item"><span class="ri">📅</span>Selisih Tanggal</a>
-    </div>
-  </div>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konversi Kecepatan 2026 — km/h, mph, m/s, knot & semua satuan | NovaCalcs</title>
+<meta name="description" content="Konversi kecepatan 2026: km/jam, mph, m/s, knot, mach secara instan. Gratis.">
+<link rel="canonical" href="https://novacalcs.com/id/konversi-kecepatan">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06)}body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}a{color:var(--pri);text-decoration:none}.nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}.nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}.nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none}.nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}.hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}.hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}.hdr-h1{font-size:clamp(20px,5vw,28px);font-weight:800;letter-spacing:-.8px}.hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}.main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px}@media(max-width:700px){.main{grid-template-columns:1fr}}.left-col{display:flex;flex-direction:column;gap:20px}.card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}.card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}.card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}.card-b{padding:18px}.conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:480px){.conv-grid{grid-template-columns:1fr}}.conv-item{background:var(--sur2);border:1.5px solid var(--bor);border-radius:var(--rs);padding:10px 12px;transition:border-color .15s}.conv-item.active{border-color:var(--pri);background:var(--pri-l)}.conv-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}.conv-item.active .conv-lbl{color:var(--pri)}.conv-inp{width:100%;border:none;background:transparent;font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--tx);outline:none;-moz-appearance:textfield}.conv-inp::-webkit-outer-spin-button,.conv-inp::-webkit-inner-spin-button{-webkit-appearance:none}.conv-unit{font-size:10px;color:var(--tx3);margin-top:2px}.other-conv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.oc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:11px;text-decoration:none;color:inherit;transition:border-color .15s}.oc:hover{border-color:var(--pri)}.oc-ico{font-size:18px;margin-bottom:4px}.oc-nm{font-size:12px;font-weight:700}.oc-ds{font-size:10px;color:var(--tx3)}.sb{display:flex;flex-direction:column;gap:16px}.flist{display:flex;flex-direction:column;gap:6px}.frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}.frl{display:flex;align-items:center;gap:9px}.fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}.fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}.seo{max-width:880px;margin:0 auto;padding:0 20px 60px}.seo h2{font-size:18px;font-weight:800;margin:32px 0 8px}.seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:8px}footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}footer a{color:var(--tx3)}.presets{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}.pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s;font-family:inherit}.pb:hover{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}</style>
+</head><body>
+<nav class="nav"><div class="nav-i"><a href="/id/" class="nav-logo">⚡ NovaCalcs</a><span class="nav-sep">/</span><span class="nav-cur">Konversi Kecepatan</span></div></nav>
+<header class="hdr"><div class="hdr-tag">💨 Kecepatan</div><h1 class="hdr-h1">Konversi Kecepatan 2026</h1><p class="hdr-sub">Konversi km/jam, mph, m/detik, knot, dan mach secara instan.</p></header>
+<main class="main">
+<div class="left-col">
+<div class="card"><div class="card-h"><div class="card-ico">💨</div>Konverter Kecepatan</div><div class="card-b">
+<div class="presets"><button class="pb" onclick="activeId='kmh';baseVal=60/(UNITS.find(u=>u.id==='kmh')?.factor||1);renderGrid()">60 km/h</button><button class="pb" onclick="activeId='kmh';baseVal=100/(UNITS.find(u=>u.id==='kmh')?.factor||1);renderGrid()">100 km/h</button><button class="pb" onclick="activeId='knot';baseVal=1/(UNITS.find(u=>u.id==='knot')?.factor||1);renderGrid()">1 knot</button></div>
+<div class="conv-grid" id="conv-grid"></div>
+</div></div>
+</div>
+<div class="sb">
+<div class="card"><div class="card-h"><div class="card-ico">🔗</div>Konverter Lainnya</div><div class="card-b"><div class="other-conv">
+<a href="/id/konversi-berat" class="oc"><div class="oc-ico">⚖️</div><div class="oc-nm">Berat</div><div class="oc-ds">kg, lb, oz</div></a>
+<a href="/id/konversi-panjang" class="oc"><div class="oc-ico">📏</div><div class="oc-nm">Panjang</div><div class="oc-ds">m, km, inch</div></a>
+<a href="/id/konversi-suhu" class="oc"><div class="oc-ico">🌡️</div><div class="oc-nm">Suhu</div><div class="oc-ds">°C, °F, K</div></a>
+<a href="/id/konversi-data" class="oc"><div class="oc-ico">💾</div><div class="oc-nm">Data</div><div class="oc-ds">KB, MB, GB, TB</div></a>
+</div></div></div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
-</footer>
-<script defer>
-// Mach = 343 m/s (20°C, permukaan laut) — fix dari 340.3 yang kurang tepat
-const toMs = {
-  kmh: 1/3.6, mph: 0.44704, ms: 1,
-  knot: 0.514444, mach: 343, fts: 0.3048, cms: 0.01
-};
-const labels = {
-  kmh:'km/jam (km/h)', mph:'mph (mil/jam)', ms:'m/s (meter/detik)',
-  knot:'Knot (kn)', mach:'Mach (Ma)', fts:'ft/s (kaki/detik)', cms:'cm/s'
-};
-
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+<div class="seo"><h2>Konversi Satuan Kecepatan</h2><p>1 km/h = 0,27778 m/s = 0,62137 mph = 0,53996 knot. Batas kecepatan jalan tol Indonesia: 100 km/h. Kecepatan suara: ≈1.225 km/h (Mach 1) di permukaan laut.</p></div>
+<footer><span>© 2026 NovaCalcs</span><span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span></footer>
+<script>
+const UNITS=[{"id": "kmh", "nm": "Km per Jam", "sym": "km/h", "factor": 1}, {"id": "ms", "nm": "Meter per Detik", "sym": "m/s", "factor": 3.6}, {"id": "mph", "nm": "Mil per Jam (mph)", "sym": "mph", "factor": 1.60934}, {"id": "knot", "nm": "Knot", "sym": "kn", "factor": 1.852}, {"id": "fts", "nm": "Feet per Detik", "sym": "ft/s", "factor": 1.09728}, {"id": "mach", "nm": "Mach (suara)", "sym": "M", "factor": 1225.044}];
+let activeId=UNITS[0].id,baseVal=1;
+function fmtN(n){if(n===0)return'0';if(Math.abs(n)<0.000001&&n!==0||Math.abs(n)>1e12)return n.toExponential(4);return parseFloat(n.toPrecision(8)).toLocaleString('id-ID',{maximumFractionDigits:8});}
+function renderGrid(){
+  const wrap=document.getElementById('conv-grid');if(!wrap)return;
+  wrap.innerHTML=UNITS.map(u=>`<div class="conv-item${u.id===activeId?' active':''} " onclick="activateUnit('${u.id}')">
+    <div class="conv-lbl">${u.nm}</div>
+    <input class="conv-inp" type="number" id="inp-${u.id}" value="${fmtN(baseVal*u.factor)}" oninput="onInput('${u.id}',this.value)" placeholder="0">
+    <div class="conv-unit">${u.sym}</div>
+  </div>`).join('');
+}
+function activateUnit(id){activeId=id;const el=document.getElementById('inp-'+id);if(el)el.focus();renderGrid();}
+function onInput(id,val){
+  const n=parseFloat(val);if(isNaN(n))return;
+  const u=UNITS.find(u=>u.id===id);if(!u)return;
+  baseVal=n/u.factor;activeId=id;
+  UNITS.forEach(u2=>{if(u2.id===id)return;const el=document.getElementById('inp-'+u2.id);if(el)el.value=fmtN(baseVal*u2.factor);});
 }
 
-function fmt(n) {
-  if (n === 0) return '0';
-  if (Math.abs(n) >= 0.001 && Math.abs(n) < 1e9) return n.toLocaleString('id-ID', {maximumSignificantDigits:6});
-  return n.toExponential(4).replace('.', ',');
-}
-
-function convert() {
-  const val  = parseFloat(document.getElementById('input-val').value);
-  const from = document.getElementById('from-unit').value;
-  if (isNaN(val)) {
-    document.getElementById('result-rows').innerHTML = '<div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>';
-    return;
-  }
-  const ms = val * toMs[from];
-  document.getElementById('result-rows').innerHTML =
-    Object.entries(toMs).filter(([u]) => u !== from).map(([unit, factor]) =>
-      `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(ms/factor)}</span></div>`
-    ).join('');
-  document.getElementById('result').classList.add('show');
-}
-
-const PRESETS = [
-  {label:'100 km/jam → mph / m/s', val:100, from:'kmh'},
-  {label:'60 mph → km/jam', val:60, from:'mph'},
-  {label:'1 Mach → km/jam', val:1, from:'mach'},
-  {label:'20 knot → km/jam', val:20, from:'knot'},
-  {label:'10 m/s → km/jam', val:10, from:'ms'},
-  {label:'350 km/jam (Whoosh) → mph', val:350, from:'kmh'},
-];
-function renderPresets() {
-  document.getElementById('preset-grid').innerHTML = PRESETS.map((p, i) =>
-    `<button class="preset-btn" onclick="runPreset(${i})"><strong>${p.label}</strong>${p.val} ${labels[p.from]}</button>`
-  ).join('');
-}
-function runPreset(i) {
-  const p = PRESETS[i];
-  const ms = p.val * toMs[p.from];
-  document.getElementById('preset-highlight').innerHTML =
-    `<strong style="color:#00C9B1">${p.val} ${labels[p.from]}</strong> sama dengan:`;
-  document.getElementById('preset-rows').innerHTML =
-    Object.entries(toMs).filter(([u]) => u !== p.from).map(([unit, factor]) =>
-      `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(ms/factor)}</span></div>`
-    ).join('');
-  document.getElementById('preset-result').style.display = 'block';
-}
-renderPresets();
-
-function calculateTravel() {
-  const dist  = parseFloat(document.getElementById('tr-dist').value);
-  const speed = parseFloat(document.getElementById('tr-speed').value);
-  const time  = parseFloat(document.getElementById('tr-time').value);
-  const known = [dist, speed, time].filter(v => !isNaN(v) && v > 0).length;
-  if (known < 2) { alert('Isi minimal 2 dari 3 kolom (kosongkan satu untuk dihitung).'); return; }
-
-  let r = document.getElementById('tr-result');
-  if (!isNaN(dist) && !isNaN(speed) && isNaN(time)) {
-    const t = dist / speed;
-    const h = Math.floor(t), m = Math.round((t - h) * 60);
-    r.innerHTML = `⏱️ Waktu: <strong style="color:#00C9B1">${h > 0 ? h + ' jam ' : ''}${m} menit</strong> (${t.toFixed(2).replace('.', ',')} jam)`;
-  } else if (!isNaN(speed) && !isNaN(time) && isNaN(dist)) {
-    const d = speed * time;
-    r.innerHTML = `📍 Jarak: <strong style="color:#00C9B1">${d.toFixed(1).replace('.', ',')} km</strong>`;
-  } else if (!isNaN(dist) && !isNaN(time) && isNaN(speed)) {
-    const s = dist / time;
-    r.innerHTML = `💨 Kecepatan rata-rata: <strong style="color:#00C9B1">${s.toFixed(1).replace('.', ',')} km/jam</strong> (${(s/3.6).toFixed(2).replace('.', ',')} m/s)`;
-  } else {
-    r.innerHTML = '💡 Kosongkan satu kolom untuk menghitung nilainya.';
-  }
-  r.style.display = 'block';
-}
-
-function calculatePace() {
-  const speed = parseFloat(document.getElementById('pace-speed').value);
-  const dist  = parseFloat(document.getElementById('pace-dist').value);
-  if (!speed || speed < 1) return;
-  const paceMinPerKm = 60 / speed;
-  const pm = Math.floor(paceMinPerKm);
-  const ps = Math.round((paceMinPerKm - pm) * 60);
-  const totalMin = paceMinPerKm * dist;
-  const th = Math.floor(totalMin / 60);
-  const tm = Math.round(totalMin % 60);
-  const r = document.getElementById('pace-result');
-  r.innerHTML = `🏃 Pace: <strong style="color:#00C9B1">${pm}:${ps.toString().padStart(2,'0')} menit/km</strong><br>
-    ⏱️ Estimasi selesai ${dist} km: <strong style="color:#00C9B1">${th > 0 ? th + ' jam ' : ''}${tm} menit</strong>`;
-  r.style.display = 'block';
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+renderGrid();
 </script>
-</body>
-</html>
+</body></html>

@@ -1,331 +1,52 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Konversi Volume — Liter, mL, Galon, cc, m³ Online | NovaCalcs</title>
-<meta name="description" content="Konversi satuan volume secara instan: liter, mililiter, galon, cc, m³, fl oz, pint, quart. Lengkap dengan konversi memasak dan kalkulator konsumsi air harian."/>
-<meta name="keywords" content="konversi volume, ubah liter ke ml, galon ke liter, cc ke liter, satuan volume, konversi cairan, cup ke ml"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-volume.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/konversi-volume.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem}
-.preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.55rem .5rem;cursor:pointer;font-size:.78rem;color:#c0cdd8;text-align:left;transition:all .2s;font-family:inherit}
-.preset-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.35);color:#00C9B1}
-.preset-btn strong{display:block;font-size:.85rem;color:#fff;margin-bottom:.1rem}
-.result-highlight{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-bottom:.5rem;font-size:.9rem}
-.ref-table{width:100%;border-collapse:collapse;font-size:.82rem}
-.ref-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.4rem .5rem;text-align:left;font-size:.78rem}
-.ref-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
-.ref-table tr:last-child td{border-bottom:none}
-.tool-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin-bottom:.6rem}
-.tool-card h4{margin:0 0 .5rem;color:#00C9B1;font-size:.88rem}
-.tool-result{background:rgba(0,201,177,.07);border-radius:7px;padding:.5rem .7rem;margin-top:.5rem;font-size:.85rem;color:#c0cdd8;display:none;line-height:1.6}
-.cook-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
-</style>
-</head>
-<body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#konversi">Konversi</a><span class="breadcrumb-sep">›</span>
-      <span>Konversi Volume</span>
-    </nav>
-  </div>
-</header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🧪 Konversi Volume</div>
-      <div class="calc-subtitle">Liter, mL, galon, cc, m³ &amp; lebih</div>
-
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-konversi',this)">🔄 Konversi</button>
-        <button class="tab-btn" onclick="showTab('tab-cepat',this)">⚡ Konversi Cepat</button>
-        <button class="tab-btn" onclick="showTab('tab-referensi',this)">📋 Referensi</button>
-      </div>
-
-      <!-- TAB 1: KONVERSI UTAMA -->
-      <div id="tab-konversi" class="tab-pane active">
-        <div class="field"><label>Nilai</label>
-          <input type="number" id="input-val" placeholder="Masukkan angka" step="any" oninput="convert()"/>
-        </div>
-        <div class="field"><label>Dari Satuan</label>
-          <select id="from-unit" onchange="convert()">
-            <optgroup label="Metrik">
-              <option value="l">Liter (L)</option>
-              <option value="ml">Mililiter (mL)</option>
-              <option value="cl">Sentiliter (cL)</option>
-              <option value="dl">Desiliter (dL)</option>
-              <option value="m3">Meter kubik (m³)</option>
-              <option value="cm3">cm³ / cc</option>
-              <option value="mm3">mm³</option>
-            </optgroup>
-            <optgroup label="Imperial / US">
-              <option value="floz_us">fl oz (US)</option>
-              <option value="cup_us">Cup (US)</option>
-              <option value="pt_us">Pint (US)</option>
-              <option value="qt_us">Quart (US)</option>
-              <option value="gal_us">Galon (US)</option>
-              <option value="floz_uk">fl oz (UK)</option>
-              <option value="gal_uk">Galon (UK)</option>
-            </optgroup>
-          </select>
-        </div>
-        <button class="calc-btn" onclick="convert()">Konversi</button>
-        <div class="result-panel" id="result">
-          <div class="result-rows" id="result-rows"><div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div></div>
-        </div>
-      </div>
-
-      <!-- TAB 2: KONVERSI CEPAT -->
-      <div id="tab-cepat" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Konversi populer dan alat bantu dapur satu klik.</p>
-
-        <div style="font-size:.78rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">🔥 Konversi Populer</div>
-        <div class="preset-grid" id="preset-grid"></div>
-        <div id="preset-result" style="display:none;margin-bottom:.75rem">
-          <div class="result-highlight" id="preset-highlight"></div>
-          <div class="result-rows" id="preset-rows"></div>
-        </div>
-
-        <!-- Konversi dapur -->
-        <div class="tool-card">
-          <h4>🍳 Konversi Ukuran Dapur (sdt / sdm / cup)</h4>
-          <div class="cook-grid">
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Jumlah</label><input type="number" id="ck-val" placeholder="3" min="0" step="any" oninput="convertCooking()"/></div>
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Satuan</label>
-              <select id="ck-unit" onchange="convertCooking()">
-                <option value="5">Sendok teh (sdt) = 5 mL</option>
-                <option value="15">Sendok makan (sdm) = 15 mL</option>
-                <option value="200">Gelas belimbing = 200 mL</option>
-                <option value="236.6">Cup US = 236,6 mL</option>
-                <option value="250">Cup Australia = 250 mL</option>
-              </select>
-            </div>
-          </div>
-          <div class="tool-result" id="ck-result"></div>
-        </div>
-
-        <!-- Kebutuhan air harian -->
-        <div class="tool-card">
-          <h4>💧 Estimasi Kebutuhan Air Harian</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem">
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Berat badan (kg)</label><input type="number" id="water-kg" placeholder="65" min="30" max="200" oninput="calcWater()"/></div>
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Aktivitas</label>
-              <select id="water-act" onchange="calcWater()">
-                <option value="30">Ringan (duduk, kantor)</option>
-                <option value="35">Sedang (berjalan, berdiri)</option>
-                <option value="40">Aktif (olahraga rutin)</option>
-              </select>
-            </div>
-          </div>
-          <div class="tool-result" id="water-result"></div>
-        </div>
-      </div>
-
-      <!-- TAB 3: REFERENSI -->
-      <div id="tab-referensi" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Volume benda dan wadah yang umum ditemui sehari-hari.</p>
-        <table class="ref-table">
-          <thead><tr><th>Objek / Wadah</th><th>Volume</th><th>Setara</th></tr></thead>
-          <tbody>
-            <tr><td>Sendok teh</td><td>~5 mL</td><td>0,005 L</td></tr>
-            <tr><td>Sendok makan</td><td>~15 mL</td><td>0,015 L</td></tr>
-            <tr><td>Gelas belimbing (standar resep)</td><td>~200 mL</td><td>0,2 L</td></tr>
-            <tr><td>Gelas minum biasa</td><td>~240 mL</td><td>≈ 1 cup US</td></tr>
-            <tr><td>Botol air mineral kecil</td><td>600 mL</td><td>0,6 L</td></tr>
-            <tr><td>Botol air mineral besar</td><td>1.500 mL</td><td>1,5 L</td></tr>
-            <tr><td>Galon air isi ulang</td><td>19 L</td><td>5 galon US</td></tr>
-            <tr><td>Tangki bensin motor standar</td><td>3–5 L</td><td>3.000–5.000 mL</td></tr>
-            <tr><td>Mesin motor 150cc</td><td>150 cc</td><td>150 mL = 0,15 L</td></tr>
-            <tr><td>Ember standar</td><td>~15 L</td><td>15.000 mL</td></tr>
-            <tr><td>Toren air 1 unit</td><td>1.000 L</td><td>1 m³</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="content-area">
-    <h1>Konversi Satuan Volume — Liter, mL, Galon, cc, m³ dan Lebih</h1>
-    <p class="page-desc">Konversi satuan volume yang lengkap dari liter ke mililiter, galon, cc, m³, dan berbagai satuan imperial. Berguna untuk memasak, kimia, farmasi, dan keperluan otomotif.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Satuan Volume yang Umum di Indonesia</h2>
-    <p>Di Indonesia, liter (L) dan mililiter (mL) adalah satuan volume paling umum dalam kehidupan sehari-hari — botol minuman, kemasan obat, dan bahan masak semua menggunakan satuan ini. CC (cubic centimeter = cm³) sering digunakan dalam konteks otomotif (kapasitas mesin) dan medis (dosis suntikan). M³ digunakan untuk air minum (tagihan PDAM dihitung per m³) dan material bangunan seperti beton dan pasir.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li>Tab <strong>Konversi:</strong> Masukkan nilai volume dan pilih satuan asal — semua hasil langsung tampil otomatis.</li>
-      <li>Tab <strong>Konversi Cepat:</strong> Klik preset konversi populer, atau gunakan alat bantu dapur (sdt/sdm/cup) dan kalkulator kebutuhan air harian.</li>
-      <li>Tab <strong>Referensi:</strong> Lihat volume benda-benda umum sebagai patokan cepat.</li>
-    </ol>
-
-    <h2>Tabel Konversi Volume Lengkap</h2>
-    <table>
-      <tr><th>Satuan</th><th>Setara dalam Liter</th></tr>
-      <tr><td>1 mililiter (mL)</td><td>0,001 L</td></tr>
-      <tr><td>1 sentiliter (cL)</td><td>0,01 L</td></tr>
-      <tr><td>1 desiliter (dL)</td><td>0,1 L</td></tr>
-      <tr><td>1 liter (L)</td><td>1 L</td></tr>
-      <tr><td>1 cc (cm³)</td><td>0,001 L — sama dengan 1 mL</td></tr>
-      <tr><td>1 meter kubik (m³)</td><td>1.000 L</td></tr>
-      <tr><td>1 fl oz (US)</td><td>0,02957 L</td></tr>
-      <tr><td>1 cup (US)</td><td>0,2366 L (≠ cup Australia 0,25 L)</td></tr>
-      <tr><td>1 pint (US)</td><td>0,4732 L</td></tr>
-      <tr><td>1 quart (US)</td><td>0,9464 L</td></tr>
-      <tr><td>1 galon (US)</td><td>3,7854 L</td></tr>
-      <tr><td>1 galon (UK)</td><td>4,5461 L</td></tr>
-    </table>
-
-    <h2>Volume dalam Memasak: Konversi Praktis</h2>
-    <table>
-      <tr><th>Satuan Dapur</th><th>Setara mL</th><th>Catatan</th></tr>
-      <tr><td>1 sendok teh (sdt)</td><td>5 mL</td><td>Standar internasional</td></tr>
-      <tr><td>1 sendok makan (sdm)</td><td>15 mL</td><td>= 3 sdt</td></tr>
-      <tr><td>1 gelas belimbing</td><td>200 mL</td><td>Standar resep Indonesia</td></tr>
-      <tr><td>1 cup (US)</td><td>236,6 mL</td><td>Berbeda dari cup Australia (250 mL)</td></tr>
-      <tr><td>1 pint (US)</td><td>473 mL</td><td>Sering di resep Amerika</td></tr>
-      <tr><td>1 galon (US)</td><td>3.785 mL</td><td>Berbeda dari galon UK (4.546 mL)</td></tr>
-    </table>
-
-    <h2>Volume Tangki Air dan Kebutuhan Rumah Tangga</h2>
-    <p>Dua konteks volume yang sering relevan saat membangun atau merenovasi rumah di Indonesia. Kebutuhan air rata-rata adalah 120–150 liter per orang per hari menurut standar WHO — untuk keluarga 4 orang, toren 1.000 liter mencukupi sekitar 2 hari cadangan. Tangki septik minimum untuk 5 penghuni perlu kapasitas 1,5–2 m³ (1.500–2.000 liter). Tagihan air PDAM dihitung dalam m³ — rata-rata rumah tangga menggunakan 15–20 m³ per bulan.</p>
-
-    <h2>Mengapa 1 Liter Air = 1 Kilogram?</h2>
-    <p>Air murni pada suhu 4°C memiliki densitas tepat 1 g/mL atau 1 kg/liter. Ini bukan kebetulan — sistem metrik memang dirancang agar 1 liter air = 1 kg untuk kemudahan perhitungan. Namun untuk cairan lain, berat per liter berbeda: minyak goreng ~0,91 kg/L, susu sapi ~1,03 kg/L, alkohol etanol ~0,79 kg/L, dan air laut ~1,025 kg/L.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 cc sama dengan berapa mL?</div><div class="faq-a">1 cc (cubic centimeter, cm³) = 1 mL secara tepat. Itulah mengapa dalam konteks medis "cc" dan "mL" digunakan secara bergantian. Suntikan 5 cc = 5 mL. Begitu pula mesin motor 150cc = kapasitas silinder 150 mL.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 galon berapa liter?</div><div class="faq-a">Ada dua jenis galon: Galon US = 3,7854 liter, dan Galon UK (Imperial) = 4,5461 liter. Galon air minum isi ulang yang populer di Indonesia berisi 19 liter — setara dengan sekitar 5 galon US. Pastikan menggunakan konversi yang tepat sesuai konteks (produk AS atau UK).</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa cup dalam 1 liter?</div><div class="faq-a">1 liter ≈ 4,23 cup (US). Atau 1 cup US = 236,6 mL. Penting: "cup" dalam resep berbeda tergantung asal: cup Australia = 250 mL, cup US = 236,6 mL, cup UK = 284 mL. Saat mengikuti resep internasional, selalu perhatikan sistem ukuran yang digunakan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu cc dalam kapasitas mesin kendaraan?</div><div class="faq-a">CC (cubic centimeter) dalam kapasitas mesin mengacu pada volume total silinder mesin. Motor 150cc berarti volume silinder mesinnya 150 cm³. Semakin besar cc, umumnya semakin bertenaga mesin tersebut, meski teknologi injeksi dan turbocharger juga berpengaruh besar.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa liter dalam 1 m³?</div><div class="faq-a">1 m³ = 1.000 liter. Ini penting dalam konteks: tagihan air PDAM (dalam m³), volume beton dan material bangunan, serta kapasitas tangki air besar. Rata-rata konsumsi air rumah tangga Indonesia sekitar 15–20 m³ per bulan.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana mengukur volume dalam memasak tanpa alat ukur?</div><div class="faq-a">Gunakan referensi: 1 sendok teh = ~5 mL, 1 sendok makan = ~15 mL, 1 gelas belimbing (standar resep Indonesia) = ~200 mL. Untuk bahan kering seperti tepung, pengukuran volume kurang akurat dibanding menimbang karena kepadatan bervariasi. Lebih baik menggunakan timbangan dapur untuk hasil yang konsisten.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/konversi-berat.html" class="related-item"><span class="ri">⚖️</span>Konversi Berat</a>
-      <a href="/id/konversi-panjang.html" class="related-item"><span class="ri">📏</span>Konversi Panjang</a>
-      <a href="/id/kebutuhan-air.html" class="related-item"><span class="ri">💧</span>Kebutuhan Air</a>
-      <a href="/id/konversi-suhu.html" class="related-item"><span class="ri">🌡️</span>Konversi Suhu</a>
-    </div>
-  </div>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konversi Volume 2026 — Liter, ml, galon, m³ & semua satuan | NovaCalcs</title>
+<meta name="description" content="Konversi volume 2026: liter, mililiter, galon, m³, pint, quart, cup, sendok teh/makan. Gratis.">
+<link rel="canonical" href="https://novacalcs.com/id/konversi-volume">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06)}body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}a{color:var(--pri);text-decoration:none}.nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}.nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}.nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none}.nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}.hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}.hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}.hdr-h1{font-size:clamp(20px,5vw,28px);font-weight:800;letter-spacing:-.8px}.hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}.main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px}@media(max-width:700px){.main{grid-template-columns:1fr}}.left-col{display:flex;flex-direction:column;gap:20px}.card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}.card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}.card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}.card-b{padding:18px}.conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:480px){.conv-grid{grid-template-columns:1fr}}.conv-item{background:var(--sur2);border:1.5px solid var(--bor);border-radius:var(--rs);padding:10px 12px;transition:border-color .15s}.conv-item.active{border-color:var(--pri);background:var(--pri-l)}.conv-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}.conv-item.active .conv-lbl{color:var(--pri)}.conv-inp{width:100%;border:none;background:transparent;font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--tx);outline:none;-moz-appearance:textfield}.conv-inp::-webkit-outer-spin-button,.conv-inp::-webkit-inner-spin-button{-webkit-appearance:none}.conv-unit{font-size:10px;color:var(--tx3);margin-top:2px}.other-conv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.oc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:11px;text-decoration:none;color:inherit;transition:border-color .15s}.oc:hover{border-color:var(--pri)}.oc-ico{font-size:18px;margin-bottom:4px}.oc-nm{font-size:12px;font-weight:700}.oc-ds{font-size:10px;color:var(--tx3)}.sb{display:flex;flex-direction:column;gap:16px}.flist{display:flex;flex-direction:column;gap:6px}.frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}.frl{display:flex;align-items:center;gap:9px}.fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}.fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}.seo{max-width:880px;margin:0 auto;padding:0 20px 60px}.seo h2{font-size:18px;font-weight:800;margin:32px 0 8px}.seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:8px}footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}footer a{color:var(--tx3)}.presets{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}.pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s;font-family:inherit}.pb:hover{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}</style>
+</head><body>
+<nav class="nav"><div class="nav-i"><a href="/id/" class="nav-logo">⚡ NovaCalcs</a><span class="nav-sep">/</span><span class="nav-cur">Konversi Volume</span></div></nav>
+<header class="hdr"><div class="hdr-tag">🧪 Volume</div><h1 class="hdr-h1">Konversi Volume 2026</h1><p class="hdr-sub">Konversi liter, mililiter, galon, m³, pint, quart, cup secara instan.</p></header>
+<main class="main">
+<div class="left-col">
+<div class="card"><div class="card-h"><div class="card-ico">🧪</div>Konverter Volume</div><div class="card-b">
+<div class="presets"><button class="pb" onclick="activeId='l';baseVal=1/(UNITS.find(u=>u.id==='l')?.factor||1);renderGrid()">1</button><button class="pb" onclick="activeId='gal_us';baseVal=1/(UNITS.find(u=>u.id==='gal_us')?.factor||1);renderGrid()">1 galon</button><button class="pb" onclick="activeId='ml';baseVal=500/(UNITS.find(u=>u.id==='ml')?.factor||1);renderGrid()">500</button></div>
+<div class="conv-grid" id="conv-grid"></div>
+</div></div>
+</div>
+<div class="sb">
+<div class="card"><div class="card-h"><div class="card-ico">🔗</div>Konverter Lainnya</div><div class="card-b"><div class="other-conv">
+<a href="/id/konversi-berat" class="oc"><div class="oc-ico">⚖️</div><div class="oc-nm">Berat</div><div class="oc-ds">kg, lb, oz</div></a>
+<a href="/id/konversi-panjang" class="oc"><div class="oc-ico">📏</div><div class="oc-nm">Panjang</div><div class="oc-ds">m, km, inch</div></a>
+<a href="/id/konversi-suhu" class="oc"><div class="oc-ico">🌡️</div><div class="oc-nm">Suhu</div><div class="oc-ds">°C, °F, K</div></a>
+<a href="/id/konversi-data" class="oc"><div class="oc-ico">💾</div><div class="oc-nm">Data</div><div class="oc-ds">KB, MB, GB, TB</div></a>
+</div></div></div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
-</footer>
-<script defer>
-const toLiter = {
-  l:1, ml:0.001, cl:0.01, dl:0.1, m3:1000, cm3:0.001, mm3:1e-6,
-  floz_us:0.0295735, cup_us:0.236588, pt_us:0.473176,
-  qt_us:0.946353, gal_us:3.78541, floz_uk:0.0284131, gal_uk:4.54609
-};
-const labels = {
-  l:'Liter (L)', ml:'Mililiter (mL)', cl:'Sentiliter (cL)', dl:'Desiliter (dL)',
-  m3:'Meter kubik (m³)', cm3:'cm³ / cc', mm3:'mm³',
-  floz_us:'fl oz (US)', cup_us:'Cup (US)', pt_us:'Pint (US)',
-  qt_us:'Quart (US)', gal_us:'Galon (US)', floz_uk:'fl oz (UK)', gal_uk:'Galon (UK)'
-};
-
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+<div class="seo"><h2>Konversi Satuan Volume</h2><p>1 liter = 1.000 ml = 0,001 m³ = 0,264 galon AS. 1 galon AS = 3,785 liter. 1 galon UK = 4,546 liter.</p></div>
+<footer><span>© 2026 NovaCalcs</span><span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span></footer>
+<script>
+const UNITS=[{"id": "l", "nm": "Liter", "sym": "L", "factor": 1}, {"id": "ml", "nm": "Mililiter", "sym": "mL", "factor": 0.001}, {"id": "m3", "nm": "Meter Kubik", "sym": "m\u00b3", "factor": 1000}, {"id": "cm3", "nm": "Cm Kubik (cc)", "sym": "cm\u00b3", "factor": 0.001}, {"id": "gal_us", "nm": "Galon (AS)", "sym": "gal", "factor": 3.78541}, {"id": "gal_uk", "nm": "Galon (UK)", "sym": "gal UK", "factor": 4.54609}, {"id": "pint", "nm": "Pint (AS)", "sym": "pt", "factor": 0.473176}, {"id": "cup", "nm": "Cup (AS)", "sym": "cup", "factor": 0.236588}, {"id": "fl_oz", "nm": "Fluid Ounce", "sym": "fl oz", "factor": 0.0295735}, {"id": "tbs", "nm": "Sendok Makan", "sym": "tbsp", "factor": 0.0147868}, {"id": "tsp", "nm": "Sendok Teh", "sym": "tsp", "factor": 0.00492892}];
+let activeId=UNITS[0].id,baseVal=1;
+function fmtN(n){if(n===0)return'0';if(Math.abs(n)<0.000001&&n!==0||Math.abs(n)>1e12)return n.toExponential(4);return parseFloat(n.toPrecision(8)).toLocaleString('id-ID',{maximumFractionDigits:8});}
+function renderGrid(){
+  const wrap=document.getElementById('conv-grid');if(!wrap)return;
+  wrap.innerHTML=UNITS.map(u=>`<div class="conv-item${u.id===activeId?' active':''} " onclick="activateUnit('${u.id}')">
+    <div class="conv-lbl">${u.nm}</div>
+    <input class="conv-inp" type="number" id="inp-${u.id}" value="${fmtN(baseVal*u.factor)}" oninput="onInput('${u.id}',this.value)" placeholder="0">
+    <div class="conv-unit">${u.sym}</div>
+  </div>`).join('');
+}
+function activateUnit(id){activeId=id;const el=document.getElementById('inp-'+id);if(el)el.focus();renderGrid();}
+function onInput(id,val){
+  const n=parseFloat(val);if(isNaN(n))return;
+  const u=UNITS.find(u=>u.id===id);if(!u)return;
+  baseVal=n/u.factor;activeId=id;
+  UNITS.forEach(u2=>{if(u2.id===id)return;const el=document.getElementById('inp-'+u2.id);if(el)el.value=fmtN(baseVal*u2.factor);});
 }
 
-function fmt(n) {
-  if (n === 0) return '0';
-  if (Math.abs(n) >= 0.001 && Math.abs(n) < 1e12)
-    return n.toLocaleString('id-ID', {maximumSignificantDigits:6});
-  return n.toExponential(4).replace('.', ',');
-}
-
-function convert() {
-  const val = parseFloat(document.getElementById('input-val').value);
-  const from = document.getElementById('from-unit').value;
-  if (isNaN(val)) {
-    document.getElementById('result-rows').innerHTML = '<div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>';
-    return;
-  }
-  const inL = val * toLiter[from];
-  document.getElementById('result-rows').innerHTML =
-    Object.entries(toLiter).filter(([u]) => u !== from).map(([unit, factor]) =>
-      `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(inL / factor)}</span></div>`
-    ).join('');
-  document.getElementById('result').classList.add('show');
-}
-
-const PRESETS = [
-  { label: '1 L → mL / cc', val: 1, from: 'l' },
-  { label: '500 mL → L / cup', val: 500, from: 'ml' },
-  { label: '1 galon (US) → L', val: 1, from: 'gal_us' },
-  { label: '19 L (galon) → galon US', val: 19, from: 'l' },
-  { label: '1 cup (US) → mL', val: 1, from: 'cup_us' },
-  { label: '150 cc (mesin) → mL / L', val: 150, from: 'cm3' },
-  { label: '1 m³ → liter', val: 1, from: 'm3' },
-  { label: '1 fl oz (US) → mL', val: 1, from: 'floz_us' },
-];
-
-function renderPresets() {
-  document.getElementById('preset-grid').innerHTML = PRESETS.map((p, i) =>
-    `<button class="preset-btn" onclick="runPreset(${i})"><strong>${p.label}</strong>${p.val} ${labels[p.from]}</button>`
-  ).join('');
-}
-
-function runPreset(i) {
-  const p = PRESETS[i];
-  const inL = p.val * toLiter[p.from];
-  document.getElementById('preset-highlight').innerHTML =
-    `<strong style="color:#00C9B1">${p.val} ${labels[p.from]}</strong> sama dengan:`;
-  document.getElementById('preset-rows').innerHTML =
-    Object.entries(toLiter).filter(([u]) => u !== p.from).map(([unit, factor]) =>
-      `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(inL / factor)}</span></div>`
-    ).join('');
-  document.getElementById('preset-result').style.display = 'block';
-}
-
-function convertCooking() {
-  const val = parseFloat(document.getElementById('ck-val').value);
-  const mlPerUnit = parseFloat(document.getElementById('ck-unit').value);
-  if (!val || val <= 0) return;
-  const totalMl = val * mlPerUnit;
-  const r = document.getElementById('ck-result');
-  r.innerHTML = `= <strong style="color:#00C9B1">${totalMl.toLocaleString('id-ID')} mL</strong> · ${(totalMl / 1000).toFixed(3).replace('.', ',')} L · ${(totalMl / 236.6).toFixed(2).replace('.', ',')} cup US`;
-  r.style.display = 'block';
-}
-
-function calcWater() {
-  const kg = parseFloat(document.getElementById('water-kg').value);
-  const ml = parseFloat(document.getElementById('water-act').value);
-  if (!kg || kg < 30) return;
-  const total = kg * ml;
-  const glasses = Math.round(total / 240);
-  const r = document.getElementById('water-result');
-  r.innerHTML = `Kebutuhan air harian: <strong style="color:#00C9B1">${total.toLocaleString('id-ID')} mL (${(total/1000).toFixed(1).replace('.',',')} L)</strong><br>Setara ≈ <strong>${glasses} gelas</strong> (240 mL/gelas) atau <strong>${Math.round(total/600)} botol</strong> 600 mL`;
-  r.style.display = 'block';
-}
-
-renderPresets();
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+renderGrid();
 </script>
-</body>
-</html>
+</body></html>

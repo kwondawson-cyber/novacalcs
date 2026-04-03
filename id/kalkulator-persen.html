@@ -1,308 +1,406 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Persen Online — Hitung Persentase Cepat & Akurat | NovaCalcs</title>
-<meta name="description" content="Hitung persentase secara instan: X% dari Y, kenaikan/penurunan persen, diskon, dan persen balik. Dilengkapi trik hitung persen cepat dan kalkulator diskon berlapis."/>
-<meta name="keywords" content="kalkulator persen, hitung persentase, berapa persen, kalkulator diskon, kenaikan persen, rumus persen, diskon berlapis"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-persen.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-persen.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:80px;padding:.5rem .35rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.pct-bar-wrap{margin:.6rem 0}
-.pct-bar{height:16px;border-radius:8px;background:rgba(255,255,255,.07);overflow:hidden;position:relative}
-.pct-fill{height:100%;background:linear-gradient(90deg,#00C9B1,#3b82f6);border-radius:8px;transition:width .5s}
-.pct-remainder{height:100%;background:rgba(255,255,255,.06);border-radius:8px}
-.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.75rem}
-.quick-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.5rem .5rem;cursor:pointer;font-size:.78rem;color:#c0cdd8;text-align:left;transition:all .2s;font-family:inherit}
-.quick-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.35);color:#00C9B1}
-.quick-btn strong{display:block;font-size:.83rem;color:#fff;margin-bottom:.1rem}
-.result-highlight{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-bottom:.5rem}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Persen 2026 — Hitung %, Selisih Persentase & Perubahan Nilai | NovaCalcs</title>
+  <meta name="description" content="Kalkulator persen 2026: hitung X% dari nilai, berapa persen X dari Y, persentase perubahan naik/turun, dan konversi pecahan ke persen. Cepat & gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-persen">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:10px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:36px}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* FORMULA DISPLAY */
+    .formula{background:var(--sur2);border-radius:var(--rs);padding:10px 14px;font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:14px;border:1px solid var(--bor)}
+    .formula span{font-family:'DM Mono',monospace;color:var(--pri);font-weight:700}
+    /* BIG RESULT */
+    .big-result{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:20px;text-align:center;margin:14px 0}
+    .br-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--pri);margin-bottom:6px}
+    .br-val{font-family:'DM Mono',monospace;font-size:42px;font-weight:800;color:var(--pri);letter-spacing:-.5px;line-height:1}
+    .br-sub{font-size:12px;color:var(--tx3);margin-top:5px}
+    .big-result.grn{background:var(--grn-b);border-color:#86efac}
+    .big-result.grn .br-lbl,.big-result.grn .br-val{color:var(--grn)}
+    .big-result.red{background:var(--red-b);border-color:#fca5a5}
+    .big-result.red .br-lbl,.big-result.red .br-val{color:var(--red)}
+    /* LRES */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:14px}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* QUICK CALC */
+    .quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:14px}
+    .quick-card{background:var(--sur2);border-radius:var(--rs);padding:12px;text-align:center;border:1px solid var(--bor);cursor:pointer;transition:all .15s}
+    .quick-card:hover{border-color:var(--pri);background:var(--pri-l)}
+    .qc-pct{font-family:'DM Mono',monospace;font-size:22px;font-weight:800;color:var(--pri)}
+    .qc-lbl{font-size:10px;color:var(--tx3);margin-top:3px}
+    .qc-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--tx);margin-top:3px}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Persen</span>
-    </nav>
-  </div>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Persen</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">% Persentase</div>
+  <h1 class="hdr-h1">Kalkulator Persen 2026</h1>
+  <p class="hdr-sub">Hitung persentase dari nilai, berapa persen X dari Y, persentase kenaikan/penurunan, dan konversi pecahan ke persen. Semua dalam satu halaman.</p>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">% Kalkulator Persen</div>
-      <div class="calc-subtitle">Berbagai perhitungan persentase dalam satu tempat</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-0',this)">X% dari Y</button>
-        <button class="tab-btn" onclick="showTab('tab-1',this)">X dari Y?</button>
-        <button class="tab-btn" onclick="showTab('tab-2',this)">Naik/Turun</button>
-        <button class="tab-btn" onclick="showTab('tab-3',this)">Diskon</button>
-        <button class="tab-btn" onclick="showTab('tab-4',this)">⚡ Cepat</button>
-      </div>
+<main class="main">
+<div class="left-col">
 
-      <!-- TAB 0: X% of Y -->
-      <div id="tab-0" class="tab-pane active">
-        <div class="field"><label>Persentase (%)</label><input type="number" id="m0-pct" placeholder="Contoh: 20" oninput="calc0auto()"/></div>
-        <div class="field"><label>Dari angka</label><input type="number" id="m0-num" placeholder="Contoh: 150000" oninput="calc0auto()"/></div>
-        <button class="calc-btn" onclick="calc0()">Hitung</button>
-        <div class="result-panel" id="res0">
-          <div class="result-main">
-            <div class="result-value" id="r0-val">—</div>
-            <div class="result-label" id="r0-label"></div>
-          </div>
-          <div class="pct-bar-wrap">
-            <div class="pct-bar"><div class="pct-fill" id="r0-bar" style="width:0%"></div></div>
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:#6b7c8d;margin-top:.2rem">
-              <span id="r0-bar-left">—</span><span id="r0-bar-right">—</span>
-            </div>
+<div class="card">
+  <div class="card-h"><div class="card-ico">%</div>Kalkulator Persentase</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="t1">X% dari Y</button>
+      <button class="tbtn" data-tab="t2">X adalah ?% dari Y</button>
+      <button class="tbtn" data-tab="t3">Naik / Turun %</button>
+      <button class="tbtn" data-tab="t4">Pecahan → %</button>
+    </div>
+
+    <!-- T1: X% dari Y -->
+    <div class="tpanel on" id="tab-t1">
+      <div class="formula">Berapa nilai <span id="f1-pct">10</span>% dari <span id="f1-val">500</span>? → <span id="f1-ans">50</span></div>
+      <div class="g2">
+        <div class="fld"><label>Persen (%)</label>
+          <div class="iw"><input type="number" id="t1-pct" value="10" min="0" step="any"><span class="iu">%</span></div>
+          <div class="presets">
+            <button class="pb" data-val="5" data-for="t1-pct">5%</button>
+            <button class="pb on" data-val="10" data-for="t1-pct">10%</button>
+            <button class="pb" data-val="25" data-for="t1-pct">25%</button>
+            <button class="pb" data-val="50" data-for="t1-pct">50%</button>
           </div>
         </div>
-      </div>
-
-      <!-- TAB 1: X is what % of Y -->
-      <div id="tab-1" class="tab-pane">
-        <div class="field"><label>Angka (X)</label><input type="number" id="m1-x" placeholder="Contoh: 30" oninput="calc1auto()"/></div>
-        <div class="field"><label>Dari angka (Y)</label><input type="number" id="m1-y" placeholder="Contoh: 150" oninput="calc1auto()"/></div>
-        <button class="calc-btn" onclick="calc1()">Hitung</button>
-        <div class="result-panel" id="res1">
-          <div class="result-main">
-            <div class="result-value" id="r1-val">—</div>
-            <div class="result-unit">%</div>
-            <div class="result-label" id="r1-label"></div>
-          </div>
-          <div class="pct-bar-wrap">
-            <div class="pct-bar"><div class="pct-fill" id="r1-bar" style="width:0%"></div></div>
-          </div>
+        <div class="fld"><label>Dari Nilai</label>
+          <div class="iw"><input type="number" id="t1-val" value="500" min="0" step="any"></div>
         </div>
       </div>
-
-      <!-- TAB 2: Increase/Decrease -->
-      <div id="tab-2" class="tab-pane">
-        <div class="field"><label>Angka awal</label><input type="number" id="m2-from" placeholder="Contoh: 100000" oninput="calc2auto()"/></div>
-        <div class="field"><label>Angka akhir</label><input type="number" id="m2-to" placeholder="Contoh: 125000" oninput="calc2auto()"/></div>
-        <button class="calc-btn" onclick="calc2()">Hitung Perubahan</button>
-        <div class="result-panel" id="res2">
-          <div class="result-main">
-            <div class="result-value" id="r2-val">—</div>
-            <div class="result-unit">%</div>
-            <div class="result-label" id="r2-label"></div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">Selisih</span><span class="rval" id="r2-diff">—</span></div>
-            <div class="result-row"><span class="rkey">Rasio perubahan</span><span class="rval" id="r2-ratio">—</span></div>
-          </div>
+      <div class="big-result">
+        <div class="br-lbl">Hasilnya</div>
+        <div class="br-val" id="t1-result">—</div>
+        <div class="br-sub" id="t1-sub">—</div>
+      </div>
+      <div class="lres">
+        <div class="rrows">
+          <div class="rr"><span>Rumus</span><span id="t1-r1">—</span></div>
+          <div class="rr"><span>Hasil</span><span id="t1-r2">—</span></div>
+          <div class="rr"><span>Nilai asal − hasil</span><span id="t1-r3">—</span></div>
+          <div class="rr"><span>Nilai asal + hasil</span><span id="t1-r4">—</span></div>
         </div>
       </div>
+    </div>
 
-      <!-- TAB 3: Diskon -->
-      <div id="tab-3" class="tab-pane">
-        <div class="field"><label>Harga asli (Rp)</label><input type="number" id="m3-price" placeholder="Contoh: 250000" oninput="calc3auto()"/></div>
-        <div class="field"><label>Diskon 1 (%)</label><input type="number" id="m3-disc" placeholder="Contoh: 30" oninput="calc3auto()"/></div>
-        <div class="field"><label>Diskon Berlapis 2 (%) — opsional</label><input type="number" id="m3-disc2" placeholder="Contoh: 10 (diskon ekstra)" oninput="calc3auto()" value=""/></div>
-        <button class="calc-btn" onclick="calc3()">Hitung Diskon</button>
-        <div class="result-panel" id="res3">
-          <div class="result-main">
-            <div class="result-value" id="r3-val">—</div>
-            <div class="result-label">Harga setelah diskon</div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">Total diskon efektif (%)</span><span class="rval" id="r3-eff">—</span></div>
-            <div class="result-row"><span class="rkey">Total penghematan (Rp)</span><span class="rval" id="r3-saved">—</span></div>
-            <div class="result-row"><span class="rkey">Harga asli</span><span class="rval" id="r3-orig">—</span></div>
-          </div>
-          <p style="font-size:.72rem;color:#6b7c8d;margin-top:.4rem" id="r3-note"></p>
+    <!-- T2: X adalah ?% dari Y -->
+    <div class="tpanel" id="tab-t2">
+      <div class="formula"><span id="f2-x">50</span> adalah berapa persen dari <span id="f2-y">200</span>? → <span id="f2-ans">25%</span></div>
+      <div class="g2">
+        <div class="fld"><label>Nilai X (bagian)</label>
+          <div class="iw"><input type="number" id="t2-x" value="50" min="0" step="any"></div>
+        </div>
+        <div class="fld"><label>Nilai Y (keseluruhan)</label>
+          <div class="iw"><input type="number" id="t2-y" value="200" min="0" step="any"></div>
         </div>
       </div>
-
-      <!-- TAB 4: CEPAT -->
-      <div id="tab-4" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.6rem">Klik untuk contoh perhitungan persentase yang paling sering dicari.</p>
-        <div class="quick-grid" id="quick-grid"></div>
-        <div id="quick-result" style="display:none">
-          <div class="result-highlight" id="quick-highlight"></div>
+      <div class="big-result">
+        <div class="br-lbl">X adalah</div>
+        <div class="br-val" id="t2-result">—</div>
+        <div class="br-sub" id="t2-sub">—</div>
+      </div>
+      <div class="lres">
+        <div class="rrows">
+          <div class="rr"><span>Rumus</span><span id="t2-r1">—</span></div>
+          <div class="rr"><span>Persen</span><span id="t2-r2">—</span></div>
+          <div class="rr"><span>Sisa (Y − X)</span><span id="t2-r3">—</span></div>
+          <div class="rr"><span>Sisa dalam persen</span><span id="t2-r4">—</span></div>
         </div>
       </div>
+    </div>
 
+    <!-- T3: Persentase perubahan -->
+    <div class="tpanel" id="tab-t3">
+      <div class="formula">Dari <span id="f3-lama">800</span> menjadi <span id="f3-baru">1000</span> → naik/turun berapa persen?</div>
+      <div class="g2">
+        <div class="fld"><label>Nilai Lama / Awal</label>
+          <div class="iw"><input type="number" id="t3-lama" value="800" min="0" step="any"></div>
+        </div>
+        <div class="fld"><label>Nilai Baru / Akhir</label>
+          <div class="iw"><input type="number" id="t3-baru" value="1000" min="0" step="any"></div>
+        </div>
+      </div>
+      <div class="big-result grn" id="t3-box">
+        <div class="br-lbl" id="t3-lbl">Perubahan</div>
+        <div class="br-val" id="t3-result">—</div>
+        <div class="br-sub" id="t3-sub">—</div>
+      </div>
+      <div class="lres" id="t3-lres">
+        <div class="rrows">
+          <div class="rr"><span>Nilai lama</span><span id="t3-r1">—</span></div>
+          <div class="rr"><span>Nilai baru</span><span id="t3-r2">—</span></div>
+          <div class="rr"><span>Selisih</span><span id="t3-r3">—</span></div>
+          <div class="rr"><span>Persentase perubahan</span><span id="t3-r4">—</span></div>
+          <div class="rr"><span>Nilai × 2 (naik 100%)</span><span id="t3-r5">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- T4: Pecahan ke persen -->
+    <div class="tpanel" id="tab-t4">
+      <div class="formula"><span id="f4-p">3</span> ÷ <span id="f4-q">8</span> = <span id="f4-ans">37.5%</span></div>
+      <div class="g2">
+        <div class="fld"><label>Pembilang (atas)</label>
+          <div class="iw"><input type="number" id="t4-p" value="3" min="0" step="any"></div>
+        </div>
+        <div class="fld"><label>Penyebut (bawah)</label>
+          <div class="iw"><input type="number" id="t4-q" value="8" min="1" step="any"></div>
+        </div>
+      </div>
+      <div class="big-result">
+        <div class="br-lbl">Hasil dalam Persen</div>
+        <div class="br-val" id="t4-result">—</div>
+        <div class="br-sub" id="t4-sub">—</div>
+      </div>
+      <div class="lres">
+        <div class="rrows">
+          <div class="rr"><span>Pecahan</span><span id="t4-r1">—</span></div>
+          <div class="rr"><span>Desimal</span><span id="t4-r2">—</span></div>
+          <div class="rr"><span>Persen</span><span id="t4-r3">—</span></div>
+          <div class="rr"><span>Sisa (100% − hasil)</span><span id="t4-r4">—</span></div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator Persen — Hitung Persentase Online dengan Mudah</h1>
-    <p class="page-desc">Kalkulator persen serbaguna dengan 5 mode perhitungan: mencari nilai dari persen, mencari persen suatu angka, menghitung kenaikan/penurunan, kalkulasi diskon (termasuk diskon berlapis), dan konversi persen cepat.</p>
+<!-- ② KALKULATOR CEPAT % UMUM -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚡</div>Tabel Persentase Cepat <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <div class="fld"><label>Masukkan Nilai Dasar</label>
+      <div class="iw"><input type="number" id="quick-val" value="1000000" step="any" oninput="calcQuick()"></div>
+    </div>
+    <div class="quick-grid" id="quick-grid"></div>
+  </div>
+</div>
 
-    <div class="ad-slot">Advertisement</div>
+</div><!-- /left-col -->
 
-    <h2>Jenis Perhitungan Persentase yang Tersedia</h2>
-    <p>Kalkulator ini memiliki 5 mode perhitungan yang mencakup hampir semua kebutuhan hitung persen sehari-hari: <strong>X% dari Y</strong> ("Berapa 20% dari Rp 150.000?"), <strong>X dari Y berapa persen</strong> ("30 adalah berapa persen dari 150?"), <strong>Kenaikan/Penurunan</strong> ("Dari 100 ribu ke 125 ribu, naik berapa persen?"), <strong>Diskon</strong> termasuk diskon berlapis, dan <strong>Konversi Cepat</strong> untuk kebutuhan praktis sehari-hari.</p>
-
-    <h2>Rumus Persentase Dasar</h2>
-    <table>
-      <tr><th>Jenis Perhitungan</th><th>Rumus</th></tr>
-      <tr><td>X% dari Y</td><td>Hasil = (X ÷ 100) × Y</td></tr>
-      <tr><td>X dari Y berapa persen</td><td>Persen = (X ÷ Y) × 100</td></tr>
-      <tr><td>Kenaikan persen</td><td>% = ((Baru − Lama) ÷ |Lama|) × 100</td></tr>
-      <tr><td>Harga setelah diskon</td><td>Harga = Asli × (1 − Diskon/100)</td></tr>
-      <tr><td>Diskon berlapis (diskon 30% lalu 10%)</td><td>Harga = Asli × 0,7 × 0,9 = Asli × 0,63 → diskon efektif 37%</td></tr>
-    </table>
-
-    <h2>Cara Menggunakan Kalkulator Persen Ini</h2>
-    <ol>
-      <li>Pilih tab sesuai kebutuhan: <strong>X% dari Y</strong> untuk mencari nilai, <strong>X dari Y?</strong> untuk mencari persentase, <strong>Naik/Turun</strong> untuk perubahan, <strong>Diskon</strong> untuk harga diskon, atau <strong>Cepat</strong> untuk preset populer.</li>
-      <li>Masukkan angka yang diketahui — hasil langsung muncul otomatis saat mengetik.</li>
-      <li>Klik tombol Hitung untuk mengonfirmasi dan melihat visualisasi persentase.</li>
-    </ol>
-
-    <h2>Contoh Penggunaan Sehari-hari</h2>
-    <ul>
-      <li><strong>Belanja:</strong> Jaket Rp 400.000 diskon 25% → bayar Rp 300.000 (hemat Rp 100.000)</li>
-      <li><strong>Keuangan:</strong> Gaji naik dari Rp 5 juta ke Rp 5,5 juta → naik 10%</li>
-      <li><strong>Pajak:</strong> PPN 11% dari tagihan Rp 1.000.000 → PPN Rp 110.000</li>
-      <li><strong>Nilai:</strong> Dapat 75 dari 100 soal → 75%</li>
-      <li><strong>Diskon berlapis:</strong> Harga Rp 500.000 diskon 20% lalu diskon ekstra 15% → Rp 500.000 × 0,8 × 0,85 = Rp 340.000 (diskon efektif 32%, bukan 35%)</li>
-    </ul>
-
-    <h2>Trik Hitung Persen Cepat di Kepala</h2>
-    <p>Kemampuan menghitung persen secara mental sangat berguna saat belanja atau negosiasi. Beberapa trik yang bisa dihafal: <strong>10%</strong> = geser koma satu digit ke kiri (Rp 350.000 → Rp 35.000). <strong>5%</strong> = setengah dari 10% (Rp 35.000 → Rp 17.500). <strong>1%</strong> = geser koma dua digit. <strong>25%</strong> = bagi 4. <strong>50%</strong> = bagi 2. <strong>75%</strong> = kurangi 25% dari keseluruhan. Kombinasikan: 15% = 10% + 5%, atau 30% = 3 × 10%.</p>
-
-    <h2>Persentase yang Sering Disalahpahami</h2>
-    <p>Naik 100% berarti dua kali lipat — bukan tiga kali lipat. Jika sesuatu "naik 200%", artinya tiga kali lipat. Juga penting: persentase dari basis yang berbeda menghasilkan angka berbeda. Harga naik 50% lalu turun 50% tidak kembali ke harga semula: Rp 100 → naik 50% = Rp 150 → turun 50% = Rp 75 (bukan Rp 100). Ini karena basis perhitungan turun berbeda dari basis naik.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung kenaikan gaji dalam persen?</div>
-    <div class="faq-a">Gunakan tab "Naik/Turun". Masukkan gaji lama sebagai angka awal dan gaji baru sebagai angka akhir. Contoh: dari Rp 5.000.000 ke Rp 5.500.000 → kenaikan 10%.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa beda diskon 30% dan diskon berlapis 20%+10%?</div>
-    <div class="faq-a">Diskon 30% langsung: Anda membayar 70% dari harga asli. Diskon berlapis 20% lalu 10%: Anda membayar 80% × 90% = 72% — hanya hemat 28%, bukan 30%. Selalu hitung diskon berlapis dengan mengalikan faktor, bukan menjumlahkan persentasenya.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa persen PPN di Indonesia?</div>
-    <div class="faq-a">Tarif PPN standar di Indonesia adalah 11% (berlaku sejak April 2022, naik dari 10% berdasarkan UU HPP). PPN 12% berlaku sejak 1 Januari 2025 untuk semua barang dan jasa kena pajak — bukan hanya barang mewah (barang mewah dikenakan PPnBM terpisah). Gunakan tab "X% dari Y" untuk menghitung nilai PPN dari suatu harga.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa 10% naik lalu 10% turun tidak kembali ke angka semula?</div>
-    <div class="faq-a">Karena basis perhitungan berbeda. Naik 10% dari 200 = 220. Turun 10% dari 220 = 198 (bukan 200 karena 10% dari 220 lebih besar dari 10% dari 200). Ini prinsip penting yang berlaku dalam investasi: portfolio turun 50% membutuhkan kenaikan 100% untuk kembali ke nilai awal.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung harga asli dari harga setelah diskon?</div>
-    <div class="faq-a">Jika sudah tahu harga setelah diskon dan besar diskon, gunakan rumus: Harga asli = Harga setelah diskon ÷ (1 − Diskon/100). Contoh: harga setelah diskon 25% adalah Rp 300.000 → harga asli = 300.000 ÷ 0,75 = Rp 400.000.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu percentage point vs persentase?</div>
-    <div class="faq-a">Percentage point adalah selisih langsung antara dua persentase. Jika bunga naik dari 5% ke 6%, itu naik 1 percentage point — tetapi secara relatif naik 20% (karena (6-5)/5 × 100 = 20%). Keduanya benar tapi bermakna berbeda. Media sering mencampuradukkan keduanya, jadi selalu perhatikan konteks.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-diskon.html" class="related-item"><span class="ri">🏷️</span>Kalkulator Diskon</a>
-      <a href="/id/kalkulator-ppn.html" class="related-item"><span class="ri">🧾</span>Kalkulator PPN</a>
-      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata</a>
-      <a href="/id/kalkulator-tip.html" class="related-item"><span class="ri">🍽️</span>Kalkulator Tip</a>
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Rumus Persentase</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">X% dari Y</div><div class="fron">Nilai dari persen</div></div></div><div class="fprice">Y × X ÷ 100</div></div>
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">X % dari Y</div><div class="fron">Persen bagian</div></div></div><div class="fprice" style="color:var(--grn)">X ÷ Y × 100</div></div>
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">% Perubahan</div><div class="fron">Kenaikan/penurunan</div></div></div><div class="fprice" style="color:#3b82f6">(Baru−Lama)÷Lama×100</div></div>
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:#8b5cf6"></div><div><div class="fn">Nilai Setelah %</div><div class="fron">Naik/turun dari nilai</div></div></div><div class="fprice" style="color:#8b5cf6">Nilai × (1 ± %/100)</div></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Hitung Persen Mental</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🧮</span><span class="tptx"><strong>10% mudah</strong> — geser koma desimal 1 tempat ke kiri. 10% dari 450 = 45</span></div>
+        <div class="tip"><span class="tpico">✂️</span><span class="tptx"><strong>5% = setengah dari 10%</strong> — 5% dari 300: cari 10% (30), bagi 2 = 15</span></div>
+        <div class="tip"><span class="tpico">✖️</span><span class="tptx"><strong>25% = dibagi 4</strong>, <strong>50% = dibagi 2</strong>, <strong>75% = dibagi 4 × 3</strong></span></div>
+        <div class="tip"><span class="tpico">🔄</span><span class="tptx"><strong>Balik perhitungan</strong> — X% dari Y = Y% dari X. Misal: 8% dari 25 = 25% dari 8 = 2</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-diskon" class="relc"><div class="relc-ico">🏷️</div><div class="relc-nm">Diskon</div><div class="relc-ds">Harga setelah diskon</div></a>
+        <a href="/id/kalkulator-ppn" class="relc"><div class="relc-ico">🧾</div><div class="relc-nm">PPN</div><div class="relc-ds">Pajak 11%</div></a>
+        <a href="/id/kalkulator-tip" class="relc"><div class="relc-ico">💰</div><div class="relc-nm">Tip</div><div class="relc-ds">Hitung tip restoran</div></a>
+        <a href="/id/kalkulator-roi" class="relc"><div class="relc-ico">📈</div><div class="relc-nm">ROI</div><div class="relc-ds">Return of Investment</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Cara Menghitung Persentase</h2>
+  <p>Persentase (%) berarti "per seratus". Ada empat jenis perhitungan persen yang paling umum: (1) menghitung nilai dari persen tertentu (X% dari Y = Y × X ÷ 100), (2) menghitung persen bagian (X adalah berapa % dari Y = X ÷ Y × 100), (3) menghitung persentase perubahan antara dua nilai, dan (4) mengonversi pecahan ke persen.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara menghitung persentase kenaikan harga?</div><div class="faq-a">Rumus persentase kenaikan: ((Harga Baru − Harga Lama) ÷ Harga Lama) × 100%. Contoh: harga naik dari Rp 10.000 menjadi Rp 12.500 → ((12.500 − 10.000) ÷ 10.000) × 100% = 25% kenaikan. Untuk penurunan, hasilnya negatif — misalnya turun dari Rp 10.000 ke Rp 8.000 = −20%.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan diskon 10% dan potongan Rp 10.000?</div><div class="faq-a">Diskon persentase bervariasi sesuai harga: 10% dari barang Rp 50.000 = Rp 5.000, sedangkan 10% dari barang Rp 500.000 = Rp 50.000. Potongan nominal (Rp 10.000) selalu sama berapa pun harga asalnya. Untuk barang mahal, diskon persentase lebih menguntungkan; untuk barang murah, potongan nominal bisa lebih baik secara relatif.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-const fmt = n => n.toLocaleString('id-ID', {maximumFractionDigits:2});
-const fmtPct = n => (n >= 0 ? '+' : '') + fmt(n) + '%';
 
-function calc0() {
-  const p = parseFloat(document.getElementById('m0-pct').value);
-  const n = parseFloat(document.getElementById('m0-num').value);
-  if (isNaN(p)||isNaN(n)) return alert('Masukkan kedua angka.');
-  const r = (p/100)*n;
-  document.getElementById('r0-val').textContent = fmt(r);
-  document.getElementById('r0-label').textContent = p + '% dari ' + fmt(n) + ' = ' + fmt(r);
-  document.getElementById('r0-bar').style.width = Math.min(Math.abs(p),100) + '%';
-  document.getElementById('r0-bar-left').textContent = fmt(r) + ' (' + fmt(p) + '%)';
-  document.getElementById('r0-bar-right').textContent = fmt(n-r) + ' (sisa ' + fmt(100-p) + '%)';
-  document.getElementById('res0').classList.add('show');
-}
-function calc0auto(){ const p=parseFloat(document.getElementById('m0-pct').value), n=parseFloat(document.getElementById('m0-num').value); if(!isNaN(p)&&!isNaN(n)) calc0(); }
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+function fmt(n){return isFinite(n)?n.toLocaleString('id-ID',{maximumFractionDigits:4}):'—';}
+function fmtPct(n){return isFinite(n)?n.toFixed(2)+'%':'—';}
 
-function calc1() {
-  const x = parseFloat(document.getElementById('m1-x').value);
-  const y = parseFloat(document.getElementById('m1-y').value);
-  if (isNaN(x)||isNaN(y)||y===0) return alert('Masukkan kedua angka (angka kedua tidak boleh 0).');
-  const r = (x/y)*100;
-  document.getElementById('r1-val').textContent = fmt(r);
-  document.getElementById('r1-label').textContent = fmt(x) + ' adalah ' + fmt(r) + '% dari ' + fmt(y);
-  document.getElementById('r1-bar').style.width = Math.min(Math.abs(r),100) + '%';
-  document.getElementById('res1').classList.add('show');
-}
-function calc1auto(){ const x=parseFloat(document.getElementById('m1-x').value), y=parseFloat(document.getElementById('m1-y').value); if(!isNaN(x)&&!isNaN(y)&&y!==0) calc1(); }
-
-function calc2() {
-  const from = parseFloat(document.getElementById('m2-from').value);
-  const to   = parseFloat(document.getElementById('m2-to').value);
-  if (isNaN(from)||isNaN(to)||from===0) return alert('Masukkan kedua angka (angka awal tidak boleh 0).');
-  const pct  = ((to-from)/Math.abs(from))*100;
-  const diff = to-from;
-  document.getElementById('r2-val').textContent   = (pct>=0?'+':'')+fmt(pct);
-  document.getElementById('r2-label').textContent = pct>=0 ? '📈 Kenaikan' : '📉 Penurunan';
-  document.getElementById('r2-diff').textContent  = (diff>=0?'+':'')+fmt(diff);
-  document.getElementById('r2-ratio').textContent = fmt(to/from) + '× dari angka awal';
-  document.getElementById('res2').classList.add('show');
-}
-function calc2auto(){ const f=parseFloat(document.getElementById('m2-from').value), t=parseFloat(document.getElementById('m2-to').value); if(!isNaN(f)&&!isNaN(t)&&f!==0) calc2(); }
-
-function calc3() {
-  const price = parseFloat(document.getElementById('m3-price').value);
-  const disc  = parseFloat(document.getElementById('m3-disc').value);
-  const disc2 = parseFloat(document.getElementById('m3-disc2').value) || 0;
-  if (isNaN(price)||isNaN(disc)) return alert('Masukkan harga dan diskon.');
-  if (disc<0||disc>100) return alert('Diskon 1 harus antara 0–100%.');
-  const after1 = price*(1-disc/100);
-  const final  = after1*(1-disc2/100);
-  const saved  = price-final;
-  const effDisc= (saved/price)*100;
-  document.getElementById('r3-val').textContent   = 'Rp '+fmt(final);
-  document.getElementById('r3-eff').textContent   = fmt(effDisc)+'%'+( disc2>0 ? ' (bukan '+(disc+disc2)+'%!)' : '');
-  document.getElementById('r3-saved').textContent = 'Rp '+fmt(saved);
-  document.getElementById('r3-orig').textContent  = 'Rp '+fmt(price);
-  document.getElementById('r3-note').textContent  = disc2>0
-    ? '💡 Diskon berlapis '+disc+'%+'+disc2+'% = diskon efektif '+fmt(effDisc)+'%, bukan '+(disc+disc2)+'%. Selalu hitung dengan mengalikan faktor.'
-    : '';
-  document.getElementById('res3').classList.add('show');
-}
-function calc3auto(){ const p=parseFloat(document.getElementById('m3-price').value), d=parseFloat(document.getElementById('m3-disc').value); if(!isNaN(p)&&!isNaN(d)) calc3(); }
-
-// Quick presets
-const PRESETS = [
-  {label:'10% dari Rp 250.000', fn:()=>({r:25000, desc:'10% dari Rp 250.000 = Rp 25.000'})},
-  {label:'PPN 11% dari Rp 500.000', fn:()=>({r:55000, desc:'PPN 11% dari Rp 500.000 = Rp 55.000 (total: Rp 555.000)'})},
-  {label:'Diskon 25% dari Rp 400.000', fn:()=>({r:300000, desc:'Diskon 25% dari Rp 400.000 → bayar Rp 300.000 (hemat Rp 100.000)'})},
-  {label:'Kenaikan gaji 10% dari Rp 5 jt', fn:()=>({r:500000, desc:'Kenaikan 10% dari Rp 5.000.000 = Rp 500.000 tambahan → gaji baru Rp 5.500.000'})},
-  {label:'75 dari 100 berapa %?', fn:()=>({r:'75%', desc:'75 dari 100 = 75%'})},
-  {label:'Diskon berlapis 20%+15%', fn:()=>({r:'32%', desc:'Diskon 20% lalu 15%: 0,8 × 0,85 = 0,68 → diskon efektif 32%, bukan 35%'})},
-];
-document.getElementById('quick-grid').innerHTML = PRESETS.map((p,i) =>
-  `<button class="quick-btn" onclick="showQuick(${i})"><strong>${p.label}</strong>Klik untuk lihat hasil</button>`
-).join('');
-
-function showQuick(i) {
-  const {r, desc} = PRESETS[i].fn();
-  document.getElementById('quick-highlight').innerHTML =
-    `<strong style="color:#00C9B1;font-size:1.05rem">${typeof r==='number'?'Rp '+fmt(r):r}</strong><br><span style="font-size:.82rem;color:#8fa3b1">${desc}</span>`;
-  document.getElementById('quick-result').style.display = 'block';
+// T1
+function calcT1(){
+  const pct=v('t1-pct'),val=v('t1-val');
+  const res=val*pct/100;
+  set('f1-pct',pct);set('f1-val',fmt(val));set('f1-ans',fmt(res));
+  set('t1-result',fmt(res));
+  set('t1-sub',pct+'% dari '+fmt(val)+' = '+fmt(res));
+  set('t1-r1',val+' × '+pct+' ÷ 100');set('t1-r2',fmt(res));
+  set('t1-r3',fmt(val-res));set('t1-r4',fmt(val+res));
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+// T2
+function calcT2(){
+  const x=v('t2-x'),y=v('t2-y');
+  if(!y)return;
+  const pct=x/y*100;
+  set('f2-x',fmt(x));set('f2-y',fmt(y));set('f2-ans',fmtPct(pct));
+  set('t2-result',fmtPct(pct));
+  set('t2-sub',fmt(x)+' dari '+fmt(y));
+  set('t2-r1',x+' ÷ '+y+' × 100');set('t2-r2',fmtPct(pct));
+  set('t2-r3',fmt(y-x));set('t2-r4',fmtPct(100-pct));
+}
+
+// T3
+function calcT3(){
+  const lama=v('t3-lama'),baru=v('t3-baru');
+  if(!lama)return;
+  const selisih=baru-lama;
+  const pct=selisih/lama*100;
+  const naik=pct>=0;
+  set('f3-lama',fmt(lama));set('f3-baru',fmt(baru));
+  const box=document.getElementById('t3-box');
+  if(box)box.className='big-result '+(naik?'grn':'red');
+  set('t3-lbl',naik?'Kenaikan':'Penurunan');
+  set('t3-result',(naik?'+':'')+fmtPct(pct));
+  set('t3-sub',(naik?'Naik':'Turun')+' dari '+fmt(lama)+' ke '+fmt(baru));
+  set('t3-r1',fmt(lama));set('t3-r2',fmt(baru));
+  set('t3-r3',(selisih>=0?'+':'')+fmt(selisih));
+  set('t3-r4',(naik?'+':'')+fmtPct(pct));
+  set('t3-r5',fmt(lama*2));
+}
+
+// T4
+function calcT4(){
+  const p=v('t4-p'),q=v('t4-q');
+  if(!q)return;
+  const pct=p/q*100;
+  const dec=p/q;
+  set('f4-p',p);set('f4-q',q);set('f4-ans',fmtPct(pct));
+  set('t4-result',fmtPct(pct));
+  set('t4-sub',p+' ÷ '+q+' = '+dec.toFixed(4));
+  set('t4-r1',p+' / '+q);set('t4-r2',dec.toFixed(6));
+  set('t4-r3',fmtPct(pct));set('t4-r4',fmtPct(100-pct));
+}
+
+// QUICK TABLE
+const QUICK_PCTS=[1,5,10,15,20,25,30,50,75];
+function calcQuick(){
+  const base=v('quick-val');
+  const grid=document.getElementById('quick-grid');if(!grid)return;
+  grid.innerHTML=QUICK_PCTS.map(p=>`<div class="quick-card">
+    <div class="qc-pct">${p}%</div>
+    <div class="qc-val">${fmt(base*p/100)}</div>
+    <div class="qc-lbl">dari ${fmt(base)}</div>
+  </div>`).join('');
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb[data-for]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+['t1-pct','t1-val'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcT1));
+['t2-x','t2-y'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcT2));
+['t3-lama','t3-baru'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcT3));
+['t4-p','t4-q'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcT4));
+calcT1();calcT2();calcT3();calcT4();calcQuick();
 </script>
 </body>
 </html>

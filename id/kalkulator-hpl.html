@@ -1,356 +1,401 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator HPL — Hitung Hari Perkiraan Lahir + Countdown | NovaCalcs</title>
-<meta name="description" content="Hitung HPL (Hari Perkiraan Lahir) bayi Anda secara akurat. Lihat countdown hari menuju persalinan, milestone kehamilan per minggu, dan checklist persiapan kelahiran."/>
-<meta name="keywords" content="kalkulator HPL, hari perkiraan lahir, HPHT, due date, hitung HPL, countdown melahirkan, milestone kehamilan, persiapan persalinan"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-hpl.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-hpl.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator HPL","url":"https://novacalcs.com/id/kalkulator-hpl.html","description":"Hitung HPL bayi dengan countdown, milestone, dan checklist persiapan","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Countdown display */
-.countdown-box { text-align:center; padding:20px 0 12px; }
-.countdown-num { font-size:3.8rem; font-weight:700; color:var(--mint); line-height:1; }
-.countdown-unit { font-size:0.85rem; color:var(--text-secondary); margin-top:2px; }
-.countdown-date { font-size:1rem; font-weight:600; color:var(--text-primary); margin-top:8px; }
-
-/* Pregnancy progress bar */
-.preg-bar-wrap { margin:14px 0 6px; }
-.preg-bar-track { height:14px; border-radius:7px; background:var(--bg-input); overflow:hidden; }
-.preg-bar-fill { height:100%; border-radius:7px; background:linear-gradient(90deg,#60a5fa,#4ade80,#fbbf24); transition:width 0.8s ease; }
-.preg-bar-labels { display:flex; justify-content:space-between; margin-top:4px; font-size:0.68rem; color:var(--text-muted); }
-.preg-pct-label { text-align:center; font-size:0.78rem; color:var(--text-secondary); font-weight:600; margin-top:3px; }
-
-/* Stats row */
-.hpl-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:12px 0; }
-.hpl-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 8px; text-align:center; border:1px solid var(--border); }
-.hpl-stat .hs-num { font-size:1.1rem; font-weight:700; color:var(--mint); }
-.hpl-stat .hs-label { font-size:0.65rem; color:var(--text-muted); margin-top:2px; }
-
-/* Milestone timeline */
-.timeline { margin-top:12px; }
-.tl-item { display:flex; gap:10px; padding:8px 0; position:relative; }
-.tl-item:not(:last-child)::after { content:''; position:absolute; left:7px; top:24px; bottom:-8px; width:2px; background:var(--border); }
-.tl-dot { width:16px; height:16px; border-radius:50%; flex-shrink:0; margin-top:1px; border:2px solid var(--border); background:var(--bg-input); transition:all 0.3s; }
-.tl-dot.past { background:var(--mint); border-color:var(--mint); }
-.tl-dot.current { background:#fbbf24; border-color:#fbbf24; box-shadow:0 0 0 3px rgba(251,191,36,0.2); }
-.tl-dot.future { background:var(--bg-input); }
-.tl-content { flex:1; font-size:0.8rem; }
-.tl-date { font-weight:600; color:var(--text-secondary); font-size:0.72rem; }
-.tl-desc { color:var(--text-primary); margin-top:1px; }
-.tl-now-badge { display:inline-block; padding:1px 7px; border-radius:8px; font-size:0.65rem; font-weight:700; background:rgba(251,191,36,0.15); color:#fbbf24; margin-left:6px; }
-
-/* Checklist */
-.checklist { margin:12px 0; }
-.check-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.8rem; }
-.check-item:last-child { border-bottom:none; }
-.check-week { flex-shrink:0; font-size:0.68rem; font-weight:700; padding:2px 8px; border-radius:8px; background:var(--mint-dim); color:var(--mint); }
-.date-picker{display:grid;grid-template-columns:60px 1fr 80px;gap:6px}
-.dp-day,.dp-year{border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.95rem;width:100%}
-.dp-month{border:1px solid var(--border);border-radius:8px;padding:9px 8px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.9rem;width:100%}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator HPL 2026 — Hari Perkiraan Lahir dari HPHT, USG & Konsepsi | NovaCalcs</title>
+  <meta name="description" content="Kalkulator HPL (Hari Perkiraan Lahir) 2026: hitung tanggal lahir dari HPHT, hasil USG, atau tanggal konsepsi. Tampilkan countdown dan jendela persalinan normal. Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-hpl">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--pink:#db2777;--pink-l:#fdf2f8}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pink);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pink-l);color:var(--pink);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pink);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pink-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input[type=date],.iw input[type=number]{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pink)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:44px}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* HPL BIG */
+    .hpl-big{background:var(--pink-l);border:1.5px solid #fbcfe8;border-radius:var(--r);padding:22px;text-align:center;margin:14px 0}
+    .hpl-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--pink);margin-bottom:8px}
+    .hpl-date{font-family:'DM Mono',monospace;font-size:32px;font-weight:800;color:var(--pink);letter-spacing:-.5px;line-height:1.1}
+    .hpl-day{font-size:14px;font-weight:700;color:var(--pink);margin-top:4px}
+    .hpl-sub{font-size:12px;color:var(--tx3);margin-top:6px}
+    /* COUNTDOWN GRID */
+    .cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+    .cd-box{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);padding:12px;text-align:center}
+    .cd-val{font-family:'DM Mono',monospace;font-size:26px;font-weight:800;color:var(--pink);line-height:1}
+    .cd-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-top:4px}
+    /* WINDOW */
+    .window-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:14px 0}
+    .win-box{border-radius:var(--rs);padding:12px;text-align:center;border:1.5px solid}
+    .win-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
+    .win-date{font-family:'DM Mono',monospace;font-size:13px;font-weight:800}
+    .win-sub{font-size:9px;margin-top:3px}
+    /* LRES */
+    .lres{background:var(--pink-l);border:1.5px solid #fbcfe8;border-radius:var(--r);padding:14px}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* TIMELINE */
+    .timeline{display:flex;flex-direction:column;gap:0;margin-top:12px}
+    .tl-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--bor);position:relative}
+    .tl-row:last-child{border-bottom:none}
+    .tl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+    .tl-line{position:absolute;left:5px;top:26px;width:2px;bottom:-10px;background:var(--bor)}
+    .tl-row:last-child .tl-line{display:none}
+    .tl-date{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;min-width:90px;color:var(--tx2)}
+    .tl-txt{font-size:12px;color:var(--tx2)}
+    .tl-txt strong{color:var(--tx);font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pink)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pink)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pink-l);color:var(--pink)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator HPL</span>
+</div></nav>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator HPL</span>
-    </nav>
+<header class="hdr">
+  <div class="hdr-tag">📅 HPL Kehamilan</div>
+  <h1 class="hdr-h1">Kalkulator HPL 2026</h1>
+  <p class="hdr-sub">Hitung Hari Perkiraan Lahir (HPL) dari HPHT, hasil USG, atau tanggal konsepsi. Tampilkan countdown, jendela persalinan normal, dan timeline penting kehamilan.</p>
+  <div class="pstrip">
+    <div class="pchip">Rumus Naegele <span>HPHT + 280 hari</span></div>
+    <div class="pchip">Full term <span>37–42 minggu</span></div>
+    <div class="pchip">Early term <span>37–38 minggu</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">📅 Kalkulator HPL</div>
-      <div class="calc-subtitle">Hitung tanggal lahir bayi + countdown & milestone</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="field">
-        <label>Hari Pertama Haid Terakhir (HPHT)</label>
-        <div class="date-picker">
-          <input type="number" class="dp-day" id="hpht-d" placeholder="Tgl" min="1" max="31" oninput="autoCalc()"/>
-          <select class="dp-month" id="hpht-m" onchange="autoCalc()">
-            <option value="">Bulan</option>
-            <option value="1">Januari</option><option value="2">Februari</option>
-            <option value="3">Maret</option><option value="4">April</option>
-            <option value="5">Mei</option><option value="6">Juni</option>
-            <option value="7">Juli</option><option value="8">Agustus</option>
-            <option value="9">September</option><option value="10">Oktober</option>
-            <option value="11">November</option><option value="12">Desember</option>
-          </select>
-          <input type="number" class="dp-year" id="hpht-y" placeholder="Tahun" min="1900" max="2100" oninput="autoCalc()"/>
+<div class="card">
+  <div class="card-h"><div class="card-ico">📅</div>Hitung HPL</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="hpht">📅 Dari HPHT</button>
+      <button class="tbtn" data-tab="usg">🔬 Dari USG</button>
+      <button class="tbtn" data-tab="konsepsi">💛 Dari Konsepsi</button>
+    </div>
+
+    <!-- HPHT -->
+    <div class="tpanel on" id="tab-hpht">
+      <div class="notice info" style="margin-bottom:14px">ℹ️ Masukkan <strong>Hari Pertama Haid Terakhir (HPHT)</strong>. HPL dihitung dengan rumus Naegele: HPHT + 280 hari (40 minggu). Berlaku untuk siklus haid 28 hari.</div>
+      <div class="fld"><label>Tanggal HPHT</label>
+        <div class="iw"><input type="date" id="hpht" onchange="calcFromHPHT()"></div>
+      </div>
+      <div class="fld"><label>Panjang Siklus Haid (hari)</label>
+        <div class="iw"><input type="number" id="siklus" value="28" min="21" max="45" onchange="calcFromHPHT()"><span class="iu">hari</span></div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">Default 28 hari. Sesuaikan jika siklus Anda berbeda.</div>
+      </div>
+    </div>
+
+    <!-- USG -->
+    <div class="tpanel" id="tab-usg">
+      <div class="notice info" style="margin-bottom:14px">ℹ️ Masukkan tanggal USG dan usia kehamilan saat diperiksa. HPL dihitung mundur dari usia USG.</div>
+      <div class="fld"><label>Tanggal Pemeriksaan USG</label>
+        <div class="iw"><input type="date" id="usg-tgl" onchange="calcFromUSG()"></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Usia Kehamilan saat USG</label>
+          <div class="iw"><input type="number" id="usg-mgg" value="10" min="4" max="42" onchange="calcFromUSG()"><span class="iu">mgg</span></div>
+        </div>
+        <div class="fld"><label>+ Hari</label>
+          <div class="iw"><input type="number" id="usg-hari" value="0" min="0" max="6" onchange="calcFromUSG()"><span class="iu">hr</span></div>
         </div>
       </div>
-      <div class="field">
-        <label>Panjang siklus haid (hari)</label>
-        <input type="number" id="cycle" value="28" min="20" max="45" oninput="autoCalc()"/>
+    </div>
+
+    <!-- KONSEPSI -->
+    <div class="tpanel" id="tab-konsepsi">
+      <div class="notice info" style="margin-bottom:14px">ℹ️ Jika Anda mengetahui tanggal hubungan atau ovulasi, HPL dihitung dengan menambahkan 266 hari (38 minggu) dari tanggal konsepsi.</div>
+      <div class="fld"><label>Tanggal Konsepsi / Ovulasi</label>
+        <div class="iw"><input type="date" id="konsepsi" onchange="calcFromKonsepsi()"></div>
       </div>
+    </div>
 
-      <button class="calc-btn" onclick="calculate()">📅 Hitung HPL Saya</button>
+    <!-- HPL RESULT (shared) -->
+    <div class="hpl-big" id="hpl-box">
+      <div class="hpl-lbl">🎉 Hari Perkiraan Lahir (HPL)</div>
+      <div class="hpl-date" id="hpl-date">—</div>
+      <div class="hpl-day" id="hpl-day">—</div>
+      <div class="hpl-sub" id="hpl-sub">—</div>
+    </div>
 
-      <div class="result-box" id="result" style="display:none">
+    <div class="cd-grid">
+      <div class="cd-box"><div class="cd-val" id="cd-hari">—</div><div class="cd-lbl">Hari</div></div>
+      <div class="cd-box"><div class="cd-val" id="cd-minggu">—</div><div class="cd-lbl">Minggu</div></div>
+      <div class="cd-box"><div class="cd-val" id="cd-bulan">—</div><div class="cd-lbl">Bulan</div></div>
+      <div class="cd-box"><div class="cd-val" id="cd-pct">—</div><div class="cd-lbl">Progres</div></div>
+    </div>
 
-        <!-- Countdown -->
-        <div class="countdown-box">
-          <div class="countdown-num" id="res-countdown">—</div>
-          <div class="countdown-unit" id="res-countdown-label">hari menuju HPL</div>
-          <div class="countdown-date" id="res-hpl-date">—</div>
-        </div>
+    <div class="sec-lbl">🪟 Jendela Persalinan Normal</div>
+    <div class="window-grid" id="window-grid"></div>
 
-        <!-- Pregnancy progress -->
-        <div class="preg-bar-wrap">
-          <div class="preg-bar-track">
-            <div class="preg-bar-fill" id="preg-fill" style="width:0%"></div>
-          </div>
-          <div class="preg-bar-labels"><span>HPHT</span><span id="preg-pct-label">—</span><span>HPL</span></div>
-        </div>
-
-        <!-- Stats -->
-        <div class="hpl-stats">
-          <div class="hpl-stat"><div class="hs-num" id="s-weeks">—</div><div class="hs-label">Minggu kehamilan</div></div>
-          <div class="hpl-stat"><div class="hs-num" id="s-trimester">—</div><div class="hs-label">Trimester</div></div>
-          <div class="hpl-stat"><div class="hs-num" id="s-conception">—</div><div class="hs-label">Konsepsi (perkiraan)</div></div>
-        </div>
-
-        <!-- Timeline milestones -->
-        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-top:12px;margin-bottom:6px;">📍 Timeline Kehamilan</div>
-        <div class="timeline" id="timeline"></div>
-
+    <div class="lres" style="margin-top:14px">
+      <div class="rrows">
+        <div class="rr"><span>HPL</span><span id="r-hpl">—</span></div>
+        <div class="rr"><span>Earliest term (37 mgg)</span><span id="r-early">—</span></div>
+        <div class="rr"><span>Full term (40 mgg / HPL)</span><span id="r-full">—</span></div>
+        <div class="rr"><span>Post term (42 mgg)</span><span id="r-post">—</span></div>
+        <div class="rr"><span>Usia kehamilan saat ini</span><span id="r-usia">—</span></div>
+        <div class="rr"><span>Sisa hari menuju HPL</span><span id="r-sisa">—</span></div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator HPL — Hitung Hari Perkiraan Lahir Bayi</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung HPL (Hari Perkiraan Lahir) bayi Anda berdasarkan HPHT menggunakan Rumus Naegele. Dilengkapi countdown hari menuju persalinan, timeline milestone kehamilan, dan panduan persiapan kelahiran.</p>
+<!-- ② TIMELINE KEHAMILAN -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📋</div>Timeline Kehamilan Anda <span class="nbadge" style="margin-left:6px">Otomatis</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:12px">Tanggal-tanggal penting berdasarkan HPL yang dihitung di atas.</p>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</div>
 
-    <h2>Apa itu HPL dan Seberapa Akurat?</h2>
-    <p>HPL (Hari Perkiraan Lahir) — atau dalam bahasa Inggris dikenal sebagai <em>Expected Due Date (EDD)</em> — adalah tanggal perkiraan bayi akan lahir. Kehamilan normal berlangsung sekitar <strong>280 hari (40 minggu)</strong> dihitung dari HPHT, atau 266 hari dari perkiraan pembuahan.</p>
-    <p>Yang perlu dipahami: HPL adalah <em>perkiraan statistik</em>, bukan kepastian. Hanya sekitar 4–5% bayi yang lahir tepat pada HPL. Sebagian besar bayi (sekitar 70%) lahir dalam rentang 1 minggu sebelum atau sesudah HPL. Lahir antara minggu ke-37 hingga ke-42 masih dianggap normal (cukup bulan).</p>
+</div><!-- /left-col -->
 
-    <h2>Cara Menghitung HPL dengan Rumus Naegele</h2>
-    <p>Rumus Naegele, dikembangkan oleh dokter kandungan Jerman Franz Karl Naegele pada 1812, adalah metode standar yang digunakan dokter dan bidan di seluruh dunia hingga hari ini:</p>
-    <ul>
-      <li>Ambil tanggal HPHT → tambahkan <strong>7 hari</strong> → tambahkan <strong>9 bulan</strong></li>
-      <li>Atau lebih mudah: HPHT + <strong>280 hari</strong> (untuk siklus 28 hari standar)</li>
-    </ul>
-    <p><strong>Contoh:</strong> HPHT = 10 April 2025 → +7 hari = 17 April → +9 bulan = <strong>17 Januari 2026</strong></p>
-    <p>Kalkulator ini juga menyesuaikan siklus haid Anda. Jika siklus Anda 35 hari (ovulasi lebih lambat 7 hari), HPL digeser 7 hari ke depan untuk hasil yang lebih personal.</p>
-
-    <h2>Perbandingan Metode Penentuan HPL</h2>
-    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin:12px 0">
-      <thead><tr>
-        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Metode</th>
-        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Akurasi</th>
-        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Kapan Digunakan</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">HPHT + Rumus Naegele</td><td style="padding:8px 10px">±1–2 minggu</td><td style="padding:8px 10px">Awal kehamilan, saat HPHT diketahui</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">USG Trimester 1 (CRL)</td><td style="padding:8px 10px">±5–7 hari ✓ paling akurat</td><td style="padding:8px 10px">Minggu 7–13, mengukur panjang janin</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">USG Trimester 2 (BPD)</td><td style="padding:8px 10px">±2–3 minggu</td><td style="padding:8px 10px">Minggu 14–27, kurang akurat</td></tr>
-        <tr><td style="padding:8px 10px">USG Trimester 3</td><td style="padding:8px 10px">±3–4 minggu</td><td style="padding:8px 10px">Tidak direkomendasikan untuk HPL</td></tr>
-      </tbody>
-    </table>
-    <p>Jika HPL dari HPHT dan USG trimester 1 berbeda lebih dari 7 hari, dokter umumnya menggunakan HPL dari USG sebagai acuan karena lebih akurat secara objektif.</p>
-
-    <h2>Fitur Kalkulator HPL NovaCalcs</h2>
-    <p>Kalkulator HPL ini tidak sekadar menampilkan tanggal — ada beberapa fitur tambahan untuk membuat perjalanan kehamilan Anda lebih terencana:</p>
-    <ul>
-      <li><strong>Countdown hari real-time</strong> — Tampilan besar berapa hari tersisa menuju HPL, diperbarui otomatis setiap kali Anda mengubah input.</li>
-      <li><strong>Progress bar kehamilan</strong> — Visualisasi seberapa jauh perjalanan 280 hari kehamilan Anda telah berlangsung, dalam bentuk bar gradasi warna trimester.</li>
-      <li><strong>Timeline milestone interaktif</strong> — 9 tonggak penting kehamilan (dari detak jantung pertama hingga HPL) ditampilkan dengan penanda mana yang sudah terlewati, sedang berlangsung, dan akan datang.</li>
-      <li><strong>Penyesuaian siklus otomatis</strong> — HPL dikoreksi berdasarkan panjang siklus aktual Anda untuk hasil yang lebih personal.</li>
-      <li><strong>Perkiraan tanggal konsepsi</strong> — Dihitung otomatis dari HPHT dan panjang siklus.</li>
-    </ul>
-
-    <h2>Checklist Persiapan Menjelang HPL</h2>
-    <p>Agar kelahiran berjalan lancar, berikut persiapan yang disarankan berdasarkan tahapan kehamilan:</p>
-    <div class="checklist">
-      <div class="check-item"><span class="check-week">Minggu 28</span><div>Daftar kelas persiapan persalinan (senam hamil, kelas laktasi). Pertimbangkan donor darah darurat dan catat nomor kontak PMI.</div></div>
-      <div class="check-item"><span class="check-week">Minggu 32</span><div>Tentukan rumah sakit/klinik bersalin pilihan. Konfirmasi cakupan BPJS atau asuransi kesehatan untuk persalinan.</div></div>
-      <div class="check-item"><span class="check-week">Minggu 34</span><div>Siapkan dokumen persalinan: KTP, KK, buku KIA, kartu BPJS, buku tabungan. Buat salinan cadangan.</div></div>
-      <div class="check-item"><span class="check-week">Minggu 36</span><div>Kemas tas persalinan: pakaian ibu dan bayi, perlengkapan mandi, makanan ringan, pengisi daya HP, dan dokumen penting.</div></div>
-      <div class="check-item"><span class="check-week">Minggu 37</span><div>Pastikan ada yang siap mengantar kapanpun. Kenali rute ke rumah sakit dan estimasi waktu tempuh saat macet.</div></div>
-      <div class="check-item"><span class="check-week">Minggu 38–40</span><div>Pantau tanda persalinan aktif: kontraksi teratur tiap 5 menit, ketuban pecah, atau keluar lendir bercampur darah (bloody show). Segera ke RS jika terjadi.</div></div>
-    </div>
-
-    <h2>Perkembangan Janin Per Trimester</h2>
-    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin:12px 0">
-      <thead><tr>
-        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Trimester</th>
-        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Minggu</th>
-        <th style="background:var(--bg-input);padding:8px 10px;text-align:left;font-weight:600">Perkembangan Utama</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Trimester 1</td><td style="padding:8px 10px">1–12</td><td style="padding:8px 10px">Jantung berdetak (mgg 5–6), semua organ vital terbentuk, ukuran seperti biji rambutan saat aterm trimester 1</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">Trimester 2</td><td style="padding:8px 10px">13–27</td><td style="padding:8px 10px">Gerakan pertama terasa (mgg 16–20), rambut halus tumbuh, pendengaran berkembang, kelamin terlihat di USG</td></tr>
-        <tr><td style="padding:8px 10px">Trimester 3</td><td style="padding:8px 10px">28–40</td><td style="padding:8px 10px">Berat bertambah cepat, paru-paru matang, kepala turun ke panggul, persiapan akhir persalinan</td></tr>
-      </tbody>
-    </table>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika bayi tidak lahir pada HPL?</div>
-      <div class="faq-a">Ini sangat normal dan terjadi pada lebih dari 95% kehamilan. Bayi yang lahir antara minggu ke-37 hingga ke-42 masih dianggap cukup bulan (aterm). Jika kehamilan melewati 41 minggu, dokter akan mempertimbangkan pemantauan lebih ketat. Jika melewati 42 minggu (post-term), induksi persalinan biasanya direkomendasikan karena risiko janin meningkat setelah plasenta mulai menua.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kapan harus melakukan pemeriksaan kehamilan pertama kali?</div>
-      <div class="faq-a">Idealnya segera setelah tahu hamil, sekitar usia kehamilan 6–8 minggu. Pemeriksaan pertama penting untuk: konfirmasi kehamilan dan HPL melalui USG, pemeriksaan kesehatan dasar (golongan darah, HbSAg, HIV, tekanan darah), serta mulai suplemen asam folat dan zat besi. Jangan tunda hingga bulan ketiga — trimester pertama adalah periode paling kritis perkembangan janin.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa kali USG yang direkomendasikan selama kehamilan?</div>
-      <div class="faq-a">Panduan Kemenkes RI (ANC 6 kontak) mencakup minimal: USG pertama di trimester 1 (mgg 8–12) untuk konfirmasi dan HPL, USG kedua di mgg 18–20 untuk pemeriksaan anatomi janin (anomali scan), dan USG di trimester 3 untuk memantau pertumbuhan dan posisi bayi. Frekuensi bisa lebih banyak jika ada faktor risiko seperti hipertensi, diabetes, atau kehamilan kembar.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah HPL kehamilan kembar berbeda?</div>
-      <div class="faq-a">Rumus HPL sama, namun kehamilan kembar (gemeli) secara medis direncanakan lahir lebih awal karena risiko komplikasi meningkat mendekati 40 minggu. Standar umum: kembar dua (dichorionic) sekitar minggu ke-38, kembar dua (monochorionic) sekitar minggu ke-36–37, kembar tiga sekitar minggu ke-34–35. Dokter kandungan akan menentukan waktu persalinan yang optimal berdasarkan kondisi ibu dan janin.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa tanda-tanda persalinan yang harus segera ke rumah sakit?</div>
-      <div class="faq-a">Segera ke rumah sakit jika mengalami: (1) kontraksi teratur setiap 5 menit selama minimal 1 jam, (2) ketuban pecah — baik mengalir deras maupun menetes pelan-pelan, (3) keluar lendir bercampur darah (bloody show) disertai kontraksi, (4) gerakan janin berkurang drastis, atau (5) nyeri kepala hebat, penglihatan kabur, atau bengkak mendadak (tanda preeklamsia). Jangan menunggu sampai kontraksi sangat menyakitkan — lebih baik tiba lebih awal.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah persalinan caesar menanggalkan HPL?</div>
-      <div class="faq-a">Untuk persalinan caesar terencana (elektif), jadwal operasi biasanya ditetapkan antara minggu ke-38–39 — tidak perlu menunggu HPL. Ini karena paru-paru janin umumnya sudah matang sempurna di usia tersebut, dan menunggu terlalu lama meningkatkan risiko komplikasi. HPL tetap dihitung dengan cara yang sama; yang berbeda adalah keputusan klinis kapan operasi dijadwalkan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah BPJS menanggung biaya persalinan?</div>
-      <div class="faq-a">Ya, BPJS Kesehatan menanggung biaya persalinan normal di fasilitas kesehatan tingkat pertama (puskesmas, klinik bersalin mitra BPJS) dan persalinan dengan komplikasi atau operasi caesar di rumah sakit rujukan. Peserta harus terdaftar aktif minimal 14 hari sebelum persalinan dan mengikuti prosedur rujukan berjenjang. Persalinan normal di bidan atau puskesmas umumnya tanpa biaya tambahan.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kalkulator Kehamilan</a>
-      <a href="/id/kalkulator-masa-subur.html" class="related-item"><span class="ri">🌸</span>Masa Subur</a>
-      <a href="/id/kalkulator-berat-bayi.html" class="related-item"><span class="ri">👶</span>Berat Badan Bayi</a>
-      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Istilah Persalinan</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow" style="background:#fef9c3"><div class="frl"><div class="fdot" style="background:#eab308"></div><div><div class="fn">Early Term</div><div class="fron">Minggu 37–38</div></div></div><div class="fprice" style="color:#a16207">37–38</div></div>
+        <div class="frow" style="background:var(--grn-b)"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Full Term</div><div class="fron">Minggu 39–40 (ideal)</div></div></div><div class="fprice">39–40</div></div>
+        <div class="frow" style="background:#eff6ff"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Late Term</div><div class="fron">Minggu 41</div></div></div><div class="fprice" style="color:#3b82f6">41</div></div>
+        <div class="frow" style="background:var(--red-b)"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Post Term</div><div class="fron">Minggu 42+ (induksi)</div></div></div><div class="fprice" style="color:var(--red)">≥42</div></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tentang HPL</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>HPL hanya perkiraan</strong> — hanya 4% bayi lahir tepat pada HPL. Persalinan normal terjadi dalam rentang 37–42 minggu</span></div>
+        <div class="tip"><span class="tpico">🔬</span><span class="tptx"><strong>USG trimester 1 lebih akurat</strong> — jika HPL dari HPHT berbeda &gt;7 hari dengan USG, gunakan hasil USG</span></div>
+        <div class="tip"><span class="tpico">🗓️</span><span class="tptx"><strong>Siklus tidak 28 hari?</strong> Ovulasi terjadi sekitar hari ke-(siklus-14). HPL dari HPHT perlu disesuaikan</span></div>
+        <div class="tip"><span class="tpico">🏥</span><span class="tptx"><strong>Bayi pertama</strong> rata-rata lahir 5–8 hari setelah HPL. Bayi kedua dan seterusnya cenderung lebih tepat waktu</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-kehamilan" class="relc"><div class="relc-ico">🤰</div><div class="relc-nm">Kehamilan</div><div class="relc-ds">Usia kehamilan</div></a>
+        <a href="/id/kalkulator-masa-subur" class="relc"><div class="relc-ico">🌸</div><div class="relc-nm">Masa Subur</div><div class="relc-ds">Kalkulasi ovulasi</div></a>
+        <a href="/id/kalkulator-kehamilan-bb" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">BB Hamil</div><div class="relc-ds">Kenaikan berat badan</div></a>
+        <a href="/id/kalkulator-berat-bayi" class="relc"><div class="relc-ico">👶</div><div class="relc-nm">Berat Bayi</div><div class="relc-ds">Kurva pertumbuhan</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Cara Menghitung HPL (Hari Perkiraan Lahir)</h2>
+  <p>HPL dihitung dengan rumus Naegele: HPHT + 280 hari (40 minggu). Rumus ini mengasumsikan siklus haid 28 hari dengan ovulasi pada hari ke-14. Jika siklus berbeda, HPL perlu disesuaikan: siklus lebih panjang dari 28 hari berarti ovulasi lebih lambat, sehingga HPL lebih lambat (HPL = HPHT + 280 + (panjang siklus - 28)).</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Seberapa akurat perhitungan HPL?</div><div class="faq-a">Menurut penelitian, hanya sekitar 4% bayi lahir tepat pada HPL. Sekitar 80% bayi lahir dalam rentang 37–41 minggu. HPL yang dihitung dari USG di trimester pertama (7–13 minggu) lebih akurat dibanding dari HPHT karena tidak bergantung pada ingatan ibu tentang haid terakhir dan langsung mengukur ukuran janin. Perbedaan lebih dari 7 hari antara HPL dari HPHT dan USG umumnya membuat dokter menggunakan HPL dari USG.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa yang terjadi jika kehamilan melewati HPL?</div><div class="faq-a">Melewati HPL adalah hal yang normal. Kehamilan hingga 41 minggu (late term) masih umum terjadi dan tidak perlu intervensi jika kondisi ibu dan janin baik. Pada 42 minggu (post term), dokter biasanya akan mempertimbangkan induksi persalinan karena risiko plasenta mulai menurun fungsinya. Pemantauan janin (NST/CTG) diperketat setelah 40 minggu untuk memastikan janin dalam kondisi baik.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const DAYS_ID   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+<script>
+const DAYS_ID=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const MONTHS_ID=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const today=new Date();today.setHours(0,0,0,0);
 
-const fmtDate = d => `${DAYS_ID[d.getDay()]}, ${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
-const fmtShort = d => `${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
+function fmtDate(d){if(!d||isNaN(d))return'—';return d.getDate()+' '+MONTHS_ID[d.getMonth()]+' '+d.getFullYear();}
+function fmtInput(d){if(!d||isNaN(d))return'';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function parseD(id){const el=document.getElementById(id);if(!el||!el.value)return null;const d=new Date(el.value+'T00:00:00');return isNaN(d)?null:d;}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
 
-const MILESTONES = [
-  { week:5,  icon:'❤️', desc:'Jantung janin mulai berdetak' },
-  { week:8,  icon:'🔬', desc:'USG pertama ideal — konfirmasi kehamilan & HPL' },
-  { week:12, icon:'✅', desc:'Akhir Trimester 1 — risiko keguguran turun drastis' },
-  { week:16, icon:'🦶', desc:'Gerakan pertama janin mulai bisa dirasakan' },
-  { week:20, icon:'📋', desc:'USG anomali (morfologi) — pemeriksaan anatomi lengkap' },
-  { week:28, icon:'🧠', desc:'Awal Trimester 3 — otak berkembang pesat' },
-  { week:36, icon:'👜', desc:'Siapkan tas persalinan & dokumen penting' },
-  { week:37, icon:'🟢', desc:'Kehamilan aterm — bayi siap lahir kapanpun' },
-  { week:40, icon:'🍼', desc:'HPL — Hari Perkiraan Lahir' },
-];
+function renderHPL(hpl,hpht){
+  if(!hpl||isNaN(hpl))return;
+  const sisaHari=Math.round((hpl-today)/(1000*60*60*24));
+  const sisaMinggu=Math.floor(Math.abs(sisaHari)/7);
+  const sisaBulan=(sisaHari/30.44).toFixed(1);
 
-window.addEventListener('DOMContentLoaded', () => {
-  const today = new Date().toISOString().split('T')[0];
-});
+  // countdown
+  const usiaMgg=hpht?Math.floor(Math.round((today-hpht)/(1000*60*60*24))/7):null;
+  const pct=hpht?Math.max(0,Math.min(100,Math.round((today-hpht)/(1000*60*60*24))/280*100)):null;
 
-function getHpht() {
-  const d = parseInt(document.getElementById('hpht-d').value);
-  const m = parseInt(document.getElementById('hpht-m').value);
-  const y = parseInt(document.getElementById('hpht-y').value);
-  if (!d||!m||!y||y<1900||y>2100) return null;
-  const dt = new Date(y, m-1, d);
-  return dt.getDate()===d ? dt : null;
-}
-function autoCalc() {
-  const v = document.getElementById('hpht').value;
-  if (v) calculate();
-}
+  set('hpl-date',fmtDate(hpl));
+  set('hpl-day',DAYS_ID[hpl.getDay()]);
+  set('hpl-sub',sisaHari>0?sisaHari+' hari lagi ('+sisaMinggu+' minggu)':sisaHari===0?'Hari ini! 🎉':'HPL sudah terlewati '+Math.abs(sisaHari)+' hari lalu');
 
-function calculate() {
-  const hphtObj = getHpht();
-  if (!hphtObj) return alert('Masukkan tanggal HPHT yang lengkap.');
-  const cycle = parseInt(document.getElementById('cycle').value) || 28;
-  const adj = cycle - 28;
+  set('cd-hari',Math.abs(sisaHari));
+  set('cd-minggu',sisaMinggu);
+  set('cd-bulan',Math.abs(parseFloat(sisaBulan)).toFixed(1));
+  set('cd-pct',pct!==null?pct.toFixed(0)+'%':'—');
 
-  const hpht = hphtObj;
-  const hpl  = new Date(hpht); hpl.setDate(hpl.getDate() + 280 + adj);
-  const conception = new Date(hpht); conception.setDate(conception.getDate() + 14 + adj);
+  // Window
+  const w37=addDays(hpl,-21);
+  const w39=addDays(hpl,-7);
+  const w42=addDays(hpl,14);
+  const wrapW=document.getElementById('window-grid');
+  if(wrapW)wrapW.innerHTML=[
+    {lbl:'Early Term',sub:'Minggu 37–38',date:fmtDate(w37),col:'#eab308',bg:'#fef9c3',bc:'#fde047'},
+    {lbl:'Full Term ✅',sub:'Minggu 39–40 (HPL)',date:fmtDate(w39)+'–'+hpl.getDate()+'/'+hpl.toLocaleDateString('id-ID',{month:'short'}),col:'var(--grn)',bg:'var(--grn-b)',bc:'#86efac'},
+    {lbl:'Post Term',sub:'Minggu 42+',date:fmtDate(w42),col:'var(--red)',bg:'var(--red-b)',bc:'#fca5a5'},
+  ].map(w=>`<div class="win-box" style="background:${w.bg};border-color:${w.bc}">
+    <div class="win-lbl" style="color:${w.col}">${w.lbl}</div>
+    <div class="win-date" style="color:${w.col}">${w.date}</div>
+    <div class="win-sub" style="color:${w.col}">${w.sub}</div>
+  </div>`).join('');
 
-  const today = new Date(); today.setHours(0,0,0,0);
-  const diffDays = Math.floor((today - hpht) / 86400000);
-  const weeks = Math.floor(diffDays / 7);
-  const remaining = Math.ceil((hpl - today) / 86400000);
-
-  // Countdown display
-  const cdEl = document.getElementById('res-countdown');
-  const cdLabel = document.getElementById('res-countdown-label');
-  if (remaining > 0) {
-    cdEl.textContent = remaining;
-    cdLabel.textContent = 'hari menuju HPL';
-    cdEl.style.color = 'var(--mint)';
-  } else if (remaining === 0) {
-    cdEl.textContent = '🎉';
-    cdLabel.textContent = 'Hari ini adalah HPL!';
-  } else {
-    cdEl.textContent = Math.abs(remaining);
-    cdLabel.textContent = 'hari setelah HPL';
-    cdEl.style.color = '#fbbf24';
+  // Detail rows
+  set('r-hpl',fmtDate(hpl)+' ('+DAYS_ID[hpl.getDay()]+')');
+  set('r-early',fmtDate(w37)+' (Minggu 37)');
+  set('r-full',fmtDate(hpl));
+  set('r-post',fmtDate(w42)+' (Minggu 42)');
+  if(hpht){
+    const usiaMggNow=Math.floor(Math.round((today-hpht)/(1000*60*60*24))/7);
+    const usiaHariNow=Math.round((today-hpht)/(1000*60*60*24))%7;
+    set('r-usia',usiaMggNow+' minggu '+usiaHariNow+' hari');
   }
-  document.getElementById('res-hpl-date').textContent = fmtDate(hpl);
-
-  // Progress bar
-  const pct = Math.min(Math.max(diffDays / 280 * 100, 0), 100);
-  document.getElementById('preg-fill').style.width = pct + '%';
-  document.getElementById('preg-pct-label').textContent = pct.toFixed(0) + '% selesai';
-
-  // Stats
-  document.getElementById('s-weeks').textContent = weeks + ' mgg';
-  let trim;
-  if (weeks < 13) trim = '1';
-  else if (weeks < 28) trim = '2';
-  else trim = '3';
-  document.getElementById('s-trimester').textContent = 'T' + trim;
-  document.getElementById('s-conception').textContent = fmtShort(conception);
+  set('r-sisa',sisaHari>0?sisaHari+' hari lagi':sisaHari===0?'Hari ini!':Math.abs(sisaHari)+' hari yang lalu');
 
   // Timeline
-  const tl = document.getElementById('timeline');
-  tl.innerHTML = MILESTONES.map(m => {
-    const d = new Date(hpht); d.setDate(d.getDate() + m.week * 7 + adj);
-    const isPast = d < today;
-    const isCurrent = Math.abs(weeks - m.week) <= 1 && !isPast;
-    const dotClass = isPast ? 'past' : isCurrent ? 'current' : 'future';
-    return `<div class="tl-item">
-      <div class="tl-dot ${dotClass}"></div>
-      <div class="tl-content">
-        <div class="tl-date">${fmtShort(d)} · Minggu ${m.week}</div>
-        <div class="tl-desc">${m.icon} ${m.desc}${isCurrent ? '<span class="tl-now-badge">Sekarang</span>' : ''}${isPast ? ' <span style="color:var(--mint)">✓</span>' : ''}</div>
-      </div>
-    </div>`;
-  }).join('');
-
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
+  if(hpht)renderTimeline(hpht,hpl);
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+function renderTimeline(hpht,hpl){
+  const wrap=document.getElementById('timeline');if(!wrap)return;
+  const events=[
+    {d:hpht,ico:'🩸',txt:'<strong>HPHT</strong> — Hari Pertama Haid Terakhir',col:'#9ca3af'},
+    {d:addDays(hpht,42),ico:'💊',txt:'<strong>Minggu 6</strong> — Detak jantung terdeteksi via USG',col:'#f472b6'},
+    {d:addDays(hpht,84),ico:'✅',txt:'<strong>Minggu 12</strong> — Akhir trimester 1, risiko keguguran turun',col:'#22c55e'},
+    {d:addDays(hpht,112),ico:'👶',txt:'<strong>Minggu 16</strong> — Gerakan janin mungkin mulai terasa',col:'#3b82f6'},
+    {d:addDays(hpht,140),ico:'🔍',txt:'<strong>Minggu 20</strong> — USG anatomi, jenis kelamin bisa diketahui',col:'#8b5cf6'},
+    {d:addDays(hpht,168),ico:'🫁',txt:'<strong>Minggu 24</strong> — Janin viable (bisa bertahan di luar)',col:'#f97316'},
+    {d:addDays(hpht,196),ico:'🌙',txt:'<strong>Minggu 28</strong> — Mulai Trimester 3',col:'#0ea5e9'},
+    {d:addDays(hpl,-21),ico:'⚠️',txt:'<strong>Minggu 37</strong> — Early term, siap persalinan',col:'#eab308'},
+    {d:hpl,ico:'🎉',txt:'<strong>HPL</strong> — Hari Perkiraan Lahir',col:'var(--pink)'},
+  ];
+  const isPast=d=>d<=today;
+  wrap.innerHTML=events.map((e,i)=>`<div class="tl-row">
+    <div class="tl-dot" style="background:${isPast(e.d)?e.col:'var(--bor)'}"></div>
+    ${i<events.length-1?'<div class="tl-line"></div>':''}
+    <div>
+      <div class="tl-date" style="color:${isPast(e.d)?e.col:'var(--tx3)'}">${fmtDate(e.d)}</div>
+      <div class="tl-txt" style="color:${isPast(e.d)?'var(--tx2)':'var(--tx3)'}">${e.ico} ${e.txt}</div>
+    </div>
+  </div>`).join('');
+}
+
+function calcFromHPHT(){
+  const hpht=parseD('hpht');if(!hpht)return;
+  const siklus=parseInt(document.getElementById('siklus')?.value)||28;
+  const adj=siklus-28;
+  const hpl=addDays(hpht,280+adj);
+  renderHPL(hpl,hpht);
+}
+
+function calcFromUSG(){
+  const tglUSG=parseD('usg-tgl');if(!tglUSG)return;
+  const mgg=parseInt(document.getElementById('usg-mgg')?.value)||10;
+  const hari=parseInt(document.getElementById('usg-hari')?.value)||0;
+  const totalDays=mgg*7+hari;
+  const hphtEst=addDays(tglUSG,-totalDays);
+  const hpl=addDays(hphtEst,280);
+  renderHPL(hpl,hphtEst);
+}
+
+function calcFromKonsepsi(){
+  const konsepsi=parseD('konsepsi');if(!konsepsi)return;
+  const hpl=addDays(konsepsi,266);
+  const hphtEst=addDays(konsepsi,-14);
+  renderHPL(hpl,hphtEst);
+}
+
+// Init
+const defHPHT=addDays(today,-84);
+document.getElementById('hpht').value=fmtInput(defHPHT);
+document.getElementById('usg-tgl').value=fmtInput(today);
+document.getElementById('konsepsi').value=fmtInput(addDays(today,-70));
+
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+calcFromHPHT();
 </script>
 </body>
 </html>

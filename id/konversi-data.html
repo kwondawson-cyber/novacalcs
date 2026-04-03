@@ -1,374 +1,52 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Konversi Ukuran Data 2026 — Ubah KB, MB, GB, TB Online | NovaCalcs</title>
-<meta name="description" content="Konversi satuan data secara instan: Byte, KB, MB, GB, TB, PB. Hitung waktu unduh file, estimasi kebutuhan penyimpanan, dan cek kuota internet Anda."/>
-<meta name="keywords" content="konversi ukuran data, ubah MB ke GB, KB ke MB, gigabyte, terabyte, hitung waktu unduh, estimasi storage"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-data.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/konversi-data.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.tool-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin-bottom:.6rem}
-.tool-card h4{margin:0 0 .5rem;color:#00C9B1;font-size:.88rem}
-.tool-result{background:rgba(0,201,177,.07);border-radius:7px;padding:.5rem .7rem;margin-top:.5rem;font-size:.85rem;color:#c0cdd8;display:none;line-height:1.6}
-.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.75rem}
-.preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.5rem .5rem;cursor:pointer;font-size:.77rem;color:#c0cdd8;text-align:left;transition:all .2s;font-family:inherit}
-.preset-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.35);color:#00C9B1}
-.preset-btn strong{display:block;font-size:.83rem;color:#fff;margin-bottom:.1rem}
-.result-highlight{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-bottom:.5rem;font-size:.9rem}
-.stor-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
-.stor-row:last-child{border-bottom:none}
-.stor-bar{height:6px;border-radius:3px;background:#00C9B1;transition:width .4s;max-width:100%}
-</style>
-</head>
-<body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#konversi">Konversi</a><span class="breadcrumb-sep">›</span>
-      <span>Konversi Data</span>
-    </nav>
-  </div>
-</header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">💾 Konversi Ukuran Data</div>
-      <div class="calc-subtitle">Byte, KB, MB, GB, TB, PB — konversi &amp; kalkulator</div>
-
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-konversi',this)">🔄 Konversi</button>
-        <button class="tab-btn" onclick="showTab('tab-unduh',this)">⬇️ Waktu Unduh</button>
-        <button class="tab-btn" onclick="showTab('tab-storage',this)">💿 Estimasi Storage</button>
-      </div>
-
-      <!-- TAB 1: KONVERSI -->
-      <div id="tab-konversi" class="tab-pane active">
-        <div class="field"><label>Nilai</label>
-          <input type="number" id="input-val" placeholder="Masukkan angka" step="any" oninput="convert()"/>
-        </div>
-        <div class="field"><label>Dari Satuan</label>
-          <select id="from-unit" onchange="convert()">
-            <option value="bit">Bit (b)</option>
-            <option value="byte">Byte (B)</option>
-            <option value="kb">Kilobyte (KB)</option>
-            <option value="mb" selected>Megabyte (MB)</option>
-            <option value="gb">Gigabyte (GB)</option>
-            <option value="tb">Terabyte (TB)</option>
-            <option value="pb">Petabyte (PB)</option>
-            <option value="kib">Kibibyte (KiB)</option>
-            <option value="mib">Mebibyte (MiB)</option>
-            <option value="gib">Gibibyte (GiB)</option>
-            <option value="tib">Tebibyte (TiB)</option>
-          </select>
-        </div>
-
-        <div style="font-size:.78rem;font-weight:600;color:#8fa3b1;margin:.6rem 0 .35rem">⚡ Konversi Cepat</div>
-        <div class="preset-grid" id="preset-grid"></div>
-
-        <button class="calc-btn" onclick="convert()">Konversi</button>
-        <div class="result-panel" id="result">
-          <div class="result-rows" id="result-rows">
-            <div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 2: WAKTU UNDUH -->
-      <div id="tab-unduh" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:.75rem">Hitung berapa lama waktu yang dibutuhkan untuk mengunduh file dengan kecepatan internet tertentu.</p>
-        <div class="field"><label>Ukuran File</label>
-          <div style="display:flex;gap:.5rem">
-            <input type="number" id="dl-size" placeholder="Contoh: 4" min="0" step="any" style="flex:1"/>
-            <select id="dl-unit" style="width:130px">
-              <option value="mb">MB</option>
-              <option value="gb">GB</option>
-              <option value="tb">TB</option>
-              <option value="kb">KB</option>
-            </select>
-          </div>
-        </div>
-        <div class="field"><label>Kecepatan Internet</label>
-          <div style="display:flex;gap:.5rem">
-            <input type="number" id="dl-speed" placeholder="Contoh: 20" min="0" step="any" style="flex:1"/>
-            <select id="dl-speed-unit" style="width:100px">
-              <option value="mbps">Mbps</option>
-              <option value="gbps">Gbps</option>
-              <option value="kbps">Kbps</option>
-              <option value="mbytes">MB/s</option>
-            </select>
-          </div>
-          <small style="color:#7a8fa0">Mbps = Megabit/detik. Unduh nyata ≈ Mbps ÷ 8</small>
-        </div>
-        <button class="calc-btn" onclick="calculateDownload()">Hitung Waktu Unduh</button>
-        <div id="res-unduh" style="display:none;margin-top:1rem">
-          <div id="unduh-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.6rem;line-height:1.6"></div>
-          <div class="result-rows" id="unduh-rows"></div>
-        </div>
-      </div>
-
-      <!-- TAB 3: ESTIMASI STORAGE -->
-      <div id="tab-storage" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:.75rem">Estimasi berapa storage yang dibutuhkan untuk menyimpan berbagai jenis file.</p>
-        <div class="field"><label>Kapasitas Storage Tersedia (GB)</label>
-          <input type="number" id="st-total" placeholder="Contoh: 128" min="1" value="128"/>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.6rem">
-          <div class="field" style="margin:0"><label style="font-size:.75rem">Jumlah Foto (JPEG ~4MB)</label><input type="number" id="st-foto" placeholder="500" min="0" value="0"/></div>
-          <div class="field" style="margin:0"><label style="font-size:.75rem">Jumlah Video (1 mnt ~20MB)</label><input type="number" id="st-video" placeholder="100" min="0" value="0"/></div>
-          <div class="field" style="margin:0"><label style="font-size:.75rem">Jumlah Lagu (MP3 ~4MB)</label><input type="number" id="st-lagu" placeholder="200" min="0" value="0"/></div>
-          <div class="field" style="margin:0"><label style="font-size:.75rem">Jumlah Aplikasi (~100MB)</label><input type="number" id="st-app" placeholder="50" min="0" value="0"/></div>
-        </div>
-        <button class="calc-btn" onclick="calculateStorage()">Estimasi Sekarang</button>
-        <div id="res-storage" style="display:none;margin-top:1rem">
-          <div id="storage-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.6rem;line-height:1.5"></div>
-          <div id="storage-rows"></div>
-          <div style="margin-top:.5rem;background:rgba(255,255,255,.04);border-radius:8px;padding:.6rem">
-            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.35rem">Penggunaan Storage</div>
-            <div style="height:12px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden">
-              <div id="storage-bar" style="height:100%;border-radius:6px;background:linear-gradient(90deg,#00C9B1,#f59e0b);transition:width .5s"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:#6b7c8d;margin-top:.2rem">
-              <span>0 GB</span><span id="storage-bar-label"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="content-area">
-    <h1>Konversi Ukuran Data — Byte, KB, MB, GB, TB, PB</h1>
-    <p class="page-desc">Konverter ukuran data digital yang lengkap. Ubah Byte ke KB, MB ke GB, GB ke TB secara instan menggunakan sistem desimal (SI) dan biner (IEC). Lengkap dengan kalkulator waktu unduh dan estimasi kebutuhan penyimpanan.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Sistem Desimal (SI) vs Sistem Biner (IEC)</h2>
-    <p>Ada dua sistem penghitungan ukuran data yang sering membingungkan: sistem desimal (SI) di mana 1 KB = 1.000 Byte, dan sistem biner (IEC) di mana 1 KiB = 1.024 Byte. Produsen hard disk menggunakan sistem desimal (sehingga HDD "1 TB" tampak lebih kecil di komputer), sementara sistem operasi Windows secara historis menampilkan kapasitas dalam kibibyte/mebibyte meski menyebutnya "KB/MB". Linux dan macOS modern menggunakan sistem yang lebih konsisten dengan standar IEC.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li><strong>Tab Konversi:</strong> Masukkan nilai, pilih satuan asal, dan semua hasil konversi langsung tampil. Gunakan preset konversi populer untuk akses lebih cepat.</li>
-      <li><strong>Tab Waktu Unduh:</strong> Masukkan ukuran file dan kecepatan internet Anda untuk mengetahui estimasi waktu unduh.</li>
-      <li><strong>Tab Estimasi Storage:</strong> Masukkan jumlah foto, video, lagu, dan aplikasi untuk mengetahui berapa storage yang dibutuhkan.</li>
-    </ol>
-
-    <h2>Tabel Konversi Ukuran Data (Desimal / SI)</h2>
-    <table>
-      <tr><th>Satuan</th><th>Singkatan</th><th>Setara dalam Byte</th></tr>
-      <tr><td>1 Bit</td><td>b</td><td>0,125 Byte</td></tr>
-      <tr><td>1 Byte</td><td>B</td><td>8 bit</td></tr>
-      <tr><td>1 Kilobyte</td><td>KB</td><td>1.000 Byte (10³)</td></tr>
-      <tr><td>1 Megabyte</td><td>MB</td><td>1.000.000 Byte (10⁶)</td></tr>
-      <tr><td>1 Gigabyte</td><td>GB</td><td>1.000.000.000 Byte (10⁹)</td></tr>
-      <tr><td>1 Terabyte</td><td>TB</td><td>10¹² Byte</td></tr>
-      <tr><td>1 Petabyte</td><td>PB</td><td>10¹⁵ Byte</td></tr>
-    </table>
-
-    <h2>Referensi Ukuran File Umum di Indonesia 2026</h2>
-    <table>
-      <tr><th>Jenis File</th><th>Ukuran Khas</th><th>Kapasitas per GB</th></tr>
-      <tr><td>Foto JPEG smartphone (12 MP)</td><td>3–5 MB</td><td>~250 foto</td></tr>
-      <tr><td>Foto RAW kamera DSLR/Mirrorless</td><td>20–50 MB</td><td>~30 foto</td></tr>
-      <tr><td>Lagu MP3 (128 kbps, 4 menit)</td><td>~4 MB</td><td>~250 lagu</td></tr>
-      <tr><td>Video WhatsApp (1 menit)</td><td>10–20 MB</td><td>~60 menit</td></tr>
-      <tr><td>Video YouTube HD (1 menit, 1080p)</td><td>~100 MB</td><td>~10 menit</td></tr>
-      <tr><td>Film Full HD (2 jam, 1080p)</td><td>8–15 GB</td><td>—</td></tr>
-      <tr><td>Aplikasi mobile rata-rata</td><td>50–200 MB</td><td>~10 app</td></tr>
-      <tr><td>Game mobile besar (PUBG, ML)</td><td>1–3 GB</td><td>—</td></tr>
-    </table>
-
-    <h2>Kuota Internet: Estimasi Konsumsi Data per Aktivitas</h2>
-    <p>Memahami konsumsi data membantu memilih paket internet yang tepat. Streaming YouTube adalah konsumen data terbesar: 360p ~250 MB/jam, 720p ~600 MB/jam, 1080p ~1,5 GB/jam, dan 4K ~7 GB/jam. TikTok mengonsumsi data cukup besar, sekitar 500 MB–1 GB per jam karena video autoplay. Video call Zoom HD sekitar 600 MB per jam. Rata-rata pengguna smartphone Indonesia mengonsumsi 15–20 GB per bulan berdasarkan data operator telekomunikasi.</p>
-
-    <h2>Mengapa Kapasitas Flashdisk "32 GB" Lebih Kecil di Komputer?</h2>
-    <p>Flashdisk "32 GB" hanya menampung sekitar 29,8 GB di komputer karena produsen menggunakan standar desimal (1 GB = 1.000.000.000 byte), sementara sistem operasi menggunakan standar biner (1 GiB = 1.073.741.824 byte). Selisihnya sekitar 7%. Di samping itu, sebagian kapasitas juga digunakan untuk sistem file dan firmware, sehingga kapasitas tersedia untuk pengguna selalu lebih kecil dari yang tertulis di kemasan.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa HDD 1TB terlihat lebih kecil di komputer?</div><div class="faq-a">Produsen HDD menggunakan sistem desimal: 1 TB = 1.000.000.000.000 Byte. Namun Windows menampilkan kapasitas dalam sistem biner di mana 1 TiB = 1.099.511.627.776 Byte. Hasilnya HDD 1 TB tampak hanya sekitar 931 GB di Windows. Ini bukan penipuan — hanya perbedaan sistem penghitungan desimal vs biner.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya MB dan MiB?</div><div class="faq-a">MB (Megabyte, SI) = 1.000.000 Byte. MiB (Mebibyte, IEC) = 1.048.576 Byte (yaitu 2²⁰). Perbedaannya sekitar 4,86%. Untuk file kecil perbedaan ini tidak signifikan, namun untuk drive besar (TB) selisihnya bisa mencapai puluhan GB.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa GB yang dibutuhkan untuk 1.000 foto?</div><div class="faq-a">Tergantung kualitas foto. Foto JPEG smartphone (~4 MB/foto): 1.000 foto ≈ 4 GB. Foto RAW mirrorless (~25 MB/foto): 1.000 foto ≈ 25 GB. Selalu sediakan ruang ekstra minimal 20% dari perkiraan ukuran untuk sistem file dan file sementara.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 GB internet cukup untuk berapa lama browsing?</div><div class="faq-a">Sangat bervariasi: browsing biasa tanpa video ~50–100 MB/jam (bisa 10–20 jam), streaming YouTube 480p ~260 MB/jam (sekitar 4 jam), streaming 1080p ~1,5 GB/jam (kurang dari 1 jam), video call WhatsApp ~180 MB/jam (sekitar 5,5 jam). Jadi 1 GB internet cukup untuk 10–20 jam browsing normal atau kurang dari 1 jam streaming HD.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa kecepatan internet yang dibutuhkan untuk streaming?</div><div class="faq-a">Rekomendasi minimum Netflix/YouTube: SD (480p) = 1,5–3 Mbps; HD (1080p) = 5–8 Mbps; 4K UHD = 25 Mbps+. Perlu dicatat bahwa Mbps (Megabit/detik) berbeda dari MBps (Megabyte/detik): 8 Mbps = 1 MBps. Kecepatan yang tertera di paket internet (misal "100 Mbps") mengacu pada bit, sehingga kecepatan unduh nyata sekitar 100 ÷ 8 = 12,5 MB/detik.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu bit dan bedanya dengan byte?</div><div class="faq-a">Bit (binary digit) adalah unit informasi digital terkecil, bernilai 0 atau 1. Byte = 8 bit. Kecepatan jaringan biasanya dinyatakan dalam bit (Mbps, Gbps), sedangkan ukuran file dinyatakan dalam byte (MB, GB). Unduhan 100 MB pada koneksi 100 Mbps tidak selesai dalam 1 detik, melainkan sekitar 8 detik (100 MB × 8 = 800 Mb ÷ 100 Mbps = 8 detik).</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/konversi-waktu.html" class="related-item"><span class="ri">⏱️</span>Konversi Waktu</a>
-      <a href="/id/konversi-kecepatan.html" class="related-item"><span class="ri">💨</span>Konversi Kecepatan</a>
-      <a href="/id/konversi-berat.html" class="related-item"><span class="ri">⚖️</span>Konversi Berat</a>
-      <a href="/id/konversi-panjang.html" class="related-item"><span class="ri">📏</span>Konversi Panjang</a>
-    </div>
-  </div>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konversi Data Digital 2026 — bit, byte, KB, MB, GB, TB, PB | NovaCalcs</title>
+<meta name="description" content="Konversi ukuran data digital 2026: bit, byte, KB, MB, GB, TB, PB secara instan. Hitung kapasitas penyimpanan. Gratis.">
+<link rel="canonical" href="https://novacalcs.com/id/konversi-data">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06)}body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}a{color:var(--pri);text-decoration:none}.nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}.nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}.nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none}.nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}.hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}.hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}.hdr-h1{font-size:clamp(20px,5vw,28px);font-weight:800;letter-spacing:-.8px}.hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}.main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px}@media(max-width:700px){.main{grid-template-columns:1fr}}.left-col{display:flex;flex-direction:column;gap:20px}.card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}.card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}.card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}.card-b{padding:18px}.conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:480px){.conv-grid{grid-template-columns:1fr}}.conv-item{background:var(--sur2);border:1.5px solid var(--bor);border-radius:var(--rs);padding:10px 12px;transition:border-color .15s}.conv-item.active{border-color:var(--pri);background:var(--pri-l)}.conv-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}.conv-item.active .conv-lbl{color:var(--pri)}.conv-inp{width:100%;border:none;background:transparent;font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--tx);outline:none;-moz-appearance:textfield}.conv-inp::-webkit-outer-spin-button,.conv-inp::-webkit-inner-spin-button{-webkit-appearance:none}.conv-unit{font-size:10px;color:var(--tx3);margin-top:2px}.other-conv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.oc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:11px;text-decoration:none;color:inherit;transition:border-color .15s}.oc:hover{border-color:var(--pri)}.oc-ico{font-size:18px;margin-bottom:4px}.oc-nm{font-size:12px;font-weight:700}.oc-ds{font-size:10px;color:var(--tx3)}.sb{display:flex;flex-direction:column;gap:16px}.flist{display:flex;flex-direction:column;gap:6px}.frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}.frl{display:flex;align-items:center;gap:9px}.fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}.fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}.seo{max-width:880px;margin:0 auto;padding:0 20px 60px}.seo h2{font-size:18px;font-weight:800;margin:32px 0 8px}.seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:8px}footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}footer a{color:var(--tx3)}.presets{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}.pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s;font-family:inherit}.pb:hover{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}</style>
+</head><body>
+<nav class="nav"><div class="nav-i"><a href="/id/" class="nav-logo">⚡ NovaCalcs</a><span class="nav-sep">/</span><span class="nav-cur">Konversi Data</span></div></nav>
+<header class="hdr"><div class="hdr-tag">💾 Data Digital</div><h1 class="hdr-h1">Konversi Ukuran Data Digital 2026</h1><p class="hdr-sub">Konversi bit, byte, KB, MB, GB, TB, PB — standar desimal (SI) dan biner (IEC). Gratis & instan.</p></header>
+<main class="main">
+<div class="left-col">
+<div class="card"><div class="card-h"><div class="card-ico">💾</div>Konverter Data Digital</div><div class="card-b">
+<div class="presets"><button class="pb" onclick="activeId='mb';baseVal=1/(UNITS.find(u=>u.id==='mb')?.factor||1);renderGrid()">1 MB</button><button class="pb" onclick="activeId='gb';baseVal=1/(UNITS.find(u=>u.id==='gb')?.factor||1);renderGrid()">1 GB</button><button class="pb" onclick="activeId='tb';baseVal=1/(UNITS.find(u=>u.id==='tb')?.factor||1);renderGrid()">1 TB</button></div>
+<div class="conv-grid" id="conv-grid"></div>
+</div></div>
+</div>
+<div class="sb">
+<div class="card"><div class="card-h"><div class="card-ico">🔗</div>Konverter Lainnya</div><div class="card-b"><div class="other-conv">
+<a href="/id/konversi-berat" class="oc"><div class="oc-ico">⚖️</div><div class="oc-nm">Berat</div><div class="oc-ds">kg, lb, oz</div></a>
+<a href="/id/konversi-panjang" class="oc"><div class="oc-ico">📏</div><div class="oc-nm">Panjang</div><div class="oc-ds">m, km, inch</div></a>
+<a href="/id/konversi-suhu" class="oc"><div class="oc-ico">🌡️</div><div class="oc-nm">Suhu</div><div class="oc-ds">°C, °F, K</div></a>
+<a href="/id/konversi-data" class="oc"><div class="oc-ico">💾</div><div class="oc-nm">Data</div><div class="oc-ds">KB, MB, GB, TB</div></a>
+</div></div></div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
-</footer>
-<script defer>
-const toByte = {
-  bit:0.125, byte:1, kb:1e3, mb:1e6, gb:1e9, tb:1e12, pb:1e15,
-  kib:1024, mib:1048576, gib:1073741824, tib:1099511627776
-};
-const labels = {
-  bit:'Bit (b)', byte:'Byte (B)', kb:'Kilobyte (KB)', mb:'Megabyte (MB)',
-  gb:'Gigabyte (GB)', tb:'Terabyte (TB)', pb:'Petabyte (PB)',
-  kib:'Kibibyte (KiB)', mib:'Mebibyte (MiB)', gib:'Gibibyte (GiB)', tib:'Tebibyte (TiB)'
-};
-
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+<div class="seo"><h2>Konversi Satuan Data Digital</h2><p>1 KB = 1.000 byte (desimal SI). 1 KiB = 1.024 byte (biner IEC). 1 GB = 1.000 MB = 1.000.000 KB. Sistem operasi (Windows) biasanya menggunakan 1 KB = 1.024 byte.</p></div>
+<footer><span>© 2026 NovaCalcs</span><span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span></footer>
+<script>
+const UNITS=[{"id": "bit", "nm": "Bit", "sym": "bit", "factor": 0.125}, {"id": "b", "nm": "Byte", "sym": "B", "factor": 1}, {"id": "kb", "nm": "Kilobyte (KB)", "sym": "KB", "factor": 1000}, {"id": "mb", "nm": "Megabyte (MB)", "sym": "MB", "factor": 1000000.0}, {"id": "gb", "nm": "Gigabyte (GB)", "sym": "GB", "factor": 1000000000.0}, {"id": "tb", "nm": "Terabyte (TB)", "sym": "TB", "factor": 1000000000000.0}, {"id": "pb", "nm": "Petabyte (PB)", "sym": "PB", "factor": 1000000000000000.0}, {"id": "kib", "nm": "Kibibyte (KiB)", "sym": "KiB", "factor": 1024}, {"id": "mib", "nm": "Mebibyte (MiB)", "sym": "MiB", "factor": 1048576}, {"id": "gib", "nm": "Gibibyte (GiB)", "sym": "GiB", "factor": 1073741824}];
+let activeId=UNITS[0].id,baseVal=1;
+function fmtN(n){if(n===0)return'0';if(Math.abs(n)<0.000001&&n!==0||Math.abs(n)>1e12)return n.toExponential(4);return parseFloat(n.toPrecision(8)).toLocaleString('id-ID',{maximumFractionDigits:8});}
+function renderGrid(){
+  const wrap=document.getElementById('conv-grid');if(!wrap)return;
+  wrap.innerHTML=UNITS.map(u=>`<div class="conv-item${u.id===activeId?' active':''} " onclick="activateUnit('${u.id}')">
+    <div class="conv-lbl">${u.nm}</div>
+    <input class="conv-inp" type="number" id="inp-${u.id}" value="${fmtN(baseVal*u.factor)}" oninput="onInput('${u.id}',this.value)" placeholder="0">
+    <div class="conv-unit">${u.sym}</div>
+  </div>`).join('');
+}
+function activateUnit(id){activeId=id;const el=document.getElementById('inp-'+id);if(el)el.focus();renderGrid();}
+function onInput(id,val){
+  const n=parseFloat(val);if(isNaN(n))return;
+  const u=UNITS.find(u=>u.id===id);if(!u)return;
+  baseVal=n/u.factor;activeId=id;
+  UNITS.forEach(u2=>{if(u2.id===id)return;const el=document.getElementById('inp-'+u2.id);if(el)el.value=fmtN(baseVal*u2.factor);});
 }
 
-function fmt(n) {
-  if (n === 0) return '0';
-  if (Math.abs(n) >= 0.001 && Math.abs(n) < 1e15) return n.toLocaleString('id-ID', {maximumSignificantDigits:6});
-  return n.toExponential(4).replace('.', ',');
-}
-
-function convert() {
-  const val = parseFloat(document.getElementById('input-val').value);
-  const from = document.getElementById('from-unit').value;
-  if (isNaN(val)) {
-    document.getElementById('result-rows').innerHTML = '<div class="result-row"><span class="rkey">—</span><span class="rval">Masukkan angka</span></div>';
-    return;
-  }
-  const inByte = val * toByte[from];
-  document.getElementById('result-rows').innerHTML =
-    Object.entries(toByte).filter(([u]) => u !== from).map(([unit, factor]) =>
-      `<div class="result-row"><span class="rkey">${labels[unit]}</span><span class="rval">${fmt(inByte/factor)}</span></div>`
-    ).join('');
-  document.getElementById('result').classList.add('show');
-}
-
-const PRESETS = [
-  {label:'1 MB → KB / Byte', val:1, from:'mb'},
-  {label:'1 GB → MB', val:1, from:'gb'},
-  {label:'100 MB → GB', val:100, from:'mb'},
-  {label:'1 TB → GB', val:1, from:'tb'},
-  {label:'512 MB → GB', val:512, from:'mb'},
-  {label:'4 KB → Byte / bit', val:4, from:'kb'},
-];
-function renderPresets() {
-  document.getElementById('preset-grid').innerHTML = PRESETS.map((p, i) =>
-    `<button class="preset-btn" onclick="runPreset(${i})"><strong>${p.label}</strong>${p.val} ${labels[p.from]}</button>`
-  ).join('');
-}
-function runPreset(i) {
-  const p = PRESETS[i];
-  document.getElementById('input-val').value = p.val;
-  document.getElementById('from-unit').value = p.from;
-  convert();
-}
-renderPresets();
-
-function calculateDownload() {
-  const size     = parseFloat(document.getElementById('dl-size').value);
-  const sizeUnit = document.getElementById('dl-unit').value;
-  const speed    = parseFloat(document.getElementById('dl-speed').value);
-  const speedUnit= document.getElementById('dl-speed-unit').value;
-  if (!size || !speed || size <= 0 || speed <= 0) { alert('Masukkan ukuran file dan kecepatan yang valid.'); return; }
-
-  const sizeMb = size * toByte[sizeUnit] / toByte.mb;
-  // Convert speed to Mbps
-  let speedMbps;
-  if (speedUnit === 'mbps')   speedMbps = speed;
-  else if (speedUnit === 'gbps') speedMbps = speed * 1000;
-  else if (speedUnit === 'kbps') speedMbps = speed / 1000;
-  else speedMbps = speed * 8; // MB/s → Mbps
-
-  const speedMBs = speedMbps / 8; // MB/detik efektif
-  const secs = sizeMb / speedMBs;
-
-  function secToStr(s) {
-    if (s < 60) return s.toFixed(1).replace('.', ',') + ' detik';
-    if (s < 3600) {
-      const m = Math.floor(s / 60), sec = Math.round(s % 60);
-      return `${m} menit ${sec} detik`;
-    }
-    const h = Math.floor(s / 3600), m = Math.round((s % 3600) / 60);
-    return `${h} jam ${m} menit`;
-  }
-
-  document.getElementById('unduh-summary').innerHTML =
-    `📥 File <strong>${size} ${sizeUnit.toUpperCase()}</strong> pada koneksi <strong>${speed} ${speedUnit}</strong>:<br>
-     ⏱️ Estimasi waktu unduh: <strong style="color:#00C9B1;font-size:1.05rem">${secToStr(secs)}</strong><br>
-     ⚡ Kecepatan unduh nyata: ~<strong>${speedMBs.toFixed(2).replace('.', ',')} MB/detik</strong>`;
-  document.getElementById('unduh-summary').style.background = 'rgba(0,201,177,.08)';
-  document.getElementById('unduh-summary').style.border = '1px solid rgba(0,201,177,.2)';
-  document.getElementById('unduh-summary').style.borderRadius = '10px';
-  document.getElementById('unduh-summary').style.padding = '.85rem';
-
-  const scenarios = [
-    ['10 Mbps (WiFi dasar)', 10/8],
-    ['50 Mbps (WiFi rumah rata-rata)', 50/8],
-    ['100 Mbps (Fiber optik)', 100/8],
-    ['1 Gbps (Fiber ultra-cepat)', 1000/8],
-  ];
-  document.getElementById('unduh-rows').innerHTML = scenarios.map(([label, sp]) =>
-    `<div class="result-row"><span class="rkey">${label}</span><span class="rval">${secToStr(sizeMb / sp)}</span></div>`
-  ).join('');
-  document.getElementById('res-unduh').style.display = 'block';
-}
-
-function calculateStorage() {
-  const total = parseFloat(document.getElementById('st-total').value) || 128;
-  const foto  = (parseFloat(document.getElementById('st-foto').value) || 0) * 4;
-  const video = (parseFloat(document.getElementById('st-video').value) || 0) * 20;
-  const lagu  = (parseFloat(document.getElementById('st-lagu').value) || 0) * 4;
-  const app   = (parseFloat(document.getElementById('st-app').value) || 0) * 100;
-
-  const items = [
-    {label:'Foto', mb: foto, color:'#00C9B1'},
-    {label:'Video', mb: video, color:'#3b82f6'},
-    {label:'Lagu', mb: lagu, color:'#8b5cf6'},
-    {label:'Aplikasi', mb: app, color:'#f59e0b'},
-  ].filter(i => i.mb > 0);
-
-  const totalMb  = items.reduce((s, i) => s + i.mb, 0);
-  const totalGb  = totalMb / 1000;
-  const sisaGb   = total - totalGb;
-  const usedPct  = Math.min(totalGb / total * 100, 100).toFixed(1);
-  const isOver   = totalGb > total;
-
-  document.getElementById('storage-summary').innerHTML =
-    `${isOver ? '❌' : '✅'} Total kebutuhan: <strong style="color:${isOver?'#ef4444':'#00C9B1'}">${totalGb.toFixed(1).replace('.', ',')} GB</strong> dari ${total} GB yang tersedia. ${isOver ? `<strong style="color:#ef4444">Kelebihan ${(totalGb-total).toFixed(1).replace('.',',')} GB!</strong>` : `Sisa: <strong>${sisaGb.toFixed(1).replace('.',',')} GB</strong>.`}`;
-  document.getElementById('storage-summary').style.background = `rgba(${isOver?'239,68,68':'0,201,177'},.08)`;
-  document.getElementById('storage-summary').style.border = `1px solid rgba(${isOver?'239,68,68':'0,201,177'},.2)`;
-  document.getElementById('storage-summary').style.borderRadius = '10px';
-  document.getElementById('storage-summary').style.padding = '.85rem';
-
-  document.getElementById('storage-rows').innerHTML = items.map(i => `
-    <div class="stor-row">
-      <span><span style="width:8px;height:8px;border-radius:50%;background:${i.color};display:inline-block;margin-right:5px;vertical-align:middle"></span>${i.label}</span>
-      <span style="color:#8fa3b1">${i.mb >= 1000 ? (i.mb/1000).toFixed(1).replace('.',',')+'  GB' : i.mb.toLocaleString('id-ID')+' MB'}</span>
-    </div>`).join('');
-
-  document.getElementById('storage-bar').style.width = usedPct + '%';
-  document.getElementById('storage-bar').style.background = isOver ? '#ef4444' : 'linear-gradient(90deg,#00C9B1,#3b82f6)';
-  document.getElementById('storage-bar-label').textContent = totalGb.toFixed(1).replace('.', ',') + ' / ' + total + ' GB (' + usedPct + '%)';
-  document.getElementById('res-storage').style.display = 'block';
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+renderGrid();
 </script>
-</body>
-</html>
+</body></html>

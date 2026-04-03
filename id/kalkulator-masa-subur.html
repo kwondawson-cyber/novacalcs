@@ -1,424 +1,373 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Masa Subur — Prediksi Ovulasi & Kalender Kesuburan | NovaCalcs</title>
-<meta name="description" content="Hitung masa subur dan tanggal ovulasi Anda secara akurat. Lihat kalender kesuburan 3 siklus ke depan, perbandingan metode, dan panduan lengkap program hamil (promil)."/>
-<meta name="keywords" content="kalkulator masa subur, ovulasi, kalender kesuburan, program hamil, promil, fertile window, HPHT, masa subur setelah haid"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-masa-subur.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-masa-subur.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Masa Subur","url":"https://novacalcs.com/id/kalkulator-masa-subur.html","description":"Prediksi masa subur dan ovulasi dengan kalender 3 siklus","applicationCategory":"HealthApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Ovulation highlight */
-.ov-highlight { text-align:center; padding:16px 0 10px; }
-.ov-date { font-size:1.8rem; font-weight:700; color:var(--mint); line-height:1; }
-.ov-label { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Fertile window bar */
-.fw-bar-wrap { margin:12px 0; }
-.fw-bar-label { font-size:0.72rem; color:var(--text-secondary); font-weight:600; margin-bottom:5px; display:flex; justify-content:space-between; }
-.fw-bar-track { height:14px; border-radius:7px; background:var(--bg-input); position:relative; }
-.fw-bar-fill { position:absolute; height:100%; border-radius:7px; background:var(--mint); opacity:0.85; transition:left 0.5s, width 0.5s; }
-.fw-bar-ov { position:absolute; height:100%; width:4px; background:#fbbf24; border-radius:2px; transition:left 0.5s; }
-
-/* Stats grid */
-.fertile-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.fertile-stat { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.fertile-stat .fs-label { font-size:0.68rem; color:var(--text-muted); margin-bottom:3px; }
-.fertile-stat .fs-val { font-size:0.9rem; font-weight:700; color:var(--text-primary); }
-.fertile-stat .fs-val.green { color:var(--mint); }
-
-/* Calendar grid - proper month layout */
-.cal-month { margin-bottom:16px; }
-.cal-month-title { font-size:0.8rem; font-weight:700; color:var(--text-secondary); margin-bottom:6px; }
-.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
-.cal-dow { font-size:0.62rem; font-weight:700; color:var(--text-muted); text-align:center; padding:2px 0; }
-.cal-cell { aspect-ratio:1; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:600; cursor:default; transition:transform 0.1s; }
-.cal-cell.empty { background:transparent; }
-.cal-cell.regular { background:var(--bg-input); color:var(--text-muted); border:1px solid var(--border); }
-.cal-cell.menstrual { background:rgba(248,113,113,0.18); color:#f87171; border:1px solid rgba(248,113,113,0.3); }
-.cal-cell.fertile { background:rgba(0,201,177,0.2); color:var(--mint); border:1px solid rgba(0,201,177,0.35); }
-.cal-cell.ovulation { background:var(--mint); color:#001a17; border:1px solid var(--mint); font-weight:800; }
-.cal-cell.today-mark { box-shadow:0 0 0 2px #fbbf24; }
-
-/* Legend */
-.cal-legend { display:flex; flex-wrap:wrap; gap:10px; margin:8px 0 14px; font-size:0.72rem; color:var(--text-secondary); }
-.cal-legend-item { display:flex; align-items:center; gap:5px; }
-.cal-legend-dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
-
-/* Upcoming cycles table */
-.cycles-table { width:100%; border-collapse:collapse; font-size:0.78rem; margin-top:10px; }
-.cycles-table th { background:var(--bg-input); color:var(--text-secondary); padding:7px 10px; text-align:left; font-weight:600; }
-.cycles-table td { padding:7px 10px; border-bottom:1px solid var(--border); }
-.cycles-table tr:last-child td { border-bottom:none; }
-.cycles-table .td-ov { color:var(--mint); font-weight:700; }
-.cycles-table .td-fertile { color:var(--text-secondary); font-size:0.72rem; }
-
-/* Method comparison */
-.method-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:14px 0; }
-.method-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px; }
-.mc-title { font-size:0.82rem; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
-.mc-acc { font-size:0.72rem; color:var(--mint); margin-bottom:6px; }
-.mc-desc { font-size:0.75rem; color:var(--text-secondary); line-height:1.5; }
-.date-picker{display:grid;grid-template-columns:60px 1fr 80px;gap:6px}
-.dp-day,.dp-year{border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.95rem;width:100%}
-.dp-month{border:1px solid var(--border);border-radius:8px;padding:9px 8px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.9rem;width:100%}
-.date-picker{display:grid;grid-template-columns:60px 1fr 80px;gap:6px}
-.dp-day,.dp-year{border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.95rem;width:100%}
-.dp-month{border:1px solid var(--border);border-radius:8px;padding:9px 8px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.9rem;width:100%}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Masa Subur 2026 — Prediksi Ovulasi, Hari Subur & KB Kalender | NovaCalcs</title>
+  <meta name="description" content="Kalkulator masa subur 2026: prediksi hari ovulasi, jendela masa subur, dan jadwal haid 3 bulan ke depan berdasarkan siklus. Cocok untuk program hamil maupun KB kalender. Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-masa-subur">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--pink:#db2777;--pink-l:#fdf2f8;--purp:#7c3aed;--purp-l:#f5f3ff}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pink);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pink-l);color:var(--pink);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pink);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pink-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input[type=date],.iw input[type=number]{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pink)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:44px}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pink);color:var(--pink);background:var(--pink-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT BOXES */
+    .result-main{background:var(--pink-l);border:1.5px solid #fbcfe8;border-radius:var(--r);padding:18px;text-align:center;margin:14px 0}
+    .rm-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--pink);margin-bottom:8px}
+    .rm-val{font-family:'DM Mono',monospace;font-size:24px;font-weight:800;color:var(--pink);line-height:1.2}
+    .rm-sub{font-size:12px;color:var(--tx3);margin-top:5px}
+    /* STAT GRID */
+    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    @media(max-width:420px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+    .stat-card{border-radius:var(--rs);padding:12px;text-align:center;border:1.5px solid}
+    .stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+    .stat-val{font-family:'DM Mono',monospace;font-size:14px;font-weight:800;line-height:1.2}
+    /* CALENDAR */
+    .cal-wrap{overflow-x:auto}
+    .cal{width:100%;border-collapse:collapse;font-size:11px}
+    .cal th{padding:6px 3px;text-align:center;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .cal td{padding:5px 2px;text-align:center;border-radius:5px}
+    .cal td.today{background:var(--tx);color:white;font-weight:700}
+    .cal td.haid{background:#fce7f3;color:var(--pink);font-weight:700}
+    .cal td.subur{background:#d1fae5;color:var(--grn);font-weight:700}
+    .cal td.ovulasi{background:var(--pink);color:white;font-weight:800;border-radius:50%}
+    .cal td.other{color:var(--tx3)}
+    .cal td.empty{color:transparent}
+    .cal-month{font-size:13px;font-weight:800;margin-bottom:8px;margin-top:14px}
+    /* LRES */
+    .lres{background:var(--pink-l);border:1.5px solid #fbcfe8;border-radius:var(--r);padding:14px}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* LEGEND */
+    .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .leg-item{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:var(--tx2)}
+    .leg-dot{width:12px;height:12px;border-radius:3px}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    .notice.warn{background:var(--pri-l);border-color:#ffd4b3;color:#92400e}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pink)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pink)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pink-l);color:var(--pink)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Masa Subur</span>
+</div></nav>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#kesehatan">Kesehatan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Masa Subur</span>
-    </nav>
+<header class="hdr">
+  <div class="hdr-tag">🌸 Masa Subur</div>
+  <h1 class="hdr-h1">Kalkulator Masa Subur 2026</h1>
+  <p class="hdr-sub">Prediksi hari ovulasi, jendela masa subur, dan jadwal haid 3 bulan ke depan berdasarkan siklus haid. Cocok untuk program hamil maupun KB kalender alami.</p>
+  <div class="pstrip">
+    <div class="pchip">Masa subur <span>5 hari sebelum ovulasi</span></div>
+    <div class="pchip">Ovulasi <span>hari ke-(siklus-14)</span></div>
+    <div class="pchip">KB kalender <span>hindari hari subur</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🌸 Kalkulator Masa Subur</div>
-      <div class="calc-subtitle">Prediksi ovulasi + kalender kesuburan 3 siklus</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="field">
-        <label>Hari Pertama Haid Terakhir (HPHT)</label>
-        <div class="date-picker">
-          <input type="number" class="dp-day" id="hpht-d" placeholder="Tgl" min="1" max="31" oninput="autoCalc()"/>
-          <select class="dp-month" id="hpht-m" onchange="autoCalc()">
-            <option value="">Bulan</option>
-            <option value="1">Januari</option><option value="2">Februari</option>
-            <option value="3">Maret</option><option value="4">April</option>
-            <option value="5">Mei</option><option value="6">Juni</option>
-            <option value="7">Juli</option><option value="8">Agustus</option>
-            <option value="9">September</option><option value="10">Oktober</option>
-            <option value="11">November</option><option value="12">Desember</option>
-          </select>
-          <input type="number" class="dp-year" id="hpht-y" placeholder="Tahun" min="1900" max="2100" oninput="autoCalc()"/>
+<div class="card">
+  <div class="card-h"><div class="card-ico">🌸</div>Hitung Masa Subur</div>
+  <div class="card-b">
+    <div class="g2">
+      <div class="fld"><label>Hari Pertama Haid Terakhir (HPHT)</label>
+        <div class="iw"><input type="date" id="hpht" onchange="calc()"></div>
+      </div>
+      <div class="fld"><label>Panjang Siklus (hari)</label>
+        <div class="iw"><input type="number" id="siklus" value="28" min="21" max="45" onchange="calc()"><span class="iu">hari</span></div>
+        <div class="presets">
+          <button class="pb" data-val="25" data-for="siklus">25</button>
+          <button class="pb on" data-val="28" data-for="siklus">28</button>
+          <button class="pb" data-val="30" data-for="siklus">30</button>
+          <button class="pb" data-val="32" data-for="siklus">32</button>
         </div>
       </div>
-      <div class="field">
-        <label>Panjang siklus haid (hari)</label>
-        <input type="number" id="cycle" value="28" min="21" max="45" oninput="autoCalc()"/>
+    </div>
+    <div class="fld"><label>Lama Haid (hari)</label>
+      <div class="iw"><input type="number" id="lama-haid" value="5" min="2" max="10" onchange="calc()"><span class="iu">hari</span></div>
+      <div class="presets">
+        <button class="pb" data-val="3" data-for="lama-haid">3 hari</button>
+        <button class="pb on" data-val="5" data-for="lama-haid">5 hari</button>
+        <button class="pb" data-val="7" data-for="lama-haid">7 hari</button>
       </div>
-      <div class="field">
-        <label>Durasi haid rata-rata (hari)</label>
-        <input type="number" id="period-len" value="5" min="2" max="10" oninput="autoCalc()"/>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-main">
+      <div class="rm-lbl">🥚 Hari Ovulasi Perkiraan</div>
+      <div class="rm-val" id="r-ovulasi">—</div>
+      <div class="rm-sub" id="r-ovulasi-sub">—</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card" style="background:var(--grn-b);border-color:#86efac">
+        <div class="stat-lbl" style="color:var(--grn)">Masa Subur Mulai</div>
+        <div class="stat-val" style="color:var(--grn)" id="r-subur-mulai">—</div>
       </div>
+      <div class="stat-card" style="background:var(--pink-l);border-color:#fbcfe8">
+        <div class="stat-lbl" style="color:var(--pink)">Masa Subur Akhir</div>
+        <div class="stat-val" style="color:var(--pink)" id="r-subur-akhir">—</div>
+      </div>
+      <div class="stat-card" style="background:var(--sur2);border-color:var(--bor)">
+        <div class="stat-lbl" style="color:var(--tx3)">Haid Berikutnya</div>
+        <div class="stat-val" style="color:var(--tx2)" id="r-haid-next">—</div>
+      </div>
+    </div>
 
-      <button class="calc-btn" onclick="calculate()">🌸 Hitung Masa Subur</button>
+    <div class="lres">
+      <div class="rrows">
+        <div class="rr"><span>HPHT</span><span id="r1">—</span></div>
+        <div class="rr"><span>Panjang siklus</span><span id="r2">—</span></div>
+        <div class="rr"><span>Ovulasi (hari ke-)</span><span id="r3">—</span></div>
+        <div class="rr"><span>Masa subur (6 hari)</span><span id="r4">—</span></div>
+        <div class="rr"><span>Haid berikutnya</span><span id="r5">—</span></div>
+        <div class="rr"><span>Fase luteal</span><span id="r6">—</span></div>
+      </div>
+    </div>
+    <div class="notice warn" style="margin-top:12px">⚠️ Kalkulator ini hanya estimasi berdasarkan siklus rata-rata. Ovulasi bisa bergeser karena stres, sakit, atau perubahan hormonal. <strong>Tidak direkomendasikan sebagai satu-satunya metode KB.</strong> Konsultasikan dengan dokter/bidan untuk pilihan KB yang tepat.</div>
+  </div>
+</div>
 
-      <div class="result-box" id="result" style="display:none">
+<!-- ② KALENDER INTERAKTIF -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📅</div>Kalender Masa Subur 3 Bulan <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#fce7f3;border:1px solid #fbcfe8"></div>Haid</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#d1fae5;border:1px solid #86efac"></div>Masa Subur</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--pink);border-radius:50%"></div>Ovulasi</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--tx);border-radius:50%"></div>Hari ini</div>
+    </div>
+    <div id="calendar-wrap"></div>
+  </div>
+</div>
 
-        <!-- Ovulation highlight -->
-        <div class="ov-highlight">
-          <div class="ov-date" id="res-ovulation">—</div>
-          <div class="ov-label">Perkiraan tanggal ovulasi</div>
-        </div>
+</div><!-- /left-col -->
 
-        <!-- Stats -->
-        <div class="fertile-stats">
-          <div class="fertile-stat"><div class="fs-label">Masa subur dimulai</div><div class="fs-val green" id="fs-start">—</div></div>
-          <div class="fertile-stat"><div class="fs-label">Masa subur berakhir</div><div class="fs-val green" id="fs-end">—</div></div>
-          <div class="fertile-stat"><div class="fs-label">Haid berikutnya</div><div class="fs-val" id="fs-next">—</div></div>
-          <div class="fertile-stat"><div class="fs-label">Status saat ini</div><div class="fs-val" id="fs-status">—</div></div>
-        </div>
-
-        <!-- Calendar -->
-        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px;">📅 Kalender Kesuburan (3 Siklus)</div>
-        <div class="cal-legend">
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(248,113,113,0.4)"></div>Haid</div>
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(0,201,177,0.3)"></div>Masa subur</div>
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--mint)"></div>Ovulasi</div>
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="border:2px solid #fbbf24;background:transparent"></div>Hari ini</div>
-        </div>
-        <div id="calendar-container"></div>
-
-        <!-- 3-cycle table -->
-        <div style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px;">📊 Prediksi 3 Siklus ke Depan</div>
-        <table class="cycles-table">
-          <thead><tr><th>Siklus</th><th>Ovulasi</th><th>Masa Subur</th><th>Haid Berikutnya</th></tr></thead>
-          <tbody id="cycles-tbody"></tbody>
-        </table>
-
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Fase Siklus Haid</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow" style="background:#fce7f3"><div class="frl"><div class="fdot" style="background:var(--pink)"></div><div><div class="fn">Fase Menstruasi</div><div class="fron">Hari 1–5</div></div></div><div class="fprice">Haid</div></div>
+        <div class="frow" style="background:#fef9c3"><div class="frl"><div class="fdot" style="background:#eab308"></div><div><div class="fn">Fase Folikular</div><div class="fron">Hari 6 – ovulasi</div></div></div><div class="fprice" style="color:#a16207">Tumbuh</div></div>
+        <div class="frow" style="background:var(--grn-b)"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Ovulasi</div><div class="fron">Hari ke-(siklus-14)</div></div></div><div class="fprice">Paling Subur</div></div>
+        <div class="frow" style="background:#eff6ff"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Fase Luteal</div><div class="fron">Setelah ovulasi</div></div></div><div class="fprice" style="color:#3b82f6">14 hari</div></div>
       </div>
     </div>
   </div>
-
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator Masa Subur — Prediksi Ovulasi & Kalender Kesuburan</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Ketahui kapan masa subur dan ovulasi Anda terjadi. Lengkap dengan kalender kesuburan visual 3 siklus ke depan, perbandingan metode deteksi, dan panduan program hamil yang efektif.</p>
-
-    <h2>Apa itu Masa Subur dan Mengapa Penting?</h2>
-    <p>Masa subur (fertile window) adalah periode dalam satu siklus menstruasi ketika kemungkinan terjadinya pembuahan paling tinggi. Secara biologis, sel telur yang dilepaskan saat ovulasi hanya dapat dibuahi dalam jangka waktu <strong>12–24 jam</strong>. Namun, karena sperma dapat bertahan hidup di dalam saluran reproduksi wanita hingga <strong>3–5 hari</strong>, masa subur efektif mencakup sekitar 5–6 hari per siklus.</p>
-    <p>Bagi pasangan yang sedang menjalani program hamil (promil), memahami masa subur adalah langkah paling mendasar dan paling efektif. Penelitian menunjukkan bahwa berhubungan intim pada hari ovulasi dan 1–2 hari sebelumnya memiliki peluang kehamilan tertinggi per siklus.</p>
-
-    <h2>Cara Kerja Perhitungan Masa Subur</h2>
-    <p>Kalkulator ini menggunakan <strong>Metode Kalender (Rhythm Method)</strong> berdasarkan rumus Ogino-Knaus yang telah divalidasi secara medis:</p>
-    <ul>
-      <li>Ovulasi umumnya terjadi <strong>14 hari sebelum</strong> hari pertama haid berikutnya (bukan 14 hari setelah HPHT)</li>
-      <li>Masa subur dimulai <strong>5 hari sebelum ovulasi</strong> — mengakomodasi sperma yang bisa bertahan 5 hari</li>
-      <li>Masa subur berakhir <strong>1 hari setelah ovulasi</strong> — batas bertahan sel telur</li>
-    </ul>
-    <p>Contoh untuk siklus 28 hari: Ovulasi di hari ke-14, masa subur hari ke-9 s/d ke-15. Untuk siklus 32 hari: Ovulasi di hari ke-18, masa subur hari ke-13 s/d ke-19. Kalkulator ini menghitung secara otomatis sesuai panjang siklus Anda.</p>
-
-    <h2>Fitur Kalkulator Masa Subur NovaCalcs</h2>
-    <p>Lebih dari sekadar menampilkan tanggal ovulasi, kalkulator ini hadir dengan beberapa fitur visual yang membantu perencanaan:</p>
-    <ul>
-      <li><strong>Kalender kesuburan visual</strong> — Tampilan kalender bulanan dengan kode warna: merah untuk hari haid, hijau untuk masa subur, dan kuning terang untuk hari ovulasi puncak. Hari ini ditandai khusus agar mudah menemukan posisi Anda dalam siklus.</li>
-      <li><strong>Prediksi 3 siklus ke depan</strong> — Tabel ringkas tanggal ovulasi, masa subur, dan hari haid untuk tiga siklus berikutnya — berguna untuk merencanakan perjalanan atau jadwal penting yang tidak bentrok dengan masa subur.</li>
-      <li><strong>Status kesuburan hari ini</strong> — Kalkulator langsung memberi tahu apakah hari ini termasuk masa haid, masa subur, atau masa tidak subur berdasarkan HPHT yang dimasukkan.</li>
-      <li><strong>Input durasi haid</strong> — Tambahan kolom durasi haid untuk kalender yang lebih akurat.</li>
-    </ul>
-
-    <h2>Perbandingan 4 Metode Deteksi Ovulasi</h2>
-    <p>Metode kalender adalah titik awal yang baik, tetapi akurasi bisa ditingkatkan dengan menggabungkan beberapa metode:</p>
-    <div class="method-grid">
-      <div class="method-card">
-        <div class="mc-title">📅 Metode Kalender</div>
-        <div class="mc-acc">Akurasi: 70–80%</div>
-        <div class="mc-desc">Berdasarkan siklus historis. Gratis dan mudah. Kurang akurat untuk siklus tidak teratur. Cocok sebagai perkiraan awal.</div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Program Hamil</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🥚</span><span class="tptx"><strong>Hubungan 2–3 hari sebelum ovulasi</strong> meningkatkan peluang hamil — sperma bertahan hingga 5 hari di saluran reproduksi</span></div>
+        <div class="tip"><span class="tpico">🌡️</span><span class="tptx"><strong>Ukur suhu basal</strong> setiap pagi sebelum bangun — kenaikan 0,2–0,5°C menandakan ovulasi baru terjadi</span></div>
+        <div class="tip"><span class="tpico">💧</span><span class="tptx"><strong>Perhatikan lendir serviks</strong> — saat ovulasi menjadi bening dan elastis seperti putih telur mentah (egg white cervical mucus)</span></div>
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Catat siklus minimal 3 bulan</strong> untuk pola yang lebih akurat — siklus wanita bisa bervariasi bulan ke bulan</span></div>
       </div>
-      <div class="method-card">
-        <div class="mc-title">🌡️ Suhu Basal (BBT)</div>
-        <div class="mc-acc">Akurasi: 75–85%</div>
-        <div class="mc-desc">Suhu naik 0,2–0,5°C setelah ovulasi. Murah tapi butuh konsistensi — ukur tiap pagi sebelum bangun. Konfirmasi ovulasi sudah terjadi.</div>
-      </div>
-      <div class="method-card">
-        <div class="mc-title">💧 Lendir Serviks</div>
-        <div class="mc-acc">Akurasi: 75–85%</div>
-        <div class="mc-acc" style="color:#60a5fa">Gratis, tidak perlu alat</div>
-        <div class="mc-desc">Saat ovulasi: lendir bening, elastis seperti putih telur (egg white). Setelah ovulasi: kental atau kering. Butuh latihan mengamati.</div>
-      </div>
-      <div class="method-card">
-        <div class="mc-title">🧪 Tes Ovulasi (OPK)</div>
-        <div class="mc-acc">Akurasi: 90–99%</div>
-        <div class="mc-acc" style="color:#fbbf24">Paling akurat, ada biaya</div>
-        <div class="mc-desc">Strip urine mendeteksi lonjakan LH 24–48 jam sebelum ovulasi. Tersedia di apotek. Paling direkomendasikan untuk promil aktif.</div>
-      </div>
-    </div>
-    <p>Untuk program hamil yang serius, kombinasikan metode kalender (untuk memperkirakan kapan mulai tes) dengan strip OPK (untuk konfirmasi pasti) — ini adalah kombinasi yang paling cost-effective dan akurat.</p>
-
-    <h2>Panduan Program Hamil (Promil) yang Efektif</h2>
-    <ul>
-      <li><strong>Waktu berhubungan yang optimal</strong> — Hari paling subur adalah 1–2 hari sebelum ovulasi dan hari ovulasi itu sendiri. Berhubungan intim setiap 1–2 hari selama masa subur adalah pendekatan yang direkomendasikan.</li>
-      <li><strong>Jangan hanya andalkan kalkulator</strong> — Metode kalender memberikan perkiraan, bukan kepastian. Siklus bisa bergeser akibat stres, sakit, perubahan berat badan, atau perjalanan jauh.</li>
-      <li><strong>Pantau suhu basal (BBT)</strong> — Catat suhu tiap pagi sebelum bangun. Setelah beberapa bulan, Anda akan mengenali pola kenaikan suhu yang menandai ovulasi.</li>
-      <li><strong>Perhatikan lendir serviks</strong> — Perubahan konsistensi lendir adalah sinyal alami yang gratis dan mudah diamati sendiri.</li>
-      <li><strong>Gaya hidup mendukung kesuburan</strong> — Berat badan ideal (BMI 18,5–24,9), tidak merokok, batasi alkohol dan kafein, asam folat 400mcg/hari minimal 3 bulan sebelum hamil.</li>
-      <li><strong>Kapan harus ke dokter?</strong> — Di bawah 35 tahun: konsultasi setelah 12 bulan tanpa keberhasilan. Di atas 35 tahun: setelah 6 bulan. Jika ada riwayat PCOS, endometriosis, atau siklus sangat tidak teratur: segera konsultasi tanpa menunggu.</li>
-    </ul>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah metode kalender bisa dijadikan kontrasepsi?</div>
-      <div class="faq-a">Metode kalender sebagai kontrasepsi (KB kalender) memiliki tingkat kegagalan yang cukup tinggi — sekitar 14–25% per tahun dengan pemakaian umum (bukan kondisi ideal). Ini jauh lebih rendah dari pil KB (0,3%), kondom (13%), atau IUD (0,1–0,8%). Ketidakakuratan terjadi karena ovulasi bisa bergeser akibat berbagai faktor. Jika tujuan Anda adalah menghindari kehamilan, diskusikan metode kontrasepsi yang lebih andal dengan dokter atau bidan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Siklus saya tidak teratur, bagaimana menghitung masa subur?</div>
-      <div class="faq-a">Untuk siklus tidak teratur, catat panjang setiap siklus selama 6–12 bulan. Kemudian: siklus terpendek dikurangi 18 = hari pertama masa subur kemungkinan; siklus terpanjang dikurangi 11 = hari terakhir masa subur kemungkinan. Ini memberikan rentang yang lebih lebar. Untuk hasil lebih akurat, gunakan tes ovulasi (OPK) — lebih efektif karena langsung mendeteksi lonjakan hormon tanpa bergantung pada regularitas siklus.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa tanda-tanda fisik ovulasi yang bisa dirasakan sendiri?</div>
-      <div class="faq-a">Beberapa tanda yang bisa diamati: (1) nyeri ringan di satu sisi perut bawah yang berlangsung beberapa jam (disebut mittelschmerz — dialami sekitar 20% wanita), (2) lendir serviks berubah menjadi bening, licin, dan elastis seperti putih telur mentah, (3) sedikit peningkatan suhu basal tubuh (0,2–0,5°C) — terdeteksi dengan termometer BBT, (4) peningkatan ringan pada hasrat seksual, (5) payudara lebih sensitif, dan (6) perut sedikit kembung. Tidak semua tanda ini muncul pada setiap orang.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah stres benar-benar mempengaruhi masa subur?</div>
-      <div class="faq-a">Ya, secara ilmiah telah terbukti. Stres kronis meningkatkan kadar kortisol yang mengganggu produksi hormon GnRH — pemicu ovulasi. Akibatnya, ovulasi bisa tertunda, tidak terjadi (anovulasi), atau siklus menjadi tidak teratur. Stres juga mempengaruhi kualitas sperma pada pria. Ini bukan berarti harus bebas stres sama sekali, tetapi manajemen stres yang baik (olahraga, meditasi, tidur cukup) nyata membantu kesuburan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah bisa hamil jika berhubungan di luar masa subur?</div>
-      <div class="faq-a">Kemungkinannya sangat kecil tapi tidak nol. Dua alasan mengapa bisa terjadi: (1) sperma dapat bertahan hingga 5 hari, sehingga hubungan beberapa hari sebelum masa subur "resmi" bisa bertepatan dengan ovulasi yang tiba-tiba, (2) ovulasi bisa bergeser dari prediksi kalender akibat stres atau faktor lain. Untuk tujuan promil, tetap fokus pada masa subur yang diprediksi; untuk menghindari kehamilan, jangan mengandalkan hanya metode kalender.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa lama rata-rata pasangan sehat butuh untuk hamil?</div>
-      <div class="faq-a">Penelitian menunjukkan: sekitar 30% pasangan yang aktif berhubungan tanpa kontrasepsi hamil dalam 1 bulan, 75% dalam 6 bulan, dan 90% dalam 12 bulan. Angka ini untuk pasangan di bawah usia 35 tahun tanpa kondisi kesehatan khusus. Peluang hamil per siklus berkisar 15–25% pada kondisi optimal. Jika belum berhasil setelah 12 bulan (atau 6 bulan untuk usia 35+), konsultasi dengan dokter kandungan untuk evaluasi lebih lanjut.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah suplemen asam folat harus diminum sebelum hamil?</div>
-      <div class="faq-a">Ya, dan ini sangat direkomendasikan. Asam folat 400 mcg per hari sebaiknya dimulai <strong>minimal 1–3 bulan sebelum merencanakan kehamilan</strong>, bukan setelah tahu hamil. Ini karena tabung saraf (yang berkembang menjadi otak dan tulang belakang) terbentuk dalam 28 hari pertama kehamilan — seringkali sebelum wanita tahu dirinya hamil. Asam folat cukup mencukupi kebutuhan ini jauh lebih efektif bila sudah ada dalam tubuh sejak awal.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-kehamilan.html" class="related-item"><span class="ri">🤰</span>Kalkulator Kehamilan</a>
-      <a href="/id/kalkulator-hpl.html" class="related-item"><span class="ri">📅</span>Kalkulator HPL</a>
-      <a href="/id/kalkulator-kehamilan-bb.html" class="related-item"><span class="ri">⚖️</span>BB Kehamilan</a>
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">📊</span>Kalkulator BMI</a>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-hpl" class="relc"><div class="relc-ico">📅</div><div class="relc-nm">HPL</div><div class="relc-ds">Hari Perkiraan Lahir</div></a>
+        <a href="/id/kalkulator-kehamilan" class="relc"><div class="relc-ico">🤰</div><div class="relc-nm">Kehamilan</div><div class="relc-ds">Usia kehamilan</div></a>
+        <a href="/id/kalkulator-kehamilan-bb" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">BB Hamil</div><div class="relc-ds">Kenaikan berat</div></a>
+        <a href="/id/kalkulator-bmi" class="relc"><div class="relc-ico">📊</div><div class="relc-nm">BMI</div><div class="relc-ds">Indeks massa tubuh</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Cara Menghitung Masa Subur</h2>
+  <p>Masa subur wanita berpusat pada hari ovulasi — saat sel telur dilepaskan dari ovarium. Ovulasi biasanya terjadi 14 hari sebelum haid berikutnya (bukan 14 hari setelah HPHT). Untuk siklus 28 hari, ovulasi terjadi sekitar hari ke-14. Untuk siklus 32 hari, ovulasi terjadi sekitar hari ke-18. Masa subur mencakup 5 hari sebelum ovulasi ditambah hari ovulasi itu sendiri — total 6 hari "jendela subur" per siklus.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Berapa lama sel telur bisa dibuahi setelah ovulasi?</div><div class="faq-a">Sel telur hanya bertahan 12–24 jam setelah ovulasi. Namun, sperma bisa bertahan hidup di saluran reproduksi wanita hingga 3–5 hari. Inilah mengapa peluang hamil lebih tinggi jika berhubungan beberapa hari sebelum ovulasi — sperma sudah "menunggu" saat telur dilepaskan. Hari paling subur adalah 1–2 hari sebelum ovulasi dan hari ovulasi itu sendiri.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah metode kalender (KB kalender) efektif?</div><div class="faq-a">Metode kalender (rhythm method) memiliki efektivitas sekitar 76–88% dengan penggunaan sempurna, namun dalam praktiknya hanya sekitar 75% karena siklus wanita bisa bervariasi. Metode ini TIDAK direkomendasikan untuk wanita dengan siklus tidak teratur. Efektivitas KB kalender jauh lebih rendah dibanding kontrasepsi modern seperti pil (99%), IUD (99%), atau implan (99%). Konsultasikan dengan dokter untuk pilihan KB yang paling sesuai.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const DAYS_SHORT = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+<script>
+const DAYS_ID=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const MONTHS_ID=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const today=new Date();today.setHours(0,0,0,0);
 
-const fmtShort = d => `${d.getDate()} ${MONTHS_ID[d.getMonth()]}`;
-const fmtFull  = d => `${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
+function fmtDate(d){if(!d||isNaN(d))return'—';return d.getDate()+' '+MONTHS_ID[d.getMonth()];}
+function fmtInput(d){if(!d||isNaN(d))return'';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function parseD(id){const el=document.getElementById(id);if(!el||!el.value)return null;const d=new Date(el.value+'T00:00:00');return isNaN(d)?null:d;}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function sameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
 
-window.addEventListener('DOMContentLoaded', () => {
-  const today = new Date().toISOString().split('T')[0];
+// Cycle data storage
+let cycles=[];
 
-});
-
-function getHpht() {
-  const d = parseInt(document.getElementById('hpht-d').value);
-  const m = parseInt(document.getElementById('hpht-m').value);
-  const y = parseInt(document.getElementById('hpht-y').value);
-  if (!d||!m||!y||y<1900||y>2100) return null;
-  const dt = new Date(y, m-1, d);
-  return dt.getDate()===d ? dt : null;
-}
-function autoCalc() {
-  if (getHpht()) calculate();
-}
-
-function calcCycle(start, cycleLen, periodLen) {
-  const ovDay = cycleLen - 14;
-  const ov   = new Date(start); ov.setDate(ov.getDate() + ovDay);
-  const fsStart = new Date(ov); fsStart.setDate(fsStart.getDate() - 5);
-  const fsEnd   = new Date(ov); fsEnd.setDate(fsEnd.getDate() + 1);
-  const nextP   = new Date(start); nextP.setDate(nextP.getDate() + cycleLen);
-  const periodEnd = new Date(start); periodEnd.setDate(periodEnd.getDate() + periodLen - 1);
-  return { ov, fsStart, fsEnd, nextP, periodEnd, start };
+function computeCycles(hpht,siklus,lamaHaid,months=4){
+  const result=[];
+  for(let i=0;i<months;i++){
+    const start=addDays(hpht,siklus*i);
+    const end=addDays(start,lamaHaid-1);
+    const ovulasi=addDays(start,siklus-14);
+    const suburStart=addDays(ovulasi,-5);
+    const suburEnd=addDays(ovulasi,1);
+    result.push({start,end,ovulasi,suburStart,suburEnd});
+  }
+  return result;
 }
 
-function calculate() {
-  const hpht = getHpht();
-  if (!hpht) return alert('Masukkan tanggal HPHT yang lengkap.');
-  const cycle    = parseInt(document.getElementById('cycle').value)      || 28;
-  const pLen     = parseInt(document.getElementById('period-len').value) || 5;
-  const today = new Date(); today.setHours(0,0,0,0);
-  const c0    = calcCycle(hpht, cycle, pLen);
+function getDayClass(d,cycles){
+  if(sameDay(d,today))return'today';
+  for(const c of cycles){
+    if(sameDay(d,c.ovulasi))return'ovulasi';
+    if(d>=c.suburStart&&d<=c.suburEnd)return'subur';
+    if(d>=c.start&&d<=c.end)return'haid';
+  }
+  return'';
+}
 
-  // Main display
-  document.getElementById('res-ovulation').textContent = fmtFull(c0.ov);
-  document.getElementById('fs-start').textContent = fmtShort(c0.fsStart);
-  document.getElementById('fs-end').textContent   = fmtShort(c0.fsEnd);
-  document.getElementById('fs-next').textContent  = fmtFull(c0.nextP);
+function calc(){
+  const hpht=parseD('hpht');
+  const siklus=parseInt(document.getElementById('siklus')?.value)||28;
+  const lamaHaid=parseInt(document.getElementById('lama-haid')?.value)||5;
+  if(!hpht)return;
 
-  // Status today
-  let status;
-  if (today >= hpht && today <= c0.periodEnd) status = '🔴 Masa haid';
-  else if (today.getTime() === c0.ov.getTime()) status = '⭐ Hari ovulasi!';
-  else if (today >= c0.fsStart && today <= c0.fsEnd) status = '🟢 Masa subur!';
-  else if (today < hpht) status = '—';
-  else status = 'Di luar masa subur';
-  document.getElementById('fs-status').textContent = status;
+  const ovulasi=addDays(hpht,siklus-14);
+  const suburStart=addDays(ovulasi,-5);
+  const suburEnd=addDays(ovulasi,1);
+  const haidNext=addDays(hpht,siklus);
+  const faseLuteal=14;
 
-  // Build 3-cycle calendar
-  const container = document.getElementById('calendar-container');
-  container.innerHTML = '';
+  set('r-ovulasi',fmtDate(ovulasi));
+  set('r-ovulasi-sub','Hari ke-'+(siklus-14)+' dari siklus · '+DAYS_ID[ovulasi.getDay()]);
+  set('r-subur-mulai',fmtDate(suburStart));
+  set('r-subur-akhir',fmtDate(suburEnd));
+  set('r-haid-next',fmtDate(haidNext));
+  set('r1',fmtDate(hpht));set('r2',siklus+' hari');
+  set('r3','Hari ke-'+(siklus-14)+' ('+fmtDate(ovulasi)+')');
+  set('r4',fmtDate(suburStart)+' – '+fmtDate(suburEnd));
+  set('r5',fmtDate(haidNext));
+  set('r6',faseLuteal+' hari (hari ke-'+(siklus-13)+' – '+siklus+')');
 
-  for (let ci = 0; ci < 3; ci++) {
-    const cycleStart = new Date(hpht); cycleStart.setDate(cycleStart.getDate() + ci * cycle);
-    const c = calcCycle(cycleStart, cycle, pLen);
+  cycles=computeCycles(hpht,siklus,lamaHaid,4);
+  renderCalendar(hpht);
+}
 
-    // Collect all relevant months for this cycle
-    const monthsNeeded = new Set();
-    for (let d = new Date(cycleStart); d < c.nextP; d.setDate(d.getDate() + 1)) {
-      monthsNeeded.add(d.getFullYear() + '-' + d.getMonth());
+function renderCalendar(hpht){
+  const wrap=document.getElementById('calendar-wrap');if(!wrap)return;
+  const startDate=new Date(hpht.getFullYear(),hpht.getMonth(),1);
+  let html='';
+
+  for(let m=0;m<3;m++){
+    const d=new Date(startDate.getFullYear(),startDate.getMonth()+m,1);
+    html+=`<div class="cal-month">${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}</div>`;
+    html+='<div class="cal-wrap"><table class="cal"><thead><tr>';
+    DAYS_ID.forEach(day=>html+=`<th>${day}</th>`);
+    html+='</tr></thead><tbody><tr>';
+    const firstDay=d.getDay();
+    for(let i=0;i<firstDay;i++)html+='<td class="empty"></td>';
+    const daysInMonth=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
+    let col=firstDay;
+    for(let day=1;day<=daysInMonth;day++){
+      const cur=new Date(d.getFullYear(),d.getMonth(),day);
+      const cls=getDayClass(cur,cycles);
+      html+=`<td class="${cls||'other'}">${day}</td>`;
+      col++;
+      if(col===7&&day<daysInMonth){html+='</tr><tr>';col=0;}
     }
-
-    monthsNeeded.forEach(ym => {
-      const [y, m] = ym.split('-').map(Number);
-      const monthDiv = document.createElement('div');
-      monthDiv.className = 'cal-month';
-
-      // Title
-      const title = document.createElement('div');
-      title.className = 'cal-month-title';
-      title.textContent = MONTHS_ID[m] + ' ' + y;
-      monthDiv.appendChild(title);
-
-      // Grid
-      const grid = document.createElement('div');
-      grid.className = 'cal-grid';
-
-      // Day headers
-      DAYS_SHORT.forEach(d => {
-        const dow = document.createElement('div');
-        dow.className = 'cal-dow';
-        dow.textContent = d;
-        grid.appendChild(dow);
-      });
-
-      // First day offset
-      const firstDay = new Date(y, m, 1);
-      for (let i = 0; i < firstDay.getDay(); i++) {
-        const empty = document.createElement('div');
-        empty.className = 'cal-cell empty';
-        grid.appendChild(empty);
-      }
-
-      // Days in month
-      const daysInMonth = new Date(y, m + 1, 0).getDate();
-      for (let day = 1; day <= daysInMonth; day++) {
-        const d = new Date(y, m, day);
-        const cell = document.createElement('div');
-        cell.textContent = day;
-
-        // Determine style — check against current cycle
-        const isPeriod = d >= cycleStart && d <= c.periodEnd;
-        const isOv     = d.getTime() === c.ov.getTime();
-        const isFertile = d >= c.fsStart && d <= c.fsEnd && !isOv;
-        const isToday  = d.getTime() === today.getTime();
-
-        if (isOv)      cell.className = 'cal-cell ovulation';
-        else if (isFertile) cell.className = 'cal-cell fertile';
-        else if (isPeriod)  cell.className = 'cal-cell menstrual';
-        else                cell.className = 'cal-cell regular';
-
-        if (isToday) cell.classList.add('today-mark');
-        grid.appendChild(cell);
-      }
-
-      monthDiv.appendChild(grid);
-      container.appendChild(monthDiv);
-    });
+    html+='</tr></tbody></table></div>';
   }
-
-  // 3-cycle table
-  const tbody = document.getElementById('cycles-tbody');
-  tbody.innerHTML = '';
-  for (let ci = 0; ci < 3; ci++) {
-    const cs = new Date(hpht); cs.setDate(cs.getDate() + ci * cycle);
-    const c  = calcCycle(cs, cycle, pLen);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>Siklus ${ci + 1}</td>
-      <td class="td-ov">${fmtShort(c.ov)}</td>
-      <td class="td-fertile">${fmtShort(c.fsStart)} – ${fmtShort(c.fsEnd)}</td>
-      <td>${fmtShort(c.nextP)}</td>`;
-    tbody.appendChild(tr);
-  }
-
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').classList.add('show');
+  wrap.innerHTML=html;
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+// Init
+const defHPHT=addDays(today,-10);
+document.getElementById('hpht').value=fmtInput(defHPHT);
+
+document.querySelectorAll('.pb[data-for]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('change'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+calc();
 </script>
 </body>
 </html>

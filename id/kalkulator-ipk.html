@@ -1,708 +1,476 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator IPK 2026 — IPS, Kumulatif & Target Cum Laude | NovaCalcs</title>
-<meta name="description" content="Hitung IPK dan IPS semester secara akurat. Simulasi akumulasi IPK dari beberapa semester, dan cari tahu nilai yang diperlukan untuk mencapai target IPK Cum Laude."/>
-<meta name="keywords" content="kalkulator IPK, hitung IPK semester, IPS kumulatif, target cum laude, nilai SKS mahasiswa, kalkulator nilai kuliah"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ipk.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-ipk.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator IPK","url":"https://novacalcs.com/id/kalkulator-ipk.html","description":"Hitung IPK, IPS, akumulasi semester, dan target nilai untuk Cum Laude","applicationCategory":"EducationApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-/* Tabs */
-.ipk-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:16px; }
-.ipk-tab  { flex:1; padding:8px 6px; font-size:.75rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; cursor:pointer; text-align:center; transition:all .15s; }
-.ipk-tab.active { color:var(--mint); border-bottom-color:var(--mint); }
-.ipk-panel { display:none; }
-.ipk-panel.active { display:block; }
-
-/* Course input grid */
-.course-row { display:grid; grid-template-columns:1fr 70px 100px 32px; gap:6px; align-items:center; margin-bottom:7px; }
-.course-row input, .course-row select { width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:7px 8px; color:var(--text-primary); font-size:.82rem; }
-.course-row select { font-size:.78rem; }
-.del-btn { background:rgba(248,113,113,.12); border:1px solid rgba(248,113,113,.25); color:#f87171; border-radius:var(--radius-sm); cursor:pointer; font-size:1rem; padding:6px; line-height:1; }
-.del-btn:hover { background:rgba(248,113,113,.25); }
-.add-btn { background:transparent; border:1px dashed rgba(0,201,177,.4); color:var(--mint); border-radius:var(--radius-sm); padding:8px; width:100%; cursor:pointer; font-size:.82rem; margin-bottom:12px; transition:all .15s; }
-.add-btn:hover { background:var(--mint-dim); }
-.course-header { display:grid; grid-template-columns:1fr 70px 100px 32px; gap:6px; font-size:.68rem; color:var(--text-muted); margin-bottom:5px; padding:0 2px; }
-
-/* Big IPK display */
-.ipk-main  { text-align:center; padding:14px 0 8px; }
-.ipk-num   { font-size:2.8rem; font-weight:700; color:var(--mint); line-height:1; }
-.ipk-label { font-size:.78rem; color:var(--text-secondary); margin-top:3px; }
-
-/* Predikat badge large */
-.predikat-badge { display:inline-block; padding:6px 18px; border-radius:20px; font-size:.82rem; font-weight:700; margin-top:8px; }
-.pb-cumlaude  { background:rgba(251,191,36,.18); color:#fbbf24; border:1px solid rgba(251,191,36,.35); }
-.pb-sangatmem { background:rgba(0,201,177,.15); color:var(--mint); border:1px solid rgba(0,201,177,.3); }
-.pb-mem       { background:rgba(96,165,250,.15); color:#60a5fa; border:1px solid rgba(96,165,250,.3); }
-.pb-lulus     { background:rgba(148,163,184,.15); color:#94a3b8; border:1px solid rgba(148,163,184,.3); }
-.pb-gagal     { background:rgba(248,113,113,.15); color:#f87171; border:1px solid rgba(248,113,113,.3); }
-
-/* Stats */
-.ipk-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-.is-card   { background:var(--bg-input); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border); }
-.is-card .ic-label { font-size:.68rem; color:var(--text-muted); margin-bottom:3px; }
-.is-card .ic-val   { font-size:.9rem; font-weight:700; color:var(--text-primary); }
-.is-card.green .ic-val { color:var(--mint); }
-.is-card.yellow .ic-val { color:#fbbf24; }
-
-/* Grade distribution bars */
-.grade-dist { margin-top:10px; }
-.gd-row    { display:flex; align-items:center; gap:8px; padding:4px 0; font-size:.75rem; }
-.gd-label  { min-width:32px; text-align:right; color:var(--text-muted); font-weight:600; }
-.gd-track  { flex:1; height:12px; background:var(--bg-card); border-radius:6px; overflow:hidden; }
-.gd-fill   { height:100%; border-radius:6px; background:var(--mint); }
-.gd-count  { min-width:60px; font-size:.7rem; color:var(--text-secondary); }
-
-/* IPK progress bar (toward cum laude) */
-.ipk-progress-wrap { margin:12px 0; }
-.ipk-track  { height:12px; background:var(--bg-input); border-radius:6px; overflow:hidden; position:relative; }
-.ipk-fill   { height:100%; border-radius:6px; transition:width .7s; }
-.ipk-fill.cl  { background:#fbbf24; }
-.ipk-fill.sm  { background:var(--mint); }
-.ipk-fill.mem { background:#60a5fa; }
-.ipk-fill.l   { background:#94a3b8; }
-.ipk-fill.f   { background:#f87171; }
-.ipk-markers  { display:flex; justify-content:space-between; font-size:.62rem; color:var(--text-muted); margin-top:3px; }
-
-/* Semester table */
-.sem-tbl { width:100%; border-collapse:collapse; font-size:.78rem; margin-top:10px; }
-.sem-tbl th { background:var(--bg-input); color:var(--text-secondary); padding:6px 10px; text-align:right; font-weight:600; }
-.sem-tbl th:first-child { text-align:left; }
-.sem-tbl td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; }
-.sem-tbl td:first-child { text-align:left; color:var(--text-secondary); }
-.sem-tbl tr:last-child td { border-bottom:none; font-weight:700; }
-
-/* Semester input rows */
-.sem-row { display:grid; grid-template-columns:80px 80px 80px; gap:6px; align-items:center; margin-bottom:6px; }
-.sem-row input { background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:7px 8px; color:var(--text-primary); font-size:.82rem; width:100%; }
-.sem-row-label { font-size:.72rem; color:var(--text-secondary); margin-bottom:4px; display:grid; grid-template-columns:80px 80px 80px; gap:6px; }
-
-/* Target result box */
-.target-box { background:var(--mint-dim); border:1px solid rgba(0,201,177,.25); border-radius:var(--radius-sm); padding:14px; margin-top:10px; }
-.tb-main  { font-size:1.4rem; font-weight:700; color:var(--mint); margin-bottom:4px; }
-.tb-row   { display:flex; justify-content:space-between; padding:4px 0; font-size:.82rem; border-bottom:1px solid rgba(0,201,177,.1); }
-.tb-row:last-child { border-bottom:none; }
-
-/* Ref table */
-.ref-table { width:100%; border-collapse:collapse; font-size:.82rem; }
-.ref-table th { background:var(--bg-input); color:var(--text-secondary); padding:8px 10px; text-align:left; font-weight:600; }
-.ref-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
-.ref-table tr:last-child td { border-bottom:none; }
-
-/* Action cards */
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
-.action-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:.65rem .7rem}
-.ac-icon{font-size:1.1rem;margin-bottom:.2rem}
-.ac-title{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}
-.ac-desc{font-size:.7rem;color:#8fa3b1;line-height:1.4}
-/* Scenario table */
-.scen-tbl{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
-.scen-tbl th{background:var(--bg-input);color:var(--text-secondary);padding:6px 8px;text-align:center;font-weight:600;font-size:.7rem}
-.scen-tbl th:first-child{text-align:left}
-.scen-tbl td{padding:5px 8px;border-bottom:1px solid var(--border);text-align:center;font-size:.75rem}
-.scen-tbl td:first-child{text-align:left;color:var(--text-secondary)}
-.scen-tbl tr.active-row td{background:var(--mint-dim);font-weight:700;color:var(--mint)}
-.scen-tbl tr.impossible td{opacity:.45}
-.scen-tbl tr:last-child td{border-bottom:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator IPK 2026 — Hitung IPK, IPS, Target Nilai & Prediksi Kelulusan | NovaCalcs</title>
+  <meta name="description" content="Kalkulator IPK 2026: hitung IPK kumulatif, IPS per semester, simulasi target nilai, dan prediksi berapa nilai yang dibutuhkan untuk mencapai IPK tertentu. Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-ipk">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--blue:#1d4ed8;--blue-l:#eff6ff}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--blue-l);color:var(--blue);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--blue);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--blue-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--blue)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{width:100%;padding:8px 32px 8px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:13px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;appearance:none;cursor:pointer}
+    .sw select:focus{border-color:var(--blue)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* MATA KULIAH TABLE */
+    .mk-wrap{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-bottom:14px}
+    .mk-head{background:var(--sur2);display:grid;grid-template-columns:2fr 80px 100px 36px;gap:6px;padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .mk-row{display:grid;grid-template-columns:2fr 80px 100px 36px;gap:6px;padding:8px 14px;border-bottom:1px solid var(--bor);align-items:center}
+    .mk-row:last-child{border-bottom:none}
+    .mk-inp{padding:5px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:12px;font-weight:600;background:var(--sur);outline:none;appearance:none;width:100%}
+    .mk-inp:focus{border-color:var(--blue)}
+    .mk-del{background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);padding:3px;border-radius:4px}
+    .mk-del:hover{color:var(--red);background:var(--red-b)}
+    .add-btn{padding:7px 14px;border:1.5px dashed var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);width:100%;transition:all .15s}
+    .add-btn:hover{border-color:var(--blue);color:var(--blue)}
+    /* IPK DISPLAY */
+    .ipk-big{background:var(--blue-l);border:1.5px solid #93c5fd;border-radius:var(--r);padding:20px;text-align:center;margin:14px 0}
+    .ipk-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--blue);margin-bottom:6px}
+    .ipk-val{font-family:'DM Mono',monospace;font-size:56px;font-weight:800;color:var(--blue);letter-spacing:-.5px;line-height:1}
+    .ipk-sub{font-size:12px;color:var(--tx3);margin-top:6px}
+    /* PREDIKAT */
+    .pred-box{border-radius:var(--rs);padding:10px 16px;font-size:13px;font-weight:800;text-align:center;margin-bottom:14px;border:1.5px solid}
+    /* STAT */
+    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    .stat-card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);padding:12px;text-align:center}
+    .stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}
+    .stat-val{font-family:'DM Mono',monospace;font-size:17px;font-weight:800;color:var(--blue)}
+    /* LRES */
+    .lres{background:var(--blue-l);border:1.5px solid #93c5fd;border-radius:var(--r);padding:14px}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* PROGRESS BAR */
+    .ipk-bar-wrap{margin:10px 0}
+    .ipk-bar-bg{height:10px;background:var(--sur2);border-radius:5px;overflow:hidden}
+    .ipk-bar-fill{height:100%;border-radius:5px;background:var(--blue);transition:width .4s}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:var(--blue-l);border-color:#bfdbfe;color:var(--blue)}
+    .notice.ok{background:var(--grn-b);border-color:#86efac;color:var(--grn)}
+    .notice.warn{background:var(--red-b);border-color:#fca5a5;color:#991b1b}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--blue)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--blue)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--blue-l);color:var(--blue)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--blue);color:var(--blue);background:var(--blue-l)}
+  </style>
 </head>
 <body>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator IPK</span>
+</div></nav>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#matematika">Pendidikan</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator IPK</span>
-    </nav>
+<header class="hdr">
+  <div class="hdr-tag">🎓 IPK Kuliah</div>
+  <h1 class="hdr-h1">Kalkulator IPK & IPS 2026</h1>
+  <p class="hdr-sub">Hitung IPK kumulatif, IPS per semester, simulasi target IPK, dan prediksi berapa nilai yang diperlukan untuk mencapai IPK yang diinginkan. Skala 0–4.</p>
+  <div class="pstrip">
+    <div class="pchip">Skala <span>0 – 4,00</span></div>
+    <div class="pchip">Cumlaude <span>IPK ≥ 3,51</span></div>
+    <div class="pchip">Sistem <span>SKS berbobot</span></div>
   </div>
 </header>
 
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🎓 Kalkulator IPK 2026</div>
-      <div class="calc-subtitle">IPS Semester · Kumulatif · Target Cum Laude</div>
+<main class="main">
+<div class="left-col">
 
-      <div class="ipk-tabs">
-        <div class="ipk-tab active" onclick="switchTab(0,this)">📋 IPS Semester</div>
-        <div class="ipk-tab" onclick="switchTab(1,this)">📈 Kumulatif</div>
-        <div class="ipk-tab" onclick="switchTab(2,this)">🎯 Target IPK</div>
+<div class="card">
+  <div class="card-h"><div class="card-ico">🎓</div>Kalkulator IPK</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="ips">📝 Hitung IPS Semester</button>
+      <button class="tbtn" data-tab="ipk">📊 Hitung IPK Kumulatif</button>
+      <button class="tbtn" data-tab="target">🎯 Target IPK</button>
+    </div>
+
+    <!-- IPS SEMESTER -->
+    <div class="tpanel on" id="tab-ips">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan mata kuliah, SKS, dan nilai huruf untuk menghitung IPS (Indeks Prestasi Semester).</p>
+      <div class="mk-wrap">
+        <div class="mk-head"><span>Mata Kuliah</span><span>SKS</span><span>Nilai</span><span></span></div>
+        <div id="ips-rows"></div>
       </div>
+      <button class="add-btn" onclick="addIPS()">＋ Tambah Mata Kuliah</button>
 
-      <!-- TAB 0: IPS Semester -->
-      <div class="ipk-panel active" id="tp0">
-        <div class="course-header"><span>Mata Kuliah</span><span>SKS</span><span>Nilai</span><span></span></div>
-        <div id="courses"></div>
-        <button class="add-btn" onclick="addCourse()">+ Tambah Mata Kuliah</button>
-        <button class="calc-btn" onclick="calcIPS()">🎓 Hitung IPS</button>
-
-        <div class="result-box" id="res0" style="display:none">
-          <div class="ipk-main">
-            <div class="ipk-num" id="r0-ipk">—</div>
-            <div class="ipk-label">IPS Semester</div>
-            <div class="predikat-badge" id="r0-badge">—</div>
-          </div>
-
-          <!-- IPK progress bar -->
-          <div class="ipk-progress-wrap">
-            <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-secondary);margin-bottom:5px">
-              <span>Progress menuju Cum Laude (3,51)</span>
-              <span id="r0-pct" style="font-weight:700;color:var(--mint)">—%</span>
-            </div>
-            <div class="ipk-track"><div class="ipk-fill" id="r0-bar" style="width:0%"></div></div>
-            <div class="ipk-markers"><span>0,00</span><span>Lulus<br>2,00</span><span>Memu-<br>askan 2,76</span><span>Sangat<br>Mem. 3,01</span><span>Cum<br>Laude 3,51</span><span>4,00</span></div>
-          </div>
-
-          <!-- Stats -->
-          <div class="ipk-stats">
-            <div class="is-card"><div class="ic-label">Total SKS</div><div class="ic-val" id="r0-sks">—</div></div>
-            <div class="is-card"><div class="ic-label">Total Poin Mutu</div><div class="ic-val" id="r0-mutu">—</div></div>
-            <div class="is-card yellow"><div class="ic-label">Mata kuliah diinput</div><div class="ic-val" id="r0-count">—</div></div>
-            <div class="is-card green"><div class="ic-label">Rata-rata nilai</div><div class="ic-val" id="r0-avg-grade">—</div></div>
-          </div>
-
-          <!-- Grade distribution -->
-          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 6px">📊 Distribusi Nilai</div>
-          <div class="grade-dist" id="r0-dist"></div>
-
-          <div id="r0-advice" style="margin-top:10px;padding:10px 12px;background:var(--mint-dim);border:1px solid rgba(0,201,177,.2);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
-          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Strategi untuk Anda:</div>
-          <div class="action-grid" id="r0-action-cards"></div>
-        </div>
+      <div class="ipk-big">
+        <div class="ipk-lbl">IPS Semester Ini</div>
+        <div class="ipk-val" id="ips-val">—</div>
+        <div class="ipk-sub" id="ips-sub">—</div>
       </div>
+      <div class="pred-box" id="ips-pred" style="background:var(--blue-l);border-color:#93c5fd;color:var(--blue)">—</div>
 
-      <!-- TAB 1: Kumulatif antar semester -->
-      <div class="ipk-panel" id="tp1">
-        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
-          Masukkan IPS dan total SKS setiap semester untuk menghitung IPK kumulatif.
-        </div>
-        <div class="sem-row-label"><span>Semester</span><span>SKS (sem ini)</span><span>IPS</span></div>
-        <div id="sem-rows"></div>
-        <button class="add-btn" onclick="addSemester()">+ Tambah Semester</button>
-        <button class="calc-btn" onclick="calcKumulatif()">📈 Hitung IPK Kumulatif</button>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-lbl">Total SKS</div><div class="stat-val" id="ips-sks">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Mata Kuliah</div><div class="stat-val" id="ips-mk">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Nilai Tertinggi</div><div class="stat-val" id="ips-max">—</div></div>
+      </div>
+    </div>
 
-        <div class="result-box" id="res1" style="display:none">
-          <div class="ipk-main">
-            <div class="ipk-num" id="r1-ipk">—</div>
-            <div class="ipk-label">IPK Kumulatif</div>
-            <div class="predikat-badge" id="r1-badge">—</div>
-          </div>
-          <div class="ipk-stats">
-            <div class="is-card"><div class="ic-label">Total SKS kumulatif</div><div class="ic-val" id="r1-sks">—</div></div>
-            <div class="is-card"><div class="ic-label">Jumlah semester</div><div class="ic-val" id="r1-sem">—</div></div>
-          </div>
-          <div style="font-size:.72rem;color:var(--text-secondary);font-weight:600;margin:12px 0 4px">📋 Rincian per Semester</div>
-          <table class="sem-tbl" id="r1-tbl"></table>
-          <div id="r1-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
-          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Strategi untuk Anda:</div>
-          <div class="action-grid" id="r1-action-cards"></div>
+    <!-- IPK KUMULATIF -->
+    <div class="tpanel" id="tab-ipk">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan IPS dan SKS tiap semester untuk menghitung IPK kumulatif.</p>
+      <div class="mk-wrap">
+        <div class="mk-head"><span>Semester</span><span>SKS Lulus</span><span>IPS</span><span></span></div>
+        <div id="ipk-rows"></div>
+      </div>
+      <button class="add-btn" onclick="addIPK()">＋ Tambah Semester</button>
+
+      <div class="ipk-big">
+        <div class="ipk-lbl">IPK Kumulatif</div>
+        <div class="ipk-val" id="ipk-val">—</div>
+        <div class="ipk-sub" id="ipk-sub">—</div>
+      </div>
+      <div class="pred-box" id="ipk-pred" style="background:var(--blue-l);border-color:#93c5fd;color:var(--blue)">—</div>
+
+      <div class="lres">
+        <div class="rrows">
+          <div class="rr"><span>Total semester</span><span id="ipk-r1">—</span></div>
+          <div class="rr"><span>Total SKS lulus</span><span id="ipk-r2">—</span></div>
+          <div class="rr"><span>Total mutu (SKS × nilai)</span><span id="ipk-r3">—</span></div>
+          <div class="rr"><span>IPK kumulatif</span><span id="ipk-r4">—</span></div>
         </div>
       </div>
+    </div>
 
-      <!-- TAB 2: Target IPK -->
-      <div class="ipk-panel" id="tp2">
-        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">
-          Sudah punya IPK sekarang? Cari tahu nilai rata-rata yang dibutuhkan untuk mencapai target.
+    <!-- TARGET IPK -->
+    <div class="tpanel" id="tab-target">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan IPK sekarang dan target IPK akhir. Kalkulator akan menghitung IPS minimal yang diperlukan.</p>
+      <div class="g2">
+        <div class="fld"><label>IPK Sekarang</label>
+          <div class="iw"><input type="number" id="tg-ipk-now" value="3.20" min="0" max="4" step="0.01"></div>
         </div>
-        <div class="field"><label>IPK Saat Ini</label>
-          <input type="number" id="t-ipk-now" placeholder="Contoh: 3,20" step="0.01" min="0" max="4" oninput="autoCalcTarget()"/>
+        <div class="fld"><label>Total SKS Sudah Lulus</label>
+          <div class="iw"><input type="number" id="tg-sks-done" value="60" min="1" max="200"><span class="iu">SKS</span></div>
         </div>
-        <div class="field"><label>Total SKS yang Sudah Ditempuh</label>
-          <input type="number" id="t-sks-done" placeholder="Contoh: 80" oninput="autoCalcTarget()"/>
-        </div>
-        <div class="field"><label>SKS yang Akan Ditempuh Lagi</label>
-          <input type="number" id="t-sks-left" placeholder="Contoh: 60" oninput="autoCalcTarget()"/>
-        </div>
-        <div class="field">
-          <label>Target IPK</label>
-          <div class="radio-group" id="target-btns">
-            <div class="radio-btn" onclick="setTarget(2.75,this)">2,75</div>
-            <div class="radio-btn" onclick="setTarget(3.00,this)">3,00</div>
-            <div class="radio-btn" onclick="setTarget(3.50,this)">3,50</div>
-            <div class="radio-btn active" onclick="setTarget(3.51,this)">3,51 CL</div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Target IPK Akhir</label>
+          <div class="iw"><input type="number" id="tg-ipk-target" value="3.50" min="0" max="4" step="0.01"></div>
+          <div class="presets">
+            <button class="pb" data-val="3.00" data-for="tg-ipk-target">3,00</button>
+            <button class="pb" data-val="3.25" data-for="tg-ipk-target">3,25</button>
+            <button class="pb on" data-val="3.50" data-for="tg-ipk-target">3,50</button>
+            <button class="pb" data-val="3.75" data-for="tg-ipk-target">3,75</button>
           </div>
-          <input type="number" id="t-target" value="3.51" step="0.01" min="0" max="4" oninput="autoCalcTarget()"/>
         </div>
-        <button class="calc-btn" onclick="calcTarget()">🎯 Hitung Nilai yang Dibutuhkan</button>
-        <div class="result-box" id="res2" style="display:none">
-          <div class="target-box">
-            <div class="tb-main" id="t-needed-ipk">—</div>
-            <div style="font-size:.72rem;color:var(--mint)">IPS rata-rata yang diperlukan untuk sisa studi</div>
-            <div style="margin-top:12px">
-              <div class="tb-row"><span>IPK saat ini</span><span style="font-weight:700" id="t-now-out">—</span></div>
-              <div class="tb-row"><span>Target IPK</span><span style="font-weight:700" id="t-target-out">—</span></div>
-              <div class="tb-row"><span>SKS sudah ditempuh</span><span style="font-weight:700" id="t-sks-done-out">—</span></div>
-              <div class="tb-row"><span>SKS tersisa</span><span style="font-weight:700" id="t-sks-left-out">—</span></div>
-              <div class="tb-row"><span>Poin mutu tambahan yang diperlukan</span><span style="font-weight:700;color:var(--mint)" id="t-mutu-needed">—</span></div>
-            </div>
-          </div>
-          <div id="t-advice" style="margin-top:10px;padding:10px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:.82rem;line-height:1.6;"></div>
-
-          <!-- Scenario: SKS tersisa vs IPS yang dibutuhkan -->
-          <div id="t-scenario-wrap" style="display:none;margin-top:10px">
-            <div style="font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.35rem">📊 Skenario berbagai jumlah SKS tersisa:</div>
-            <table class="scen-tbl" id="t-scen-tbl"></table>
-          </div>
-          <div style="font-size:.75rem;color:#8fa3b1;margin:10px 0 4px;font-weight:600">💡 Strategi untuk Anda:</div>
-          <div class="action-grid" id="t-action-cards"></div>
+        <div class="fld"><label>Sisa SKS yang Akan Diambil</label>
+          <div class="iw"><input type="number" id="tg-sks-left" value="60" min="1" max="200"><span class="iu">SKS</span></div>
         </div>
       </div>
 
+      <div class="ipk-big">
+        <div class="ipk-lbl">IPS Minimal yang Dibutuhkan</div>
+        <div class="ipk-val" id="tg-ips-min">—</div>
+        <div class="ipk-sub" id="tg-sub">—</div>
+      </div>
+
+      <div class="ipk-bar-wrap">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--tx3);margin-bottom:4px">
+          <span>Progres IPK</span><span id="tg-pct-show">—</span>
+        </div>
+        <div class="ipk-bar-bg"><div class="ipk-bar-fill" id="tg-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="lres" style="margin-top:14px">
+        <div class="rrows">
+          <div class="rr"><span>IPK sekarang</span><span id="tg-r1">—</span></div>
+          <div class="rr"><span>Target IPK akhir</span><span id="tg-r2">—</span></div>
+          <div class="rr"><span>SKS sudah lulus</span><span id="tg-r3">—</span></div>
+          <div class="rr"><span>Sisa SKS</span><span id="tg-r4">—</span></div>
+          <div class="rr"><span>IPS minimal dibutuhkan</span><span id="tg-r5">—</span></div>
+          <div class="rr"><span>Bisa dicapai?</span><span id="tg-r6">—</span></div>
+        </div>
+      </div>
+      <div class="notice" id="tg-notice"></div>
     </div>
   </div>
+</div>
 
-  <!-- SEO CONTENT -->
-  <div class="content-area">
-    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;">Kalkulator IPK 2026 — IPS, Kumulatif & Target Cum Laude</h1>
-    <p style="color:var(--text-secondary);margin-bottom:28px;">Hitung IPS semester, IPK kumulatif dari beberapa semester, dan simulasi nilai yang diperlukan untuk mencapai target IPK termasuk predikat Cum Laude (≥3,51).</p>
-
-    <h2>Cara Menghitung IPK — Rumus dan Contoh</h2>
-    <p>IPK (Indeks Prestasi Kumulatif) adalah rata-rata tertimbang (weighted average) dari semua nilai mata kuliah, dengan SKS sebagai bobot:</p>
-    <ul>
-      <li><strong>Poin Mutu</strong> per mata kuliah = SKS × Bobot Nilai (misal: A = 4,00)</li>
-      <li><strong>IPK / IPS</strong> = Σ(Poin Mutu) ÷ Σ(SKS)</li>
-    </ul>
-    <p><strong>Contoh:</strong> 5 mata kuliah dengan SKS 3, 3, 4, 2, 2 dan nilai A, B+, A, B, A-:</p>
-    <ul>
-      <li>Poin mutu: (3×4,0) + (3×3,5) + (4×4,0) + (2×3,0) + (2×3,75) = 12 + 10,5 + 16 + 6 + 7,5 = 52,0</li>
-      <li>Total SKS: 3+3+4+2+2 = 14</li>
-      <li>IPK = 52,0 ÷ 14 = <strong>3,71</strong> (Cum Laude)</li>
-    </ul>
-
-    <h2>Tabel Konversi Nilai & Predikat Kelulusan</h2>
-    <table class="ref-table" style="margin:12px 0">
-      <thead><tr><th>Nilai Huruf</th><th>Bobot Mutu</th><th>IPK</th><th>Predikat Kelulusan</th></tr></thead>
-      <tbody>
-        <tr><td>A</td><td>4,00</td><td>3,51–4,00</td><td>🏆 Dengan Pujian (Cum Laude)</td></tr>
-        <tr><td>A−</td><td>3,75</td><td>3,01–3,50</td><td>⭐ Sangat Memuaskan</td></tr>
-        <tr><td>B+</td><td>3,50</td><td>2,76–3,00</td><td>Memuaskan</td></tr>
-        <tr><td>B</td><td>3,00</td><td>2,00–2,75</td><td>Lulus</td></tr>
-        <tr><td>B−</td><td>2,75</td><td>&lt; 2,00</td><td>⚠️ Tidak Memenuhi Syarat</td></tr>
-        <tr><td>C+</td><td>2,50</td><td colspan="2" rowspan="4" style="color:var(--text-muted)"><em>Sistem penilaian bisa berbeda antar kampus. Beberapa tidak menggunakan A− atau B+. Cek buku panduan akademik kampus Anda.</em></td></tr>
-        <tr><td>C</td><td>2,00</td></tr>
-        <tr><td>D</td><td>1,00</td></tr>
-        <tr><td>E</td><td>0,00</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Fitur Kalkulator IPK NovaCalcs</h2>
-    <ul>
-      <li><strong>Mode IPS Semester</strong> — Input mata kuliah, SKS, dan nilai. Hasil menampilkan IPS, distribusi nilai (berapa mata kuliah dapat A, B, C), progress bar menuju Cum Laude, dan saran peningkatan.</li>
-      <li><strong>Progress bar IPK</strong> — Bar visual menunjukkan posisi IPK Anda antara 0,00 dan 4,00 dengan penanda di titik Lulus (2,00), Memuaskan (2,76), Sangat Memuaskan (3,01), dan Cum Laude (3,51).</li>
-      <li><strong>Mode Kumulatif</strong> — Masukkan IPS dan SKS setiap semester untuk menghitung IPK kumulatif keseluruhan. Tabel rincian per semester memperlihatkan tren prestasi dari semester ke semester.</li>
-      <li><strong>Mode Target IPK</strong> — Sudah tahu IPK sekarang dan sisa SKS? Kalkulator menghitung IPS rata-rata yang harus dicapai untuk sisa studi agar target IPK (mis. 3,51 Cum Laude) bisa tercapai.</li>
-    </ul>
-
-    <h2>Strategi Menaikkan IPK yang Efektif</h2>
-    <p>Karena IPK adalah rata-rata tertimbang, dampak setiap nilai bergantung pada jumlah SKS mata kuliah tersebut:</p>
-    <ul>
-      <li><strong>Prioritaskan mata kuliah ber-SKS besar</strong> — Nilai A di mata kuliah 4 SKS memberi dampak 2× lebih besar dari nilai A di mata kuliah 2 SKS.</li>
-      <li><strong>Manfaatkan pengulangan mata kuliah</strong> — Banyak kampus mengganti nilai lama dengan nilai baru saat pengulangan. Targetkan nilai yang lebih baik untuk mata kuliah dengan nilai rendah.</li>
-      <li><strong>Strategis pilih mata kuliah pilihan</strong> — Pilih mata kuliah pilihan yang Anda kuasai dan berpeluang mendapat nilai tinggi.</li>
-      <li><strong>Jangan hitung semester terakhir sepele</strong> — Tugas akhir dan skripsi biasanya memiliki SKS besar (6–8 SKS) dan bisa sangat mempengaruhi IPK akhir.</li>
-    </ul>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Berapa IPK minimum untuk Cum Laude?</div>
-      <div class="faq-a">IPK minimal 3,51 adalah syarat umum predikat Cum Laude di sebagian besar PTN/PTS Indonesia. Namun ada syarat tambahan: lulus dalam waktu normal (biasanya 8 semester untuk S1), tidak pernah mengulang mata kuliah dengan nilai E, dan tidak ada nilai D atau sejenisnya. Syarat spesifik bisa berbeda per kampus — cek peraturan akademik kampus Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah IPK 3,0 cukup untuk melamar kerja?</div>
-      <div class="faq-a">Banyak perusahaan besar dan BUMN mensyaratkan IPK minimal 3,00 untuk fresh graduate. Namun batas ini tidak mutlak — perusahaan startup, kreatif, dan teknologi sering lebih mempertimbangkan portofolio, pengalaman, dan kemampuan teknis daripada IPK. IPK 3,00 sudah aman untuk sebagian besar lowongan formal. Untuk masuk BUMN, konsultan besar, atau lanjut ke luar negeri, targetkan minimal 3,25–3,50.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Bisakah IPK semester akhir mendongkrak IPK keseluruhan secara signifikan?</div>
-      <div class="faq-a">Bisa, tapi semakin banyak SKS yang sudah ditempuh, semakin sulit mengubah IPK secara drastis. Gunakan Tab "Target IPK" di kalkulator ini untuk menghitung secara presisi berapa IPS yang harus dicapai di sisa semester. Umumnya, jika sudah di semester 5+ dengan IPK 3,00, mencapai Cum Laude 3,51 dalam sisa 2–3 semester membutuhkan nilai hampir A semua — bisa dilakukan tapi sangat challenging.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah nilai D menggugurkan peluang Cum Laude?</div>
-      <div class="faq-a">Kebijakan ini berbeda per kampus. Banyak kampus mensyaratkan tidak ada nilai D (atau bahkan C) untuk meraih Cum Laude, terlepas dari IPK akhir. Nilai D dengan SKS besar juga akan menurunkan IPK secara signifikan karena bobotnya besar. Jika mendapat D, segera cek apakah kampus mengizinkan pengulangan dan apakah nilai lama diganti.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apakah semua kampus menggunakan skala 0–4,00?</div>
-      <div class="faq-a">Hampir semua PTN dan PTS di Indonesia menggunakan skala 0–4,00 sesuai panduan Dikti. Namun konversi nilai huruf ke angka bisa sedikit berbeda. Beberapa kampus tidak memiliki A− dan B+, sehingga langsung dari A (4,00) ke B (3,00). Ada juga yang menggunakan skala angka murni. Kalkulator ini menggunakan sistem yang paling umum — sesuaikan dengan panduan akademik kampus Anda.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan IPK untuk S1, S2, dan S3?</div>
-      <div class="faq-a">Sistem perhitungan IPK sama untuk semua jenjang. Namun standar predikat bisa berbeda. Untuk S2 dan S3, predikat Cum Laude umumnya mensyaratkan IPK ≥3,75 atau bahkan 4,00 (tergantung kampus), dan batas masa studi lebih ketat. Standar akademik di jenjang pascasarjana secara umum jauh lebih tinggi, dan nilai di bawah B (3,00) biasanya dianggap tidak lulus mata kuliah.</div>
-    </div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-nilai.html" class="related-item"><span class="ri">📝</span>Kalkulator Nilai</a>
-      <a href="/id/kalkulator-rata-rata.html" class="related-item"><span class="ri">📊</span>Rata-rata</a>
-      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
-      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
+<!-- ② KONVERSI NILAI -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📋</div>Konversi Nilai Huruf ↔ Angka <span class="nbadge" style="margin-left:6px">Referensi</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:12px">Konversi nilai antara huruf (A/B/C/D/E) dan angka (0–100) ke bobot 0–4. Standar umum Indonesia.</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead><tr style="background:var(--sur2)">
+          <th style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3)">Huruf</th>
+          <th style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3)">Rentang Nilai</th>
+          <th style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3)">Bobot</th>
+          <th style="padding:7px 10px;border-bottom:1px solid var(--bor);text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3)">Keterangan</th>
+        </tr></thead>
+        <tbody id="konversi-tbody"></tbody>
+      </table>
     </div>
   </div>
+</div>
+
+</div><!-- /left-col -->
+
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🏆</div>Predikat Kelulusan</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow" style="background:#fef9c3"><div class="frl"><div class="fdot" style="background:#eab308"></div><div><div class="fn">Memuaskan</div></div></div><div class="fprice" style="color:#a16207">2,00–2,75</div></div>
+        <div class="frow" style="background:var(--grn-b)"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Sangat Memuaskan</div></div></div><div class="fprice">2,76–3,50</div></div>
+        <div class="frow" style="background:var(--blue-l)"><div class="frl"><div class="fdot" style="background:var(--blue)"></div><div><div class="fn">Cumlaude / Pujian</div></div></div><div class="fprice" style="color:var(--blue)">≥ 3,51</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Tingkatkan IPK</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📚</span><span class="tptx"><strong>Fokus SKS besar</strong> — mata kuliah 4 SKS punya dampak 2× lebih besar pada IPK dari mata kuliah 2 SKS</span></div>
+        <div class="tip"><span class="tpico">🔁</span><span class="tptx"><strong>Mengulang mata kuliah nilai rendah</strong> — di banyak kampus nilai baru menggantikan nilai lama, efektif naikkan IPK</span></div>
+        <div class="tip"><span class="tpico">📋</span><span class="tptx"><strong>Ambil SKS sedikit, nilai tinggi</strong> lebih baik dari ambil banyak SKS dengan nilai sedang</span></div>
+        <div class="tip"><span class="tpico">🎯</span><span class="tptx"><strong>Semester awal kritis</strong> — lebih mudah mempertahankan IPK tinggi dari awal daripada memperbaiki IPK rendah di akhir</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-nilai" class="relc"><div class="relc-ico">📝</div><div class="relc-nm">Nilai</div><div class="relc-ds">Hitung nilai rata</div></a>
+        <a href="/id/kalkulator-rata-rata" class="relc"><div class="relc-ico">📊</div><div class="relc-nm">Rata-rata</div><div class="relc-ds">Kalkulator rata-rata</div></a>
+        <a href="/id/kalkulator-persen" class="relc"><div class="relc-ico">%</div><div class="relc-nm">Persen</div><div class="relc-ds">Kalkulator %</div></a>
+        <a href="/id/kalkulator-proporsi" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">Proporsi</div><div class="relc-ds">Kalkulator proporsi</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
-    <a href="/id/">Beranda</a>
-    <a href="/id/tentang.html">Tentang</a>
-    <a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a>
-  </div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+<div class="seo">
+  <h2>Cara Menghitung IPK (Indeks Prestasi Kumulatif)</h2>
+  <p>IPK dihitung dengan rumus: IPK = Total Mutu ÷ Total SKS. Total Mutu = jumlah (SKS mata kuliah × bobot nilai). Misalnya, nilai A (bobot 4) di mata kuliah 3 SKS memberikan mutu 12. IPK tidak pernah dihitung dengan rata-rata IPS per semester, melainkan selalu menggunakan total mutu dibagi total SKS seluruh semester.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan IPS dan IPK?</div><div class="faq-a">IPS (Indeks Prestasi Semester) adalah IPK hanya untuk semester yang bersangkutan. IPK (Indeks Prestasi Kumulatif) adalah rata-rata berbobot seluruh mata kuliah dari semua semester yang telah ditempuh. IPK bukan rata-rata IPS karena bobot SKS tiap semester bisa berbeda. Untuk wisuda, yang tercantum di ijazah adalah IPK, bukan IPS.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa SKS minimal untuk lulus S1?</div><div class="faq-a">Berdasarkan Permendikbudristek No. 53/2023, beban studi S1 minimum 144 SKS. Kebanyakan program studi memiliki 144–160 SKS total. Mahasiswa harus menyelesaikan semua SKS dengan nilai minimal C (atau D tergantung kebijakan kampus) untuk bisa dinyatakan lulus. IPK minimal untuk lulus umumnya 2,00, namun banyak kampus mensyaratkan minimal 2,50.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
 
-<script defer>
-const gradeMap = { 'A':4.0,'A-':3.75,'B+':3.5,'B':3.0,'B-':2.75,'C+':2.5,'C':2.0,'D':1.0,'E':0.0 };
-const gradeOrder = ['A','A-','B+','B','B-','C+','C','D','E'];
-let courseCount = 0, semCount = 0;
-let targetIPK = 3.51;
+<script>
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+function v(id){return parseFloat(document.getElementById(id)?.value)||0;}
 
+const NILAI_MAP={'A':4,'A-':3.75,'B+':3.50,'B':3,'B-':2.75,'C+':2.5,'C':2,'D':1,'E':0};
+const NILAI_LIST=[
+  {huruf:'A',range:'85–100',bobot:4,ket:'Sangat Baik',col:'#1A7F4E'},
+  {huruf:'A-',range:'80–84',bobot:3.75,ket:'Sangat Baik-',col:'#1A7F4E'},
+  {huruf:'B+',range:'75–79',bobot:3.50,ket:'Baik+',col:'#3b82f6'},
+  {huruf:'B',range:'70–74',bobot:3,ket:'Baik',col:'#3b82f6'},
+  {huruf:'B-',range:'65–69',bobot:2.75,ket:'Baik-',col:'#3b82f6'},
+  {huruf:'C+',range:'60–64',bobot:2.5,ket:'Cukup+',col:'#ca8a04'},
+  {huruf:'C',range:'55–59',bobot:2,ket:'Cukup',col:'#ca8a04'},
+  {huruf:'D',range:'40–54',bobot:1,ket:'Kurang',col:'#ea580c'},
+  {huruf:'E',range:'0–39',bobot:0,ket:'Gagal / Tidak Lulus',col:'#dc2626'},
+];
 
-function buildIPKActionCards(ipk, containerId) {
-  let cards;
-  if (ipk >= 3.51) {
-    cards = [
-      {icon:'🏆',title:'Pertahankan konsistensi',desc:'IPK Cum Laude tercapai! Fokus pertahankan — 1 nilai C di semester akhir bisa sangat berpengaruh.'},
-      {icon:'🎓',title:'Kejar beasiswa S2',desc:'IPK Cum Laude membuka pintu beasiswa LPDP, Chevening, DAAD, dan program internasional lainnya.'},
-      {icon:'💼',title:'Siapkan portofolio',desc:'IPK tinggi + pengalaman organisasi/magang = kombinasi kuat. Mulai dokumentasikan pencapaian Anda.'},
-      {icon:'📑',title:'Verifikasi syarat Cum Laude',desc:'Cek syarat tambahan kampus: masa studi normal, tidak ada nilai D/E, tidak pernah cuti akademik.'},
-    ];
-  } else if (ipk >= 3.01) {
-    cards = [
-      {icon:'🎯',title:'Cum Laude masih bisa',desc:'Selisih '+(3.51-ipk).toFixed(2)+' poin. Gunakan Tab Target IPK untuk hitung berapa IPS yang diperlukan di semester tersisa.'},
-      {icon:'📚',title:'Prioritaskan MK ber-SKS besar',desc:'Nilai A di MK 4 SKS = dampak 2× lebih besar dari MK 2 SKS. Alokasikan waktu belajar proporsional.'},
-      {icon:'🔄',title:'Cek opsi pengulangan MK',desc:'Jika ada nilai C atau D, tanyakan ke dosen/akademik apakah bisa diulang untuk mengganti nilai lama.'},
-      {icon:'🤝',title:'Kelompok belajar efektif',desc:'Bergabung kelompok belajar meningkatkan retensi materi hingga 50% dibanding belajar sendiri.'},
-    ];
-  } else if (ipk >= 2.76) {
-    cards = [
-      {icon:'💪',title:'Fokus semester ini',desc:'IPK Memuaskan. Setiap semester tersisa adalah kesempatan mendongkrak IPK kumulatif secara signifikan.'},
-      {icon:'👨‍🏫',title:'Konsultasi dosen PA',desc:'Minta panduan dari dosen Pembimbing Akademik untuk strategi pemilihan MK dan perbaikan nilai.'},
-      {icon:'📖',title:'Manfaatkan UAS dengan maksimal',desc:'Nilai UAS biasanya 40–60% dari total nilai MK. Fokus belajar intensif 2 minggu sebelum ujian.'},
-      {icon:'🎯',title:'Target realistis per semester',desc:'Naik 0,1 poin IPK per semester bisa mengubah predikat kelulusan secara signifikan dalam 2–3 semester.'},
-    ];
-  } else {
-    cards = [
-      {icon:'🚨',title:'Perhatikan batas lulus',desc:'IPK di bawah 2,00 biasanya tidak memenuhi syarat kelulusan. Segera konsultasi ke bagian akademik.'},
-      {icon:'👨‍🏫',title:'Bicara dengan dosen PA',desc:'Dosen Pembimbing Akademik bisa membantu merencanakan strategi pemulihan IPK dan evaluasi beban SKS.'},
-      {icon:'📉',title:'Kurangi beban SKS sementara',desc:'Ambil SKS lebih sedikit tapi fokus mendapat nilai bagus, daripada banyak SKS dengan nilai rendah.'},
-      {icon:'💊',title:'Cek kondisi Anda',desc:'Nilai turun drastis bisa jadi tanda kelelahan atau masalah lain. Jangan ragu minta bantuan konseling kampus.'},
-    ];
-  }
-  const el = document.getElementById(containerId);
-  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
+function getPredikat(ipk){
+  if(ipk>=3.51)return{nm:'🏆 Cumlaude / Dengan Pujian',col:var_('--blue'),bg:var_('--blue-l'),bc:'#93c5fd'};
+  if(ipk>=2.76)return{nm:'✅ Sangat Memuaskan',col:var_('--grn'),bg:var_('--grn-b'),bc:'#86efac'};
+  if(ipk>=2.00)return{nm:'👍 Memuaskan',col:'#ca8a04',bg:'#fefce8',bc:'#fde047'};
+  return{nm:'⚠️ Belum Memenuhi Syarat Lulus',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5'};
 }
+function var_(v){return'var('+v+')';}
 
-function buildTargetScenario(ipkNow, sksDone, targetVal) {
-  const sksVariants = [20, 40, 60, 80, 100, 120, 144];
-  const mutuDone = ipkNow * sksDone;
-  let html = '<thead><tr><th>SKS Tersisa</th><th>IPS yang Diperlukan</th><th>Status</th></tr></thead><tbody>';
-  const currentLeft = parseFloat(document.getElementById('t-sks-left').value) || 0;
-  sksVariants.forEach(left => {
-    const mutuNeeded = targetVal * (sksDone + left);
-    const extra = mutuNeeded - mutuDone;
-    const ipsNeeded = left > 0 ? extra / left : null;
-    const active = Math.abs(left - currentLeft) < 5;
-    const impossible = ipsNeeded === null || ipsNeeded > 4.0;
-    const easy = ipsNeeded !== null && ipsNeeded <= 3.0;
-    let statusText, statusColor;
-    if (impossible) { statusText = '🚫 Tidak bisa'; statusColor = '#f87171'; }
-    else if (ipsNeeded >= 3.51) { statusText = '🔥 Sangat sulit'; statusColor = '#f97316'; }
-    else if (ipsNeeded >= 3.01) { statusText = '⚡ Bisa dicapai'; statusColor = '#fbbf24'; }
-    else { statusText = '✅ Realistis'; statusColor = '#4ade80'; }
-    html += `<tr class="${active?'active-row':''} ${impossible?'impossible':''}">
-      <td>${left} SKS</td>
-      <td style="font-weight:600;color:${impossible?'#f87171':'var(--text-primary)'}">${impossible?'> 4,00':ipsNeeded.toFixed(2).replace('.',',')}</td>
-      <td style="font-size:.7rem;color:${statusColor}">${statusText}</td>
-    </tr>`;
+// ① IPS
+let ipsMKs=[
+  {nm:'Kalkulus',sks:3,nilai:'A'},
+  {nm:'Fisika Dasar',sks:3,nilai:'B+'},
+  {nm:'Bahasa Inggris',sks:2,nilai:'A'},
+  {nm:'Pemrograman',sks:4,nilai:'B'},
+];
+function renderIPS(){
+  const wrap=document.getElementById('ips-rows');if(!wrap)return;
+  wrap.innerHTML=ipsMKs.map((mk,i)=>`<div class="mk-row">
+    <input class="mk-inp" value="${mk.nm}" placeholder="Nama MK" oninput="ipsMKs[${i}].nm=this.value">
+    <input class="mk-inp" type="number" value="${mk.sks}" min="1" max="8" oninput="ipsMKs[${i}].sks=+this.value;calcIPS()">
+    <div style="position:relative"><select class="mk-inp" onchange="ipsMKs[${i}].nilai=this.value;calcIPS()" style="appearance:none;padding-right:22px">
+      ${Object.keys(NILAI_MAP).map(n=>`<option${mk.nilai===n?' selected':''}>${n}</option>`).join('')}
+    </select><span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:10px;pointer-events:none;color:var(--tx3)">▾</span></div>
+    <button class="mk-del" onclick="ipsMKs.splice(${i},1);renderIPS();calcIPS()">✕</button>
+  </div>`).join('');
+  calcIPS();
+}
+function addIPS(){ipsMKs.push({nm:'MK '+(ipsMKs.length+1),sks:3,nilai:'B'});renderIPS();}
+function calcIPS(){
+  let totalMutu=0,totalSKS=0,maxNilai=0;
+  ipsMKs.forEach(mk=>{
+    const bobot=NILAI_MAP[mk.nilai]||0;
+    totalMutu+=mk.sks*bobot;totalSKS+=mk.sks;
+    if(bobot>maxNilai)maxNilai=bobot;
   });
-  html += '</tbody>';
-  document.getElementById('t-scen-tbl').innerHTML = html;
-  document.getElementById('t-scenario-wrap').style.display = '';
+  if(!totalSKS)return;
+  const ips=totalMutu/totalSKS;
+  const pred=getPredikat(ips);
+  set('ips-val',ips.toFixed(2));set('ips-sub','Bobot berdasarkan '+ipsMKs.length+' mata kuliah');
+  const predEl=document.getElementById('ips-pred');
+  if(predEl){predEl.textContent=pred.nm;predEl.style.background=pred.bg;predEl.style.borderColor=pred.bc;predEl.style.color=pred.col;}
+  set('ips-sks',totalSKS);set('ips-mk',ipsMKs.length);
+  const maxKey=Object.keys(NILAI_MAP).find(k=>NILAI_MAP[k]===maxNilai)||'—';
+  set('ips-max',maxKey+' ('+maxNilai+')');
 }
 
-function buildTargetActionCards(ipsNeeded, targetVal, ipkNow) {
-  let cards;
-  if (ipsNeeded > 4.0) {
-    cards = [
-      {icon:'🔄',title:'Target lebih realistis',desc:`IPK ${targetVal.toFixed(2).replace('.',',')} tidak dapat dicapai. Coba target ${(Math.min(targetVal-0.25, ipkNow+0.5)).toFixed(2).replace('.',',')} sebagai langkah bertahap.`},
-      {icon:'📚',title:'Fokus mata kuliah tersisa',desc:'Meski target Cum Laude sulit, usahakan IPS setinggi mungkin untuk meningkatkan predikat kelulusan.'},
-      {icon:'🎓',title:'Pertimbangkan nilai kehormatan lain',desc:'Aktif di organisasi, penelitian, atau lomba bisa menjadi nilai tambah selain IPK di dunia kerja.'},
-      {icon:'💼',title:'Bangun portofolio kerja',desc:'Rekruiter sering lebih tertarik pada proyek nyata dan pengalaman daripada IPK semata.'},
-    ];
-  } else if (ipsNeeded >= 3.51) {
-    cards = [
-      {icon:'🔥',title:'Target ambisius — perlu all-out',desc:`IPS ${ipsNeeded.toFixed(2).replace('.',',')} artinya hampir semua nilai A. Kurangi aktivitas non-akademik di semester krusial.`},
-      {icon:'📚',title:'Manfaatkan remediasi',desc:'Cek apakah ada mata kuliah lama yang bisa diulang untuk mengganti nilai buruk dengan yang lebih baik.'},
-      {icon:'👨‍🏫',title:'Bimbingan intensif',desc:'Untuk MK sulit, minta jadwal bimbingan tambahan ke dosen atau asisten dosen sebelum UAS.'},
-      {icon:'⏰',title:'Mulai belajar lebih awal',desc:'Mulai persiapan UAS dari minggu ke-8 (bukan minggu UAS) untuk hasil yang lebih maksimal.'},
-    ];
-  } else {
-    cards = [
-      {icon:'✅',title:'Target realistis — tetap fokus',desc:`IPS ${ipsNeeded.toFixed(2).replace('.',',')} sangat bisa dicapai. Jaga konsistensi dan hindari mata kuliah yang tidak dikuasai.`},
-      {icon:'📊',title:'Prioritaskan SKS besar',desc:'Alokasikan waktu belajar proporsional dengan bobot SKS. MK 4 SKS layak mendapat 2× waktu dari MK 2 SKS.'},
-      {icon:'🎯',title:'Pilih MK pilihan strategis',desc:'Ambil mata kuliah pilihan di bidang yang Anda kuasai untuk boost IPS tanpa risiko nilai rendah.'},
-      {icon:'📅',title:'Buat jadwal belajar mingguan',desc:'Mahasiswa dengan jadwal terstruktur rata-rata mendapat IPK 0,3–0,5 lebih tinggi dari yang belajar mendadak.'},
-    ];
+// ② IPK KUMULATIF
+let semesters=[
+  {nm:'Semester 1',sks:20,ips:3.5},
+  {nm:'Semester 2',sks:22,ips:3.2},
+  {nm:'Semester 3',sks:20,ips:3.6},
+];
+function renderIPK(){
+  const wrap=document.getElementById('ipk-rows');if(!wrap)return;
+  wrap.innerHTML=semesters.map((s,i)=>`<div class="mk-row">
+    <input class="mk-inp" value="${s.nm}" placeholder="Semester" oninput="semesters[${i}].nm=this.value">
+    <input class="mk-inp" type="number" value="${s.sks}" min="1" max="30" placeholder="SKS" oninput="semesters[${i}].sks=+this.value;calcIPK()">
+    <input class="mk-inp" type="number" value="${s.ips}" min="0" max="4" step="0.01" placeholder="IPS" oninput="semesters[${i}].ips=+this.value;calcIPK()">
+    <button class="mk-del" onclick="semesters.splice(${i},1);renderIPK();calcIPK()">✕</button>
+  </div>`).join('');
+  calcIPK();
+}
+function addIPK(){semesters.push({nm:'Semester '+(semesters.length+1),sks:20,ips:3.0});renderIPK();}
+function calcIPK(){
+  let totalMutu=0,totalSKS=0;
+  semesters.forEach(s=>{totalMutu+=s.sks*s.ips;totalSKS+=s.sks;});
+  if(!totalSKS)return;
+  const ipk=totalMutu/totalSKS;
+  const pred=getPredikat(ipk);
+  set('ipk-val',ipk.toFixed(2));set('ipk-sub',totalSKS+' SKS dari '+semesters.length+' semester');
+  const predEl=document.getElementById('ipk-pred');
+  if(predEl){predEl.textContent=pred.nm;predEl.style.background=pred.bg;predEl.style.borderColor=pred.bc;predEl.style.color=pred.col;}
+  set('ipk-r1',semesters.length+' semester');set('ipk-r2',totalSKS+' SKS');
+  set('ipk-r3',totalMutu.toFixed(2));set('ipk-r4',ipk.toFixed(2));
+}
+
+// ③ TARGET
+function calcTarget(){
+  const ipkNow=v('tg-ipk-now'),sksDone=v('tg-sks-done');
+  const ipkTarget=v('tg-ipk-target'),sksLeft=v('tg-sks-left');
+  const totalMutuNow=ipkNow*sksDone;
+  const totalSKS=sksDone+sksLeft;
+  const mutuNeeded=ipkTarget*totalSKS-totalMutuNow;
+  const ipsNeeded=mutuNeeded/sksLeft;
+  const feasible=ipsNeeded<=4.0;
+  const pct=Math.min(100,ipkNow/4*100);
+  const bar=document.getElementById('tg-bar');if(bar)bar.style.width=pct+'%';
+  set('tg-pct-show',(ipkNow/ipkTarget*100).toFixed(0)+'% menuju target');
+  set('tg-ips-min',Math.max(0,ipsNeeded).toFixed(2));
+  set('tg-sub',feasible?'Masih bisa dicapai 💪':'Target terlalu tinggi untuk sisa SKS ⚠️');
+  set('tg-r1',ipkNow.toFixed(2));set('tg-r2',ipkTarget.toFixed(2));
+  set('tg-r3',sksDone+' SKS');set('tg-r4',sksLeft+' SKS');
+  set('tg-r5',Math.max(0,ipsNeeded).toFixed(2));set('tg-r6',feasible?'✅ Ya, bisa!':'❌ Tidak mungkin dgn IPK maks 4,00');
+  const noticeEl=document.getElementById('tg-notice');
+  if(noticeEl){
+    if(!feasible){noticeEl.className='notice warn';noticeEl.textContent='⚠️ Untuk mencapai target ini, IPS yang dibutuhkan ('+ipsNeeded.toFixed(2)+') melebihi nilai maksimal 4,00. Pertimbangkan target yang lebih realistis.';}
+    else if(ipsNeeded>3.75){noticeEl.className='notice info';noticeEl.textContent='💪 Bisa dicapai, namun butuh IPS sangat tinggi ('+ipsNeeded.toFixed(2)+'). Perlu fokus penuh!';}
+    else{noticeEl.className='notice ok';noticeEl.textContent='✅ Target IPK '+ipkTarget.toFixed(2)+' realistis dengan IPS rata-rata '+ipsNeeded.toFixed(2)+' di sisa semester.';}
   }
-  const el = document.getElementById('t-action-cards');
-  if (el) el.innerHTML = cards.map(c=>`<div class="action-card"><div class="ac-icon">${c.icon}</div><div class="ac-title">${c.title}</div><div class="ac-desc">${c.desc}</div></div>`).join('');
 }
 
-function switchTab(idx, btn) {
-  document.querySelectorAll('.ipk-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.ipk-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tp' + idx).classList.add('active');
+// KONVERSI TABLE
+function renderKonversi(){
+  const tbody=document.getElementById('konversi-tbody');if(!tbody)return;
+  tbody.innerHTML=NILAI_LIST.map(n=>`<tr>
+    <td style="text-align:center;font-weight:800;font-size:14px;color:${n.col}">${n.huruf}</td>
+    <td style="text-align:center;font-family:'DM Mono',monospace;font-size:11px">${n.range}</td>
+    <td style="text-align:center;font-family:'DM Mono',monospace;font-weight:800;color:${n.col}">${n.bobot}</td>
+    <td style="font-size:11px;color:var(--tx2)">${n.ket}</td>
+  </tr>`).join('');
 }
 
-/* ── Grade select HTML ── */
-function gradeSelect(cls) {
-  return `<select class="${cls}">
-    <option value="">Nilai</option>
-    ${gradeOrder.map(g => `<option value="${g}">${g} (${gradeMap[g].toFixed(2)})</option>`).join('')}
-  </select>`;
-}
-
-/* ── TAB 0: IPS ── */
-function addCourse(name='', sks='', grade='') {
-  courseCount++;
-  const div = document.createElement('div');
-  div.className = 'course-row';
-  div.id = 'cr-' + courseCount;
-  const id = courseCount;
-  div.innerHTML = `
-    <input type="text" placeholder="MK ${id}" value="${name}" style="font-size:.78rem"/>
-    <input type="number" placeholder="SKS" min="1" max="6" value="${sks}" class="sks-in"/>
-    ${gradeSelect('grade-in')}
-    <button class="del-btn" onclick="document.getElementById('cr-${id}').remove()">×</button>
-  `;
-  if (grade) div.querySelector('.grade-in').value = grade;
-  document.getElementById('courses').appendChild(div);
-}
-
-function getPredikat(ipk) {
-  if (ipk >= 3.51) return { text:'🏆 Cum Laude', cls:'pb-cumlaude' };
-  if (ipk >= 3.01) return { text:'⭐ Sangat Memuaskan', cls:'pb-sangatmem' };
-  if (ipk >= 2.76) return { text:'Memuaskan', cls:'pb-mem' };
-  if (ipk >= 2.00) return { text:'Lulus', cls:'pb-lulus' };
-  return { text:'⚠️ Tidak Memenuhi Syarat', cls:'pb-gagal' };
-}
-
-function calcIPS() {
-  const rows = document.querySelectorAll('.course-row');
-  let totalSKS = 0, totalMutu = 0, valid = 0;
-  const gradeCounts = {};
-  gradeOrder.forEach(g => gradeCounts[g] = { count:0, sks:0 });
-
-  rows.forEach(row => {
-    const sks   = parseFloat(row.querySelector('.sks-in').value);
-    const grade = row.querySelector('.grade-in').value;
-    if (sks && grade) {
-      const mutu = gradeMap[grade];
-      totalSKS  += sks;
-      totalMutu += sks * mutu;
-      valid++;
-      gradeCounts[grade].count++;
-      gradeCounts[grade].sks += sks;
-    }
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
   });
-
-  if (valid === 0) return alert('Tambahkan minimal satu mata kuliah dengan SKS dan nilai yang valid.');
-
-  const ipk = totalMutu / totalSKS;
-  const avg = totalMutu / totalSKS;
-  const pred = getPredikat(ipk);
-
-  document.getElementById('r0-ipk').textContent = ipk.toFixed(2).replace('.', ',');
-  const badge = document.getElementById('r0-badge');
-  badge.textContent = pred.text; badge.className = 'predikat-badge ' + pred.cls;
-  document.getElementById('r0-sks').textContent    = totalSKS + ' SKS';
-  document.getElementById('r0-mutu').textContent   = totalMutu.toFixed(2).replace('.', ',');
-  document.getElementById('r0-count').textContent  = valid + ' mata kuliah';
-  document.getElementById('r0-avg-grade').textContent = avg.toFixed(2).replace('.',',');
-
-  // Progress bar
-  const pct = Math.min(100, Math.round(ipk / 4.0 * 100));
-  document.getElementById('r0-pct').textContent = pct + '%';
-  const bar = document.getElementById('r0-bar');
-  bar.style.width = pct + '%';
-  bar.className   = 'ipk-fill ' + pred.cls.replace('pb-','').replace('cumlaude','cl').replace('sangatmem','sm').replace('mem','mem').replace('lulus','l').replace('gagal','f');
-
-  // Grade distribution
-  const maxCount = Math.max(1, ...Object.values(gradeCounts).map(g => g.count));
-  document.getElementById('r0-dist').innerHTML = gradeOrder
-    .filter(g => gradeCounts[g].count > 0)
-    .map(g => {
-      const w = (gradeCounts[g].count / maxCount * 100).toFixed(0);
-      return `<div class="gd-row">
-        <span class="gd-label">${g}</span>
-        <div class="gd-track"><div class="gd-fill" style="width:${w}%"></div></div>
-        <span class="gd-count">${gradeCounts[g].count} MK · ${gradeCounts[g].sks} SKS</span>
-      </div>`;
-    }).join('');
-
-  // Advice
-  let advice;
-  if (ipk >= 3.51) advice = `🏆 Selamat! IPS <strong>${ipk.toFixed(2).replace('.',',')}</strong> — sudah mencapai Cum Laude. Pertahankan konsistensi ini di semester-semester berikutnya!`;
-  else if (ipk >= 3.01) advice = `⭐ IPS <strong>${ipk.toFixed(2).replace('.',',')}</strong> sangat baik! Untuk mencapai Cum Laude (≥3,51), butuh peningkatan ${(3.51 - ipk).toFixed(2).replace('.',',')} poin. Fokus pada mata kuliah ber-SKS besar dan targetkan nilai A lebih banyak.`;
-  else advice = `💪 IPS <strong>${ipk.toFixed(2).replace('.',',')}</strong>. Masih ada ruang untuk berkembang. Gunakan Tab "Target IPK" untuk menghitung berapa nilai yang dibutuhkan agar IPK kumulatif Anda mencapai target.`;
-  document.getElementById('r0-advice').innerHTML = advice;
-
-  buildIPKActionCards(ipk, 'r0-action-cards');
-  document.getElementById('res0').style.display = 'block';
-  document.getElementById('res0').classList.add('show');
-}
-
-/* ── TAB 1: Kumulatif ── */
-function addSemester() {
-  semCount++;
-  const div = document.createElement('div');
-  div.className = 'sem-row';
-  div.id = 'sem-' + semCount;
-  const id = semCount;
-  div.innerHTML = `
-    <div style="display:flex;align-items:center;gap:6px">
-      <span style="font-size:.72rem;color:var(--text-secondary);white-space:nowrap">Sem ${id}</span>
-    </div>
-    <input type="number" placeholder="SKS" min="1" max="30" class="sem-sks" style="font-size:.82rem"/>
-    <div style="display:flex;gap:4px">
-      <input type="number" placeholder="IPS" step="0.01" min="0" max="4" class="sem-ips" style="font-size:.82rem;flex:1"/>
-      <button class="del-btn" style="padding:5px 7px" onclick="document.getElementById('sem-${id}').remove()">×</button>
-    </div>`;
-  document.getElementById('sem-rows').appendChild(div);
-}
-
-function calcKumulatif() {
-  const rows = document.querySelectorAll('.sem-row');
-  let totalSKS = 0, totalMutu = 0, valid = 0;
-  const semData = [];
-
-  rows.forEach((row, i) => {
-    const sks = parseFloat(row.querySelector('.sem-sks').value);
-    const ips = parseFloat(row.querySelector('.sem-ips').value);
-    if (sks && !isNaN(ips)) {
-      totalSKS  += sks;
-      totalMutu += sks * ips;
-      valid++;
-      semData.push({ sem:i+1, sks, ips, mutu:(sks*ips) });
-    }
-  });
-
-  if (valid === 0) return alert('Masukkan minimal satu semester dengan SKS dan IPS.');
-
-  const ipk = totalMutu / totalSKS;
-  const pred = getPredikat(ipk);
-
-  document.getElementById('r1-ipk').textContent = ipk.toFixed(2).replace('.', ',');
-  const b = document.getElementById('r1-badge');
-  b.textContent = pred.text; b.className = 'predikat-badge ' + pred.cls;
-  document.getElementById('r1-sks').textContent = totalSKS + ' SKS';
-  document.getElementById('r1-sem').textContent = valid + ' semester';
-
-  // Table
-  const tbl = document.getElementById('r1-tbl');
-  tbl.innerHTML = '<thead><tr><th>Semester</th><th>SKS</th><th>IPS</th><th>Poin Mutu</th><th>IPK Kumulatif</th></tr></thead>';
-  const tbody = document.createElement('tbody');
-  let cumSKS = 0, cumMutu = 0;
-  semData.forEach(s => {
-    cumSKS  += s.sks;
-    cumMutu += s.mutu;
-    const cumIPK = cumMutu / cumSKS;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>Sem ${s.sem}</td><td>${s.sks}</td><td>${s.ips.toFixed(2).replace('.',',')}</td><td>${s.mutu.toFixed(2)}</td><td style="color:var(--mint);font-weight:600">${cumIPK.toFixed(2).replace('.',',')}</td>`;
-    tbody.appendChild(tr);
-  });
-  const totTr = document.createElement('tr');
-  totTr.innerHTML = `<td>TOTAL</td><td>${totalSKS}</td><td>—</td><td>${totalMutu.toFixed(2)}</td><td style="color:var(--mint)">${ipk.toFixed(2).replace('.',',')}</td>`;
-  tbody.appendChild(totTr);
-  tbl.appendChild(tbody);
-
-  document.getElementById('r1-advice').innerHTML =
-    `📈 IPK kumulatif dari <strong>${valid} semester</strong> = <strong>${ipk.toFixed(2).replace('.',',')}</strong> — ${pred.text}. Total ${totalSKS} SKS dengan ${totalMutu.toFixed(1)} poin mutu.`;
-
-  buildIPKActionCards(ipk, 'r1-action-cards');
-  document.getElementById('res1').style.display = 'block';
-  document.getElementById('res1').classList.add('show');
-}
-
-/* ── TAB 2: Target ── */
-function setTarget(v, btn) {
-  targetIPK = v;
-  document.getElementById('t-target').value = v;
-  document.querySelectorAll('#target-btns .radio-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  autoCalcTarget();
-}
-function autoCalcTarget() {
-  const a = document.getElementById('t-ipk-now').value;
-  const b = document.getElementById('t-sks-done').value;
-  const c = document.getElementById('t-sks-left').value;
-  if (a && b && c) calcTarget();
-}
-
-function calcTarget() {
-  const ipkNow  = parseFloat(document.getElementById('t-ipk-now').value)  || 0;
-  const sksDone = parseFloat(document.getElementById('t-sks-done').value) || 0;
-  const sksLeft = parseFloat(document.getElementById('t-sks-left').value) || 0;
-  targetIPK     = parseFloat(document.getElementById('t-target').value)   || 3.51;
-
-  // Mutu yang sudah terkumpul
-  const mutuDone   = ipkNow * sksDone;
-  // Total mutu yang diperlukan
-  const mutuNeeded = targetIPK * (sksDone + sksLeft);
-  // Mutu tambahan yang diperlukan dari sisa SKS
-  const mutuExtra  = mutuNeeded - mutuDone;
-  // IPS rata-rata yang diperlukan untuk sisa SKS
-  const ipsNeeded  = sksLeft > 0 ? mutuExtra / sksLeft : null;
-
-  document.getElementById('t-now-out').textContent     = ipkNow.toFixed(2).replace('.',',');
-  document.getElementById('t-target-out').textContent  = targetIPK.toFixed(2).replace('.',',');
-  document.getElementById('t-sks-done-out').textContent = sksDone + ' SKS';
-  document.getElementById('t-sks-left-out').textContent = sksLeft + ' SKS';
-  document.getElementById('t-mutu-needed').textContent  = mutuExtra.toFixed(2) + ' poin mutu';
-
-  let adviceText;
-  if (ipsNeeded === null) {
-    document.getElementById('t-needed-ipk').textContent = '—';
-    adviceText = 'Masukkan sisa SKS yang akan ditempuh.';
-  } else if (ipsNeeded > 4.0) {
-    document.getElementById('t-needed-ipk').textContent = 'Tidak Mungkin Dicapai';
-    document.getElementById('t-needed-ipk').style.color = '#f87171';
-    adviceText = `⚠️ Target IPK <strong>${targetIPK.toFixed(2).replace('.',',')}</strong> tidak bisa dicapai dari posisi sekarang. Diperlukan IPS <strong>${ipsNeeded.toFixed(2).replace('.',',')}</strong> untuk sisa ${sksLeft} SKS, namun nilai tertinggi hanya 4,00. Pertimbangkan target yang lebih realistis.`;
-  } else {
-    document.getElementById('t-needed-ipk').textContent = 'IPS ≥ ' + ipsNeeded.toFixed(2).replace('.',',');
-    document.getElementById('t-needed-ipk').style.color = '';
-    const pred = getPredikat(ipsNeeded);
-    adviceText = `🎯 Untuk mencapai IPK <strong>${targetIPK.toFixed(2).replace('.',',')}</strong>, Anda perlu rata-rata IPS <strong>${ipsNeeded.toFixed(2).replace('.',',')}</strong> untuk sisa <strong>${sksLeft} SKS</strong>. ${ipsNeeded >= 3.51 ? 'Ini setara dengan hampir semua nilai A — challenging tapi bisa!' : ipsNeeded >= 3.0 ? 'Ini berarti mayoritas nilai A dan B+ — realistis dengan kerja keras!' : 'Target yang cukup terjangkau dengan konsistensi belajar.'}`;
-  }
-  document.getElementById('t-advice').innerHTML = adviceText;
-
-  if (ipsNeeded !== null && ipsNeeded <= 4.0) {
-    const sksDoneVal = parseFloat(document.getElementById('t-sks-done').value)||0;
-    buildTargetScenario(ipkNow, sksDoneVal, targetIPK);
-    buildTargetActionCards(ipsNeeded, targetIPK, ipkNow);
-  }
-  document.getElementById('res2').style.display = 'block';
-  document.getElementById('res2').classList.add('show');
-}
-
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-
-// Init: 5 default courses
-window.addEventListener('DOMContentLoaded', () => {
-  for (let i = 0; i < 5; i++) addCourse();
-  for (let i = 0; i < 3; i++) addSemester();
 });
+document.querySelectorAll('.pb[data-for]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+['tg-ipk-now','tg-sks-done','tg-ipk-target','tg-sks-left'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcTarget));
+renderIPS();renderIPK();renderKonversi();calcTarget();
 </script>
 </body>
 </html>

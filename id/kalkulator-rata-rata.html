@@ -1,342 +1,381 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Rata-rata — Hitung Mean, Median, Modus & Statistik | NovaCalcs</title>
-<meta name="description" content="Hitung rata-rata (mean), median, modus, standar deviasi dari sekumpulan angka. Lihat distribusi data, deteksi outlier, dan bandingkan dua set data sekaligus."/>
-<meta name="keywords" content="kalkulator rata-rata, hitung mean, median, modus, statistik dasar, standar deviasi, outlier, distribusi data"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-rata-rata.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-rata-rata.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.num-pills{display:flex;flex-wrap:wrap;gap:6px;min-height:32px;padding:6px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
-.pill{display:flex;align-items:center;gap:4px;background:rgba(0,201,177,.15);border:1px solid rgba(0,201,177,.3);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;color:#00C9B1}
-.pill.outlier-pill{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:#ef4444}
-.pill-del{cursor:pointer;color:rgba(0,201,177,.5);font-size:14px;line-height:1}
-.pill-del:hover{color:#f87171}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stat-box{background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
-.stat-box .sb-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.stat-box .sb-val{font-size:1.2rem;font-weight:700;color:var(--mint)}
-.histo-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:70px;margin:.5rem 0}
-.histo-bar{flex:1;background:#00C9B1;border-radius:3px 3px 0 0;min-width:8px;transition:height .4s;position:relative;cursor:default}
-.histo-bar:hover{opacity:.8}
-.histo-bar .hb-tip{display:none;position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-size:.65rem;background:#0d1b2a;color:#00C9B1;padding:1px 4px;border-radius:3px;white-space:nowrap}
-.histo-bar:hover .hb-tip{display:block}
-.histo-labels{display:flex;gap:3px;margin-top:3px}
-.histo-label{flex:1;font-size:.6rem;color:#6b7c8d;text-align:center;min-width:8px}
-.cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.cmp-stat{background:rgba(255,255,255,.04);border-radius:8px;padding:.6rem;text-align:center;font-size:.83rem}
-.cmp-stat .cst-label{font-size:.72rem;color:#8fa3b1;margin-bottom:.2rem}
-.cmp-stat .cst-val{font-size:.95rem;font-weight:700}
-.outlier-note{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:.6rem;font-size:.8rem;margin-top:.5rem;color:#f87171}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Rata-rata 2026 — Mean, Median, Modus, Standar Deviasi | NovaCalcs</title>
+  <meta name="description" content="Kalkulator rata-rata 2026: hitung mean, median, modus, range, varians, dan standar deviasi dari kumpulan data. Lengkap dengan rata-rata berbobot (weighted average). Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-rata-rata">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--indigo:#4f46e5;--indigo-l:#eef2ff}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--indigo);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--indigo-l);color:var(--indigo);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--indigo-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--indigo);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input,.big-inp{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .big-inp{font-size:16px;padding:12px 14px}
+    .big-inp:focus,.iw input:focus{border-color:var(--indigo)}
+    /* STAT GRID */
+    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    .stat-grid.g2{grid-template-columns:1fr 1fr}
+    @media(max-width:420px){.stat-grid{grid-template-columns:1fr 1fr}}
+    .stat-card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);padding:12px;text-align:center}
+    .stat-card.highlight{border-color:var(--indigo);background:var(--indigo-l)}
+    .stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}
+    .stat-card.highlight .stat-lbl{color:var(--indigo)}
+    .stat-val{font-family:'DM Mono',monospace;font-size:18px;font-weight:800;color:var(--indigo)}
+    /* LRES */
+    .lres{background:var(--indigo-l);border:1.5px solid #c7d2fe;border-radius:var(--r);padding:14px;margin-top:14px}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06);gap:8px}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700;text-align:right}
+    /* DATA PILLS */
+    .data-pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;min-height:32px}
+    .data-pill{background:var(--indigo-l);border:1.5px solid var(--indigo);border-radius:20px;padding:3px 10px;font-size:12px;font-family:'DM Mono',monospace;font-weight:700;color:var(--indigo);display:flex;align-items:center;gap:4px}
+    .data-pill.median-pill{background:#dcfce7;border-color:#16a34a;color:#16a34a}
+    .data-pill.mean-pill{background:var(--pri-l);border-color:var(--pri);color:var(--pri)}
+    .data-pill button{background:none;border:none;cursor:pointer;font-size:11px;color:inherit;padding:0;line-height:1}
+    /* DOT PLOT */
+    .dot-plot{margin:14px 0;background:var(--sur2);border-radius:var(--rs);padding:12px;overflow-x:auto}
+    .dp-inner{display:flex;align-items:flex-end;gap:4px;min-height:60px}
+    .dp-col{display:flex;flex-direction:column;align-items:center;gap:2px}
+    .dp-dot{width:12px;height:12px;border-radius:50%;background:var(--indigo);flex-shrink:0}
+    .dp-lbl{font-size:9px;font-family:'DM Mono',monospace;font-weight:700;color:var(--tx3);margin-top:2px}
+    /* WEIGHTED TABLE */
+    .wt-wrap{border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;margin-bottom:14px}
+    .wt-head{background:var(--sur2);display:grid;grid-template-columns:2fr 1fr 1fr 36px;gap:6px;padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .wt-row{display:grid;grid-template-columns:2fr 1fr 1fr 36px;gap:6px;padding:8px 14px;border-bottom:1px solid var(--bor);align-items:center;font-size:12px}
+    .wt-row:last-child{border-bottom:none}
+    .wt-inp{padding:5px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:12px;font-weight:700;background:var(--sur);outline:none;width:100%;appearance:none}
+    .wt-inp:focus{border-color:var(--indigo)}
+    .wt-del{background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);padding:3px;border-radius:4px}
+    .wt-del:hover{color:var(--red);background:var(--red-b)}
+    .add-btn{padding:7px 14px;border:1.5px dashed var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);width:100%;transition:all .15s}
+    .add-btn:hover{border-color:var(--indigo);color:var(--indigo)}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:var(--indigo-l);border-color:#c7d2fe;color:var(--indigo)}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--indigo)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--indigo)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--indigo-l);color:var(--indigo)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#matematika">Matematika</a><span class="breadcrumb-sep">›</span>
-      <span>Kalkulator Rata-rata</span>
-    </nav>
-  </div>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Rata-rata</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">📊 Statistik Dasar</div>
+  <h1 class="hdr-h1">Kalkulator Rata-rata 2026</h1>
+  <p class="hdr-sub">Hitung mean (rata-rata), median, modus, range, varians, dan standar deviasi dari sekumpulan angka. Juga tersedia rata-rata berbobot (weighted average).</p>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">📊 Kalkulator Rata-rata &amp; Statistik</div>
-      <div class="calc-subtitle">Mean, median, modus, distribusi, dan perbandingan data</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-statistik',this)">📈 Statistik</button>
-        <button class="tab-btn" onclick="showTab('tab-distribusi',this)">📊 Distribusi</button>
-        <button class="tab-btn" onclick="showTab('tab-banding',this)">⚖️ Bandingkan</button>
-      </div>
+<main class="main">
+<div class="left-col">
 
-      <!-- TAB 1: STATISTIK -->
-      <div id="tab-statistik" class="tab-pane active">
-        <div class="field">
-          <label>Masukkan Angka</label>
-          <div id="pills" class="num-pills"></div>
-          <div style="display:flex;gap:8px">
-            <input type="number" id="num-input" placeholder="Ketik angka, tekan Enter" step="any" style="flex:1"/>
-            <button onclick="addNum()" style="background:#00C9B1;color:#001a17;padding:0 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap">+ Tambah</button>
-          </div>
-          <div style="font-size:.75rem;color:#6b7c8d;margin-top:4px">Atau tempel beberapa angka sekaligus dipisah koma: <em>80, 75, 90, 85</em></div>
-          <div style="display:flex;gap:.5rem;margin-top:8px">
-            <input type="text" id="bulk-input" placeholder="80, 75, 90, 85, 70" style="flex:1;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text-primary);font-size:13px"/>
-            <button onclick="addBulk()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:0 12px;color:#8fa3b1;cursor:pointer;font-size:.8rem;white-space:nowrap">Tambah</button>
-          </div>
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:12px">
-          <button onclick="calculate()" style="flex:1;background:#00C9B1;color:#001a17;padding:12px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px">Hitung Statistik</button>
-          <button onclick="clearAll()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;color:#8fa3b1;cursor:pointer;font-size:12px">Hapus Semua</button>
-        </div>
+<div class="card">
+  <div class="card-h"><div class="card-ico">📊</div>Kalkulator Rata-rata & Statistik</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="stat">📊 Statistik Data</button>
+      <button class="tbtn" data-tab="weighted">⚖️ Rata-rata Berbobot</button>
+    </div>
 
-        <div class="result-panel" id="result">
-          <div class="stat-grid" id="stat-grid"></div>
-          <div class="result-rows" id="extra-rows" style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px"></div>
-          <div id="outlier-note"></div>
+    <!-- STATISTIK DATA -->
+    <div class="tpanel on" id="tab-stat">
+      <div class="fld">
+        <label>Masukkan Data (pisahkan dengan koma atau spasi)</label>
+        <textarea id="data-input" class="big-inp" rows="3" placeholder="Contoh: 10, 20, 15, 25, 30, 20, 18" oninput="calcStats()" style="resize:vertical;line-height:1.6">4, 8, 15, 16, 23, 42, 8, 15, 16, 4</textarea>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+          <button onclick="loadSample('nilai')" style="padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;background:none;color:var(--tx2)">📝 Contoh nilai ujian</button>
+          <button onclick="loadSample('suhu')" style="padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;background:none;color:var(--tx2)">🌡️ Contoh suhu</button>
+          <button onclick="loadSample('random')" style="padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;background:none;color:var(--tx2)">🎲 Data acak</button>
         </div>
       </div>
 
-      <!-- TAB 2: DISTRIBUSI -->
-      <div id="tab-distribusi" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.6rem">Masukkan data di Tab Statistik terlebih dahulu, lalu lihat distribusinya di sini.</p>
-        <button class="calc-btn" onclick="showDistribusi()">Tampilkan Distribusi Data</button>
-        <div id="dist-result" style="display:none;margin-top:1rem">
-          <div style="font-size:.8rem;font-weight:600;color:#8fa3b1;margin-bottom:.35rem">Histogram Distribusi</div>
-          <div class="histo-bar-wrap" id="histo-bars"></div>
-          <div class="histo-labels" id="histo-labels"></div>
-          <div id="dist-stats" style="margin-top:.75rem"></div>
-        </div>
+      <div class="sec-lbl">Data Terurut</div>
+      <div class="data-pills" id="data-pills"></div>
+
+      <div class="stat-grid">
+        <div class="stat-card highlight"><div class="stat-lbl">Mean (Rata-rata)</div><div class="stat-val" id="s-mean">—</div></div>
+        <div class="stat-card highlight"><div class="stat-lbl">Median (Nilai Tengah)</div><div class="stat-val" id="s-median">—</div></div>
+        <div class="stat-card highlight"><div class="stat-lbl">Modus (Sering Muncul)</div><div class="stat-val" id="s-modus">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Nilai Min</div><div class="stat-val" id="s-min">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Nilai Max</div><div class="stat-val" id="s-max">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Range (Max−Min)</div><div class="stat-val" id="s-range">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Jumlah Data (n)</div><div class="stat-val" id="s-n">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Jumlah (Σ)</div><div class="stat-val" id="s-sum">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Std. Deviasi (σ)</div><div class="stat-val" id="s-std">—</div></div>
       </div>
 
-      <!-- TAB 3: BANDINGKAN -->
-      <div id="tab-banding" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.6rem">Bandingkan dua set data untuk melihat perbedaan statistiknya.</p>
-        <div class="field">
-          <label>Set Data A (pisah koma)</label>
-          <input type="text" id="cmp-a" placeholder="Contoh: 80, 75, 90, 85, 70" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text-primary);font-size:13px"/>
-        </div>
-        <div class="field">
-          <label>Set Data B (pisah koma)</label>
-          <input type="text" id="cmp-b" placeholder="Contoh: 70, 65, 80, 75, 60" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text-primary);font-size:13px"/>
-        </div>
-        <button class="calc-btn" onclick="compareData()">Bandingkan</button>
-        <div id="cmp-result" style="display:none;margin-top:1rem">
-          <div id="cmp-summary" style="border-radius:10px;padding:.85rem;font-size:.88rem;margin-bottom:.75rem;line-height:1.5"></div>
-          <div class="cmp-grid" id="cmp-table"></div>
+      <div class="sec-lbl">📊 Visualisasi Dot Plot</div>
+      <div class="dot-plot" id="dot-plot"></div>
+
+      <div class="lres">
+        <div class="rrows">
+          <div class="rr"><span>Mean (rata-rata)</span><span id="sr-mean">—</span></div>
+          <div class="rr"><span>Median</span><span id="sr-median">—</span></div>
+          <div class="rr"><span>Modus</span><span id="sr-modus">—</span></div>
+          <div class="rr"><span>Varians (σ²)</span><span id="sr-var">—</span></div>
+          <div class="rr"><span>Std. Deviasi (σ)</span><span id="sr-std">—</span></div>
+          <div class="rr"><span>Koef. variasi (CV)</span><span id="sr-cv">—</span></div>
+          <div class="rr"><span>Q1 (kuartil bawah)</span><span id="sr-q1">—</span></div>
+          <div class="rr"><span>Q3 (kuartil atas)</span><span id="sr-q3">—</span></div>
+          <div class="rr"><span>IQR (Q3−Q1)</span><span id="sr-iqr">—</span></div>
         </div>
       </div>
+    </div>
 
+    <!-- RATA-RATA BERBOBOT -->
+    <div class="tpanel" id="tab-weighted">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Rata-rata berbobot digunakan ketika setiap nilai memiliki "pentingnya" berbeda. Contoh: nilai ujian dengan SKS berbeda, atau IPK dengan bobot SKS.</p>
+      <div class="wt-wrap">
+        <div class="wt-head"><span>Keterangan</span><span>Nilai</span><span>Bobot</span><span></span></div>
+        <div id="wt-rows"></div>
+      </div>
+      <button class="add-btn" onclick="addWTRow()">＋ Tambah Baris</button>
+
+      <div class="stat-grid g2" style="margin-top:14px">
+        <div class="stat-card highlight"><div class="stat-lbl">Rata-rata Berbobot</div><div class="stat-val" id="wt-result">—</div></div>
+        <div class="stat-card"><div class="stat-lbl">Rata-rata Biasa (tanpa bobot)</div><div class="stat-val" id="wt-plain">—</div></div>
+      </div>
+
+      <div class="lres">
+        <div class="rrows">
+          <div class="rr"><span>Jumlah data</span><span id="wt-r1">—</span></div>
+          <div class="rr"><span>Total bobot</span><span id="wt-r2">—</span></div>
+          <div class="rr"><span>Jumlah (nilai × bobot)</span><span id="wt-r3">—</span></div>
+          <div class="rr"><span>Rata-rata berbobot</span><span id="wt-r4">—</span></div>
+          <div class="rr"><span>Selisih vs rata-rata biasa</span><span id="wt-r5">—</span></div>
+        </div>
+      </div>
+      <div class="notice info" style="margin-top:10px">💡 Contoh penggunaan: Nilai ujian 85 (bobot 40%) + Nilai tugas 90 (bobot 30%) + Nilai UAS 78 (bobot 30%) = rata-rata berbobot yang berbeda dari rata-rata biasa (85+90+78)/3.</div>
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator Rata-rata Online — Hitung Mean, Median, Modus &amp; Statistik</h1>
-    <p class="page-desc">Hitung rata-rata (mean), nilai tengah (median), modus, standar deviasi, dan statistik dasar lainnya dari sekumpulan angka. Masukkan data satu per satu atau tempel langsung dari spreadsheet. Tersedia juga visualisasi distribusi dan perbandingan dua set data.</p>
+</div><!-- /left-col -->
 
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Apa itu Mean, Median, dan Modus?</h2>
-    <p>Ketiga ukuran ini disebut <strong>ukuran pemusatan data</strong> (measures of central tendency) dalam statistik. <strong>Mean</strong> (rata-rata aritmatika) adalah jumlah semua nilai dibagi banyak data — cara paling umum meringkas data, namun sensitif terhadap nilai ekstrem (outlier). <strong>Median</strong> adalah nilai tengah ketika data diurutkan — lebih tahan terhadap outlier, cocok untuk data gaji atau harga properti yang distribusinya miring. <strong>Modus</strong> adalah nilai yang paling sering muncul — berguna untuk mengetahui nilai yang paling umum/populer.</p>
-
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li><strong>Tab Statistik:</strong> Ketik angka satu per satu (tekan Enter) atau tempel sekaligus dipisah koma. Semua statistik dihitung otomatis termasuk outlier detection.</li>
-      <li><strong>Tab Distribusi:</strong> Setelah memasukkan data, lihat histogram distribusi dan analisis bentuk distribusinya.</li>
-      <li><strong>Tab Bandingkan:</strong> Masukkan dua set data untuk membandingkan mean, median, standar deviasi, dan statistik lainnya secara berdampingan.</li>
-    </ol>
-
-    <h2>Rumus Perhitungan Statistik</h2>
-    <table>
-      <tr><th>Ukuran</th><th>Rumus</th><th>Keterangan</th></tr>
-      <tr><td>Mean (x̄)</td><td>Σx ÷ n</td><td>Jumlah semua nilai dibagi banyak data</td></tr>
-      <tr><td>Median</td><td>Nilai ke-(n+1)/2 (ganjil) atau rata-rata dua nilai tengah (genap)</td><td>Setelah data diurutkan</td></tr>
-      <tr><td>Modus</td><td>Nilai dengan frekuensi tertinggi</td><td>Bisa lebih dari satu</td></tr>
-      <tr><td>Standar Deviasi (σ)</td><td>√(Σ(x − x̄)² ÷ n)</td><td>Standar deviasi populasi</td></tr>
-      <tr><td>Rentang</td><td>Nilai maks − Nilai min</td><td>Jangkauan data</td></tr>
-    </table>
-
-    <h2>Kapan Menggunakan Mean, Median, atau Modus?</h2>
-    <table>
-      <tr><th>Situasi</th><th>Ukuran yang Tepat</th><th>Alasan</th></tr>
-      <tr><td>Nilai ujian kelas</td><td>Mean</td><td>Distribusi biasanya normal</td></tr>
-      <tr><td>Gaji karyawan perusahaan</td><td>Median</td><td>Ada outlier (direktur gaji sangat tinggi)</td></tr>
-      <tr><td>Harga rumah di suatu area</td><td>Median</td><td>Distribusi miring, beberapa rumah sangat mahal</td></tr>
-      <tr><td>Ukuran sepatu paling laku</td><td>Modus</td><td>Ingin tahu yang paling umum/populer</td></tr>
-      <tr><td>Suhu harian satu bulan</td><td>Mean</td><td>Distribusi cenderung normal</td></tr>
-    </table>
-
-    <h2>Standar Deviasi: Mengukur Konsistensi Data</h2>
-    <p>Standar deviasi (SD) mengukur seberapa tersebar data dari nilai rata-rata. SD kecil berarti data konsisten mendekati rata-rata — misalnya nilai ujian kelas dengan SD 5 artinya sebagian besar siswa dapat nilai dalam rentang ±5 dari rata-rata. SD besar berarti data sangat bervariasi. Dalam investasi, reksa dana dengan return rata-rata 15%/tahun tapi SD 30% jauh lebih berisiko dari deposito dengan return 5% dan SD mendekati 0%.</p>
-
-    <h2>Contoh Perhitungan Lengkap</h2>
-    <p>Nilai ujian 7 siswa: <strong>70, 85, 75, 90, 80, 75, 65</strong>. Data terurut: 65, 70, 75, 75, 80, 85, 90. Mean = 540 ÷ 7 = <strong>77,14</strong>. Median = nilai ke-4 = <strong>75</strong>. Modus = <strong>75</strong> (muncul 2 kali). Rentang = 90 − 65 = <strong>25</strong>.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa perbedaan mean dan average?</div>
-    <div class="faq-a">Mean dan average mengacu pada hal yang sama dalam penggunaan sehari-hari: jumlah semua nilai dibagi banyaknya data. Dalam statistik formal, "mean" bisa lebih spesifik — ada arithmetic mean, geometric mean, dan harmonic mean. Yang paling umum dan yang dihitung kalkulator ini adalah arithmetic mean (rata-rata aritmatika).</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana cara menghitung median untuk data genap?</div>
-    <div class="faq-a">Urutkan data, lalu ambil rata-rata dua nilai di tengah. Contoh: data {3, 7, 12, 20} — dua nilai tengah adalah 7 dan 12, jadi median = (7+12)/2 = 9,5. Median tidak harus sama dengan salah satu nilai dalam data.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu standar deviasi populasi vs sampel?</div>
-    <div class="faq-a">Standar deviasi populasi (σ) dibagi dengan n — digunakan ketika data yang Anda punya adalah seluruh populasi. Standar deviasi sampel (s) dibagi dengan n−1 — digunakan ketika data adalah sampel dari populasi yang lebih besar. Kalkulator ini menggunakan standar deviasi populasi (σ).</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bisakah data memiliki lebih dari satu modus?</div>
-    <div class="faq-a">Ya! Data {2, 3, 3, 5, 5, 7} memiliki dua modus: 3 dan 5 (disebut bimodal). Data {1, 2, 3, 4} tidak memiliki modus karena semua nilai muncul sekali. Kalkulator ini menampilkan semua nilai dengan frekuensi tertinggi.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu outlier dan bagaimana cara mendeteksinya?</div>
-    <div class="faq-a">Outlier adalah nilai yang jauh berbeda dari kebanyakan data. Metode umum mendeteksi outlier adalah dengan IQR (Interquartile Range): nilai di bawah Q1 − 1,5×IQR atau di atas Q3 + 1,5×IQR dianggap outlier. Kalkulator ini menandai outlier dengan warna merah dan memberikan peringatan agar Anda bisa memverifikasi apakah nilai tersebut valid atau kesalahan input.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kapan median lebih baik dari mean?</div>
-    <div class="faq-a">Median lebih baik ketika data memiliki outlier ekstrem atau distribusinya sangat miring. Contoh klasik: gaji karyawan — jika ada satu direktur bergaji Rp 100 juta sementara 9 karyawan lain bergaji Rp 5 juta, mean = Rp 14,5 juta (tidak mewakili kebanyakan karyawan), tapi median = Rp 5 juta (lebih mewakili realita). Inilah mengapa BPS dan media lebih sering menyebut "gaji median" untuk gambaran yang lebih akurat.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-persen.html" class="related-item"><span class="ri">%</span>Kalkulator Persen</a>
-      <a href="/id/kalkulator-nilai.html" class="related-item"><span class="ri">📝</span>Kalkulator Nilai</a>
-      <a href="/id/kalkulator-ipk.html" class="related-item"><span class="ri">🎓</span>Kalkulator IPK</a>
-      <a href="/id/kalkulator-proporsi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator Proporsi</a>
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Definisi Ukuran Statistik</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow" style="background:var(--indigo-l)"><div class="frl"><div class="fdot" style="background:var(--indigo)"></div><div><div class="fn">Mean</div><div class="fron">Jumlah dibagi banyak data</div></div></div></div>
+        <div class="frow" style="background:var(--indigo-l)"><div class="frl"><div class="fdot" style="background:#8b5cf6"></div><div><div class="fn">Median</div><div class="fron">Nilai tengah data terurut</div></div></div></div>
+        <div class="frow" style="background:var(--indigo-l)"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Modus</div><div class="fron">Nilai paling sering muncul</div></div></div></div>
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Std. Deviasi</div><div class="fron">Ukuran sebaran data</div></div></div></div>
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">IQR</div><div class="fron">Kuartil 3 minus Kuartil 1</div></div></div></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Kapan Pakai Mean vs Median?</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>Pakai Mean</strong> jika data terdistribusi simetris tanpa outlier ekstrem — contoh: nilai ujian kelas</span></div>
+        <div class="tip"><span class="tpico">📍</span><span class="tptx"><strong>Pakai Median</strong> jika ada outlier ekstrem — contoh: median gaji kota lebih merepresentasikan rata-rata orang dibanding mean</span></div>
+        <div class="tip"><span class="tpico">🔄</span><span class="tptx"><strong>Pakai Modus</strong> untuk data kategorikal atau melihat nilai paling umum — contoh: ukuran baju paling laku</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-ipk" class="relc"><div class="relc-ico">🎓</div><div class="relc-nm">IPK</div><div class="relc-ds">Kalkulator IPK</div></a>
+        <a href="/id/kalkulator-nilai" class="relc"><div class="relc-ico">📝</div><div class="relc-nm">Nilai</div><div class="relc-ds">Hitung nilai</div></a>
+        <a href="/id/kalkulator-proporsi" class="relc"><div class="relc-ico">⚖️</div><div class="relc-nm">Proporsi</div><div class="relc-ds">Rasio & perbandingan</div></a>
+        <a href="/id/kalkulator-persen" class="relc"><div class="relc-ico">%</div><div class="relc-nm">Persen</div><div class="relc-ds">Kalkulator %</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Cara Menghitung Mean, Median, dan Modus</h2>
+  <p>Mean (rata-rata aritmetika) dihitung dengan menjumlahkan semua data lalu membaginya dengan banyak data. Median adalah nilai tengah setelah data diurutkan (jika data genap, median = rata-rata dua nilai tengah). Modus adalah nilai yang paling sering muncul dalam kumpulan data.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa itu standar deviasi dan mengapa penting?</div><div class="faq-a">Standar deviasi (σ) mengukur seberapa "tersebar" data dari nilai mean-nya. Standar deviasi kecil berarti data berkumpul dekat mean (konsisten). Standar deviasi besar berarti data sangat beragam. Contoh: dua kelas dengan nilai rata-rata 75, tapi kelas A memiliki σ=5 (nilai 70–80 semua) dan kelas B memiliki σ=20 (ada yang 40 dan ada yang 100). Keduanya memiliki mean sama tapi distribusi sangat berbeda.</div></div>
+  <div class="faq-i"><div class="faq-q">Kapan rata-rata berbobot digunakan?</div><div class="faq-a">Rata-rata berbobot digunakan ketika tidak semua data memiliki "kepentingan" yang sama. Contoh: IPK mahasiswa menggunakan rata-rata berbobot dengan SKS sebagai bobot — mata kuliah 4 SKS punya pengaruh 2× lebih besar pada IPK dibanding mata kuliah 2 SKS. Contoh lain: portofolio investasi, rata-rata suhu cuaca, dan penilaian yang menggabungkan beberapa komponen dengan persentase berbeda.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-let numbers = [];
 
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+<script>
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t;}
+function fmt(n){return isFinite(n)?parseFloat(n.toPrecision(10)).toLocaleString('id-ID',{maximumFractionDigits:6}):'—';}
+
+function parseData(raw){
+  return raw.split(/[\s,;]+/).map(s=>parseFloat(s.trim())).filter(n=>isFinite(n));
 }
 
-function getStats(nums) {
-  const n = nums.length;
-  if (!n) return null;
-  const sorted = [...nums].sort((a,b) => a-b);
-  const sum    = nums.reduce((a,b) => a+b, 0);
-  const mean   = sum / n;
-  const median = n%2===0 ? (sorted[n/2-1]+sorted[n/2])/2 : sorted[Math.floor(n/2)];
-  const freq   = {}; nums.forEach(v => freq[v]=(freq[v]||0)+1);
-  const maxF   = Math.max(...Object.values(freq));
-  const modes  = maxF===1 ? null : Object.entries(freq).filter(([,f])=>f===maxF).map(([v])=>+v);
-  const variance = nums.reduce((a,v) => a+Math.pow(v-mean,2), 0) / n;
-  const stdDev = Math.sqrt(variance);
-  // IQR outlier detection
-  const q1 = sorted[Math.floor(n*0.25)], q3 = sorted[Math.floor(n*0.75)];
-  const iqr = q3 - q1;
-  const outliers = nums.filter(v => v < q1-1.5*iqr || v > q3+1.5*iqr);
-  return {n, sorted, sum, mean, median, modes, stdDev, variance, q1, q3, iqr, outliers, maxF, freq};
+function calcStats(){
+  const raw=document.getElementById('data-input')?.value||'';
+  const data=parseData(raw);
+  if(data.length===0){renderPills([]);return;}
+  const sorted=[...data].sort((a,b)=>a-b);
+  const n=data.length,sum=data.reduce((a,b)=>a+b,0),mean=sum/n;
+  // median
+  let median;
+  if(n%2===1)median=sorted[Math.floor(n/2)];
+  else median=(sorted[n/2-1]+sorted[n/2])/2;
+  // modus
+  const freq={};sorted.forEach(x=>{freq[x]=(freq[x]||0)+1;});
+  const maxFreq=Math.max(...Object.values(freq));
+  const modus=Object.keys(freq).filter(k=>freq[k]===maxFreq).map(Number);
+  // variance & std
+  const variance=data.reduce((a,x)=>a+Math.pow(x-mean,2),0)/n;
+  const std=Math.sqrt(variance);
+  // quartiles
+  const q1idx=Math.floor(n/4);const q3idx=Math.floor(3*n/4);
+  const q1=sorted[q1idx],q3=sorted[q3idx],iqr=q3-q1;
+  const cv=mean!==0?std/Math.abs(mean)*100:0;
+
+  set('s-mean',fmt(mean));set('s-median',fmt(median));
+  set('s-modus',modus.length<=3?modus.join(', '):'Beragam');
+  set('s-min',fmt(sorted[0]));set('s-max',fmt(sorted[n-1]));
+  set('s-range',fmt(sorted[n-1]-sorted[0]));
+  set('s-n',n);set('s-sum',fmt(sum));set('s-std',fmt(std));
+  set('sr-mean',fmt(mean));set('sr-median',fmt(median));
+  set('sr-modus',modus.length<=3?modus.join(', '):'Beragam');
+  set('sr-var',fmt(variance));set('sr-std',fmt(std));set('sr-cv',fmt(cv)+'%');
+  set('sr-q1',fmt(q1));set('sr-q3',fmt(q3));set('sr-iqr',fmt(iqr));
+
+  renderPills(sorted,mean,median);
+  renderDotPlot(sorted,mean,median);
 }
 
-function addNum() {
-  const v = parseFloat(document.getElementById('num-input').value);
-  if (isNaN(v)) return;
-  numbers.push(v); document.getElementById('num-input').value = '';
-  renderPills(); if (numbers.length >= 2) calculate();
-}
-function addBulk() {
-  const parts = document.getElementById('bulk-input').value.split(/[,;\s]+/).map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
-  if (!parts.length) { alert('Masukkan angka yang valid, pisahkan dengan koma.'); return; }
-  numbers.push(...parts); document.getElementById('bulk-input').value = '';
-  renderPills(); if (numbers.length >= 2) calculate();
-}
-function removePill(idx) { numbers.splice(idx,1); renderPills(); if(numbers.length>=2) calculate(); else document.getElementById('result').classList.remove('show'); }
-function clearAll() { numbers=[]; renderPills(); document.getElementById('result').classList.remove('show'); }
-
-function renderPills() {
-  const st = numbers.length ? getStats(numbers) : null;
-  const outlierSet = st ? new Set(st.outliers) : new Set();
-  document.getElementById('pills').innerHTML = numbers.map((n,i) =>
-    `<div class="pill${outlierSet.has(n)?'  outlier-pill':''}">${n}<span class="pill-del" onclick="removePill(${i})">×</span></div>`
-  ).join('') || '<span style="font-size:11px;color:var(--text-muted);padding:4px">Belum ada angka</span>';
+function renderPills(sorted,mean,median){
+  const wrap=document.getElementById('data-pills');if(!wrap)return;
+  wrap.innerHTML=sorted.map(x=>{
+    let cls='data-pill';
+    if(x===median)cls+=' median-pill';
+    if(Math.abs(x-mean)<0.001)cls+=' mean-pill';
+    return`<div class="${cls}">${x}</div>`;
+  }).join('')+(sorted.length===0?'<span style="color:var(--tx3);font-size:12px">Masukkan angka di atas</span>':'');
 }
 
-const fmt = v => parseFloat(v.toPrecision(6)).toLocaleString('id-ID', {maximumFractionDigits:4});
-
-function calculate() {
-  if (!numbers.length) { alert('Masukkan minimal 1 angka.'); return; }
-  const st = getStats(numbers);
-  document.getElementById('stat-grid').innerHTML = `
-    <div class="stat-box"><div class="sb-label">Mean (Rata-rata)</div><div class="sb-val">${fmt(st.mean)}</div></div>
-    <div class="stat-box"><div class="sb-label">Median</div><div class="sb-val">${fmt(st.median)}</div></div>
-    <div class="stat-box"><div class="sb-label">Modus</div><div class="sb-val" style="font-size:.95rem">${st.modes ? st.modes.join(', ') : 'Tidak ada'}</div></div>
-    <div class="stat-box"><div class="sb-label">Std. Deviasi</div><div class="sb-val">${fmt(st.stdDev)}</div></div>`;
-  document.getElementById('extra-rows').innerHTML = `
-    <div class="result-row"><span class="rkey">Jumlah data (n)</span><span class="rval">${st.n}</span></div>
-    <div class="result-row"><span class="rkey">Total jumlah</span><span class="rval">${fmt(st.sum)}</span></div>
-    <div class="result-row"><span class="rkey">Nilai tertinggi</span><span class="rval">${st.sorted[st.n-1]}</span></div>
-    <div class="result-row"><span class="rkey">Nilai terendah</span><span class="rval">${st.sorted[0]}</span></div>
-    <div class="result-row"><span class="rkey">Rentang</span><span class="rval">${fmt(st.sorted[st.n-1]-st.sorted[0])}</span></div>
-    <div class="result-row"><span class="rkey">Data terurut</span><span class="rval" style="font-size:11px">${st.sorted.join(', ')}</span></div>`;
-  const note = document.getElementById('outlier-note');
-  if (st.outliers.length) {
-    note.innerHTML = `<div class="outlier-note">⚠️ Terdeteksi <strong>${st.outliers.length} outlier</strong> (ditandai merah): ${st.outliers.join(', ')}. Nilai ini jauh dari rata-rata — pastikan data sudah benar.</div>`;
-  } else { note.innerHTML = ''; }
-  document.getElementById('result').classList.add('show');
-  renderPills();
+function renderDotPlot(sorted,mean,median){
+  const wrap=document.getElementById('dot-plot');if(!wrap)return;
+  const freq={};sorted.forEach(x=>{freq[x]=(freq[x]||0)+1;});
+  const keys=Object.keys(freq).map(Number).sort((a,b)=>a-b);
+  if(keys.length===0){wrap.innerHTML='';return;}
+  const maxF=Math.max(...Object.values(freq));
+  wrap.innerHTML='<div class="dp-inner">'+keys.map(k=>{
+    const f=freq[k];const isMean=Math.abs(k-mean)<0.001;const isMedian=k===median;
+    return`<div class="dp-col">`+Array(f).fill(0).map((_,i)=>`<div class="dp-dot" style="background:${i===f-1&&isMedian?'#16a34a':isMean?'var(--pri)':'var(--indigo)'}"></div>`).join('')+`<div class="dp-lbl">${k}</div></div>`;
+  }).join('')+'</div><div style="font-size:9px;color:var(--tx3);margin-top:4px">🔵=Mean, 🟢=Median</div>';
 }
 
-function showDistribusi() {
-  if (numbers.length < 3) { alert('Masukkan minimal 3 angka untuk melihat distribusi.'); return; }
-  const st = getStats(numbers);
-  const bins = 8;
-  const range = st.sorted[st.n-1] - st.sorted[0];
-  const binSize = range / bins || 1;
-  const counts = Array(bins).fill(0);
-  numbers.forEach(v => {
-    let b = Math.floor((v - st.sorted[0]) / binSize);
-    if (b >= bins) b = bins-1;
-    counts[b]++;
+function loadSample(t){
+  const samples={
+    nilai:'72, 85, 68, 91, 78, 85, 62, 88, 75, 82, 70, 85, 93, 67, 79',
+    suhu:'32.5, 33.1, 31.8, 34.2, 33.7, 32.9, 35.1, 31.5, 33.8, 34.5',
+    random:Array.from({length:12},()=>Math.round(Math.random()*80+20)).join(', '),
+  };
+  const inp=document.getElementById('data-input');if(inp){inp.value=samples[t];calcStats();}
+}
+
+// WEIGHTED
+let wtData=[
+  {nm:'Ujian Tengah Semester',val:82,bobot:30},
+  {nm:'Tugas & Quiz',val:88,bobot:20},
+  {nm:'Ujian Akhir Semester',val:75,bobot:40},
+  {nm:'Kehadiran',val:95,bobot:10},
+];
+function renderWT(){
+  const wrap=document.getElementById('wt-rows');if(!wrap)return;
+  wrap.innerHTML=wtData.map((d,i)=>`<div class="wt-row">
+    <input class="wt-inp" value="${d.nm}" oninput="wtData[${i}].nm=this.value">
+    <input class="wt-inp" type="number" value="${d.val}" min="0" step="any" oninput="wtData[${i}].val=+this.value;calcWT()">
+    <input class="wt-inp" type="number" value="${d.bobot}" min="0" step="any" oninput="wtData[${i}].bobot=+this.value;calcWT()" style="color:var(--indigo)">
+    <button class="wt-del" onclick="wtData.splice(${i},1);renderWT();calcWT()">✕</button>
+  </div>`).join('');
+  calcWT();
+}
+function addWTRow(){wtData.push({nm:'Item '+(wtData.length+1),val:80,bobot:10});renderWT();}
+function calcWT(){
+  const valid=wtData.filter(d=>isFinite(d.val)&&isFinite(d.bobot)&&d.bobot>0);
+  if(!valid.length)return;
+  const totalBobot=valid.reduce((s,d)=>s+d.bobot,0);
+  const weighted=valid.reduce((s,d)=>s+d.val*d.bobot,0)/totalBobot;
+  const plain=valid.reduce((s,d)=>s+d.val,0)/valid.length;
+  set('wt-result',fmt(weighted));set('wt-plain',fmt(plain));
+  set('wt-r1',valid.length);set('wt-r2',fmt(totalBobot));
+  set('wt-r3',fmt(valid.reduce((s,d)=>s+d.val*d.bobot,0)));
+  set('wt-r4',fmt(weighted));set('wt-r5',fmt(weighted-plain));
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
   });
-  const maxCount = Math.max(...counts);
-  document.getElementById('histo-bars').innerHTML = counts.map((c, i) => {
-    const h = maxCount > 0 ? Math.max(c/maxCount*100, c>0?8:0) : 0;
-    const from = (st.sorted[0] + i*binSize).toFixed(1);
-    const to   = (st.sorted[0] + (i+1)*binSize).toFixed(1);
-    return `<div class="histo-bar" style="height:${h}%"><div class="hb-tip">${from}–${to}: ${c}×</div></div>`;
-  }).join('');
-  document.getElementById('histo-labels').innerHTML = counts.map((c, i) => {
-    const from = (st.sorted[0]+i*binSize).toFixed(0);
-    return `<div class="histo-label">${from}</div>`;
-  }).join('');
-  // Skewness simplified
-  const skew = st.mean > st.median ? 'Miring kanan (positif)' : st.mean < st.median ? 'Miring kiri (negatif)' : 'Simetris';
-  document.getElementById('dist-stats').innerHTML = `
-    <div class="result-rows">
-      <div class="result-row"><span class="rkey">Mean vs Median</span><span class="rval">${fmt(st.mean)} vs ${fmt(st.median)}</span></div>
-      <div class="result-row"><span class="rkey">Bentuk distribusi (estimasi)</span><span class="rval">${skew}</span></div>
-      <div class="result-row"><span class="rkey">IQR (Q3−Q1)</span><span class="rval">${fmt(st.iqr)} (Q1: ${fmt(st.q1)}, Q3: ${fmt(st.q3)})</span></div>
-      <div class="result-row"><span class="rkey">Koefisien variasi</span><span class="rval">${fmt(st.stdDev/Math.abs(st.mean)*100)}% (${st.stdDev/Math.abs(st.mean)*100<20?'konsisten':'bervariasi'})</span></div>
-    </div>`;
-  document.getElementById('dist-result').style.display = 'block';
-}
-
-function compareData() {
-  const parseSet = id => document.getElementById(id).value.split(/[,;\s]+/).map(s=>parseFloat(s.trim())).filter(n=>!isNaN(n));
-  const a = parseSet('cmp-a'), b = parseSet('cmp-b');
-  if (a.length<2||b.length<2) { alert('Masukkan minimal 2 angka untuk setiap set data.'); return; }
-  const sa = getStats(a), sb = getStats(b);
-  const higherMean = sa.mean>=sb.mean ? 'A' : 'B';
-  const moreConsistent = sa.stdDev<=sb.stdDev ? 'A' : 'B';
-  document.getElementById('cmp-summary').innerHTML =
-    `📊 Set data <strong>${higherMean}</strong> memiliki rata-rata lebih tinggi. Set data <strong>${moreConsistent}</strong> lebih konsisten (standar deviasi lebih kecil).`;
-  document.getElementById('cmp-summary').style.cssText='border-radius:10px;padding:.85rem;font-size:.88rem;background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2)';
-  const rows = ['Mean','Median','Std. Deviasi','Nilai Min','Nilai Maks','Jumlah Data'];
-  const valsA = [fmt(sa.mean),fmt(sa.median),fmt(sa.stdDev),sa.sorted[0],sa.sorted[sa.n-1],sa.n];
-  const valsB = [fmt(sb.mean),fmt(sb.median),fmt(sb.stdDev),sb.sorted[0],sb.sorted[sb.n-1],sb.n];
-  document.getElementById('cmp-table').innerHTML = `
-    <div>
-      <div style="font-size:.8rem;font-weight:700;color:#00C9B1;text-align:center;margin-bottom:.4rem">Set A</div>
-      ${rows.map((r,i)=>`<div class="cmp-stat"><div class="cst-label">${r}</div><div class="cst-val" style="color:#00C9B1">${valsA[i]}</div></div>`).join('')}
-    </div>
-    <div>
-      <div style="font-size:.8rem;font-weight:700;color:#3b82f6;text-align:center;margin-bottom:.4rem">Set B</div>
-      ${rows.map((r,i)=>`<div class="cmp-stat"><div class="cst-label">${r}</div><div class="cst-val" style="color:#3b82f6">${valsB[i]}</div></div>`).join('')}
-    </div>`;
-  document.getElementById('cmp-result').style.display = 'block';
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('num-input').addEventListener('keydown', e => { if(e.key==='Enter') addNum(); });
 });
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+calcStats();renderWT();
 </script>
 </body>
 </html>

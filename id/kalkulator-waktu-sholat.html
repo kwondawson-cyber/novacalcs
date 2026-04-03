@@ -1,481 +1,401 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Waktu Sholat — Jadwal Sholat Hari Ini | NovaCalcs</title>
-<meta name="description" content="Jadwal waktu sholat untuk seluruh kota Indonesia. Countdown real-time, progress bar waktu sholat, checklist sholat harian, dan jadwal 7 hari ke depan."/>
-<meta name="keywords" content="waktu sholat, jadwal sholat hari ini, jadwal sholat Jakarta, waktu subuh, waktu maghrib, countdown sholat, imsak"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-waktu-sholat.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-waktu-sholat.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kalkulator Waktu Sholat","url":"https://novacalcs.com/id/kalkulator-waktu-sholat.html","description":"Jadwal waktu sholat berdasarkan kota di Indonesia","applicationCategory":"UtilitiesApplication","inLanguage":"id","offers":{"@type":"Offer","price":"0"}}</script>
-<style>
-.countdown-box{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.25);border-radius:12px;padding:1rem;text-align:center;margin-bottom:14px}
-.countdown-label{font-size:.75rem;color:#8fa3b1;margin-bottom:.3rem}
-.countdown-prayer{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.4rem}
-.countdown-time{font-size:2.4rem;font-weight:700;color:var(--mint);letter-spacing:.04em;line-height:1}
-.countdown-sub{font-size:.75rem;color:#8fa3b1;margin-top:.35rem}
-.prayer-progress-wrap{margin:10px 0 14px}
-.prayer-progress-label{display:flex;justify-content:space-between;font-size:.7rem;color:#8fa3b1;margin-bottom:4px}
-.prayer-progress-track{height:8px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden}
-.prayer-progress-fill{height:100%;border-radius:4px;background:var(--mint);transition:width 1s linear}
-.prayer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.prayer-card{background:var(--bg-input);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid var(--border)}
-.prayer-card.active-prayer{border-color:rgba(0,201,177,.4);background:var(--mint-dim)}
-.prayer-card.passed{opacity:.5}
-.prayer-name{font-size:.72rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.prayer-time{font-size:1.2rem;font-weight:700;color:var(--text-primary)}
-.prayer-card.active-prayer .prayer-time{color:var(--mint)}
-.prayer-status{font-size:.65rem;color:var(--text-muted);margin-top:2px}
-.imsak-badge{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.25);border-radius:8px;padding:.5rem .75rem;margin-bottom:10px;font-size:.8rem;color:#fbbf24;display:none}
-.checklist-wrap{margin-top:10px}
-.checklist-title{font-size:.75rem;color:#8fa3b1;font-weight:600;margin-bottom:.5rem}
-.check-row{display:flex;align-items:center;gap:9px;padding:.4rem .5rem;border-radius:8px;margin-bottom:4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);font-size:.82rem;transition:all .2s}
-.check-row.checked{background:rgba(0,201,177,.07);border-color:rgba(0,201,177,.2)}
-.check-row label{flex:1;cursor:pointer}
-.check-row input[type=checkbox]{accent-color:var(--mint);width:17px;height:17px;flex-shrink:0;cursor:pointer}
-.checklist-progress{height:5px;border-radius:3px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:6px}
-.checklist-fill{height:100%;border-radius:3px;background:var(--mint);transition:width .4s}
-.checklist-score{font-size:.72rem;color:#8fa3b1;margin-top:3px}
-.weekly-row{display:grid;grid-template-columns:90px repeat(5,1fr);gap:4px;padding:6px 0;border-bottom:1px solid var(--border);font-size:.78rem;align-items:center}
-.weekly-row:last-child{border-bottom:none}
-.weekly-row.today{background:var(--mint-dim);border-radius:var(--radius-sm);padding:6px 8px}
-.weekly-row .day-label{color:var(--text-secondary);font-weight:600}
-.weekly-row .t-val{color:var(--text-primary);text-align:center}
-.weekly-header{color:var(--text-muted);font-weight:700;font-size:.7rem;text-transform:uppercase}
-.date-picker{display:grid;grid-template-columns:60px 1fr 80px;gap:6px}
-.dp-day,.dp-year{border:1px solid var(--border);border-radius:8px;padding:9px 10px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.95rem;width:100%}
-.dp-month{border:1px solid var(--border);border-radius:8px;padding:9px 8px;background:var(--bg-input);color:var(--text-primary);font-family:inherit;font-size:.9rem;width:100%}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Waktu Sholat 2026 — Jadwal Sholat Berdasarkan Koordinat | NovaCalcs</title>
+  <meta name="description" content="Kalkulator waktu sholat 2026: hitung jadwal sholat Subuh, Dzuhur, Ashar, Maghrib, Isya berdasarkan koordinat lokasi dan tanggal. Metode MUI/Kemenag Indonesia. Gratis.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-waktu-sholat">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--teal:#0d9488;--teal-l:#f0fdfa}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--teal);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--teal-l);color:var(--teal);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input[type=date],.iw input[type=number]{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--teal)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:44px}
+    .sw{position:relative}
+    .sw::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:12px;pointer-events:none}
+    .sw select{width:100%;padding:10px 32px 10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;appearance:none;cursor:pointer}
+    .sw select:focus{border-color:var(--teal)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* PRAYER CARDS */
+    .prayer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+    @media(max-width:480px){.prayer-grid{grid-template-columns:1fr 1fr}}
+    .prayer-card{border-radius:var(--r);padding:14px;text-align:center;border:1.5px solid var(--bor);transition:all .2s}
+    .prayer-card.current{border-color:var(--teal);background:var(--teal-l);transform:scale(1.02)}
+    .prayer-card.next{border-color:#99f6e4;background:#f0fdfa}
+    .prayer-ico{font-size:24px;margin-bottom:6px}
+    .prayer-nm{font-size:12px;font-weight:700;color:var(--tx2)}
+    .prayer-card.current .prayer-nm{color:var(--teal)}
+    .prayer-time{font-family:'DM Mono',monospace;font-size:22px;font-weight:800;color:var(--tx);margin-top:4px}
+    .prayer-card.current .prayer-time{color:var(--teal)}
+    .prayer-left{font-size:10px;color:var(--tx3);margin-top:3px}
+    .prayer-card.current .prayer-left{color:var(--teal);font-weight:700}
+    /* NEXT PRAYER */
+    .next-box{background:var(--teal-l);border:1.5px solid #99f6e4;border-radius:var(--r);padding:16px;text-align:center;margin-bottom:14px}
+    .nb-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--teal);margin-bottom:6px}
+    .nb-val{font-family:'DM Mono',monospace;font-size:28px;font-weight:800;color:var(--teal);line-height:1}
+    .nb-sub{font-size:12px;color:var(--tx3);margin-top:5px}
+    /* KOTA PRESETS */
+    .kota-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+    .kota-btn{padding:5px 11px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;background:none;color:var(--tx2);transition:all .15s;font-family:inherit}
+    .kota-btn:hover,.kota-btn.on{border-color:var(--teal);color:var(--teal);background:var(--teal-l)}
+    /* LRES */
+    .lres{background:var(--teal-l);border:1.5px solid #99f6e4;border-radius:var(--r);padding:14px;margin-top:14px}
+    .rrows{padding:0}
+    .rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .rr:last-child{border-bottom:none}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:var(--teal-l);border-color:#99f6e4;color:var(--teal)}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--teal)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--teal)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--teal-l);color:var(--teal)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#utilitas">Utilitas</a><span class="breadcrumb-sep">›</span>
-      <span>Waktu Sholat</span>
-    </nav>
-  </div>
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Waktu Sholat</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">🕌 Waktu Sholat</div>
+  <h1 class="hdr-h1">Kalkulator Waktu Sholat 2026</h1>
+  <p class="hdr-sub">Hitung jadwal sholat (Subuh, Dzuhur, Ashar, Maghrib, Isya) berdasarkan koordinat lokasi dan tanggal. Metode Kemenag RI / MUI.</p>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">🕌 Jadwal Waktu Sholat</div>
-      <div class="calc-subtitle">Countdown · Progress · Catatan sholat harian</div>
 
-      <div class="field">
-        <label>Kota</label>
-        <select id="city-select" onchange="calculate()">
-          <optgroup label="Jawa">
-            <option value="jakarta">Jakarta</option>
-            <option value="surabaya">Surabaya</option>
-            <option value="bandung">Bandung</option>
-            <option value="semarang">Semarang</option>
-            <option value="yogyakarta">Yogyakarta</option>
-            <option value="tangerang">Tangerang</option>
-            <option value="depok">Depok</option>
-            <option value="bekasi">Bekasi</option>
-            <option value="bogor">Bogor</option>
-            <option value="malang">Malang</option>
-          </optgroup>
-          <optgroup label="Sumatera">
-            <option value="medan">Medan</option>
-            <option value="palembang">Palembang</option>
-            <option value="pekanbaru">Pekanbaru</option>
-            <option value="padang">Padang</option>
-            <option value="aceh">Banda Aceh</option>
-            <option value="batam">Batam</option>
-          </optgroup>
-          <optgroup label="Kalimantan & Sulawesi">
-            <option value="makassar">Makassar</option>
-            <option value="balikpapan">Balikpapan</option>
-            <option value="banjarmasin">Banjarmasin</option>
-            <option value="pontianak">Pontianak</option>
-            <option value="manado">Manado</option>
-          </optgroup>
-          <optgroup label="Bali & Nusa Tenggara">
-            <option value="denpasar">Denpasar (Bali)</option>
-            <option value="mataram">Mataram (NTB)</option>
-            <option value="kupang">Kupang (NTT)</option>
-          </optgroup>
-          <optgroup label="Maluku & Papua">
-            <option value="ambon">Ambon</option>
-            <option value="jayapura">Jayapura</option>
-          </optgroup>
-        </select>
+<main class="main">
+<div class="left-col">
+
+<div class="card">
+  <div class="card-h"><div class="card-ico">🕌</div>Hitung Waktu Sholat</div>
+  <div class="card-b">
+    <div class="sec-lbl">Pilih Kota (atau masukkan koordinat manual)</div>
+    <div class="kota-grid" id="kota-grid"></div>
+
+    <div class="g2">
+      <div class="fld"><label>Lintang (Latitude)</label>
+        <div class="iw"><input type="number" id="lat" value="-6.2" step="0.0001" min="-90" max="90"><span class="iu">°</span></div>
       </div>
-
-      <div class="field">
-        <label>Tanggal</label>
-        <div class="date-picker">
-          <input type="number" class="dp-day" id="date-d" placeholder="Tgl" min="1" max="31" onchange="calculate()"/>
-          <select class="dp-month" id="date-m" onchange="calculate()">
-            <option value="">Bulan</option>
-            <option value="1">Januari</option><option value="2">Februari</option>
-            <option value="3">Maret</option><option value="4">April</option>
-            <option value="5">Mei</option><option value="6">Juni</option>
-            <option value="7">Juli</option><option value="8">Agustus</option>
-            <option value="9">September</option><option value="10">Oktober</option>
-            <option value="11">November</option><option value="12">Desember</option>
-          </select>
-          <input type="number" class="dp-year" id="date-y" placeholder="Tahun" min="2000" max="2100" onchange="calculate()"/>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Metode Perhitungan</label>
-        <select id="method-select" onchange="calculate()">
-          <option value="kemenag">Kemenag RI (Standar Indonesia)</option>
-          <option value="mwl">Muslim World League</option>
-          <option value="isna">ISNA (Amerika Utara)</option>
-        </select>
-      </div>
-
-      <div id="result" style="display:none">
-        <div class="imsak-badge" id="imsak-badge">🌙 <strong>Ramadan — Imsak:</strong> pukul <span id="imsak-time">—</span> (10 menit sebelum Subuh)</div>
-        <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:10px" id="result-header"></div>
-
-        <div class="countdown-box" id="countdown-box">
-          <div class="countdown-label">Sholat berikutnya</div>
-          <div class="countdown-prayer" id="countdown-prayer">—</div>
-          <div class="countdown-time" id="countdown-time">--:--:--</div>
-          <div class="countdown-sub" id="countdown-sub"></div>
-        </div>
-
-        <div class="prayer-progress-wrap" id="progress-wrap" style="display:none">
-          <div class="prayer-progress-label">
-            <span id="progress-from">—</span>
-            <span id="progress-pct">0%</span>
-            <span id="progress-to">—</span>
-          </div>
-          <div class="prayer-progress-track"><div class="prayer-progress-fill" id="progress-fill" style="width:0%"></div></div>
-        </div>
-
-        <div class="prayer-grid" id="prayer-times"></div>
-
-        <div class="checklist-wrap" id="checklist-wrap" style="display:none">
-          <div class="checklist-title">✅ Catatan Sholat Hari Ini:</div>
-          <div id="checklist-rows"></div>
-          <div class="checklist-progress"><div class="checklist-fill" id="checklist-fill" style="width:0%"></div></div>
-          <div class="checklist-score" id="checklist-score"></div>
-        </div>
+      <div class="fld"><label>Bujur (Longitude)</label>
+        <div class="iw"><input type="number" id="lon" value="106.8" step="0.0001" min="-180" max="180"><span class="iu">°</span></div>
       </div>
     </div>
+    <div class="g2">
+      <div class="fld"><label>Tanggal</label>
+        <div class="iw"><input type="date" id="tgl"></div>
+      </div>
+      <div class="fld"><label>Zona Waktu</label>
+        <div class="sw"><select id="tz" onchange="calcSholat()">
+          <option value="7">WIB (UTC+7) — Jawa, Sumatra, Kalimantan Barat</option>
+          <option value="8">WITA (UTC+8) — Bali, Lombok, Kalimantan Timur, Sulawesi</option>
+          <option value="9">WIT (UTC+9) — Maluku, Papua</option>
+        </select></div>
+      </div>
+    </div>
+    <button onclick="calcSholat()" style="width:100%;padding:10px;background:var(--teal);color:white;border:none;border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:14px">🕌 Hitung Jadwal Sholat</button>
 
-    <div class="calc-widget" style="margin-top:16px;display:none" id="weekly-widget">
-      <div style="font-weight:700;color:var(--text-primary);font-size:.9rem;margin-bottom:12px">📅 Jadwal 7 Hari ke Depan</div>
-      <div id="weekly-table"></div>
+    <!-- NEXT PRAYER COUNTDOWN -->
+    <div class="next-box" id="next-box" style="display:none">
+      <div class="nb-lbl" id="next-lbl">Sholat Berikutnya</div>
+      <div class="nb-val" id="next-val">—</div>
+      <div class="nb-sub" id="next-sub">—</div>
+    </div>
+
+    <!-- PRAYER CARDS -->
+    <div class="prayer-grid" id="prayer-grid"></div>
+
+    <div class="lres" id="detail-lres" style="display:none">
+      <div class="rrows" id="detail-rows"></div>
+    </div>
+
+    <div class="notice" style="margin-top:10px">⚠️ Waktu sholat ini adalah hasil perhitungan astronomis dan mungkin berbeda ±1–3 menit dari jadwal resmi Kemenag. Untuk jadwal resmi, gunakan aplikasi Kemenag RI atau simasjid.kemenag.go.id.</div>
+  </div>
+</div>
+
+</div><!-- /left-col -->
+
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Kota Referensi (WIB)</div>
+    <div class="card-b">
+      <div class="flist" id="sb-kota-list"></div>
     </div>
   </div>
-
-  <div class="content-area">
-    <h1>Kalkulator Waktu Sholat Indonesia</h1>
-    <p class="page-desc">Jadwal waktu sholat untuk seluruh kota besar Indonesia — dilengkapi countdown real-time ke sholat berikutnya, progress bar waktu sholat yang sedang berlangsung, dan catatan sholat harian yang tersimpan otomatis.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Fitur Kalkulator Waktu Sholat NovaCalcs</h2>
-    <p><strong>Countdown real-time</strong> — Jam:menit:detik menuju sholat berikutnya, diperbarui setiap detik. <strong>Progress bar</strong> — Menunjukkan seberapa jauh waktu sholat yang sedang berlangsung. <strong>Catatan sholat harian</strong> — Centang sholat yang sudah dikerjakan, tersimpan otomatis untuk hari ini. <strong>Jadwal 7 hari ke depan</strong> — Tabel Subuh, Dzuhur, Ashar, Maghrib, Isya selama seminggu ke depan.</p>
-
-    <h2>Cara Kerja Perhitungan Waktu Sholat</h2>
-    <p>Waktu sholat dihitung berdasarkan posisi matahari menggunakan koordinat geografis kota, deklinasi matahari yang berubah setiap hari, dan equation of time. Subuh dimulai saat matahari 20° di bawah cakrawala (standar Kemenag RI), Dzuhur tepat setelah zenith, Ashar saat panjang bayangan sama dengan tinggi benda, Maghrib saat terbenam, dan Isya saat matahari 18° di bawah cakrawala.</p>
-
-    <h2>Perbedaan Waktu Sholat Antar Kota di Indonesia</h2>
-    <p>Indonesia mencakup 3 zona waktu (WIB/WITA/WIT) dengan rentang wilayah 5.000 km. Dalam satu zona pun, jadwal bisa berbeda 5–30 menit. Maghrib di Surabaya sekitar 15 menit lebih awal dari Jakarta karena posisi lebih ke timur. Pontianak dekat ekuator sehingga jadwal relatif stabil sepanjang tahun.</p>
-
-    <h2>Apa itu Imsak?</h2>
-    <p>Imsak adalah tanda peringatan 10 menit sebelum Subuh sebagai batas akhir sahur di Ramadan. Secara fiqih, batas sahur adalah masuknya waktu Subuh (Fajr), bukan imsak. Imsak adalah tradisi ihtiyath (kehati-hatian) yang umum di Indonesia, bukan kewajiban agama tersendiri.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah jadwal sholat berubah setiap hari?</div>
-    <div class="faq-a">Ya, berubah setiap hari karena posisi matahari berubah akibat rotasi dan revolusi bumi. Perubahan paling terasa pada Subuh dan Maghrib — bisa bergeser 1–3 menit setiap hari.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kenapa jadwal ini bisa beda 1–2 menit dari aplikasi lain?</div>
-    <div class="faq-a">Perbedaan kecil adalah normal karena perbedaan koordinat atau pembulatan. Untuk kepastian, selalu gunakan jadwal resmi dari Kemenag RI atau lembaga setempat.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana untuk kota yang tidak ada di daftar?</div>
-    <div class="faq-a">Pilih kota terdekat dalam satu kabupaten. Untuk kota dalam jarak 50 km dengan bujur yang sama, selisih biasanya kurang dari 5 menit.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa itu imsak dan apakah termasuk waktu sholat?</div>
-    <div class="faq-a">Imsak bukan waktu sholat, melainkan peringatan 10 menit sebelum Subuh untuk batas sahur Ramadan. Batas sahur secara fiqih adalah masuknya Subuh itu sendiri.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa lama waktu sholat berlangsung?</div>
-    <div class="faq-a">Subuh: dari fajar hingga terbit (~1,5 jam). Dzuhur: ~2–3 jam. Ashar: ~3–4 jam. Maghrib: paling singkat ~1,5 jam. Isya: ~5–6 jam hingga tengah malam.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah jadwal sholat saat Ramadan berbeda?</div>
-    <div class="faq-a">Tidak, waktu sholat tetap berdasarkan posisi matahari. Yang berbeda hanya penambahan jadwal imsak di kalender imsakiyah Ramadan.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/selisih-tanggal.html" class="related-item"><span class="ri">📆</span>Selisih Tanggal</a>
-      <a href="/id/hari-kerja.html" class="related-item"><span class="ri">📋</span>Hari Kerja</a>
-      <a href="/id/kalkulator-usia.html" class="related-item"><span class="ri">🎂</span>Kalkulator Usia</a>
-      <a href="/id/kalkulator-zakat.html" class="related-item"><span class="ri">🌙</span>Kalkulator Zakat</a>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tentang Waktu Sholat</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🌅</span><span class="tptx"><strong>Subuh</strong>: 20° sebelum matahari terbit (fajar shadiq). Di Indonesia umum digunakan sudut 20°</span></div>
+        <div class="tip"><span class="tpico">☀️</span><span class="tptx"><strong>Dzuhur</strong>: Saat matahari di meridian tertinggi (tengah hari astronomis) + 2 menit</span></div>
+        <div class="tip"><span class="tpico">🌤️</span><span class="tptx"><strong>Ashar</strong>: Saat panjang bayangan = panjang benda + bayangan saat Dzuhur (mazhab Syafi'i)</span></div>
+        <div class="tip"><span class="tpico">🌆</span><span class="tptx"><strong>Maghrib</strong>: Sesaat setelah matahari terbenam (0° + 1 menit koreksi)</span></div>
+        <div class="tip"><span class="tpico">🌙</span><span class="tptx"><strong>Isya</strong>: 18° setelah matahari terbenam (senja astronomis berakhir)</span></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/selisih-tanggal" class="relc"><div class="relc-ico">📅</div><div class="relc-nm">Selisih Tanggal</div><div class="relc-ds">Hitung perbedaan hari</div></a>
+        <a href="/id/hari-kerja" class="relc"><div class="relc-ico">💼</div><div class="relc-nm">Hari Kerja</div><div class="relc-ds">Hitung hari kerja</div></a>
+        <a href="/id/kalkulator-zakat" class="relc"><div class="relc-ico">🕌</div><div class="relc-nm">Zakat</div><div class="relc-ds">Hitung zakat</div></a>
+        <a href="/id/kalkulator-usia" class="relc"><div class="relc-ico">🎂</div><div class="relc-nm">Usia</div><div class="relc-ds">Hitung umur</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Cara Menghitung Waktu Sholat</h2>
+  <p>Waktu sholat dihitung berdasarkan posisi matahari relatif terhadap lokasi pengamat. Perhitungan memerlukan koordinat lintang (latitude) dan bujur (longitude) lokasi, tanggal, dan zona waktu. Algoritma yang digunakan mengacu pada metode Kemenag RI (Subuh 20°, Isya 18°) yang telah disesuaikan untuk wilayah Indonesia.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Mengapa waktu sholat berbeda di setiap kota?</div><div class="faq-a">Waktu sholat bergantung pada posisi matahari yang berbeda di setiap lokasi. Kota di bujur timur akan mendapat waktu sholat lebih awal. Di Indonesia, perbedaan antara Sabang (Aceh) di barat dan Merauke (Papua) mencapai sekitar 3 jam. Ini mengapa Indonesia dibagi tiga zona waktu: WIB (UTC+7), WITA (UTC+8), dan WIT (UTC+9).</div></div>
+  <div class="faq-i"><div class="faq-q">Apa bedanya metode Kemenag dan MUI dalam perhitungan waktu sholat?</div><div class="faq-a">Metode Kemenag/MUI Indonesia menggunakan sudut Subuh 20° dan Isya 18°. Perbedaan metode menghasilkan selisih beberapa menit pada waktu Subuh dan Isya. Organisasi Islami berbeda kadang menggunakan metode berbeda — ISNA (Amerika) menggunakan 15°, sedangkan Mesir menggunakan 19,5°. Untuk penggunaan sehari-hari di Indonesia, jadwal dari Kemenag adalah yang paling diakui.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-const CITIES={
-  jakarta:{name:'Jakarta',lat:-6.2088,lng:106.8456,tz:7,tzName:'WIB'},
-  surabaya:{name:'Surabaya',lat:-7.2575,lng:112.7521,tz:7,tzName:'WIB'},
-  bandung:{name:'Bandung',lat:-6.9175,lng:107.6191,tz:7,tzName:'WIB'},
-  semarang:{name:'Semarang',lat:-6.9932,lng:110.4203,tz:7,tzName:'WIB'},
-  yogyakarta:{name:'Yogyakarta',lat:-7.7956,lng:110.3695,tz:7,tzName:'WIB'},
-  tangerang:{name:'Tangerang',lat:-6.1783,lng:106.6319,tz:7,tzName:'WIB'},
-  depok:{name:'Depok',lat:-6.4025,lng:106.7942,tz:7,tzName:'WIB'},
-  bekasi:{name:'Bekasi',lat:-6.2349,lng:106.9896,tz:7,tzName:'WIB'},
-  bogor:{name:'Bogor',lat:-6.5971,lng:106.806,tz:7,tzName:'WIB'},
-  malang:{name:'Malang',lat:-7.9797,lng:112.6304,tz:7,tzName:'WIB'},
-  medan:{name:'Medan',lat:3.5952,lng:98.6722,tz:7,tzName:'WIB'},
-  palembang:{name:'Palembang',lat:-2.9761,lng:104.7754,tz:7,tzName:'WIB'},
-  pekanbaru:{name:'Pekanbaru',lat:0.5071,lng:101.4478,tz:7,tzName:'WIB'},
-  padang:{name:'Padang',lat:-0.9471,lng:100.4172,tz:7,tzName:'WIB'},
-  aceh:{name:'Banda Aceh',lat:5.5483,lng:95.3238,tz:7,tzName:'WIB'},
-  batam:{name:'Batam',lat:1.1301,lng:104.0529,tz:7,tzName:'WIB'},
-  makassar:{name:'Makassar',lat:-5.1477,lng:119.4327,tz:8,tzName:'WITA'},
-  balikpapan:{name:'Balikpapan',lat:-1.2654,lng:116.8312,tz:8,tzName:'WITA'},
-  banjarmasin:{name:'Banjarmasin',lat:-3.3194,lng:114.5908,tz:8,tzName:'WITA'},
-  pontianak:{name:'Pontianak',lat:-0.0263,lng:109.3425,tz:7,tzName:'WIB'},
-  manado:{name:'Manado',lat:1.4748,lng:124.8421,tz:8,tzName:'WITA'},
-  denpasar:{name:'Denpasar',lat:-8.6705,lng:115.2126,tz:8,tzName:'WITA'},
-  mataram:{name:'Mataram',lat:-8.5833,lng:116.1167,tz:8,tzName:'WITA'},
-  kupang:{name:'Kupang',lat:-10.1772,lng:123.607,tz:8,tzName:'WITA'},
-  ambon:{name:'Ambon',lat:-3.6954,lng:128.1814,tz:9,tzName:'WIT'},
-  jayapura:{name:'Jayapura',lat:-2.5916,lng:140.669,tz:9,tzName:'WIT'}
-};
-const METHODS={kemenag:{fajr:20,isha:18},mwl:{fajr:18,isha:17},isna:{fajr:15,isha:15}};
-const PN=['Subuh','Syuruk','Dzuhur','Ashar','Maghrib','Isya'];
-const PE=['🌅','☀️','🕛','🌤️','🌇','🌙'];
 
-function toR(d){return d*Math.PI/180}
-function toD(r){return r*180/Math.PI}
-function jd(date){
+<script>
+// Kota-kota Indonesia
+const KOTA=[
+  {nm:'Jakarta',lat:-6.2,lon:106.8,tz:7},
+  {nm:'Surabaya',lat:-7.25,lon:112.75,tz:7},
+  {nm:'Bandung',lat:-6.92,lon:107.61,tz:7},
+  {nm:'Medan',lat:3.58,lon:98.67,tz:7},
+  {nm:'Yogyakarta',lat:-7.8,lon:110.37,tz:7},
+  {nm:'Semarang',lat:-6.97,lon:110.42,tz:7},
+  {nm:'Makassar',lat:-5.13,lon:119.42,tz:8},
+  {nm:'Denpasar',lat:-8.65,lon:115.22,tz:8},
+  {nm:'Palembang',lat:-2.92,lon:104.75,tz:7},
+  {nm:'Aceh',lat:5.55,lon:95.33,tz:7},
+  {nm:'Manado',lat:1.48,lon:124.84,tz:8},
+  {nm:'Jayapura',lat:-2.59,lon:140.67,tz:9},
+];
+
+function deg2rad(d){return d*Math.PI/180;}
+function rad2deg(r){return r*180/Math.PI;}
+
+// Simplified prayer time calculation (astronomical algorithm)
+function calcPrayerTimes(lat,lon,date,tz){
   const y=date.getFullYear(),m=date.getMonth()+1,d=date.getDate();
-  const A=Math.floor(y/100),B=2-A+Math.floor(A/4);
-  return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5;
-}
-function sunPos(J){
-  const n=J-2451545,L=(280.46+0.9856474*n)%360;
-  const g=toR((357.528+0.9856003*n)%360);
-  const lam=toR(L+1.915*Math.sin(g)+0.02*Math.sin(2*g));
-  const eps=toR(23.439-4e-7*n);
-  const dec=Math.asin(Math.sin(eps)*Math.sin(lam));
-  const RA=Math.atan2(Math.cos(eps)*Math.sin(lam),Math.cos(lam));
-  return{dec,eqt:(L-toD(RA))/15};
-}
-function ha(lat,dec,elev){
-  const v=(Math.sin(toR(elev))-Math.sin(toR(lat))*Math.sin(dec))/(Math.cos(toR(lat))*Math.cos(dec));
-  return Math.abs(v)>1?null:toD(Math.acos(v));
-}
-function asrElev(lat,dec){return toD(Math.atan(1/(1+Math.tan(Math.abs(toR(lat)-dec)))))}
-function calcT(date,lat,lng,tz,method){
-  const{dec,eqt}=sunPos(jd(date));
-  const m=METHODS[method];
-  const noon=12-eqt-(lng-tz*15)/15;
-  const hF=ha(lat,dec,-m.fajr),hR=ha(lat,dec,-0.833),hA=ha(lat,dec,asrElev(lat,dec)),hI=ha(lat,dec,-m.isha);
-  return{fajr:hF!=null?noon-hF/15:null,sunrise:hR!=null?noon-hR/15:null,dhuhr:noon+0.05,
-    asr:hA!=null?noon+hA/15:null,maghrib:hR!=null?noon+hR/15:null,isha:hI!=null?noon+hI/15:null};
-}
-function fmtT(d){
-  if(d===null)return'--:--';
-  let h=Math.floor(d),m=Math.round((d-h)*60);
-  if(m===60){h++;m=0;}h=((h%24)+24)%24;
-  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
-}
-function fmtCD(s){
-  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;
-  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
-}
-function dayN(d){return['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][d.getDay()]}
-function dateS(d){return d.getDate()+' '+['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'][d.getMonth()]}
-function ckKey(date){return'sholat-'+date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()}
+  // Julian Date
+  const A=Math.floor((14-m)/12),Y=y+4800-A,M=m+12*A-3;
+  let JD=d+Math.floor((153*M+2)/5)+365*Y+Math.floor(Y/4)-Math.floor(Y/100)+Math.floor(Y/400)-32045;
+  JD-=0.5;
+  // Solar calculations
+  const n=JD-2451545.0;
+  const L=(280.46+0.9856474*n)%360;
+  const g=deg2rad((357.528+0.9856003*n)%360);
+  const lambda=deg2rad(L+1.915*Math.sin(g)+0.02*Math.sin(2*g));
+  const obliq=deg2rad(23.439-0.0000004*n);
+  const alpha=rad2deg(Math.atan2(Math.cos(obliq)*Math.sin(lambda),Math.cos(lambda)));
+  const delta=rad2deg(Math.asin(Math.sin(obliq)*Math.sin(lambda)));
+  // Equation of time
+  const RA=alpha/15;
+  const GMST=6.697375+0.0657098242*n;
+  const transit=(12+tz-(lon/15)-(GMST+lon/15-Math.floor(GMST+lon/15))*0+(GMST%24)-RA+24)%24;
 
-let timerInt=null;
+  // Sun transit (Dzuhur)
+  const dzuhur=transit+0.033;
 
-function dpGet(){
-  const d=parseInt(document.getElementById('date-d').value);
-  const m=parseInt(document.getElementById('date-m').value);
-  const y=parseInt(document.getElementById('date-y').value);
-  if(!d||!m||!y)return null;
-  return new Date(y,m-1,d);
+  // Helper: angle to time
+  const latR=deg2rad(lat),deltaR=deg2rad(delta);
+  function angleTime(angle,type){
+    let cosH=(-Math.sin(deg2rad(angle))-Math.sin(latR)*Math.sin(deltaR))/(Math.cos(latR)*Math.cos(deltaR));
+    if(cosH>1||cosH<-1)return null;
+    const H=rad2deg(Math.acos(cosH))/15;
+    return type==='rise'?dzuhur-H:dzuhur+H;
+  }
+
+  // Ashar (Syafi'i method: shadow = object length + noon shadow)
+  function asharTime(){
+    const t=Math.abs(lat-delta);
+    const asharAng=rad2deg(Math.atan(1/((t===0?0.0001:1)+Math.tan(deg2rad(Math.abs(t))))));
+    let cosH=(Math.sin(deg2rad(asharAng))-Math.sin(latR)*Math.sin(deltaR))/(Math.cos(latR)*Math.cos(deltaR));
+    if(cosH>1||cosH<-1)return dzuhur+1;
+    return dzuhur+rad2deg(Math.acos(cosH))/15;
+  }
+
+  const subuh=angleTime(20,'rise');
+  const syuruq=angleTime(-0.833,'rise');
+  const ashar=asharTime();
+  const maghrib=angleTime(-0.833,'set');
+  const isya=angleTime(18,'set');
+
+  function toTime(decimal){
+    if(decimal===null)return'—';
+    let h=(decimal%24+24)%24;
+    const min=Math.round((h-Math.floor(h))*60);
+    h=Math.floor(h)+(min===60?1:0);
+    return String(h%24).padStart(2,'0')+':'+String(min===60?0:min).padStart(2,'0');
+  }
+
+  return{
+    subuh:toTime(subuh),syuruq:toTime(syuruq),dzuhur:toTime(dzuhur),
+    ashar:toTime(ashar),maghrib:toTime(maghrib),isya:toTime(isya),
+    subuhDec:subuh,dzuhurDec:dzuhur,asharDec:ashar,maghribDec:maghrib,isyaDec:isya,
+  };
 }
-function dpSetToday(){
-  const t=new Date();
-  document.getElementById('date-d').value=t.getDate();
-  document.getElementById('date-m').value=t.getMonth()+1;
-  document.getElementById('date-y').value=t.getFullYear();
+
+let selectedKota='Jakarta';
+function renderKotaGrid(){
+  const wrap=document.getElementById('kota-grid');if(!wrap)return;
+  wrap.innerHTML=KOTA.map(k=>`<button class="kota-btn${k.nm===selectedKota?' on':''}" onclick="setKota('${k.nm}')">${k.nm}</button>`).join('');
+}
+function setKota(nm){
+  selectedKota=nm;
+  const k=KOTA.find(c=>c.nm===nm);if(!k)return;
+  document.getElementById('lat').value=k.lat;
+  document.getElementById('lon').value=k.lon;
+  document.getElementById('tz').value=k.tz;
+  renderKotaGrid();calcSholat();
 }
 
-function calculate(){
-  const city=CITIES[document.getElementById('city-select').value];
-  const date=dpGet();
-  const method=document.getElementById('method-select').value;
-  if(!date)return;
+const PRAYERS=[
+  {key:'subuh',nm:'Subuh',ico:'🌙'},
+  {key:'syuruq',nm:'Syuruq',ico:'🌅'},
+  {key:'dzuhur',nm:'Dzuhur',ico:'☀️'},
+  {key:'ashar',nm:'Ashar',ico:'🌤️'},
+  {key:'maghrib',nm:'Maghrib',ico:'🌆'},
+  {key:'isya',nm:'Isya',ico:'🌙'},
+];
 
-  const T=calcT(date,city.lat,city.lng,city.tz,method);
-  const tArr=[T.fajr,T.sunrise,T.dhuhr,T.asr,T.maghrib,T.isha];
+function calcSholat(){
+  const lat=parseFloat(document.getElementById('lat')?.value)||0;
+  const lon=parseFloat(document.getElementById('lon')?.value)||0;
+  const tglEl=document.getElementById('tgl');
+  const date=tglEl?.value?new Date(tglEl.value+'T12:00:00'):new Date();
+  const tz=parseInt(document.getElementById('tz')?.value)||7;
+  const times=calcPrayerTimes(lat,lon,date,tz);
   const now=new Date();
+  const nowMins=now.getHours()*60+now.getMinutes();
+
+  // Find current/next prayer
+  const timesMins={subuh:toMins(times.subuh),syuruq:toMins(times.syuruq),dzuhur:toMins(times.dzuhur),ashar:toMins(times.ashar),maghrib:toMins(times.maghrib),isya:toMins(times.isya)};
+  const orderedPrayers=['subuh','syuruq','dzuhur','ashar','maghrib','isya'];
   const isToday=date.toDateString()===now.toDateString();
-  const nd=now.getHours()+now.getMinutes()/60+now.getSeconds()/3600;
-
-  let activeIdx=-1,nextIdx=-1;
+  let nextPrayer=null,currentPrayer=null;
   if(isToday){
-    for(let i=0;i<6;i++){if(tArr[i]!=null&&nd>=tArr[i])activeIdx=i;}
-    for(let i=0;i<6;i++){if(tArr[i]!=null&&nd<tArr[i]){nextIdx=i;break;}}
-  }
-
-  // Imsak
-  const imsakDec=T.fajr!=null?T.fajr-10/60:null;
-  const ib=document.getElementById('imsak-badge');
-  if(imsakDec!=null){document.getElementById('imsak-time').textContent=fmtT(imsakDec);ib.style.display='block';}
-  else ib.style.display='none';
-
-  // Cards
-  document.getElementById('prayer-times').innerHTML=tArr.map((t,i)=>{
-    const isAct=i===activeIdx,isPast=isToday&&t!=null&&nd>t&&i!==activeIdx;
-    let st='';
-    if(isToday){
-      if(i===nextIdx)st='<div class="prayer-status" style="color:var(--mint)">⏳ Selanjutnya</div>';
-      else if(isAct)st='<div class="prayer-status" style="color:#fbbf24">🔔 Sedang berlangsung</div>';
-      else if(isPast&&i!==1)st='<div class="prayer-status">✓ Sudah lewat</div>';
+    for(let i=0;i<orderedPrayers.length;i++){
+      const key=orderedPrayers[i];
+      if(timesMins[key]>nowMins){nextPrayer=key;currentPrayer=i>0?orderedPrayers[i-1]:null;break;}
     }
-    return`<div class="prayer-card${isAct?' active-prayer':''}${isPast?' passed':''}">
-      <div class="prayer-name">${PE[i]} ${PN[i]}</div>
-      <div class="prayer-time">${fmtT(t)}</div>${st}</div>`;
-  }).join('');
-
-  document.getElementById('result-header').textContent=
-    city.name+' · '+dayN(date)+', '+dateS(date)+' '+date.getFullYear()+' · '+city.tzName;
-  document.getElementById('result').style.display='block';
-
-  // Progress bar
-  if(isToday&&activeIdx>=0&&activeIdx<5){
-    const from=tArr[activeIdx],to=tArr[activeIdx+1];
-    if(from!=null&&to!=null){
-      const p=Math.min(100,((nd-from)/(to-from))*100);
-      document.getElementById('progress-fill').style.width=p.toFixed(1)+'%';
-      document.getElementById('progress-from').textContent=PN[activeIdx]+' '+fmtT(from);
-      document.getElementById('progress-to').textContent=PN[activeIdx+1]+' '+fmtT(to);
-      document.getElementById('progress-pct').textContent=p.toFixed(0)+'%';
-      document.getElementById('progress-wrap').style.display='';
-    }
-  } else document.getElementById('progress-wrap').style.display='none';
-
-  // Countdown + interval
-  if(timerInt)clearInterval(timerInt);
-  if(isToday){
-    updateCD(tArr,nextIdx,now);
-    timerInt=setInterval(()=>{
-      const n=new Date();
-      const nd2=n.getHours()+n.getMinutes()/60+n.getSeconds()/3600;
-      let ni=-1;for(let i=0;i<6;i++){if(tArr[i]!=null&&nd2<tArr[i]){ni=i;break;}}
-      updateCD(tArr,ni,n);
-      if(activeIdx>=0&&activeIdx<5){
-        const from=tArr[activeIdx],to=tArr[activeIdx+1];
-        if(from!=null&&to!=null){
-          const p=Math.min(100,((nd2-from)/(to-from))*100);
-          document.getElementById('progress-fill').style.width=p.toFixed(1)+'%';
-          document.getElementById('progress-pct').textContent=p.toFixed(0)+'%';
-        }
-      }
-    },1000);
-    buildChecklist(date,tArr,nd);
-  } else {
-    document.getElementById('countdown-box').style.display='none';
-    document.getElementById('checklist-wrap').style.display='none';
+    if(!nextPrayer)currentPrayer='isya';
   }
-  buildWeekly(city,date,method);
-}
 
-function updateCD(tArr,ni,now){
-  if(ni<0){
-    document.getElementById('countdown-prayer').textContent='Semua sholat hari ini sudah berlalu';
-    document.getElementById('countdown-time').textContent='—';
-    document.getElementById('countdown-sub').textContent='';
-    return;
+  // Render prayer grid
+  const grid=document.getElementById('prayer-grid');
+  if(grid)grid.innerHTML=PRAYERS.map(p=>`<div class="prayer-card${p.key===nextPrayer?' next':p.key===currentPrayer?' current':''}">
+    <div class="prayer-ico">${p.ico}</div>
+    <div class="prayer-nm">${p.nm}</div>
+    <div class="prayer-time">${times[p.key]}</div>
+    ${isToday&&p.key===nextPrayer?`<div class="prayer-left">← Selanjutnya</div>`:isToday&&p.key===currentPrayer?`<div class="prayer-left">Sedang berlangsung</div>`:``}
+  </div>`).join('');
+
+  // Next box
+  const nextBox=document.getElementById('next-box');
+  if(nextBox&&nextPrayer&&isToday){
+    nextBox.style.display='block';
+    const nextP=PRAYERS.find(p=>p.key===nextPrayer);
+    document.getElementById('next-lbl').textContent='Sholat Berikutnya';
+    document.getElementById('next-val').textContent=nextP?.ico+' '+nextP?.nm+' — '+times[nextPrayer];
+    const minLeft=timesMins[nextPrayer]-nowMins;
+    document.getElementById('next-sub').textContent=minLeft+' menit lagi · '+date.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long'});
+  } else if(nextBox){nextBox.style.display='none';}
+
+  // Detail rows
+  const detailLres=document.getElementById('detail-lres');
+  const detailRows=document.getElementById('detail-rows');
+  if(detailLres&&detailRows){
+    detailLres.style.display='block';
+    detailRows.innerHTML=[
+      ['Subuh (Fajr)',times.subuh,'Sudut 20°'],
+      ['Syuruq (Terbit)',times.syuruq,'Matahari terbit'],
+      ['Dzuhur',times.dzuhur,'Kulminasi + 2 mnt'],
+      ['Ashar',times.ashar,'Bayangan = benda (Syafi\'i)'],
+      ['Maghrib',times.maghrib,'Matahari terbenam'],
+      ['Isya',times.isya,'Sudut 18°'],
+    ].map(r=>`<div class="rr"><span>${r[0]} <span style="font-size:10px;color:var(--tx3)">(${r[2]})</span></span><span>${r[1]}</span></div>`).join('');
   }
-  document.getElementById('countdown-box').style.display='';
-  const nd=now.getHours()+now.getMinutes()/60+now.getSeconds()/3600;
-  const secs=Math.max(0,Math.round((tArr[ni]-nd)*3600));
-  document.getElementById('countdown-prayer').textContent=PE[ni]+' '+PN[ni]+' pukul '+fmtT(tArr[ni]);
-  document.getElementById('countdown-time').textContent=fmtCD(secs);
-  const min=Math.round(secs/60);
-  document.getElementById('countdown-sub').textContent=
-    min>60?Math.floor(min/60)+' jam '+min%60+' menit lagi':min>0?min+' menit lagi':'Waktunya sekarang!';
 }
 
-function buildChecklist(date,tArr,nd){
-  const key=ckKey(date);
-  const saved=JSON.parse(localStorage.getItem(key)||'{}');
-  const sholatIdx=[0,2,3,4,5];
-  let html='';
-  sholatIdx.forEach(i=>{
-    const isPast=tArr[i]!=null&&nd>tArr[i];
-    const checked=saved[PN[i]]||false;
-    html+=`<div class="check-row${checked?' checked':''}" id="crow-${i}">
-      <input type="checkbox" id="chk-${i}" ${checked?'checked':''} onchange="saveCheck(${i},'${key}')"/>
-      <label for="chk-${i}">
-        <span style="font-weight:600">${PE[i]} ${PN[i]}</span>
-        <span style="color:var(--text-muted);font-size:.7rem;margin-left:4px">${fmtT(tArr[i])}</span>
-        ${isPast&&!checked?'<span style="color:#f87171;font-size:.65rem;margin-left:4px">⚠ Sudah lewat</span>':''}
-      </label></div>`;
-  });
-  document.getElementById('checklist-rows').innerHTML=html;
-  document.getElementById('checklist-wrap').style.display='';
-  updateCkScore(key);
+function toMins(t){if(!t||t==='—')return 9999;const[h,m]=t.split(':').map(Number);return h*60+m;}
+
+function renderSbKota(){
+  const wrap=document.getElementById('sb-kota-list');if(!wrap)return;
+  wrap.innerHTML=KOTA.slice(0,6).map(k=>`<div class="frow" style="cursor:pointer;background:var(--sur2)" onclick="setKota('${k.nm}')">
+    <div class="frl"><div class="fdot" style="background:var(--teal)"></div><div><div class="fn">${k.nm}</div><div class="fron">${k.lat.toFixed(1)}°, ${k.lon.toFixed(1)}°</div></div></div>
+    <div class="fprice">UTC+${k.tz}</div>
+  </div>`).join('');
 }
 
-function saveCheck(idx,key){
-  const saved=JSON.parse(localStorage.getItem(key)||'{}');
-  const cb=document.getElementById('chk-'+idx);
-  saved[PN[idx]]=cb.checked;
-  cb.closest('.check-row').classList.toggle('checked',cb.checked);
-  localStorage.setItem(key,JSON.stringify(saved));
-  updateCkScore(key);
-}
-
-function updateCkScore(key){
-  const saved=JSON.parse(localStorage.getItem(key)||'{}');
-  const done=Object.values(saved).filter(Boolean).length;
-  document.getElementById('checklist-fill').style.width=(done/5*100)+'%';
-  const msgs=['Semangat! Mulai sholat pertama hari ini 💪','1 sholat — terus lanjutkan! 🌱','Setengah jalan, keren! 🌟','Hampir lengkap! ✨','Sempurna! Semua sholat lengkap hari ini 🎉'];
-  document.getElementById('checklist-score').textContent=done+' dari 5 sholat — '+(msgs[done]||'');
-}
-
-function buildWeekly(city,startDate,method){
-  const today=new Date();
-  let html=`<div class="weekly-row">
-    <div class="weekly-header day-label">Hari</div>
-    <div class="weekly-header t-val">Subuh</div>
-    <div class="weekly-header t-val">Dzuhur</div>
-    <div class="weekly-header t-val">Ashar</div>
-    <div class="weekly-header t-val">Maghrib</div>
-    <div class="weekly-header t-val">Isya</div></div>`;
-  for(let i=0;i<7;i++){
-    const d=new Date(startDate);d.setDate(startDate.getDate()+i);
-    const t=calcT(d,city.lat,city.lng,city.tz,method);
-    const isT=d.toDateString()===today.toDateString();
-    html+=`<div class="weekly-row${isT?' today':''}">
-      <div class="day-label">${dayN(d)} ${d.getDate()}/${d.getMonth()+1}</div>
-      <div class="t-val">${fmtT(t.fajr)}</div><div class="t-val">${fmtT(t.dhuhr)}</div>
-      <div class="t-val">${fmtT(t.asr)}</div><div class="t-val">${fmtT(t.maghrib)}</div>
-      <div class="t-val">${fmtT(t.isha)}</div></div>`;
-  }
-  document.getElementById('weekly-table').innerHTML=html;
-  document.getElementById('weekly-widget').style.display='block';
-}
-
-(function(){dpSetToday();calculate();})();
-function toggleFaq(el){el.closest('.faq-item').classList.toggle('open');}
+// Init
+const today=new Date();
+const todayStr=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+document.getElementById('tgl').value=todayStr;
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+['lat','lon','tgl','tz'].forEach(id=>document.getElementById(id)?.addEventListener('change',calcSholat));
+renderKotaGrid();renderSbKota();calcSholat();
 </script>
 </body>
 </html>

@@ -1,323 +1,84 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Konversi Panjang — Meter, Km, Mil, Inci, Kaki & Lebih | NovaCalcs</title>
-<meta name="description" content="Konversi panjang antar satuan secara instan: meter, kilometer, mil, inci, kaki, yard, cm, dan lainnya. Lengkap dengan konversi tinggi badan ke kaki-inci dan ukuran layar TV."/>
-<meta name="keywords" content="konversi panjang, meter ke km, km ke mil, inci ke cm, kaki ke meter, satuan panjang, tinggi badan kaki inci"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-panjang.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/konversi-panjang.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem}
-.preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.55rem .5rem;cursor:pointer;font-size:.78rem;color:#c0cdd8;text-align:left;transition:all .2s;font-family:inherit}
-.preset-btn:hover{background:rgba(0,201,177,.12);border-color:rgba(0,201,177,.35);color:#00C9B1}
-.preset-btn strong{display:block;font-size:.85rem;color:#fff;margin-bottom:.1rem}
-.result-highlight{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;margin-bottom:.5rem;font-size:.9rem}
-.ref-table{width:100%;border-collapse:collapse;font-size:.82rem}
-.ref-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.4rem .5rem;text-align:left;font-size:.78rem}
-.ref-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
-.ref-table tr:last-child td{border-bottom:none}
-.tool-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem;margin-bottom:.6rem}
-.tool-card h4{margin:0 0 .5rem;color:#00C9B1;font-size:.88rem}
-.tool-result{background:rgba(0,201,177,.07);border-radius:7px;padding:.5rem .7rem;margin-top:.5rem;font-size:.88rem;color:#c0cdd8;display:none}
-</style>
-</head>
-<body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#konversi">Konversi</a><span class="breadcrumb-sep">›</span>
-      <span>Konversi Panjang</span>
-    </nav>
-  </div>
-</header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">📏 Konversi Panjang</div>
-      <div class="calc-subtitle">Meter, kilometer, mil, inci, kaki &amp; lebih</div>
-
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-konversi',this)">🔄 Konversi</button>
-        <button class="tab-btn" onclick="showTab('tab-cepat',this)">⚡ Konversi Cepat</button>
-        <button class="tab-btn" onclick="showTab('tab-referensi',this)">📋 Referensi</button>
-      </div>
-
-      <!-- TAB 1: KONVERSI UTAMA -->
-      <div id="tab-konversi" class="tab-pane active">
-        <div class="field"><label>Nilai</label>
-          <input type="number" id="val" placeholder="Masukkan nilai" step="any" oninput="convert()"/>
-        </div>
-        <div class="field"><label>Dari Satuan</label>
-          <select id="from" onchange="convert()">
-            <option value="m">Meter (m)</option>
-            <option value="km">Kilometer (km)</option>
-            <option value="cm">Sentimeter (cm)</option>
-            <option value="mm">Milimeter (mm)</option>
-            <option value="mi">Mil (mile)</option>
-            <option value="ft">Kaki (feet)</option>
-            <option value="in">Inci (inch)</option>
-            <option value="yd">Yard</option>
-            <option value="nm">Mil Laut (nautical mile)</option>
-          </select>
-        </div>
-        <button class="calc-btn" onclick="convert()">Konversi</button>
-        <div class="result-panel" id="result">
-          <div class="result-rows" id="result-rows"></div>
-        </div>
-      </div>
-
-      <!-- TAB 2: KONVERSI CEPAT -->
-      <div id="tab-cepat" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Konversi populer satu klik, plus alat bantu tinggi badan dan ukuran layar.</p>
-
-        <!-- Presets -->
-        <div style="font-size:.78rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">🔥 Konversi Populer</div>
-        <div class="preset-grid" id="preset-grid"></div>
-        <div id="preset-result" style="display:none;margin-bottom:.75rem">
-          <div class="result-highlight" id="preset-highlight"></div>
-          <div class="result-rows" id="preset-rows"></div>
-        </div>
-
-        <!-- Tinggi badan kaki-inci -->
-        <div class="tool-card">
-          <h4>🧍 Konversi Tinggi Badan (cm ↔ kaki-inci)</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.4rem">
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Tinggi (cm)</label><input type="number" id="tb-cm" placeholder="Contoh: 170" min="50" max="250" oninput="convertHeight()"/></div>
-            <div class="field" style="margin:0"><label style="font-size:.75rem">Kaki + Inci</label>
-              <div style="display:flex;gap:.3rem">
-                <input type="number" id="tb-ft" placeholder="5" min="1" max="8" oninput="convertHeightFt()" style="width:50%"/>
-                <input type="number" id="tb-in" placeholder="7" min="0" max="11" oninput="convertHeightFt()" style="width:50%"/>
-              </div>
-            </div>
-          </div>
-          <div class="tool-result" id="tb-result"></div>
-        </div>
-
-        <!-- Ukuran layar TV -->
-        <div class="tool-card">
-          <h4>📺 Ukuran Layar TV / Monitor (inci → cm)</h4>
-          <div class="field" style="margin-bottom:.4rem"><label style="font-size:.75rem">Diagonal Layar (inci)</label>
-            <input type="number" id="tv-in" placeholder="Contoh: 55" min="10" max="120" oninput="convertTV()"/>
-          </div>
-          <div class="tool-result" id="tv-result"></div>
-        </div>
-      </div>
-
-      <!-- TAB 3: REFERENSI -->
-      <div id="tab-referensi" class="tab-pane">
-        <p style="font-size:.83rem;color:#8fa3b1;margin-bottom:.75rem">Referensi panjang benda dan jarak umum.</p>
-        <table class="ref-table">
-          <thead><tr><th>Objek / Jarak</th><th>Panjang</th><th>Setara</th></tr></thead>
-          <tbody>
-            <tr><td>Layar HP (rata-rata)</td><td>6,5 inci</td><td>16,5 cm</td></tr>
-            <tr><td>TV 55 inci</td><td>55 inci diagonal</td><td>139,7 cm</td></tr>
-            <tr><td>Tinggi pintu standar</td><td>200 cm</td><td>6 ft 6,7 in</td></tr>
-            <tr><td>Rata-rata tinggi pria Indonesia</td><td>163 cm</td><td>5 ft 4,2 in</td></tr>
-            <tr><td>Rata-rata tinggi wanita Indonesia</td><td>153 cm</td><td>5 ft 0,2 in</td></tr>
-            <tr><td>Lapangan sepak bola (panjang)</td><td>105 m</td><td>344,5 ft</td></tr>
-            <tr><td>Jarak Jakarta–Surabaya</td><td>~790 km</td><td>~491 mil</td></tr>
-            <tr><td>Panjang Pulau Jawa</td><td>~1.000 km</td><td>~621 mil</td></tr>
-            <tr><td>Ketinggian jelajah pesawat</td><td>35.000 ft</td><td>10,67 km</td></tr>
-            <tr><td>Kedalaman Danau Toba</td><td>~505 m</td><td>1.657 ft</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="content-area">
-    <h1>Konversi Panjang Online — Meter, Km, Mil, Inci, Kaki &amp; Lebih</h1>
-    <p class="page-desc">Konversi panjang antar satuan metrik dan imperial secara instan. Masukkan nilai, pilih satuan asal, dan dapatkan semua hasil konversi sekaligus. Berguna untuk konstruksi, perjalanan, elektronik, olahraga, dan keperluan teknis.</p>
-
-    <div class="ad-slot">Advertisement</div>
-
-    <h2>Satuan Panjang yang Tersedia</h2>
-    <p>Kalkulator ini mendukung sembilan satuan panjang yang paling sering dibutuhkan dalam kehidupan sehari-hari di Indonesia:</p>
-    <ul>
-      <li><strong>Meter (m)</strong> — Satuan dasar panjang dalam sistem SI. Standar internasional.</li>
-      <li><strong>Kilometer (km)</strong> — 1 km = 1.000 m. Untuk jarak antar kota dan kecepatan berkendara.</li>
-      <li><strong>Sentimeter (cm)</strong> — 1 cm = 0,01 m. Standar untuk tinggi badan dan ukuran benda di Indonesia.</li>
-      <li><strong>Milimeter (mm)</strong> — 1 mm = 0,001 m. Untuk presisi teknis, curah hujan, dan ketebalan bahan.</li>
-      <li><strong>Mil (statute mile)</strong> — 1 mil = 1,60934 km. Digunakan di AS untuk jarak dan kecepatan (mph).</li>
-      <li><strong>Kaki (feet)</strong> — 1 ft = 30,48 cm. Standar internasional untuk ketinggian pesawat dan tinggi badan di beberapa negara.</li>
-      <li><strong>Inci (inch)</strong> — 1 in = 2,54 cm. Untuk ukuran layar TV, monitor, dan ban kendaraan.</li>
-      <li><strong>Yard</strong> — 1 yd = 0,9144 m. Digunakan di lapangan golf, football Amerika, dan industri tekstil.</li>
-      <li><strong>Mil Laut (nautical mile)</strong> — 1 nm = 1,852 km. Standar navigasi laut dan udara internasional.</li>
-    </ul>
-
-    <h2>Tabel Konversi Panjang Lengkap</h2>
-    <table>
-      <tr><th>Satuan</th><th>Nilai dalam meter</th><th>Konversi umum</th></tr>
-      <tr><td>1 kilometer (km)</td><td>1.000 m</td><td>= 0,6214 mil · 3.281 kaki · 1.094 yard</td></tr>
-      <tr><td>1 meter (m)</td><td>1 m</td><td>= 100 cm · 39,37 inci · 3,281 kaki</td></tr>
-      <tr><td>1 sentimeter (cm)</td><td>0,01 m</td><td>= 10 mm · 0,3937 inci</td></tr>
-      <tr><td>1 milimeter (mm)</td><td>0,001 m</td><td>= 0,1 cm · 0,03937 inci</td></tr>
-      <tr><td>1 mil (mile)</td><td>1.609,34 m</td><td>= 1,609 km · 5.280 kaki · 1.760 yard</td></tr>
-      <tr><td>1 kaki (feet)</td><td>0,3048 m</td><td>= 30,48 cm · 12 inci · 0,333 yard</td></tr>
-      <tr><td>1 inci (inch)</td><td>0,0254 m</td><td>= 2,54 cm · 0,0833 kaki</td></tr>
-      <tr><td>1 yard</td><td>0,9144 m</td><td>= 91,44 cm · 3 kaki · 36 inci</td></tr>
-      <tr><td>1 mil laut</td><td>1.852 m</td><td>= 1,852 km · 6.076 kaki</td></tr>
-    </table>
-
-    <h2>Contoh Konversi Panjang yang Sering Dicari</h2>
-    <ul>
-      <li><strong>Tinggi 170 cm ke kaki-inci:</strong> 170 ÷ 30,48 = 5,577 kaki = <strong>5 kaki 6,9 inci (≈ 5'7")</strong></li>
-      <li><strong>TV 55 inci ke cm:</strong> 55 × 2,54 = <strong>139,7 cm</strong> (diagonal layar)</li>
-      <li><strong>Jarak 100 km ke mil:</strong> 100 × 0,6214 = <strong>62,14 mil</strong></li>
-      <li><strong>Ketinggian 35.000 kaki ke km:</strong> 35.000 × 0,3048 ÷ 1.000 = <strong>10,67 km</strong></li>
-      <li><strong>Marathon 42,195 km ke mil:</strong> 42,195 × 0,6214 = <strong>26,22 mil</strong></li>
-    </ul>
-
-    <h2>Satuan Panjang dalam Kehidupan Sehari-hari Indonesia</h2>
-    <p>Berbagai satuan panjang hadir di keseharian kita. Jarak perjalanan menggunakan kilometer (km) — Google Maps menggunakan km secara default di Indonesia. Tinggi badan dicatat dalam sentimeter (cm) di KTP dan rekam medis. Ukuran layar elektronik (TV, monitor, HP) menggunakan inci sebagai standar industri global. Ketinggian pesawat dinyatakan dalam kaki (feet) — "cruising altitude 35.000 feet" = 10.668 meter. Ukuran ban kendaraan seperti "R17" mengacu pada diameter pelek dalam inci.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">1 mil berapa km?</div>
-    <div class="faq-a">1 mil (statute mile) = 1,60934 kilometer. Sebaliknya, 1 km = 0,6214 mil. Kecepatan 60 mph setara ±96,5 km/jam. Cara cepat mengingat: 5 mil ≈ 8 km, atau km × 0,6 ≈ mil.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Tinggi badan 5 kaki 10 inci berapa cm?</div>
-    <div class="faq-a">5 kaki 10 inci = (5 × 30,48) + (10 × 2,54) = 152,4 + 25,4 = <strong>177,8 cm</strong>. Rumus: kaki × 30,48 + inci × 2,54. Konversi ini sering dibutuhkan saat mengisi formulir medis atau visa internasional.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">TV 65 inci berapa cm dan berapa lebar aktualnya?</div>
-    <div class="faq-a">65 inci diagonal = 65 × 2,54 = 165,1 cm diagonal. Untuk TV rasio 16:9, lebar aktual ≈ 165,1 × 0,872 = <strong>143,9 cm</strong>, tinggi ≈ 80,9 cm. Ukuran inci pada TV selalu merujuk diagonal layar, bukan lebar.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa beda mil biasa dengan mil laut?</div>
-    <div class="faq-a">Mil biasa (statute mile) = 1,60934 km, untuk jarak darat di AS dan Inggris. Mil laut (nautical mile) = 1,852 km, untuk navigasi kapal dan pesawat. Mil laut didefinisikan sebagai 1 menit busur bujur bumi, memudahkan navigasi menggunakan koordinat.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa cm dalam 1 inci?</div>
-    <div class="faq-a">1 inci = tepat 2,54 sentimeter (nilai eksak yang ditetapkan secara internasional sejak 1959). Ini adalah konversi tetap tanpa pembulatan. Jadi 10 inci = 25,4 cm, dan 1 cm = 0,3937 inci.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Mengapa ketinggian pesawat diukur dalam kaki?</div>
-    <div class="faq-a">Penerbangan sipil internasional mengadopsi sistem imperial dari Amerika Serikat yang mendominasi industri penerbangan awal. Standarisasi global dalam kaki mencegah kebingungan antara pilot dari berbagai negara. Indonesia mengikuti standar ICAO yang menetapkan kaki sebagai satuan ketinggian penerbangan.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/konversi-berat.html" class="related-item"><span class="ri">⚖️</span>Konversi Berat</a>
-      <a href="/id/konversi-volume.html" class="related-item"><span class="ri">🧪</span>Konversi Volume</a>
-      <a href="/id/konversi-suhu.html" class="related-item"><span class="ri">🌡️</span>Konversi Suhu</a>
-      <a href="/id/kalkulator-bmi.html" class="related-item"><span class="ri">⚖️</span>Kalkulator BMI</a>
-    </div>
-  </div>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konversi Panjang 2026 — meter, km, inch, feet, mil & semua satuan | NovaCalcs</title>
+<meta name="description" content="Konversi panjang 2026: meter, kilometer, centimeter, inch, feet, yard, mil, dan nautical mile. Konversi instan dua arah. Gratis.">
+<link rel="canonical" href="https://novacalcs.com/id/konversi-panjang">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06)}body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}a{color:var(--pri);text-decoration:none}.nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}.nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}.nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none}.nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}.hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}.hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}.hdr-h1{font-size:clamp(20px,5vw,28px);font-weight:800;letter-spacing:-.8px}.hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}.main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px}@media(max-width:700px){.main{grid-template-columns:1fr}}.left-col{display:flex;flex-direction:column;gap:20px}.card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}.card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}.card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}.card-b{padding:18px}.conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:480px){.conv-grid{grid-template-columns:1fr}}.conv-item{background:var(--sur2);border:1.5px solid var(--bor);border-radius:var(--rs);padding:10px 12px;transition:border-color .15s}.conv-item.active{border-color:var(--pri);background:var(--pri-l)}.conv-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}.conv-item.active .conv-lbl{color:var(--pri)}.conv-inp{width:100%;border:none;background:transparent;font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--tx);outline:none;-moz-appearance:textfield}.conv-inp::-webkit-outer-spin-button,.conv-inp::-webkit-inner-spin-button{-webkit-appearance:none}.conv-unit{font-size:10px;color:var(--tx3);margin-top:2px}.ref-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}.ref-tbl th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--bor)}.ref-tbl td{padding:7px 10px;border-bottom:1px solid var(--bor);font-family:'DM Mono',monospace;font-size:11px}.ref-tbl td:first-child{font-family:inherit;font-weight:700;color:var(--tx)}.ref-tbl tr:last-child td{border-bottom:none}.other-conv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.oc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:11px;text-decoration:none;color:inherit;transition:border-color .15s}.oc:hover{border-color:var(--pri)}.oc-ico{font-size:18px;margin-bottom:4px}.oc-nm{font-size:12px;font-weight:700}.oc-ds{font-size:10px;color:var(--tx3)}.sb{display:flex;flex-direction:column;gap:16px}.flist{display:flex;flex-direction:column;gap:6px}.frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}.frl{display:flex;align-items:center;gap:9px}.fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}.fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}.seo{max-width:880px;margin:0 auto;padding:0 20px 60px}.seo h2{font-size:18px;font-weight:800;margin:32px 0 8px}.seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:8px}.faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}.faq-q{padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}.faq-q::after{content:'＋';color:var(--tx3)}.faq-i.open .faq-q::after{content:'－'}.faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}.faq-a{padding:0 14px 10px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}.faq-i.open .faq-a{display:block}footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}footer a{color:var(--tx3)}.presets{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}.pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s;font-family:inherit}.pb:hover{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}</style>
+</head><body>
+<nav class="nav"><div class="nav-i"><a href="/id/" class="nav-logo">⚡ NovaCalcs</a><span class="nav-sep">/</span><span class="nav-cur">Konversi Panjang</span></div></nav>
+<header class="hdr"><div class="hdr-tag">📏 Konversi Panjang</div><h1 class="hdr-h1">Konversi Panjang 2026</h1><p class="hdr-sub">Konversi meter, kilometer, centimeter, inch, feet, yard, mil, dan nautical mile secara instan.</p></header>
+<main class="main">
+<div class="left-col">
+<div class="card"><div class="card-h"><div class="card-ico">📏</div>Konverter Panjang</div><div class="card-b">
+<div class="presets">
+  <button class="pb" onclick="setVal('m',1)">1 meter</button>
+  <button class="pb" onclick="setVal('km',1)">1 km</button>
+  <button class="pb" onclick="setVal('inch',1)">1 inch</button>
+  <button class="pb" onclick="setVal('ft',1)">1 feet</button>
+  <button class="pb" onclick="setVal('mile',1)">1 mil</button>
+</div>
+<div class="conv-grid" id="conv-grid"></div>
+</div></div>
+<div class="card"><div class="card-h"><div class="card-ico">📋</div>Tabel Referensi</div><div class="card-b"><div style="overflow-x:auto"><table class="ref-tbl"><thead><tr><th>Dari</th><th>→ Meter</th><th>→ Km</th><th>→ Feet</th><th>→ Inch</th></tr></thead><tbody id="ref-tbody"></tbody></table></div></div></div>
+</div>
+<div class="sb">
+<div class="card"><div class="card-h"><div class="card-ico">💡</div>Referensi Cepat</div><div class="card-b"><div class="flist">
+<div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 meter</div></div></div><div class="fprice">3,281 ft</div></div>
+<div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 inch</div></div></div><div class="fprice">2,54 cm</div></div>
+<div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 feet</div></div></div><div class="fprice">30,48 cm</div></div>
+<div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 mil</div></div></div><div class="fprice">1,609 km</div></div>
+</div></div></div>
+<div class="card"><div class="card-h"><div class="card-ico">🔗</div>Konverter Lainnya</div><div class="card-b"><div class="other-conv">
+<a href="/id/konversi-berat" class="oc"><div class="oc-ico">⚖️</div><div class="oc-nm">Berat</div><div class="oc-ds">kg, lb, oz</div></a>
+<a href="/id/konversi-suhu" class="oc"><div class="oc-ico">🌡️</div><div class="oc-nm">Suhu</div><div class="oc-ds">°C, °F, K</div></a>
+<a href="/id/konversi-volume" class="oc"><div class="oc-ico">🧪</div><div class="oc-nm">Volume</div><div class="oc-ds">L, ml, galon</div></a>
+<a href="/id/konversi-luas" class="oc"><div class="oc-ico">📐</div><div class="oc-nm">Luas</div><div class="oc-ds">m², hektar</div></a>
+</div></div></div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
-</footer>
-<script defer>
-const TO_M = {
-  m:1, km:1000, cm:0.01, mm:0.001,
-  mi:1609.344, ft:0.3048, in:0.0254,
-  yd:0.9144, nm:1852
-};
-const LABELS = {
-  m:'Meter (m)', km:'Kilometer (km)', cm:'Sentimeter (cm)', mm:'Milimeter (mm)',
-  mi:'Mil (mile)', ft:'Kaki (feet)', in:'Inci (inch)', yd:'Yard', nm:'Mil Laut'
-};
-
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-
-function fmt(n) {
-  if (n === 0) return '0';
-  if (Math.abs(n) < 0.0001) return n.toExponential(4);
-  if (Math.abs(n) >= 1000000) return n.toLocaleString('id-ID', {maximumFractionDigits:2});
-  return parseFloat(n.toPrecision(7)).toLocaleString('id-ID', {maximumFractionDigits:7}).replace(/\.?0+$/, '');
-}
-
-function convert() {
-  const v = parseFloat(document.getElementById('val').value);
-  const from = document.getElementById('from').value;
-  if (isNaN(v)) return;
-  const m = v * TO_M[from];
-  document.getElementById('result-rows').innerHTML =
-    Object.entries(TO_M).filter(([u]) => u !== from).map(([unit, factor]) =>
-      `<div class="result-row"><span class="rkey">${LABELS[unit]}</span><span class="rval">${fmt(m / factor)}</span></div>`
-    ).join('');
-  document.getElementById('result').classList.add('show');
-}
-
-const PRESETS = [
-  { label: '1 km → mil / meter', val: 1, from: 'km' },
-  { label: '100 km → mil', val: 100, from: 'km' },
-  { label: '1 inci → cm', val: 1, from: 'in' },
-  { label: '1 kaki → cm / m', val: 1, from: 'ft' },
-  { label: '5 kaki 7 inci → cm', val: 170.18/100, from: 'm' },
-  { label: '42 km (marathon) → mil', val: 42.195, from: 'km' },
-  { label: '1 mil laut → km', val: 1, from: 'nm' },
-  { label: '35.000 kaki → km', val: 35000, from: 'ft' },
+<div class="seo"><h2>Konversi Satuan Panjang</h2><p>1 meter = 100 cm = 1000 mm = 3,28084 feet = 39,3701 inch. 1 kilometer = 1000 meter = 0,621371 mil. Sistem metrik (m, km) adalah standar internasional; sistem imperial (inch, feet, mil) digunakan di AS dan UK.</p>
+<h2>FAQ</h2>
+<div class="faq-i"><div class="faq-q">Berapa cm dalam 1 inch?</div><div class="faq-a">1 inch = 2,54 cm (tepat, ini definisi resmi). Sebaliknya, 1 cm = 0,393701 inch. Untuk konversi cepat: 1 inch ≈ 2,5 cm.</div></div>
+</div>
+<footer><span>© 2026 NovaCalcs</span><span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span></footer>
+<script>
+const UNITS=[
+  {id:'m',nm:'Meter',sym:'m',factor:1},
+  {id:'km',nm:'Kilometer',sym:'km',factor:1000},
+  {id:'cm',nm:'Centimeter',sym:'cm',factor:0.01},
+  {id:'mm',nm:'Milimeter',sym:'mm',factor:0.001},
+  {id:'inch',nm:'Inch',sym:'in',factor:0.0254},
+  {id:'ft',nm:'Feet / Kaki',sym:'ft',factor:0.3048},
+  {id:'yard',nm:'Yard',sym:'yd',factor:0.9144},
+  {id:'mile',nm:'Mil (mile)',sym:'mi',factor:1609.344},
+  {id:'nm',nm:'Nautical Mile',sym:'nmi',factor:1852},
 ];
-
-function renderPresets() {
-  document.getElementById('preset-grid').innerHTML = PRESETS.map((p, i) =>
-    `<button class="preset-btn" onclick="runPreset(${i})"><strong>${p.label}</strong>${p.val} ${LABELS[p.from] || p.from}</button>`
-  ).join('');
+let activeId='m',baseVal=1;
+function fmtN(n){if(n===0)return'0';if(Math.abs(n)<0.000001||Math.abs(n)>1e12)return n.toExponential(4);return parseFloat(n.toPrecision(8)).toLocaleString('id-ID',{maximumFractionDigits:8});}
+function setVal(id,val){activeId=id;baseVal=val/(UNITS.find(u=>u.id===id)?.factor||1);renderGrid();}
+function renderGrid(){
+  const wrap=document.getElementById('conv-grid');if(!wrap)return;
+  wrap.innerHTML=UNITS.map(u=>`<div class="conv-item${u.id===activeId?' active':''}" onclick="activateUnit('${u.id}')">
+    <div class="conv-lbl">${u.nm}</div>
+    <input class="conv-inp" type="number" id="inp-${u.id}" value="${fmtN(baseVal*u.factor)}" oninput="onInput('${u.id}',this.value)" placeholder="0">
+    <div class="conv-unit">${u.sym}</div>
+  </div>`).join('');
 }
-
-function runPreset(i) {
-  const p = PRESETS[i];
-  const m = p.val * TO_M[p.from];
-  document.getElementById('preset-highlight').innerHTML =
-    `<strong style="color:#00C9B1">${p.val} ${LABELS[p.from]}</strong> sama dengan:`;
-  document.getElementById('preset-rows').innerHTML =
-    Object.entries(TO_M).filter(([u]) => u !== p.from).map(([unit, factor]) =>
-      `<div class="result-row"><span class="rkey">${LABELS[unit]}</span><span class="rval">${fmt(m / factor)}</span></div>`
-    ).join('');
-  document.getElementById('preset-result').style.display = 'block';
+function activateUnit(id){activeId=id;const el=document.getElementById('inp-'+id);if(el)el.focus();renderGrid();}
+function onInput(id,val){
+  const n=parseFloat(val);if(isNaN(n))return;
+  const u=UNITS.find(u=>u.id===id);if(!u)return;
+  baseVal=n/u.factor;activeId=id;
+  UNITS.forEach(u2=>{if(u2.id===id)return;const el=document.getElementById('inp-'+u2.id);if(el)el.value=fmtN(baseVal*u2.factor);});
 }
-
-function convertHeight() {
-  const cm = parseFloat(document.getElementById('tb-cm').value);
-  if (!cm || cm < 50) return;
-  const totalIn = cm / 2.54;
-  const ft = Math.floor(totalIn / 12);
-  const inch = (totalIn % 12).toFixed(1);
-  const r = document.getElementById('tb-result');
-  r.innerHTML = `<strong>${cm} cm</strong> = <strong style="color:#00C9B1">${ft} kaki ${inch} inci (${ft}'${inch}")</strong>`;
-  r.style.display = 'block';
-  document.getElementById('tb-ft').value = ft;
-  document.getElementById('tb-in').value = parseFloat(inch);
+function renderRef(){
+  const tbody=document.getElementById('ref-tbody');if(!tbody)return;
+  const rows=[['1 m',1,0.001,3.28084,39.3701],['1 km',1000,1,3280.84,39370.1],['1 inch',0.0254,0.0000254,0.0833333,1],['1 feet',0.3048,0.0003048,1,12],['1 yard',0.9144,0.0009144,3,36],['1 mil',1609.34,1.60934,5280,63360]];
+  tbody.innerHTML=rows.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td>${fmtN(v)}</td>`).join('')}</tr>`).join('');
 }
-
-function convertHeightFt() {
-  const ft = parseFloat(document.getElementById('tb-ft').value) || 0;
-  const inch = parseFloat(document.getElementById('tb-in').value) || 0;
-  if (!ft && !inch) return;
-  const cm = (ft * 30.48 + inch * 2.54).toFixed(1);
-  const r = document.getElementById('tb-result');
-  r.innerHTML = `<strong>${ft} kaki ${inch} inci</strong> = <strong style="color:#00C9B1">${cm} cm</strong>`;
-  r.style.display = 'block';
-  document.getElementById('tb-cm').value = cm;
-}
-
-function convertTV() {
-  const inch = parseFloat(document.getElementById('tv-in').value);
-  if (!inch || inch < 5) return;
-  const diagCm = (inch * 2.54).toFixed(1);
-  const ratio = 16 / Math.sqrt(16*16 + 9*9);
-  const w = (inch * 2.54 * ratio).toFixed(1);
-  const h = (inch * 2.54 * (9 / Math.sqrt(16*16 + 9*9))).toFixed(1);
-  const r = document.getElementById('tv-result');
-  r.innerHTML = `TV <strong>${inch} inci</strong> = diagonal <strong style="color:#00C9B1">${diagCm} cm</strong><br>Lebar aktual (16:9): <strong>${w} cm</strong> · Tinggi: <strong>${h} cm</strong>`;
-  r.style.display = 'block';
-}
-
-renderPresets();
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+renderGrid();renderRef();
 </script>
-</body>
-</html>
+</body></html>
