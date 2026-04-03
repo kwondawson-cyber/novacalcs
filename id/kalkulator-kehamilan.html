@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kalkulator Kehamilan 2026 — Usia Kehamilan, Trimester & Perkembangan Janin | NovaCalcs</title>
+  <title>Kalkulator Kehamilan 2026 — Perkembangan Janin per Minggu, Trimester & Gejala Kehamilan | NovaCalcs</title>
   <meta name="description" content="Kalkulator kehamilan 2026: hitung usia kehamilan, trimester, HPL (hari perkiraan lahir), dan perkembangan janin per minggu. Berdasarkan HPHT atau USG. Gratis & akurat.">
   <link rel="canonical" href="https://novacalcs.com/id/kalkulator-kehamilan">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -125,8 +125,8 @@
 
 <header class="hdr">
   <div class="hdr-tag">🤰 Kehamilan</div>
-  <h1 class="hdr-h1">Kalkulator Kehamilan 2026</h1>
-  <p class="hdr-sub">Hitung usia kehamilan, trimester, HPL (Hari Perkiraan Lahir), dan perkembangan janin per minggu. Berdasarkan HPHT atau hasil USG.</p>
+  <h1 class="hdr-h1">Kalkulator Kehamilan & Perkembangan Janin 2026</h1>
+  <p class="hdr-sub">Pantau perkembangan janin minggu per minggu — ukuran, berat, organ yang terbentuk, dan pergerakan bayi. Lengkap dengan gejala & tips per trimester. Berbeda dari kalkulator HPL.</p>
   <div class="pstrip">
     <div class="pchip">Kehamilan normal <span>280 hari / 40 minggu</span></div>
     <div class="pchip">HPL <span>HPHT + 280 hari</span></div>
@@ -142,7 +142,7 @@
   <div class="card-b">
     <div class="tbar">
       <button class="tbtn on" data-tab="hpht">📅 Dari HPHT</button>
-      <button class="tbtn" data-tab="usg">🔬 Dari Usia USG</button>
+      <button class="tbtn" data-tab="gejala">🌿 Gejala & Tips Trimester</button>
     </div>
 
     <!-- HPHT -->
@@ -193,39 +193,18 @@
       </div>
     </div>
 
-    <!-- USG -->
-    <div class="tpanel" id="tab-usg">
-      <div class="notice info" style="margin-bottom:14px">ℹ️ Jika hasil USG menunjukkan usia kehamilan berbeda dari perhitungan HPHT, gunakan hasil USG (terutama di trimester pertama) untuk menghitung HPL yang lebih akurat.</div>
-      <div class="g2">
-        <div class="fld"><label>Tanggal USG</label>
-          <div class="iw"><input type="date" id="u-tgl-usg" onchange="calcUSG()"></div>
-        </div>
-        <div class="fld"><label>Usia Kehamilan saat USG</label>
-          <div style="display:flex;gap:6px">
-            <div class="iw"><input type="number" id="u-minggu-usg" value="10" min="4" max="42" onchange="calcUSG()"><span class="iu">mgg</span></div>
-            <div class="iw"><input type="number" id="u-hari-usg" value="0" min="0" max="6" onchange="calcUSG()"><span class="iu">hr</span></div>
-          </div>
+    <!-- GEJALA & TIPS TRIMESTER -->
+    <div class="tpanel" id="tab-gejala">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Pilih trimester atau masukkan usia kehamilan untuk melihat gejala umum, tips, dan pemeriksaan yang perlu dilakukan.</p>
+      <div class="fld"><label>Pilih Trimester / Usia Kehamilan</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="showGejala(1)" id="g-t1" class="pb on">🌱 Trimester 1 (1–12 mgg)</button>
+          <button onclick="showGejala(2)" id="g-t2" class="pb">🌸 Trimester 2 (13–27 mgg)</button>
+          <button onclick="showGejala(3)" id="g-t3" class="pb">🌺 Trimester 3 (28–40 mgg)</button>
         </div>
       </div>
-      <div class="fld"><label>Hitung per Tanggal</label>
-        <div class="iw"><input type="date" id="u-today" onchange="calcUSG()"></div>
-      </div>
-
-      <div class="hpl-big">
-        <div class="hpl-lbl">🎉 HPL (berdasarkan USG)</div>
-        <div class="hpl-val" id="u-hpl">—</div>
-        <div class="hpl-sub" id="u-hpl-sub">—</div>
-      </div>
-
-      <div class="lres">
-        <div class="rrows">
-          <div class="rr"><span>Tanggal USG</span><span id="u-r1">—</span></div>
-          <div class="rr"><span>Usia saat USG</span><span id="u-r2">—</span></div>
-          <div class="rr"><span>HPL (berdasarkan USG)</span><span id="u-r3">—</span></div>
-          <div class="rr"><span>Usia kehamilan sekarang</span><span id="u-r4">—</span></div>
-          <div class="rr"><span>Sisa minggu</span><span id="u-r5">—</span></div>
-        </div>
-      </div>
+      <div id="gejala-wrap"></div>
+      <div class="notice info" style="margin-top:10px">💡 Untuk menghitung Hari Perkiraan Lahir (HPL) dari HPHT, USG, atau konsepsi secara detail, gunakan <a href="/id/kalkulator-hpl">Kalkulator HPL</a>.</div>
     </div>
   </div>
 </div>
@@ -351,27 +330,6 @@ function calcHPHT(){
   renderWeekGrid();renderJanin();
 }
 
-// ② USG
-function calcUSG(){
-  const tglUSG=parseD('u-tgl-usg'),tglNow=parseD('u-today');
-  if(!tglUSG||!tglNow)return;
-  const minggUSG=parseInt(document.getElementById('u-minggu-usg')?.value)||10;
-  const hariUSG=parseInt(document.getElementById('u-hari-usg')?.value)||0;
-  const totalDaysUSG=minggUSG*7+hariUSG;
-  const hphtEst=new Date(tglUSG);hphtEst.setDate(hphtEst.getDate()-totalDaysUSG);
-  const hpl=new Date(hphtEst);hpl.setDate(hpl.getDate()+280);
-  const daysSinceUSG=Math.round((tglNow-tglUSG)/(1000*60*60*24));
-  const totalDaysNow=totalDaysUSG+daysSinceUSG;
-  const mingguNow=Math.floor(totalDaysNow/7);
-  const sisaHari=Math.max(0,Math.round((hpl-tglNow)/(1000*60*60*24)));
-  const sisaMinggu=Math.ceil(sisaHari/7);
-  set('u-hpl',fmtDate(hpl)+' ('+DAYS_ID[hpl.getDay()]+')');
-  set('u-hpl-sub',sisaHari>0?sisaHari+' hari lagi':'HPL sudah terlewati atau hari ini');
-  set('u-r1',fmtDate(tglUSG));set('u-r2',minggUSG+' minggu '+hariUSG+' hari');
-  set('u-r3',fmtDate(hpl)+' ('+DAYS_ID[hpl.getDay()]+')');
-  set('u-r4',mingguNow+' minggu '+totalDaysNow%7+' hari');
-  set('u-r5',sisaMinggu+' minggu ('+sisaHari+' hari)');
-}
 
 // ③ JANIN
 const JANIN_DATA={
@@ -429,6 +387,72 @@ document.querySelectorAll('.tbtn').forEach(btn=>{
 });
 document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
 renderWeekGrid();renderJanin();calcHPHT();calcUSG();
+
+// GEJALA & TIPS TRIMESTER
+const GEJALA_DATA = {
+  1: {
+    title: '🌱 Trimester 1 (Minggu 1–12)',
+    color: '#1A7F4E',
+    bg: 'var(--grn-b)',
+    bc: '#86efac',
+    gejala: ['Mual & muntah (morning sickness)', 'Payudara nyeri & membesar', 'Sering buang air kecil', 'Kelelahan ekstrem', 'Perubahan mood', 'Mengidam atau mual terhadap makanan tertentu'],
+    tips: ['Makan porsi kecil tapi sering untuk mengurangi mual', 'Konsumsi asam folat 400–800 mcg/hari', 'Hindari bau tajam pemicu mual', 'Istirahat cukup — kelelahan di T1 sangat normal'],
+    pemeriksaan: ['Kunjungan ANC pertama (konfirmasi kehamilan)', 'USG dating (minggu 7–10)', 'Cek darah lengkap & golongan darah', 'Skrining Down Syndrome (minggu 11–13)'],
+    janin: 'Organ utama mulai terbentuk. Di akhir T1, semua organ dasar sudah ada. Ukuran bayi: sebesar buah lemon (±7,5 cm, 28 g di minggu 12).'
+  },
+  2: {
+    title: '🌸 Trimester 2 (Minggu 13–27)',
+    color: '#db2777',
+    bg: 'var(--pink-l)',
+    bc: '#fbcfe8',
+    gejala: ['Morning sickness biasanya mereda', 'Perut mulai membesar terlihat', 'Gerakan bayi pertama (minggu 16–20)', 'Sakit punggung ringan', 'Hidung tersumbat', 'Stretch marks mulai muncul'],
+    tips: ['Gunakan bantal khusus hamil untuk tidur menyamping', 'Olahraga ringan (jalan kaki, yoga prenatal)', 'Mulai krim anti stretch marks', 'Pertimbangkan kelas persiapan persalinan'],
+    pemeriksaan: ['USG anomali (minggu 18–20) — cek organ & jenis kelamin', 'Tes gula darah (GDM screening, minggu 24–28)', 'Imunisasi TT (jika belum)', 'Kunjungan ANC tiap 4 minggu'],
+    janin: 'Bayi mulai bergerak aktif. Sidik jari terbentuk, mata bisa membuka. Di minggu 24, paru-paru mulai berkembang. Ukuran: sebesar jagung (±35 cm, 760 g di minggu 27).'
+  },
+  3: {
+    title: '🌺 Trimester 3 (Minggu 28–40)',
+    color: '#7c3aed',
+    bg: '#f5f3ff',
+    bc: '#c4b5fd',
+    gejala: ['Sesak napas (rahim menekan diafragma)', 'Sering buang air kecil lagi', 'Bengkak di kaki & tangan', 'Kontraksi Braxton Hicks', 'Susah tidur', 'Heartburn / mulas'],
+    tips: ['Tidur miring kiri untuk aliran darah optimal', 'Kurangi makanan pedas & berlemak (heartburn)', 'Persiapkan tas rumah sakit dari minggu 35', 'Hitung gerakan bayi — minimal 10x dalam 2 jam'],
+    pemeriksaan: ['USG & NST (Non-Stress Test) di trimester akhir', 'Kunjungan ANC tiap 2 minggu (minggu 28–36)', 'Kunjungan ANC tiap minggu (minggu 36+)', 'Diskusi rencana persalinan dengan dokter/bidan'],
+    janin: 'Bayi terus bertambah berat. Paru-paru matang. Di minggu 37 sudah full term. Posisi kepala biasanya di bawah (cephalic). Ukuran: sebesar semangka (±50 cm, 3+ kg di minggu 40).'
+  }
+};
+let activeGejala = 1;
+function showGejala(t) {
+  activeGejala = t;
+  [1,2,3].forEach(i => {
+    const btn = document.getElementById('g-t'+i);
+    if(btn) btn.classList.toggle('on', i===t);
+  });
+  const d = GEJALA_DATA[t];
+  const wrap = document.getElementById('gejala-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = `
+    <div style="background:${d.bg};border:1.5px solid ${d.bc};border-radius:var(--r);padding:16px;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:800;color:${d.color};margin-bottom:12px">${d.title}</div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:6px">👶 Kondisi Janin</div>
+      <p style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:12px">${d.janin}</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:6px">😣 Gejala Umum</div>
+          ${d.gejala.map(g=>`<div style="font-size:12px;color:var(--tx2);padding:3px 0;display:flex;gap:6px"><span style="color:${d.color}">•</span><span>${g}</span></div>`).join('')}
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:6px">💡 Tips</div>
+          ${d.tips.map(t=>`<div style="font-size:12px;color:var(--tx2);padding:3px 0;display:flex;gap:6px"><span style="color:${d.color}">✓</span><span>${t}</span></div>`).join('')}
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:6px">🏥 Pemeriksaan di Trimester Ini</div>
+        ${d.pemeriksaan.map(p=>`<div style="font-size:12px;color:var(--tx2);padding:3px 0;display:flex;gap:6px"><span style="color:${d.color}">📋</span><span>${p}</span></div>`).join('')}
+      </div>
+    </div>`;
+}
+
 </script>
 </body>
 </html>

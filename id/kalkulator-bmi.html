@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kalkulator BMI 2026 — Indeks Massa Tubuh, Berat Ideal & Simulasi Target | NovaCalcs</title>
+  <title>Kalkulator BMI 2026 — Indeks Massa Tubuh, Risiko Kesehatan & Simulasi Target | NovaCalcs</title>
   <meta name="description" content="Kalkulator BMI 2026: hitung indeks massa tubuh, cek kategori (WHO & Asia-Pasifik), simulasi target berat, dan kisaran berat ideal berdasarkan tinggi badan. Gratis & akurat.">
   <link rel="canonical" href="https://novacalcs.com/id/kalkulator-bmi">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,7 +146,7 @@
 <header class="hdr">
   <div class="hdr-tag">⚕️ Kesehatan</div>
   <h1 class="hdr-h1">Kalkulator BMI 2026</h1>
-  <p class="hdr-sub">Hitung Indeks Massa Tubuh (IMT/BMI), cek kategori berdasarkan standar WHO &amp; Asia-Pasifik, dan simulasi target berat badan ideal. Hasil tampil otomatis.</p>
+  <p class="hdr-sub">Hitung Indeks Massa Tubuh (BMI), cek kategori WHO &amp; Asia-Pasifik, analisis risiko kesehatan berdasarkan BMI &amp; lingkar pinggang, dan simulasi target berat badan.</p>
   <div class="pstrip">
     <div class="pchip">Rumus BMI <span>berat ÷ tinggi²</span></div>
     <div class="pchip">Normal WHO <span>18,5–24,9</span></div>
@@ -163,7 +163,7 @@
   <div class="card-b">
     <div class="tbar">
       <button class="tbtn on" data-tab="hitung">📏 Hitung BMI</button>
-      <button class="tbtn" data-tab="ideal">✅ Berat Ideal</button>
+      <button class="tbtn" data-tab="risiko">🩺 Risiko Kesehatan</button>
     </div>
 
     <!-- HITUNG BMI -->
@@ -242,44 +242,45 @@
       <div class="notice">⚠️ BMI adalah indikator umum, bukan diagnosa medis. BMI tidak membedakan massa otot dan lemak. Atlet dengan massa otot tinggi bisa BMI "berlebih" meski lemak tubuh rendah. Konsultasikan dengan dokter atau ahli gizi untuk penilaian kesehatan yang komprehensif.</div>
     </div>
 
-    <!-- BERAT IDEAL -->
-    <div class="tpanel" id="tab-ideal">
+    <!-- RISIKO KESEHATAN -->
+    <div class="tpanel" id="tab-risiko">
+      <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Masukkan BMI dan lingkar pinggang untuk melihat profil risiko kesehatan secara lebih lengkap.</p>
       <div class="g2">
-        <div class="fld">
-          <label>Tinggi Badan (cm)</label>
-          <div class="iw"><input type="number" id="i-tinggi" value="165" min="100" max="250" step="0.5"><span class="iu">cm</span></div>
+        <div class="fld"><label>BMI Anda</label>
+          <div class="iw"><input type="number" id="r-bmi" value="24" min="10" max="60" step="0.1"><span class="iu">BMI</span></div>
           <div class="presets">
-            <button class="pb" data-val="155" data-for="i-tinggi">155</button>
-            <button class="pb on" data-val="165" data-for="i-tinggi">165</button>
-            <button class="pb" data-val="170" data-for="i-tinggi">170</button>
-            <button class="pb" data-val="175" data-for="i-tinggi">175</button>
+            <button class="pb" data-val="20" data-for="r-bmi">20 (Normal)</button>
+            <button class="pb on" data-val="24" data-for="r-bmi">24</button>
+            <button class="pb" data-val="27" data-for="r-bmi">27 (Berisiko)</button>
+            <button class="pb" data-val="32" data-for="r-bmi">32 (Obesitas)</button>
           </div>
         </div>
-        <div class="fld">
-          <label>Jenis Kelamin</label>
-          <div class="sw"><select id="i-gender">
-            <option value="pria">Pria</option>
-            <option value="wanita" selected>Wanita</option>
-          </select></div>
+        <div class="fld"><label>Lingkar Pinggang (cm)</label>
+          <div class="iw"><input type="number" id="r-pinggang" value="80" min="40" max="200"><span class="iu">cm</span></div>
+          <div style="font-size:10px;color:var(--tx3);margin-top:4px">Pria risiko &gt;90 cm · Wanita &gt;80 cm</div>
         </div>
+      </div>
+      <div class="fld"><label>Jenis Kelamin</label>
+        <div class="sw"><select id="r-gender" onchange="calcRisiko()">
+          <option value="pria">Pria</option>
+          <option value="wanita">Wanita</option>
+        </select></div>
       </div>
 
-      <div class="lres" id="i-lres">
-        <div class="rg">
-          <div class="ri s2">
-            <div class="rl">Kisaran Berat Badan Ideal</div>
-            <div class="rv lg" id="i-range">—</div>
-            <div class="rsub">(Berdasarkan BMI normal Asia-Pasifik 18,5–22,9)</div>
-          </div>
-        </div>
+      <div id="r-overall" style="border-radius:var(--r);padding:14px;text-align:center;margin:12px 0;border:1.5px solid"></div>
+      <div id="r-risks-wrap" style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px"></div>
+
+      <div class="lres">
         <div class="rrows">
-          <div class="rr"><span>Batas bawah berat ideal (BMI 18,5)</span><span id="i-min">—</span></div>
-          <div class="rr"><span>Berat ideal tengah (BMI 21,7)</span><span id="i-mid">—</span></div>
-          <div class="rr"><span>Batas atas berat ideal (BMI 22,9)</span><span id="i-max">—</span></div>
-          <div class="rr"><span>Rumus Broca (tinggi − 100 − 10%)</span><span id="i-broca">—</span></div>
+          <div class="rr"><span>BMI</span><span id="r-r1">—</span></div>
+          <div class="rr"><span>Lingkar pinggang</span><span id="r-r2">—</span></div>
+          <div class="rr"><span>Risiko kardiovaskular</span><span id="r-r3">—</span></div>
+          <div class="rr"><span>Risiko diabetes tipe 2</span><span id="r-r4">—</span></div>
+          <div class="rr"><span>Risiko hipertensi</span><span id="r-r5">—</span></div>
+          <div class="rr"><span>Rekomendasi</span><span id="r-r6">—</span></div>
         </div>
       </div>
-      <div class="notice" style="margin-top:10px">* Kisaran berat ideal berdasarkan standar Asia-Pasifik yang lebih tepat untuk tubuh orang Indonesia dan Asia. Rumus Broca adalah pendekatan sederhana yang sering digunakan dokter Indonesia.</div>
+      <div class="notice info" style="margin-top:10px">💡 Untuk menghitung berat badan ideal dari tinggi badan menggunakan rumus Broca, Devine, Hamwi, dan Robinson, gunakan <a href="/id/berat-badan-ideal">Kalkulator Berat Badan Ideal</a>.</div>
     </div>
   </div>
 </div>
@@ -575,10 +576,70 @@ document.querySelectorAll('.pb').forEach(b=>{
 document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
 function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);el.addEventListener('change',fn);}});}
 listen(['h-berat','h-tinggi','h-standar'],calcBMI);
-listen(['i-tinggi','i-gender'],calcIdeal);
+listen(['r-bmi','r-pinggang','r-gender'],calcRisiko);
 listen(['s-berat','s-tinggi','s-target'],calcSimulasi);
 listen(['cmp-bmi'],calcCmp);
 calcBMI();calcIdeal();calcCmp();
+
+// RISIKO KESEHATAN
+function calcRisiko(){
+  const bmi=v('r-bmi'),ping=v('r-pinggang');
+  const gender=document.getElementById('r-gender')?.value||'pria';
+  const pingHighRisk=gender==='pria'?ping>90:ping>80;
+  const pingBorderline=gender==='pria'?ping>85:ping>75;
+
+  function getRisk(bmi,pp){
+    if(bmi<18.5)return{lv:'Rendah–Sedang',col:'#3b82f6',bg:'#eff6ff',note:'Risiko kekurangan gizi'};
+    if(bmi<23&&!pp)return{lv:'Rendah',col:'#1A7F4E',bg:'var(--grn-b)',note:'Dalam batas aman'};
+    if(bmi<23&&pp)return{lv:'Sedang',col:'#ca8a04',bg:'#fefce8',note:'Lingkar pinggang perlu diperhatikan'};
+    if(bmi<25)return{lv:'Sedang',col:'#ca8a04',bg:'#fefce8',note:'Mulai perlu perhatian'};
+    if(bmi<30&&!pp)return{lv:'Tinggi',col:'#ea580c',bg:'var(--pri-l)',note:'Rekomendasi perbaikan gaya hidup'};
+    if(bmi<30||pp)return{lv:'Tinggi',col:'#ea580c',bg:'var(--pri-l)',note:'Gabungan BMI dan lingkar pinggang meningkatkan risiko'};
+    return{lv:'Sangat Tinggi',col:'#dc2626',bg:'var(--red-b)',note:'Konsultasi dokter segera'};
+  }
+
+  const RISKS=[
+    {nm:'❤️ Kardiovaskular (Jantung & Pembuluh Darah)',bmiThr:[23,25,30],wThr:true},
+    {nm:'🩸 Diabetes Tipe 2',bmiThr:[23,25,30],wThr:true},
+    {nm:'🩺 Hipertensi (Tekanan Darah Tinggi)',bmiThr:[23,25,28],wThr:true},
+    {nm:'🦵 Masalah Sendi & Osteoartritis',bmiThr:[25,27,30],wThr:false},
+    {nm:'😴 Sleep Apnea (Gangguan Tidur)',bmiThr:[25,27,30],wThr:false},
+  ];
+
+  const wrap=document.getElementById('r-risks-wrap');
+  if(wrap){wrap.innerHTML=RISKS.map(r=>{
+    let lv,col,bg;
+    if(bmi<r.bmiThr[0]&&!(r.wThr&&pingHighRisk)){lv='Rendah';col='#1A7F4E';bg='var(--grn-b)';}
+    else if(bmi<r.bmiThr[1]||(bmi<r.bmiThr[0]&&pingBorderline)){lv='Sedang';col='#ca8a04';bg='#fefce8';}
+    else if(bmi<r.bmiThr[2]){lv='Tinggi';col='#ea580c';bg:'var(--pri-l)';bg='var(--pri-l)';}
+    else{lv='Sangat Tinggi';col='#dc2626';bg='var(--red-b)';}
+    return`<div style="display:flex;align-items:center;justify-content:space-between;background:${bg};border-radius:var(--rs);padding:8px 12px;border:1px solid ${col}22">
+      <span style="font-size:12px;font-weight:600">${r.nm}</span>
+      <span style="font-size:11px;font-weight:800;color:${col};white-space:nowrap;margin-left:8px">${lv}</span>
+    </div>`;
+  }).join('');}
+
+  const overall=getRisk(bmi,pingHighRisk);
+  const ov=document.getElementById('r-overall');
+  if(ov){ov.style.background=overall.bg;ov.style.borderColor=overall.col;
+    ov.innerHTML=`<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:${overall.col};margin-bottom:4px">Tingkat Risiko Keseluruhan</div>
+      <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:800;color:${overall.col}">${overall.lv}</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">${overall.note}</div>`;}
+
+  const recs={
+    'Rendah':'Pertahankan pola hidup sehat, olahraga rutin, dan cek kesehatan tahunan.',
+    'Rendah–Sedang':'Perhatikan asupan nutrisi, pastikan berat badan stabil.',
+    'Sedang':'Evaluasi pola makan, tingkatkan aktivitas fisik 150 mnt/minggu.',
+    'Tinggi':'Konsultasi dokter atau ahli gizi untuk program penurunan berat badan.',
+    'Sangat Tinggi':'Segera konsultasi dokter — risiko komplikasi serius meningkat signifikan.',
+  };
+  set('r-r1',bmi.toFixed(1));set('r-r2',ping+' cm '+(pingHighRisk?'(Risiko Tinggi ⚠️)':'(Normal ✅)'));
+  set('r-r3',bmi<23&&!pingHighRisk?'Rendah':bmi<25?'Sedang':'Tinggi');
+  set('r-r4',bmi<23&&!pingHighRisk?'Rendah':bmi<25?'Sedang':'Tinggi–Sangat Tinggi');
+  set('r-r5',bmi<23?'Rendah':bmi<25?'Sedang':'Tinggi');
+  set('r-r6',recs[overall.lv]||'Konsultasi dokter.');
+}
+
 </script>
 </body>
 </html>
