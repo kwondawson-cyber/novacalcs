@@ -11,6 +11,7 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--pri:#E85D04;--pri-l:#FFF3EC;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
     body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
     a{color:var(--pri);text-decoration:none}
     .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
@@ -25,57 +26,69 @@
     @media(max-width:700px){.main{grid-template-columns:1fr}}
     .left-col{display:flex;flex-direction:column;gap:20px}
     .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
-    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
     .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
     .card-b{padding:18px}
-    /* CONVERTER */
     .conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     @media(max-width:480px){.conv-grid{grid-template-columns:1fr}}
     .conv-item{background:var(--sur2);border:1.5px solid var(--bor);border-radius:var(--rs);padding:10px 12px;transition:border-color .15s}
     .conv-item.active{border-color:var(--pri);background:var(--pri-l)}
     .conv-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:4px}
     .conv-item.active .conv-lbl{color:var(--pri)}
-    .conv-inp{width:100%;border:none;background:transparent;font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--tx);outline:none;-moz-appearance:textfield}
+    .conv-row{display:flex;align-items:center;gap:4px}
+    .conv-inp{flex:1;min-width:0;border:none;background:transparent;font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--tx);outline:none;-moz-appearance:textfield;width:100%}
     .conv-inp::-webkit-outer-spin-button,.conv-inp::-webkit-inner-spin-button{-webkit-appearance:none}
-    .conv-inp::placeholder{color:var(--tx3)}
-    .conv-unit{font-size:10px;color:var(--tx3);margin-top:2px}
-    /* TABLE */
-    .ref-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
-    .ref-tbl th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
-    .ref-tbl td{padding:7px 10px;border-bottom:1px solid var(--bor);font-family:'DM Mono',monospace;font-size:11px}
-    .ref-tbl td:first-child{font-family:inherit;font-weight:700;color:var(--tx)}
-    .ref-tbl tr:last-child td{border-bottom:none}
-    /* KONVERTER LAIN */
-    .other-conv{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
-    .oc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:11px;text-decoration:none;color:inherit;transition:border-color .15s}
-    .oc:hover{border-color:var(--pri)}
-    .oc-ico{font-size:18px;margin-bottom:4px}.oc-nm{font-size:12px;font-weight:700}.oc-ds{font-size:10px;color:var(--tx3);margin-top:1px}
+    .conv-unit{font-size:11px;font-weight:700;color:var(--tx3);white-space:nowrap;flex-shrink:0}
+    .conv-item.active .conv-unit{color:var(--pri)}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+    .pb{padding:4px 10px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s;font-family:inherit}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .sim-inp{padding:9px 12px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:16px;font-weight:700;outline:none;-moz-appearance:textfield;width:100%}
+    .sim-inp::-webkit-outer-spin-button,.sim-inp::-webkit-inner-spin-button{-webkit-appearance:none}
+    .sim-inp:focus{border-color:var(--pri)}
+    table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+    th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    td{padding:7px 10px;border-bottom:1px solid var(--bor);font-family:'DM Mono',monospace;font-size:11px}
+    td.nm{font-family:inherit;font-weight:700;color:var(--tx)}
+    tr:last-child td{border-bottom:none}
     .sb{display:flex;flex-direction:column;gap:16px}
-    .tips{display:flex;flex-direction:column;gap:9px}
-    .tip{display:flex;gap:9px;font-size:12px}
-    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
-    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
     .flist{display:flex;flex-direction:column;gap:6px}
     .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
     .frl{display:flex;align-items:center;gap:9px}
     .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
     .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .other-conv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+    .oc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:11px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .oc:hover{border-color:var(--pri)}
+    .oc-ico{font-size:18px;margin-bottom:4px}.oc-nm{font-size:12px;font-weight:700}.oc-ds{font-size:10px;color:var(--tx3)}
     .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
     .seo h2{font-size:18px;font-weight:800;margin:32px 0 8px}
     .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:8px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:4px}
+  .seo-tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .seo-tbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .seo-tbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .seo-tbl tr:last-child td{border-bottom:none}
+    .seo-tbl td:first-child{font-weight:600;color:var(--tx)}
     .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
     .faq-q{padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
     .faq-q::after{content:'＋';color:var(--tx3)}
     .faq-i.open .faq-q::after{content:'－'}
     .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
     .faq-a{padding:0 14px 10px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
-    .faq-i.open .faq-a{display:block}
-    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
-    footer a{color:var(--tx3)}
-    .presets{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}
-    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s;font-family:inherit}
-    .pb:hover{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
-    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
   </style>
 </head>
 <body>
@@ -84,54 +97,65 @@
   <span class="nav-sep">/</span>
   <span class="nav-cur">Konversi Berat</span>
 </div></nav>
-
 <header class="hdr">
   <div class="hdr-tag">⚖️ Konversi Berat</div>
   <h1 class="hdr-h1">Konversi Berat 2026</h1>
-  <p class="hdr-sub">Konversi kilogram, gram, pon (lb), ounce (oz), ton, miligram, dan satuan berat lainnya secara instan. Klik atau ketik di unit mana saja.</p>
+  <p class="hdr-sub">Konversi kilogram, gram, pon (lb), ounce (oz), ton, miligram, dan satuan berat lainnya secara instan. Ketik di unit mana saja.</p>
 </header>
-
 <main class="main">
 <div class="left-col">
 <div class="card">
   <div class="card-h"><div class="card-ico">⚖️</div>Konverter Berat</div>
   <div class="card-b">
     <div class="presets">
-      <button class="pb" onclick="setVal('kg',1)">1 kg</button>
-      <button class="pb" onclick="setVal('lb',1)">1 lb</button>
-      <button class="pb" onclick="setVal('kg',70)">70 kg (berat badan)</button>
-      <button class="pb" onclick="setVal('ton',1)">1 ton</button>
+      <button class="pb on" id="pb-1kg" onclick="presetSet('kg',1,this)">1 kg</button>
+      <button class="pb" id="pb-1lb" onclick="presetSet('lb',1,this)">1 lb</button>
+      <button class="pb" id="pb-1oz" onclick="presetSet('oz',1,this)">1 oz</button>
+      <button class="pb" id="pb-70kg" onclick="presetSet('kg',70,this)">70 kg (badan)</button>
+      <button class="pb" id="pb-1ton" onclick="presetSet('ton',1,this)">1 ton</button>
     </div>
     <div class="conv-grid" id="conv-grid"></div>
   </div>
 </div>
-
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚡</div>Tabel Konversi Cepat <span class="nbadge">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:12px">Masukkan nilai dalam kg untuk melihat semua konversi sekaligus.</p>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">
+      <input type="number" id="sim-val" class="sim-inp" value="1" min="0" step="any" style="flex:1" oninput="renderSim()">
+      <span style="font-size:13px;font-weight:700;color:var(--tx3)">kg</span>
+    </div>
+    <div style="overflow-x:auto"><table><thead><tr><th>Satuan</th><th>Hasil</th></tr></thead><tbody id="sim-tbody"></tbody></table></div>
+  </div>
+</div>
 <div class="card">
   <div class="card-h"><div class="card-ico">📋</div>Tabel Referensi Konversi</div>
   <div class="card-b">
-    <div style="overflow-x:auto">
-      <table class="ref-tbl">
-        <thead><tr><th>Dari</th><th>ke Kilogram (kg)</th><th>ke Gram (g)</th><th>ke Pound (lb)</th><th>ke Ounce (oz)</th></tr></thead>
-        <tbody id="ref-tbody"></tbody>
-      </table>
-    </div>
+    <div style="overflow-x:auto"><table><thead><tr><th>Dari</th><th>→ kg</th><th>→ gram</th><th>→ lb</th><th>→ oz</th></tr></thead><tbody id="ref-tbody"></tbody></table></div>
   </div>
 </div>
-</div><!-- /left-col -->
-
+</div>
 <div class="sb">
   <div class="card">
     <div class="card-h"><div class="card-ico">💡</div>Referensi Cepat</div>
     <div class="card-b">
       <div class="flist">
-        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 kg</div></div></div><div class="fprice">2,205 lb</div></div>
-        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 lb</div></div></div><div class="fprice">453,6 g</div></div>
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 kg</div></div></div><div class="fprice">2,2046 lb</div></div>
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 lb</div></div></div><div class="fprice">453,59 g</div></div>
         <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 oz</div></div></div><div class="fprice">28,35 g</div></div>
         <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 ton metrik</div></div></div><div class="fprice">1.000 kg</div></div>
+        <div class="frow" style="background:var(--sur2)"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">1 stone (UK)</div></div></div><div class="fprice">6,35 kg</div></div>
       </div>
-      <div class="tips" style="margin-top:12px">
-        <div class="tip"><span class="tpico">✈️</span><span class="tptx"><strong>Bagasi pesawat</strong> biasanya batas 20–23 kg. 20 kg ≈ 44 lb</span></div>
-        <div class="tip"><span class="tpico">🥊</span><span class="tptx"><strong>Berat badan dalam lb</strong>: berat (kg) × 2,205. Misal 65 kg = 143 lb</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🧠</div>Tips Konversi</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">✈️</span><span class="tptx"><strong>Bagasi pesawat</strong> biasanya 20–23 kg. 20 kg ≈ 44 lb</span></div>
+        <div class="tip"><span class="tpico">🥩</span><span class="tptx"><strong>Resep impor</strong> sering pakai oz/lb. 1 lb daging ≈ 453 g ≈ ½ kg</span></div>
+        <div class="tip"><span class="tpico">💪</span><span class="tptx"><strong>Berat badan → lb</strong>: kalikan 2,205. Misal 65 kg ≈ 143 lb</span></div>
+        <div class="tip"><span class="tpico">🏋️</span><span class="tptx"><strong>Barbel gym AS</strong>: 45 lb bar = 20,4 kg, 25 lb plate = 11,3 kg</span></div>
       </div>
     </div>
   </div>
@@ -139,62 +163,181 @@
     <div class="card-h"><div class="card-ico">🔗</div>Konverter Lainnya</div>
     <div class="card-b">
       <div class="other-conv">
-        <a href="/id/konversi-panjang" class="oc"><div class="oc-ico">📏</div><div class="oc-nm">Panjang</div><div class="oc-ds">m, km, inch, ft</div></a>
+        <a href="/id/konversi-panjang" class="oc"><div class="oc-ico">📏</div><div class="oc-nm">Panjang</div><div class="oc-ds">m, km, inch</div></a>
         <a href="/id/konversi-suhu" class="oc"><div class="oc-ico">🌡️</div><div class="oc-nm">Suhu</div><div class="oc-ds">°C, °F, K</div></a>
         <a href="/id/konversi-volume" class="oc"><div class="oc-ico">🧪</div><div class="oc-nm">Volume</div><div class="oc-ds">L, ml, galon</div></a>
-        <a href="/id/konversi-luas" class="oc"><div class="oc-ico">📐</div><div class="oc-nm">Luas</div><div class="oc-ds">m², km², hektar</div></a>
+        <a href="/id/konversi-data" class="oc"><div class="oc-ico">💾</div><div class="oc-nm">Data</div><div class="oc-ds">KB, MB, GB</div></a>
       </div>
     </div>
   </div>
 </div>
 </main>
-
 <div class="seo">
-  <h2>Konversi Satuan Berat</h2>
-  <p>Sistem metrik (kg, g) digunakan hampir di seluruh dunia termasuk Indonesia. Sistem imperial (lb, oz) digunakan di Amerika Serikat dan beberapa negara lain. 1 kilogram = 1.000 gram = 2,20462 pound = 35,274 ounce.</p>
-  <h2>FAQ</h2>
-  <div class="faq-i"><div class="faq-q">Berapa kilogram dalam 1 pound (lb)?</div><div class="faq-a">1 pound (lb) = 0,453592 kilogram = 453,592 gram. Sebaliknya, 1 kilogram = 2,20462 pound. Cara mudah mengingat: 1 kg ≈ 2,2 lb.</div></div>
+
+  <h2>Konversi Satuan Berat 2026 — kg, gram, pon, ons, ton dan Semua Satuan</h2>
+  <p>Konverter satuan berat ini mendukung lebih dari 15 satuan berat dari berbagai sistem pengukuran: sistem metrik SI (kilogram, gram, miligram, ton metrik), sistem imperial Amerika (pound/pon, ounce/ons, ton pendek), sistem imperial Inggris (stone, ton panjang), dan satuan khusus seperti troy ounce (untuk emas dan logam mulia) dan karat (untuk batu mulia). Semua konversi dilakukan secara real-time — masukkan nilai di satu satuan dan semua yang lain langsung diperbarui.</p>
+  <p>Di Indonesia, sistem metrik (kilogram, gram) adalah standar resmi sesuai Sistem Internasional (SI) yang diadopsi melalui UU No. 2/1981 tentang Metrologi Legal. Namun satuan non-metrik masih digunakan di beberapa konteks: "ons" dalam resep masakan Indonesia sebenarnya mengacu pada 100 gram (bukan ounce imperial 28,35 gram — ini sumber kebingungan yang umum!), "kati" (setara ~600 gram) masih dipakai di pasar tradisional di beberapa daerah, dan "pound/pon" sering muncul dalam konteks olahraga (tinju, angkat besi) dan timbangan impor.</p>
+
+  <h2>Tabel Konversi Satuan Berat — Referensi Cepat</h2>
+  <p>Konversi yang paling sering dibutuhkan sehari-hari: 1 kilogram = 1.000 gram = 2,2046 pound = 35,274 ounce. 1 pound = 453,592 gram = 16 ounce. 1 ounce (oz) = 28,3495 gram. 1 ton metrik = 1.000 kg = 1.102,31 ton pendek (short ton Amerika). Untuk emas: 1 troy ounce = 31,1035 gram (berbeda dari ounce avoirdupois biasa yang 28,3495 gram — penting saat menghitung harga emas per gram dari harga troy ounce internasional).</p>
+  <div class="stw"><table class="seo-tbl">
+    <thead><tr><th>Satuan</th><th>Ekuivalen dalam Gram</th><th>Sistem</th><th>Penggunaan Umum</th></tr></thead>
+    <tbody>
+      <tr><td>1 ton metrik</td><td>1.000.000 g</td><td>SI/Metrik</td><td>Kargo, komoditas, produksi industri</td></tr>
+      <tr><td>1 kilogram (kg)</td><td>1.000 g</td><td>SI/Metrik</td><td>Standar sehari-hari Indonesia</td></tr>
+      <tr><td>1 ons Indonesia*</td><td>100 g</td><td>Lokal</td><td>Resep masakan Indonesia</td></tr>
+      <tr><td>1 pound (lb)</td><td>453,592 g</td><td>Imperial</td><td>AS, olahraga, barang impor</td></tr>
+      <tr><td>1 ounce (oz)</td><td>28,3495 g</td><td>Imperial</td><td>Produk AS, kemasan makanan impor</td></tr>
+      <tr><td>1 troy ounce</td><td>31,1035 g</td><td>Troy</td><td>Emas, perak, logam mulia</td></tr>
+      <tr><td>1 stone (st)</td><td>6.350,29 g</td><td>Inggris</td><td>Berat badan di Inggris</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Kebingungan "Ons" di Indonesia — 100 gram atau 28,35 gram?</h2>
+  <p>Salah satu sumber kebingungan terbesar dalam konversi berat di Indonesia adalah kata <strong>"ons"</strong>. Di Indonesia, "ons" dalam konteks masak-memasak dan perdagangan sehari-hari berarti <strong>100 gram</strong> (sehingga 1 kg = 10 ons). Ini warisan dari sistem Belanda yang digunakan saat era kolonial. Namun "ounce" (oz) dalam sistem imperial Amerika — yang juga sering diterjemahkan sebagai "ons" — adalah <strong>28,3495 gram</strong>, berbeda hampir 4 kali lipat.</p>
+  <p>Implikasi praktis: ketika resep Indonesia menulis "200 gram atau 2 ons", kedua angka ini konsisten karena menggunakan definisi ons Indonesia (100 gram). Tapi ketika label produk impor Amerika bertuliskan "8 oz", ini bukan 800 gram, melainkan ~227 gram. Ketika harga emas dunia dikuotasikan dalam "troy ounce", ini adalah 31,1 gram, bukan 100 gram maupun 28,35 gram. Kalkulator konversi berat ini menangani ketiga makna "ons" ini secara terpisah untuk menghindari kebingungan.</p>
+
+  <h2>Satuan Berat dalam Perdagangan Komoditas Indonesia</h2>
+  <p>Beberapa satuan berat tradisional masih relevan dalam perdagangan lokal Indonesia. <strong>Kati</strong>: masih digunakan di beberapa pasar tradisional, terutama di Sumatra dan daerah dengan pengaruh budaya Melayu/Cina. 1 kati = ~600 gram (variasi regional: ada yang 500 gram, ada yang 620 gram). <strong>Pikul</strong>: satuan besar yang pernah umum dalam perdagangan kolonial. 1 pikul = 100 kati = ~60 kg. Masih sesekali muncul dalam konteks perdagangan teh, kopi, dan hasil bumi.</p>
+  <p>Dalam konteks modern: <strong>Metrik ton</strong> (1.000 kg) adalah standar untuk komoditas ekspor seperti CPO (minyak sawit), batubara, biji kopi, dan hasil perkebunan. Harga komoditas di pasar internasional dikuotasikan per ton metrik. <strong>Long ton</strong> (2.240 lb = 1.016 kg) dan <strong>short ton</strong> (2.000 lb = 907 kg) masih muncul dalam konteks perdagangan dengan Amerika dan Inggris. Memahami perbedaan ketiga jenis "ton" ini penting untuk kalkulasi bisnis yang akurat dalam perdagangan internasional.</p>
+  <div class="stw"><table class="seo-tbl">
+    <thead><tr><th>Konversi</th><th>Hasil</th><th>Konteks Indonesia</th></tr></thead>
+    <tbody>
+      <tr><td>1 kg → ons Indonesia</td><td>10 ons</td><td>Resep masakan, pasar tradisional</td></tr>
+      <tr><td>1 pound → gram</td><td>453,6 gram</td><td>Produk impor, olahraga</td></tr>
+      <tr><td>1 troy oz → gram</td><td>31,10 gram</td><td>Harga emas Antam/internasional</td></tr>
+      <tr><td>1 ton metrik → kg</td><td>1.000 kg</td><td>Ekspor komoditas, pengiriman kargo</td></tr>
+      <tr><td>100 gram → ons (ID)</td><td>1 ons Indonesia</td><td>Resep, beli di pasar</td></tr>
+      <tr><td>1 karat (ct) → gram</td><td>0,2 gram</td><td>Batu mulia, berlian</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Satuan Berat dalam Konteks Memasak dan Farmasi Indonesia</h2>
+  <p>Di dapur Indonesia, satuan berat yang paling sering digunakan adalah gram dan "ons" (100 gram). Resep tradisional Indonesia sering menyebutkan bahan dalam satuan ons — "200 gram santan" = "2 ons santan". Timbangan dapur digital modern yang umum dijual di Indonesia memiliki presisi 1 gram dengan kapasitas 1–5 kg, sangat memadai untuk kebutuhan memasak. Untuk bahan yang sangat kecil seperti rempah bubuk atau baking powder, presisi 0,1 gram dibutuhkan — gunakan timbangan presisi (jewelry scale) untuk hasil yang akurat dalam resep pastry dan baking.</p>
+  <p>Dalam dunia farmasi dan medis, satuan yang digunakan lebih kecil: miligram (mg) untuk dosis obat, mikrogram (mcg atau μg) untuk vitamin dan hormon, dan mililiter untuk cairan (meski mililiter adalah satuan volume, dalam konteks obat cair sering digunakan karena kebanyakan larutan obat memiliki densitas mendekati air = 1 g/mL). Label obat Indonesia menggunakan satuan metrik standar — 500 mg paracetamol, 1.000 mg vitamin C (= 1 gram), 400 mcg asam folat, dll. Pemahaman konversi satuan berat kecil ini penting untuk keamanan dosis, terutama untuk obat-obatan anak yang dosisnya berdasarkan berat badan per kilogram.</p>
+
+
+  <p>Konversi satuan berat juga krusial dalam konteks pengiriman dan logistik. Perusahaan ekspedisi di Indonesia (JNE, J&T, SiCepat, Anteraja, dll.) menghitung tarif berdasarkan berat aktual atau berat volumetrik, mana yang lebih besar. Berat volumetrik = (panjang × lebar × tinggi dalam cm) ÷ 5.000 (untuk pengiriman udara) atau ÷ 4.000 (standar beberapa ekspedisi darat). Barang ringan tapi besar (seperti bantal, mainan berbahan busa) sering dikenakan tarif berdasarkan berat volumetrik yang bisa jauh melebihi berat aktualnya — pemahaman konversi ini penting untuk mengestimasi biaya pengiriman yang akurat.</p>
+
+
+  <h2>Pertanyaan Umum (FAQ) Konversi Berat 2026</h2>
+  <div class="faq-i"><div class="faq-q">1 kg berapa ons? (Indonesia vs internasional)</div><div class="faq-a">Di Indonesia (sistem lokal): 1 kg = 10 ons (karena 1 ons Indonesia = 100 gram). Di sistem imperial internasional: 1 kg = 35,274 ounce (karena 1 ounce = 28,3495 gram). Perbedaan ini sangat penting — "ons" di resep masakan Indonesia berbeda dengan "oz" di kemasan produk impor Amerika. Kalkulator ini menangani keduanya secara terpisah.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa gram dalam 1 pound?</div><div class="faq-a">1 pound (lb) = 453,592 gram. Atau diingat: 1 pound ≈ 450 gram (pembulatan mudah). 1 pound = 16 ounce. 2,2046 pound = 1 kilogram. Jadi orang dengan berat 70 kg setara dengan ~154 pound. Satuan pound umum dalam konteks olahraga (kelas tinju, angkat besi), produk Amerika, dan barang-barang impor.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa gram dalam 1 troy ounce? Mengapa berbeda dari ounce biasa?</div><div class="faq-a">1 troy ounce = 31,1035 gram. 1 ounce biasa (avoirdupois) = 28,3495 gram. Perbedaan ~10%. Troy ounce adalah sistem khusus untuk logam mulia (emas, perak, platina) yang sudah digunakan sejak abad pertengahan. Ketika Anda melihat harga emas "USD 3.100 per troy oz", itu adalah per 31,1 gram. Harga emas Antam dalam rupiah per gram = harga troy oz ÷ 31,1035 × kurs USD/IDR.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa kg untuk 100 pound?</div><div class="faq-a">100 pound = 100 × 453,592 gram = 45.359 gram = 45,36 kg. Cara ingat cepat: 100 lb ≈ 45 kg. Atau gunakan faktor 0,4536: X pound × 0,4536 = Y kilogram. Sebaliknya, X kg ÷ 0,4536 (atau × 2,2046) = Y pound. Berguna untuk mengkonversi berat badan dari sistem AS ke sistem Indonesia, atau saat membeli peralatan gym impor yang mencantumkan berat dalam pound.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu karat (ct) dalam konteks perhiasan dan batu mulia?</div><div class="faq-a">Karat batu mulia (ct atau carat) = 0,2 gram = 200 miligram. Berlian 1 karat = 0,2 gram. Berlian 0,5 karat (50 poin) = 0,1 gram. Semakin besar karat, semakin langka dan mahal. Jangan disamakan dengan "karat" untuk kemurnian emas (24 karat = emas murni) — kedua penggunaan kata "karat" ini berbeda konteks dan artinya sama sekali berbeda.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa ton dalam 1 kontainer pengiriman?</div><div class="faq-a">Kapasitas muatan kontainer standar: Kontainer 20 feet (TEU): kapasitas muatan maksimal ~28 ton metrik (tapi volume terbatas ~33 m³, sehingga barang ringan volumetrik bisa "penuh" sebelum mencapai batas berat). Kontainer 40 feet (FEU): ~26–28 ton (batas berat lebih rendah dari volume). Untuk pengiriman kargo, selalu pertimbangkan baik berat maupun volume — perusahaan pengiriman menghitung berdasarkan yang lebih besar (berat vs berat volumetrik).</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara mengkonversi satuan berat dengan cepat di kepala?</div><div class="faq-a">Trik konversi cepat: kg ke pound → kalikan ×2 (lebih tepat ×2,2). Pound ke kg → bagi ÷2 (lebih tepat ÷2,2). Contoh: 80 kg ≈ 160 lb (tepatnya 176 lb). Untuk gram ke ounce → bagi ÷28 (tepatnya ÷28,35). Untuk troy ounce ke gram → kalikan ×31. Untuk konversi akurat, selalu gunakan kalkulator konversi di atas.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan ton metrik, ton pendek (short ton), dan ton panjang (long ton)?</div><div class="faq-a">Ton metrik (tonne) = 1.000 kg = standar internasional yang digunakan di Indonesia dan hampir seluruh dunia. Ton pendek (short ton) = 2.000 pound = 907,185 kg — digunakan di Amerika Serikat. Ton panjang (long ton) = 2.240 pound = 1.016,05 kg — digunakan di Inggris. Jadi "ton" bisa berarti tiga hal berbeda tergantung konteksnya. Dalam perdagangan internasional, selalu klarifikasi "metric ton" untuk menghindari kebingungan.</div></div>
+
 </div>
 <footer><span>© 2026 NovaCalcs</span><span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span></footer>
-
 <script>
-const UNITS=[
+var UNITS=[
   {id:'kg',nm:'Kilogram',sym:'kg',factor:1},
   {id:'g',nm:'Gram',sym:'g',factor:0.001},
   {id:'mg',nm:'Miligram',sym:'mg',factor:0.000001},
   {id:'ton',nm:'Ton Metrik',sym:'ton',factor:1000},
-  {id:'lb',nm:'Pound',sym:'lb',factor:0.453592},
-  {id:'oz',nm:'Ounce',sym:'oz',factor:0.0283495},
+  {id:'lb',nm:'Pound (lb)',sym:'lb',factor:0.453592},
+  {id:'oz',nm:'Ounce (oz)',sym:'oz',factor:0.0283495},
   {id:'stone',nm:'Stone',sym:'st',factor:6.35029},
-  {id:'mcg',nm:'Mikrogram',sym:'μg',factor:1e-9},
+  {id:'mcg',nm:'Mikrogram',sym:'µg',factor:1e-9},
 ];
-let activeId='kg',baseVal=1;
-function fmtN(n){if(n===0)return'0';if(Math.abs(n)<0.000001||Math.abs(n)>1e12)return n.toExponential(4);return parseFloat(n.toPrecision(8)).toLocaleString('id-ID',{maximumFractionDigits:8});}
-function setVal(id,val){activeId=id;baseVal=val/(UNITS.find(u=>u.id===id)?.factor||1);renderAll();}
-function renderGrid(){
-  const wrap=document.getElementById('conv-grid');if(!wrap)return;
-  wrap.innerHTML=UNITS.map(u=>`<div class="conv-item${u.id===activeId?' active':''}" onclick="activateUnit('${u.id}')">
-    <div class="conv-lbl">${u.nm}</div>
-    <input class="conv-inp" type="number" id="inp-${u.id}" value="${fmtN(baseVal*u.factor)}" oninput="onInput('${u.id}',this.value)" placeholder="0">
-    <div class="conv-unit">${u.sym}</div>
-  </div>`).join('');
+var activeId='kg';
+var baseKg=1;
+
+function numToStr(n){
+  if(!isFinite(n)||n===0)return'0';
+  if(Math.abs(n)<0.0000001||Math.abs(n)>=1e13)return n.toExponential(5);
+  // Return plain number string — no locale formatting
+  var s=parseFloat(n.toPrecision(10)).toString();
+  return s;
 }
-function activateUnit(id){activeId=id;const el=document.getElementById('inp-'+id);if(el)el.focus();renderGrid();}
+
+function numDisp(n){
+  if(!isFinite(n)||n===0)return'0';
+  if(Math.abs(n)<0.0000001||Math.abs(n)>=1e13)return n.toExponential(4);
+  return parseFloat(n.toPrecision(8)).toLocaleString('id-ID',{maximumFractionDigits:6});
+}
+
+function renderGrid(){
+  var wrap=document.getElementById('conv-grid');
+  if(!wrap)return;
+  wrap.innerHTML=UNITS.map(function(u){
+    var val=baseKg/u.factor;
+    var active=u.id===activeId;
+    return '<div class="conv-item'+(active?' active':'')+'" onclick="activateUnit(\''+u.id+'\')">'+
+      '<div class="conv-lbl">'+u.nm+'</div>'+
+      '<div class="conv-row">'+
+      '<input class="conv-inp" type="number" id="inp-'+u.id+'" value="'+numToStr(val)+'" step="any" '+
+      'oninput="onInput(\''+u.id+'\',this.value)" onclick="event.stopPropagation()" placeholder="0">'+
+      '<span class="conv-unit">'+u.sym+'</span>'+
+      '</div></div>';
+  }).join('');
+}
+
+function activateUnit(id){
+  var el=document.getElementById('inp-'+id);
+  if(el){
+    var n=parseFloat(el.value);
+    if(isFinite(n)){
+      var u=UNITS.find(function(u){return u.id===id;});
+      if(u)baseKg=n*u.factor;
+    }
+  }
+  activeId=id;
+  renderGrid();
+  setTimeout(function(){
+    var fresh=document.getElementById('inp-'+id);
+    if(fresh){fresh.focus();fresh.select();}
+  },10);
+}
+
 function onInput(id,val){
-  const n=parseFloat(val);
-  if(isNaN(n))return;
-  const u=UNITS.find(u=>u.id===id);if(!u)return;
-  baseVal=n/u.factor;activeId=id;
-  UNITS.forEach(u2=>{
+  var n=parseFloat(val);
+  if(!isFinite(n))return;
+  var u=UNITS.find(function(u){return u.id===id;});
+  if(!u)return;
+  baseKg=n*u.factor;
+  activeId=id;
+  UNITS.forEach(function(u2){
     if(u2.id===id)return;
-    const el=document.getElementById('inp-'+u2.id);
-    if(el)el.value=fmtN(baseVal*u2.factor);
+    var el=document.getElementById('inp-'+u2.id);
+    if(el)el.value=numToStr(baseKg/u2.factor);
   });
 }
-function renderAll(){renderGrid();}
+
+function presetSet(id,val,btn){
+  var u=UNITS.find(function(u){return u.id===id;});
+  if(!u)return;
+  baseKg=val*u.factor;
+  activeId=id;
+  document.querySelectorAll('.presets .pb').forEach(function(b){b.classList.remove('on');});
+  if(btn)btn.classList.add('on');
+  renderGrid();
+}
+
+var SIM_UNITS=[
+  {nm:'Gram (g)',factor:0.001},
+  {nm:'Miligram (mg)',factor:0.000001},
+  {nm:'Ton metrik',factor:1000},
+  {nm:'Pound (lb)',factor:0.453592},
+  {nm:'Ounce (oz)',factor:0.0283495},
+  {nm:'Stone',factor:6.35029},
+];
+function renderSim(){
+  var kg=parseFloat(document.getElementById('sim-val').value)||1;
+  var tbody=document.getElementById('sim-tbody');
+  if(!tbody)return;
+  tbody.innerHTML=SIM_UNITS.map(function(u){
+    return '<tr><td class="nm">'+u.nm+'</td><td style="font-weight:700;color:var(--pri)">'+numDisp(kg/u.factor)+'</td></tr>';
+  }).join('');
+}
+
 function renderRef(){
-  const tbody=document.getElementById('ref-tbody');if(!tbody)return;
-  const rows=[
+  var tbody=document.getElementById('ref-tbody');
+  if(!tbody)return;
+  var rows=[
     ['1 kg',1,1000,2.20462,35.274],
     ['1 g',0.001,1,0.00220462,0.035274],
     ['1 lb',0.453592,453.592,1,16],
@@ -202,10 +345,13 @@ function renderRef(){
     ['1 ton',1000,1000000,2204.62,35274],
     ['1 stone',6.35029,6350.29,14,224],
   ];
-  tbody.innerHTML=rows.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td>${fmtN(v)}</td>`).join('')}</tr>`).join('');
+  tbody.innerHTML=rows.map(function(r){
+    return '<tr><td class="nm">'+r[0]+'</td>'+r.slice(1).map(function(v){return '<td>'+numDisp(v)+'</td>';}).join('')+'</tr>';
+  }).join('');
 }
-document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
-renderAll();renderRef();
+
+document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){q.parentElement.classList.toggle('open');});});
+renderGrid();renderSim();renderRef();
 </script>
 </body>
 </html>
