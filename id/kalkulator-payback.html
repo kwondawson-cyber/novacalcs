@@ -1,358 +1,552 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kalkulator Payback Period 2026 — Hitung Waktu Balik Modal Investasi | NovaCalcs</title>
-<meta name="description" content="Hitung payback period (waktu balik modal) investasi bisnis dengan arus kas tetap maupun bervariasi. Dilengkapi Discounted Payback Period yang memperhitungkan nilai waktu uang."/>
-<meta name="keywords" content="kalkulator payback period, waktu balik modal, payback bisnis, discounted payback period, analisis kelayakan investasi, break even investasi"/>
-<link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-payback.html"/>
-<link rel="canonical" href="https://novacalcs.com/id/kalkulator-payback.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" media="print" onload="this.media='all'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"/></noscript>
-<link rel="stylesheet" href="/calc.css"/>
-<link rel="icon" href="/favicon.ico" sizes="any"/>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<style>
-.tab-nav{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:90px;padding:.5rem .4rem;border:none;background:rgba(255,255,255,.06);color:#8fa3b1;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
-.tab-btn.active{background:#00C9B1;color:#0d1b2a;font-weight:700}
-.tab-pane{display:none}.tab-pane.active{display:block}
-.cashflow-row{display:grid;grid-template-columns:80px 1fr 36px;gap:8px;align-items:center;margin-bottom:8px}
-.cashflow-row input{width:100%}
-.del-btn{background:#ff4d4d22;border:1px solid #ff4d4d44;color:#ff7777;border-radius:6px;cursor:pointer;font-size:1.1rem;padding:6px}
-.add-btn{background:transparent;border:1px dashed var(--accent,#00C9B1);color:var(--accent,#00C9B1);border-radius:8px;padding:8px;width:100%;cursor:pointer;font-size:.9rem;margin-bottom:12px;font-family:inherit}
-.cf-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.75rem}
-.cf-table th{background:rgba(0,201,177,.1);color:#00C9B1;padding:.4rem .5rem;text-align:left}
-.cf-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
-.cf-table .payback-row td{color:#00C9B1;font-weight:600;background:rgba(0,201,177,.06)}
-.progress-bar{height:10px;background:rgba(255,255,255,.07);border-radius:5px;margin:.3rem 0;overflow:hidden}
-.progress-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#ef4444,#f59e0b,#00C9B1);transition:width .5s}
-.dpp-note{background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.15);border-radius:8px;padding:.65rem;font-size:.8rem;margin-top:.6rem;line-height:1.5;color:#8fa3b1}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Payback Period 2026 — Masa Pengembalian Investasi & Break-even | NovaCalcs</title>
+  <meta name="description" content="Kalkulator payback period 2026: hitung masa pengembalian investasi (simple & discounted), simulasi arus kas tahunan, dan break-even point bisnis. Gratis & akurat.">
+  <link rel="canonical" href="https://novacalcs.com/id/kalkulator-payback">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--pri:#E85D04;--pri-l:#FFF3EC;--pri-d:#C44E00;--bg:#F8F7F4;--sur:#FFFFFF;--sur2:#F3F1EE;--bor:#E4E1DC;--tx:#1A1714;--tx2:#5C574F;--tx3:#9B948A;--grn:#1A7F4E;--grn-b:#EDFAF3;--red:#C0392B;--red-b:#FEF0EE;--r:14px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+    a{color:var(--pri);text-decoration:none}
+    .nav{background:var(--sur);border-bottom:1px solid var(--bor);position:sticky;top:0;z-index:100}
+    .nav-i{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:8px;height:52px}
+    .nav-logo{font-weight:800;font-size:15px;color:var(--pri);text-decoration:none;letter-spacing:-.3px}
+    .nav-sep{color:var(--bor)}.nav-cur{font-size:13px;color:var(--tx2);font-weight:500}
+    .hdr{max-width:880px;margin:0 auto;padding:28px 20px 0}
+    .hdr-tag{display:inline-flex;align-items:center;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .hdr-h1{font-size:clamp(20px,5vw,30px);font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .hdr-sub{font-size:14px;color:var(--tx2);margin-top:6px;max-width:560px}
+    .pstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .pchip{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--tx2)}
+    .pchip span{color:var(--pri);font-family:'DM Mono',monospace}
+    .main{max-width:880px;margin:20px auto 0;padding:0 20px 80px;display:grid;grid-template-columns:1fr 310px;gap:20px;align-items:start}
+    @media(max-width:700px){.main{grid-template-columns:1fr}}
+    .left-col{display:flex;flex-direction:column;gap:20px}
+    .card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);box-shadow:var(--sh)}
+    .card-h{padding:18px 18px 0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .card-ico{width:26px;height:26px;border-radius:7px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .card-b{padding:18px}
+    .tbar{display:flex;gap:3px;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:20px}
+    .tbtn{flex:1;padding:7px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s;text-align:center;white-space:nowrap}
+    .tbtn.on{background:var(--sur);color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .tpanel{display:none}.tpanel.on{display:block}
+    .fld{margin-bottom:14px}
+    .fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
+    .iw{position:relative}
+    .iw input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:15px;font-weight:500;color:var(--tx);background:var(--sur);outline:none;transition:border-color .15s;appearance:none}
+    .iw input:focus{border-color:var(--pri)}
+    .iu{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--tx3);pointer-events:none}
+    .iw input[type=number]{padding-right:42px}
+    .presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
+    .pb:hover,.pb.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.g2{grid-template-columns:1fr}}
+    /* RESULT */
+    .lres{background:var(--pri-l);border:1.5px solid #ffd4b3;border-radius:var(--r);padding:16px;margin-top:16px}
+    .lres.grn{background:var(--grn-b);border-color:#86efac}
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .rg3{grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:420px){.rg,.rg3{grid-template-columns:1fr 1fr}}
+    .ri{background:var(--sur);border-radius:var(--rs);padding:12px;border:1px solid var(--bor)}
+    .ri.s2{grid-column:1/-1}.ri.grn{background:var(--grn-b);border-color:#86efac}
+    .rl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .rv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--pri);letter-spacing:-.5px}
+    .rv.lg{font-size:26px}.rv.sm{font-size:15px}.rv.grn{color:var(--grn)}
+    .rsub{font-size:11px;color:var(--tx3);margin-top:2px}
+    .rrows{border-top:1px solid #ffd4b3;padding-top:12px}
+    .rr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+    .rr span:last-child{font-family:'DM Mono',monospace;font-weight:700}
+    /* CASHFLOW TABLE */
+    .cf-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+    .cf-tbl th{background:var(--sur2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);border-bottom:1px solid var(--bor)}
+    .cf-tbl td{padding:7px 10px;border-bottom:1px solid var(--bor)}
+    .cf-tbl td.mo{font-family:'DM Mono',monospace;font-weight:600;text-align:right}
+    .cf-tbl tr:last-child td{border-bottom:none}
+    .cf-tbl tr.recovered td{background:var(--grn-b);font-weight:700;color:var(--grn)}
+    /* CUMULATIVE BAR */
+    .cum-wrap{display:flex;flex-direction:column;gap:5px;margin-top:12px}
+    .cum-row{display:flex;align-items:center;gap:8px;font-size:10px}
+    .cum-lbl{min-width:44px;color:var(--tx3);text-align:right;font-family:'DM Mono',monospace}
+    .cum-bg{flex:1;height:16px;background:var(--sur2);border-radius:3px;overflow:hidden;position:relative}
+    .cum-neg{height:100%;background:var(--red);border-radius:3px;position:absolute;right:50%;transition:width .4s}
+    .cum-pos{height:100%;background:var(--grn);border-radius:3px;position:absolute;left:50%;transition:width .4s}
+    .cum-zero{position:absolute;left:50%;top:0;width:2px;height:100%;background:var(--tx3);opacity:.4}
+    .cum-val{min-width:80px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;font-weight:700}
+    /* NOTICE */
+    .notice{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--rs);padding:10px 13px;font-size:11px;color:var(--tx3);line-height:1.6;margin-top:14px}
+    .notice.info{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    /* SIDEBAR */
+    .sb{display:flex;flex-direction:column;gap:16px}
+    .flist{display:flex;flex-direction:column;gap:6px}
+    .frow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:var(--rs)}
+    .frl{display:flex;align-items:center;gap:9px}
+    .fdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .fn{font-size:12px;font-weight:700}.fron{font-size:10px;color:var(--tx3)}.fprice{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--pri)}
+    .tips{display:flex;flex-direction:column;gap:9px}
+    .tip{display:flex;gap:9px;font-size:12px}
+    .tpico{font-size:15px;flex-shrink:0;margin-top:1px}
+    .tptx{color:var(--tx2);line-height:1.5}.tptx strong{color:var(--tx);font-weight:700}
+    .relg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+    .relc{background:var(--sur);border:1.5px solid var(--bor);border-radius:var(--rs);padding:13px;text-decoration:none;color:inherit;transition:border-color .15s}
+    .relc:hover{border-color:var(--pri)}
+    .relc-ico{font-size:20px;margin-bottom:6px}.relc-nm{font-size:13px;font-weight:700}.relc-ds{font-size:11px;color:var(--tx3);margin-top:2px}
+    .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
+    .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
+    .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+    .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
+    .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+    .faq-q::after{content:'＋';color:var(--tx3)}
+    .faq-i.open .faq-q::after{content:'－'}
+    .faq-i.open .faq-q{background:var(--pri-l);color:var(--pri)}
+    .faq-a{padding:0 14px 11px;font-size:13px;color:var(--tx2);line-height:1.7;display:none}
+    .faq-i.open .faq-a{display:block}
+    footer{max-width:880px;margin:0 auto;padding:20px;border-top:1px solid var(--bor);font-size:12px;color:var(--tx3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+    footer a{color:var(--tx3)}
+    .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin:16px 0 8px}
+    .nbadge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+    .inp-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bor)}
+    .inp-row:last-child{border-bottom:none}
+    .inp-row-lbl{flex:1;font-size:12px;font-weight:600;color:var(--tx2)}
+    .inp-row input{width:120px;padding:5px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:12px;font-weight:700;text-align:right;background:var(--sur);outline:none;appearance:none}
+    .inp-row input:focus{border-color:var(--pri)}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/id/" class="site-logo">Nova<span>Calcs</span></a>
-    <nav class="breadcrumb">
-      <a href="/id/">Beranda</a><span class="breadcrumb-sep">›</span>
-      <a href="/id/#keuangan">Keuangan</a><span class="breadcrumb-sep">›</span>
-      <span>Payback Period</span>
-    </nav>
+
+<nav class="nav"><div class="nav-i">
+  <a href="/id/" class="nav-logo">⚡ NovaCalcs</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">Kalkulator Payback</span>
+</div></nav>
+
+<header class="hdr">
+  <div class="hdr-tag">💼 Investasi & Bisnis</div>
+  <h1 class="hdr-h1">Kalkulator Payback Period 2026</h1>
+  <p class="hdr-sub">Hitung masa pengembalian investasi (payback period) secara sederhana dan terdiskonto, simulasi arus kas tahunan, dan break-even bisnis.</p>
+  <div class="pstrip">
+    <div class="pchip">Simple Payback <span>Investasi ÷ Kas/Tahun</span></div>
+    <div class="pchip">Discounted Payback <span>nilai waktu uang</span></div>
+    <div class="pchip">Payback ideal <span>&lt; 3 tahun</span></div>
   </div>
 </header>
-<main class="calc-page">
-  <div>
-    <div class="calc-widget">
-      <div class="calc-title">⏳ Kalkulator Payback Period</div>
-      <div class="calc-subtitle">Hitung waktu balik modal investasi bisnis Anda</div>
 
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('tab-tetap',this)">📅 Arus Kas Tetap</button>
-        <button class="tab-btn" onclick="showTab('tab-variabel',this)">📊 Arus Kas Berbeda</button>
-        <button class="tab-btn" onclick="showTab('tab-discounted',this)">📉 Discounted</button>
+<main class="main">
+<div class="left-col">
+
+<!-- ① MAIN CALCULATOR -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">⏱️</div>Hitung Payback Period</div>
+  <div class="card-b">
+    <div class="tbar">
+      <button class="tbtn on" data-tab="simple">📊 Simple Payback</button>
+      <button class="tbtn" data-tab="disc">💰 Discounted Payback</button>
+    </div>
+
+    <!-- SIMPLE PAYBACK -->
+    <div class="tpanel on" id="tab-simple">
+      <div class="fld">
+        <label>Investasi Awal (Rp)</label>
+        <div class="iw"><input type="number" id="s-investasi" value="100000000" min="0" step="5000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="50000000" data-for="s-investasi">50 jt</button>
+          <button class="pb on" data-val="100000000" data-for="s-investasi">100 jt</button>
+          <button class="pb" data-val="250000000" data-for="s-investasi">250 jt</button>
+          <button class="pb" data-val="500000000" data-for="s-investasi">500 jt</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Kas Bersih per Tahun (Rp)</label>
+        <div class="iw"><input type="number" id="s-kas" value="40000000" min="0" step="5000000"></div>
+        <div class="presets">
+          <button class="pb" data-val="20000000" data-for="s-kas">20 jt</button>
+          <button class="pb on" data-val="40000000" data-for="s-kas">40 jt</button>
+          <button class="pb" data-val="60000000" data-for="s-kas">60 jt</button>
+          <button class="pb" data-val="100000000" data-for="s-kas">100 jt</button>
+        </div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">Pendapatan bersih setelah dikurangi semua biaya operasional per tahun</div>
       </div>
 
-      <!-- TAB 1: ARUS KAS TETAP -->
-      <div id="tab-tetap" class="tab-pane active">
-        <div class="field"><label>Modal Awal Investasi (Rp)</label><input type="number" id="t-initial" placeholder="Contoh: 100000000" min="0"/></div>
-        <div class="field"><label>Arus Kas Bersih per Tahun (Rp)</label><input type="number" id="t-cf" placeholder="Contoh: 25000000" min="0"/><small style="color:#7a8fa0">Laba bersih + depresiasi + amortisasi</small></div>
-        <div class="field"><label>Proyeksi Usia Investasi (tahun) — untuk hitung total ROI</label><input type="number" id="t-life" placeholder="Contoh: 10" min="1" value="10"/></div>
-        <button class="calc-btn" onclick="calculateTetap()">Hitung Payback</button>
-
-        <div class="result-panel" id="res-tetap">
-          <div class="result-main">
-            <div class="result-value" id="tt-payback">—</div>
-            <div class="result-label">Payback Period</div>
-            <div class="result-badge" id="tt-badge"></div>
+      <div class="lres">
+        <div class="rg">
+          <div class="ri s2">
+            <div class="rl">Payback Period</div>
+            <div class="rv lg" id="s-payback">—</div>
+            <div class="rsub" id="s-payback-sub">—</div>
           </div>
-          <div style="margin:.6rem 0">
-            <div style="font-size:.75rem;color:#8fa3b1;margin-bottom:.2rem" id="tt-prog-label">Kemajuan hingga balik modal</div>
-            <div class="progress-bar"><div class="progress-fill" id="tt-progress" style="width:0%"></div></div>
-          </div>
-          <div class="result-rows">
-            <div class="result-row"><span class="rkey">Modal awal</span><span class="rval" id="tt-initial">—</span></div>
-            <div class="result-row"><span class="rkey">Arus kas per tahun</span><span class="rval" id="tt-cf">—</span></div>
-            <div class="result-row"><span class="rkey">Total arus kas selama usia investasi</span><span class="rval" id="tt-total">—</span></div>
-            <div class="result-row"><span class="rkey">ROI total (usia penuh)</span><span class="rval" id="tt-roi">—</span></div>
-          </div>
-          <div class="dpp-note" id="tt-note"></div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Investasi awal</span><span id="s-inv-show">—</span></div>
+          <div class="rr"><span>Kas bersih per tahun</span><span id="s-kas-show">—</span></div>
+          <div class="rr"><span>Payback period (tahun)</span><span id="s-pp-thn">—</span></div>
+          <div class="rr"><span>ROI tahunan</span><span id="s-roi">—</span></div>
+          <div class="rr"><span>Penilaian</span><span id="s-penilaian">—</span></div>
         </div>
       </div>
 
-      <!-- TAB 2: ARUS KAS BERBEDA -->
-      <div id="tab-variabel" class="tab-pane">
-        <div class="field"><label>Modal Awal Investasi (Rp)</label><input type="number" id="v-initial" placeholder="Contoh: 100000000" min="0"/></div>
-        <p style="font-size:.82rem;color:#8fa3b1;margin-bottom:.5rem">Masukkan arus kas bersih per tahun (laba bersih + depresiasi). Nilai negatif diperbolehkan untuk tahun merugi.</p>
-        <div id="cf-rows"></div>
-        <button class="add-btn" onclick="addCfRow()">+ Tambah Tahun</button>
-        <button class="calc-btn" onclick="calculateVariabel()">Hitung Payback</button>
+      <div class="sec-lbl">Akumulasi Kas vs Modal (per Tahun)</div>
+      <div class="cum-wrap" id="s-chart"></div>
+      <div class="notice" style="margin-top:10px">* Simple payback tidak memperhitungkan time value of money. Untuk investasi jangka panjang atau dengan suku bunga tinggi, gunakan Discounted Payback.</div>
+    </div>
 
-        <div id="res-variabel" style="display:none;margin-top:1rem">
-          <div class="result-main" style="text-align:center;padding:.75rem;background:rgba(0,201,177,.08);border-radius:10px;margin-bottom:.75rem">
-            <div class="result-value" id="vv-payback" style="font-size:1.5rem">—</div>
-            <div style="font-size:.8rem;color:#8fa3b1">Payback Period</div>
-            <div class="result-badge" id="vv-badge" style="margin:auto;margin-top:.3rem"></div>
+    <!-- DISCOUNTED PAYBACK -->
+    <div class="tpanel" id="tab-disc">
+      <div class="fld">
+        <label>Investasi Awal (Rp)</label>
+        <div class="iw"><input type="number" id="d-investasi" value="100000000" min="0" step="5000000"></div>
+      </div>
+      <div class="fld">
+        <label>Kas Bersih per Tahun (Rp)</label>
+        <div class="iw"><input type="number" id="d-kas" value="40000000" min="0" step="5000000"></div>
+      </div>
+      <div class="fld">
+        <label>Tingkat Diskonto / Cost of Capital (%/thn)</label>
+        <div class="iw"><input type="number" id="d-rate" value="10" min="0.1" max="50" step="0.5"><span class="iu">%/thn</span></div>
+        <div class="presets">
+          <button class="pb" data-val="5" data-for="d-rate">5%</button>
+          <button class="pb" data-val="8" data-for="d-rate">8%</button>
+          <button class="pb on" data-val="10" data-for="d-rate">10%</button>
+          <button class="pb" data-val="15" data-for="d-rate">15%</button>
+          <button class="pb" data-val="20" data-for="d-rate">20%</button>
+        </div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:4px">Gunakan WACC, tingkat bunga pinjaman, atau tingkat return minimum yang diharapkan</div>
+      </div>
+
+      <div class="lres">
+        <div class="rg">
+          <div class="ri">
+            <div class="rl">Simple Payback</div>
+            <div class="rv sm" id="d-simple">—</div>
           </div>
-          <div style="font-size:.85rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">📋 Tabel Akumulasi Arus Kas</div>
-          <table class="cf-table" id="vv-table"></table>
-          <div class="dpp-note" id="vv-note" style="margin-top:.6rem"></div>
+          <div class="ri">
+            <div class="rl">Discounted Payback</div>
+            <div class="rv sm" id="d-disc">—</div>
+          </div>
+        </div>
+        <div class="rrows">
+          <div class="rr"><span>Selisih (efek diskonto)</span><span id="d-selisih">—</span></div>
+          <div class="rr"><span>NPV setelah 10 tahun</span><span id="d-npv">—</span></div>
+          <div class="rr"><span>IRR (estimasi)</span><span id="d-irr">—</span></div>
         </div>
       </div>
 
-      <!-- TAB 3: DISCOUNTED PAYBACK -->
-      <div id="tab-discounted" class="tab-pane">
-        <p style="font-size:.85rem;color:#8fa3b1;margin-bottom:1rem">Discounted Payback Period mendiskon arus kas masa depan ke nilai sekarang menggunakan tingkat diskonto — lebih akurat dari payback biasa.</p>
-        <div class="field"><label>Modal Awal Investasi (Rp)</label><input type="number" id="d-initial" placeholder="Contoh: 100000000" min="0"/></div>
-        <div class="field"><label>Arus Kas Bersih per Tahun (Rp) — asumsi tetap</label><input type="number" id="d-cf" placeholder="Contoh: 25000000" min="0"/></div>
-        <div class="field"><label>Tingkat Diskonto / Cost of Capital (% per tahun)</label><input type="number" id="d-rate" placeholder="Contoh: 10" min="0" max="50" step="0.1" value="10"/><small style="color:#7a8fa0">Biasanya menggunakan WACC perusahaan atau imbal hasil investasi alternatif (contoh: 7–12% untuk Indonesia)</small></div>
-        <div class="field"><label>Proyeksi Usia Investasi (tahun)</label><input type="number" id="d-life" placeholder="Contoh: 10" min="1" value="10"/></div>
-        <button class="calc-btn" onclick="calculateDiscounted()">Hitung Discounted Payback</button>
-
-        <div id="res-discounted" style="display:none;margin-top:1rem">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
-            <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.75rem;text-align:center">
-              <div style="font-size:.72rem;color:#8fa3b1;margin-bottom:.2rem">Payback Biasa</div>
-              <div style="font-size:1.1rem;font-weight:700;color:#f59e0b" id="d-simple">—</div>
-            </div>
-            <div style="background:rgba(0,201,177,.07);border:1px solid rgba(0,201,177,.2);border-radius:10px;padding:.75rem;text-align:center">
-              <div style="font-size:.72rem;color:#8fa3b1;margin-bottom:.2rem">Discounted Payback</div>
-              <div style="font-size:1.1rem;font-weight:700;color:#00C9B1" id="d-discounted">—</div>
-            </div>
-          </div>
-          <div class="dpp-note" id="d-note" style="margin-bottom:.6rem"></div>
-          <div style="font-size:.85rem;font-weight:600;color:#8fa3b1;margin-bottom:.4rem">📋 Tabel Arus Kas Terdiskon</div>
-          <table class="cf-table" id="d-table"></table>
-        </div>
+      <div class="sec-lbl">Tabel Arus Kas Terdiskonto</div>
+      <div style="overflow-x:auto">
+        <table class="cf-tbl" id="d-tbl">
+          <thead><tr><th>Tahun</th><th class="mo">Kas Bersih</th><th class="mo">PV Kas</th><th class="mo">Kumulatif PV</th></tr></thead>
+          <tbody id="d-tbody"></tbody>
+        </table>
       </div>
-
     </div>
   </div>
+</div>
 
-  <div class="content-area">
-    <h1>Kalkulator Payback Period — Hitung Waktu Balik Modal Investasi Bisnis</h1>
-    <p class="page-desc">Payback Period adalah salah satu metrik paling penting dalam analisis kelayakan investasi. Kalkulator ini membantu menghitung berapa lama modal investasi akan kembali dari arus kas bisnis, tersedia dalam mode arus kas tetap, bervariasi, maupun discounted.</p>
+<!-- ② SIMULASI ARUS KAS TIDAK SAMA -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">📈</div>Simulasi Arus Kas Berbeda Tiap Tahun <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Jika arus kas tidak sama setiap tahun (misalnya bisnis yang berkembang atau punya musim), masukkan proyeksi per tahun di sini.</p>
+    <div class="fld">
+      <label>Investasi Awal (Rp)</label>
+      <div class="iw"><input type="number" id="v-investasi" value="100000000" min="0" step="5000000"></div>
+    </div>
+    <div class="sec-lbl">Proyeksi Kas Bersih per Tahun</div>
+    <div style="border:1px solid var(--bor);border-radius:var(--rs);overflow:hidden;padding:0 14px" id="v-rows"></div>
+    <button onclick="addVRow()" style="margin-top:8px;padding:7px 14px;border:1.5px dashed var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);width:100%;transition:all .15s" onmouseover="this.style.borderColor='var(--pri)';this.style.color='var(--pri)'" onmouseout="this.style.borderColor='var(--bor)';this.style.color='var(--tx3)'">＋ Tambah Tahun</button>
 
-    <div class="ad-slot">Advertisement</div>
+    <div class="lres" style="margin-top:14px">
+      <div class="rg">
+        <div class="ri s2">
+          <div class="rl">Payback Period (Arus Kas Tidak Merata)</div>
+          <div class="rv lg" id="v-payback">—</div>
+        </div>
+      </div>
+      <div class="rrows">
+        <div class="rr"><span>Investasi awal</span><span id="v-inv-show">—</span></div>
+        <div class="rr"><span>Tahun modal kembali</span><span id="v-tahun">—</span></div>
+        <div class="rr"><span>Total kas masuk s.d. payback</span><span id="v-total-kas">—</span></div>
+      </div>
+    </div>
+    <div class="cum-wrap" id="v-chart"></div>
+  </div>
+</div>
 
-    <h2>Apa itu Payback Period?</h2>
-    <p>Payback Period adalah jangka waktu yang dibutuhkan untuk mendapatkan kembali modal investasi awal dari arus kas bersih yang dihasilkan investasi tersebut. Semakin pendek payback period, semakin cepat modal kembali dan umumnya semakin menarik investasi tersebut dari sisi risiko likuiditas.</p>
-    <p>Contoh sederhana: Anda membuka warung makan dengan modal Rp 50 juta dan menghasilkan laba bersih Rp 10 juta per tahun. Payback period = Rp 50 juta ÷ Rp 10 juta = <strong>5 tahun</strong>. Setelah 5 tahun, modal Anda sudah kembali dan keuntungan selanjutnya adalah murni profit.</p>
+<!-- ③ BREAK-EVEN POINT -->
+<div class="card">
+  <div class="card-h"><div class="card-ico">🎯</div>Break-even Point Bisnis <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Berapa unit atau omzet yang harus dicapai agar bisnis balik modal setiap bulannya (break-even operasional)?</p>
+    <div class="g2">
+      <div class="fld">
+        <label>Biaya Tetap per Bulan (Rp)</label>
+        <div class="iw"><input type="number" id="be-fixed" value="10000000" min="0" step="500000"></div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:3px">Sewa, gaji tetap, listrik, dll.</div>
+      </div>
+      <div class="fld">
+        <label>Harga Jual per Unit (Rp)</label>
+        <div class="iw"><input type="number" id="be-harga" value="50000" min="0" step="1000"></div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Biaya Variabel per Unit (Rp)</label>
+      <div class="iw"><input type="number" id="be-variabel" value="25000" min="0" step="1000"></div>
+      <div style="font-size:10px;color:var(--tx3);margin-top:3px">Bahan baku, ongkos produksi, komisi, dll.</div>
+    </div>
 
-    <h2>Cara Menggunakan Kalkulator Ini</h2>
-    <ol>
-      <li><strong>Tab Arus Kas Tetap:</strong> Untuk bisnis dengan pendapatan bersih yang relatif stabil setiap tahunnya. Masukkan modal awal dan arus kas tahunan yang diharapkan.</li>
-      <li><strong>Tab Arus Kas Berbeda:</strong> Untuk bisnis yang arus kasnya bervariasi setiap tahun (misalnya ada masa rintisan di awal). Masukkan arus kas per tahun satu per satu. Nilai negatif diperbolehkan untuk tahun yang diperkirakan merugi.</li>
-      <li><strong>Tab Discounted:</strong> Versi lebih akurat yang memperhitungkan nilai waktu uang. Arus kas masa depan didiskon ke nilai sekarang menggunakan tingkat diskonto yang ditentukan.</li>
-    </ol>
+    <div class="lres grn" style="margin-top:14px">
+      <div class="rg">
+        <div class="ri s2">
+          <div class="rl">Break-even Point per Bulan</div>
+          <div class="rv lg grn" id="be-unit">—</div>
+          <div class="rsub" id="be-omzet">—</div>
+        </div>
+      </div>
+      <div class="rrows" style="border-color:#86efac">
+        <div class="rr"><span>Kontribusi margin per unit</span><span id="be-margin">—</span></div>
+        <div class="rr"><span>Rasio margin kontribusi</span><span id="be-ratio">—</span></div>
+        <div class="rr"><span>BEP dalam unit</span><span id="be-unit2">—</span></div>
+        <div class="rr"><span>BEP dalam omzet</span><span id="be-omzet2">—</span></div>
+      </div>
+    </div>
+    <div class="notice info" style="margin-top:10px">💡 Break-even operasional ≠ break-even investasi. BEP ini menghitung titik impas bulanan (pendapatan = pengeluaran). Untuk payback investasi awal, gunakan kalkulator di atas.</div>
+  </div>
+</div>
 
-    <h2>Tiga Rumus Payback Period</h2>
-    <table>
-      <tr><th>Metode</th><th>Rumus</th><th>Kelebihan</th></tr>
-      <tr><td>Arus Kas Tetap</td><td>Modal Awal ÷ Arus Kas Per Tahun</td><td>Sangat sederhana dan cepat</td></tr>
-      <tr><td>Arus Kas Berbeda</td><td>Akumulasikan arus kas hingga = modal awal</td><td>Lebih realistis untuk bisnis dengan arus kas fluktuatif</td></tr>
-      <tr><td>Discounted</td><td>Akumulasi arus kas yang sudah didiskon ke nilai sekarang</td><td>Paling akurat secara finansial</td></tr>
-    </table>
+</div><!-- /left-col -->
 
-    <h2>Patokan Payback Period yang Baik per Jenis Investasi</h2>
-    <table>
-      <tr><th>Jenis Investasi</th><th>Payback Period Ideal</th></tr>
-      <tr><td>UMKM / warung / gerai makanan</td><td>1–3 tahun</td></tr>
-      <tr><td>Waralaba (franchise)</td><td>2–4 tahun</td></tr>
-      <tr><td>Mesin / peralatan produksi</td><td>3–7 tahun</td></tr>
-      <tr><td>Panel surya rumah tangga</td><td>5–8 tahun</td></tr>
-      <tr><td>Properti sewa (kos/ruko)</td><td>8–15 tahun</td></tr>
-      <tr><td>Software / SaaS / digital</td><td>&lt;1 tahun (ideal)</td></tr>
-    </table>
-    <p>Secara umum, payback period di bawah 5 tahun dianggap menarik untuk bisnis skala kecil-menengah di Indonesia. Namun selalu bandingkan dengan benchmark industri yang relevan.</p>
-
-    <h2>Apa Itu Discounted Payback Period?</h2>
-    <p>Kelemahan utama payback period biasa adalah mengabaikan nilai waktu uang — Rp 10 juta yang diterima tahun depan sebenarnya bernilai lebih rendah dari Rp 10 juta hari ini. Discounted Payback Period memperbaiki kelemahan ini dengan mendiskon setiap arus kas masa depan ke nilai sekarang menggunakan tingkat diskonto (biasanya WACC atau imbal hasil investasi alternatif).</p>
-    <p>Hasilnya, Discounted Payback Period selalu <em>lebih panjang</em> dari payback biasa. Jika Discounted Payback Period jauh lebih panjang dari payback biasa, itu sinyal bahwa investasi sangat sensitif terhadap biaya modal — risiko tinggi.</p>
-
-    <h2>Kapan Payback Period Tidak Cukup Sebagai Satu-satunya Ukuran?</h2>
-    <p>Payback period mengabaikan arus kas setelah modal kembali — misalnya, investasi A balik modal dalam 2 tahun tapi profit hanya 1 tahun lagi, vs investasi B balik modal 3 tahun tapi profit 20 tahun lagi. Payback period memilih A, tapi B jauh lebih menguntungkan secara total. Gunakan payback period sebagai <em>filter awal</em> untuk mengeliminasi investasi berisiko terlalu tinggi, kemudian gunakan NPV atau IRR untuk keputusan akhir yang lebih komprehensif.</p>
-
-    <h2>FAQ — Pertanyaan yang Sering Ditanyakan</h2>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa bedanya payback period dan BEP (Break Even Point)?</div><div class="faq-a">Payback period mengukur waktu untuk mendapatkan kembali total modal investasi dari arus kas bersih. BEP mengukur jumlah unit penjualan atau level pendapatan yang diperlukan untuk menutupi semua biaya operasional (tetap + variabel). BEP lebih berfokus pada operasional harian, payback period lebih berfokus pada analisis investasi modal awal. Keduanya penting dan saling melengkapi dalam analisis bisnis.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah arus kas bersih sama dengan laba bersih?</div><div class="faq-a">Tidak persis sama. Arus kas bersih (net cash flow) = Laba bersih + Depresiasi + Amortisasi. Depresiasi dan amortisasi adalah biaya non-kas yang dikurangi dari laba, namun uangnya tidak benar-benar keluar dari kas. Untuk aset yang didepresiasi, arus kas aktual lebih besar dari laba bersih. Untuk bisnis tanpa aset tetap yang signifikan (seperti bisnis jasa atau digital), arus kas bersih dan laba bersih bisa diasumsikan hampir sama.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Payback period 3 tahun itu bagus atau tidak?</div><div class="faq-a">Sangat bergantung jenis bisnis dan industrinya. Untuk UMKM makanan-minuman atau ritel, 1–2 tahun sangat bagus, 3 tahun masih baik. Untuk properti sewa, 3 tahun justru sangat cepat karena rata-rata industri 8–15 tahun. Untuk teknologi/SaaS, idealnya di bawah 1 tahun. Selalu bandingkan dengan benchmark industri yang relevan dan faktor risiko spesifik bisnis tersebut.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bagaimana jika arus kas negatif di tahun-tahun awal?</div><div class="faq-a">Arus kas negatif di awal (masa startup atau perintisan) adalah hal yang normal untuk banyak bisnis. Gunakan Tab Arus Kas Berbeda dan masukkan nilai negatif untuk tahun-tahun tersebut. Payback period dihitung dari kapan akumulasi arus kas pertama kali mencapai nol atau positif (menutupi total modal awal termasuk kerugian di awal).</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa tingkat diskonto yang tepat untuk Discounted Payback?</div><div class="faq-a">Tingkat diskonto yang umum digunakan: WACC (Weighted Average Cost of Capital) perusahaan jika ada, imbal hasil investasi alternatif terbaik yang tersedia (opportunity cost), atau tingkat imbal hasil minimum yang disyaratkan (hurdle rate). Untuk investasi pribadi di Indonesia, 7–12% per tahun sering digunakan sebagai acuan — setara dengan imbal hasil reksa dana saham jangka panjang atau obligasi korporasi. Semakin tinggi tingkat diskonto, semakin panjang discounted payback period.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah payback period cocok untuk semua jenis investasi?</div><div class="faq-a">Payback period paling tepat untuk investasi jangka menengah dengan arus kas yang bisa diprediksi. Kurang cocok untuk investasi infrastruktur jangka sangat panjang, investasi R&D, atau brand building yang manfaatnya sulit dikuantifikasi. Juga kurang tepat untuk investasi dengan arus kas sangat fluktuatif. Gunakan selalu bersama metrik lain (ROI, NPV, IRR) untuk keputusan investasi yang lebih komprehensif.</div></div>
-
-    <h2>Kalkulator Terkait</h2>
-    <div class="related-grid">
-      <a href="/id/kalkulator-roi.html" class="related-item"><span class="ri">💹</span>Kalkulator ROI</a>
-      <a href="/id/kalkulator-investasi.html" class="related-item"><span class="ri">📊</span>Kalkulator Investasi</a>
-      <a href="/id/kalkulator-inflasi.html" class="related-item"><span class="ri">📈</span>Kalkulator Inflasi</a>
-      <a href="/id/kalkulator-umur-pensiun.html" class="related-item"><span class="ri">👴</span>Rencana Pensiun</a>
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="card">
+    <div class="card-h"><div class="card-ico">📋</div>Benchmark Payback</div>
+    <div class="card-b">
+      <div class="flist">
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Sangat Baik</div><div class="fron">Payback cepat</div></div></div><div class="fprice" style="color:var(--grn)">&lt; 2 tahun</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#22c55e"></div><div><div class="fn">Baik</div><div class="fron">Umum bisnis retail</div></div></div><div class="fprice" style="color:#22c55e">2–3 tahun</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Cukup</div><div class="fron">Pertimbangkan ulang</div></div></div><div class="fprice">3–5 tahun</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Panjang</div><div class="fron">Risiko tinggi</div></div></div><div class="fprice" style="color:var(--red)">&gt; 5 tahun</div></div>
+      </div>
+      <div class="notice" style="margin-top:8px">Benchmark berbeda per industri. Properti/infrastruktur wajar 10–20 tahun. F&B 1–3 tahun.</div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">💡</div>Tips Analisis Investasi</div>
+    <div class="card-b">
+      <div class="tips">
+        <div class="tip"><span class="tpico">🔢</span><span class="tptx"><strong>Gunakan Discounted Payback</strong> jika investasi &gt;3 tahun — inflasi membuat uang di masa depan bernilai lebih kecil</span></div>
+        <div class="tip"><span class="tpico">📊</span><span class="tptx"><strong>Payback bukan satu-satunya metrik</strong> — kombinasikan dengan NPV, IRR, dan ROI untuk keputusan lengkap</span></div>
+        <div class="tip"><span class="tpico">⚠️</span><span class="tptx"><strong>Hati-hati proyeksi optimis</strong> — gunakan skenario konservatif (kas = 70–80% dari proyeksi)</span></div>
+        <div class="tip"><span class="tpico">🏦</span><span class="tptx"><strong>WACC sebagai tingkat diskonto</strong> — Weighted Average Cost of Capital mencerminkan biaya modal sesungguhnya</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-ico">🔗</div>Kalkulator Terkait</div>
+    <div class="card-b">
+      <div class="relg">
+        <a href="/id/kalkulator-roi" class="relc"><div class="relc-ico">📈</div><div class="relc-nm">ROI</div><div class="relc-ds">Return on investment</div></a>
+        <a href="/id/kalkulator-investasi" class="relc"><div class="relc-ico">💹</div><div class="relc-nm">Investasi</div><div class="relc-ds">Simulasi investasi</div></a>
+        <a href="/id/kalkulator-inflasi" class="relc"><div class="relc-ico">📊</div><div class="relc-nm">Inflasi</div><div class="relc-ds">Nilai waktu uang</div></a>
+        <a href="/id/kalkulator-persen" class="relc"><div class="relc-ico">🔢</div><div class="relc-nm">Persen</div><div class="relc-ds">Kalkulator %</div></a>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="footer-links"><a href="/id/">Beranda</a><a href="/id/tentang.html">Tentang</a><a href="/id/kebijakan-privasi.html">Kebijakan Privasi</a></div>
-  <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+
+<div class="seo">
+  <h2>Apa itu Payback Period?</h2>
+  <p>Payback period adalah waktu yang dibutuhkan sebuah investasi untuk menghasilkan arus kas yang cukup untuk mengembalikan investasi awal. Rumus sederhana: <strong>Payback = Investasi Awal ÷ Kas Bersih per Tahun</strong>. Misalnya, investasi Rp 100 juta dengan arus kas bersih Rp 40 juta/tahun memiliki payback period 2,5 tahun.</p>
+
+  <h2>FAQ</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan simple dan discounted payback period?</div><div class="faq-a">Simple payback hanya menghitung waktu berdasarkan nominal arus kas tanpa mempertimbangkan nilai waktu uang. Discounted payback memperhitungkan bahwa Rp 1.000.000 yang diterima 5 tahun lagi bernilai lebih kecil dari Rp 1.000.000 hari ini — karena inflasi dan opportunity cost. Discounted payback selalu lebih panjang dari simple payback, dan memberikan gambaran yang lebih realistis.</div></div>
+  <div class="faq-i"><div class="faq-q">Payback period berapa tahun yang dianggap bagus?</div><div class="faq-a">Tidak ada standar universal — sangat bergantung industri. Bisnis F&B dan retail: 1–3 tahun dianggap baik. Manufaktur: 3–5 tahun wajar. Properti dan infrastruktur: 10–20 tahun umum. Sebagai panduan umum, payback &lt; 3 tahun dianggap menarik untuk kebanyakan bisnis UMKM karena mengurangi eksposur risiko jangka panjang.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa kelemahan payback period sebagai metrik investasi?</div><div class="faq-a">Payback period tidak mempertimbangkan: (1) arus kas yang terjadi SETELAH periode payback, (2) nilai waktu uang (kecuali discounted), (3) profitabilitas jangka panjang total investasi. Sebaiknya kombinasikan dengan NPV (Net Present Value) dan IRR (Internal Rate of Return) untuk analisis investasi yang lebih komprehensif.</div></div>
+</div>
+
+<footer>
+  <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
+  <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
 </footer>
-<script defer>
-let cfCount = 0;
 
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-function fmt(n) { return 'Rp ' + Math.round(Math.abs(n)).toLocaleString('id-ID'); }
-function fmtSigned(n) { return (n >= 0 ? '+' : '−') + fmt(n); }
+<script>
+function v(id){return parseFloat(document.getElementById(id)?.value)||0}
+function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
+function rp(n){if(!isFinite(n))return'—';return'Rp '+Math.round(n).toLocaleString('id-ID')}
+function rpM(n){if(n>=1e9)return'Rp '+(n/1e9).toFixed(1)+' M';if(n>=1e6)return'Rp '+(n/1e6).toFixed(1)+' jt';return rp(n)}
 
-function getBadge(payback) {
-  if (payback <= 2)  return ['🏆 Sangat Cepat', 'badge-normal'];
-  if (payback <= 5)  return ['✅ Baik', 'badge-normal'];
-  if (payback <= 10) return ['⚠️ Sedang', 'badge-overweight'];
-  return ['🔴 Lambat', 'badge-obese'];
-}
-function paybackStr(p) {
-  const y = Math.floor(p), m = Math.round((p - y) * 12);
-  let s = y > 0 ? y + ' tahun' : '';
-  if (m > 0) s += (s ? ' ' : '') + m + ' bulan';
-  return s || '< 1 bulan';
+function getPenilaian(thn){
+  if(thn<=2)return'✅ Sangat Baik';
+  if(thn<=3)return'👍 Baik';
+  if(thn<=5)return'⚠️ Cukup — pertimbangkan ulang';
+  return'❌ Panjang — risiko tinggi';
 }
 
-function calculateTetap() {
-  const initial = parseFloat(document.getElementById('t-initial').value);
-  const cf      = parseFloat(document.getElementById('t-cf').value);
-  const life    = parseInt(document.getElementById('t-life').value) || 10;
-  if (!initial || !cf || initial <= 0 || cf <= 0) { alert('Masukkan modal awal dan arus kas yang valid.'); return; }
+// ① SIMPLE PAYBACK
+function calcSimple(){
+  const inv=v('s-investasi'),kas=v('s-kas');
+  if(kas<=0){set('s-payback','—');return;}
+  const pp=inv/kas;
+  const thn=Math.floor(pp),bln=Math.round((pp-thn)*12);
+  const label=thn>0?(bln>0?thn+' tahun '+bln+' bulan':thn+' tahun'):(Math.round(pp*12))+' bulan';
+  set('s-payback',label);
+  set('s-payback-sub','≈ '+pp.toFixed(2)+' tahun');
+  set('s-inv-show',rpM(inv));set('s-kas-show',rpM(kas)+'/tahun');
+  set('s-pp-thn',pp.toFixed(2)+' tahun');
+  set('s-roi',((kas/inv)*100).toFixed(1)+'%/tahun');
+  set('s-penilaian',getPenilaian(pp));
 
-  const payback  = initial / cf;
-  const totalCf  = cf * life;
-  const roi      = ((totalCf - initial) / initial * 100).toFixed(1);
-  const [badge, bClass] = getBadge(payback);
-  const progPct  = Math.min(payback / life * 100, 100).toFixed(1);
-
-  document.getElementById('tt-payback').textContent  = paybackStr(payback);
-  const b = document.getElementById('tt-badge');
-  b.textContent = badge; b.className = 'result-badge ' + bClass;
-  document.getElementById('tt-initial').textContent  = fmt(initial);
-  document.getElementById('tt-cf').textContent       = fmt(cf) + '/tahun';
-  document.getElementById('tt-total').textContent    = fmt(totalCf) + ' (' + life + ' tahun)';
-  document.getElementById('tt-roi').textContent      = roi.replace('.', ',') + '%';
-  document.getElementById('tt-progress').style.width = progPct + '%';
-  document.getElementById('tt-prog-label').textContent = 'Balik modal di tahun ' + payback.toFixed(1).replace('.', ',') + ' dari ' + life + ' tahun usia investasi';
-  document.getElementById('tt-note').innerHTML =
-    `💡 Setelah balik modal di tahun ke-${payback.toFixed(1)}, sisa <strong>${life - Math.ceil(payback)} tahun</strong> adalah periode murni profit. Total keuntungan bersih selama ${life} tahun: <strong style="color:#00C9B1">${fmt(totalCf - initial)}</strong>.`;
-  document.getElementById('res-tetap').classList.add('show');
+  // Chart
+  const years=Math.min(Math.ceil(pp)+3,10);
+  const chart=document.getElementById('s-chart');if(!chart)return;
+  chart.innerHTML=Array.from({length:years},(_,i)=>{
+    const yr=i+1;const cum=kas*yr-inv;
+    const maxAbs=Math.max(inv,kas*years-inv);
+    const pct=maxAbs>0?Math.abs(cum)/maxAbs*50:0;
+    const isPayback=Math.abs(yr-pp)<0.5;
+    return`<div class="cum-row">
+      <span class="cum-lbl">Thn ${yr}</span>
+      <div class="cum-bg">
+        ${cum<0?`<div class="cum-neg" style="width:${pct}%"></div>`:`<div class="cum-pos" style="width:${pct}%"></div>`}
+        <div class="cum-zero"></div>
+      </div>
+      <span class="cum-val" style="color:${cum>=0?'var(--grn)':'var(--red)'}">${cum>=0?'+':''}${rpM(cum)}</span>
+    </div>`;
+  }).join('');
+  // sync
+  document.getElementById('d-investasi').value=inv;document.getElementById('d-kas').value=kas;
+  document.getElementById('v-investasi').value=inv;
+  calcDisc();
 }
 
-function addCfRow() {
-  cfCount++;
-  const div = document.createElement('div');
-  div.className = 'cashflow-row';
-  div.id = 'cf-' + cfCount;
-  div.innerHTML = `<label style="font-size:.82rem;color:#8fa3b1">Tahun ${cfCount}</label>
-    <input type="number" placeholder="Arus kas bersih (Rp)" class="cf-input" step="any"/>
-    <button class="del-btn" onclick="document.getElementById('cf-${cfCount}').remove()">×</button>`;
-  document.getElementById('cf-rows').appendChild(div);
-}
-
-function calculateVariabel() {
-  const initial = parseFloat(document.getElementById('v-initial').value);
-  if (!initial || initial <= 0) { alert('Masukkan modal awal yang valid.'); return; }
-  const inputs = document.querySelectorAll('.cf-input');
-  if (inputs.length === 0) { alert('Tambahkan minimal 1 tahun arus kas.'); return; }
-
-  let cum = 0, totalCf = 0, payback = null;
-  const rows = [];
-
-  inputs.forEach((inp, i) => {
-    const cf   = parseFloat(inp.value) || 0;
-    const prev = cum;
-    cum += cf;
-    totalCf += cf;
-    let pb = null;
-    if (payback === null && cum >= initial && cf > 0) {
-      const frac = (initial - prev) / cf;
-      payback = i + frac;
-      pb = paybackStr(payback);
-    }
-    rows.push({ year: i + 1, cf, cum, pb });
-  });
-
-  const roi = ((totalCf - initial) / initial * 100).toFixed(1);
-  let tableHtml = '<thead><tr><th>Tahun</th><th>Arus Kas</th><th>Akumulasi</th><th>Keterangan</th></tr></thead><tbody>';
-  rows.forEach(r => {
-    const isPayback = r.pb !== null;
-    const pct = Math.min(r.cum / initial * 100, 100);
-    tableHtml += `<tr class="${isPayback ? 'payback-row' : ''}">
-      <td>${r.year}</td>
-      <td>${r.cf >= 0 ? '+' : '−'}${fmt(r.cf)}</td>
-      <td>${r.cum >= 0 ? '' : '−'}${fmt(r.cum)} (${Math.min(pct, 100).toFixed(0)}%)</td>
-      <td>${isPayback ? '✅ Balik Modal — ' + r.pb : r.cum >= initial ? '✅ Sudah balik modal' : '⏳ Belum balik modal'}</td>
-    </tr>`;
-  });
-  tableHtml += '</tbody>';
-
-  const pStr  = payback !== null ? paybackStr(payback) : '> ' + inputs.length + ' tahun (belum balik modal)';
-  const [badge, bClass] = payback !== null ? getBadge(payback) : ['⚠️ Belum balik modal', 'badge-obese'];
-
-  document.getElementById('vv-payback').textContent   = pStr;
-  const b = document.getElementById('vv-badge');
-  b.textContent = badge; b.className = 'result-badge ' + bClass;
-  document.getElementById('vv-table').innerHTML       = tableHtml;
-  document.getElementById('vv-note').innerHTML        =
-    `ROI total dari seluruh arus kas yang dimasukkan: <strong style="color:${parseFloat(roi)>=0?'#00C9B1':'#ef4444'}">${roi.replace('.', ',')}%</strong> dari modal awal ${fmt(initial)}.`;
-  document.getElementById('res-variabel').style.display = 'block';
-}
-
-function calculateDiscounted() {
-  const initial = parseFloat(document.getElementById('d-initial').value);
-  const cf      = parseFloat(document.getElementById('d-cf').value);
-  const rate    = parseFloat(document.getElementById('d-rate').value) / 100;
-  const life    = parseInt(document.getElementById('d-life').value) || 10;
-  if (!initial || !cf || initial <= 0 || cf <= 0 || rate < 0) { alert('Masukkan data yang valid.'); return; }
-
-  const simplePayback = initial / cf;
-  let cum = 0, dcum = 0, dpayback = null;
-  let tableHtml = '<thead><tr><th>Tahun</th><th>Arus Kas</th><th>Nilai Kini (PV)</th><th>Akumulasi PV</th></tr></thead><tbody>';
-
-  for (let i = 1; i <= life; i++) {
-    const pv   = cf / Math.pow(1 + rate, i);
-    const prev = dcum;
-    cum  += cf;
-    dcum += pv;
-    const isPayback = dpayback === null && dcum >= initial;
-    if (isPayback) {
-      const frac = (initial - prev) / pv;
-      dpayback = i - 1 + frac;
-    }
-    tableHtml += `<tr class="${isPayback ? 'payback-row' : ''}">
-      <td>${i}</td>
-      <td>${fmt(cf)}</td>
-      <td>${fmt(pv)}</td>
-      <td>${fmt(dcum)} ${dcum >= initial && !isPayback && dpayback !== null ? '✅' : isPayback ? '✅ Balik Modal' : ''}</td>
-    </tr>`;
+// ② DISCOUNTED PAYBACK
+function calcDisc(){
+  const inv=v('d-investasi'),kas=v('d-kas'),rate=v('d-rate')/100;
+  const simplePP=kas>0?inv/kas:999;
+  let cumDisc=0,discPP=null;
+  // IRR via binary search
+  let lo=0.001,hi=10;
+  for(let i=0;i<60;i++){
+    const mid=(lo+hi)/2;
+    let npv=-inv;for(let t=1;t<=50;t++)npv+=kas/Math.pow(1+mid,t);
+    if(npv>0)lo=mid;else hi=mid;
   }
-  tableHtml += '</tbody>';
+  const irr=(lo+hi)/2*100;
 
-  const dStr = dpayback !== null ? paybackStr(dpayback) : '> ' + life + ' tahun';
-  document.getElementById('d-simple').textContent     = paybackStr(simplePayback);
-  document.getElementById('d-discounted').textContent = dStr;
-  document.getElementById('d-note').innerHTML =
-    dpayback !== null
-      ? `Dengan tingkat diskonto <strong>${(rate * 100).toFixed(1).replace('.', ',')}%/tahun</strong>, Discounted Payback Period lebih panjang <strong>${(dpayback - simplePayback).toFixed(1).replace('.', ',')} tahun</strong> dari payback biasa. Perbedaan ini mencerminkan biaya dari nilai waktu uang.`
-      : `Dengan tingkat diskonto <strong>${(rate * 100).toFixed(1).replace('.', ',')}%/tahun</strong>, investasi tidak balik modal dalam ${life} tahun proyeksi setelah didiskon. NPV negatif — pertimbangkan ulang kelayakan investasi ini.`;
-  document.getElementById('d-table').innerHTML        = tableHtml;
-  document.getElementById('res-discounted').style.display = 'block';
+  // NPV & table
+  let npv=-inv;
+  const rows=[];
+  for(let t=1;t<=12;t++){
+    const pv=kas/Math.pow(1+rate,t);
+    cumDisc+=pv;npv+=pv;
+    const recovered=cumDisc>=inv&&!discPP;
+    if(recovered)discPP=t;
+    rows.push({t,kas,pv,cum:cumDisc-inv,recovered});
+  }
+  const tbody=document.getElementById('d-tbody');
+  if(tbody)tbody.innerHTML=rows.map(r=>`<tr${r.recovered?' class="recovered"':''}>
+    <td>Tahun ${r.t}</td>
+    <td class="mo">${rpM(r.kas)}</td>
+    <td class="mo">${rpM(r.pv)}</td>
+    <td class="mo" style="color:${r.cum>=0?'var(--grn)':'var(--red)'}">${r.cum>=0?'+':''}${rpM(r.cum)}</td>
+  </tr>`).join('');
+
+  const sPP=simplePP.toFixed(1)+' tahun';
+  const dPP=discPP?discPP+' tahun':'> 12 tahun';
+  set('d-simple',sPP);set('d-disc',dPP);
+  set('d-selisih',discPP?'+'+(discPP-simplePP).toFixed(1)+' tahun karena diskonto':'—');
+  set('d-npv',(npv>=0?'+':'')+rpM(npv)+' (10 thn)');
+  set('d-irr',irr.toFixed(1)+'%/tahun');
 }
 
-function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
-// Default 5 tahun untuk tab variabel
-for (let i = 0; i < 5; i++) addCfRow();
+// ③ VARIABLE CASHFLOW
+let varRows=[50000000,70000000,80000000,60000000,90000000];
+function renderVRows(){
+  const wrap=document.getElementById('v-rows');if(!wrap)return;
+  wrap.innerHTML=varRows.map((val,i)=>`<div class="inp-row">
+    <span class="inp-row-lbl">Tahun ${i+1}</span>
+    <input type="number" value="${val}" min="0" step="1000000" oninput="varRows[${i}]=+this.value;calcVar()"> <span style="font-size:11px;color:var(--tx3);margin-left:4px">Rp</span>
+  </div>`).join('');
+}
+function addVRow(){varRows.push(50000000);renderVRows();calcVar();}
+function calcVar(){
+  const inv=v('v-investasi');
+  let cum=0,paybackThn=null,paybackLabel='—';
+  varRows.forEach((kas,i)=>{
+    cum+=kas;
+    if(cum>=inv&&!paybackThn){
+      paybackThn=i+1;
+      // fractional
+      const prev=cum-kas;
+      const frac=(inv-prev)/kas;
+      const thn=i;const bln=Math.round(frac*12);
+      paybackLabel=thn>0?(bln>0?thn+' thn '+bln+' bln':thn+' tahun'):(Math.round(frac*12)+' bulan');
+    }
+  });
+  set('v-payback',paybackThn?paybackLabel:'Modal belum kembali dalam '+varRows.length+' tahun');
+  set('v-inv-show',rpM(inv));
+  set('v-tahun',paybackThn?'Tahun ke-'+paybackThn:'—');
+  set('v-total-kas',paybackThn?rpM(varRows.slice(0,paybackThn).reduce((a,b)=>a+b,0)):'—');
+
+  // chart
+  const chart=document.getElementById('v-chart');if(!chart)return;
+  let c=0;const maxAbs=Math.max(inv,varRows.reduce((a,b)=>a+b,0)-inv);
+  chart.innerHTML=varRows.map((kas,i)=>{
+    c+=kas;const cum2=c-inv;
+    const pct=maxAbs>0?Math.abs(cum2)/maxAbs*50:0;
+    return`<div class="cum-row">
+      <span class="cum-lbl">Thn ${i+1}</span>
+      <div class="cum-bg">
+        ${cum2<0?`<div class="cum-neg" style="width:${pct}%"></div>`:`<div class="cum-pos" style="width:${pct}%"></div>`}
+        <div class="cum-zero"></div>
+      </div>
+      <span class="cum-val" style="color:${cum2>=0?'var(--grn)':'var(--red)'}">${cum2>=0?'+':''}${rpM(cum2)}</span>
+    </div>`;
+  }).join('');
+}
+
+// ④ BREAK-EVEN
+function calcBE(){
+  const fixed=v('be-fixed'),harga=v('be-harga'),variabel=v('be-variabel');
+  const margin=harga-variabel;
+  if(margin<=0){set('be-unit','Margin negatif!');return;}
+  const bepUnit=Math.ceil(fixed/margin);
+  const bepOmzet=bepUnit*harga;
+  const ratio=harga>0?((margin/harga)*100).toFixed(1)+'%':'—';
+  set('be-unit',bepUnit.toLocaleString('id-ID')+' unit/bulan');
+  set('be-omzet',rp(bepOmzet)+' omzet/bulan');
+  set('be-margin',rp(margin)+'/unit');set('be-ratio',ratio);
+  set('be-unit2',bepUnit.toLocaleString('id-ID')+' unit');set('be-omzet2',rp(bepOmzet));
+}
+
+// TABS
+document.querySelectorAll('.tbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');document.getElementById('tab-'+btn.dataset.tab)?.classList.add('on');
+  });
+});
+document.querySelectorAll('.pb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
+    if(el&&b.dataset.for){el.value=b.dataset.val;el.dispatchEvent(new Event('input'));}
+    document.querySelectorAll(`.pb[data-for="${b.dataset.for}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+function listen(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',fn);}});}
+listen(['s-investasi','s-kas'],calcSimple);
+listen(['d-investasi','d-kas','d-rate'],calcDisc);
+listen(['v-investasi'],calcVar);
+listen(['be-fixed','be-harga','be-variabel'],calcBE);
+renderVRows();calcSimple();calcBE();
 </script>
 </body>
 </html>
