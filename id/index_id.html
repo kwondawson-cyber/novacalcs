@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaCalcs — Kalkulator Online Gratis | BMI, Usia, Keuangan & Lainnya</title>
+  <meta name="description" content="Kalkulator online gratis untuk semua kebutuhan Anda. BMI, usia, keuangan, konversi satuan, dan 30+ kalkulator lainnya. Cepat, akurat, mudah digunakan." />
+  <meta name="keywords" content="kalkulator online, kalkulator BMI, kalkulator usia, kalkulator keuangan, konversi satuan, kalkulator gratis" />
+
+  <!-- OG -->
+  <meta property="og:title" content="NovaCalcs — Kalkulator Online Gratis" />
+  <meta property="og:description" content="30+ kalkulator online gratis. BMI, usia, keuangan, konversi satuan dan banyak lagi." />
+  <meta property="og:url" content="https://novacalcs.com/id/" />
+  <meta property="og:type" content="website" />
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="id"    href="https://novacalcs.com/id/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://novacalcs.com/br/" />
+  <link rel="alternate" hreflang="ja"    href="https://novacalcs.com/jp/" />
+  <link rel="alternate" hreflang="x-default" href="https://novacalcs.com/" />
+  <link rel="canonical" href="https://novacalcs.com/id/" />
+
+  <!-- Fonts: async -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&family=Noto+Sans:wght@400;500;700&display=swap"
+        media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans:wght@400;700&display=swap" />
+  </noscript>
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="/style.css" />
+
+  <!-- Calculator data (defined before common.js) -->
+  <script>
+  window.NC_CALCS = [
+    // ── KESEHATAN ──────────────────────────────
+    { id:'bmi',       slug:'kalkulator-bmi',       cat:'kesehatan', icon:'⚖️', name:'Kalkulator BMI',       desc:'Hitung Indeks Massa Tubuh dan kategori berat badan Anda', keywords:['berat badan','tinggi','obesitas'], badge:'popular' },
+    { id:'kalori',    slug:'kalkulator-kalori',     cat:'kesehatan', icon:'🔥', name:'Kalkulator Kalori',   desc:'Hitung kebutuhan kalori harian berdasarkan aktivitas Anda', keywords:['diet','kalori','makanan'] },
+    { id:'usia',      slug:'kalkulator-usia',       cat:'kesehatan', icon:'🎂', name:'Kalkulator Usia',     desc:'Hitung usia tepat Anda dalam tahun, bulan, dan hari', keywords:['umur','lahir','ulang tahun'], badge:'popular' },
+    { id:'kehamilan', slug:'kalkulator-kehamilan',  cat:'kesehatan', icon:'🤰', name:'Kalkulator Kehamilan',desc:'Hitung usia kehamilan dan perkiraan tanggal lahir', keywords:['hamil','HPL','trimester'], badge:'new' },
+    { id:'hpl',       slug:'kalkulator-hpl',        cat:'kesehatan', icon:'📅', name:'Kalkulator HPL',      desc:'Hitung Hari Perkiraan Lahir bayi Anda berdasarkan HPHT', keywords:['hpl','due date','lahir'], badge:'new' },
+    { id:'subur',     slug:'kalkulator-masa-subur', cat:'kesehatan', icon:'🌸', name:'Masa Subur',          desc:'Prediksi ovulasi dan hari-hari paling subur Anda', keywords:['masa subur','ovulasi','promil'] },
+
+    // ── KEUANGAN ──────────────────────────────
+    { id:'kpr',       slug:'kalkulator-kpr',        cat:'keuangan',  icon:'🏠', name:'Kalkulator KPR',       desc:'Simulasi cicilan rumah (KPR) berdasarkan harga dan tenor', keywords:['rumah','cicilan','kpr','kredit'] },
+    { id:'pph',       slug:'kalkulator-pph',         cat:'keuangan',  icon:'💼', name:'Kalkulator PPh 21',    desc:'Hitung Pajak Penghasilan karyawan sesuai tarif 2024', keywords:['pajak','pph21','gaji'], badge:'new' },
+    { id:'gaji',      slug:'kalkulator-gaji-bersih', cat:'keuangan',  icon:'💵', name:'Kalkulator Gaji Bersih',desc:'Hitung take-home pay setelah PPh 21 dan BPJS', keywords:['gaji bersih','take home pay','slip gaji'], badge:'new' },
+    { id:'bpjs',      slug:'kalkulator-bpjs',        cat:'keuangan',  icon:'🏥', name:'BPJS Kesehatan',       desc:'Hitung iuran BPJS Kesehatan bulanan berdasarkan kelas dan status', keywords:['bpjs','iuran','kesehatan'] },
+    { id:'thr',       slug:'kalkulator-thr',         cat:'keuangan',  icon:'🎁', name:'Kalkulator THR',       desc:'Hitung Tunjangan Hari Raya sesuai aturan Kemenaker 2024', keywords:['thr','lebaran','tunjangan hari raya'], badge:'new' },
+    { id:'pesangon',  slug:'kalkulator-pesangon',    cat:'keuangan',  icon:'📋', name:'Kalkulator Pesangon',  desc:'Hitung uang pesangon PHK sesuai UU Cipta Kerja', keywords:['pesangon','phk','uang pisah'] },
+    { id:'zakat',     slug:'kalkulator-zakat',       cat:'keuangan',  icon:'🌙', name:'Kalkulator Zakat',     desc:'Hitung zakat mal, zakat penghasilan, dan zakat fitrah', keywords:['zakat','zakat mal','zakat fitrah'], badge:'new' },
+    { id:'ppn',       slug:'kalkulator-ppn',         cat:'keuangan',  icon:'🧾', name:'Kalkulator PPN',       desc:'Hitung Pajak Pertambahan Nilai 11% dengan cepat', keywords:['ppn','pajak','11%'] },
+    { id:'cicilan',   slug:'kalkulator-cicilan',     cat:'keuangan',  icon:'💳', name:'Kalkulator Cicilan',   desc:'Simulasi angsuran kredit bulanan — flat dan efektif', keywords:['cicilan','kredit','angsuran'] },
+    { id:'investasi', slug:'kalkulator-investasi',   cat:'keuangan',  icon:'📈', name:'Kalkulator Investasi', desc:'Simulasi pertumbuhan reksa dana dan bunga majemuk jangka panjang', keywords:['investasi','reksa dana','bunga majemuk'] },
+    { id:'kta',       slug:'kalkulator-kta',         cat:'keuangan',  icon:'🏦', name:'Kalkulator KTA',       desc:'Simulasi Kredit Tanpa Agunan dari berbagai bank', keywords:['kta','kredit tanpa agunan','pinjaman'] },
+
+    // ── MATEMATIKA ────────────────────────────
+    { id:'persen',    slug:'kalkulator-persen',     cat:'matematika',icon:'%',  name:'Kalkulator Persen',    desc:'Hitung persentase, kenaikan, penurunan, dan diskon', keywords:['persen','diskon','naik','turun'], badge:'popular' },
+    { id:'diskon',    slug:'kalkulator-diskon',     cat:'matematika',icon:'🏷️', name:'Kalkulator Diskon',    desc:'Hitung harga setelah diskon dan total penghematan', keywords:['diskon','sale','hemat'] },
+    { id:'rata2',     slug:'kalkulator-rata-rata',  cat:'matematika',icon:'📊', name:'Kalkulator Rata-rata', desc:'Hitung mean, median, modus, dan statistik dasar', keywords:['rata-rata','mean','median'] },
+
+    // ── KONVERSI ──────────────────────────────
+    { id:'matauang',  slug:'konversi-mata-uang',    cat:'konversi',  icon:'💱', name:'Konversi Mata Uang',   desc:'Kurs Rupiah ke USD, EUR, JPY, SGD dan mata uang lainnya', keywords:['kurs','rupiah','dollar','euro'], badge:'popular' },
+    { id:'suhu',      slug:'konversi-suhu',          cat:'konversi',  icon:'🌡️', name:'Konversi Suhu',        desc:'Celsius, Fahrenheit, Kelvin, dan Reamur secara instan', keywords:['suhu','celsius','fahrenheit'] },
+    { id:'berat',     slug:'konversi-berat',         cat:'konversi',  icon:'⚖️', name:'Konversi Berat',       desc:'kg, gram, ons, pound, ton dan satuan berat lainnya', keywords:['berat','kg','gram','pound','ons'] },
+    { id:'panjang',   slug:'konversi-panjang',       cat:'konversi',  icon:'📏', name:'Konversi Panjang',     desc:'Meter, km, mil, inci, kaki, yard dan lainnya', keywords:['panjang','meter','km','mil','inci'] },
+
+    // ── KESEHATAN TAMBAHAN ─────────────────────
+    { id:'bbideal',   slug:'berat-badan-ideal',      cat:'kesehatan', icon:'🏋️', name:'Berat Badan Ideal',    desc:'Hitung berat badan ideal dengan rumus Broca, BMI, dan Devine', keywords:['berat ideal','ideal weight','broca'] },
+    { id:'air',       slug:'kebutuhan-air',           cat:'kesehatan', icon:'💧', name:'Kebutuhan Air Harian', desc:'Berapa liter air yang harus diminum setiap hari?', keywords:['air minum','hidrasi','kebutuhan air'] },
+
+    // ── TANGGAL & WAKTU ───────────────────────
+    { id:'selisih',   slug:'selisih-tanggal',        cat:'tanggal',   icon:'📆', name:'Selisih Tanggal',      desc:'Hitung jarak antara dua tanggal dalam hari, minggu, bulan', keywords:['selisih tanggal','jarak hari'] },
+    { id:'harikerja', slug:'hari-kerja',              cat:'tanggal',   icon:'📋', name:'Hari Kerja',           desc:'Hitung hari Senin–Jumat antara dua tanggal tanpa weekend', keywords:['hari kerja','working days'] },
+
+    // ── UTILITAS ──────────────────────────────
+    { id:'tip',           slug:'kalkulator-tip',            cat:'utilitas',  icon:'🍽️', name:'Kalkulator Tip',          desc:'Hitung tip dan bagi tagihan restoran dengan mudah', keywords:['tip','restoran','bagi tagihan'] },
+    { id:'umur-pensiun',  slug:'kalkulator-umur-pensiun',   cat:'utilitas',  icon:'👴', name:'Rencana Pensiun',         desc:'Hitung waktu dan dana pensiun yang Anda butuhkan', keywords:['pensiun','dana pensiun','usia pensiun'], badge:'new' },
+    { id:'payback',       slug:'kalkulator-payback',        cat:'utilitas',  icon:'⏳', name:'Payback Period',          desc:'Hitung waktu balik modal investasi bisnis', keywords:['payback period','balik modal','analisis investasi'], badge:'new' },
+
+    // ── KEUANGAN TAMBAHAN ─────────────────────
+    { id:'tabungan',      slug:'kalkulator-tabungan',       cat:'keuangan',  icon:'🏦', name:'Kalkulator Tabungan',     desc:'Simulasi bunga tabungan dan deposito bank', keywords:['tabungan','deposito','bunga bank'] },
+    { id:'inflasi',       slug:'kalkulator-inflasi',        cat:'keuangan',  icon:'📈', name:'Kalkulator Inflasi',      desc:'Hitung dampak inflasi terhadap nilai dan daya beli uang', keywords:['inflasi','daya beli','nilai uang'], badge:'new' },
+    { id:'roi',           slug:'kalkulator-roi',            cat:'keuangan',  icon:'💹', name:'Kalkulator ROI',          desc:'Hitung return on investment dan CAGR investasi Anda', keywords:['roi','return investasi','keuntungan'], badge:'new' },
+    { id:'dp-rumah',      slug:'kalkulator-dp-rumah',       cat:'keuangan',  icon:'🏠', name:'DP Rumah',                desc:'Hitung uang muka KPR dan total biaya pembelian properti', keywords:['dp rumah','uang muka','kpr'], badge:'new' },
+    { id:'listrik',       slug:'kalkulator-listrik',        cat:'keuangan',  icon:'⚡', name:'Kalkulator Listrik',      desc:'Estimasi tagihan listrik PLN bulanan rumah Anda', keywords:['tagihan listrik','pln','kwh'], badge:'new' },
+    { id:'bbm',           slug:'kalkulator-bbm',            cat:'keuangan',  icon:'⛽', name:'Kalkulator BBM',          desc:'Hitung biaya bahan bakar perjalanan dan bulanan', keywords:['bbm','bensin','biaya perjalanan'], badge:'new' },
+
+    // ── KESEHATAN TAMBAHAN ─────────────────────
+    { id:'bmr',           slug:'kalkulator-bmr',            cat:'kesehatan', icon:'🔥', name:'Kalkulator BMR',          desc:'Hitung kebutuhan kalori dasar (metabolisme basal) tubuh Anda', keywords:['bmr','metabolisme','kalori dasar'], badge:'new' },
+    { id:'kalori-olahraga', slug:'kalkulator-kalori-olahraga', cat:'kesehatan', icon:'🏃', name:'Kalori Olahraga',     desc:'Hitung kalori yang terbakar dari 30+ jenis olahraga', keywords:['kalori olahraga','met','bakar kalori'], badge:'new' },
+    { id:'whr',           slug:'kalkulator-whr',            cat:'kesehatan', icon:'📏', name:'Kalkulator WHR',          desc:'Rasio pinggang-pinggul dan analisis risiko kesehatan', keywords:['whr','pinggang pinggul','obesitas sentral'], badge:'new' },
+    { id:'kehamilan-bb',  slug:'kalkulator-kehamilan-bb',   cat:'kesehatan', icon:'🤰', name:'BB Kehamilan',            desc:'Panduan kenaikan berat badan ibu hamil per trimester', keywords:['berat badan hamil','kenaikan bb','ibu hamil'], badge:'new' },
+
+    // ── MATEMATIKA TAMBAHAN ───────────────────
+    { id:'ipk',           slug:'kalkulator-ipk',            cat:'matematika',icon:'🎓', name:'Kalkulator IPK',          desc:'Hitung Indeks Prestasi Kumulatif dan IP Semester', keywords:['ipk','indeks prestasi','gpa'], badge:'new' },
+    { id:'nilai',         slug:'kalkulator-nilai',          cat:'matematika',icon:'📝', name:'Kalkulator Nilai',        desc:'Hitung rata-rata nilai ujian, rapor, dan nilai berbobot', keywords:['nilai','rata-rata nilai','rapor'], badge:'new' },
+    { id:'pangkat',       slug:'kalkulator-pangkat',        cat:'matematika',icon:'🔢', name:'Pangkat & Akar',          desc:'Perpangkatan, akar kuadrat, akar ke-n, dan logaritma', keywords:['pangkat','akar kuadrat','logaritma'], badge:'new' },
+    { id:'proporsi',      slug:'kalkulator-proporsi',       cat:'matematika',icon:'⚖️', name:'Kalkulator Proporsi',     desc:'Hitung proporsi, perbandingan, rasio, dan konversi skala', keywords:['proporsi','perbandingan','rasio'], badge:'new' },
+
+    // ── KONVERSI TAMBAHAN ─────────────────────
+    { id:'konversi-luas',     slug:'konversi-luas',         cat:'konversi',  icon:'📐', name:'Konversi Luas',           desc:'Ubah m², hektar, are, acre, km², dan satuan luas lainnya', keywords:['konversi luas','hektar','acre'], badge:'new' },
+    { id:'konversi-volume',   slug:'konversi-volume',       cat:'konversi',  icon:'🧪', name:'Konversi Volume',         desc:'Ubah liter, mL, galon, cc, m³, dan satuan volume lainnya', keywords:['konversi volume','liter','galon'], badge:'new' },
+    { id:'konversi-kecepatan',slug:'konversi-kecepatan',    cat:'konversi',  icon:'💨', name:'Konversi Kecepatan',      desc:'Ubah km/jam, mph, m/s, knot, dan Mach secara instan', keywords:['konversi kecepatan','mph','knot'], badge:'new' },
+    { id:'konversi-data',     slug:'konversi-data',         cat:'konversi',  icon:'💾', name:'Konversi Data',           desc:'Ubah KB, MB, GB, TB, PB — desimal dan biner (IEC)', keywords:['konversi data','megabyte','gigabyte'], badge:'new' },
+    { id:'konversi-waktu',    slug:'konversi-waktu',        cat:'konversi',  icon:'⏱️', name:'Konversi Waktu',          desc:'Ubah detik, menit, jam, hari, minggu, bulan, tahun', keywords:['konversi waktu','jam ke menit','detik'], badge:'new' },
+
+    // ── KEUANGAN TAMBAHAN (previously unlisted) ────────────────────────
+    { id:'bunga-pinjol',    slug:'kalkulator-bunga-pinjol',    cat:'keuangan',  icon:'📱', name:'Kalkulator Biaya Pinjol',      desc:'Hitung total biaya, bunga, dan beban nyata pinjaman online. Cek apakah sesuai batas OJK', keywords:['pinjol','pinjaman online','bunga pinjol','ojk'], badge:'new' },
+    { id:'cicilan-motor',   slug:'kalkulator-cicilan-motor',   cat:'keuangan',  icon:'🏍️', name:'Kalkulator Cicilan Motor',     desc:'Simulasi cicilan kredit motor bulanan — hitung angsuran, total bunga, dan total bayar', keywords:['cicilan motor','kredit motor','angsuran motor','leasing'], badge:'new' },
+    { id:'kos',             slug:'kalkulator-kos',             cat:'keuangan',  icon:'🏠', name:'Kalkulator Biaya Kos',         desc:'Hitung dan bandingkan total biaya kos bulanan vs kontrak tahunan, termasuk listrik dan wifi', keywords:['biaya kos','sewa kos','kost bulanan','kost tahunan'], badge:'new' },
+    { id:'pajak-kendaraan', slug:'kalkulator-pajak-kendaraan', cat:'keuangan',  icon:'🚗', name:'Pajak Kendaraan (PKB)',         desc:'Estimasi Pajak Kendaraan Bermotor (PKB) dan biaya STNK tahunan untuk motor dan mobil', keywords:['pajak kendaraan','pkb','stnk','pajak motor','pajak mobil'], badge:'new' },
+    { id:'pph-freelance',   slug:'kalkulator-pph-freelance',   cat:'keuangan',  icon:'💻', name:'PPh Freelancer',               desc:'Hitung PPh 21 untuk freelancer, tenaga ahli, konsultan, dan PPh Final 0,5% UMKM', keywords:['pph freelancer','pajak freelance','tenaga ahli','pph 21','umkm'], badge:'new' },
+    { id:'ppn-12',          slug:'kalkulator-ppn-12',          cat:'keuangan',  icon:'🧾', name:'Kalkulator PPN 12%',           desc:'Hitung PPN 12% terbaru per Januari 2025 dan bandingkan selisih dengan tarif PPN 11%', keywords:['ppn 12%','pajak pertambahan nilai','ppn 2025','harga sebelum ppn'], badge:'new' },
+    { id:'tabungan-haji',   slug:'kalkulator-tabungan-haji',   cat:'keuangan',  icon:'🕋', name:'Tabungan Haji',                desc:'Hitung setoran awal haji, estimasi biaya, dan antrian keberangkatan di daerah Anda', keywords:['tabungan haji','biaya haji','setoran haji','antrian haji','bpih'], badge:'new' },
+    { id:'zakat-penghasilan',slug:'kalkulator-zakat-penghasilan',cat:'keuangan', icon:'🌙', name:'Zakat Penghasilan',            desc:'Hitung zakat penghasilan (zakat profesi) berdasarkan gaji — cek nisab dan cara bayar', keywords:['zakat penghasilan','zakat profesi','zakat gaji','nisab'], badge:'new' },
+
+    // ── KESEHATAN BATCH 2 ─────────────────────────────────────────────────
+    { id:'gula-darah',    slug:'kalkulator-gula-darah',               cat:'kesehatan', icon:'🩸', name:'Kalkulator Gula Darah',           desc:'Cek kadar gula darah — normal, prediabetes, atau diabetes berdasarkan standar Perkeni', keywords:['gula darah','diabetes','cek gula','gdp','hba1c'], badge:'new' },
+    { id:'kolesterol',    slug:'kalkulator-kolesterol',               cat:'kesehatan', icon:'🫀', name:'Kalkulator Kolesterol',            desc:'Cek kadar kolesterol total, LDL, HDL, dan trigliserida beserta interpretasi risiko', keywords:['kolesterol','ldl','hdl','trigliserida','jantung'], badge:'new' },
+    { id:'tensi',         slug:'kalkulator-tensi',                    cat:'kesehatan', icon:'🩺', name:'Kalkulator Tensi Darah',           desc:'Cek tekanan darah — normal, hipertensi stadium 1 atau 2, berdasarkan standar ACC/AHA', keywords:['tensi','tekanan darah','hipertensi','sistolik','diastolik'], badge:'new' },
+    { id:'kalori-id',     slug:'kalkulator-kalori-makanan-indonesia', cat:'kesehatan', icon:'🍛', name:'Kalori Makanan Indonesia',         desc:'Hitung kalori nasi goreng, mie ayam, bakso, dan 70+ menu Indonesia dari database TKPI', keywords:['kalori makanan','nasi goreng','mie ayam','bakso','masakan indonesia'], badge:'new' },
+    { id:'berat-bayi',    slug:'kalkulator-berat-bayi',               cat:'kesehatan', icon:'👶', name:'Berat Badan Bayi',                 desc:'Cek pertumbuhan berat dan tinggi badan bayi 0–60 bulan berdasarkan standar WHO', keywords:['berat bayi','pertumbuhan bayi','stunting','who','gizi bayi'], badge:'new' },
+
+    // ── KONVERSI BATCH 2 ──────────────────────────────────────────────────
+    { id:'ukuran-baju',   slug:'konversi-ukuran-baju',                cat:'konversi',  icon:'👗', name:'Konversi Ukuran Baju',             desc:'Konversi ukuran S/M/L ke US, UK, EU, Jepang, Korea — cocok untuk belanja online', keywords:['ukuran baju','size chart','s m l xl','belanja online','shein zara'], badge:'new' },
+
+    // ── UTILITAS BATCH 2 ──────────────────────────────────────────────────
+    { id:'tip-ojol',      slug:'kalkulator-tip-ojol',                 cat:'utilitas',  icon:'🛵', name:'Kalkulator Tip Ojol',              desc:'Hitung tip yang pantas untuk driver Gojek dan Grab berdasarkan jarak dan kondisi', keywords:['tip ojol','tip gojek','tip grab','driver ojol'], badge:'new' },
+    { id:'split-bill',    slug:'kalkulator-split-bill',               cat:'utilitas',  icon:'🧾', name:'Kalkulator Split Bill',            desc:'Bagi tagihan makan bareng secara adil — termasuk PPN 11%, service charge, dan tip', keywords:['split bill','bagi tagihan','dutch pay','patungan makan'], badge:'new' },
+    { id:'waktu-sholat',  slug:'kalkulator-waktu-sholat',             cat:'utilitas',  icon:'🕌', name:'Jadwal Waktu Sholat',              desc:'Jadwal sholat berdasarkan kota Anda — Subuh, Dzuhur, Ashar, Maghrib, Isya', keywords:['waktu sholat','jadwal sholat','subuh','maghrib','isya','adzan'], badge:'new' },
+  ];
+
+  window.NC_CATEGORIES = [
+    { id:'all',        label:'Semua',      icon:'🔢', count: window.NC_CALCS.length },
+    { id:'kesehatan',  label:'Kesehatan',  icon:'❤️', count: 17 },
+    { id:'keuangan',   label:'Keuangan',   icon:'💰', count: 25 },
+    { id:'matematika', label:'Matematika', icon:'📐', count: 7  },
+    { id:'konversi',   label:'Konversi',   icon:'🔄', count: 10 },
+    { id:'tanggal',    label:'Tanggal',    icon:'📅', count: 2  },
+    { id:'utilitas',   label:'Utilitas',   icon:'🛠️', count: 6  },
+  ];
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="any"/>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+</head>
+
+<body>
+
+  <!-- ============================
+       HEADER
+       ============================ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/id/" class="site-logo">
+        Nova<span>Calcs</span>
+      </a>
+
+      <div class="header-search">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Cari kalkulator…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="header-lang">
+        <a href="/id/" class="lang-btn active">🇮🇩 ID</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================
+       CATEGORY BAR
+       ============================ -->
+  <nav class="category-bar" aria-label="Kategori kalkulator">
+    <div class="category-tabs" id="category-tabs">
+      <!-- Rendered by JS below -->
+    </div>
+  </nav>
+
+  <!-- ============================
+       MAIN
+       ============================ -->
+  <main class="page-main">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" aria-label="Filter kategori">
+      <div class="sidebar-inner">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Kategori</div>
+          <div id="sidebar-cats"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER CONTENT -->
+    <div class="content-area">
+
+      <!-- Hero strip -->
+      <div class="hero-strip">
+        <div class="hero-title">Kalkulator Online <span class="accent">Gratis</span></div>
+        <div class="hero-sub">50+ kalkulator untuk kesehatan, keuangan, matematika & konversi</div>
+      </div>
+
+      <!-- Favorites section (hidden until user stars something) -->
+      <section id="favorites-section" class="favorites-section hidden">
+        <div class="section-header">
+          <span class="section-title-icon">★</span>
+          <span class="section-title">Favorit Saya</span>
+        </div>
+        <div class="calc-grid" id="favorites-grid"></div>
+      </section>
+
+      <!-- Ad slot -->
+      <div class="ad-slot" aria-label="Iklan">
+        <!-- AdSense slot will go here -->
+        Advertisement
+      </div>
+
+      <!-- Main calculator grid -->
+      <section>
+        <div class="section-header">
+          <span class="section-title-icon">🔢</span>
+          <span class="section-title" id="grid-label">Semua Kalkulator</span>
+        </div>
+        <div class="calc-grid" id="main-grid">
+          <!-- Rendered by common.js -->
+        </div>
+        <div id="no-results" class="no-results hidden">
+          <div class="nr-icon">🔍</div>
+          <div class="nr-text">Kalkulator tidak ditemukan. Coba kata kunci lain.</div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel" aria-label="Kalkulator terkait">
+      <div class="right-panel-inner">
+
+        <div class="related-card">
+          <div class="related-title">Kalkulator Populer</div>
+          <a href="/id/kalkulator-bmi"    class="related-link"><span class="ricon">⚖️</span> Kalkulator BMI</a>
+          <a href="/id/kalkulator-usia"   class="related-link"><span class="ricon">🎂</span> Kalkulator Usia</a>
+          <a href="/id/kalkulator-persen" class="related-link"><span class="ricon">%</span>  Kalkulator Persen</a>
+          <a href="/id/konversi-mata-uang"class="related-link"><span class="ricon">💱</span> Kurs Rupiah</a>
+          <a href="/id/kalkulator-kpr"    class="related-link"><span class="ricon">🏠</span> Kalkulator KPR</a>
+        </div>
+
+        <div class="related-card">
+          <div class="related-title">Kalkulator Baru</div>
+          <a href="/id/kalkulator-bmr"         class="related-link"><span class="ricon">🆕</span> Kalkulator BMR</a>
+          <a href="/id/kalkulator-inflasi"      class="related-link"><span class="ricon">🆕</span> Kalkulator Inflasi</a>
+          <a href="/id/kalkulator-listrik"      class="related-link"><span class="ricon">🆕</span> Tagihan Listrik</a>
+          <a href="/id/kalkulator-roi"          class="related-link"><span class="ricon">🆕</span> Kalkulator ROI</a>
+          <a href="/id/kalkulator-ipk"          class="related-link"><span class="ricon">🆕</span> Kalkulator IPK</a>
+        </div>
+
+      </div>
+    </aside>
+
+  </main>
+
+
+  <!-- SEO: Panduan Kategori -->
+  <section style="max-width:1100px;margin:0 auto;padding:48px 16px 0;">
+    <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:32px;text-align:center;">Panduan Lengkap Kalkulator Online Indonesia</h2>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:48px;">
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px;">🏥 Kesehatan & BMI</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">Pantau kesehatan Anda dengan kalkulator BMI, BMR, kolesterol, gula darah, dan tekanan darah. Semua menggunakan standar WHO dan panduan medis Indonesia terkini. Kalkulator kehamilan dan HPL tersedia untuk calon ibu.</p>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px;">💰 Keuangan & Pajak</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">Hitung cicilan KPR, KTA, dan kredit kendaraan dengan metode anuitas dan flat rate. Simulasi investasi, PPh 21, PPN, dan BPJS Ketenagakerjaan sesuai regulasi terbaru 2026. Cocok untuk karyawan, freelancer, dan pengusaha.</p>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px;">🎓 Pendidikan & Akademik</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">Hitung IPK, nilai akhir berbobot, dan target nilai UAS yang diperlukan untuk mencapai predikat tertentu. Tersedia juga kalkulator hari kerja, selisih tanggal, dan konversi satuan untuk keperluan akademik dan profesional.</p>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px;">🕌 Islami & Zakat</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">Hitung zakat maal, zakat penghasilan, dan tabungan haji sesuai nisab terkini berdasarkan SK BAZNAS 2026. Jadwal sholat tersedia untuk seluruh kota besar Indonesia menggunakan metode perhitungan yang akurat.</p>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px;">🍔 Gizi & Kalori</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">Hitung kebutuhan kalori harian, kalori makanan Indonesia (nasi padang, gado-gado, rendang, dll.), dan kalori yang terbakar saat olahraga. Kalkulator berat badan ideal dan WHR membantu menjaga proporsi tubuh yang sehat.</p>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px;">📏 Konversi Satuan</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">Konversi lengkap satuan berat, panjang, volume, luas, suhu, kecepatan, data digital, dan waktu. Termasuk satuan lokal Indonesia seperti ons (100g), tumbak, dan bahu. Konversi mata uang real-time dan ukuran pakaian internasional.</p>
+      </div>
+
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:48px;text-align:center;">
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px;">Mengapa NovaCalcs?</h3>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;max-width:600px;margin:0 auto;">Semua kalkulator berjalan langsung di browser Anda — tidak perlu login, tidak ada data yang dikumpulkan, dan 100% gratis. Didesain khusus untuk kebutuhan Indonesia dengan data terkini: BI Rate, regulasi pajak, standar medis, dan nisab zakat 2026.</p>
+    </div>
+  </section>
+
+  <!-- ============================
+       FOOTER
+       ============================ -->
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="/id/">Beranda</a>
+      <a href="/id/faq">FAQ</a>
+      <a href="/id/kebijakan-privasi">Kebijakan Privasi</a>
+      <a href="mailto:contact@novacalcs.com">Hubungi Kami</a>
+    </div>
+    <div>© 2026 NovaCalcs · Kalkulator online gratis</div>
+  </footer>
+
+  <!-- JS: defer -->
+  <script defer src="/common.js"></script>
+
+  <script>
+  // Render category tabs & sidebar from data
+  // 이 스크립트는 body 맨 아래에 위치하므로 #category-tabs, #sidebar-cats 이미 존재
+  // defer인 common.js보다 먼저 실행되어야 initCategoryTabs()가 탭을 찾을 수 있음
+  (function(){
+    const cats = window.NC_CATEGORIES || [];
+
+    const tabContainer = document.getElementById('category-tabs');
+    if(tabContainer){
+      tabContainer.innerHTML = cats.map(c =>
+        `<button class="cat-tab${c.id==='all'?' active':''}" data-cat="${c.id}">
+          ${c.icon} ${c.label}
+          <span class="count">${c.count}</span>
+        </button>`
+      ).join('');
+    }
+
+    const sideContainer = document.getElementById('sidebar-cats');
+    if(sideContainer){
+      sideContainer.innerHTML = cats.map(c =>
+        `<button class="sidebar-cat${c.id==='all'?' active':''}" data-cat="${c.id}">
+          <span class="cat-icon">${c.icon}</span>
+          ${c.label}
+          <span class="cat-num">${c.count}</span>
+        </button>`
+      ).join('');
+    }
+  })();
+  </script>
+
+  <!-- Structured data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NovaCalcs",
+    "url": "https://novacalcs.com/id/",
+    "description": "Kalkulator online gratis — BMI, usia, keuangan, konversi satuan dan banyak lagi",
+    "inLanguage": "id",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://novacalcs.com/id/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+</body>
+</html>
