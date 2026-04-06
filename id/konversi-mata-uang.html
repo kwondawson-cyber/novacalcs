@@ -80,7 +80,28 @@
     .presets{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
     .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s;font-family:inherit}
     .pb:hover{border-color:var(--grn);color:var(--grn);background:var(--grn-b)}
-  </style>
+  
+    .seo-tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .seo-tbl th{background:var(--sur2,#f0f0f0);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;border-bottom:2px solid var(--bor,#e0e0e0)}
+    .seo-tbl td{padding:8px 13px;border-bottom:1px solid var(--bor,#e0e0e0)}
+    .seo-tbl tr:last-child td{border-bottom:none}
+    .seo-tbl td:first-child{font-weight:600}
+    .stw{overflow-x:auto;margin:16px 0}
+    .faq-i{border:1px solid var(--bor,#e0e0e0);border-radius:8px;margin-bottom:8px;overflow:hidden}
+    .faq-q{padding:13px 16px;font-weight:600;font-size:14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+    .faq-q::after{content:"＋";color:#888;font-size:12px;flex-shrink:0}
+    .faq-i.open .faq-q::after{content:"－"}
+    .faq-a{padding:0 16px;font-size:13px;line-height:1.7;display:none;border-top:1px solid var(--bor,#e0e0e0)}
+    .faq-i.open .faq-a{display:block;padding:12px 16px}
+    .sim-card{background:var(--surface,#fff);border:1px solid var(--bor,#e0e0e0);border-radius:12px;padding:16px;margin:16px auto 0;max-width:500px}
+    .sim-lbl{font-size:12px;font-weight:600;display:block;margin:10px 0 4px}
+    .sim-inp{width:100%;padding:8px 10px;border:1px solid var(--bor,#ddd);border-radius:6px;font-size:14px;box-sizing:border-box}
+    .sim-result-box{background:var(--sur2,#f5f5f5);border-radius:8px;padding:12px;text-align:center;margin-top:12px}
+    .sim-val{font-size:1.2rem;font-weight:700;color:#2a9d8f}
+    .sim-sub{font-size:11px;color:#888;margin-top:4px}
+    .sim-tip{margin-top:10px;font-size:11px;color:#aaa}
+    .sim-btn{font-size:11px;padding:4px 8px;border:1px solid #ddd;border-radius:4px;background:#fff;cursor:pointer;margin:2px}
+</style>
 </head>
 <body>
 <nav class="nav"><div class="nav-i">
@@ -110,13 +131,13 @@
       <div class="conv-side">
         <label>Dari</label>
         <select class="conv-select" id="from-cur" onchange="convert()"></select>
-        <input class="conv-amount" type="number" id="from-amt" value="1000000" oninput="convert()">
+        <input class="conv-amount" type="text" inputmode="numeric" id="from-amt" value="1000000" oninput="convert()">
       </div>
       <button class="swap-btn" onclick="swapCur()" title="Tukar">⇄</button>
       <div class="conv-side">
         <label>Ke</label>
         <select class="conv-select" id="to-cur" onchange="convert()"></select>
-        <input class="conv-amount" type="number" id="to-amt" readonly style="background:var(--sur2);color:var(--grn)">
+        <input class="conv-amount" type="text" inputmode="numeric" id="to-amt" readonly style="background:var(--sur2);color:var(--grn)">
       </div>
     </div>
 
@@ -165,14 +186,82 @@
     </div>
   </div>
 </div>
+<div class="sim-card">
+  <div style="font-weight:700;font-size:14px;margin-bottom:4px;">✈️ Simulasi Anggaran Perjalanan</div>
+  <p style="font-size:12px;color:#888;margin:0 0 8px">Konversi anggaran perjalanan ke Rupiah</p>
+  <label class="sim-lbl">Negara Tujuan</label>
+  <select id="sim-negara" onchange="calcBudget()" style="width:100%;padding:8px 10px;border:1px solid var(--bor,#ddd);border-radius:6px;font-size:14px;">
+    <option value="SGD">🇸🇬 Singapura (SGD)</option>
+    <option value="JPY">🇯🇵 Jepang (JPY)</option>
+    <option value="MYR">🇲🇾 Malaysia (MYR)</option>
+    <option value="USD">🇺🇸 Amerika (USD)</option>
+    <option value="EUR">🇪🇺 Eropa (EUR)</option>
+    <option value="AED">🇦🇪 Dubai (AED)</option>
+    <option value="AUD">🇦🇺 Australia (AUD)</option>
+    <option value="SAR">🇸🇦 Arab Saudi (SAR)</option>
+  </select>
+  <label class="sim-lbl">Anggaran (mata uang lokal)</label>
+  <input class="sim-inp" id="sim-budget" type="text" inputmode="numeric" value="500" oninput="calcBudget()">
+  <div class="sim-result-box">
+    <div style="font-size:11px;color:#888;margin-bottom:4px">Setara Rupiah</div>
+    <div class="sim-val" id="sim-budget-result">—</div>
+    <div class="sim-sub" id="sim-budget-desc"></div>
+  </div>
+  <div class="sim-tip">💡 Estimasi biaya per hari: Singapura SGD 150–300 · Jepang JPY 8.000–15.000 · Malaysia MYR 150–300</div>
+</div>
 </main>
 
 <div class="seo">
-  <h2>Cara Membaca Kurs Mata Uang</h2>
-  <p>Kurs mata uang menyatakan berapa unit mata uang satu dibutuhkan untuk membeli satu unit mata uang lain. Kurs USD/IDR 16.000 berarti 1 USD = Rp 16.000. Kurs berubah setiap hari mengikuti kondisi pasar, kebijakan bank sentral, dan faktor ekonomi global.</p>
-  <h2>FAQ</h2>
-  <div class="faq-i"><div class="faq-q">Di mana bisa cek kurs resmi Rupiah?</div><div class="faq-a">Kurs Transaksi Bank Indonesia (BI) bisa dicek di bi.go.id — ini adalah kurs referensi resmi pemerintah Indonesia. Kurs di bank umum dan money changer akan sedikit berbeda karena ada spread (selisih jual-beli) sebagai keuntungan mereka.</div></div>
+
+  <h2>Konversi Mata Uang 2026 — Kurs IDR, USD, EUR, SGD dan 20+ Mata Uang</h2>
+  <p>Konverter mata uang ini menyediakan kurs referensi untuk mengkonversi Rupiah Indonesia (IDR) ke berbagai mata uang dunia dan sebaliknya. Kurs yang ditampilkan adalah estimasi referensi berdasarkan data terkini — untuk transaksi resmi selalu gunakan kurs tengah Bank Indonesia (JISDOR) yang diterbitkan setiap hari kerja di website resmi bi.go.id. Nilai tukar Rupiah bergerak dinamis setiap hari mengikuti kondisi pasar forex global.</p>
+  <p>BI Rate saat ini sebesar 4,75% per tahun (ditetapkan Januari 2026). BI Rate adalah suku bunga acuan kebijakan moneter Bank Indonesia yang memengaruhi daya tarik aset berdenominasi Rupiah bagi investor. Kenaikan BI Rate umumnya cenderung memperkuat Rupiah karena meningkatkan imbal hasil investasi di Indonesia, meski pengaruhnya tidak selalu langsung dan dipengaruhi juga oleh banyak faktor eksternal.</p>
+
+  <h2>Cara Mendapat Kurs Terbaik Saat Menukar Valuta</h2>
+  <p>Strategi mendapat kurs paling kompetitif saat menukar uang: pertama, hindari penukaran di bandara atau hotel karena spread (selisih kurs beli-jual) bisa mencapai 5–10% lebih buruk dari pasar — jauh lebih mahal dari opsi lain yang tersedia. Money changer resmi berlisensi BI di kota umumnya menawarkan kurs jauh lebih kompetitif. Di Bali: kawasan Kuta dan Seminyak. Di Jakarta: Blok M dan Kelapa Gading. Di Singapura: Lucky Plaza dan Mustafa Centre.</p>
+  <p>Untuk perjalanan modern, kartu debit multi-currency seperti Wise (formerly TransferWise) atau rekening valuta beberapa bank Indonesia memungkinkan konversi mendekati kurs pasar dengan spread sangat kecil (0,3–1%) — jauh lebih baik dari kartu konvensional yang mengenakan foreign transaction fee 1,5–3%. Mengambil tunai di ATM lokal negara tujuan juga umumnya lebih kompetitif dari penukaran tunai, namun perhatikan biaya per transaksi dan pastikan bank tidak mengenakan foreign fee berlebihan.</p>
+  <div class="stw"><table class="seo-tbl">
+    <thead><tr><th>Mata Uang</th><th>Kode</th><th>Penggunaan Utama</th></tr></thead>
+    <tbody>
+      <tr><td>Dolar AS</td><td>USD</td><td>Mata uang cadangan dunia, harga komoditas global</td></tr>
+      <tr><td>Euro</td><td>EUR</td><td>20 negara zona Euro, perjalanan Eropa</td></tr>
+      <tr><td>Dolar Singapura</td><td>SGD</td><td>Bisnis ASEAN, transit Changi</td></tr>
+      <tr><td>Yen Jepang</td><td>JPY</td><td>Wisata Jepang, safe haven investasi</td></tr>
+      <tr><td>Dirham UAE</td><td>AED</td><td>TKI UAE, wisata Dubai, transit</td></tr>
+      <tr><td>Riyal Saudi</td><td>SAR</td><td>TKI Arab Saudi, ibadah haji dan umroh</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Faktor yang Memengaruhi Nilai Tukar Rupiah</h2>
+  <p>Nilai tukar Rupiah terhadap dolar AS dan mata uang lain bergerak berdasarkan interaksi penawaran dan permintaan di pasar forex yang beroperasi 24 jam. Rupiah cenderung menguat saat: ekspor komoditas Indonesia tinggi (harga CPO, batubara, nikel naik di pasar global), BI menaikkan suku bunga yang membuat aset Rupiah lebih menarik, atau ada arus investasi asing masuk (Foreign Direct Investment dan portofolio). Indonesia sebagai eksportir besar komoditas sangat sensitif terhadap perubahan harga komoditas dunia.</p>
+  <p>Sebaliknya, Rupiah cenderung melemah saat: defisit neraca berjalan (impor melebihi ekspor), Fed AS menaikkan suku bunga yang membuat USD lebih menarik bagi investor global, atau ada sentimen negatif global yang mendorong investor keluar dari aset emerging market (risk-off). Bank Indonesia secara aktif melakukan intervensi di pasar forex menggunakan cadangan devisa negara untuk menjaga stabilitas nilai tukar dan mencegah volatilitas berlebihan yang dapat mengganggu perekonomian.</p>
+  <div class="stw"><table class="seo-tbl">
+    <thead><tr><th>Faktor</th><th>Dampak pada Rupiah</th><th>Mekanisme</th></tr></thead>
+    <tbody>
+      <tr><td>BI Rate naik</td><td>Cenderung menguat</td><td>Aset IDR lebih menarik bagi investor</td></tr>
+      <tr><td>Harga komoditas naik</td><td>Cenderung menguat</td><td>Ekspor CPO/batubara/nikel lebih besar</td></tr>
+      <tr><td>Fed AS naikkan bunga</td><td>Cenderung melemah</td><td>USD lebih menarik, arus modal keluar</td></tr>
+      <tr><td>Sentimen risk-off global</td><td>Cenderung melemah</td><td>Investor lari ke safe haven (USD, JPY)</td></tr>
+      <tr><td>Inflasi tinggi domestik</td><td>Cenderung melemah</td><td>Daya beli Rupiah turun relatif</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Remitansi TKI — Kirim Uang ke Indonesia dengan Biaya Rendah</h2>
+  <p>Indonesia adalah salah satu negara penerima remitansi terbesar di Asia Tenggara, dengan jutaan TKI (Tenaga Kerja Indonesia) yang bekerja di Malaysia, Arab Saudi, Uni Emirat Arab, Hongkong, Taiwan, dan berbagai negara lain. Biaya pengiriman uang internasional yang efisien sangat penting karena selisih kecil dalam persentase biaya berdampak besar pada nilai yang diterima keluarga di Indonesia. Wise (formerly TransferWise) menawarkan kurs mendekati pasar dengan fee transparan sekitar 0,5–1%, menjadikannya pilihan kompetitif untuk transfer internasional.</p>
+  <p>Layanan remitansi khusus TKI juga tersedia di negara-negara tujuan kerja utama: AMAZE dan Merchantrade di Malaysia, berbagai layanan di Hongkong dan Taiwan yang menawarkan kurs IDR kompetitif khusus untuk pasar TKI. Western Union dan MoneyGram memiliki jaringan yang luas namun fee umumnya lebih tinggi (3–5%). Saat memilih layanan remitansi, selalu bandingkan total biaya yang mencakup fee pengiriman dan selisih kurs dari kurs pasar — bukan hanya melihat fee yang tertera di promosi.</p>
+
+  <h2>Pertanyaan Umum (FAQ) Konversi Mata Uang 2026</h2>
+  <div class="faq-i"><div class="faq-q">Berapa kurs dollar hari ini ke rupiah?</div><div class="faq-a">Kurs USD/IDR bergerak setiap saat mengikuti pasar forex. Gunakan konverter di atas untuk estimasi kurs terkini. Untuk kurs resmi, cek JISDOR di bi.go.id yang diterbitkan setiap hari kerja. Kurs bank komersial biasanya berbeda 1–3% dari JISDOR karena spread keuntungan mereka.</div></div>
+  <div class="faq-i"><div class="faq-q">Mengapa kurs di money changer berbeda dari aplikasi?</div><div class="faq-a">Aplikasi umumnya menampilkan kurs pasar (mid-rate), yaitu tengah antara kurs beli dan jual. Money changer menggunakan kurs jual (lebih tinggi saat Anda beli valuta asing) dan kurs beli (lebih rendah saat Anda jual). Selisih ini disebut spread dan merupakan keuntungan money changer. Kartu multi-currency seperti Wise mendekati kurs pasar dengan spread sangat kecil.</div></div>
+  <div class="faq-i"><div class="faq-q">Di mana tempat tukar uang terbaik di Indonesia?</div><div class="faq-a">Money changer resmi berlizensi BI umumnya lebih kompetitif dari bank. Di Bali: kawasan Kuta dan Seminyak. Di Jakarta: Blok M dan Kelapa Gading. Hindari penukaran di bandara dan hotel karena spread bisa 5–10% lebih buruk. Bandingkan kurs minimal 2–3 tempat sebelum menukar dan pastikan money changer memiliki izin resmi BI.</div></div>
+  <div class="faq-i"><div class="faq-q">Apakah lebih baik bawa tunai atau kartu saat ke luar negeri?</div><div class="faq-a">Kombinasi keduanya adalah strategi terbaik. Kartu multi-currency (Wise, Jenius) untuk transaksi utama karena kurs lebih baik dan lebih aman dari kehilangan. Sedikit tunai untuk tempat yang tidak menerima kartu. Ambil tunai di ATM lokal negara tujuan sebagai backup — biasanya lebih kompetitif dari penukaran tunai di Indonesia.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa yang menyebabkan rupiah melemah?</div><div class="faq-a">Rupiah melemah saat: impor melebihi ekspor (defisit neraca berjalan), investor asing menarik dana dari Indonesia, Fed AS menaikkan suku bunga yang membuat USD lebih menarik, atau sentimen global negatif (risk-off). BI mengintervensi pasar forex untuk mencegah volatilitas berlebihan menggunakan cadangan devisa negara.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana TKI mengirim uang ke Indonesia dengan biaya rendah?</div><div class="faq-a">Wise: kurs mendekati pasar, fee ±0,5–1%, transfer cepat. Western Union/MoneyGram: jaringan luas tapi fee 3–5%. Layanan remitansi khusus TKI (AMAZE di Malaysia, dll.) sering menawarkan kurs IDR kompetitif. Selalu bandingkan total biaya termasuk fee dan selisih kurs sebelum mengirim.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa mata uang dengan nilai tertinggi vs Rupiah?</div><div class="faq-a">Estimasi 2026: Dinar Kuwait (KWD) ≈Rp 52.000, Pound Bahrain (BHD) ≈Rp 42.000, Rial Oman (OMR) ≈Rp 41.000, Pound Sterling (GBP) ≈Rp 20.500, Euro (EUR) ≈Rp 17.500. Nilai mata uang tinggi bukan berarti ekonominya paling kuat — bergantung pada kebijakan moneter, ukuran ekonomi, dan cadangan komoditas negara tersebut.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan kurs jual dan kurs beli bank?</div><div class="faq-a">Kurs jual adalah harga bank menjual valuta asing kepada Anda (lebih tinggi dari kurs pasar). Kurs beli adalah harga bank membeli valuta asing dari Anda (lebih rendah dari kurs pasar). Saat Anda membeli USD, Anda membayar dengan kurs jual yang lebih mahal. Selisih antara kurs jual dan beli disebut spread dan merupakan keuntungan bank.</div></div>
+
 </div>
+
 <footer><span>© 2026 NovaCalcs</span><span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span></footer>
 
 <script>
@@ -254,6 +343,24 @@ function renderRateTable(){
 
 document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
 populateSelects();convert();renderRateTable();
+
+function calcBudget(){
+  const selEl=document.getElementById('sim-negara');
+  const budEl=document.getElementById('sim-budget');
+  if(!selEl||!budEl)return;
+  const code=selEl.value;
+  const raw=budEl.value||'0';
+  const amt=parseFloat(raw.replace(/\./g,'').replace(',','.'))||0;
+  const cur=(typeof CURRENCIES!=='undefined'?CURRENCIES:[]).find(c=>c.code===code);
+  if(!cur)return;
+  const total=amt*cur.rate;
+  const r=document.getElementById('sim-budget-result');
+  const d=document.getElementById('sim-budget-desc');
+  if(r)r.textContent='Rp '+Math.round(total).toLocaleString('id-ID');
+  if(d)d.textContent=amt.toLocaleString('id-ID')+' '+code+' × kurs Rp '+cur.rate.toLocaleString('id-ID');
+}
+document.addEventListener('DOMContentLoaded',calcBudget);
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
 </script>
 </body>
 </html>

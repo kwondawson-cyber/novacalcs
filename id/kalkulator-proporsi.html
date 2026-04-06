@@ -91,11 +91,6 @@
     .seo{max-width:880px;margin:0 auto;padding:0 20px 60px}
     .seo h2{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--tx);margin:36px 0 10px}
     .seo p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
-    .seo-tbl{width:100%;border-collapse:collapse;font-size:13px}
-    .seo-tbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
-    .seo-tbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
-    .seo-tbl tr:last-child td{border-bottom:none}
-    .seo-tbl td:first-child{font-weight:600;color:var(--tx)}
     .faq-i{border:1px solid var(--bor);border-radius:var(--rs);margin-bottom:6px;overflow:hidden}
     .faq-q{padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
     .faq-q::after{content:'＋';color:var(--tx3)}
@@ -111,6 +106,13 @@
     .pb{padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-family:inherit;font-size:11px;font-weight:600;color:var(--tx2);background:none;cursor:pointer;transition:all .15s}
     .pb:hover,.pb.on{border-color:var(--teal);color:var(--teal);background:var(--teal-l)}
     .unknown-input{border-color:var(--teal) !important;background:var(--teal-l) !important;font-weight:800 !important}
+  
+    .seo-tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .seo-tbl th{background:var(--sur2);padding:9px 13px;text-align:left;font-weight:700;font-size:12px;color:var(--tx2);border-bottom:2px solid var(--bor)}
+    .seo-tbl td{padding:8px 13px;border-bottom:1px solid var(--bor);color:var(--tx2)}
+    .seo-tbl tr:last-child td{border-bottom:none}
+    .seo-tbl td:first-child{font-weight:600;color:var(--tx)}
+    .stw{overflow-x:auto;margin:16px 0}
   </style>
 </head>
 <body>
@@ -304,6 +306,39 @@
   </div>
 </div>
 
+
+<div class="card">
+  <div class="card-h"><div class="card-ico">⚡</div>Simulasi Skala Resep & Campuran <span class="nbadge" style="margin-left:6px">Simulasi Interaktif</span></div>
+  <div class="card-b">
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">Ubah porsi resep atau skala campuran secara proporsional. Masukkan bahan-bahan, lalu ubah jumlah porsi.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--tx3);margin-bottom:5px">Porsi Asal</div>
+        <input type="number" id="res-asal" value="4" min="0.1" step="any"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:18px;font-weight:700;outline:none;-moz-appearance:textfield;appearance:none"
+          oninput="calcResep()">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--teal);margin-bottom:5px">Porsi Target</div>
+        <input type="number" id="res-target" value="6" min="0.1" step="any"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--teal);border-radius:var(--rs);font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--teal);outline:none;-moz-appearance:textfield;appearance:none"
+          oninput="calcResep()">
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px">
+      <button onclick="document.getElementById('res-target').value=2;calcResep()" style="padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;background:none;font-family:inherit">÷2 (2 porsi)</button>
+      <button onclick="document.getElementById('res-target').value=8;calcResep()" style="padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;background:none;font-family:inherit">×2 (8 porsi)</button>
+      <button onclick="document.getElementById('res-target').value=10;calcResep()" style="padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;background:none;font-family:inherit">×2,5 (10 porsi)</button>
+      <button onclick="document.getElementById('res-target').value=20;calcResep()" style="padding:3px 9px;border-radius:20px;border:1.5px solid var(--bor);font-size:11px;font-weight:600;cursor:pointer;background:none;font-family:inherit">×5 (20 porsi)</button>
+    </div>
+    <div id="res-rows" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
+    <button onclick="addResepRow()" style="width:100%;padding:7px;border:1.5px dashed var(--bor);border-radius:var(--rs);background:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:var(--tx3);transition:all .15s"
+      onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'"
+      onmouseout="this.style.borderColor='var(--bor)';this.style.color='var(--tx3)'">＋ Tambah Bahan</button>
+    <div id="res-faktor" style="margin-top:12px;background:var(--teal-l);border:1.5px solid #99f6e4;border-radius:var(--rs);padding:10px 14px;font-size:12px;color:var(--teal);display:none"></div>
+  </div>
+</div>
+
 </div><!-- /left-col -->
 
 <div class="sb">
@@ -345,56 +380,34 @@
 </main>
 
 <div class="seo">
+<h2>Apa Itu Proporsi dan Cara Menghitungnya?</h2>
+  <p>Proporsi adalah pernyataan bahwa dua rasio bernilai sama: A/B = C/D. Ini berarti perkalian silang (cross-multiplication) berlaku: A×D = B×C. Misalnya, 3/4 = 9/x → 3×x = 4×9 → x = 12. Proporsi digunakan di mana pun ada hubungan "makin banyak A, makin banyak B" — dari resep masakan hingga kalkulasi teknik.</p>
+  <p>Ada dua jenis proporsi: berbanding lurus (A naik, B naik — contoh: kecepatan dan jarak) dan berbanding terbalik (A naik, B turun — contoh: lebih banyak pekerja, waktu lebih singkat). Aturan Tiga (Rule of Three) adalah teknik paling praktis untuk menyelesaikan masalah proporsi sehari-hari: jika diketahui A→B, maka untuk nilai C berapakah D?</p>
 
-  <h2>Kalkulator Proporsi 2026 — Aturan Tiga, Skala, dan Perbandingan Senilai/Berbalik</h2>
-  <p>Proporsi adalah pernyataan bahwa dua rasio bernilai sama: A/B = C/D. Ini adalah konsep matematika yang sangat praktis dan muncul di banyak situasi kehidupan nyata — dari memperbesar resep masakan, menghitung skala peta, mengkonversi satuan, hingga membagi bahan baku secara proporsional. Kalkulator proporsi ini membantu menemukan nilai yang tidak diketahui dalam perbandingan dengan <strong>perkalian silang (cross-multiplication)</strong>: jika A/B = C/D, maka A×D = B×C, sehingga nilai yang tidak diketahui bisa dihitung secara algebrais.</p>
-  <p>Contoh dasar: jika 3 apel harganya Rp 15.000, berapa harga 7 apel? Tulis sebagai proporsi: 3/15.000 = 7/x → x = (15.000 × 7) ÷ 3 = Rp 35.000. Atau cara lain: harga per apel = 15.000/3 = 5.000, lalu 7 × 5.000 = 35.000. Keduanya adalah cara menyelesaikan proporsi — kalkulator di atas menggunakan metode perkalian silang yang lebih universal, terutama saat nilai yang tidak diketahui ada di posisi berbeda.</p>
+  <h2>Rasio dan Cara Menyederhanakannya</h2>
+  <p>Rasio menyatakan perbandingan dua atau lebih nilai. Rasio 15:25 dapat disederhanakan dengan membagi keduanya dengan FPB (Faktor Persekutuan Terbesar): FPB(15,25)=5, sehingga 15:25 = 3:5. Rasio sederhana lebih mudah dipahami dan digunakan dalam perhitungan selanjutnya.</p>
+  <p>Rasio tiga bagian (misalnya pembagian warisan 2:3:5) berarti total dibagi 10 bagian — pihak pertama mendapat 2/10, kedua 3/10, ketiga 5/10 dari total. Ini sangat berguna untuk pembagian keuntungan bisnis, campuran material bangunan, atau distribusi anggaran.</p>
 
-  <h2>Proporsi Senilai vs Proporsi Berbalik Nilai</h2>
-  <p>Ada dua jenis hubungan proporsional yang fundamental. <strong>Proporsi senilai (langsung)</strong>: kedua besaran berubah dalam arah yang sama — jika satu naik, yang lain juga naik secara proporsional. Contoh: semakin banyak bahan, semakin banyak produk. Semakin jauh jarak, semakin besar biaya bensin. Semakin lama bekerja, semakin besar upah. Rumus: A₁/B₁ = A₂/B₂, atau B₂ = B₁ × (A₂/A₁).</p>
-  <p><strong>Proporsi berbalik nilai (terbalik)</strong>: kedua besaran berubah berlawanan arah — jika satu naik, yang lain turun secara proporsional. Contoh: semakin cepat kecepatan, semakin singkat waktu tempuh (jarak tetap). Semakin banyak pekerja, semakin singkat waktu penyelesaian pekerjaan. Semakin tinggi frekuensi gelombang, semakin pendek panjang gelombangnya. Rumus: A₁ × B₁ = A₂ × B₂, sehingga B₂ = (A₁ × B₁) / A₂. Mengenali jenis proporsi yang tepat (senilai atau berbalik) adalah kunci keberhasilan penggunaan kalkulator ini.</p>
-  <div class="stw"><table class="seo-tbl">
-    <thead><tr><th>Jenis Proporsi</th><th>Karakteristik</th><th>Rumus</th><th>Contoh</th></tr></thead>
-    <tbody>
-      <tr><td>Senilai (langsung)</td><td>Satu naik → satunya naik</td><td>A₁/B₁ = A₂/B₂</td><td>3 pekerja = 6 hari; 6 pekerja = 3 hari? Bukan ini!</td></tr>
-      <tr><td>Berbalik nilai (terbalik)</td><td>Satu naik → satunya turun</td><td>A₁×B₁ = A₂×B₂</td><td>3 pekerja = 6 hari; 6 pekerja = 3 hari ✓</td></tr>
-    </tbody>
-  </table></div>
+  <h2>Skala Peta dan Konversi Jarak</h2>
+  <p>Skala peta ditulis sebagai perbandingan, misalnya 1:50.000 artinya 1 cm di peta = 50.000 cm = 500 m di lapangan. Untuk menghitung jarak nyata, ukur jarak di peta dengan penggaris lalu kalikan dengan angka skala. Ini adalah aplikasi proporsi berbanding lurus yang paling sering digunakan dalam geografi dan navigasi.</p>
+  <p>Peta topografi Indonesia yang diterbitkan Badan Informasi Geospasial (BIG) umumnya menggunakan skala 1:25.000 (detail) hingga 1:250.000 (regional). Untuk keperluan navigasi GPS saat ini, pemahaman skala peta tetap penting terutama saat membaca peta cetak di lapangan.</p>
 
-  <h2>Skala Peta dan Denah — Aplikasi Proporsi yang Paling Umum</h2>
-  <p>Skala peta adalah rasio antara jarak di peta dan jarak sesungguhnya di lapangan. Peta berskala 1:50.000 berarti 1 cm di peta = 50.000 cm = 500 meter di dunia nyata. Untuk menghitung jarak sebenarnya: jarak nyata = jarak di peta × skala. Contoh: dua kota berjarak 3,5 cm di peta berskala 1:200.000 → jarak nyata = 3,5 × 200.000 = 700.000 cm = 7 km. Sebaliknya, untuk mengukur berapa cm di peta untuk jarak nyata tertentu: jarak di peta = jarak nyata ÷ skala.</p>
-  <p>Skala juga digunakan dalam denah arsitektur (1:100 berarti 1 cm di gambar = 1 meter di bangunan nyata), miniatur dan model kendaraan (misalnya model skala 1:18 atau 1:43), peta topografi BRIN/BIG Indonesia yang umum menggunakan skala 1:25.000 hingga 1:250.000, dan desain produk. Kalkulator proporsi di atas membantu konversi dua arah untuk semua masalah skala ini — cukup masukkan tiga nilai yang diketahui dan nilai keempat akan dihitung otomatis.</p>
+  <h2>Aplikasi Proporsi dalam Kehidupan Sehari-hari</h2>
+  <p>Proporsi hadir di hampir setiap aspek kehidupan. Di dapur: resep untuk 4 orang ingin dibuat untuk 10 orang — semua bahan dikalikan 10/4 = 2,5×. Di bengkel: campuran cat membutuhkan rasio pigmen:thinner = 1:3 untuk warna tertentu. Di konstruksi: campuran beton semen:pasir:kerikil = 1:2:3 harus dijaga proporsinya agar kuat tekan terpenuhi.</p>
+  <p>Dalam bisnis: jika 3 pekerja menyelesaikan proyek dalam 10 hari (proporsi terbalik), berapa hari untuk 5 pekerja? Jawaban: 3×10/5 = 6 hari. Di keuangan: jika investasi Rp 10 juta menghasilkan Rp 1,5 juta per tahun, berapa yang dihasilkan investasi Rp 25 juta? Jawaban: 25/10 × 1,5 juta = Rp 3,75 juta.</p>
 
-  <h2>Aturan Tiga (Aturan Perbandingan) dalam Kehidupan Sehari-hari</h2>
-  <p>Aturan tiga (rule of three) adalah cara menghitung nilai keempat yang tidak diketahui dari tiga nilai yang diketahui dalam proporsi, yang digunakan di berbagai konteks praktis Indonesia. <strong>Di dapur (konversi resep)</strong>: resep untuk 4 porsi butuh 200g tepung. Untuk 7 porsi, berapa tepung yang dibutuhkan? 200/4 = x/7 → x = 200×7/4 = 350g tepung. <strong>Di pekerjaan konstruksi</strong>: 1 tukang bisa memasang 120 bata per hari. Berapa tukang dibutuhkan untuk memasang 840 bata dalam 1 hari? 1/120 = x/840 → x = 7 tukang.</p>
-  <p><strong>Di keuangan</strong>: nilai kurs USD/IDR hari ini adalah 1 USD = Rp 16.200. Berapa Rupiah yang didapat untuk USD 250? 1/16.200 = 250/x → x = Rp 4.050.000. <strong>Di farmasi</strong>: larutan mengandung 400mg obat dalam 5ml. Berapa ml untuk dosis 150mg? 400/5 = 150/x → x = 1,875 ml. <strong>Di pertanian</strong>: 3 hektar sawah menghasilkan 18 ton padi. Berapa hasil dari 7 hektar? 3/18 = 7/x → x = 42 ton. Semua contoh ini diselesaikan dengan mekanisme proporsi yang sama.</p>
-  <div class="stw"><table class="seo-tbl">
-    <thead><tr><th>Konteks</th><th>Diketahui</th><th>Dicari</th><th>Hasil</th></tr></thead>
-    <tbody>
-      <tr><td>Resep (4 → 10 porsi)</td><td>4 porsi = 200g tepung</td><td>10 porsi = ? g</td><td>500g tepung</td></tr>
-      <tr><td>Kurs valuta</td><td>1 USD = Rp 16.200</td><td>USD 350 = ? Rp</td><td>Rp 5.670.000</td></tr>
-      <tr><td>Skala peta 1:100.000</td><td>2,5 cm di peta</td><td>= ? km di nyata</td><td>2,5 km</td></tr>
-      <tr><td>Kecepatan-waktu</td><td>120 km/jam → 2 jam</td><td>80 km/jam → ? jam</td><td>3 jam (berbalik)</td></tr>
-      <tr><td>Bahan konstruksi</td><td>50 m² = 200 kg semen</td><td>135 m² = ? kg</td><td>540 kg semen</td></tr>
-    </tbody>
-  </table></div>
+  <h2>Proporsi dalam Matematika dan Sains</h2>
+  <p>Dalam matematika, konsep proporsi menjadi fondasi trigonometri (sin, cos, tan adalah rasio sisi segitiga), geometri sebangun (dua segitiga sebangun memiliki sisi-sisi yang proporsional), dan aljabar linear. Konstanta proporsionalitas k dalam persamaan y = kx menggambarkan laju perubahan antara dua variabel yang berbanding lurus.</p>
+  <p>Dalam kimia, stoikiometri adalah aplikasi proporsi untuk menghitung jumlah reaktan dan produk dalam reaksi kimia. Rumus molekul air H₂O berarti perbandingan atom H:O = 2:1 — untuk membentuk 18 gram air (1 mol) dibutuhkan tepat 2 gram H dan 16 gram O, tidak lebih tidak kurang.</p>
 
-  <h2>Membagi Sesuatu Secara Proporsional — Pembagian Adil Berbasis Rasio</h2>
-  <p>Proporsi juga digunakan untuk pembagian sesuatu secara adil berdasarkan kontribusi atau kepemilikan yang berbeda-beda — ini lebih adil dari pembagian rata yang mengabaikan perbedaan input. <strong>Bagi hasil usaha</strong>: tiga mitra bisnis menanam modal Rp 20 juta, Rp 30 juta, dan Rp 50 juta (total Rp 100 juta). Keuntungan Rp 25 juta dibagi proporsional: 20%×25jt = 5jt, 30%×25jt = 7,5jt, 50%×25jt = 12,5jt. <strong>Pembagian warisan</strong> sesuai ketentuan hukum faraidh (yang sudah menetapkan rasio per ahli waris). <strong>Biaya bersama</strong>: sewa kantor bersama dibagi proporsional berdasarkan luas area yang digunakan masing-masing tenant.</p>
-  <p>Rumus umum pembagian proporsional: Bagian i = (Kontribusi i ÷ Total Kontribusi) × Nilai Total yang Dibagi. Kalkulator proporsi di atas mendukung pembagian proporsional sederhana. Untuk pembagian dengan lebih banyak pihak, Anda bisa menerapkan rumus yang sama secara berulang untuk setiap pihak, atau gunakan kalkulator split yang tersedia di halaman lain situs ini.</p>
-
-  <h2>Pertanyaan Umum (FAQ) Kalkulator Proporsi 2026</h2>
-  <div class="faq-i"><div class="faq-q">Apa itu proporsi dan bagaimana cara menghitungnya?</div><div class="faq-a">Proporsi adalah pernyataan bahwa dua rasio sama: A/B = C/D. Untuk mencari nilai yang tidak diketahui, gunakan perkalian silang: A×D = B×C. Jika mencari D: D = (B×C)/A. Contoh: 4/6 = 10/x → 4x = 60 → x = 15. Kalkulator di atas otomatis melakukan perkalian silang — masukkan 3 nilai yang diketahui, nilai keempat langsung terhitung.</div></div>
-  <div class="faq-i"><div class="faq-q">Apa bedanya proporsi senilai dan proporsi berbalik nilai?</div><div class="faq-a">Senilai (langsung): kedua besaran berubah arah sama — satu naik, yang lain naik. Rumus: A₁/B₁ = A₂/B₂. Contoh: 2 kg gula = Rp 28.000, berapa 5 kg? 2/28.000 = 5/x → x = 70.000. Berbalik nilai: kedua besaran berubah berlawanan — satu naik, yang lain turun. Rumus: A₁×B₁ = A₂×B₂. Contoh: 4 orang selesai dalam 12 hari, berapa hari untuk 8 orang? 4×12 = 8×x → x = 6 hari.</div></div>
-  <div class="faq-i"><div class="faq-q">Bagaimana cara menghitung skala peta?</div><div class="faq-a">Rumus skala peta: Jarak nyata = Jarak di peta × Pembagi skala. Contoh: peta 1:50.000, jarak di peta 4 cm → jarak nyata = 4 × 50.000 = 200.000 cm = 2 km. Sebaliknya: Jarak di peta = Jarak nyata ÷ Pembagi skala. Contoh: jarak nyata 3 km pada peta 1:100.000 → 3 km = 300.000 cm ÷ 100.000 = 3 cm di peta.</div></div>
-  <div class="faq-i"><div class="faq-q">Bagaimana cara mengkonversi resep dari 4 porsi ke 10 porsi?</div><div class="faq-a">Ini adalah proporsi senilai sederhana. Hitung faktor pengali: 10 ÷ 4 = 2,5. Kalikan semua bahan dengan 2,5. Atau gunakan proporsi: jika 4 porsi butuh 300g beras, maka 10 porsi butuh (300 × 10) ÷ 4 = 750g beras. Berlaku untuk semua bahan dalam resep secara proporsional. Kalkulator proporsi di atas membantu menghitung satu bahan sekaligus.</div></div>
-  <div class="faq-i"><div class="faq-q">Jika 3 pekerja menyelesaikan pekerjaan dalam 8 hari, berapa hari untuk 6 pekerja?</div><div class="faq-a">Ini adalah proporsi berbalik nilai — lebih banyak pekerja, lebih sedikit waktu. Rumus: 3×8 = 6×x → x = 24÷6 = 4 hari. Cara logis: 6 pekerja = 2× jumlah pekerja → waktu = ½ dari 8 hari = 4 hari. Jangan gunakan proporsi senilai di sini — 3/8 ≠ 6/x untuk kasus ini karena hubungannya berbalik.</div></div>
-  <div class="faq-i"><div class="faq-q">Bagaimana cara membagi keuntungan usaha secara proporsional?</div><div class="faq-a">Rumus: Bagian masing-masing = (Modal/kontribusi sendiri ÷ Total modal/kontribusi) × Total keuntungan. Contoh: 3 mitra, modal Rp 20jt, 30jt, 50jt. Total Rp 100jt. Keuntungan Rp 15jt. Bagian: 20/100×15jt = Rp 3jt; 30/100×15jt = Rp 4,5jt; 50/100×15jt = Rp 7,5jt. Total = Rp 15jt ✓</div></div>
-  <div class="faq-i"><div class="faq-q">Apakah aturan tiga dan proporsi sama?</div><div class="faq-a">Ya, aturan tiga (rule of three) adalah nama lain untuk perhitungan proporsi di mana 3 nilai diketahui dan nilai keempat dicari. Nama "aturan tiga" populer di buku pelajaran matematika karena Anda selalu bekerja dengan 3 angka yang diketahui untuk mendapatkan 1 yang tidak diketahui. Mekanismenya sama persis dengan perkalian silang dalam proporsi: jika a/b = c/x, maka x = bc/a.</div></div>
-  <div class="faq-i"><div class="faq-q">Berapa jarak sebenarnya jika di peta berskala 1:25.000 terukur 8 cm?</div><div class="faq-a">Jarak nyata = 8 cm × 25.000 = 200.000 cm = 2 km. Cara mudah mengingat: pada peta 1:25.000, 1 cm = 250 meter. Pada peta 1:50.000, 1 cm = 500 meter. Pada peta 1:100.000, 1 cm = 1 km. Pada peta 1:250.000, 1 cm = 2,5 km. Peta topografi skala besar (1:25.000) detail untuk hiking dan survey; peta skala kecil (1:250.000+) untuk gambaran wilayah luas.</div></div>
-
+  <h2>FAQ Kalkulator Proporsi</h2>
+  <div class="faq-i"><div class="faq-q">Apa perbedaan proporsi berbanding lurus dan terbalik?</div><div class="faq-a">Proporsi berbanding lurus: jika A naik, B naik dengan rasio yang sama (A/B = tetap). Contoh: lebih banyak bahan bakar → lebih jauh perjalanan. Rumus: A₁/B₁ = A₂/B₂. Proporsi berbanding terbalik: jika A naik, B turun dengan perkalian tetap (A×B = tetap). Contoh: lebih banyak pekerja → waktu lebih singkat. Rumus: A₁×B₁ = A₂×B₂. Cara membedakan: tanyakan "jika X bertambah, apakah Y bertambah juga (lurus) atau berkurang (terbalik)?"</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara menyederhanakan rasio 12:18:24?</div><div class="faq-a">Cari FPB dari ketiga angka: FPB(12,18,24) = 6. Bagi semua dengan 6: 12/6 : 18/6 : 24/6 = 2:3:4. Cara cepat: faktorkan masing-masing (12=4×3, 18=6×3, 24=8×3) — ketiganya habis dibagi 6. Jika angkanya besar, gunakan algoritma Euclid: FPB(a,b) = FPB(b, a mod b) berulang sampai sisa = 0.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa jarak nyata jika di peta skala 1:50.000 terukur 7,5 cm?</div><div class="faq-a">Jarak nyata = jarak peta × angka skala = 7,5 cm × 50.000 = 375.000 cm = 3.750 m = 3,75 km. Cara cepat: untuk skala 1:50.000, setiap 1 cm di peta = 500 m di lapangan. Jadi 7,5 cm × 500 m = 3.750 m = 3,75 km. Kalkulator di atas menangani konversi satuan secara otomatis.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana membagi Rp 120 juta dengan rasio 3:4:5?</div><div class="faq-a">Total bagian = 3+4+5 = 12 bagian. Nilai 1 bagian = Rp 120 juta ÷ 12 = Rp 10 juta. Maka: pihak pertama = 3 × Rp 10 juta = Rp 30 juta, pihak kedua = 4 × Rp 10 juta = Rp 40 juta, pihak ketiga = 5 × Rp 10 juta = Rp 50 juta. Verifikasi: 30+40+50 = 120 juta ✓. Gunakan tab "Rasio" di kalkulator ini untuk menghitung otomatis.</div></div>
+  <div class="faq-i"><div class="faq-q">Apa itu Aturan Tiga (Rule of Three)?</div><div class="faq-a">Aturan Tiga adalah metode menyelesaikan proporsi ketika tiga nilai diketahui dan satu dicari. Format: "Jika A → B, maka C → D". Untuk proporsi lurus: D = B × C / A. Contoh: jika 5 kg beras harganya Rp 70.000, berapa harga 8 kg? D = 70.000 × 8 / 5 = Rp 112.000. Untuk proporsi terbalik: D = A × B / C. Contoh: 4 mesin menyelesaikan pekerjaan dalam 15 hari, berapa hari untuk 6 mesin? D = 4 × 15 / 6 = 10 hari.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana proporsi digunakan dalam skala gambar teknik?</div><div class="faq-a">Dalam gambar teknik, skala 1:10 berarti objek digambar 10× lebih kecil dari ukuran asli. Skala 2:1 berarti objek digambar 2× lebih besar (untuk komponen kecil). Cara menghitung: ukuran gambar = ukuran nyata × (angka kiri ÷ angka kanan). Contoh: komponen sepanjang 150 mm digambar dengan skala 1:5 → ukuran di gambar = 150 × (1/5) = 30 mm. Sebaliknya, jika gambar menunjukkan 30 mm skala 1:5, ukuran nyata = 30 × 5 = 150 mm.</div></div>
 </div>
-
 <footer>
   <span>© 2026 NovaCalcs · Kalkulator online gratis</span>
   <span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span>
@@ -533,6 +546,55 @@ document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.
 ['sk-skala','sk-peta'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcSkala));
 document.getElementById('sk-nyata')?.addEventListener('input',calcSkalaReverse);
 calcProporsi('d');calcRasio();calcSkala();calcAturan3();
+
+// SIMULASI RESEP
+var resepBahan = [
+  {nm:'Tepung terigu', val:200, sat:'gram'},
+  {nm:'Gula', val:100, sat:'gram'},
+  {nm:'Telur', val:2, sat:'butir'},
+  {nm:'Mentega', val:50, sat:'gram'},
+];
+function renderResepRows(){
+  var wrap=document.getElementById('res-rows');if(!wrap)return;
+  var mono='font-family:monospace;';
+  var iStyle='padding:6px 8px;border:1.5px solid var(--bor);border-radius:var(--rs);'+mono+'font-size:13px;font-weight:700;outline:none;-moz-appearance:textfield;appearance:none;width:100%';
+  var tStyle='padding:6px 10px;border:1.5px solid var(--bor);border-radius:var(--rs);font-family:inherit;font-size:12px;font-weight:600;outline:none;background:var(--sur)';
+  wrap.innerHTML=resepBahan.map(function(b,i){
+    return '<div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:6px;align-items:center">'+
+      '<input value="'+b.nm+'" placeholder="Nama bahan" oninput="resepBahan['+i+'].nm=this.value" style="'+tStyle+'">'+
+      '<input type="number" value="'+b.val+'" min="0" step="any" oninput="resepBahan['+i+'].val=+this.value;calcResep()" style="'+iStyle+'" id="res-inp-'+i+'">'+
+      '<input value="'+b.sat+'" placeholder="sat." oninput="resepBahan['+i+'].sat=this.value" style="'+tStyle+'">'+
+      '<button onclick="resepBahan.splice('+i+',1);renderResepRows();calcResep()" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);padding:4px">✕</button>'+
+      '</div>';
+  }).join('');
+  calcResep();
+}
+function addResepRow(){
+  resepBahan.push({nm:'Bahan '+(resepBahan.length+1),val:100,sat:'gram'});
+  renderResepRows();
+}
+function calcResep(){
+  var asal=parseFloat(document.getElementById('res-asal').value)||4;
+  var target=parseFloat(document.getElementById('res-target').value)||6;
+  if(!asal||!target)return;
+  var faktor=target/asal;
+  var fEl=document.getElementById('res-faktor');
+  if(fEl){
+    fEl.style.display='block';
+    fEl.innerHTML='Faktor skala: <strong>'+faktor.toFixed(4)+'&times;</strong> &nbsp;('+asal+' porsi &rarr; '+target+' porsi)';
+  }
+  resepBahan.forEach(function(b,i){
+    var inp=document.getElementById('res-inp-'+i);
+    if(!inp)return;
+    var hasil=b.val*faktor;
+    var disp=Number.isInteger(hasil)?hasil.toString():parseFloat(hasil.toPrecision(6)).toString();
+    inp.style.borderColor='var(--teal)';
+    inp.style.color='var(--teal)';
+    inp.value=disp;
+  });
+}
+
+renderResepRows();
 </script>
 </body>
 </html>
