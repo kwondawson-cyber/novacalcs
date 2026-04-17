@@ -140,7 +140,7 @@
   <p class="hdr-sub">Cek kategori tekanan darah Anda (normal, hipertensi, hipotensi), rata-rata beberapa pengukuran, dan panduan target tekanan darah. Hasil tampil otomatis.</p>
   <div class="pstrip">
     <div class="pchip">Normal <span>&lt; 120/80 mmHg</span></div>
-    <div class="pchip">Hipertensi Tk.1 <span>130–139/80–89</span></div>
+    <div class="pchip">Hipertensi Grade 1 <span>140–159/90–99</span></div>
     <div class="pchip">Krisis <span>&gt; 180/120</span></div>
   </div>
 </header>
@@ -267,7 +267,7 @@
       <thead><tr><th>Kategori</th><th>Sistolik</th><th>Diastolik</th><th>Tindakan</th></tr></thead>
       <tbody id="ref-tbody"></tbody>
     </table>
-    <div class="notice warn" id="krisis-warn" style="display:none">🚨 <strong>Krisis Hipertensi!</strong> Tekanan darah >180/120 mmHg adalah kedaruratan medis. Segera ke IGD/UGD terdekat atau hubungi 119.</div>
+    <div class="notice warn" id="krisis-warn" style="display:none">🚨 <strong>Hipertensi Grade 3 / Krisis!</strong> Tekanan darah ≥180/≥110 mmHg adalah kedaruratan medis. Segera ke IGD/UGD terdekat atau hubungi 119.</div>
     <div class="notice" style="margin-top:10px">* Satu kali pengukuran tinggi belum berarti Anda menderita hipertensi. Diagnosis hipertensi memerlukan setidaknya 2–3 kali pengukuran pada hari berbeda. Konsultasikan dengan dokter.</div>
   </div>
 </div>
@@ -310,11 +310,12 @@
     <div class="card-b">
       <div class="flist">
         <div class="frow"><div class="frl"><div class="fdot" style="background:#3b82f6"></div><div><div class="fn">Hipotensi</div><div class="fron">Darah rendah</div></div></div><div class="fprice" style="color:#3b82f6">&lt;90/60</div></div>
-        <div class="frow"><div class="frl"><div class="fdot" style="background:#22c55e"></div><div><div class="fn">Normal</div><div class="fron">Ideal</div></div></div><div class="fprice" style="color:#22c55e">&lt;120/80</div></div>
-        <div class="frow"><div class="frl"><div class="fdot" style="background:#fbbf24"></div><div><div class="fn">Elevated</div><div class="fron">Perlu perhatian</div></div></div><div class="fprice" style="color:#a16207">120–129/&lt;80</div></div>
-        <div class="frow"><div class="frl"><div class="fdot" style="background:#f97316"></div><div><div class="fn">Hipertensi Tk.1</div><div class="fron">Perlu tindakan</div></div></div><div class="fprice" style="color:#c2410c">130–139/80–89</div></div>
-        <div class="frow"><div class="frl"><div class="fdot" style="background:#ef4444"></div><div><div class="fn">Hipertensi Tk.2</div><div class="fron">Segera ke dokter</div></div></div><div class="fprice" style="color:var(--red)">≥140/≥90</div></div>
-        <div class="frow"><div class="frl"><div class="fdot" style="background:#7f1d1d"></div><div><div class="fn">Krisis</div><div class="fron">Darurat medis!</div></div></div><div class="fprice" style="color:#7f1d1d">&gt;180/120</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#22c55e"></div><div><div class="fn">Optimal</div><div class="fron">Ideal</div></div></div><div class="fprice" style="color:#22c55e">&lt;120/80</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#84cc16"></div><div><div class="fn">Normal</div><div class="fron">Pantau berkala</div></div></div><div class="fprice" style="color:#65a30d">120–129/80–84</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#fbbf24"></div><div><div class="fn">Normal Tinggi</div><div class="fron">Pre-hipertensi</div></div></div><div class="fprice" style="color:#a16207">130–139/85–89</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#f97316"></div><div><div class="fn">Hipertensi Grade 1</div><div class="fron">Perlu tindakan</div></div></div><div class="fprice" style="color:#c2410c">140–159/90–99</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#ef4444"></div><div><div class="fn">Hipertensi Grade 2</div><div class="fron">Segera ke dokter</div></div></div><div class="fprice" style="color:var(--red)">160–179/100–109</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#7f1d1d"></div><div><div class="fn">Grade 3 / Krisis</div><div class="fron">Darurat medis!</div></div></div><div class="fprice" style="color:#7f1d1d">≥180/≥110</div></div>
       </div>
     </div>
   </div>
@@ -416,11 +417,12 @@ function set(id,t){const el=document.getElementById(id);if(el)el.textContent=t}
 
 const CATS=[
   {nm:'Hipotensi',sub:'Tekanan darah rendah',col:'#3b82f6',bg:'#eff6ff',bc:'#93c5fd',rek:'Konsultasi dokter jika ada gejala pusing/lemas',sis:[0,90],dia:[0,60],crisis:false,scale:5},
-  {nm:'Normal',sub:'Tekanan darah ideal',col:'#22c55e',bg:'var(--grn-b)',bc:'#86efac',rek:'Pertahankan gaya hidup sehat',sis:[0,120],dia:[0,80],crisis:false,scale:22},
-  {nm:'Elevated',sub:'Sedikit di atas normal',col:'#ca8a04',bg:'#fefce8',bc:'#fde047',rek:'Kurangi garam, olahraga rutin, kurangi stres',sis:[120,130],dia:[0,80],crisis:false,scale:44},
-  {nm:'Hipertensi Tingkat 1',sub:'Tekanan darah tinggi stadium 1',col:'#ea580c',bg:'#fff7ed',bc:'#fdba74',rek:'Perubahan gaya hidup intensif + konsultasi dokter',sis:[130,140],dia:[80,90],crisis:false,scale:60},
-  {nm:'Hipertensi Tingkat 2',sub:'Tekanan darah tinggi stadium 2',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5',rek:'Segera ke dokter — kemungkinan butuh obat antihipertensi',sis:[140,181],dia:[90,121],crisis:false,scale:78},
-  {nm:'Krisis Hipertensi',sub:'Kedaruratan medis!',col:'#7f1d1d',bg:'#fef2f2',bc:'#f87171',rek:'🚨 SEGERA KE IGD — hubungi 119',sis:[180,999],dia:[120,999],crisis:true,scale:95},
+  {nm:'Optimal',sub:'Tekanan darah ideal',col:'#22c55e',bg:'var(--grn-b)',bc:'#86efac',rek:'Pertahankan gaya hidup sehat',sis:[0,120],dia:[0,80],crisis:false,scale:18},
+  {nm:'Normal',sub:'Masih dalam rentang normal',col:'#65a30d',bg:'#f7fee7',bc:'#bef264',rek:'Pantau berkala, gaya hidup sehat',sis:[120,130],dia:[80,85],crisis:false,scale:32},
+  {nm:'Normal Tinggi',sub:'Pre-hipertensi — perlu perhatian',col:'#ca8a04',bg:'#fefce8',bc:'#fde047',rek:'Perubahan gaya hidup aktif, pantau lebih sering',sis:[130,140],dia:[85,90],crisis:false,scale:48},
+  {nm:'Hipertensi Grade 1',sub:'Tekanan darah tinggi stadium 1',col:'#ea580c',bg:'#fff7ed',bc:'#fdba74',rek:'Perubahan gaya hidup intensif + konsultasi dokter',sis:[140,160],dia:[90,100],crisis:false,scale:65},
+  {nm:'Hipertensi Grade 2',sub:'Tekanan darah tinggi stadium 2',col:'#dc2626',bg:'var(--red-b)',bc:'#fca5a5',rek:'Segera ke dokter — kemungkinan butuh obat antihipertensi',sis:[160,180],dia:[100,110],crisis:false,scale:80},
+  {nm:'Hipertensi Grade 3 / Krisis',sub:'Tekanan darah sangat tinggi — kedaruratan medis!',col:'#7f1d1d',bg:'#fef2f2',bc:'#f87171',rek:'🚨 SEGERA KE IGD — hubungi 119',sis:[180,999],dia:[110,999],crisis:true,scale:95},
 ];
 
 const TARGETS=[
@@ -435,12 +437,14 @@ const TARGETS=[
 let selTarget=0;
 
 function getKat(sis,dia){
-  if(sis<90||dia<60)return CATS[0];
-  if(sis<120&&dia<80)return CATS[1];
-  if(sis>=120&&sis<130&&dia<80)return CATS[2];
-  if((sis>=130&&sis<140)||(dia>=80&&dia<90))return CATS[3];
-  if((sis>=140&&sis<180)||(dia>=90&&dia<120))return CATS[4];
-  return CATS[5];
+  // ESH/ESC 2023 + PERHI: 수축기/이완기 중 더 높은 카테고리 적용
+  if(sis<90||dia<60)return CATS[0]; // Hipotensi
+  if(sis>=180||dia>=110)return CATS[6]; // Grade 3 / Krisis
+  if(sis>=160||dia>=100)return CATS[5]; // Grade 2
+  if(sis>=140||dia>=90)return CATS[4]; // Grade 1
+  if(sis>=130||dia>=85)return CATS[3]; // Normal Tinggi (Pre-HTN)
+  if(sis>=120||dia>=80)return CATS[2]; // Normal
+  return CATS[1]; // Optimal
 }
 
 // ① CEK
@@ -488,11 +492,12 @@ function renderRefTable(curSis,curDia){
   const tbody=document.getElementById('ref-tbody');if(!tbody)return;
   const rows=[
     {nm:'Hipotensi',col:'#3b82f6',sis:'< 90',dia:'< 60',tindakan:'Konsultasi dokter jika bergejala',match:curSis<90||curDia<60},
-    {nm:'Normal',col:'#22c55e',sis:'< 120',dia:'< 80',tindakan:'Pertahankan gaya hidup sehat',match:curSis<120&&curDia<80&&!(curSis<90||curDia<60)},
-    {nm:'Elevated',col:'#ca8a04',sis:'120–129',dia:'< 80',tindakan:'Perubahan gaya hidup',match:curSis>=120&&curSis<130&&curDia<80},
-    {nm:'Hipertensi Tk.1',col:'#ea580c',sis:'130–139',dia:'80–89',tindakan:'Gaya hidup + pertimbangkan obat',match:(curSis>=130&&curSis<140)||(curDia>=80&&curDia<90)&&curSis<140},
-    {nm:'Hipertensi Tk.2',col:'#dc2626',sis:'≥ 140',dia:'≥ 90',tindakan:'Gaya hidup + obat antihipertensi',match:(curSis>=140&&curSis<180)||(curDia>=90&&curDia<120)&&curSis<180},
-    {nm:'Krisis Hipertensi',col:'#7f1d1d',sis:'> 180',dia:'> 120',tindakan:'🚨 DARURAT — segera ke IGD',match:curSis>180||curDia>120},
+    {nm:'Optimal',col:'#22c55e',sis:'< 120',dia:'< 80',tindakan:'Pertahankan gaya hidup sehat',match:curSis<120&&curDia<80&&!(curSis<90||curDia<60)},
+    {nm:'Normal',col:'#65a30d',sis:'120–129',dia:'80–84',tindakan:'Pantau berkala, gaya hidup sehat',match:(curSis>=120&&curSis<130||curDia>=80&&curDia<85)&&curSis<130&&curDia<85},
+    {nm:'Normal Tinggi (Pre-HTN)',col:'#ca8a04',sis:'130–139',dia:'85–89',tindakan:'Perubahan gaya hidup aktif',match:(curSis>=130&&curSis<140||curDia>=85&&curDia<90)&&curSis<140&&curDia<90},
+    {nm:'Hipertensi Grade 1',col:'#ea580c',sis:'140–159',dia:'90–99',tindakan:'Gaya hidup + pertimbangkan obat',match:(curSis>=140&&curSis<160||curDia>=90&&curDia<100)&&curSis<160&&curDia<100},
+    {nm:'Hipertensi Grade 2',col:'#dc2626',sis:'160–179',dia:'100–109',tindakan:'Gaya hidup + obat antihipertensi',match:(curSis>=160&&curSis<180||curDia>=100&&curDia<110)&&curSis<180&&curDia<110},
+    {nm:'Grade 3 / Krisis',col:'#7f1d1d',sis:'≥ 180',dia:'≥ 110',tindakan:'🚨 DARURAT — segera ke IGD',match:curSis>=180||curDia>=110},
   ];
   tbody.innerHTML=rows.map(r=>`<tr${r.match?` class="current" style="background:${r.col}22"`:''}><td style="color:${r.col};font-weight:700">${r.nm}</td><td>${r.sis}</td><td>${r.dia}</td><td>${r.tindakan}</td></tr>`).join('');
 }
