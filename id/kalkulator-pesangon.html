@@ -248,9 +248,9 @@
     <div class="jkp-box" id="jkp-box" style="display:none">
       <div class="jkp-title">💼 + Manfaat JKP BPJS Ketenagakerjaan (dari BPJS, bukan perusahaan)</div>
       <div class="jkp-grid">
-        <div class="jkp-item"><div class="jkp-lbl">Bln 1–3 (45%/bln)</div><div class="jkp-val" id="jkp-1-3">—</div></div>
-        <div class="jkp-item"><div class="jkp-lbl">Bln 4–5 (25%/bln)</div><div class="jkp-val" id="jkp-4-5">—</div></div>
-        <div class="jkp-item"><div class="jkp-lbl">Bln 6 (15%/bln)</div><div class="jkp-val" id="jkp-6">—</div></div>
+        <div class="jkp-item"><div class="jkp-lbl">Upah dasar JKP (maks Rp 5 jt)</div><div class="jkp-val" id="jkp-base">—</div></div>
+        <div class="jkp-item"><div class="jkp-lbl">Manfaat per bulan (60%)</div><div class="jkp-val" id="jkp-bulanan">—</div></div>
+        <div class="jkp-item"><div class="jkp-lbl">Durasi pembayaran</div><div class="jkp-val" id="jkp-durasi">6 bulan</div></div>
       </div>
       <div class="jkp-total">
         <span class="jkp-total-lbl">Total manfaat tunai JKP (6 bulan)</span>
@@ -290,7 +290,7 @@
       <thead><tr><th>Alasan PHK</th><th>Mult.</th><th>UP</th><th>UPMK</th><th>UPH</th><th>Total</th></tr></thead>
       <tbody id="cmp-body"></tbody>
     </table>
-    <div class="notice info" style="margin-top:10px">💡 Baris hijau = berhak JKP BPJS (kecuali resign/pensiun). Klaim JKP dalam 3 bulan sejak PHK melalui aplikasi JMO (Jamsostek Mobile).</div>
+    <div class="notice info" style="margin-top:10px">💡 Baris hijau = berhak JKP BPJS (kecuali resign/pensiun). Klaim JKP dalam 6 bulan sejak PHK melalui aplikasi JMO (Jamsostek Mobile) — PP No. 6 Tahun 2025.</div>
   </div>
 </div>
 
@@ -364,7 +364,7 @@
     <div class="card-h"><div class="card-ico">💡</div>Tips Hak Karyawan</div>
     <div class="card-b">
       <div class="tips">
-        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Klaim JKP</strong> via aplikasi JMO (Jamsostek Mobile) dalam 3 bulan sejak PHK</span></div>
+        <div class="tip"><span class="tpico">📱</span><span class="tptx"><strong>Klaim JKP</strong> via aplikasi JMO (Jamsostek Mobile) dalam 6 bulan sejak PHK (PP No. 6/2025)</span></div>
         <div class="tip"><span class="tpico">📄</span><span class="tptx"><strong>Minta surat PHK resmi</strong> — dokumen penting untuk klaim JKP dan referensi kerja</span></div>
         <div class="tip"><span class="tpico">🏛️</span><span class="tptx"><strong>Sengketa pesangon</strong> → Disnaker setempat untuk mediasi, atau PHI (Pengadilan Hubungan Industrial)</span></div>
         <div class="tip"><span class="tpico">⏰</span><span class="tptx"><strong>Tenggat pesangon</strong> — harus dibayar sebelum tanggal PHK efektif, bukan setelah</span></div>
@@ -518,9 +518,12 @@ function calcPesangon(upah, masa, alasan){
 }
 function calcJKP(upah, alasan){
   if(alasan==='resign'||alasan==='pensiun'||alasan==='meninggal') return null;
+  // PP No. 6 Tahun 2025 (berlaku 7 Feb 2025): 60% dari upah × 6 bulan penuh
+  // Batas upah: Rp 5.000.000/bulan (tidak berubah dari PP 37/2021)
   const base=Math.min(upah,5000000);
-  const b13=base*0.45*3, b45=base*0.25*2, b6=base*0.15;
-  return{b13,b45,b6,total:b13+b45+b6};
+  const bulanan = base * 0.60;
+  const total = bulanan * 6;
+  return{base, bulanan, durasi:6, total};
 }
 
 // ① MAIN
@@ -553,7 +556,7 @@ function calcMain(){
   const jkp=jkpStatus==='ya'?calcJKP(upah,alasan):null;
   if(jkp){
     if(jkpBox)jkpBox.style.display='block';
-    set('jkp-1-3',rp(jkp.b13));set('jkp-4-5',rp(jkp.b45));set('jkp-6',rp(jkp.b6));set('jkp-total',rp(jkp.total));
+    set('jkp-base',rp(jkp.base));set('jkp-bulanan',rp(jkp.bulanan));set('jkp-durasi',jkp.durasi+' bulan');set('jkp-total',rp(jkp.total));
     if(grandBox)grandBox.style.display='block';
     set('r-grand-total',rp(r.total+jkp.total));
   } else {
