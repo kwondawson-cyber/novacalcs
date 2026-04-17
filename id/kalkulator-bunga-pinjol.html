@@ -145,7 +145,7 @@
   <h1 class="hdr-h1">Kalkulator Bunga Pinjol 2026</h1>
   <p class="hdr-sub">Hitung total bunga &amp; biaya pinjol, cek batas OJK, simulasi denda keterlambatan, dan bandingkan dengan KTA bank. Pahami biaya nyata sebelum pinjam.</p>
   <div class="pstrip">
-    <div class="pchip">Batas OJK konsumtif <span>maks 0,3%/hari</span></div>
+    <div class="pchip">Batas OJK konsumtif <span>maks 0,1%/hari (2026)</span></div>
     <div class="pchip">Pinjol ilegal <span>bisa >1%/hari</span></div>
     <div class="pchip">Efektif tahunan maks <span>~109%/thn</span></div>
   </div>
@@ -178,12 +178,13 @@
       <div class="g2">
         <div class="fld">
           <label>Bunga per Hari (%)</label>
-          <div class="iw"><input type="number" id="h-bunga-hari" value="0.3" min="0.01" max="5" step="0.01"><span class="iu">%/hari</span></div>
+          <div class="iw"><input type="number" id="h-bunga-hari" value="0.1" min="0.01" max="5" step="0.01"><span class="iu">%/hari</span></div>
           <div class="presets">
-            <button class="pb" data-val="0.1" data-for="h-bunga-hari">0,1%</button>
-            <button class="pb on" data-val="0.3" data-for="h-bunga-hari">0,3% (batas OJK)</button>
+            <button class="pb" data-val="0.067" data-for="h-bunga-hari">0,067% (produktif)</button>
+            <button class="pb on" data-val="0.1" data-for="h-bunga-hari">0,1% (batas OJK 2026)</button>
+            <button class="pb" data-val="0.2" data-for="h-bunga-hari">0,2%</button>
             <button class="pb" data-val="0.5" data-for="h-bunga-hari">0,5%</button>
-            <button class="pb" data-val="1" data-for="h-bunga-hari">1%</button>
+            <button class="pb" data-val="1" data-for="h-bunga-hari">1% (ilegal)</button>
           </div>
         </div>
         <div class="fld">
@@ -234,7 +235,7 @@
           <div class="rr"><span>Biaya admin/platform</span><span id="h-admin-show">—</span></div>
           <div class="rr"><span>Bunga efektif per bulan</span><span id="h-efektif-bln">—</span></div>
           <div class="rr"><span>Bunga efektif per tahun (APR)</span><span id="h-efektif-thn">—</span></div>
-          <div class="rr"><span>Batas bunga OJK (0,3%/hari × tenor)</span><span id="h-batas">—</span></div>
+          <div class="rr"><span>Batas bunga OJK (0,1%/hari × tenor)</span><span id="h-batas">—</span></div>
         </div>
       </div>
       <div class="notice warn" style="margin-top:10px">⚠️ Pinjol hanya sesuai untuk kebutuhan mendesak jangka sangat pendek. Bunga efektif tahunan pinjol jauh lebih tinggi dari KTA bank (10–24%/tahun). Selalu gunakan pinjol yang <strong>terdaftar OJK</strong> — cek di ojk.go.id.</div>
@@ -272,7 +273,7 @@
           <div class="rr"><span>Total tagihan</span><span id="c-tagihan-show">—</span></div>
           <div class="rr"><span>Total biaya & bunga</span><span id="c-biaya">—</span></div>
           <div class="rr"><span>Bunga efektif per hari</span><span id="c-hari-rate">—</span></div>
-          <div class="rr"><span>Batas OJK (0,3%/hari)</span><span id="c-batas-ojk">—</span></div>
+          <div class="rr"><span>Batas OJK (0,1%/hari)</span><span id="c-batas-ojk">—</span></div>
           <div class="rr"><span>Status</span><span id="c-status2">—</span></div>
         </div>
       </div>
@@ -331,9 +332,11 @@
     <div class="g2">
       <div class="fld">
         <label>Denda per Hari (%)</label>
-        <div class="iw"><input type="number" id="d-denda" value="0.3" min="0.01" max="5" step="0.01"><span class="iu">%/hari</span></div>
+        <div class="iw"><input type="number" id="d-denda" value="0.1" min="0.01" max="5" step="0.01"><span class="iu">%/hari</span></div>
         <div class="presets">
-          <button class="pb on" data-val="0.3" data-for="d-denda">0,3% (batas OJK)</button>
+          <button class="pb" data-val="0.067" data-for="d-denda">0,067% (produktif)</button>
+          <button class="pb on" data-val="0.1" data-for="d-denda">0,1% (batas OJK 2026)</button>
+          <button class="pb" data-val="0.2" data-for="d-denda">0,2%</button>
           <button class="pb" data-val="0.5" data-for="d-denda">0,5%</button>
           <button class="pb" data-val="1" data-for="d-denda">1%</button>
         </div>
@@ -366,9 +369,9 @@
     <div class="card-h" style="color:var(--red)"><div class="card-ico">📋</div>Batas OJK Pinjol 2026</div>
     <div class="card-b">
       <div class="flist">
-        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Bunga konsumtif maks</div><div class="fron">POJK 10/2022</div></div></div><div class="fprice">0,3%/hari</div></div>
-        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Bunga produktif maks</div><div class="fron">Pinjaman usaha</div></div></div><div class="fprice">0,1%/hari</div></div>
-        <div class="frow"><div class="frl"><div class="fdot" style="background:#D97706"></div><div><div class="fn">Denda keterlambatan maks</div><div class="fron">Per platform berbeda</div></div></div><div class="fprice">0,1–0,3%/hari</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--pri)"></div><div><div class="fn">Bunga konsumtif maks</div><div class="fron">SEOJK 19/2023 (2026)</div></div></div><div class="fprice">0,1%/hari</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:var(--grn)"></div><div><div class="fn">Bunga produktif maks</div><div class="fron">UMKM (2026)</div></div></div><div class="fprice">0,067%/hari</div></div>
+        <div class="frow"><div class="frl"><div class="fdot" style="background:#D97706"></div><div><div class="fn">Denda keterlambatan maks</div><div class="fron">Sama dengan batas bunga</div></div></div><div class="fprice">0,067–0,1%/hari</div></div>
         <div class="frow"><div class="frl"><div class="fdot" style="background:var(--red)"></div><div><div class="fn">Pinjol ilegal</div><div class="fron">Sering >1%/hari</div></div></div><div class="fprice" style="color:var(--red)">Hindari!</div></div>
       </div>
       <div class="notice warn" style="margin-top:10px">Cek daftar pinjol legal OJK di <strong>ojk.go.id</strong> sebelum pinjam.</div>
@@ -483,16 +486,17 @@ function calcHitung(){
   const total=pokok+bungaNom+admin;
   const apr=aprSimple(pokok,bungaNom+admin,hari);
   const efektifBln=bungaHari*30;
-  const batasOJK=pokok*0.003*hari;
+  // SEOJK 19/2023: batas bunga konsumtif 2026 = 0,1%/hari (turun dari 0,3% di 2024)
+  const batasOJK=pokok*0.001*hari;
   const over=bungaNom>batasOJK;
 
   // status badge
   const badge=document.getElementById('h-status-badge');
   if(badge){
-    if(bungaHari>0.3){
-      badge.innerHTML=`<div class="status-badge${bungaHari>1?' illegal':' warn'}">${bungaHari>1?'🚨 WASPADA: Bunga melebihi batas wajar — kemungkinan pinjol ilegal!':'⚠️ Bunga melebihi batas OJK 0,3%/hari'}</div>`;
+    if(bungaHari>0.1){
+      badge.innerHTML=`<div class="status-badge${bungaHari>1?' illegal':' warn'}">${bungaHari>1?'🚨 WASPADA: Bunga melebihi batas wajar — kemungkinan pinjol ilegal!':'⚠️ Bunga melebihi batas OJK 0,1%/hari (SEOJK 19/2023, berlaku 2026)'}</div>`;
     } else {
-      badge.innerHTML=`<div class="status-badge ok">✅ Bunga dalam batas OJK (≤ 0,3%/hari)</div>`;
+      badge.innerHTML=`<div class="status-badge ok">✅ Bunga dalam batas OJK (≤ 0,1%/hari sesuai SEOJK 19/2023 tahun 2026)</div>`;
     }
   }
   const lresEl=document.getElementById('h-lres');
@@ -517,7 +521,8 @@ function calcCek(){
   const biaya=tagihan-pokok;
   const bunga_hari=pokok>0&&hari>0?(biaya/pokok/hari)*100:0;
   const apr=aprSimple(pokok,biaya,hari);
-  const batasOJK_total=pokok*0.003*hari;
+  // SEOJK 19/2023: batas bunga konsumtif 2026 = 0,1%/hari
+  const batasOJK_total=pokok*0.001*hari;
   const over=biaya>batasOJK_total;
 
   const cStatus=document.getElementById('c-status');
@@ -525,7 +530,7 @@ function calcCek(){
     if(bunga_hari>1){
       cStatus.innerHTML='<div class="status-badge illegal">🚨 TAGIHAN SANGAT MENCURIGAKAN — bunga efektif '+bunga_hari.toFixed(2)+'%/hari jauh di atas batas OJK. Kemungkinan pinjol ilegal.</div>';
     } else if(over){
-      cStatus.innerHTML='<div class="status-badge warn">⚠️ Tagihan melebihi batas OJK — bunga '+bunga_hari.toFixed(2)+'%/hari di atas batas 0,3%/hari.</div>';
+      cStatus.innerHTML='<div class="status-badge warn">⚠️ Tagihan melebihi batas OJK — bunga '+bunga_hari.toFixed(2)+'%/hari di atas batas 0,1%/hari (SEOJK 19/2023, berlaku 2026).</div>';
     } else {
       cStatus.innerHTML='<div class="status-badge ok">✅ Tagihan dalam batas wajar — bunga '+bunga_hari.toFixed(2)+'%/hari sesuai aturan OJK.</div>';
     }
