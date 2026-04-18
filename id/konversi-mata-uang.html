@@ -147,14 +147,18 @@
       <div class="r-rate" id="result-rate">—</div>
     </div>
 
-    <div class="notice warn">⚠️ Kurs di kalkulator ini adalah <strong>kurs referensi estimasi</strong> dan mungkin berbeda dari kurs bank/money changer aktual. Untuk transaksi nyata, selalu cek kurs terkini dari bank atau Bank Indonesia (bi.go.id).</div>
+    <div class="notice warn">💡 <strong>Kurs dapat diubah sesuai kebutuhan Anda!</strong> Nilai default adalah kurs referensi April 2026 (acuan Kurs Transaksi BI/JISDOR). Klik angka di kolom "1 Unit = IDR" pada tabel di bawah untuk mengedit sesuai kurs bank atau money changer terkini. Perubahan tersimpan otomatis di browser Anda.</div>
   </div>
 </div>
 
 <div class="card">
   <div class="card-h"><div class="card-ico">📋</div>Kurs IDR Terhadap Mata Uang Utama</div>
   <div class="card-b">
-    <p style="font-size:11px;color:var(--tx3);margin-bottom:10px">Kurs referensi estimasi. Klik baris untuk set konversi. Perbarui kurs di kolom kanan sesuai kurs aktual.</p>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+      <p style="font-size:11px;color:var(--tx3);margin:0;flex:1;min-width:200px">💡 <strong>Ubah kurs sesuai kebutuhan Anda.</strong> Klik angka di kolom "1 Unit = IDR" untuk mengedit. Perubahan tersimpan otomatis di browser Anda. Cek kurs terkini di <a href="https://www.bi.go.id/id/statistik/informasi-kurs/transaksi-bi/default.aspx" target="_blank" rel="noopener" style="color:var(--pri);text-decoration:underline">Bank Indonesia</a>.</p>
+      <button id="reset-rates-btn" onclick="resetRates()" style="background:var(--sur2);border:1px solid var(--bor);border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer;white-space:nowrap;color:var(--tx2)">🔄 Reset ke kurs referensi</button>
+    </div>
+    <div id="custom-rates-notice" style="display:none;background:var(--grn-b,#f0fdf4);border:1px solid #86efac;border-radius:6px;padding:8px 10px;font-size:11px;color:var(--grn,#166534);margin-bottom:10px">⚙️ <strong>Mode kurs custom aktif.</strong> Beberapa kurs telah Anda ubah dari kurs referensi. Klik tombol reset untuk kembali ke default.</div>
     <table class="rate-tbl" id="rate-tbl">
       <thead><tr><th>Mata Uang</th><th>1 Unit = IDR</th><th>Rp 1.000.000 =</th></tr></thead>
       <tbody id="rate-tbody"></tbody>
@@ -251,7 +255,8 @@
   <p>Layanan remitansi khusus TKI juga tersedia di negara-negara tujuan kerja utama: AMAZE dan Merchantrade di Malaysia, berbagai layanan di Hongkong dan Taiwan yang menawarkan kurs IDR kompetitif khusus untuk pasar TKI. Western Union dan MoneyGram memiliki jaringan yang luas namun fee umumnya lebih tinggi (3–5%). Saat memilih layanan remitansi, selalu bandingkan total biaya yang mencakup fee pengiriman dan selisih kurs dari kurs pasar — bukan hanya melihat fee yang tertera di promosi.</p>
 
   <h2>Pertanyaan Umum (FAQ) Konversi Mata Uang 2026</h2>
-  <div class="faq-i"><div class="faq-q">Berapa kurs dollar hari ini ke rupiah?</div><div class="faq-a">Kurs USD/IDR bergerak setiap saat mengikuti pasar forex. Gunakan konverter di atas untuk estimasi kurs terkini. Untuk kurs resmi, cek JISDOR di bi.go.id yang diterbitkan setiap hari kerja. Kurs bank komersial biasanya berbeda 1–3% dari JISDOR karena spread keuntungan mereka.</div></div>
+  <div class="faq-i"><div class="faq-q">Berapa kurs dollar hari ini ke rupiah?</div><div class="faq-a">Kurs USD/IDR bergerak setiap saat mengikuti pasar forex. Kurs default di kalkulator ini adalah referensi April 2026 — untuk hasil paling akurat, <strong>ubah nilai kurs di tabel</strong> sesuai kurs bank atau money changer Anda saat ini. Kurs resmi dapat dicek di JISDOR Bank Indonesia (bi.go.id) yang diterbitkan setiap hari kerja. Kurs bank komersial biasanya berbeda 1–3% dari JISDOR karena spread keuntungan mereka.</div></div>
+  <div class="faq-i"><div class="faq-q">Bagaimana cara memperbarui kurs di kalkulator ini?</div><div class="faq-a">Klik angka di kolom "1 Unit = IDR" pada tabel kurs dan ketik nilai kurs terkini sesuai sumber tepercaya Anda (Bank Indonesia, BCA, Mandiri, atau money changer). Perubahan tersimpan otomatis di browser Anda sehingga tetap aktif saat Anda kembali nanti. Tombol "🔄 Reset ke kurs referensi" mengembalikan semua kurs ke nilai default April 2026. Fitur ini dirancang agar Anda selalu mendapatkan hasil konversi seakurat mungkin tanpa tergantung pada update aplikasi.</div></div>
   <div class="faq-i"><div class="faq-q">Mengapa kurs di money changer berbeda dari aplikasi?</div><div class="faq-a">Aplikasi umumnya menampilkan kurs pasar (mid-rate), yaitu tengah antara kurs beli dan jual. Money changer menggunakan kurs jual (lebih tinggi saat Anda beli valuta asing) dan kurs beli (lebih rendah saat Anda jual). Selisih ini disebut spread dan merupakan keuntungan money changer. Kartu multi-currency seperti Wise mendekati kurs pasar dengan spread sangat kecil.</div></div>
   <div class="faq-i"><div class="faq-q">Di mana tempat tukar uang terbaik di Indonesia?</div><div class="faq-a">Money changer resmi berlizensi BI umumnya lebih kompetitif dari bank. Di Bali: kawasan Kuta dan Seminyak. Di Jakarta: Blok M dan Kelapa Gading. Hindari penukaran di bandara dan hotel karena spread bisa 5–10% lebih buruk. Bandingkan kurs minimal 2–3 tempat sebelum menukar dan pastikan money changer memiliki izin resmi BI.</div></div>
   <div class="faq-i"><div class="faq-q">Apakah lebih baik bawa tunai atau kartu saat ke luar negeri?</div><div class="faq-a">Kombinasi keduanya adalah strategi terbaik. Kartu multi-currency (Wise, Jenius) untuk transaksi utama karena kurs lebih baik dan lebih aman dari kehilangan. Sedikit tunai untuk tempat yang tidak menerima kartu. Ambil tunai di ATM lokal negara tujuan sebagai backup — biasanya lebih kompetitif dari penukaran tunai di Indonesia.</div></div>
@@ -265,28 +270,93 @@
 <footer><span>© 2026 NovaCalcs</span><span><a href="/id/">Beranda</a> · <a href="/id/kebijakan-privasi">Privasi</a></span></footer>
 
 <script>
-// Kurs referensi estimasi (IDR per 1 unit mata uang asing)
+// === KURS EDITABLE — USER CAN OVERRIDE RATES ===
+// DEFAULT_RATES: Kurs referensi April 2026 (acuan JISDOR/Kurs Transaksi BI)
+const DEFAULT_RATES={'IDR':1,'USD':17130,'EUR':19610,'SGD':13400,'MYR':4002,'JPY':107,'GBP':22494,'AUD':10765,'CNY':2467,'HKD':2210,'KRW':12.0,'THB':520,'SAR':4530,'AED':4665,'INR':201,'CAD':12410,'CHF':21294,'NZD':9734};
+
+// Load user-customized rates from localStorage (if any)
+function loadUserRates(){
+  try{
+    const saved=(typeof localStorage!=='undefined')?localStorage.getItem('novacalcs_kurs_v1'):null;
+    return saved?JSON.parse(saved):{};
+  }catch(e){return {};}
+}
+let USER_RATES=loadUserRates();
+
+// Kurs referensi estimasi per April 2026 (IDR per 1 unit mata uang asing) — acuan JISDOR/Kurs Transaksi BI
 // Update sesuai kurs aktual jika diperlukan
 const CURRENCIES = [
   {code:'IDR',nm:'Rupiah Indonesia',flag:'🇮🇩',rate:1},
-  {code:'USD',nm:'Dolar AS',flag:'🇺🇸',rate:16200},
-  {code:'EUR',nm:'Euro',flag:'🇪🇺',rate:17600},
-  {code:'SGD',nm:'Dolar Singapura',flag:'🇸🇬',rate:12100},
-  {code:'MYR',nm:'Ringgit Malaysia',flag:'🇲🇾',rate:3700},
-  {code:'JPY',nm:'Yen Jepang',flag:'🇯🇵',rate:108},
-  {code:'GBP',nm:'Poundsterling',flag:'🇬🇧',rate:20500},
-  {code:'AUD',nm:'Dolar Australia',flag:'🇦🇺',rate:10500},
-  {code:'CNY',nm:'Yuan Tiongkok',flag:'🇨🇳',rate:2230},
-  {code:'HKD',nm:'Dolar Hong Kong',flag:'🇭🇰',rate:2080},
-  {code:'KRW',nm:'Won Korea',flag:'🇰🇷',rate:11.8},
-  {code:'THB',nm:'Baht Thailand',flag:'🇹🇭',rate:460},
-  {code:'SAR',nm:'Riyal Saudi',flag:'🇸🇦',rate:4320},
-  {code:'AED',nm:'Dirham UAE',flag:'🇦🇪',rate:4410},
-  {code:'INR',nm:'Rupee India',flag:'🇮🇳',rate:194},
-  {code:'CAD',nm:'Dolar Kanada',flag:'🇨🇦',rate:11900},
-  {code:'CHF',nm:'Franc Swiss',flag:'🇨🇭',rate:18200},
-  {code:'NZD',nm:'Dolar Selandia Baru',flag:'🇳🇿',rate:9600},
+  {code:'USD',nm:'Dolar AS',flag:'🇺🇸',rate:17130},
+  {code:'EUR',nm:'Euro',flag:'🇪🇺',rate:19610},
+  {code:'SGD',nm:'Dolar Singapura',flag:'🇸🇬',rate:13400},
+  {code:'MYR',nm:'Ringgit Malaysia',flag:'🇲🇾',rate:4002},
+  {code:'JPY',nm:'Yen Jepang',flag:'🇯🇵',rate:107},
+  {code:'GBP',nm:'Poundsterling',flag:'🇬🇧',rate:22494},
+  {code:'AUD',nm:'Dolar Australia',flag:'🇦🇺',rate:10765},
+  {code:'CNY',nm:'Yuan Tiongkok',flag:'🇨🇳',rate:2467},
+  {code:'HKD',nm:'Dolar Hong Kong',flag:'🇭🇰',rate:2210},
+  {code:'KRW',nm:'Won Korea',flag:'🇰🇷',rate:12.0},
+  {code:'THB',nm:'Baht Thailand',flag:'🇹🇭',rate:520},
+  {code:'SAR',nm:'Riyal Saudi',flag:'🇸🇦',rate:4530},
+  {code:'AED',nm:'Dirham UAE',flag:'🇦🇪',rate:4665},
+  {code:'INR',nm:'Rupee India',flag:'🇮🇳',rate:201},
+  {code:'CAD',nm:'Dolar Kanada',flag:'🇨🇦',rate:12410},
+  {code:'CHF',nm:'Franc Swiss',flag:'🇨🇭',rate:21294},
+  {code:'NZD',nm:'Dolar Selandia Baru',flag:'🇳🇿',rate:9734},
 ];
+
+// Apply user-customized rates on top of defaults
+Object.keys(USER_RATES).forEach(code=>{
+  const c=CURRENCIES.find(x=>x.code===code);
+  if(c&&typeof USER_RATES[code]==='number'&&USER_RATES[code]>0) c.rate=USER_RATES[code];
+});
+
+// Save user rate for a specific currency to localStorage
+function saveUserRate(code,rate){
+  if(!rate||rate<=0||!isFinite(rate))return;
+  USER_RATES[code]=rate;
+  try{if(typeof localStorage!=='undefined')localStorage.setItem('novacalcs_kurs_v1',JSON.stringify(USER_RATES));}catch(e){}
+}
+
+// Update rate from input field
+function updateRate(code,newRate){
+  const rate=parseFloat(newRate);
+  if(!rate||rate<=0||!isFinite(rate))return;
+  const c=CURRENCIES.find(x=>x.code===code);
+  if(!c)return;
+  c.rate=rate;
+  saveUserRate(code,rate);
+  updateCustomNotice();
+  renderRateTable();
+  convert();
+  if(typeof calcBudget==='function')calcBudget();
+}
+
+// Reset all rates to default
+function resetRates(){
+  if(!confirm('Kembalikan semua kurs ke nilai referensi April 2026?'))return;
+  USER_RATES={};
+  try{if(typeof localStorage!=='undefined')localStorage.removeItem('novacalcs_kurs_v1');}catch(e){}
+  CURRENCIES.forEach(c=>{if(DEFAULT_RATES[c.code]!=null)c.rate=DEFAULT_RATES[c.code];});
+  updateCustomNotice();
+  renderRateTable();
+  convert();
+  if(typeof calcBudget==='function')calcBudget();
+}
+
+// Show/hide "custom rates active" notice
+function updateCustomNotice(){
+  const n=document.getElementById('custom-rates-notice');
+  if(!n)return;
+  const hasCustom=Object.keys(USER_RATES).length>0;
+  n.style.display=hasCustom?'block':'none';
+}
+
+// Check if a currency rate has been customized
+function isCustom(code){
+  return USER_RATES[code]!=null&&USER_RATES[code]!==DEFAULT_RATES[code];
+}
 
 function fmt(n){
   if(n===0)return'0';
@@ -334,15 +404,18 @@ function setConv(f,t,amt){
 function renderRateTable(){
   const tbody=document.getElementById('rate-tbody');if(!tbody)return;
   const IDR=CURRENCIES.find(c=>c.code==='IDR');
-  tbody.innerHTML=CURRENCIES.filter(c=>c.code!=='IDR').map(c=>`<tr onclick="setConv('IDR','${c.code}',1000000)">
-    <td><span class="rate-flag">${c.flag}</span><strong>${c.code}</strong> — ${c.nm}</td>
-    <td class="rate-val">${fmt(c.rate)}</td>
-    <td class="rate-val">${fmt(1000000/c.rate)}</td>
-  </tr>`).join('');
+  tbody.innerHTML=CURRENCIES.filter(c=>c.code!=='IDR').map(c=>{
+    const custom=isCustom(c.code);
+    const bgStyle=custom?'background:#fef3c7':'';
+    return `<tr>
+    <td onclick="setConv('IDR','${c.code}',1000000)" style="cursor:pointer"><span class="rate-flag">${c.flag}</span><strong>${c.code}</strong> — ${c.nm}${custom?' <span style="color:#d97706;font-size:10px;font-weight:600" title="Kurs custom">⚙️</span>':''}</td>
+    <td style="padding:4px 8px;${bgStyle}"><input type="number" value="${c.rate}" min="0" step="any" onchange="updateRate('${c.code}',this.value)" onclick="event.stopPropagation()" style="width:100%;border:1px solid var(--bor);border-radius:4px;padding:5px 7px;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--grn);text-align:right;background:transparent" aria-label="Edit kurs ${c.code}" /></td>
+    <td class="rate-val" onclick="setConv('IDR','${c.code}',1000000)" style="cursor:pointer">${fmt(1000000/c.rate)}</td>
+  </tr>`;}).join('');
 }
 
 document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
-populateSelects();convert();renderRateTable();
+populateSelects();convert();renderRateTable();updateCustomNotice();
 
 function calcBudget(){
   const selEl=document.getElementById('sim-negara');
